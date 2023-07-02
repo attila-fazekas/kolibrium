@@ -1,0 +1,4 @@
+public final class io/kolibrium/core/TestKt {
+	public static final fun test ()V
+}
+
