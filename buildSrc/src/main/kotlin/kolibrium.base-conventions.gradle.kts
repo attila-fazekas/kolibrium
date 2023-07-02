@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     idea
+    id("org.jetbrains.kotlinx.binary-compatibility-validator")
 }
 
 group = "io.kolibrium"
