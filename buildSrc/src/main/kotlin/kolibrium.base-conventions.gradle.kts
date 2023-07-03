@@ -1,7 +1,10 @@
 plugins {
     kotlin("jvm")
     idea
+    id("io.gitlab.arturbosch.detekt")
+    id("org.jetbrains.dokka")
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
+    id("org.jlleitschuh.gradle.ktlint")
 }
 
 group = "io.kolibrium"
