@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     kotlin("jvm")
     idea
@@ -17,4 +19,10 @@ repositories {
 dependencies {
     implementation("ch.qos.logback:logback-classic:_")
     implementation("io.github.microutils:kotlin-logging:_")
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.freeCompilerArgs = listOf(
+        "-Xcontext-receivers",
+    )
 }
