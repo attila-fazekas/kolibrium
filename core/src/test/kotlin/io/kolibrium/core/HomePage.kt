@@ -1,0 +1,33 @@
+/*
+ * Copyright 2023 Attila Fazekas
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.kolibrium.core
+
+import org.openqa.selenium.WebElement
+
+context(org.openqa.selenium.WebDriver)
+class HomePage {
+    val header by className<WebElement>("header")
+    val name by css<WebElement>("#name")
+    val nameXpath by xpath<WebElement>("//*[@id='name']")
+    val email by idOrName<WebElement>("email")
+    val phone by id<WebElement>("phone")
+    val phoneName by name<WebElement>("phone")
+    val googleLink by xpath<WebElement>("//a[@class='link'][contains(text(),'Google')]")
+    val fbLink by linkText<WebElement>("Facebook")
+    val twitterLink by linkText<WebElement>("Twitter")
+    val clickHereLink by partialLinkText<WebElement>("Click")
+}
