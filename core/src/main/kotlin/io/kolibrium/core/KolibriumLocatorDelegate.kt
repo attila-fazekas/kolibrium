@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("TooManyFunctions")
+
 package io.kolibrium.core
 
 import mu.KotlinLogging
@@ -39,6 +41,11 @@ private const val POOLING_INTERVAL: Long = 1
 
 private val logger = KotlinLogging.logger {}
 
+private fun setUpWait(driver: WebDriver) = FluentWait(driver)
+    .withTimeout(ofSeconds(TIMEOUT))
+    .pollingEvery(ofSeconds(POOLING_INTERVAL))
+    .ignoring(org.openqa.selenium.NoSuchElementException::class.java)
+
 /**
  * Find element by [className] locator strategy.
  * [locator] is the value of the "class" attribute to search for.
@@ -48,7 +55,7 @@ context(WebDriver)
 public fun <T : WebElement> className(
     locator: String,
     expectedCondition: ((By) -> ExpectedCondition<T>)? = null
-): ReadOnlyProperty<Any, WebElement> = create(className(locator), expectedCondition)
+): ReadOnlyProperty<Any, T> = create(className(locator), expectedCondition)
 
 /**
  * Find element by [cssSelector] locator strategy.
@@ -59,7 +66,7 @@ context(WebDriver)
 public fun <T : WebElement> css(
     locator: String,
     expectedCondition: ((By) -> ExpectedCondition<T>)? = null
-): ReadOnlyProperty<Any, WebElement> = create(cssSelector(locator), expectedCondition)
+): ReadOnlyProperty<Any, T> = create(cssSelector(locator), expectedCondition)
 
 /**
  * Find element by [id] locator strategy.
@@ -70,7 +77,7 @@ context(WebDriver)
 public fun <T : WebElement> id(
     locator: String,
     expectedCondition: ((By) -> ExpectedCondition<T>)? = null
-): ReadOnlyProperty<Any, WebElement> = create(id(locator), expectedCondition)
+): ReadOnlyProperty<Any, T> = create(id(locator), expectedCondition)
 
 /**
  * Tries to find element by [ByIdOrName] locator strategy.
@@ -81,7 +88,7 @@ context(WebDriver)
 public fun <T : WebElement> idOrName(
     locator: String,
     expectedCondition: ((By) -> ExpectedCondition<T>)? = null
-): ReadOnlyProperty<Any, WebElement> = create(ByIdOrName(locator), expectedCondition)
+): ReadOnlyProperty<Any, T> = create(ByIdOrName(locator), expectedCondition)
 
 /**
  * Find element by [linkText] locator strategy.
@@ -92,7 +99,7 @@ context(WebDriver)
 public fun <T : WebElement> linkText(
     locator: String,
     expectedCondition: ((By) -> ExpectedCondition<T>)? = null
-): ReadOnlyProperty<Any, WebElement> = create(linkText(locator), expectedCondition)
+): ReadOnlyProperty<Any, T> = create(linkText(locator), expectedCondition)
 
 /**
  * Find element by [name] locator strategy.
@@ -103,7 +110,7 @@ context(WebDriver)
 public fun <T : WebElement> name(
     locator: String,
     expectedCondition: ((By) -> ExpectedCondition<T>)? = null
-): ReadOnlyProperty<Any, WebElement> = create(name(locator), expectedCondition)
+): ReadOnlyProperty<Any, T> = create(name(locator), expectedCondition)
 
 /**
  * Find element by [partialLinkText] locator strategy.
@@ -114,7 +121,7 @@ context(WebDriver)
 public fun <T : WebElement> partialLinkText(
     locator: String,
     expectedCondition: ((By) -> ExpectedCondition<T>)? = null
-): ReadOnlyProperty<Any, WebElement> = create(partialLinkText(locator), expectedCondition)
+): ReadOnlyProperty<Any, T> = create(partialLinkText(locator), expectedCondition)
 
 /**
  * Find element by [tagName] locator strategy.
@@ -125,7 +132,7 @@ context(WebDriver)
 public fun <T : WebElement> tagName(
     locator: String,
     expectedCondition: ((By) -> ExpectedCondition<T>)? = null
-): ReadOnlyProperty<Any, WebElement> = create(tagName(locator), expectedCondition)
+): ReadOnlyProperty<Any, T> = create(tagName(locator), expectedCondition)
 
 /**
  * Find element by [xpath] locator strategy.
@@ -136,23 +143,124 @@ context(WebDriver)
 public fun <T : WebElement> xpath(
     locator: String,
     expectedCondition: ((By) -> ExpectedCondition<T>)? = null
-): ReadOnlyProperty<Any, WebElement> = create(xpath(locator), expectedCondition)
+): ReadOnlyProperty<Any, T> = create(xpath(locator), expectedCondition)
 
 context(WebDriver)
+@Suppress("UNCHECKED_CAST")
 private fun <T : WebElement> create(
     by: By,
     expectedCondition: ((By) -> ExpectedCondition<T>)?
-): ReadOnlyProperty<Any, WebElement> =
+): ReadOnlyProperty<Any, T> =
     ReadOnlyProperty { _, property ->
         logger.trace("Waiting for \"${property.name}\"")
-        val wait = FluentWait(this@WebDriver)
-            .withTimeout(ofSeconds(TIMEOUT))
-            .pollingEvery(ofSeconds(POOLING_INTERVAL))
-            .ignoring(NoSuchElementException::class.java)
+        val wait = setUpWait(this@WebDriver)
 
         if (expectedCondition != null) {
             wait.until(expectedCondition(by))
         } else {
-            wait.until { findElement(by) }
+            wait.until { findElement(by) as T }
+        }
+    }
+
+/**
+ * Find elements by [className] locator strategy.
+ * [locator] is the value of the "class" attribute to search for.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+@JvmName("classNames")
+public fun <T : WebElements> className(
+    locator: String,
+    expectedCondition: ((By) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> = create(className(locator), expectedCondition)
+
+/**
+ * Find elements by [cssSelector] locator strategy.
+ * [locator] is the CSS expression to search for.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+@JvmName("csss")
+public fun <T : WebElements> css(
+    locator: String,
+    expectedCondition: ((By) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> = create(cssSelector(locator), expectedCondition)
+
+/**
+ * Find elements by [linkText] locator strategy.
+ * [locator] is the exact text to match against.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+@JvmName("linkTexts")
+public fun <T : WebElements> linkText(
+    locator: String,
+    expectedCondition: ((By) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> = create(linkText(locator), expectedCondition)
+
+/**
+ * Find elements by [name] locator strategy.
+ * [locator] is the value of the "name" attribute to search for.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+@JvmName("names")
+public fun <T : WebElements> name(
+    locator: String,
+    expectedCondition: ((By) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> = create(name(locator), expectedCondition)
+
+/**
+ * Find elements by [partialLinkText] locator strategy.
+ * [locator] is the partial text to match against.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+@JvmName("partialLinkTexts")
+public fun <T : WebElements> partialLinkText(
+    locator: String,
+    expectedCondition: ((By) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> =
+    create(partialLinkText(locator), expectedCondition)
+
+/**
+ * Find elements by [tagName] locator strategy.
+ * [locator] is the element's tag name.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+@JvmName("tagNames")
+public fun <T : WebElements> tagName(
+    locator: String,
+    expectedCondition: ((By) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> = create(tagName(locator), expectedCondition)
+
+/**
+ * Find elements by [xpath] locator strategy.
+ * [locator] is the XPath to use.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+@JvmName("xpaths")
+public fun <T : WebElements> xpath(
+    locator: String,
+    expectedCondition: ((By) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> = create(xpath(locator), expectedCondition)
+
+context(WebDriver)
+@Suppress("UNCHECKED_CAST")
+@JvmName("createWebElements")
+private fun <T : WebElements> create(
+    by: By,
+    expectedCondition: ((By) -> ExpectedCondition<T>)?
+): ReadOnlyProperty<Any, T> =
+    ReadOnlyProperty { _, property ->
+        logger.trace("Waiting for \"${property.name}\"")
+        val wait = setUpWait(this@WebDriver)
+
+        if (expectedCondition != null) {
+            wait.until(expectedCondition(by))
+        } else {
+            wait.until { findElements(by) as T }
         }
     }
