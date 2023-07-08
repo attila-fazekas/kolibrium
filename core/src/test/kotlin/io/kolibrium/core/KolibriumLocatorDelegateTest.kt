@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.support.ui.Select
 import java.nio.file.Paths
 
 class KolibriumLocatorDelegateTest {
@@ -45,7 +46,7 @@ class KolibriumLocatorDelegateTest {
     }
 
     @Test
-    fun `className`() {
+    fun `className - WebElement`() {
         driver.get(homePage)
         with(driver) {
             with(HomePage()) {
@@ -55,7 +56,7 @@ class KolibriumLocatorDelegateTest {
     }
 
     @Test
-    fun `css`() {
+    fun `css - WebElement`() {
         driver.get(homePage)
         with(driver) {
             with(HomePage()) {
@@ -65,7 +66,7 @@ class KolibriumLocatorDelegateTest {
     }
 
     @Test
-    fun `id`() {
+    fun `id - WebElement`() {
         driver.get(homePage)
         with(driver) {
             with(HomePage()) {
@@ -75,7 +76,7 @@ class KolibriumLocatorDelegateTest {
     }
 
     @Test
-    fun `idOrName`() {
+    fun `idOrName - WebElement`() {
         driver.get(homePage)
         with(driver) {
             with(HomePage()) {
@@ -85,7 +86,7 @@ class KolibriumLocatorDelegateTest {
     }
 
     @Test
-    fun `linkText`() {
+    fun `linkText - WebElement`() {
         driver.get(homePage)
         with(driver) {
             with(HomePage()) {
@@ -95,7 +96,7 @@ class KolibriumLocatorDelegateTest {
     }
 
     @Test
-    fun `name`() {
+    fun `name - WebElement`() {
         driver.get(homePage)
         with(driver) {
             with(HomePage()) {
@@ -105,7 +106,7 @@ class KolibriumLocatorDelegateTest {
     }
 
     @Test
-    fun `partialLinkText`() {
+    fun `partialLinkText - WebElement`() {
         driver.get(homePage)
         with(driver) {
             with(HomePage()) {
@@ -115,21 +116,95 @@ class KolibriumLocatorDelegateTest {
     }
 
     @Test
-    fun `tagName`() {
+    fun `tagName - WebElement`() {
         driver.get(homePage)
         with(driver) {
             with(HomePage()) {
-                googleLink.text shouldBe "Google"
+                a1TagName.text shouldBe "Kolibrium"
             }
         }
     }
 
     @Test
-    fun `xpath`() {
+    fun `xpath - WebElement`() {
         driver.get(homePage)
         with(driver) {
             with(HomePage()) {
                 nameXpath.getAttribute("value") shouldBe "Enter your name"
+            }
+        }
+    }
+
+    // WebElements
+
+    @Test
+    fun `className - WebElements`() {
+        driver.get(homePage)
+        with(driver) {
+            with(HomePage()) {
+                links.size shouldBe 6
+            }
+        }
+    }
+
+    @Test
+    fun `css - WebElements`() {
+        driver.get(homePage)
+        with(driver) {
+            with(HomePage()) {
+                linksCss.size shouldBe 6
+            }
+        }
+    }
+
+    @Test
+    fun `linkText - WebElements`() {
+        driver.get(homePage)
+        with(driver) {
+            with(HomePage()) {
+                fbLinks.size shouldBe 2
+            }
+        }
+    }
+
+    @Test
+    fun `name - WebElements`() {
+        driver.get(homePage)
+        with(driver) {
+            with(HomePage()) {
+                selects.forEach {
+                    Select(it).options.size shouldBe 3
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `partialLinkText - WebElements`() {
+        driver.get(homePage)
+        with(driver) {
+            with(HomePage()) {
+                fbPartialLinks.size shouldBe 3
+            }
+        }
+    }
+
+    @Test
+    fun `tagName - WebElements`() {
+        driver.get(homePage)
+        with(driver) {
+            with(HomePage()) {
+                linksTagname.size shouldBe 6
+            }
+        }
+    }
+
+    @Test
+    fun `xpath - WebElements`() {
+        driver.get(homePage)
+        with(driver) {
+            with(HomePage()) {
+                linksXpath.size shouldBe 6
             }
         }
     }

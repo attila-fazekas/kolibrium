@@ -30,4 +30,12 @@ class HomePage {
     val fbLink by linkText<WebElement>("Facebook")
     val twitterLink by linkText<WebElement>("Twitter")
     val clickHereLink by partialLinkText<WebElement>("Click")
+    val a1TagName by tagName<WebElement>("h1")
+    val links by className<WebElements>("link")
+    val linksTagname by tagName<WebElements>("a")
+    val linksCss by css<WebElements>("a")
+    val linksXpath by xpath<WebElements>("//a[@class='link']")
+    val fbLinks by linkText<WebElements>("Facebook")
+    val fbPartialLinks by partialLinkText<WebElements>("Facebook")
+    val selects by name<WebElements>("select")
 }
