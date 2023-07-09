@@ -9,6 +9,7 @@ dependencies {
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:_")
     implementation("org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:_")
     implementation("org.jetbrains.kotlinx.binary-compatibility-validator:org.jetbrains.kotlinx.binary-compatibility-validator.gradle.plugin:_")
+    implementation("org.jetbrains.kotlinx:kover:_")
     implementation("org.jlleitschuh.gradle:ktlint-gradle:_")
 }
 
