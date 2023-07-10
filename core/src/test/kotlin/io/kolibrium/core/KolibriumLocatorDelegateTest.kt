@@ -33,179 +33,108 @@ class KolibriumLocatorDelegateTest {
     private val homePage =
         Paths.get("").toAbsolutePath().parent.resolve("pages/home.html").toUri().toString()
 
+    private fun homePage(block: HomePage.() -> Unit) {
+        driver.get(homePage)
+        with(driver) {
+            with(HomePage()) {
+                block()
+            }
+        }
+    }
+
     @BeforeEach
-    fun setup() {
+    fun setUp() {
         driver = ChromeDriver(
             ChromeOptions().addArguments("--headless=new")
         )
     }
 
     @AfterEach
-    fun teardown() {
+    fun tearDown() {
         driver.quit()
     }
 
     @Test
-    fun `className - WebElement`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                header.text shouldBe "Kolibrium"
-            }
-        }
+    fun `className - WebElement`() = homePage {
+        header.text shouldBe "Kolibrium"
     }
 
     @Test
-    fun `css - WebElement`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                name.getAttribute("value") shouldBe "Enter your name"
-            }
-        }
+    fun `css - WebElement`() = homePage {
+        name.getAttribute("value") shouldBe "Enter your name"
     }
 
     @Test
-    fun `id - WebElement`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                phone.getAttribute("value") shouldBe "Enter your phone number"
-            }
-        }
+    fun `id - WebElement`() = homePage {
+        phone.getAttribute("value") shouldBe "Enter your phone number"
     }
 
     @Test
-    fun `idOrName - WebElement`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                email.getAttribute("value") shouldBe "Enter your email"
-            }
-        }
+    fun `idOrName - WebElement`() = homePage {
+        email.getAttribute("value") shouldBe "Enter your email"
     }
 
     @Test
-    fun `linkText - WebElement`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                fbLink.text shouldBe "Facebook"
-            }
-        }
+    fun `linkText - WebElement`() = homePage {
+        fbLink.text shouldBe "Facebook"
     }
 
     @Test
-    fun `name - WebElement`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                phoneName.getAttribute("value") shouldBe "Enter your phone number"
-            }
-        }
+    fun `name - WebElement`() = homePage {
+        phoneName.getAttribute("value") shouldBe "Enter your phone number"
     }
 
     @Test
-    fun `partialLinkText - WebElement`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                clickHereLink.text shouldBe "Click here"
-            }
-        }
+    fun `partialLinkText - WebElement`() = homePage {
+        clickHereLink.text shouldBe "Click here"
     }
 
     @Test
-    fun `tagName - WebElement`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                a1TagName.text shouldBe "Kolibrium"
-            }
-        }
+    fun `tagName - WebElement`() = homePage {
+        a1TagName.text shouldBe "Kolibrium"
     }
 
     @Test
-    fun `xpath - WebElement`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                nameXpath.getAttribute("value") shouldBe "Enter your name"
-            }
-        }
+    fun `xpath - WebElement`() = homePage {
+        nameXpath.getAttribute("value") shouldBe "Enter your name"
     }
 
     // WebElements
 
     @Test
-    fun `className - WebElements`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                links.size shouldBe 6
-            }
+    fun `className - WebElements`() = homePage {
+        links.size shouldBe 6
+    }
+
+    @Test
+    fun `css - WebElements`() = homePage {
+        linksCss.size shouldBe 6
+    }
+
+    @Test
+    fun `linkText - WebElements`() = homePage {
+        fbLinks.size shouldBe 2
+    }
+
+    @Test
+    fun `name - WebElements`() = homePage {
+        selects.forEach {
+            Select(it).options.size shouldBe 3
         }
     }
 
     @Test
-    fun `css - WebElements`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                linksCss.size shouldBe 6
-            }
-        }
+    fun `partialLinkText - WebElements`() = homePage {
+        fbPartialLinks.size shouldBe 3
     }
 
     @Test
-    fun `linkText - WebElements`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                fbLinks.size shouldBe 2
-            }
-        }
+    fun `tagName - WebElements`() = homePage {
+        linksTagname.size shouldBe 6
     }
 
     @Test
-    fun `name - WebElements`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                selects.forEach {
-                    Select(it).options.size shouldBe 3
-                }
-            }
-        }
-    }
-
-    @Test
-    fun `partialLinkText - WebElements`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                fbPartialLinks.size shouldBe 3
-            }
-        }
-    }
-
-    @Test
-    fun `tagName - WebElements`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                linksTagname.size shouldBe 6
-            }
-        }
-    }
-
-    @Test
-    fun `xpath - WebElements`() {
-        driver.get(homePage)
-        with(driver) {
-            with(HomePage()) {
-                linksXpath.size shouldBe 6
-            }
-        }
+    fun `xpath - WebElements`() = homePage {
+        linksXpath.size shouldBe 6
     }
 }
