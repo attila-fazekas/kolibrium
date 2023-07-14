@@ -14,8 +14,18 @@
  * limitations under the License.
  */
 
-package io.kolibrium.core
+package io.kolibrium.core.pages
 
+import io.kolibrium.core.WebElements
+import io.kolibrium.core.className
+import io.kolibrium.core.css
+import io.kolibrium.core.id
+import io.kolibrium.core.idOrName
+import io.kolibrium.core.linkText
+import io.kolibrium.core.name
+import io.kolibrium.core.partialLinkText
+import io.kolibrium.core.tagName
+import io.kolibrium.core.xpath
 import org.openqa.selenium.WebElement
 
 context(org.openqa.selenium.WebDriver)

@@ -16,6 +16,9 @@
 
 package io.kolibrium.core
 
+import io.kolibrium.core.pages.HomePage
+import io.kolibrium.core.pages.ImagesPage
+import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -26,17 +29,29 @@ import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.support.ui.Select
 import java.nio.file.Paths
 
+private fun getPage(pageName: String) = Paths.get("").toAbsolutePath()
+    .parent.resolve("pages/$pageName.html").toUri().toString()
+
+private val homePage = getPage("home")
+private val imagesPage = getPage("images")
+
 class KolibriumLocatorDelegateTest {
 
     private lateinit var driver: WebDriver
-
-    private val homePage =
-        Paths.get("").toAbsolutePath().parent.resolve("pages/home.html").toUri().toString()
 
     private fun homePage(block: HomePage.() -> Unit) {
         driver.get(homePage)
         with(driver) {
             with(HomePage()) {
+                block()
+            }
+        }
+    }
+
+    private fun imagesPage(block: ImagesPage.() -> Unit) {
+        driver.get(imagesPage)
+        with(driver) {
+            with(ImagesPage()) {
                 block()
             }
         }
@@ -136,5 +151,10 @@ class KolibriumLocatorDelegateTest {
     @Test
     fun `xpath - WebElements`() = homePage {
         linksXpath.size shouldBe 6
+    }
+
+    @Test
+    fun `name multiple element with wait test`() = imagesPage {
+        images.size shouldBeGreaterThan 0
     }
 }

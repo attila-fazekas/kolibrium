@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Delayed Images</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .content {
+        position: relative;
+      }
+      .image-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+        margin-top: 20px;
+      }
+      .image-grid img {
+        max-width: 35%;
+        height: auto;
+      }
+      image {
+
+      }
+    </style>
+    <script>
+      window.addEventListener('load', function() {
+        var images = [
+          'kodee/Kodee_Assets_Digital_Kodee-drinking.png',
+          'kodee/Kodee_Assets_Digital_Kodee-greeting.png',
+          'kodee/Kodee_Assets_Digital_Kodee-in-love.png',
+          'kodee/Kodee_Assets_Digital_Kodee-jumping.png',
+          'kodee/Kodee_Assets_Digital_Kodee-naughty.png',
+          'kodee/Kodee_Assets_Digital_Kodee-sharing.png',
+          'kodee/Kodee_Assets_Digital_Kodee-sitting.png',
+          'kodee/Kodee_Assets_Digital_Kodee-waving.png',
+          'kodee/Kodee_Assets_Digital_Kodee-winter.png'
+        ];
+        var i = 0;
+        function loadNextImage() {
+          if (i < images.length) {
+            var img = document.createElement('img');
+            img.src = images[i];
+            img.name = "kodee"
+            img.onload = function() {
+              i++;
+              if (i < images.length) {
+                setTimeout(loadNextImage, 500);
+              }
+            };
+            document.querySelector('.image-grid').appendChild(img);
+          }
+        }
+        loadNextImage();
+      });
+    </script>
+  </head>
+  <body>
+    <div class="content">
+      <div class="image-grid"></div>
+    </div>
+  </body>
+</html>
