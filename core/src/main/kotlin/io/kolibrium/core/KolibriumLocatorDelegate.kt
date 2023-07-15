@@ -162,6 +162,8 @@ private fun <T : WebElement> create(
         }
     }
 
+// WebElements
+
 /**
  * Find elements by [className] locator strategy.
  * [locator] is the value of the "class" attribute to search for.
@@ -260,6 +262,116 @@ private fun <T : WebElements> create(
 
         if (expectedCondition != null) {
             wait.until(expectedCondition(by))
+        } else {
+            wait.until { findElements(by) as T }
+        }
+    }
+
+// WebElements with number
+
+/**
+ * Find the [number] of elements by [className] locator strategy.
+ * [locator] is the value of the "class" attribute to search for.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+public fun <T : WebElements> className(
+    locator: String,
+    number: Int,
+    expectedCondition: ((By, Int) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> =
+    create(className(locator), number, expectedCondition)
+
+/**
+ * Find the [number] of elements by [cssSelector] locator strategy.
+ * [locator] is the CSS expression to search for.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+public fun <T : WebElements> css(
+    locator: String,
+    number: Int,
+    expectedCondition: ((By, Int) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> =
+    create(cssSelector(locator), number, expectedCondition)
+
+/**
+ * Find the [number] of elements by [linkText] locator strategy.
+ * [locator] is the exact text to match against.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+public fun <T : WebElements> linkText(
+    locator: String,
+    number: Int,
+    expectedCondition: ((By, Int) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> =
+    create(linkText(locator), number, expectedCondition)
+
+/**
+ * Find the [number] of elements by [name] locator strategy.
+ * [locator] is the value of the "name" attribute to search for.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+public fun <T : WebElements> name(
+    locator: String,
+    number: Int,
+    expectedCondition: ((By, Int) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> =
+    create(name(locator), number, expectedCondition)
+
+/**
+ * Find the [number] of elements by [partialLinkText] locator strategy.
+ * [locator] is the partial text to match against.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+public fun <T : WebElements> partialLinkText(
+    locator: String,
+    number: Int,
+    expectedCondition: ((By, Int) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> =
+    create(partialLinkText(locator), number, expectedCondition)
+
+/**
+ * Find the [number] of elements by [tagName] locator strategy.
+ * [locator] is the element's tag name.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+public fun <T : WebElements> tagName(
+    locator: String,
+    number: Int,
+    expectedCondition: ((By, Int) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> =
+    create(tagName(locator), number, expectedCondition)
+
+/**
+ * Find the [number] of elements by [xpath] locator strategy.
+ * [locator] is the XPath to use.
+ * [expectedCondition] can be defined to wait for the elements.
+ */
+context(WebDriver)
+public fun <T : WebElements> xpath(
+    locator: String,
+    number: Int,
+    expectedCondition: ((By, Int) -> ExpectedCondition<T>)? = null
+): ReadOnlyProperty<Any, T> =
+    create(xpath(locator), number, expectedCondition)
+
+context(WebDriver)
+@Suppress("UNCHECKED_CAST")
+private fun <T : WebElements> create(
+    by: By,
+    number: Int,
+    expectedCondition: ((By, Int) -> ExpectedCondition<T>)?
+): ReadOnlyProperty<Any, T> =
+    ReadOnlyProperty { _, property ->
+        logger.trace("Waiting for \"${property.name}\"")
+        val wait = setUpWait(this@WebDriver)
+        if (expectedCondition != null) {
+            wait.until(expectedCondition.invoke(by, number))
         } else {
             wait.until { findElements(by) as T }
         }

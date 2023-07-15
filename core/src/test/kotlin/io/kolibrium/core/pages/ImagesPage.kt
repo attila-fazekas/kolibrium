@@ -23,5 +23,5 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 
 context(WebDriver)
 class ImagesPage {
-    val images by name<WebElements>("kodee", expectedCondition = ExpectedConditions::visibilityOfAllElementsLocatedBy)
+    val images by name<WebElements>("kodee", 9, ExpectedConditions::numberOfElementsToBe)
 }
