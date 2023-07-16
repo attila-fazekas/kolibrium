@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package io.kolibrium.core.pages
+package io.kolibrium.core
 
-import io.kolibrium.core.WebElements
-import io.kolibrium.core.getValueOrFail
-import io.kolibrium.core.name
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.support.ui.ExpectedConditions
+import arrow.core.Either
+import arrow.core.raise.either
+import org.openqa.selenium.WebElement
 
-context(WebDriver)
-class ImagesPage {
-    private val _images by name<WebElements>("kodee", 9, ExpectedConditions::numberOfElementsToBe)
-    val images: WebElements
-        get() = getValueOrFail(_images)
+public fun getValueOrFail(either: Either<Error, WebElement>): WebElement {
+    either {
+        return either.bind()
+    }
+    throw either.leftOrNull()!!
+}
+
+public fun getValueOrFail(either: Either<Error, WebElements>): WebElements {
+    either {
+        return either.bind()
+    }
+    throw either.leftOrNull()!!
 }

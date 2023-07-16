@@ -18,7 +18,6 @@ package io.kolibrium.core
 
 import io.kolibrium.core.pages.HomePage
 import io.kolibrium.core.pages.ImagesPage
-import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -153,8 +152,10 @@ class KolibriumLocatorDelegateTest {
         linksXpath.size shouldBe 6
     }
 
+    // WebElements with number
+
     @Test
-    fun `name multiple element with wait test`() = imagesPage {
-        images.size shouldBeGreaterThan 0
+    fun `name - WebElements with number`() = imagesPage {
+        images.size shouldBe 9
     }
 }

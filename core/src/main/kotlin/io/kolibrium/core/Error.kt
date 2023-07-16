@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-package io.kolibrium.core.pages
+package io.kolibrium.core
 
-import io.kolibrium.core.WebElements
-import io.kolibrium.core.getValueOrFail
-import io.kolibrium.core.name
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.support.ui.ExpectedConditions
-
-context(WebDriver)
-class ImagesPage {
-    private val _images by name<WebElements>("kodee", 9, ExpectedConditions::numberOfElementsToBe)
-    val images: WebElements
-        get() = getValueOrFail(_images)
+public sealed class Error(override val message: String) : Throwable() {
+    public class ElementNotFound(locator: String) : Error("Element \"$locator\" could not be found.")
+    public object UnreachableBrowser : Error("Browser is unreachable.")
+    public object NoSuchWindow : Error("Browser window/tab was not found.")
 }
