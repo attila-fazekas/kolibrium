@@ -80,7 +80,7 @@ class HomePage {
         get() = getValueOrFail(_links)
 
     private val _linksTagname by tagName<WebElements>("a")
-    val linksTagname: WebElements
+    val linksTagName: WebElements
         get() = getValueOrFail(_linksTagname)
 
     private val _linksCss by css<WebElements>("a")

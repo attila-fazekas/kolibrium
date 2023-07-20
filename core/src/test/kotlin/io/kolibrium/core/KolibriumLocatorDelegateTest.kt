@@ -144,7 +144,7 @@ class KolibriumLocatorDelegateTest {
 
     @Test
     fun `tagName - WebElements`() = homePage {
-        linksTagname.size shouldBe 6
+        linksTagName.size shouldBe 6
     }
 
     @Test

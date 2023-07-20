@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "io.kolibrium"
-version = "0.1.0-SNAPSHOT"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ repositories {
 
 dependencies {
     implementation("ch.qos.logback:logback-classic:_")
-    implementation("io.github.microutils:kotlin-logging:_")
+    implementation("io.github.microutils:kotlin-logging-jvm:_")
 }
 
 tasks.withType<KotlinCompile> {

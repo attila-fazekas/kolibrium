@@ -11,6 +11,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx.binary-compatibility-validator:org.jetbrains.kotlinx.binary-compatibility-validator.gradle.plugin:_")
     implementation("org.jetbrains.kotlinx:kover:_")
     implementation("org.jlleitschuh.gradle:ktlint-gradle:_")
+    implementation("org.jreleaser:jreleaser-gradle-plugin:_")
 }
 
 kotlin {
