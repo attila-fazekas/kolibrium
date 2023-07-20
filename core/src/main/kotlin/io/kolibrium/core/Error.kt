@@ -18,6 +18,6 @@ package io.kolibrium.core
 
 public sealed class Error(override val message: String) : Throwable() {
     public class ElementNotFound(locator: String) : Error("Element \"$locator\" could not be found.")
-    public object UnreachableBrowser : Error("Browser is unreachable.")
+    public object UnreachableBrowser : Error("Browser was unreachable.")
     public object NoSuchWindow : Error("Browser window/tab was not found.")
 }
