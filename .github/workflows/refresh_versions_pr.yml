@@ -42,7 +42,7 @@ jobs:
         with:
           author_name: "GitHub Actions"
           author_email: "noreply@github.com"
-          branch: ${{ env.DEPENDENCY_UPDATE_BRANCH }}
+          new_branch: ${{ env.DEPENDENCY_UPDATE_BRANCH }}
           message: "Update versions.properties"
 
       - name: Create Pull Request 
