@@ -2,9 +2,8 @@ name: RefreshVersions PR
 
 on:
   workflow_dispatch:
-#  uncomment for weekly run
-#  schedule:
-#    - cron: '0 0 * * 0'
+  schedule:
+    - cron: "0 0 * * 0"
 
 jobs:
 
