@@ -10,6 +10,7 @@ jobs:
 
   Refresh-Version:
     name: Run RefreshVersions
+    permissions: write-all
     runs-on: ubuntu-latest
     
     env:
