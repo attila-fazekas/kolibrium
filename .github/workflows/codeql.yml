@@ -34,7 +34,7 @@ jobs:
         languages: ${{ matrix.language }}
 
     - name: Build
-      uses: ./.github/workflows/gradle
+      uses: ./.github/workflows/gradle.yml
       with:
         arguments: |
           -x test
