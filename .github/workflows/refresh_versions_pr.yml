@@ -53,5 +53,4 @@ jobs:
           --base main
           --title "Update dependencies"
           --body "[refreshVersions](https://github.com/Splitties/refreshVersions) has found library updates."
-          --label "dependency updates"
-          --reviewer attila-fazekas
+          --label "dependency update"
