@@ -3,6 +3,8 @@ name: "CodeQL"
 on:
   pull_request:
     branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 
 jobs:
   analyze:
@@ -15,8 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
-      actions: read
-      contents: read
       security-events: write
 
     strategy:
@@ -35,10 +35,7 @@ jobs:
 
     - uses: ./.github/actions/setup-jdk
 
-    - name: Build
-      uses: ./.github/actions/run-gradle
-      with:
-        arguments: build -x test
+    - uses: ./.github/actions/run-gradle
    
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
