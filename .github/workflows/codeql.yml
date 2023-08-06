@@ -34,12 +34,9 @@ jobs:
         languages: ${{ matrix.language }}
 
     - name: Build
-      uses: ./.github/workflows/gradle.yml
+      uses: ./.github/actions/run-gradle
       with:
-        arguments: |
-          -x test
-          --no-build-cache
-          -Dscan.tag.CodeQL
+        arguments: build -x test
    
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
