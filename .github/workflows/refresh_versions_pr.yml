@@ -1,4 +1,4 @@
-name: RefreshVersions PR
+name: RefreshVersions on PR
 
 on:
   workflow_dispatch:
@@ -6,46 +6,52 @@ on:
     - cron: "0 0 * * 0"
 
 jobs:
-
-  Refresh-Version:
+  refresh-versions:
     name: Run RefreshVersions
-    permissions: write-all
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     
     env:
-      MAIN_BRANCH: "main"
       DEPENDENCY_UPDATE_BRANCH: "dependency-update"
-      
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          ref: ${{ env.MAIN_BRANCH }}          
-        
+          ref: "main"
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin'      
+          distribution: 'temurin'
 
-      - uses: peterjgrainger/action-create-branch@v2.3.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create branch
+        uses: peterjgrainger/action-create-branch@v2
         with:
           branch: ${{ env.DEPENDENCY_UPDATE_BRANCH }}
 
-      - name: Run RefreshVersions
-        run: ./gradlew refreshVersions
+      - name: Run refreshVersions
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: refreshVersions
 
-      - uses: EndBug/add-and-commit@v9
-        name: Commit
+      - name: Commit
+        uses: EndBug/add-and-commit@v9
         with:
           author_name: "GitHub Actions"
           author_email: "noreply@github.com"
-          new_branch: ${{ env.DEPENDENCY_UPDATE_BRANCH }}
           message: "Update versions.properties"
+          new_branch: ${{ env.DEPENDENCY_UPDATE_BRANCH }}
 
       - name: Create Pull Request
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: 
-          gh pr create --draft --head ${{ env.DEPENDENCY_UPDATE_BRANCH }} --base main --title "Update dependencies" --fill --reviewer attila-fazekas
+        run: >
+          gh pr create
+          --head ${{ env.DEPENDENCY_UPDATE_BRANCH }}
+          --base main
+          --title "Update dependencies"
+          --body "[refreshVersions](https://github.com/Splitties/refreshVersions) has found library updates."
+          --label "dependency updates"
+          --reviewer attila-fazekas
