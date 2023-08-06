@@ -33,6 +33,8 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
+    - uses: ./.github/actions/setup-jdk
+
     - name: Build
       uses: ./.github/actions/run-gradle
       with:
