@@ -30,6 +30,8 @@ jobs:
     - uses: ./.github/actions/setup-jdk
 
     - uses: ./.github/actions/run-gradle
+      with:
+        arguments: --no-build-cache
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
