@@ -31,7 +31,8 @@ jobs:
 
     - uses: ./.github/actions/run-gradle
       with:
-        arguments: --no-build-cache
+        cache-disabled: true
+        arguments: -x javadoc -x test build 
 
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
