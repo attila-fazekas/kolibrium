@@ -33,7 +33,7 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
-        queries: +security-extended,+security-and-quality
+        queries: security-and-quality
 
     - uses: ./.github/actions/run-gradle
       with:
