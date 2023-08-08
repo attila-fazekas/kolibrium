@@ -29,15 +29,15 @@ jobs:
 
     - uses: ./.github/actions/setup-jdk
 
-    - uses: ./.github/actions/run-gradle
-      with:
-        cache-disabled: true
-        arguments: build -x javadoc -x test
-
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
+
+    - uses: ./.github/actions/run-gradle
+      with:
+        cache-disabled: true
+        arguments: build -x javadoc -x test
    
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
