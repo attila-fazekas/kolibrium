@@ -2,10 +2,11 @@ name: Run change detection
 
 on:
   workflow_call:
+    outputs:
+      kotlin: ${{ jobs.change_detection.outputs.kotlin }}
 
 jobs:
   changes:
-    name: Run change detection
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read

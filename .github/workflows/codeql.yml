@@ -12,8 +12,8 @@ jobs:
     uses: ./.github/workflows/change_detection.yml
 
   analyze:
-    needs: changes
-    if: ${{ needs.changes.outputs.kotlin == 'true' }}
+    needs: call-change-detection
+    if: ${{ needs.call-change-detection.outputs.kotlin == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
