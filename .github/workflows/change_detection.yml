@@ -3,7 +3,8 @@ name: Run change detection
 on:
   workflow_call:
     outputs:
-      kotlin: ${{ jobs.change_detection.outputs.kotlin }}
+      kotlin:
+        value: ${{ jobs.change_detection.outputs.kotlin }}
 
 jobs:
   changes:
