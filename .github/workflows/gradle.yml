@@ -13,6 +13,8 @@ permissions:
 jobs:
   call-change-detection:
     uses: ./.github/workflows/change_detection.yml
+    permissions:
+      pull-requests: read
 
   build:
     needs: call-change-detection

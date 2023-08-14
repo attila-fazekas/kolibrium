@@ -10,6 +10,8 @@ on:
 jobs:
   call-change-detection:
     uses: ./.github/workflows/change_detection.yml
+    permissions:
+      pull-requests: read
 
   analyze:
     needs: call-change-detection
