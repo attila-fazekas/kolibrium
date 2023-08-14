@@ -1,4 +1,4 @@
-name: "CodeQL"
+name: CodeQL
 
 on:
   workflow_dispatch:
@@ -8,24 +8,10 @@ on:
     branches: [ "main" ]
 
 jobs:
-  changes:
-    name: Run change detection
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
-    outputs:
-      kotlin: ${{ steps.filter.outputs.kotlin }}
-
-    steps:
-      - uses: dorny/paths-filter@v2
-        with:
-          list-files: json
-          filters: |
-            kotlin:
-            - added|modified: '**/src/main/*.kt'  
+  call-change-detection:
+    uses: ./.github/workflows/change_detection.yml
 
   analyze:
-    name: Analyze
     needs: changes
     if: ${{ needs.changes.outputs.kotlin == 'true' }}
     runs-on: ubuntu-latest

@@ -11,7 +11,12 @@ permissions:
   contents: read
 
 jobs:
+  call-change-detection:
+    uses: ./.github/workflows/change_detection.yml
+
   build:
+    needs: changes
+    if: ${{ needs.changes.outputs.kotlin == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
