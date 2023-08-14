@@ -1,19 +1,33 @@
 name: "CodeQL"
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [ "main" ]
   push:
     branches: [ "main" ]
 
 jobs:
+  changes:
+    name: Run change detection
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      kotlin: ${{ steps.filter.outputs.kotlin }}
+
+    steps:
+      - uses: dorny/paths-filter@v2
+        with:
+          list-files: json
+          filters: |
+            kotlin:
+            - added|modified: '**/src/main/*.kt'  
+
   analyze:
     name: Analyze
-    # Runner size impacts CodeQL analysis time. To learn more, please see:
-    #   - https://gh.io/recommended-hardware-resources-for-running-codeql
-    #   - https://gh.io/supported-runners-and-hardware-resources
-    #   - https://gh.io/using-larger-runners
-    # Consider using larger runners for possible analysis time improvements.
+    needs: changes
+    if: ${{ needs.changes.outputs.kotlin == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     permissions:
@@ -22,25 +36,25 @@ jobs:
     strategy:
       matrix:
         language: [ 'java' ]
-  
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - uses: ./.github/actions/setup-jdk
+      - uses: ./.github/actions/setup-jdk
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
-        queries: security-and-quality
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-and-quality
 
-    - uses: ./.github/actions/run-gradle
-      with:
-        cache-disabled: true
-        arguments: build -x javadoc -x test
-   
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:${{matrix.language}}"
+      - uses: ./.github/actions/run-gradle
+        with:
+          cache-disabled: true
+          arguments: build -x javadoc -x test
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:${{matrix.language}}"
