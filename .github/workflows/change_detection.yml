@@ -1,0 +1,23 @@
+name: Run change detection
+
+on:
+  workflow_call:
+    outputs:
+      kotlin:
+        value: ${{ jobs.change_detection.outputs.kotlin }}
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      kotlin: ${{ steps.filter.outputs.kotlin }}
+
+    steps:
+      - uses: dorny/paths-filter@v2
+        with:
+          list-files: json
+          filters: |
+            kotlin:
+            - added|modified: '**/src/main/*.kt'
