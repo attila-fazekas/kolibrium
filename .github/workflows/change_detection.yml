@@ -4,7 +4,7 @@ on:
   workflow_call:
     outputs:
       kotlin:
-        value: ${{ jobs.change_detection.outputs.kotlin }}
+        value: ${{ jobs.changes.outputs.kotlin }}
 
 jobs:
   changes:
