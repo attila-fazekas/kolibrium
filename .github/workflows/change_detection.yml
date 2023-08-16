@@ -22,4 +22,4 @@ jobs:
           list-files: json
           filters: |
             kotlin:
-            - added|modified: '**/src/main/*.kt'
+            - added|modified: '**/src/main/**/*.kt'
