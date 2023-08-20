@@ -31,6 +31,7 @@ import org.openqa.selenium.By.partialLinkText
 import org.openqa.selenium.By.tagName
 import org.openqa.selenium.By.xpath
 import org.openqa.selenium.NoSuchWindowException
+import org.openqa.selenium.SessionNotCreatedException
 import org.openqa.selenium.TimeoutException
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriverException
@@ -383,8 +384,9 @@ private fun <T> execute(
         block()
     }.mapLeft { e ->
         when (e) {
-            is TimeoutException -> Error.ElementNotFound(by.toString())
             is NoSuchWindowException -> Error.NoSuchWindow
+            is SessionNotCreatedException -> Error.SessionNotCreatedException
+            is TimeoutException -> Error.ElementNotFound(by.toString())
             is UnreachableBrowserException -> Error.UnreachableBrowser
             else -> throw e
         }

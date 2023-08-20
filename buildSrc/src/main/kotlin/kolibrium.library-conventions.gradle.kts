@@ -36,6 +36,7 @@ publishing {
             from(components["kotlin"])
             artifact(javadocJar)
             artifact(sourcesJar)
+            artifactId = if (project.name.contains("processors")) "ksp" else project.name
             artifactId = "$name-$artifactId"
             pom {
                 name = rootProject.name
