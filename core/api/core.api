@@ -11,6 +11,10 @@ public final class io/kolibrium/core/Error$NoSuchWindow : io/kolibrium/core/Erro
 	public static final field INSTANCE Lio/kolibrium/core/Error$NoSuchWindow;
 }
 
+public final class io/kolibrium/core/Error$SessionNotCreatedException : io/kolibrium/core/Error {
+	public static final field INSTANCE Lio/kolibrium/core/Error$SessionNotCreatedException;
+}
+
 public final class io/kolibrium/core/Error$UnreachableBrowser : io/kolibrium/core/Error {
 	public static final field INSTANCE Lio/kolibrium/core/Error$UnreachableBrowser;
 }

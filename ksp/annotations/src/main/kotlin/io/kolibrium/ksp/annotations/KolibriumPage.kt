@@ -14,19 +14,8 @@
  * limitations under the License.
  */
 
-@file:Suppress("UnusedPrivateProperty")
+package io.kolibrium.ksp.annotations
 
-package io.kolibrium.processors
-
-import com.google.devtools.ksp.processing.CodeGenerator
-import com.google.devtools.ksp.processing.KSPLogger
-import com.google.devtools.ksp.processing.Resolver
-import com.google.devtools.ksp.processing.SymbolProcessor
-import com.google.devtools.ksp.symbol.KSAnnotated
-
-public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private val logger: KSPLogger) :
-    SymbolProcessor {
-    override fun process(resolver: Resolver): List<KSAnnotated> {
-        TODO("Not yet implemented")
-    }
-}
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.CLASS)
+public annotation class KolibriumPage

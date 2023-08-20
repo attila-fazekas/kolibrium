@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.kolibrium.processors
+package io.kolibrium.ksp.processors
 
 import com.google.auto.service.AutoService
 import com.google.devtools.ksp.processing.SymbolProcessor

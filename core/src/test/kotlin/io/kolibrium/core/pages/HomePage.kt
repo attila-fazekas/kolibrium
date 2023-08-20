@@ -27,9 +27,10 @@ import io.kolibrium.core.name
 import io.kolibrium.core.partialLinkText
 import io.kolibrium.core.tagName
 import io.kolibrium.core.xpath
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
-context(org.openqa.selenium.WebDriver)
+context(WebDriver)
 class HomePage {
     private val _header by className<WebElement>("header")
     val header: WebElement
