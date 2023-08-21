@@ -26,5 +26,5 @@ context(WebDriver)
 class ImagesPage {
     private val _images by name<WebElements>("kodee", 9, ExpectedConditions::numberOfElementsToBe)
     val images: WebElements
-        get() = getValueOrFail(_images)
+        get() = _images.getValueOrFail()
 }
