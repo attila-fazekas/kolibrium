@@ -94,42 +94,42 @@ class KolibriumPageProcessorTest {
                   private val _entry1: Either<Error, WebElement> by className<WebElement>("className")
 
                   public val entry1: WebElement
-                    get() = getValueOrFail(_entry1)
+                    get() = _entry1.getValueOrFail()
                 
                   private val _entry2: Either<Error, WebElement> by css<WebElement>("css")
 
                   public val entry2: WebElement
-                    get() = getValueOrFail(_entry2)
+                    get() = _entry2.getValueOrFail()
                 
                   private val _entry3: Either<Error, WebElement> by id<WebElement>("id")
 
                   public val entry3: WebElement
-                    get() = getValueOrFail(_entry3)
+                    get() = _entry3.getValueOrFail()
                 
                   private val _entry4: Either<Error, WebElement> by linkText<WebElement>("linkText")
 
                   public val entry4: WebElement
-                    get() = getValueOrFail(_entry4)
+                    get() = _entry4.getValueOrFail()
                 
                   private val _entry5: Either<Error, WebElement> by name<WebElement>("name")
 
                   public val entry5: WebElement
-                    get() = getValueOrFail(_entry5)
+                    get() = _entry5.getValueOrFail()
                 
                   private val _entry6: Either<Error, WebElement> by partialLinkText<WebElement>("partialLinkText")
 
                   public val entry6: WebElement
-                    get() = getValueOrFail(_entry6)
+                    get() = _entry6.getValueOrFail()
                 
                   private val _entry7: Either<Error, WebElement> by tagName<WebElement>("tagName")
 
                   public val entry7: WebElement
-                    get() = getValueOrFail(_entry7)
+                    get() = _entry7.getValueOrFail()
                 
                   private val _entry8: Either<Error, WebElement> by xpath<WebElement>("xpath")
 
                   public val entry8: WebElement
-                    get() = getValueOrFail(_entry8)
+                    get() = _entry8.getValueOrFail()
                 }
             """.trimIndent(),
             compilation = compilation

@@ -148,7 +148,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
                         webElementClassName
                     ).getter(
                         FunSpec.getterBuilder()
-                            .addStatement("return getValueOrFail(%N)", "_$enumEntryName")
+                            .addStatement("return %N.getValueOrFail()", "_$enumEntryName")
                             .build()
                     ).build()
                 )

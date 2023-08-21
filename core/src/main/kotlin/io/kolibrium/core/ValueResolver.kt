@@ -20,16 +20,16 @@ import arrow.core.Either
 import arrow.core.raise.either
 import org.openqa.selenium.WebElement
 
-public fun getValueOrFail(either: Either<Error, WebElement>): WebElement {
+public fun Either<Error, WebElement>.getValueOrFail(): WebElement {
     either {
-        return either.bind()
+        return bind()
     }
-    throw either.leftOrNull()!!
+    throw leftOrNull()!!
 }
 
-public fun getValueOrFail(either: Either<Error, WebElements>): WebElements {
+public fun Either<Error, WebElements>.getValueOrFail(): WebElements {
     either {
-        return either.bind()
+        return bind()
     }
-    throw either.leftOrNull()!!
+    throw leftOrNull()!!
 }
