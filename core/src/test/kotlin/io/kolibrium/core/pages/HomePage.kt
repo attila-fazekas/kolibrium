@@ -34,73 +34,73 @@ context(WebDriver)
 class HomePage {
     private val _header by className<WebElement>("header")
     val header: WebElement
-        get() = getValueOrFail(_header)
+        get() = _header.getValueOrFail()
 
     private val _name by css<WebElement>("#name")
     val name: WebElement
-        get() = getValueOrFail(_name)
+        get() = _name.getValueOrFail()
 
     private val _nameXpath by xpath<WebElement>("//*[@id='name']")
     val nameXpath: WebElement
-        get() = getValueOrFail(_nameXpath)
+        get() = _nameXpath.getValueOrFail()
 
     private val _email by idOrName<WebElement>("email")
     val email: WebElement
-        get() = getValueOrFail(_email)
+        get() = _email.getValueOrFail()
 
     private val _phone by id<WebElement>("phone")
     val phone: WebElement
-        get() = getValueOrFail(_phone)
+        get() = _phone.getValueOrFail()
 
     private val _phoneName by name<WebElement>("phone")
     val phoneName: WebElement
-        get() = getValueOrFail(_phoneName)
+        get() = _phoneName.getValueOrFail()
 
     private val _googleLink by xpath<WebElement>("//a[@class='link'][contains(text(),'Google')]")
     val googleLink: WebElement
-        get() = getValueOrFail(_googleLink)
+        get() = _googleLink.getValueOrFail()
 
     private val _fbLink by linkText<WebElement>("Facebook")
     val fbLink: WebElement
-        get() = getValueOrFail(_fbLink)
+        get() = _fbLink.getValueOrFail()
 
     private val _twitterLink by linkText<WebElement>("Twitter")
     val twitterLink: WebElement
-        get() = getValueOrFail(_twitterLink)
+        get() = _twitterLink.getValueOrFail()
 
     private val _clickHereLink by partialLinkText<WebElement>("Click")
     val clickHereLink: WebElement
-        get() = getValueOrFail(_clickHereLink)
+        get() = _clickHereLink.getValueOrFail()
 
     private val _a1TagName by tagName<WebElement>("h1")
     val a1TagName: WebElement
-        get() = getValueOrFail(_a1TagName)
+        get() = _a1TagName.getValueOrFail()
 
     private val _links by className<WebElements>("link")
     val links: WebElements
-        get() = getValueOrFail(_links)
+        get() = _links.getValueOrFail()
 
     private val _linksTagName by tagName<WebElements>("a")
     val linksTagName: WebElements
-        get() = getValueOrFail(_linksTagName)
+        get() = _linksTagName.getValueOrFail()
 
     private val _linksCss by css<WebElements>("a")
     val linksCss: WebElements
-        get() = getValueOrFail(_linksCss)
+        get() = _linksCss.getValueOrFail()
 
     private val _linksXpath by xpath<WebElements>("//a[@class='link']")
     val linksXpath: WebElements
-        get() = getValueOrFail(_linksXpath)
+        get() = _linksXpath.getValueOrFail()
 
     private val _fbLinks by linkText<WebElements>("Facebook")
     val fbLinks: WebElements
-        get() = getValueOrFail(_fbLinks)
+        get() = _fbLinks.getValueOrFail()
 
     private val _fbPartialLinks by partialLinkText<WebElements>("Facebook")
     val fbPartialLinks: WebElements
-        get() = getValueOrFail(_fbPartialLinks)
+        get() = _fbPartialLinks.getValueOrFail()
 
     private val _selects by name<WebElements>("select")
     val selects: WebElements
-        get() = getValueOrFail(_selects)
+        get() = _selects.getValueOrFail()
 }
