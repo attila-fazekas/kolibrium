@@ -135,6 +135,112 @@ class KolibriumPageProcessorTest {
             compilation = compilation
         )
     }
+
+    @Test
+    fun `enum class annotated with KolibriumPage and enum entries annotated with locators and `(@TempDir path: File) {
+        val sourceFile = SourceFile.kotlin(
+            "KolibriumTestPage.kt",
+            """
+            package io.kolibrium.ksp.processors.test  
+
+            import io.kolibrium.ksp.annotations.*
+
+            @KolibriumPage
+            enum class KolibriumTestPage {
+                @ClassName("className", true)
+                entry1,
+
+                @Css("css", true)
+                entry2,
+
+                @Id("id", true)
+                entry3,
+
+                @LinkText("linkText", true)
+                entry4,
+
+                @Name("name", true)
+                entry5,
+
+                @PartialLinkText("partialLinkText", true)
+                entry6,
+
+                @TagName("tagName", true)
+                entry7,
+
+                @Xpath("xpath", true)
+                entry8
+            }
+            """.trimIndent()
+        )
+
+        val compilation = getCompilation(path, sourceFile)
+        verifyExitCode(compilation.compile(), KotlinCompilation.ExitCode.OK)
+
+        assertSourceEquals(
+            """
+                package io.kolibrium.ksp.processors.test.generated
+
+                import arrow.core.Either
+                import io.kolibrium.core.Error
+                import io.kolibrium.core.WebElements
+                import io.kolibrium.core.className
+                import io.kolibrium.core.css
+                import io.kolibrium.core.getValueOrFail
+                import io.kolibrium.core.id
+                import io.kolibrium.core.linkText
+                import io.kolibrium.core.name
+                import io.kolibrium.core.partialLinkText
+                import io.kolibrium.core.tagName
+                import io.kolibrium.core.xpath
+                import org.openqa.selenium.WebDriver
+                
+                context(WebDriver)
+                public class KolibriumTestPage {
+                  private val _entry1: Either<Error, WebElements> by className<WebElements>("className")
+
+                  public val entry1: WebElements
+                    get() = _entry1.getValueOrFail()
+                
+                  private val _entry2: Either<Error, WebElements> by css<WebElements>("css")
+
+                  public val entry2: WebElements
+                    get() = _entry2.getValueOrFail()
+                
+                  private val _entry3: Either<Error, WebElements> by id<WebElements>("id")
+
+                  public val entry3: WebElements
+                    get() = _entry3.getValueOrFail()
+                
+                  private val _entry4: Either<Error, WebElements> by linkText<WebElements>("linkText")
+
+                  public val entry4: WebElements
+                    get() = _entry4.getValueOrFail()
+                
+                  private val _entry5: Either<Error, WebElements> by name<WebElements>("name")
+
+                  public val entry5: WebElements
+                    get() = _entry5.getValueOrFail()
+                
+                  private val _entry6: Either<Error, WebElements> by partialLinkText<WebElements>("partialLinkText")
+
+                  public val entry6: WebElements
+                    get() = _entry6.getValueOrFail()
+                
+                  private val _entry7: Either<Error, WebElements> by tagName<WebElements>("tagName")
+
+                  public val entry7: WebElements
+                    get() = _entry7.getValueOrFail()
+                
+                  private val _entry8: Either<Error, WebElements> by xpath<WebElements>("xpath")
+
+                  public val entry8: WebElements
+                    get() = _entry8.getValueOrFail()
+                }
+            """.trimIndent(),
+            compilation = compilation
+        )
+    }
 }
 
 private fun getCompilation(path: File, vararg sourceFiles: SourceFile) = KotlinCompilation().apply {
