@@ -18,32 +18,32 @@ package io.kolibrium.ksp.annotations
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class ClassName(val locator: String = "")
+public annotation class ClassName(val locator: String = "", val collectToList: Boolean = false)
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Css(val locator: String = "")
+public annotation class Css(val locator: String = "", val collectToList: Boolean = false)
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Id(val locator: String = "")
+public annotation class Id(val locator: String = "", val collectToList: Boolean = false)
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class LinkText(val locator: String = "")
+public annotation class LinkText(val locator: String = "", val collectToList: Boolean = false)
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Name(val locator: String = "")
+public annotation class Name(val locator: String = "", val collectToList: Boolean = false)
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class PartialLinkText(val locator: String = "")
+public annotation class PartialLinkText(val locator: String = "", val collectToList: Boolean = false)
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class TagName(val locator: String = "")
+public annotation class TagName(val locator: String = "", val collectToList: Boolean = false)
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Xpath(val locator: String = "")
+public annotation class Xpath(val locator: String = "", val collectToList: Boolean = false)
