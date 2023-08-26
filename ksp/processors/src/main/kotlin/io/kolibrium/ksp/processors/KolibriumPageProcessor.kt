@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("UnusedPrivateProperty")
-
 package io.kolibrium.ksp.processors
 
 import com.google.devtools.ksp.closestClassDeclaration
@@ -77,6 +75,13 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
 
         @OptIn(ExperimentalKotlinPoetApi::class)
         override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
+            if (classDeclaration.classKind != ClassKind.ENUM_CLASS) {
+                logger.error(
+                    "Only enum classes can be annotated with @KolibriumPage. " +
+                        "Please make sure \"$classDeclaration\" is an enum class."
+                )
+            }
+
             val className = classDeclaration.simpleName.asString()
             val typeBuilder = TypeSpec.classBuilder(className)
                 .contextReceivers(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
@@ -119,13 +124,44 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
             val annotationsPresent = locatorAnnotations.filter {
                 classDeclaration.getAnnotation(it) != null
             }
+            val enumEntryName = classDeclaration.simpleName.asString()
 
-            val locatorAnnotation = classDeclaration.getAnnotation(annotationsPresent[0])!!
-            val collectToListValue = locatorAnnotation.getArgumentValue("collectToList").toBoolean()
-            val (leftClassName, rightClassName) = getClassNames(collectToListValue)
+            if (annotationsPresent.size > 1) {
+                val message = "More than one locator annotation found on \"$enumEntryName\": " +
+                    annotationsPresent.joinToString { "@" + it.simpleName }
+                logger.error(message, classDeclaration)
+            } else if (annotationsPresent.size == 1) {
+                val locatorAnnotation = classDeclaration.getAnnotation(annotationsPresent[0])!!
+                val collectToListValue = locatorAnnotation.getArgumentValue("collectToList").toBoolean()
+
+                generateProperties(getClassNames(collectToListValue), enumEntryName) {
+                    val locator =
+                        locatorAnnotation.getArgumentValue("locator").ifEmpty { enumEntryName }
+                    val locatorStrategyClassName = ClassName(
+                        KOLIBRIUM_CORE_PACKAGE_NAME,
+                        getLocatorStrategy(locatorAnnotation)
+                    )
+                    val className = if (collectToListValue) "WebElements" else "WebElement"
+                    add("%T<$className>(\"$locator\")", locatorStrategyClassName)
+                }
+            } else { // fallback to idOrName
+                generateProperties(getClassNames(), enumEntryName) {
+                    add(
+                        "%T<WebElement>(\"$enumEntryName\")",
+                        ClassName(KOLIBRIUM_CORE_PACKAGE_NAME, "idOrName")
+                    )
+                }
+            }
+        }
+
+        private fun generateProperties(
+            className: Pair<ClassName, ClassName>,
+            enumEntryName: String,
+            block: CodeBlock.Builder.() -> Unit
+        ) {
+            val (leftClassName, rightClassName) = className
             val delegateTypeClassName = ClassName("arrow.core", "Either")
                 .parameterizedBy(leftClassName, rightClassName)
-            val enumEntryName = classDeclaration.simpleName.asString()
 
             typeSpecBuilder.addProperties(
                 listOf(
@@ -135,13 +171,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
                     ).addModifiers(KModifier.PRIVATE)
                         .delegate(
                             CodeBlock.builder().apply {
-                                val locator = locatorAnnotation.getArgumentValue("locator").ifEmpty { enumEntryName }
-                                val locatorStrategyClassName = ClassName(
-                                    KOLIBRIUM_CORE_PACKAGE_NAME,
-                                    getLocatorStrategy(locatorAnnotation)
-                                )
-                                val className = if (collectToListValue) "WebElements" else "WebElement"
-                                add("%T<$className>(\"$locator\")", locatorStrategyClassName)
+                                block()
                             }.build()
                         ).build(),
                     PropertySpec.builder(
@@ -163,7 +193,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
         private fun KSAnnotation.getArgumentValue(arg: String) =
             arguments.first { it.name!!.asString() == arg }.value.toString()
 
-        private fun getClassNames(collectToListValue: Boolean): Pair<ClassName, ClassName> {
+        private fun getClassNames(collectToListValue: Boolean = false): Pair<ClassName, ClassName> {
             val leftClassName = ClassName(KOLIBRIUM_CORE_PACKAGE_NAME, "Error")
             val rightClassName = if (collectToListValue) {
                 ClassName(KOLIBRIUM_CORE_PACKAGE_NAME, "WebElements")
