@@ -7,7 +7,7 @@ include("ksp:processors")
 findProject(":ksp:processors")?.name = "processors"
 
 plugins {
-    id("de.fayard.refreshVersions") version "0.60.0"
+    id("de.fayard.refreshVersions") version "0.60.2"
 }
 
 refreshVersions {
