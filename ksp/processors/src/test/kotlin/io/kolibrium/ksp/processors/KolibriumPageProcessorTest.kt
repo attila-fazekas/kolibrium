@@ -79,11 +79,11 @@ class KolibriumPageProcessorTest {
                 import io.kolibrium.core.Error
                 import io.kolibrium.core.className
                 import io.kolibrium.core.css
-                import io.kolibrium.core.result
                 import io.kolibrium.core.id
                 import io.kolibrium.core.linkText
                 import io.kolibrium.core.name
                 import io.kolibrium.core.partialLinkText
+                import io.kolibrium.core.result
                 import io.kolibrium.core.tagName
                 import io.kolibrium.core.xpath
                 import org.openqa.selenium.WebDriver
@@ -186,11 +186,11 @@ class KolibriumPageProcessorTest {
                 import io.kolibrium.core.WebElements
                 import io.kolibrium.core.className
                 import io.kolibrium.core.css
-                import io.kolibrium.core.result
                 import io.kolibrium.core.id
                 import io.kolibrium.core.linkText
                 import io.kolibrium.core.name
                 import io.kolibrium.core.partialLinkText
+                import io.kolibrium.core.result
                 import io.kolibrium.core.tagName
                 import io.kolibrium.core.xpath
                 import org.openqa.selenium.WebDriver
@@ -267,8 +267,8 @@ class KolibriumPageProcessorTest {
 
                 import arrow.core.Either
                 import io.kolibrium.core.Error
-                import io.kolibrium.core.result
                 import io.kolibrium.core.idOrName
+                import io.kolibrium.core.result
                 import org.openqa.selenium.WebDriver
                 import org.openqa.selenium.WebElement
                 
