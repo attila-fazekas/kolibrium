@@ -62,7 +62,7 @@ public final class io/kolibrium/core/KolibriumLocatorDelegateKt {
 }
 
 public final class io/kolibrium/core/ValueResolverKt {
-	public static final fun getValueOrFail (Larrow/core/Either;)Ljava/util/List;
-	public static final fun getValueOrFail (Larrow/core/Either;)Lorg/openqa/selenium/WebElement;
+	public static final fun result (Larrow/core/Either;)Ljava/util/List;
+	public static final fun result (Larrow/core/Either;)Lorg/openqa/selenium/WebElement;
 }
 

@@ -79,11 +79,11 @@ class KolibriumPageProcessorTest {
                 import io.kolibrium.core.Error
                 import io.kolibrium.core.className
                 import io.kolibrium.core.css
-                import io.kolibrium.core.getValueOrFail
                 import io.kolibrium.core.id
                 import io.kolibrium.core.linkText
                 import io.kolibrium.core.name
                 import io.kolibrium.core.partialLinkText
+                import io.kolibrium.core.result
                 import io.kolibrium.core.tagName
                 import io.kolibrium.core.xpath
                 import org.openqa.selenium.WebDriver
@@ -94,42 +94,42 @@ class KolibriumPageProcessorTest {
                   private val _entry1: Either<Error, WebElement> by className<WebElement>("className")
 
                   public val entry1: WebElement
-                    get() = _entry1.getValueOrFail()
+                    get() = _entry1.result()
                 
                   private val _entry2: Either<Error, WebElement> by css<WebElement>("css")
 
                   public val entry2: WebElement
-                    get() = _entry2.getValueOrFail()
+                    get() = _entry2.result()
                 
                   private val _entry3: Either<Error, WebElement> by id<WebElement>("id")
 
                   public val entry3: WebElement
-                    get() = _entry3.getValueOrFail()
+                    get() = _entry3.result()
                 
                   private val _entry4: Either<Error, WebElement> by linkText<WebElement>("linkText")
 
                   public val entry4: WebElement
-                    get() = _entry4.getValueOrFail()
+                    get() = _entry4.result()
                 
                   private val _entry5: Either<Error, WebElement> by name<WebElement>("name")
 
                   public val entry5: WebElement
-                    get() = _entry5.getValueOrFail()
+                    get() = _entry5.result()
                 
                   private val _entry6: Either<Error, WebElement> by partialLinkText<WebElement>("partialLinkText")
 
                   public val entry6: WebElement
-                    get() = _entry6.getValueOrFail()
+                    get() = _entry6.result()
                 
                   private val _entry7: Either<Error, WebElement> by tagName<WebElement>("tagName")
 
                   public val entry7: WebElement
-                    get() = _entry7.getValueOrFail()
+                    get() = _entry7.result()
                 
                   private val _entry8: Either<Error, WebElement> by xpath<WebElement>("xpath")
 
                   public val entry8: WebElement
-                    get() = _entry8.getValueOrFail()
+                    get() = _entry8.result()
                 }
             """.trimIndent(),
             compilation = compilation
@@ -186,11 +186,11 @@ class KolibriumPageProcessorTest {
                 import io.kolibrium.core.WebElements
                 import io.kolibrium.core.className
                 import io.kolibrium.core.css
-                import io.kolibrium.core.getValueOrFail
                 import io.kolibrium.core.id
                 import io.kolibrium.core.linkText
                 import io.kolibrium.core.name
                 import io.kolibrium.core.partialLinkText
+                import io.kolibrium.core.result
                 import io.kolibrium.core.tagName
                 import io.kolibrium.core.xpath
                 import org.openqa.selenium.WebDriver
@@ -200,42 +200,42 @@ class KolibriumPageProcessorTest {
                   private val _entry1: Either<Error, WebElements> by className<WebElements>("className")
 
                   public val entry1: WebElements
-                    get() = _entry1.getValueOrFail()
+                    get() = _entry1.result()
                 
                   private val _entry2: Either<Error, WebElements> by css<WebElements>("css")
 
                   public val entry2: WebElements
-                    get() = _entry2.getValueOrFail()
+                    get() = _entry2.result()
                 
                   private val _entry3: Either<Error, WebElements> by id<WebElements>("id")
 
                   public val entry3: WebElements
-                    get() = _entry3.getValueOrFail()
+                    get() = _entry3.result()
                 
                   private val _entry4: Either<Error, WebElements> by linkText<WebElements>("linkText")
 
                   public val entry4: WebElements
-                    get() = _entry4.getValueOrFail()
+                    get() = _entry4.result()
                 
                   private val _entry5: Either<Error, WebElements> by name<WebElements>("name")
 
                   public val entry5: WebElements
-                    get() = _entry5.getValueOrFail()
+                    get() = _entry5.result()
                 
                   private val _entry6: Either<Error, WebElements> by partialLinkText<WebElements>("partialLinkText")
 
                   public val entry6: WebElements
-                    get() = _entry6.getValueOrFail()
+                    get() = _entry6.result()
                 
                   private val _entry7: Either<Error, WebElements> by tagName<WebElements>("tagName")
 
                   public val entry7: WebElements
-                    get() = _entry7.getValueOrFail()
+                    get() = _entry7.result()
                 
                   private val _entry8: Either<Error, WebElements> by xpath<WebElements>("xpath")
 
                   public val entry8: WebElements
-                    get() = _entry8.getValueOrFail()
+                    get() = _entry8.result()
                 }
             """.trimIndent(),
             compilation = compilation
@@ -267,8 +267,8 @@ class KolibriumPageProcessorTest {
 
                 import arrow.core.Either
                 import io.kolibrium.core.Error
-                import io.kolibrium.core.getValueOrFail
                 import io.kolibrium.core.idOrName
+                import io.kolibrium.core.result
                 import org.openqa.selenium.WebDriver
                 import org.openqa.selenium.WebElement
                 
@@ -277,7 +277,7 @@ class KolibriumPageProcessorTest {
                   private val _entry: Either<Error, WebElement> by idOrName<WebElement>("entry")
 
                   public val entry: WebElement
-                    get() = _entry.getValueOrFail()
+                    get() = _entry.result()
                 }
             """.trimIndent(),
             compilation = compilation
@@ -295,6 +295,27 @@ class KolibriumPageProcessorTest {
     
                 @KolibriumPage
                 class KolibriumTestPage {                
+                }
+            """.trimIndent()
+        )
+
+        val result = getCompilation(path, sourceFile).compile()
+        verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        result.messages shouldContain "Only enum classes can be annotated with @KolibriumPage. " +
+            "Please make sure \"KolibriumTestPage\" is an enum class."
+    }
+
+    @InvalidTest
+    fun `data class annotated with KolibriumPage`(@TempDir path: File) {
+        val sourceFile = SourceFile.kotlin(
+            "KolibriumTestPage.kt",
+            """
+                package io.kolibrium.ksp.processors.test  
+    
+                import io.kolibrium.ksp.annotations.*
+    
+                @KolibriumPage
+                data class KolibriumTestPage {                
                 }
             """.trimIndent()
         )
@@ -324,6 +345,26 @@ class KolibriumPageProcessorTest {
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
         result.messages shouldContain "Only enum classes can be annotated with @KolibriumPage. " +
             "Please make sure \"KolibriumTestPage\" is an enum class."
+    }
+
+    @InvalidTest
+    fun `no enum entry defined`(@TempDir path: File) {
+        val sourceFile = SourceFile.kotlin(
+            "KolibriumTestPage.kt",
+            """
+                package io.kolibrium.ksp.processors.test  
+    
+                import io.kolibrium.ksp.annotations.*
+    
+                @KolibriumPage
+                class KolibriumTestPage {                
+                }
+            """.trimIndent()
+        )
+
+        val result = getCompilation(path, sourceFile).compile()
+        verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        result.messages shouldContain "At least one enum shall be defined"
     }
 
     @InvalidTest

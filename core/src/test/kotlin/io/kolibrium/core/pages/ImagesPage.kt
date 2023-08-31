@@ -17,8 +17,8 @@
 package io.kolibrium.core.pages
 
 import io.kolibrium.core.WebElements
-import io.kolibrium.core.getValueOrFail
 import io.kolibrium.core.name
+import io.kolibrium.core.result
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.ExpectedConditions
 
@@ -26,5 +26,5 @@ context(WebDriver)
 class ImagesPage {
     private val _images by name<WebElements>("kodee", 9, ExpectedConditions::numberOfElementsToBe)
     val images: WebElements
-        get() = _images.getValueOrFail()
+        get() = _images.result()
 }

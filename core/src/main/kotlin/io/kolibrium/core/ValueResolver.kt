@@ -20,14 +20,14 @@ import arrow.core.Either
 import arrow.core.raise.either
 import org.openqa.selenium.WebElement
 
-public fun Either<Error, WebElement>.getValueOrFail(): WebElement {
+public fun Either<Error, WebElement>.result(): WebElement {
     either {
         return bind()
     }
     throw leftOrNull()!!
 }
 
-public fun Either<Error, WebElements>.getValueOrFail(): WebElements {
+public fun Either<Error, WebElements>.result(): WebElements {
     either {
         return bind()
     }

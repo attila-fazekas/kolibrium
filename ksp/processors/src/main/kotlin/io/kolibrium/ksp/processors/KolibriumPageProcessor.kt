@@ -82,6 +82,10 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
                 )
             }
 
+            if (classDeclaration.getEnumEntries().count() == 0) {
+                logger.error("At least one enum shall be defined")
+            }
+
             val className = classDeclaration.simpleName.asString()
             val typeBuilder = TypeSpec.classBuilder(className)
                 .contextReceivers(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
@@ -93,7 +97,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
             val pckName = classDeclaration.packageName.asString() + ".generated"
             val fileSpec = FileSpec.builder(pckName, className)
                 .addType(typeBuilder.build())
-                .addImport(KOLIBRIUM_CORE_PACKAGE_NAME, "getValueOrFail")
+                .addImport(KOLIBRIUM_CORE_PACKAGE_NAME, "result")
                 .build()
 
             codeGen.createNewFile(
@@ -179,7 +183,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
                         rightClassName
                     ).getter(
                         FunSpec.getterBuilder()
-                            .addStatement("return %N.getValueOrFail()", "_$enumEntryName")
+                            .addStatement("return %N.result()", "_$enumEntryName")
                             .build()
                     ).build()
                 )
