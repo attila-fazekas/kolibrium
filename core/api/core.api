@@ -1,24 +1,3 @@
-public abstract class io/kolibrium/core/Error : java/lang/Throwable {
-	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun getMessage ()Ljava/lang/String;
-}
-
-public final class io/kolibrium/core/Error$ElementNotFound : io/kolibrium/core/Error {
-	public fun <init> (Ljava/lang/String;)V
-}
-
-public final class io/kolibrium/core/Error$NoSuchWindow : io/kolibrium/core/Error {
-	public static final field INSTANCE Lio/kolibrium/core/Error$NoSuchWindow;
-}
-
-public final class io/kolibrium/core/Error$SessionNotCreatedException : io/kolibrium/core/Error {
-	public static final field INSTANCE Lio/kolibrium/core/Error$SessionNotCreatedException;
-}
-
-public final class io/kolibrium/core/Error$UnreachableBrowser : io/kolibrium/core/Error {
-	public static final field INSTANCE Lio/kolibrium/core/Error$UnreachableBrowser;
-}
-
 public final class io/kolibrium/core/KolibriumLocatorDelegateKt {
 	public static final fun className (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;ILkotlin/jvm/functions/Function2;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun className (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
@@ -59,10 +38,5 @@ public final class io/kolibrium/core/KolibriumLocatorDelegateKt {
 	public static synthetic fun xpath$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun xpaths (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
 	public static synthetic fun xpaths$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-}
-
-public final class io/kolibrium/core/ValueResolverKt {
-	public static final fun result (Larrow/core/Either;)Ljava/util/List;
-	public static final fun result (Larrow/core/Either;)Lorg/openqa/selenium/WebElement;
 }
 

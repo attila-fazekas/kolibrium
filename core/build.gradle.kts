@@ -6,5 +6,4 @@ plugins {
 
 dependencies {
     api("org.seleniumhq.selenium:selenium-java:_")
-    api("io.arrow-kt:arrow-core:_")
 }
