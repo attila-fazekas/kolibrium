@@ -75,15 +75,12 @@ class KolibriumPageProcessorTest {
             """
                 package io.kolibrium.ksp.processors.test.generated
 
-                import arrow.core.Either
-                import io.kolibrium.core.Error
                 import io.kolibrium.core.className
                 import io.kolibrium.core.css
                 import io.kolibrium.core.id
                 import io.kolibrium.core.linkText
                 import io.kolibrium.core.name
                 import io.kolibrium.core.partialLinkText
-                import io.kolibrium.core.result
                 import io.kolibrium.core.tagName
                 import io.kolibrium.core.xpath
                 import org.openqa.selenium.WebDriver
@@ -91,45 +88,21 @@ class KolibriumPageProcessorTest {
                 
                 context(WebDriver)
                 public class KolibriumTestPage {
-                  private val _entry1: Either<Error, WebElement> by className<WebElement>("className")
+                  public val entry1: WebElement by className<WebElement>("className")
 
-                  public val entry1: WebElement
-                    get() = _entry1.result()
-                
-                  private val _entry2: Either<Error, WebElement> by css<WebElement>("css")
+                  public val entry2: WebElement by css<WebElement>("css")
 
-                  public val entry2: WebElement
-                    get() = _entry2.result()
-                
-                  private val _entry3: Either<Error, WebElement> by id<WebElement>("id")
+                  public val entry3: WebElement by id<WebElement>("id")
 
-                  public val entry3: WebElement
-                    get() = _entry3.result()
-                
-                  private val _entry4: Either<Error, WebElement> by linkText<WebElement>("linkText")
+                  public val entry4: WebElement by linkText<WebElement>("linkText")
 
-                  public val entry4: WebElement
-                    get() = _entry4.result()
-                
-                  private val _entry5: Either<Error, WebElement> by name<WebElement>("name")
+                  public val entry5: WebElement by name<WebElement>("name")
 
-                  public val entry5: WebElement
-                    get() = _entry5.result()
-                
-                  private val _entry6: Either<Error, WebElement> by partialLinkText<WebElement>("partialLinkText")
+                  public val entry6: WebElement by partialLinkText<WebElement>("partialLinkText")
 
-                  public val entry6: WebElement
-                    get() = _entry6.result()
-                
-                  private val _entry7: Either<Error, WebElement> by tagName<WebElement>("tagName")
+                  public val entry7: WebElement by tagName<WebElement>("tagName")
 
-                  public val entry7: WebElement
-                    get() = _entry7.result()
-                
-                  private val _entry8: Either<Error, WebElement> by xpath<WebElement>("xpath")
-
-                  public val entry8: WebElement
-                    get() = _entry8.result()
+                  public val entry8: WebElement by xpath<WebElement>("xpath")
                 }
             """.trimIndent(),
             compilation = compilation
@@ -180,9 +153,7 @@ class KolibriumPageProcessorTest {
         assertSourceEquals(
             """
                 package io.kolibrium.ksp.processors.test.generated
-
-                import arrow.core.Either
-                import io.kolibrium.core.Error
+ 
                 import io.kolibrium.core.WebElements
                 import io.kolibrium.core.className
                 import io.kolibrium.core.css
@@ -190,52 +161,27 @@ class KolibriumPageProcessorTest {
                 import io.kolibrium.core.linkText
                 import io.kolibrium.core.name
                 import io.kolibrium.core.partialLinkText
-                import io.kolibrium.core.result
                 import io.kolibrium.core.tagName
                 import io.kolibrium.core.xpath
                 import org.openqa.selenium.WebDriver
                 
                 context(WebDriver)
                 public class KolibriumTestPage {
-                  private val _entry1: Either<Error, WebElements> by className<WebElements>("className")
+                  public val entry1: WebElements by className<WebElements>("className")
 
-                  public val entry1: WebElements
-                    get() = _entry1.result()
-                
-                  private val _entry2: Either<Error, WebElements> by css<WebElements>("css")
+                  public val entry2: WebElements by css<WebElements>("css")
 
-                  public val entry2: WebElements
-                    get() = _entry2.result()
-                
-                  private val _entry3: Either<Error, WebElements> by id<WebElements>("id")
+                  public val entry3: WebElements by id<WebElements>("id")
 
-                  public val entry3: WebElements
-                    get() = _entry3.result()
-                
-                  private val _entry4: Either<Error, WebElements> by linkText<WebElements>("linkText")
+                  public val entry4: WebElements by linkText<WebElements>("linkText")
 
-                  public val entry4: WebElements
-                    get() = _entry4.result()
-                
-                  private val _entry5: Either<Error, WebElements> by name<WebElements>("name")
+                  public val entry5: WebElements by name<WebElements>("name")
 
-                  public val entry5: WebElements
-                    get() = _entry5.result()
-                
-                  private val _entry6: Either<Error, WebElements> by partialLinkText<WebElements>("partialLinkText")
+                  public val entry6: WebElements by partialLinkText<WebElements>("partialLinkText")
 
-                  public val entry6: WebElements
-                    get() = _entry6.result()
-                
-                  private val _entry7: Either<Error, WebElements> by tagName<WebElements>("tagName")
+                  public val entry7: WebElements by tagName<WebElements>("tagName")
 
-                  public val entry7: WebElements
-                    get() = _entry7.result()
-                
-                  private val _entry8: Either<Error, WebElements> by xpath<WebElements>("xpath")
-
-                  public val entry8: WebElements
-                    get() = _entry8.result()
+                  public val entry8: WebElements by xpath<WebElements>("xpath")
                 }
             """.trimIndent(),
             compilation = compilation
@@ -265,19 +211,13 @@ class KolibriumPageProcessorTest {
             """
                 package io.kolibrium.ksp.processors.test.generated
 
-                import arrow.core.Either
-                import io.kolibrium.core.Error
                 import io.kolibrium.core.idOrName
-                import io.kolibrium.core.result
                 import org.openqa.selenium.WebDriver
                 import org.openqa.selenium.WebElement
                 
                 context(WebDriver)
                 public class KolibriumTestPage {
-                  private val _entry: Either<Error, WebElement> by idOrName<WebElement>("entry")
-
-                  public val entry: WebElement
-                    get() = _entry.result()
+                  public val entry: WebElement by idOrName<WebElement>("entry")
                 }
             """.trimIndent(),
             compilation = compilation

@@ -24,7 +24,6 @@ import io.kolibrium.core.idOrName
 import io.kolibrium.core.linkText
 import io.kolibrium.core.name
 import io.kolibrium.core.partialLinkText
-import io.kolibrium.core.result
 import io.kolibrium.core.tagName
 import io.kolibrium.core.xpath
 import org.openqa.selenium.WebDriver
@@ -32,75 +31,39 @@ import org.openqa.selenium.WebElement
 
 context(WebDriver)
 class HomePage {
-    private val _header by className<WebElement>("header")
-    val header: WebElement
-        get() = _header.result()
+    val header by className<WebElement>("header")
 
-    private val _name by css<WebElement>("#name")
-    val name: WebElement
-        get() = _name.result()
+    val name by css<WebElement>("#name")
 
-    private val _nameXpath by xpath<WebElement>("//*[@id='name']")
-    val nameXpath: WebElement
-        get() = _nameXpath.result()
+    val nameXpath by xpath<WebElement>("//*[@id='name']")
 
-    private val _email by idOrName<WebElement>("email")
-    val email: WebElement
-        get() = _email.result()
+    val email by idOrName<WebElement>("email")
 
-    private val _phone by id<WebElement>("phone")
-    val phone: WebElement
-        get() = _phone.result()
+    val phone by id<WebElement>("phone")
 
-    private val _phoneName by name<WebElement>("phone")
-    val phoneName: WebElement
-        get() = _phoneName.result()
+    val phoneName by name<WebElement>("phone")
 
-    private val _googleLink by xpath<WebElement>("//a[@class='link'][contains(text(),'Google')]")
-    val googleLink: WebElement
-        get() = _googleLink.result()
+    val googleLink by xpath<WebElement>("//a[@class='link'][contains(text(),'Google')]")
 
-    private val _fbLink by linkText<WebElement>("Facebook")
-    val fbLink: WebElement
-        get() = _fbLink.result()
+    val fbLink by linkText<WebElement>("Facebook")
 
-    private val _twitterLink by linkText<WebElement>("Twitter")
-    val twitterLink: WebElement
-        get() = _twitterLink.result()
+    val twitterLink by linkText<WebElement>("Twitter")
 
-    private val _clickHereLink by partialLinkText<WebElement>("Click")
-    val clickHereLink: WebElement
-        get() = _clickHereLink.result()
+    val clickHereLink by partialLinkText<WebElement>("Click")
 
-    private val _a1TagName by tagName<WebElement>("h1")
-    val a1TagName: WebElement
-        get() = _a1TagName.result()
+    val a1TagName by tagName<WebElement>("h1")
 
-    private val _links by className<WebElements>("link")
-    val links: WebElements
-        get() = _links.result()
+    val links by className<WebElements>("link")
 
-    private val _linksTagName by tagName<WebElements>("a")
-    val linksTagName: WebElements
-        get() = _linksTagName.result()
+    val linksTagName by tagName<WebElements>("a")
 
-    private val _linksCss by css<WebElements>("a")
-    val linksCss: WebElements
-        get() = _linksCss.result()
+    val linksCss by css<WebElements>("a")
 
-    private val _linksXpath by xpath<WebElements>("//a[@class='link']")
-    val linksXpath: WebElements
-        get() = _linksXpath.result()
+    val linksXpath by xpath<WebElements>("//a[@class='link']")
 
-    private val _fbLinks by linkText<WebElements>("Facebook")
-    val fbLinks: WebElements
-        get() = _fbLinks.result()
+    val fbLinks by linkText<WebElements>("Facebook")
 
-    private val _fbPartialLinks by partialLinkText<WebElements>("Facebook")
-    val fbPartialLinks: WebElements
-        get() = _fbPartialLinks.result()
+    val fbPartialLinks by partialLinkText<WebElements>("Facebook")
 
-    private val _selects by name<WebElements>("select")
-    val selects: WebElements
-        get() = _selects.result()
+    val selects by name<WebElements>("select")
 }

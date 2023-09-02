@@ -32,9 +32,6 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi
 import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import io.kolibrium.ksp.annotations.Css
@@ -97,7 +94,6 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
             val pckName = classDeclaration.packageName.asString() + ".generated"
             val fileSpec = FileSpec.builder(pckName, className)
                 .addType(typeBuilder.build())
-                .addImport(KOLIBRIUM_CORE_PACKAGE_NAME, "result")
                 .build()
 
             codeGen.createNewFile(
@@ -138,7 +134,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
                 val locatorAnnotation = classDeclaration.getAnnotation(annotationsPresent[0])!!
                 val collectToListValue = locatorAnnotation.getArgumentValue("collectToList").toBoolean()
 
-                generateProperties(getClassNames(collectToListValue), enumEntryName) {
+                generateProperty(getDelegateTypeClassName(collectToListValue), enumEntryName) {
                     val locator =
                         locatorAnnotation.getArgumentValue("locator").ifEmpty { enumEntryName }
                     val locatorStrategyClassName = ClassName(
@@ -149,7 +145,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
                     add("%T<$className>(\"$locator\")", locatorStrategyClassName)
                 }
             } else { // fallback to idOrName
-                generateProperties(getClassNames(), enumEntryName) {
+                generateProperty(getDelegateTypeClassName(), enumEntryName) {
                     add(
                         "%T<WebElement>(\"$enumEntryName\")",
                         ClassName(KOLIBRIUM_CORE_PACKAGE_NAME, "idOrName")
@@ -158,35 +154,20 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
             }
         }
 
-        private fun generateProperties(
-            className: Pair<ClassName, ClassName>,
+        private fun generateProperty(
+            delegateTypeClassName: ClassName,
             enumEntryName: String,
             block: CodeBlock.Builder.() -> Unit
         ) {
-            val (leftClassName, rightClassName) = className
-            val delegateTypeClassName = ClassName("arrow.core", "Either")
-                .parameterizedBy(leftClassName, rightClassName)
-
-            typeSpecBuilder.addProperties(
-                listOf(
-                    PropertySpec.builder(
-                        "_$enumEntryName",
-                        delegateTypeClassName
-                    ).addModifiers(KModifier.PRIVATE)
-                        .delegate(
-                            CodeBlock.builder().apply {
-                                block()
-                            }.build()
-                        ).build(),
-                    PropertySpec.builder(
-                        enumEntryName,
-                        rightClassName
-                    ).getter(
-                        FunSpec.getterBuilder()
-                            .addStatement("return %N.result()", "_$enumEntryName")
-                            .build()
-                    ).build()
-                )
+            typeSpecBuilder.addProperty(
+                PropertySpec.builder(
+                    enumEntryName,
+                    delegateTypeClassName
+                ).delegate(
+                    CodeBlock.builder().apply {
+                        block()
+                    }.build()
+                ).build()
             )
         }
 
@@ -197,16 +178,12 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
         private fun KSAnnotation.getArgumentValue(arg: String) =
             arguments.first { it.name!!.asString() == arg }.value.toString()
 
-        private fun getClassNames(collectToListValue: Boolean = false): Pair<ClassName, ClassName> {
-            val leftClassName = ClassName(KOLIBRIUM_CORE_PACKAGE_NAME, "Error")
-            val rightClassName = if (collectToListValue) {
+        private fun getDelegateTypeClassName(collectToListValue: Boolean = false) =
+            if (collectToListValue) {
                 ClassName(KOLIBRIUM_CORE_PACKAGE_NAME, "WebElements")
             } else {
                 ClassName(SELENIUM_PACKAGE_NAME, "WebElement")
             }
-
-            return leftClassName to rightClassName
-        }
 
         private fun getLocatorStrategy(annotation: KSAnnotation) = annotation.toString()
             .removePrefix("@")
