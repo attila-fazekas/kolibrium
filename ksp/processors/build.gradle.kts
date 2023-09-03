@@ -7,4 +7,5 @@ plugins {
 
 dependencies {
     implementation(project(":ksp:annotations"))
+    implementation("com.samskivert:jmustache:_")
 }
