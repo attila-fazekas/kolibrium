@@ -328,8 +328,9 @@ class KolibriumPageProcessorTest {
 
         val result = getCompilation(path, sourceFile).compile()
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        result.messages shouldContain "Only enum classes can be annotated with @KolibriumPage. " +
-            "Please make sure \"KolibriumTestPage\" is an enum class."
+        result.messages shouldContain """
+            Only enum classes can be annotated with @KolibriumPage. Please make sure "KolibriumTestPage" is an enum class.
+        """.trimIndent()
     }
 
     @InvalidTest
@@ -349,8 +350,9 @@ class KolibriumPageProcessorTest {
 
         val result = getCompilation(path, sourceFile).compile()
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        result.messages shouldContain "Only enum classes can be annotated with @KolibriumPage. " +
-            "Please make sure \"KolibriumTestPage\" is an enum class."
+        result.messages shouldContain """
+            Only enum classes can be annotated with @KolibriumPage. Please make sure "KolibriumTestPage" is an enum class.
+        """.trimIndent()
     }
 
     @InvalidTest
@@ -370,8 +372,9 @@ class KolibriumPageProcessorTest {
 
         val result = getCompilation(path, sourceFile).compile()
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        result.messages shouldContain "Only enum classes can be annotated with @KolibriumPage. " +
-            "Please make sure \"KolibriumTestPage\" is an enum class."
+        result.messages shouldContain """
+            Only enum classes can be annotated with @KolibriumPage. Please make sure "KolibriumTestPage" is an enum class.
+        """.trimIndent()
     }
 
     @InvalidTest
@@ -419,6 +422,28 @@ class KolibriumPageProcessorTest {
         val result = getCompilation(path, sourceFile).compile()
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
         result.messages shouldContain "More than one locator annotation found on \"username\": @Id, @Name"
+    }
+
+    @InvalidTest
+    fun `url is invalid`(@TempDir path: File) {
+        val sourceFile = SourceFile.kotlin(
+            "KolibriumTestPage.kt",
+            """
+                package io.kolibrium.ksp.processors.test  
+    
+                import io.kolibrium.ksp.annotations.*
+    
+                @KolibriumPage("https://www")
+                enum class KolibriumTestPage { 
+                  @Id
+                  username
+                }
+            """.trimIndent()
+        )
+
+        val result = getCompilation(path, sourceFile).compile()
+        verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        result.messages shouldContain "Provided URL in \"KolibriumTestPage\" is invalid: https://www"
     }
 }
 
