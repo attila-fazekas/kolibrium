@@ -104,7 +104,7 @@ public fun <T : WebElement> name(
 
 /**
  * Finds element by [partialLinkText] locator strategy.
- * [locator] is the partial text to match against.
+ * [locator] is the partial text in link to match against.
  * [expectedCondition] can be defined to wait for the element.
  */
 context(WebDriver)

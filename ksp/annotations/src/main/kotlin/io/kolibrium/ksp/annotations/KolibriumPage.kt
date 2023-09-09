@@ -16,6 +16,10 @@
 
 package io.kolibrium.ksp.annotations
 
+/**
+ * Enum classes annotated with [KolibriumPage] will instruct kolibrium-codegen to generate page object classes.
+ * If [baseUrl] is defined, an init block will be generated to open the URL upon page initialization.
+ */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
 public annotation class KolibriumPage(val baseUrl: String = "")
