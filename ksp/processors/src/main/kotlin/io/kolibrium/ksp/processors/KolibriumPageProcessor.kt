@@ -125,7 +125,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
             }
 
             if (classDeclaration.getEnumEntries().count() == 0) {
-                logger.error("At least one enum shall be defined")
+                logger.error("At least one enum shall be defined in \"$classDeclaration\".")
             }
         }
 

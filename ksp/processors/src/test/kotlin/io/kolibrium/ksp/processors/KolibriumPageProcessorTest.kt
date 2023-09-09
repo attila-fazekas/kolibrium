@@ -394,7 +394,7 @@ class KolibriumPageProcessorTest {
 
         val result = getCompilation(path, sourceFile).compile()
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        result.messages shouldContain "At least one enum shall be defined"
+        result.messages shouldContain "At least one enum shall be defined in \"KolibriumTestPage\"."
     }
 
     @InvalidTest
