@@ -46,6 +46,7 @@ import io.kolibrium.ksp.annotations.Name
 import io.kolibrium.ksp.annotations.PartialLinkText
 import io.kolibrium.ksp.annotations.TagName
 import io.kolibrium.ksp.annotations.Xpath
+import org.apache.commons.validator.routines.UrlValidator
 import kotlin.reflect.KClass
 
 private const val KOLIBRIUM_CORE_PACKAGE_NAME = "io.kolibrium.core"
@@ -76,20 +77,26 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
 
         @OptIn(ExperimentalKotlinPoetApi::class)
         override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
-            if (classDeclaration.classKind != ClassKind.ENUM_CLASS) {
-                logger.error(
-                    "Only enum classes can be annotated with @KolibriumPage. " +
-                        "Please make sure \"$classDeclaration\" is an enum class."
-                )
-            }
-
-            if (classDeclaration.getEnumEntries().count() == 0) {
-                logger.error("At least one enum shall be defined")
-            }
+            validate(classDeclaration)
 
             val className = classDeclaration.simpleName.asString()
             val typeBuilder = TypeSpec.classBuilder(className)
-                .contextReceivers(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
+                .contextReceivers(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver")).apply {
+                    val baseUrl =
+                        classDeclaration.getAnnotation(KolibriumPage::class)!!.getArgument("baseUrl").value as String
+
+                    if (baseUrl.isNotEmpty()) {
+                        if (!UrlValidator.getInstance().isValid(baseUrl)) {
+                            logger.error("Provided URL in \"$classDeclaration\" is invalid: $baseUrl")
+                        } else {
+                            addInitializerBlock(
+                                CodeBlock.builder()
+                                    .addStatement("get(%S)", baseUrl)
+                                    .build()
+                            )
+                        }
+                    }
+                }
 
             classDeclaration.getEnumEntries().forEach {
                 it.accept(KolibriumEnumEntryVisitor(typeBuilder), Unit)
@@ -106,6 +113,20 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
                 fileSpec.packageName,
                 fileSpec.name
             ).writer().use { writer -> fileSpec.writeTo(writer) }
+        }
+
+        private fun validate(classDeclaration: KSClassDeclaration) {
+            if (classDeclaration.classKind != ClassKind.ENUM_CLASS) {
+                logger.error(
+                    """
+                        Only enum classes can be annotated with @KolibriumPage. Please make sure "$classDeclaration" is an enum class.
+                    """.trimIndent()
+                )
+            }
+
+            if (classDeclaration.getEnumEntries().count() == 0) {
+                logger.error("At least one enum shall be defined in \"$classDeclaration\".")
+            }
         }
 
         private fun KSClassDeclaration.getEnumEntries(): Sequence<KSDeclaration> =
@@ -219,28 +240,28 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
                     .build()
             )
         }
-
-        private fun KSDeclaration.getAnnotation(klass: KClass<*>): KSAnnotation? = this.annotations.firstOrNull {
-            it.shortName.asString() == klass.simpleName
-        }
-
-        private fun KSAnnotation.getArgument(arg: String) =
-            arguments.first { it.name!!.asString() == arg }
-
-        private fun getDelegateTypeClassName(collectToListValue: Boolean = false) =
-            if (collectToListValue) {
-                ClassName(KOLIBRIUM_CORE_PACKAGE_NAME, "WebElements")
-            } else {
-                ClassName(SELENIUM_PACKAGE_NAME, "WebElement")
-            }
-
-        private fun getLocatorStrategy(annotation: KSAnnotation) = annotation.toString()
-            .removePrefix("@")
-            .replaceFirstChar {
-                it.lowercaseChar()
-            }
     }
 }
+
+private fun KSDeclaration.getAnnotation(klass: KClass<*>): KSAnnotation? = this.annotations.firstOrNull {
+    it.shortName.asString() == klass.simpleName
+}
+
+private fun KSAnnotation.getArgument(arg: String) =
+    arguments.first { it.name!!.asString() == arg }
+
+private fun getDelegateTypeClassName(collectToListValue: Boolean = false) =
+    if (collectToListValue) {
+        ClassName(KOLIBRIUM_CORE_PACKAGE_NAME, "WebElements")
+    } else {
+        ClassName(SELENIUM_PACKAGE_NAME, "WebElement")
+    }
+
+private fun getLocatorStrategy(annotation: KSAnnotation) = annotation.toString()
+    .removePrefix("@")
+    .replaceFirstChar {
+        it.lowercaseChar()
+    }
 
 private class MustacheTemplateParser(locator: String) {
     private val template: Template = Mustache.compiler().compile(locator)

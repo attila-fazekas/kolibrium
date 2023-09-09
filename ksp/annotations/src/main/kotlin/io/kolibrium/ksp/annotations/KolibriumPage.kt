@@ -18,4 +18,4 @@ package io.kolibrium.ksp.annotations
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-public annotation class KolibriumPage
+public annotation class KolibriumPage(val baseUrl: String = "")
