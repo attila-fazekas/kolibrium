@@ -1,7 +1,7 @@
 # kolibrium
 
 <div align="center">
-<p><img src="https://raw.githubusercontent.com/attila-fazekas/kolibrium/add_logo/assets/kolibrium_logo.png" alt="kolibrium_logo.png"></p>
+<p><img src="https://raw.githubusercontent.com/attila-fazekas/kolibrium/main/assets/kolibrium_logo.png" alt="kolibrium_logo.png"></p>
 <h1>Kotlin library for Selenium tests</h1>
 <p><a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
 <a href="https://github.com/attila-fazekas/kolibrium/actions/workflows/gradle.yml"><img src="https://github.com/attila-fazekas/kolibrium/actions/workflows/gradle.yml/badge.svg" alt="Build"></a>
