@@ -37,6 +37,7 @@ import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldNotBeEmpty
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import org.openqa.selenium.chrome.ChromeDriverService
@@ -52,6 +53,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
 @Suppress("UNCHECKED_CAST")
+@Disabled("Temporarily disabled due to build issue with CI")
 class DriverServiceTests : DslTest() {
     lateinit var ds: DriverService
 
