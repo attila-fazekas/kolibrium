@@ -1,0 +1,69 @@
+public final class io/kolibrium/dsl/AllowedIpsScope : io/kolibrium/dsl/UnaryPlus {
+	public fun <init> ()V
+	public synthetic fun unaryPlus (Ljava/lang/Object;)V
+	public fun unaryPlus (Ljava/lang/String;)V
+}
+
+public abstract class io/kolibrium/dsl/BaseDriverServiceScope {
+	public synthetic fun <init> (Lorg/openqa/selenium/remote/service/DriverService$Builder;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun configure ()V
+	public final fun environment (Lkotlin/jvm/functions/Function1;)V
+	public final fun getBuilder ()Lorg/openqa/selenium/remote/service/DriverService$Builder;
+	public final fun getPort ()Ljava/lang/Integer;
+	public final fun getTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun setPort (Ljava/lang/Integer;)V
+	public final fun setTimeout-BwNAW2A (Lkotlin/time/Duration;)V
+}
+
+public final class io/kolibrium/dsl/DriverServiceScope : io/kolibrium/dsl/BaseDriverServiceScope {
+	public fun <init> (Lorg/openqa/selenium/remote/service/DriverService$Builder;)V
+}
+
+public final class io/kolibrium/dsl/EnvironmentScope : io/kolibrium/dsl/UnaryPlus {
+	public fun <init> ()V
+	public synthetic fun unaryPlus (Ljava/lang/Object;)V
+	public fun unaryPlus (Lkotlin/Pair;)V
+}
+
+public final class io/kolibrium/dsl/KolibriumDslKt {
+	public static final fun configureChromeDriverService (Lio/kolibrium/dsl/DriverServiceScope;)Lorg/openqa/selenium/chrome/ChromeDriverService$Builder;
+	public static final fun configureFirefoxDriverService (Lio/kolibrium/dsl/DriverServiceScope;)Lorg/openqa/selenium/firefox/GeckoDriverService$Builder;
+	public static final fun configureSafariDriverService (Lio/kolibrium/dsl/DriverServiceScope;)Lorg/openqa/selenium/safari/SafariDriverService$Builder;
+	public static final fun driverServiceScope (Lorg/openqa/selenium/remote/service/DriverService$Builder;Lkotlin/jvm/functions/Function1;)Lio/kolibrium/dsl/DriverServiceScope;
+}
+
+public final class io/kolibrium/dsl/chrome/ChromeKt {
+	public static final fun allowedIps (Lio/kolibrium/dsl/DriverServiceScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun getAppendLog (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun getBuildCheckDisabled (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun getExecutable (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/String;
+	public static final fun getLogFile (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/String;
+	public static final fun getLogLevel (Lio/kolibrium/dsl/DriverServiceScope;)Lorg/openqa/selenium/chromium/ChromiumDriverLogLevel;
+	public static final fun getReadableTimestamp (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun setAppendLog (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/Boolean;)V
+	public static final fun setBuildCheckDisabled (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/Boolean;)V
+	public static final fun setExecutable (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/String;)V
+	public static final fun setLogFile (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/String;)V
+	public static final fun setLogLevel (Lio/kolibrium/dsl/DriverServiceScope;Lorg/openqa/selenium/chromium/ChromiumDriverLogLevel;)V
+	public static final fun setReadableTimestamp (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/Boolean;)V
+}
+
+public final class io/kolibrium/dsl/firefox/FirefoxKt {
+	public static final fun allowedHosts (Lio/kolibrium/dsl/DriverServiceScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun getExecutable (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/String;
+	public static final fun getLogFile (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/String;
+	public static final fun getLogLevel (Lio/kolibrium/dsl/DriverServiceScope;)Lorg/openqa/selenium/firefox/FirefoxDriverLogLevel;
+	public static final fun getProfileRoot (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/String;
+	public static final fun getTruncatedLogs (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun setExecutable (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/String;)V
+	public static final fun setLogFile (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/String;)V
+	public static final fun setLogLevel (Lio/kolibrium/dsl/DriverServiceScope;Lorg/openqa/selenium/firefox/FirefoxDriverLogLevel;)V
+	public static final fun setProfileRoot (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/String;)V
+	public static final fun setTruncatedLogs (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/Boolean;)V
+}
+
+public final class io/kolibrium/dsl/safari/SafariKt {
+	public static final fun getLogging (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun setLogging (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/Boolean;)V
+}
+

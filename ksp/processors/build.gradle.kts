@@ -1,8 +1,7 @@
 import org.jreleaser.model.Active
 
 plugins {
-    id("kolibrium.junit-conventions")
-    id("kolibrium.kotest-conventions")
+    id("kolibrium.test-conventions")
     id("kolibrium.ksp-conventions")
     id("kolibrium.library-conventions")
 }
@@ -11,6 +10,7 @@ version = "0.2.0-SNAPSHOT"
 
 dependencies {
     implementation(project(":ksp:annotations"))
+    implementation("commons-validator:commons-validator:_")
     implementation("com.samskivert:jmustache:_")
 }
 
