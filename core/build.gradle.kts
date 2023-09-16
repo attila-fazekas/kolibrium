@@ -1,8 +1,7 @@
 import org.jreleaser.model.Active
 
 plugins {
-    id("kolibrium.junit-conventions")
-    id("kolibrium.kotest-conventions")
+    id("kolibrium.test-conventions")
     id("kolibrium.library-conventions")
 }
 
