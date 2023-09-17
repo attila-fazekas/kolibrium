@@ -20,7 +20,7 @@ import org.openqa.selenium.remote.service.DriverService
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
 
-public sealed class BaseDriverServiceScope(@PublishedApi internal val builder: DriverService.Builder<*, *>) {
+public sealed class BaseDriverServiceScope(internal val builder: DriverService.Builder<*, *>) {
 
     @KolibriumDsl
     public var port: Int? = null

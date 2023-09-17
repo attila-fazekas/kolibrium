@@ -19,21 +19,32 @@
 package io.kolibrium.dsl
 
 import io.kolibrium.dsl.chrome.appendLog
+import io.kolibrium.dsl.chrome.binary
 import io.kolibrium.dsl.chrome.buildCheckDisabled
 import io.kolibrium.dsl.chrome.executable
 import io.kolibrium.dsl.chrome.logFile
 import io.kolibrium.dsl.chrome.logLevel
 import io.kolibrium.dsl.chrome.readableTimestamp
+import io.kolibrium.dsl.firefox.binary
 import io.kolibrium.dsl.firefox.executable
 import io.kolibrium.dsl.firefox.logFile
 import io.kolibrium.dsl.firefox.logLevel
+import io.kolibrium.dsl.firefox.profileDir
 import io.kolibrium.dsl.firefox.profileRoot
 import io.kolibrium.dsl.firefox.truncatedLogs
+import io.kolibrium.dsl.safari.automaticInspection
+import io.kolibrium.dsl.safari.automaticProfiling
 import io.kolibrium.dsl.safari.logging
+import io.kolibrium.dsl.safari.useTechnologyPreview
 import org.openqa.selenium.chrome.ChromeDriverService
+import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.firefox.FirefoxOptions
+import org.openqa.selenium.firefox.FirefoxProfile
 import org.openqa.selenium.firefox.GeckoDriverService
+import org.openqa.selenium.remote.AbstractDriverOptions
 import org.openqa.selenium.remote.service.DriverService
 import org.openqa.selenium.safari.SafariDriverService
+import org.openqa.selenium.safari.SafariOptions
 import java.io.File
 
 @DslMarker
@@ -106,3 +117,62 @@ internal fun configureSafariDriverService(driverServiceScope: DriverServiceScope
         logging?.let { withLogging(it) }
     }
 }
+
+@KolibriumDsl
+public inline fun <reified T : AbstractDriverOptions<*>> options(noinline block: OptionsScope<T>.() -> Unit): T {
+    return when (T::class) {
+        ChromeOptions::class -> {
+            val optionsScope =
+                optionsScope(ChromeOptions(), block) as OptionsScope<ChromeOptions>
+            configureChromeOptions(optionsScope)
+        }
+
+        FirefoxOptions::class -> {
+            val optionsScope =
+                optionsScope(FirefoxOptions(), block) as OptionsScope<FirefoxOptions>
+            configureFirefoxOptions(optionsScope)
+        }
+
+        SafariOptions::class -> {
+            val optionsScope =
+                optionsScope(SafariOptions(), block) as OptionsScope<SafariOptions>
+            configureSafariOptions(optionsScope)
+        }
+
+        else -> throw UnsupportedOperationException()
+    } as T
+}
+
+@PublishedApi
+internal fun <T : AbstractDriverOptions<*>> optionsScope(
+    options: AbstractDriverOptions<*>,
+    block: OptionsScope<T>.() -> Unit
+): OptionsScope<T> = OptionsScope<T>(options).apply {
+    block()
+    configure()
+}
+
+@PublishedApi
+internal fun configureChromeOptions(optionsScope: OptionsScope<ChromeOptions>): ChromeOptions =
+    (optionsScope.options as ChromeOptions).apply {
+        optionsScope.binary?.let { setBinary(it) }
+    }
+
+@PublishedApi
+internal fun configureFirefoxOptions(optionsScope: OptionsScope<FirefoxOptions>): FirefoxOptions =
+    (optionsScope.options as FirefoxOptions).apply {
+        with(optionsScope) {
+            binary?.let { setBinary(it) }
+            profileDir?.let { profile = FirefoxProfile(File(it)) }
+        }
+    }
+
+@PublishedApi
+internal fun configureSafariOptions(optionsScope: OptionsScope<SafariOptions>): SafariOptions =
+    (optionsScope.options as SafariOptions).apply {
+        with(optionsScope) {
+            automaticInspection?.let { setAutomaticInspection(it) }
+            automaticProfiling?.let { setAutomaticProfiling(it) }
+            useTechnologyPreview?.let { setUseTechnologyPreview(it) }
+        }
+    }

@@ -17,11 +17,19 @@
 package io.kolibrium.dsl.firefox
 
 import io.kolibrium.dsl.AllowedIpsScope
+import io.kolibrium.dsl.Argument
+import io.kolibrium.dsl.ArgumentsScope
 import io.kolibrium.dsl.DriverServiceScope
 import io.kolibrium.dsl.KolibriumDsl
+import io.kolibrium.dsl.OptionsScope
+import io.kolibrium.dsl.PreferencesScope
+import io.kolibrium.dsl.WindowSizeScope
 import io.kolibrium.dsl.allowedIps
+import io.kolibrium.dsl.arguments
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel
+import org.openqa.selenium.firefox.FirefoxOptions
+import org.openqa.selenium.firefox.FirefoxProfile
 import org.openqa.selenium.firefox.GeckoDriverService
 
 @KolibriumDsl
@@ -39,8 +47,43 @@ public var DriverServiceScope<GeckoDriverService>.profileRoot: String? by thread
 @KolibriumDsl
 public var DriverServiceScope<GeckoDriverService>.truncatedLogs: Boolean? by threadLocalLazyDelegate()
 
+@KolibriumDsl
+public var OptionsScope<FirefoxOptions>.binary: String? by threadLocalLazyDelegate()
+
+@KolibriumDsl
+public var OptionsScope<FirefoxOptions>.profileDir: String? by threadLocalLazyDelegate()
+
 public typealias AllowedHostsScope = AllowedIpsScope
 
 @KolibriumDsl
 public fun DriverServiceScope<GeckoDriverService>.allowedHosts(block: AllowedHostsScope.() -> Unit): Unit =
     allowedIps(builder, block)
+
+@KolibriumDsl
+public fun OptionsScope<FirefoxOptions>.arguments(block: ArgumentsScope.() -> Unit): Unit = arguments(options, block)
+
+@KolibriumDsl
+public fun OptionsScope<FirefoxOptions>.preferences(block: PreferencesScope.() -> Unit) {
+    val preferencesScope = PreferencesScope().apply(block)
+    if (preferencesScope.preferences.isNotEmpty()) {
+        preferencesScope.preferences.forEach((options as FirefoxOptions)::addPreference)
+    }
+}
+
+@KolibriumDsl
+public fun OptionsScope<FirefoxOptions>.profile(block: FirefoxProfileScope.() -> Unit) {
+    val profileScope = FirefoxProfileScope().apply(block)
+    if (profileScope.preferences.isNotEmpty()) {
+        val profile = FirefoxProfile()
+        profileScope.preferences.forEach(profile::setPreference)
+        (options as FirefoxOptions).profile = profile
+    }
+}
+
+context(OptionsScope<FirefoxOptions>, ArgumentsScope)
+@KolibriumDsl
+public fun windowSize(block: WindowSizeScope.() -> Unit) {
+    val windowSizeScope = WindowSizeScope().apply(block)
+    this@ArgumentsScope.args.add(Argument("--height=${windowSizeScope.width}"))
+    this@ArgumentsScope.args.add(Argument("--width=${windowSizeScope.height}"))
+}

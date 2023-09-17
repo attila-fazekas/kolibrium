@@ -18,8 +18,19 @@ package io.kolibrium.dsl.safari
 
 import io.kolibrium.dsl.DriverServiceScope
 import io.kolibrium.dsl.KolibriumDsl
+import io.kolibrium.dsl.OptionsScope
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
 import org.openqa.selenium.safari.SafariDriverService
+import org.openqa.selenium.safari.SafariOptions
 
 @KolibriumDsl
 public var DriverServiceScope<SafariDriverService>.logging: Boolean? by threadLocalLazyDelegate()
+
+@KolibriumDsl
+public var OptionsScope<SafariOptions>.automaticInspection: Boolean? by threadLocalLazyDelegate()
+
+@KolibriumDsl
+public var OptionsScope<SafariOptions>.automaticProfiling: Boolean? by threadLocalLazyDelegate()
+
+@KolibriumDsl
+public var OptionsScope<SafariOptions>.useTechnologyPreview: Boolean? by threadLocalLazyDelegate()
