@@ -17,11 +17,17 @@
 package io.kolibrium.dsl.chrome
 
 import io.kolibrium.dsl.AllowedIpsScope
+import io.kolibrium.dsl.Argument
+import io.kolibrium.dsl.ArgumentsScope
 import io.kolibrium.dsl.DriverServiceScope
 import io.kolibrium.dsl.KolibriumDsl
+import io.kolibrium.dsl.OptionsScope
+import io.kolibrium.dsl.WindowSizeScope
 import io.kolibrium.dsl.allowedIps
+import io.kolibrium.dsl.arguments
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
 import org.openqa.selenium.chrome.ChromeDriverService
+import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
 
 @KolibriumDsl
@@ -43,5 +49,40 @@ public var DriverServiceScope<ChromeDriverService>.logLevel: ChromiumDriverLogLe
 public var DriverServiceScope<ChromeDriverService>.readableTimestamp: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
+public var OptionsScope<ChromeOptions>.binary: String? by threadLocalLazyDelegate()
+
+@KolibriumDsl
 public fun DriverServiceScope<ChromeDriverService>.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
     allowedIps(builder, block)
+
+@KolibriumDsl
+public fun OptionsScope<ChromeOptions>.arguments(block: ArgumentsScope.() -> Unit): Unit = arguments(options, block)
+
+context(OptionsScope<ChromeOptions>, ArgumentsScope)
+@KolibriumDsl
+public fun windowSize(block: WindowSizeScope.() -> Unit) {
+    val windowSizeScope = WindowSizeScope().apply(block)
+    this@ArgumentsScope.args.add(Argument("--window-size=${windowSizeScope.width},${windowSizeScope.height}"))
+}
+
+@KolibriumDsl
+public fun OptionsScope<ChromeOptions>.experimentalOptions(block: ExperimentalOptionsScope.() -> Unit) {
+    val expOptionsScope = ExperimentalOptionsScope().apply(block)
+    with(expOptionsScope) {
+        if (preferencesScope.preferences.isNotEmpty()) {
+            (options as ChromeOptions).setExperimentalOption("prefs", preferencesScope.preferences)
+        }
+        if (switchesScope.switches.isNotEmpty()) {
+            (options as ChromeOptions).setExperimentalOption("excludeSwitches", switchesScope.switches)
+        }
+        if (localStateScope.localStatePrefs.isNotEmpty()) {
+            (options as ChromeOptions).setExperimentalOption("localState", localStateScope.localStatePrefs)
+        }
+    }
+}
+
+@KolibriumDsl
+public fun OptionsScope<ChromeOptions>.extensions(block: ExtensionsScope.() -> Unit) {
+    val extScope = ExtensionsScope().apply(block)
+    (options as ChromeOptions).addExtensions(extScope.extensions.toList())
+}
