@@ -53,7 +53,6 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
 @Suppress("UNCHECKED_CAST")
-@Disabled("Temporarily disabled due to build issue with CI")
 class DriverServiceTests : DslTest() {
     lateinit var ds: DriverService
 
@@ -82,6 +81,7 @@ class DriverServiceTests : DslTest() {
         environment.shouldBeEmpty()
     }
 
+    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
     @Test
     fun `custom ChromeDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("chrome.log").toString()
@@ -172,6 +172,7 @@ class DriverServiceTests : DslTest() {
         File(logFilePath).exists() shouldBe true
     }
 
+    @Disabled("Temporarily disabled due to CI runs a Linux image")
     @Test
     fun `custom SafariDriverService shall be created`() {
         ds = driverService<SafariDriverService> {
