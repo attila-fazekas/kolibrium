@@ -33,10 +33,12 @@ jobs:
       - uses: ./.github/actions/run-gradle
 
       - name: Zip output
+        if: success() || failure()
         run: zip -qq -r test-reports.zip test
         working-directory: /home/runner/work/kolibrium/kolibrium/dsl/build/reports/tests
 
       - uses: actions/upload-artifact@v3
+        if: success() || failure()
         with:
           name: test-reports
           path: /home/runner/work/kolibrium/kolibrium/dsl/build/reports/tests/test-reports.zip
