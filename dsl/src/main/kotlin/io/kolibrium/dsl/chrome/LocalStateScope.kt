@@ -16,11 +16,13 @@
 
 package io.kolibrium.dsl.chrome
 
+import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.UnaryPlus
 
 public class LocalStateScope {
     internal val localStatePrefs = mutableMapOf<String, Any>()
 
+    @KolibriumDsl
     public fun browserEnabledLabsExperiments(block: BrowserEnabledLabsExperiments.() -> Unit) {
         val experiments = BrowserEnabledLabsExperiments().apply(block)
         if (experiments.experimentalFlags.isNotEmpty()) {

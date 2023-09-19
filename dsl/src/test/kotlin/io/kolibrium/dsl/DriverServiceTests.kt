@@ -53,7 +53,6 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
 @Suppress("UNCHECKED_CAST")
-@Disabled("Temporarily disabled due to build issue with CI")
 class DriverServiceTests : DslTest() {
     lateinit var ds: DriverService
 
@@ -172,6 +171,7 @@ class DriverServiceTests : DslTest() {
         File(logFilePath).exists() shouldBe true
     }
 
+    @Disabled("Temporarily disabled due to build issue with CI")
     @Test
     fun `custom SafariDriverService shall be created`() {
         ds = driverService<SafariDriverService> {

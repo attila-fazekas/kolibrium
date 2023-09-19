@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@file:Suppress("UNCHECKED_CAST")
+@file:Suppress("UNCHECKED_CAST", "TooManyFunctions")
 
 package io.kolibrium.dsl
 
@@ -36,13 +36,17 @@ import io.kolibrium.dsl.safari.automaticInspection
 import io.kolibrium.dsl.safari.automaticProfiling
 import io.kolibrium.dsl.safari.logging
 import io.kolibrium.dsl.safari.useTechnologyPreview
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.firefox.FirefoxProfile
 import org.openqa.selenium.firefox.GeckoDriverService
 import org.openqa.selenium.remote.AbstractDriverOptions
 import org.openqa.selenium.remote.service.DriverService
+import org.openqa.selenium.safari.SafariDriver
 import org.openqa.selenium.safari.SafariDriverService
 import org.openqa.selenium.safari.SafariOptions
 import java.io.File
@@ -50,6 +54,105 @@ import java.io.File
 @DslMarker
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
 internal annotation class KolibriumDsl
+
+@KolibriumDsl
+public inline fun <reified T : WebDriver> driver(noinline block: DriverScope<T>.() -> Unit): T =
+    when (T::class) {
+        ChromeDriver::class -> {
+            val driverScope =
+                driverScope(ChromeDriverService.Builder(), ChromeOptions(), block) as DriverScope<ChromeDriver>
+            configureChromeDriver(driverScope)
+        }
+
+        FirefoxDriver::class -> {
+            val driverScope =
+                driverScope(GeckoDriverService.Builder(), FirefoxOptions(), block) as DriverScope<FirefoxDriver>
+            configureFirefoxDriver(driverScope)
+        }
+
+        SafariDriver::class -> {
+            val driverScope =
+                driverScope(SafariDriverService.Builder(), SafariOptions(), block) as DriverScope<SafariDriver>
+            configureSafariDriver(driverScope)
+        }
+
+        else -> throw UnsupportedOperationException()
+    } as T
+
+@PublishedApi
+internal fun <T : WebDriver> driverScope(
+    builder: DriverService.Builder<*, *>,
+    options: AbstractDriverOptions<*>,
+    block: DriverScope<T>.() -> Unit
+): DriverScope<T> = DriverScope<T>(builder, options).apply(block)
+
+@SuppressWarnings("NestedBlockDepth")
+@PublishedApi
+internal fun configureChromeDriver(driverScope: DriverScope<ChromeDriver>): ChromeDriver {
+    with(driverScope) {
+        val driverService = (driverServiceScope.builder as ChromeDriverService.Builder).apply {
+            with(driverServiceScope) {
+                appendLog?.let { withAppendLog(it) }
+                buildCheckDisabled?.let { withBuildCheckDisabled(it) }
+                executable?.let { usingDriverExecutable(File(it)) }
+                logFile?.let { withLogFile(File(it)) }
+                logLevel?.let { withLogLevel(it) }
+                readableTimestamp?.let { withReadableTimestamp(it) }
+            }
+        }.build()
+
+        val options = (optionsScope.options as ChromeOptions).apply {
+            optionsScope.binary?.let { setBinary(it) }
+        }
+
+        return ChromeDriver(driverService, options)
+    }
+}
+
+@SuppressWarnings("NestedBlockDepth")
+@PublishedApi
+internal fun configureFirefoxDriver(driverScope: DriverScope<FirefoxDriver>): FirefoxDriver {
+    with(driverScope) {
+        val driverService = (driverServiceScope.builder as GeckoDriverService.Builder).apply {
+            with(driverServiceScope) {
+                executable?.let { usingDriverExecutable(File(it)) }
+                logFile?.let { withLogFile(File(it)) }
+                logLevel?.let { withLogLevel(it) }
+                profileRoot?.let { withProfileRoot(File(it)) }
+                truncatedLogs?.let { withTruncatedLogs(it) }
+            }
+        }.build()
+
+        val options = (optionsScope.options as FirefoxOptions).apply {
+            with(optionsScope) {
+                binary?.let { setBinary(it) }
+                profileDir?.let { profile = FirefoxProfile(File(it)) }
+            }
+        }
+
+        return FirefoxDriver(driverService, options)
+    }
+}
+
+@SuppressWarnings("NestedBlockDepth")
+@PublishedApi
+internal fun configureSafariDriver(driverScope: DriverScope<SafariDriver>): SafariDriver {
+    with(driverScope) {
+        val driverService = (driverServiceScope.builder as SafariDriverService.Builder).apply {
+            driverServiceScope.logging?.let { withLogging(it) }
+        }.build()
+
+        val options = (optionsScope.options as SafariOptions).apply {
+            with(optionsScope) {
+                automaticInspection?.let { setAutomaticInspection(it) }
+                automaticProfiling?.let { setAutomaticProfiling(it) }
+                useTechnologyPreview?.let { setUseTechnologyPreview(it) }
+            }
+        }
+
+        return SafariDriver(driverService, options)
+    }
+}
 
 @KolibriumDsl
 public inline fun <reified T : DriverService> driverService(noinline block: DriverServiceScope<T>.() -> Unit): T {
@@ -113,9 +216,7 @@ internal fun configureFirefoxDriverService(driverServiceScope: DriverServiceScop
 @PublishedApi
 internal fun configureSafariDriverService(driverServiceScope: DriverServiceScope<SafariDriverService>):
     SafariDriverService.Builder = (driverServiceScope.builder as SafariDriverService.Builder).apply {
-    with(driverServiceScope) {
-        logging?.let { withLogging(it) }
-    }
+    driverServiceScope.logging?.let { withLogging(it) }
 }
 
 @KolibriumDsl

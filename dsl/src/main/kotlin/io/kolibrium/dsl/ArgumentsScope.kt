@@ -16,7 +16,9 @@
 
 package io.kolibrium.dsl
 
+import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.remote.AbstractDriverOptions
 
@@ -28,7 +30,23 @@ public class ArgumentsScope : UnaryPlus<Argument> {
     }
 }
 
-internal fun arguments(options: AbstractDriverOptions<*>, block: ArgumentsScope.() -> Unit) {
+@KolibriumDsl
+public fun OptionsScope<ChromeOptions>.arguments(block: ArgumentsScope.() -> Unit): Unit = arguments(options, block)
+
+@KolibriumDsl
+public fun DriverScope<ChromeDriver>.OptionsScope.arguments(block: ArgumentsScope.() -> Unit): Unit =
+    arguments(options, block)
+
+@KolibriumDsl
+@JvmName("argumentsFirefox")
+public fun OptionsScope<FirefoxOptions>.arguments(block: ArgumentsScope.() -> Unit): Unit = arguments(options, block)
+
+@KolibriumDsl
+@JvmName("argumentsFirefox")
+public fun DriverScope<FirefoxDriver>.OptionsScope.arguments(block: ArgumentsScope.() -> Unit): Unit =
+    arguments(options, block)
+
+private fun arguments(options: AbstractDriverOptions<*>, block: ArgumentsScope.() -> Unit) {
     val argsScope = ArgumentsScope().apply(block)
     if (options is ChromeOptions) {
         options.addArguments(argsScope.args.map { it.name })

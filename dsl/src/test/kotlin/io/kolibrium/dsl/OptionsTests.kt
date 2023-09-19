@@ -34,12 +34,10 @@ import io.kolibrium.dsl.chrome.ExperimentalFlags.cookies_without_same_site_must_
 import io.kolibrium.dsl.chrome.ExperimentalFlags.same_site_by_default_cookies
 import io.kolibrium.dsl.chrome.ExtensionsScope.Extension
 import io.kolibrium.dsl.chrome.Switches
-import io.kolibrium.dsl.chrome.arguments
 import io.kolibrium.dsl.chrome.binary
 import io.kolibrium.dsl.chrome.experimentalOptions
 import io.kolibrium.dsl.chrome.extensions
 import io.kolibrium.dsl.chrome.windowSize
-import io.kolibrium.dsl.firefox.arguments
 import io.kolibrium.dsl.firefox.binary
 import io.kolibrium.dsl.firefox.preferences
 import io.kolibrium.dsl.firefox.profile
