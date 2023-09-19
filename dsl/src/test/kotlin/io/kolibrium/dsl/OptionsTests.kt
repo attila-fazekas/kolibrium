@@ -396,7 +396,7 @@ class OptionsTests {
         )
     }
 
-    @Disabled("Temporarily disabled due to build issue with CI")
+    @Disabled("Temporarily disabled due to CI runs a Linux image")
     @Test
     fun `SafariOptions with custom settings should be created`() {
         val options = options<SafariOptions> {

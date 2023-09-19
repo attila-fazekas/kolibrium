@@ -61,6 +61,7 @@ import kotlin.io.path.absolutePathString
 import kotlin.time.Duration.Companion.seconds
 
 @SuppressWarnings("MaxLineLength", "LongMethod")
+@Disabled("Temporarily disabled due to CI does not have browsers installed")
 class DriverTests {
 
     private lateinit var driver: WebDriver
@@ -229,7 +230,6 @@ class DriverTests {
         fileContent shouldContain """"script": 2000"""
     }
 
-    @Disabled("Temporarily disabled due to build issue with CI")
     @Test
     fun safariTest() {
         driver = driver<SafariDriver> {
