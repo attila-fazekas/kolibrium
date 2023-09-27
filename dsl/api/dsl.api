@@ -61,20 +61,25 @@ public abstract class io/kolibrium/dsl/BaseDriverServiceScope {
 	public synthetic fun <init> (Lorg/openqa/selenium/remote/service/DriverService$Builder;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun configure ()V
 	public final fun environment (Lkotlin/jvm/functions/Function1;)V
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getPort ()Ljava/lang/Integer;
 	public final fun getTimeout-FghU774 ()Lkotlin/time/Duration;
+	public fun hashCode ()I
 	public final fun setPort (Ljava/lang/Integer;)V
 	public final fun setTimeout-BwNAW2A (Lkotlin/time/Duration;)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public abstract class io/kolibrium/dsl/BaseOptionsScope {
 	public synthetic fun <init> (Lorg/openqa/selenium/remote/AbstractDriverOptions;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getAcceptInsecureCerts ()Ljava/lang/Boolean;
 	public final fun getBrowserVersion ()Ljava/lang/String;
 	public final fun getPageLoadStrategy ()Lorg/openqa/selenium/PageLoadStrategy;
 	public final fun getPlatform ()Lorg/openqa/selenium/Platform;
 	public final fun getStrictFileInteractability ()Ljava/lang/Boolean;
 	public final fun getUnhandledPromptBehaviour ()Lorg/openqa/selenium/UnexpectedAlertBehaviour;
+	public fun hashCode ()I
 	public final fun proxy (Lkotlin/jvm/functions/Function1;)V
 	public final fun setAcceptInsecureCerts (Ljava/lang/Boolean;)V
 	public final fun setBrowserVersion (Ljava/lang/String;)V
@@ -83,12 +88,16 @@ public abstract class io/kolibrium/dsl/BaseOptionsScope {
 	public final fun setStrictFileInteractability (Ljava/lang/Boolean;)V
 	public final fun setUnhandledPromptBehaviour (Lorg/openqa/selenium/UnexpectedAlertBehaviour;)V
 	public final fun timeouts (Lkotlin/jvm/functions/Function1;)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/kolibrium/dsl/DriverScope {
 	public fun <init> (Lorg/openqa/selenium/remote/service/DriverService$Builder;Lorg/openqa/selenium/remote/AbstractDriverOptions;)V
 	public final fun driverService (Lkotlin/jvm/functions/Function1;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
 	public final fun options (Lkotlin/jvm/functions/Function1;)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class io/kolibrium/dsl/DriverScope$DriverServiceScope : io/kolibrium/dsl/BaseDriverServiceScope {

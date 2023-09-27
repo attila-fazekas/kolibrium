@@ -16,10 +16,12 @@
 
 package io.kolibrium.dsl
 
+import dev.drewhamilton.poko.Poko
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.remote.AbstractDriverOptions
 import org.openqa.selenium.remote.service.DriverService
 
+@Poko
 public class DriverScope<T : WebDriver>(
     private val builder: DriverService.Builder<*, *>,
     private val options: AbstractDriverOptions<*>

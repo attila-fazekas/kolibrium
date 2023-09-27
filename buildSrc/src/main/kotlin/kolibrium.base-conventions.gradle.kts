@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm")
     idea
+    id("dev.drewhamilton.poko")
     id("io.gitlab.arturbosch.detekt")
     id("org.jetbrains.dokka")
     id("org.jetbrains.kotlinx.binary-compatibility-validator")

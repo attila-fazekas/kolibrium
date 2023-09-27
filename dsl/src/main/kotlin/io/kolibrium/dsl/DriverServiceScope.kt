@@ -16,10 +16,12 @@
 
 package io.kolibrium.dsl
 
+import dev.drewhamilton.poko.Poko
 import org.openqa.selenium.remote.service.DriverService
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
 
+@Poko
 public sealed class BaseDriverServiceScope(internal val builder: DriverService.Builder<*, *>) {
 
     @KolibriumDsl
