@@ -16,6 +16,7 @@
 
 package io.kolibrium.dsl
 
+import dev.drewhamilton.poko.Poko
 import org.openqa.selenium.MutableCapabilities
 import org.openqa.selenium.PageLoadStrategy
 import org.openqa.selenium.Platform
@@ -24,6 +25,7 @@ import org.openqa.selenium.UnexpectedAlertBehaviour
 import org.openqa.selenium.remote.AbstractDriverOptions
 import kotlin.time.toJavaDuration
 
+@Poko
 public sealed class BaseOptionsScope(internal val options: AbstractDriverOptions<*>) {
 
     @KolibriumDsl
