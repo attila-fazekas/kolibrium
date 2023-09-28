@@ -2,6 +2,10 @@ plugins {
     `kotlin-dsl`
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     implementation("com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:_")
     implementation("com.google.devtools.ksp:symbol-processing-gradle-plugin:_")
