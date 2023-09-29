@@ -84,7 +84,7 @@ internal fun <T : WebDriver> driverScope(
     builder: DriverService.Builder<*, *>,
     options: AbstractDriverOptions<*>,
     block: DriverScope<T>.() -> Unit
-): DriverScope<T> = DriverScope<T>(builder, options).apply(block)
+): DriverScope<T> = DriverScope<T>(builder, options).apply(block).validate()
 
 @SuppressWarnings("NestedBlockDepth")
 @PublishedApi
@@ -94,7 +94,11 @@ internal fun configureChromeDriver(driverScope: DriverScope<ChromeDriver>): Chro
             with(driverServiceScope) {
                 appendLog?.let { withAppendLog(it) }
                 buildCheckDisabled?.let { withBuildCheckDisabled(it) }
-                executable?.let { usingDriverExecutable(File(it)) }
+                executable?.let {
+                    ifExists(it).run {
+                        usingDriverExecutable(File(it))
+                    }
+                }
                 logFile?.let { withLogFile(File(it)) }
                 logLevel?.let { withLogLevel(it) }
                 readableTimestamp?.let { withReadableTimestamp(it) }
@@ -115,7 +119,11 @@ internal fun configureFirefoxDriver(driverScope: DriverScope<FirefoxDriver>): Fi
     with(driverScope) {
         val driverService = (driverServiceScope.builder as GeckoDriverService.Builder).apply {
             with(driverServiceScope) {
-                executable?.let { usingDriverExecutable(File(it)) }
+                executable?.let {
+                    ifExists(it).run {
+                        usingDriverExecutable(File(it))
+                    }
+                }
                 logFile?.let { withLogFile(File(it)) }
                 logLevel?.let { withLogLevel(it) }
                 profileRoot?.let { withProfileRoot(File(it)) }
@@ -183,18 +191,22 @@ public inline fun <reified T : DriverService> driverService(noinline block: Driv
 internal fun <T : DriverService> driverServiceScope(
     builder: DriverService.Builder<*, *>,
     block: DriverServiceScope<T>.() -> Unit
-): DriverServiceScope<T> = DriverServiceScope<T>(builder).apply {
-    block()
-    configure()
-}
+): BaseDriverServiceScope = DriverServiceScope<T>(builder).apply(block)
+    .checkPort()
+    .configure()
 
 @PublishedApi
+@SuppressWarnings("NestedBlockDepth")
 internal fun configureChromeDriverService(driverServiceScope: DriverServiceScope<ChromeDriverService>):
     ChromeDriverService.Builder = (driverServiceScope.builder as ChromeDriverService.Builder).apply {
     with(driverServiceScope) {
         appendLog?.let { withAppendLog(it) }
         buildCheckDisabled?.let { withBuildCheckDisabled(it) }
-        executable?.let { usingDriverExecutable(File(it)) }
+        executable?.let {
+            ifExists(it).run {
+                usingDriverExecutable(File(it))
+            }
+        }
         logFile?.let { withLogFile(File(it)) }
         logLevel?.let { withLogLevel(it) }
         readableTimestamp?.let { withReadableTimestamp(it) }
@@ -202,10 +214,15 @@ internal fun configureChromeDriverService(driverServiceScope: DriverServiceScope
 }
 
 @PublishedApi
+@SuppressWarnings("NestedBlockDepth")
 internal fun configureFirefoxDriverService(driverServiceScope: DriverServiceScope<GeckoDriverService>):
     GeckoDriverService.Builder = (driverServiceScope.builder as GeckoDriverService.Builder).apply {
     with(driverServiceScope) {
-        executable?.let { usingDriverExecutable(File(it)) }
+        executable?.let {
+            ifExists(it).run {
+                usingDriverExecutable(File(it))
+            }
+        }
         logFile?.let { withLogFile(File(it)) }
         logLevel?.let { withLogLevel(it) }
         profileRoot?.let { withProfileRoot(File(it)) }
@@ -248,10 +265,8 @@ public inline fun <reified T : AbstractDriverOptions<*>> options(noinline block:
 internal fun <T : AbstractDriverOptions<*>> optionsScope(
     options: AbstractDriverOptions<*>,
     block: OptionsScope<T>.() -> Unit
-): OptionsScope<T> = OptionsScope<T>(options).apply {
-    block()
-    configure()
-}
+): BaseOptionsScope = OptionsScope<T>(options).apply(block)
+    .configure()
 
 @PublishedApi
 internal fun configureChromeOptions(optionsScope: OptionsScope<ChromeOptions>): ChromeOptions =
@@ -277,3 +292,15 @@ internal fun configureSafariOptions(optionsScope: OptionsScope<SafariOptions>): 
             useTechnologyPreview?.let { setUseTechnologyPreview(it) }
         }
     }
+
+private fun ifExists(file: String?): Boolean {
+    file?.let {
+        require(File(it).exists()) {
+            """
+                |DriverService is not set up properly:
+                |The following file does not exist at the specified path: $file
+            """.trimMargin()
+        }
+    }
+    return true
+}

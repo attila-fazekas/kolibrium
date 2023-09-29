@@ -18,6 +18,8 @@ package io.kolibrium.dsl
 
 import dev.drewhamilton.poko.Poko
 import org.openqa.selenium.remote.service.DriverService
+import java.io.IOException
+import java.net.ServerSocket
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
 
@@ -30,12 +32,27 @@ public sealed class BaseDriverServiceScope(internal val builder: DriverService.B
     @KolibriumDsl
     public var timeout: Duration? = null
 
-    @PublishedApi
-    internal fun configure() {
+    @SuppressWarnings("SwallowedException")
+    internal fun checkPort(): BaseDriverServiceScope {
+        try {
+            port?.let { ServerSocket(it).use {} }
+        } catch (e: IOException) {
+            throw KolibriumDslConfigurationException(
+                """
+                    |DriverService is not set up properly:
+                    |Port $port already in use
+                """.trimMargin()
+            )
+        }
+        return this
+    }
+
+    internal fun configure(): BaseDriverServiceScope {
         builder.apply {
             port?.let { usingPort(it) }
             timeout?.let { withTimeout(it.toJavaDuration()) }
         }
+        return this
     }
 
     @KolibriumDsl

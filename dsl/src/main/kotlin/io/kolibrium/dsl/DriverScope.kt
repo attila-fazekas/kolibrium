@@ -46,6 +46,11 @@ public class DriverScope<T : WebDriver>(
         }
     }
 
+    internal fun validate(): DriverScope<T> {
+        driverServiceScope.checkPort()
+        return this
+    }
+
     public inner class DriverServiceScope(builder: DriverService.Builder<*, *>) : BaseDriverServiceScope(builder)
 
     public inner class OptionsScope(options: AbstractDriverOptions<*>) : BaseOptionsScope(options)

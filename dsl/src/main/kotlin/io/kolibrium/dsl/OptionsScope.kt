@@ -46,7 +46,7 @@ public sealed class BaseOptionsScope(internal val options: AbstractDriverOptions
     @KolibriumDsl
     public var unhandledPromptBehaviour: UnexpectedAlertBehaviour? = null
 
-    internal fun configure() {
+    internal fun configure(): BaseOptionsScope {
         options.apply {
             with(this@BaseOptionsScope) {
                 acceptInsecureCerts?.let { setAcceptInsecureCerts(it) }
@@ -57,6 +57,7 @@ public sealed class BaseOptionsScope(internal val options: AbstractDriverOptions
                 unhandledPromptBehaviour?.let { setUnhandledPromptBehaviour(it) }
             }
         }
+        return this
     }
 
     @KolibriumDsl
