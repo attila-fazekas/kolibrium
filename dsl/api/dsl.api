@@ -59,7 +59,6 @@ public final class io/kolibrium/dsl/ArgumentsScopeKt {
 
 public abstract class io/kolibrium/dsl/BaseDriverServiceScope {
 	public synthetic fun <init> (Lorg/openqa/selenium/remote/service/DriverService$Builder;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun configure ()V
 	public final fun environment (Lkotlin/jvm/functions/Function1;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getPort ()Ljava/lang/Integer;
@@ -129,8 +128,8 @@ public final class io/kolibrium/dsl/KolibriumDslKt {
 	public static final fun configureSafariDriverService (Lio/kolibrium/dsl/DriverServiceScope;)Lorg/openqa/selenium/safari/SafariDriverService$Builder;
 	public static final fun configureSafariOptions (Lio/kolibrium/dsl/OptionsScope;)Lorg/openqa/selenium/safari/SafariOptions;
 	public static final fun driverScope (Lorg/openqa/selenium/remote/service/DriverService$Builder;Lorg/openqa/selenium/remote/AbstractDriverOptions;Lkotlin/jvm/functions/Function1;)Lio/kolibrium/dsl/DriverScope;
-	public static final fun driverServiceScope (Lorg/openqa/selenium/remote/service/DriverService$Builder;Lkotlin/jvm/functions/Function1;)Lio/kolibrium/dsl/DriverServiceScope;
-	public static final fun optionsScope (Lorg/openqa/selenium/remote/AbstractDriverOptions;Lkotlin/jvm/functions/Function1;)Lio/kolibrium/dsl/OptionsScope;
+	public static final fun driverServiceScope (Lorg/openqa/selenium/remote/service/DriverService$Builder;Lkotlin/jvm/functions/Function1;)Lio/kolibrium/dsl/BaseDriverServiceScope;
+	public static final fun optionsScope (Lorg/openqa/selenium/remote/AbstractDriverOptions;Lkotlin/jvm/functions/Function1;)Lio/kolibrium/dsl/BaseOptionsScope;
 }
 
 public final class io/kolibrium/dsl/OptionsScope : io/kolibrium/dsl/BaseOptionsScope {
