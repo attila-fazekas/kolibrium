@@ -17,20 +17,16 @@
 package io.kolibrium.dsl.chrome
 
 import io.kolibrium.dsl.AllowedIpsScope
-import io.kolibrium.dsl.Argument
-import io.kolibrium.dsl.ArgumentsScope
 import io.kolibrium.dsl.DriverScope
 import io.kolibrium.dsl.DriverServiceScope
 import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.OptionsScope
-import io.kolibrium.dsl.WindowSizeScope
 import io.kolibrium.dsl.allowedIps
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
-import org.openqa.selenium.remote.AbstractDriverOptions
 
 @KolibriumDsl
 public var DriverServiceScope<ChromeDriverService>.appendLog: Boolean? by threadLocalLazyDelegate()
@@ -78,51 +74,6 @@ public var DriverScope<ChromeDriver>.OptionsScope.binary: String? by threadLocal
 public fun DriverServiceScope<ChromeDriverService>.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
     allowedIps(builder, block)
 
-context(OptionsScope<ChromeOptions>, ArgumentsScope)
 @KolibriumDsl
-public fun windowSize(block: WindowSizeScope.() -> Unit): Unit = setWindowSize(block)
-
-context(DriverScope<ChromeDriver>, ArgumentsScope)
-@KolibriumDsl
-public fun windowSize(block: WindowSizeScope.() -> Unit): Unit = setWindowSize(block)
-
-context(ArgumentsScope)
-private fun setWindowSize(block: WindowSizeScope.() -> Unit) {
-    val windowSizeScope = WindowSizeScope().apply(block)
-    this@ArgumentsScope.args.add(Argument("--window-size=${windowSizeScope.width},${windowSizeScope.height}"))
-}
-
-@KolibriumDsl
-public fun OptionsScope<ChromeOptions>.experimentalOptions(block: ExperimentalOptionsScope.() -> Unit): Unit =
-    experimentalOptions(options, block)
-
-@KolibriumDsl
-public fun DriverScope<ChromeDriver>.OptionsScope.experimentalOptions(block: ExperimentalOptionsScope.() -> Unit):
-    Unit = experimentalOptions(options, block)
-
-private fun experimentalOptions(options: AbstractDriverOptions<*>, block: ExperimentalOptionsScope.() -> Unit) {
-    val expOptionsScope = ExperimentalOptionsScope().apply(block)
-    with(expOptionsScope) {
-        if (preferencesScope.preferences.isNotEmpty()) {
-            (options as ChromeOptions).setExperimentalOption("prefs", preferencesScope.preferences)
-        }
-        if (switchesScope.switches.isNotEmpty()) {
-            (options as ChromeOptions).setExperimentalOption("excludeSwitches", switchesScope.switches)
-        }
-        if (localStateScope.localStatePrefs.isNotEmpty()) {
-            (options as ChromeOptions).setExperimentalOption("localState", localStateScope.localStatePrefs)
-        }
-    }
-}
-
-@KolibriumDsl
-public fun OptionsScope<ChromeOptions>.extensions(block: ExtensionsScope.() -> Unit): Unit = extensions(options, block)
-
-@KolibriumDsl
-public fun DriverScope<ChromeDriver>.OptionsScope.extensions(block: ExtensionsScope.() -> Unit): Unit =
-    extensions(options, block)
-
-private fun extensions(options: AbstractDriverOptions<*>, block: ExtensionsScope.() -> Unit) {
-    val extensionsScope = ExtensionsScope().apply(block)
-    (options as ChromeOptions).addExtensions(extensionsScope.extensions.toList())
-}
+public fun DriverScope<ChromeDriver>.DriverServiceScope.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
+    allowedIps(builder, block)
