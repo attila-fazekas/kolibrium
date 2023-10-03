@@ -49,4 +49,9 @@ public object Arguments {
         public val height: Argument = Argument("--height")
         public val width: Argument = Argument("--width")
     }
+
+    public object Edge {
+        public val headless: Argument = Argument("--headless")
+        public val inPrivate: Argument = Argument("--inprivate")
+    }
 }

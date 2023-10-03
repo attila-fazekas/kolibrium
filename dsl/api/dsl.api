@@ -36,6 +36,12 @@ public final class io/kolibrium/dsl/Arguments$Chrome {
 	public final fun getStart_maximized-e6anSm4 ()Ljava/lang/String;
 }
 
+public final class io/kolibrium/dsl/Arguments$Edge {
+	public static final field INSTANCE Lio/kolibrium/dsl/Arguments$Edge;
+	public final fun getHeadless-e6anSm4 ()Ljava/lang/String;
+	public final fun getInPrivate-e6anSm4 ()Ljava/lang/String;
+}
+
 public final class io/kolibrium/dsl/Arguments$Firefox {
 	public static final field INSTANCE Lio/kolibrium/dsl/Arguments$Firefox;
 	public final fun getHeadless-e6anSm4 ()Ljava/lang/String;
@@ -53,6 +59,8 @@ public final class io/kolibrium/dsl/ArgumentsScope : io/kolibrium/dsl/UnaryPlus 
 public final class io/kolibrium/dsl/ArgumentsScopeKt {
 	public static final fun arguments (Lio/kolibrium/dsl/DriverScope$OptionsScope;Lkotlin/jvm/functions/Function1;)V
 	public static final fun arguments (Lio/kolibrium/dsl/OptionsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun argumentsEdge (Lio/kolibrium/dsl/DriverScope$OptionsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun argumentsEdge (Lio/kolibrium/dsl/OptionsScope;Lkotlin/jvm/functions/Function1;)V
 	public static final fun argumentsFirefox (Lio/kolibrium/dsl/DriverScope$OptionsScope;Lkotlin/jvm/functions/Function1;)V
 	public static final fun argumentsFirefox (Lio/kolibrium/dsl/OptionsScope;Lkotlin/jvm/functions/Function1;)V
 }
@@ -90,6 +98,21 @@ public abstract class io/kolibrium/dsl/BaseOptionsScope {
 	public fun toString ()Ljava/lang/String;
 }
 
+public final class io/kolibrium/dsl/ChromiumKt {
+	public static final fun experimentalOptions (Lio/kolibrium/dsl/DriverScope$OptionsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun experimentalOptions (Lio/kolibrium/dsl/OptionsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun experimentalOptionsEdge (Lio/kolibrium/dsl/DriverScope$OptionsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun experimentalOptionsEdge (Lio/kolibrium/dsl/OptionsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun extensions (Lio/kolibrium/dsl/DriverScope$OptionsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun extensions (Lio/kolibrium/dsl/OptionsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun extensionsEdge (Lio/kolibrium/dsl/DriverScope$OptionsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun extensionsEdge (Lio/kolibrium/dsl/OptionsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun windowSize (Lio/kolibrium/dsl/DriverScope;Lio/kolibrium/dsl/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun windowSize (Lio/kolibrium/dsl/OptionsScope;Lio/kolibrium/dsl/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun windowSizeEdge (Lio/kolibrium/dsl/DriverScope;Lio/kolibrium/dsl/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun windowSizeEdge (Lio/kolibrium/dsl/OptionsScope;Lio/kolibrium/dsl/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
+}
+
 public final class io/kolibrium/dsl/DriverScope {
 	public fun <init> (Lorg/openqa/selenium/remote/service/DriverService$Builder;Lorg/openqa/selenium/remote/AbstractDriverOptions;)V
 	public final fun driverService (Lkotlin/jvm/functions/Function1;)V
@@ -111,6 +134,43 @@ public final class io/kolibrium/dsl/DriverServiceScope : io/kolibrium/dsl/BaseDr
 	public fun <init> (Lorg/openqa/selenium/remote/service/DriverService$Builder;)V
 }
 
+public final class io/kolibrium/dsl/EdgeKt {
+	public static final fun allowedIps (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun allowedIps (Lio/kolibrium/dsl/DriverServiceScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun getAppendLog (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun getAppendLog (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun getBinary (Lio/kolibrium/dsl/DriverScope$OptionsScope;)Ljava/lang/String;
+	public static final fun getBinary (Lio/kolibrium/dsl/OptionsScope;)Ljava/lang/String;
+	public static final fun getBuildCheckDisabled (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun getBuildCheckDisabled (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun getExecutable (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;)Ljava/lang/String;
+	public static final fun getExecutable (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/String;
+	public static final fun getLogFile (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;)Ljava/lang/String;
+	public static final fun getLogFile (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/String;
+	public static final fun getLogLevel (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;)Lorg/openqa/selenium/chromium/ChromiumDriverLogLevel;
+	public static final fun getLogLevel (Lio/kolibrium/dsl/DriverServiceScope;)Lorg/openqa/selenium/chromium/ChromiumDriverLogLevel;
+	public static final fun getReadableTimestamp (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun getReadableTimestamp (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/Boolean;
+	public static final fun getUseWebView (Lio/kolibrium/dsl/DriverScope$OptionsScope;)Ljava/lang/Boolean;
+	public static final fun getUseWebView (Lio/kolibrium/dsl/OptionsScope;)Ljava/lang/Boolean;
+	public static final fun setAppendLog (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;Ljava/lang/Boolean;)V
+	public static final fun setAppendLog (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/Boolean;)V
+	public static final fun setBinary (Lio/kolibrium/dsl/DriverScope$OptionsScope;Ljava/lang/String;)V
+	public static final fun setBinary (Lio/kolibrium/dsl/OptionsScope;Ljava/lang/String;)V
+	public static final fun setBuildCheckDisabled (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;Ljava/lang/Boolean;)V
+	public static final fun setBuildCheckDisabled (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/Boolean;)V
+	public static final fun setExecutable (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;Ljava/lang/String;)V
+	public static final fun setExecutable (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/String;)V
+	public static final fun setLogFile (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;Ljava/lang/String;)V
+	public static final fun setLogFile (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/String;)V
+	public static final fun setLogLevel (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;Lorg/openqa/selenium/chromium/ChromiumDriverLogLevel;)V
+	public static final fun setLogLevel (Lio/kolibrium/dsl/DriverServiceScope;Lorg/openqa/selenium/chromium/ChromiumDriverLogLevel;)V
+	public static final fun setReadableTimestamp (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;Ljava/lang/Boolean;)V
+	public static final fun setReadableTimestamp (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/Boolean;)V
+	public static final fun setUseWebView (Lio/kolibrium/dsl/DriverScope$OptionsScope;Ljava/lang/Boolean;)V
+	public static final fun setUseWebView (Lio/kolibrium/dsl/OptionsScope;Ljava/lang/Boolean;)V
+}
+
 public final class io/kolibrium/dsl/EnvironmentScope : io/kolibrium/dsl/UnaryPlus {
 	public fun <init> ()V
 	public synthetic fun unaryPlus (Ljava/lang/Object;)V
@@ -121,6 +181,9 @@ public final class io/kolibrium/dsl/KolibriumDslKt {
 	public static final fun configureChromeDriver (Lio/kolibrium/dsl/DriverScope;)Lorg/openqa/selenium/chrome/ChromeDriver;
 	public static final fun configureChromeDriverService (Lio/kolibrium/dsl/DriverServiceScope;)Lorg/openqa/selenium/chrome/ChromeDriverService$Builder;
 	public static final fun configureChromeOptions (Lio/kolibrium/dsl/OptionsScope;)Lorg/openqa/selenium/chrome/ChromeOptions;
+	public static final fun configureEdgeDriver (Lio/kolibrium/dsl/DriverScope;)Lorg/openqa/selenium/edge/EdgeDriver;
+	public static final fun configureEdgeDriverService (Lio/kolibrium/dsl/DriverServiceScope;)Lorg/openqa/selenium/edge/EdgeDriverService$Builder;
+	public static final fun configureEdgeOptions (Lio/kolibrium/dsl/OptionsScope;)Lorg/openqa/selenium/edge/EdgeOptions;
 	public static final fun configureFirefoxDriver (Lio/kolibrium/dsl/DriverScope;)Lorg/openqa/selenium/firefox/FirefoxDriver;
 	public static final fun configureFirefoxDriverService (Lio/kolibrium/dsl/DriverServiceScope;)Lorg/openqa/selenium/firefox/GeckoDriverService$Builder;
 	public static final fun configureFirefoxOptions (Lio/kolibrium/dsl/OptionsScope;)Lorg/openqa/selenium/firefox/FirefoxOptions;
@@ -244,11 +307,8 @@ public final class io/kolibrium/dsl/chrome/BrowserEnabledLabsExperiments : io/ko
 }
 
 public final class io/kolibrium/dsl/chrome/ChromeKt {
+	public static final fun allowedIps (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;Lkotlin/jvm/functions/Function1;)V
 	public static final fun allowedIps (Lio/kolibrium/dsl/DriverServiceScope;Lkotlin/jvm/functions/Function1;)V
-	public static final fun experimentalOptions (Lio/kolibrium/dsl/DriverScope$OptionsScope;Lkotlin/jvm/functions/Function1;)V
-	public static final fun experimentalOptions (Lio/kolibrium/dsl/OptionsScope;Lkotlin/jvm/functions/Function1;)V
-	public static final fun extensions (Lio/kolibrium/dsl/DriverScope$OptionsScope;Lkotlin/jvm/functions/Function1;)V
-	public static final fun extensions (Lio/kolibrium/dsl/OptionsScope;Lkotlin/jvm/functions/Function1;)V
 	public static final fun getAppendLog (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;)Ljava/lang/Boolean;
 	public static final fun getAppendLog (Lio/kolibrium/dsl/DriverServiceScope;)Ljava/lang/Boolean;
 	public static final fun getBinary (Lio/kolibrium/dsl/DriverScope$OptionsScope;)Ljava/lang/String;
@@ -277,8 +337,6 @@ public final class io/kolibrium/dsl/chrome/ChromeKt {
 	public static final fun setLogLevel (Lio/kolibrium/dsl/DriverServiceScope;Lorg/openqa/selenium/chromium/ChromiumDriverLogLevel;)V
 	public static final fun setReadableTimestamp (Lio/kolibrium/dsl/DriverScope$DriverServiceScope;Ljava/lang/Boolean;)V
 	public static final fun setReadableTimestamp (Lio/kolibrium/dsl/DriverServiceScope;Ljava/lang/Boolean;)V
-	public static final fun windowSize (Lio/kolibrium/dsl/DriverScope;Lio/kolibrium/dsl/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
-	public static final fun windowSize (Lio/kolibrium/dsl/OptionsScope;Lio/kolibrium/dsl/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class io/kolibrium/dsl/chrome/ExperimentalFlag {

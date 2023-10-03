@@ -23,12 +23,9 @@ import io.kolibrium.dsl.chrome.Switches
 import io.kolibrium.dsl.chrome.binary
 import io.kolibrium.dsl.chrome.buildCheckDisabled
 import io.kolibrium.dsl.chrome.executable
-import io.kolibrium.dsl.chrome.experimentalOptions
-import io.kolibrium.dsl.chrome.extensions
 import io.kolibrium.dsl.chrome.logFile
 import io.kolibrium.dsl.chrome.logLevel
 import io.kolibrium.dsl.chrome.readableTimestamp
-import io.kolibrium.dsl.chrome.windowSize
 import io.kolibrium.dsl.firefox.binary
 import io.kolibrium.dsl.firefox.logFile
 import io.kolibrium.dsl.firefox.logLevel
@@ -51,6 +48,7 @@ import org.openqa.selenium.UnexpectedAlertBehaviour.DISMISS
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel.DEBUG
+import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel
 import org.openqa.selenium.safari.SafariDriver
@@ -158,8 +156,8 @@ class DriverTests {
         fileContent shouldContain """"implicit": 5000"""
         fileContent shouldContain """"pageLoad": 3000"""
         fileContent shouldContain """"script": 2000"""
-        val pattern: Pattern = Pattern.compile("\\[\\d\\d-\\d\\d-\\d\\d\\d\\d", Pattern.CASE_INSENSITIVE)
-        pattern.matcher(fileContent).find() shouldBe true
+        val timestampPattern: Pattern = Pattern.compile("\\[\\d\\d-\\d\\d-\\d\\d\\d\\d", Pattern.CASE_INSENSITIVE)
+        timestampPattern.matcher(fileContent).find() shouldBe true
     }
 
     @Test
@@ -243,5 +241,96 @@ class DriverTests {
                 automaticProfiling = true
             }
         }
+    }
+
+    @Test
+    fun edgeTest(@TempDir tempDir: Path) {
+        val logFile = tempDir.resolve("edge.log").toString()
+        val downloadDir = tempDir.absolutePathString()
+
+        driver = driver<EdgeDriver> {
+            driverService {
+                buildCheckDisabled = true
+                executable = "src/test/resources/executables/msedgedriver"
+                this.logFile = logFile
+                logLevel = DEBUG
+                port = 7902
+                readableTimestamp = true
+                timeout = 5.seconds
+            }
+            options {
+                acceptInsecureCerts = true
+                binary = "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta"
+                browserVersion = "117.0.2045.47"
+                pageLoadStrategy = NORMAL
+                platform = MAC
+                strictFileInteractability = true
+                unhandledPromptBehaviour = DISMISS
+                arguments {
+                    +Arguments.Edge.headless
+                    +Arguments.Edge.inPrivate
+                    windowSize {
+                        width = 1800
+                        height = 1000
+                    }
+                }
+                experimentalOptions {
+                    preferences {
+                        +(Preferences.Chrome.download_default_directory to downloadDir)
+                        +(Preferences.Chrome.download_prompt_for_download to false)
+                        +(Preferences.Chrome.safebrowsing_enabled to false)
+                    }
+                    excludeSwitches {
+                        +Switches.enable_automation
+                    }
+                    localState {
+                        browserEnabledLabsExperiments {
+                            +ExperimentalFlags.same_site_by_default_cookies
+                            +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                        }
+                    }
+                }
+                extensions {
+                    +ExtensionsScope.Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                }
+                proxy {
+                    ftpProxy = "192.168.0.1"
+                    httpProxy = "192.168.0.1"
+                }
+                timeouts {
+                    implicitWait = 5.seconds
+                    pageLoad = 3.seconds
+                    script = 2.seconds
+                }
+            }
+        }
+
+        val fileContent = String(Files.readAllBytes(Path.of(logFile)))
+
+        fileContent shouldContain "[WARNING]: You are using an unsupported command-line switch: --disable-build-check"
+        fileContent shouldContain "Starting Microsoft Edge WebDriver 108.0.1462.54"
+        fileContent shouldContain "[DEBUG]:"
+        fileContent shouldContain "on port 7902"
+        fileContent shouldContain """"acceptInsecureCerts": true"""
+        fileContent shouldContain """"binary": "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta""""
+        fileContent shouldContain """"browserVersion": "117.0.2045.47""""
+        fileContent shouldContain """"pageLoadStrategy": "normal""""
+        fileContent shouldContain """"platformName": "mac os x""""
+        fileContent shouldContain """"strictFileInteractability": true"""
+        fileContent shouldContain """"unhandledPromptBehavior": "dismiss""""
+        fileContent shouldContain """"args": [ "--remote-allow-origins=*", "--headless", "--inprivate", "--window-size=1800,1000" ]"""
+        fileContent shouldContain """"download.default_directory": "$tempDir""""
+        fileContent shouldContain """"download.prompt_for_download": false"""
+        fileContent shouldContain """"safebrowsing.enabled": false"""
+        fileContent shouldContain """"excludeSwitches": [ "enable-automation" ]"""
+        fileContent shouldContain """"browser.enabled_labs_experiments": [ "same-site-by-default-cookies@2", "cookies-without-same-site-must-be-secure@2" ]"""
+        fileContent shouldContain """ "extensions": [ "Q3IyNAMAAABFAgAAEqwECqYCMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmuE5LlzdWEMz9iBNPjCjUum5KWguTJRvZ3HzbJv1tkAFjHEckOHbOfg9JN2HMMB2zsRHLrsPMAMFAXTwEzq1A5lN8GEtewCu61Ku/gA2LZozaTHCeSmIdLuRehERmM8F9dFJkw1QvK+6nFlqbS8twA/1mEBFvOQTELMuF0AaAm6IAvTl4SknHGUpJCVAdn0wQ5qiTlZwgx9ur/a3lG8/5tBgkA8mMjFSNDZziGi/RKklizaBIUCYL+YqeKHYY/9GyaIwcZDy6um81wV/utk7s9xIoI0p+1gRV+d3zqDrcGKgPt1TNp0fBK7ZI0r2gbxscuf0K19oHL71FKjJdEmScwIDAQABEoACMOkR5n8xXFyjcm5pWHbt/ob/xKQ4u0WSP9OxQAnvbkanT+jbG/2TeONHNfxNbBiXHlBNPaXk/W9BUQTi+jJ383xyX7K1Wu6T3RAldxVtxT7vhXtqSaek2JCCovMADks3rK0Hw1xunzwbPAKiEkwr44NWn4Qq4N2cLMsZShxtQAq4UKIukJAR5ctBVeVqnBd8CpBZzIzUXZXjasi5l7gsQn5ulKGS2IQqIi2U388d6MImoo6NVbvMdsJ+C1OG2qKorT6FmozjSZyXpj/BvYGHFbkcE1L2hnFEvxUs9jUoifNKyxEj7u8W/Sb0ITgFoCoq/LrYineDGXmwejHL5cMueILxBBIKEMLJZg3MGH+hXYhMqVIaDYVQSwMEFAAACAgAY1GUSgeTd7jqAAAArwEAAA0AAABtYW5pZmVzdC5qc29uhVA9T8NADN3zKyyPVZoAYycWkJgZGFBVXS8OcZv7UM40QVX+O5e7FDZYfHr3nv2efS0A0CjLLQU5XGgI7Czu4KFcCKsMRYAjHWkSsgsZtoF6svxptjQp43vCpG0o6IG95H58sSfSAgoavsDI0gE38PccEAcxAbdfIJ0SeKPj048aRjecgS0880Ctm+rXtRsh2f9Gx7vqPkfSzsZ2OeRgIXLv8RvgmmpaXHRHicBOxIddXW/qDZYJrWBf3uSnrOS0WhXRPjFzrEmEyvuetVpusEiTD36QPrsbipib/0/6uL6VdgaL7DEXc/ENUEsDBBQAAAgIAGNRlEpa2OzxkwAAAOgAAAAJAAAAaW5qZWN0LmpzfY8xDsIwDEV3TmF1STK0F0BMFQdJ448ISp2qTUsrxN0xiIqN7dt+9v+29jJLKDGL5RzmHlIcPQ5Eix+J40In2vtNGOELzgnvyhqdGndUVEUTWUlzR4e1QCa9N9UTEiTOfY3V90OC+bJFmTaLckWXql1GuSEUMHUb/T9UfVz3WF3mrfHDAOH2GhNb9dBcT/f7yB1eUEsBAgAAFAAACAgAY1GUSgeTd7jqAAAArwEAAA0AAAAAAAAAAQAAAAAAAAAAAG1hbmlmZXN0Lmpzb25QSwECAAAUAAAICABjUZRKWtjs8ZMAAADoAAAACQAAAAAAAAABAAAAAAAVAQAAaW5qZWN0LmpzUEsFBgAAAAACAAIAcgAAAM8BAAAAAA==" ]"""
+        fileContent shouldContain """"ftpProxy": "192.168.0.1""""
+        fileContent shouldContain """"httpProxy": "192.168.0.1""""
+        fileContent shouldContain """"implicit": 5000"""
+        fileContent shouldContain """"pageLoad": 3000"""
+        fileContent shouldContain """"script": 2000"""
+        val timestampPattern: Pattern = Pattern.compile("\\[\\d\\d-\\d\\d-\\d\\d\\d\\d", Pattern.CASE_INSENSITIVE)
+        timestampPattern.matcher(fileContent).find() shouldBe true
     }
 }

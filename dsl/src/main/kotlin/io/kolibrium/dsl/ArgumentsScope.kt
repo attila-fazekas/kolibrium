@@ -18,6 +18,8 @@ package io.kolibrium.dsl
 
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.edge.EdgeDriver
+import org.openqa.selenium.edge.EdgeOptions
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.remote.AbstractDriverOptions
@@ -46,13 +48,22 @@ public fun OptionsScope<FirefoxOptions>.arguments(block: ArgumentsScope.() -> Un
 public fun DriverScope<FirefoxDriver>.OptionsScope.arguments(block: ArgumentsScope.() -> Unit): Unit =
     arguments(options, block)
 
+@KolibriumDsl
+@JvmName("argumentsEdge")
+public fun OptionsScope<EdgeOptions>.arguments(block: ArgumentsScope.() -> Unit): Unit = arguments(options, block)
+
+@KolibriumDsl
+@JvmName("argumentsEdge")
+public fun DriverScope<EdgeDriver>.OptionsScope.arguments(block: ArgumentsScope.() -> Unit): Unit =
+    arguments(options, block)
+
 private fun arguments(options: AbstractDriverOptions<*>, block: ArgumentsScope.() -> Unit) {
     val argsScope = ArgumentsScope().apply(block)
-    if (options is ChromeOptions) {
-        options.addArguments(argsScope.args.map { it.name })
-    }
+    when (options) {
+        is ChromeOptions -> options.addArguments(argsScope.args.map { it.name })
 
-    if (options is FirefoxOptions) {
-        options.addArguments(argsScope.args.map { it.name })
+        is FirefoxOptions -> options.addArguments(argsScope.args.map { it.name })
+
+        is EdgeOptions -> options.addArguments(argsScope.args.map { it.name })
     }
 }

@@ -42,6 +42,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel.DEBUG
+import org.openqa.selenium.edge.EdgeDriverService
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel.TRACE
 import org.openqa.selenium.firefox.GeckoDriverService
 import org.openqa.selenium.remote.service.DriverService
@@ -172,7 +173,7 @@ class DriverServiceTests : DslTest() {
         File(logFilePath).exists() shouldBe true
     }
 
-    @Disabled("Temporarily disabled due to CI runs a Linux image")
+    @Disabled("Temporarily disabled due to CI runs a Linux machine")
     @Test
     fun `custom SafariDriverService shall be created`() {
         ds = driverService<SafariDriverService> {
@@ -189,6 +190,55 @@ class DriverServiceTests : DslTest() {
         val args = ds.invokeMethod("getArgs") as List<String>
         args shouldHaveSize 3
         args.shouldContainExactly("--port", "7002", "--diagnose")
+
+        val environment = ds.invokeMethod("getEnvironment") as Map<String, String>
+        environment shouldBe mapOf("key1" to "value1", "key2" to "value2")
+    }
+
+    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
+    @Test
+    fun `custom EdgeDriverService shall be created`(@TempDir tempDir: Path) {
+        val logFilePath = tempDir.resolve("edge.log").toString()
+        val executablePath = Path.of("src/test/resources/executables/msedgedriver").toAbsolutePath().toString()
+
+        ds = driverService<EdgeDriverService> {
+            appendLog = true
+            buildCheckDisabled = true
+            executable = executablePath
+            logFile = logFilePath
+            logLevel = DEBUG
+            port = 7003
+            readableTimestamp = true
+            timeout = 5.seconds
+            allowedIps {
+                +"192.168.0.50"
+                +"192.168.0.51"
+            }
+            environment {
+                +("key1" to "value1")
+                +("key2" to "value2")
+            }
+        }
+
+        ds.start()
+
+        val executable = ds.getField("executable") as String
+        executable.shouldNotBeEmpty()
+
+        val args = ds.invokeMethod("getArgs") as List<String>
+        args shouldHaveSize 7
+        args.shouldContainExactlyInAnyOrder(
+            "--allowed-ips=192.168.0.50, 192.168.0.51",
+            "--append-log",
+            "--disable-build-check",
+            "--log-level=DEBUG",
+            "--log-path=$logFilePath",
+            "--port=7000",
+            "--readable-timestamp"
+        )
+
+        val timeout = ds.invokeMethod("getTimeout") as Duration
+        timeout shouldBe 5.seconds.toJavaDuration()
 
         val environment = ds.invokeMethod("getEnvironment") as Map<String, String>
         environment shouldBe mapOf("key1" to "value1", "key2" to "value2")

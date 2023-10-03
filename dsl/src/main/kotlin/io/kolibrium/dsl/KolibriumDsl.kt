@@ -40,6 +40,9 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.edge.EdgeDriver
+import org.openqa.selenium.edge.EdgeDriverService
+import org.openqa.selenium.edge.EdgeOptions
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.firefox.FirefoxProfile
@@ -74,6 +77,12 @@ public inline fun <reified T : WebDriver> driver(noinline block: DriverScope<T>.
             val driverScope =
                 driverScope(SafariDriverService.Builder(), SafariOptions(), block) as DriverScope<SafariDriver>
             configureSafariDriver(driverScope)
+        }
+
+        EdgeDriver::class -> {
+            val driverScope =
+                driverScope(EdgeDriverService.Builder(), EdgeOptions(), block) as DriverScope<EdgeDriver>
+            configureEdgeDriver(driverScope)
         }
 
         else -> throw UnsupportedOperationException()
@@ -162,6 +171,34 @@ internal fun configureSafariDriver(driverScope: DriverScope<SafariDriver>): Safa
     }
 }
 
+@SuppressWarnings("NestedBlockDepth")
+@PublishedApi
+internal fun configureEdgeDriver(driverScope: DriverScope<EdgeDriver>): EdgeDriver {
+    with(driverScope) {
+        val driverService = (driverServiceScope.builder as EdgeDriverService.Builder).apply {
+            with(driverServiceScope) {
+                appendLog?.let { withAppendLog(it) }
+                buildCheckDisabled?.let { withBuildCheckDisabled(it) }
+                executable?.let {
+                    ifExists(it).run {
+                        usingDriverExecutable(File(it))
+                    }
+                }
+                logFile?.let { withLogFile(File(it)) }
+                logLevel?.let { withLoglevel(it) }
+                readableTimestamp?.let { withReadableTimestamp(it) }
+            }
+        }.build()
+
+        val options = (optionsScope.options as EdgeOptions).apply {
+            optionsScope.binary?.let { setBinary(it) }
+            optionsScope.useWebView?.let { useWebView(it) }
+        }
+
+        return EdgeDriver(driverService, options)
+    }
+}
+
 @KolibriumDsl
 public inline fun <reified T : DriverService> driverService(noinline block: DriverServiceScope<T>.() -> Unit): T {
     return when (T::class) {
@@ -181,6 +218,12 @@ public inline fun <reified T : DriverService> driverService(noinline block: Driv
             val driverServiceScope =
                 driverServiceScope(SafariDriverService.Builder(), block) as DriverServiceScope<SafariDriverService>
             configureSafariDriverService(driverServiceScope)
+        }
+
+        EdgeDriverService::class -> {
+            val driverServiceScope =
+                driverServiceScope(EdgeDriverService.Builder(), block) as DriverServiceScope<EdgeDriverService>
+            configureEdgeDriverService(driverServiceScope)
         }
 
         else -> throw UnsupportedOperationException()
@@ -236,6 +279,24 @@ internal fun configureSafariDriverService(driverServiceScope: DriverServiceScope
     driverServiceScope.logging?.let { withLogging(it) }
 }
 
+@SuppressWarnings("NestedBlockDepth")
+@PublishedApi
+internal fun configureEdgeDriverService(driverServiceScope: DriverServiceScope<EdgeDriverService>):
+    EdgeDriverService.Builder = (driverServiceScope.builder as EdgeDriverService.Builder).apply {
+    with(driverServiceScope) {
+        appendLog?.let { withAppendLog(it) }
+        buildCheckDisabled?.let { withBuildCheckDisabled(it) }
+        executable?.let {
+            ifExists(it).run {
+                usingDriverExecutable(File(it))
+            }
+        }
+        logFile?.let { withLogFile(File(it)) }
+        logLevel?.let { withLoglevel(it) }
+        readableTimestamp?.let { withReadableTimestamp(it) }
+    }
+}
+
 @KolibriumDsl
 public inline fun <reified T : AbstractDriverOptions<*>> options(noinline block: OptionsScope<T>.() -> Unit): T {
     return when (T::class) {
@@ -255,6 +316,12 @@ public inline fun <reified T : AbstractDriverOptions<*>> options(noinline block:
             val optionsScope =
                 optionsScope(SafariOptions(), block) as OptionsScope<SafariOptions>
             configureSafariOptions(optionsScope)
+        }
+
+        EdgeOptions::class -> {
+            val optionsScope =
+                optionsScope(EdgeOptions(), block) as OptionsScope<EdgeOptions>
+            configureEdgeOptions(optionsScope)
         }
 
         else -> throw UnsupportedOperationException()
@@ -291,6 +358,13 @@ internal fun configureSafariOptions(optionsScope: OptionsScope<SafariOptions>): 
             automaticProfiling?.let { setAutomaticProfiling(it) }
             useTechnologyPreview?.let { setUseTechnologyPreview(it) }
         }
+    }
+
+@PublishedApi
+internal fun configureEdgeOptions(optionsScope: OptionsScope<EdgeOptions>): EdgeOptions =
+    (optionsScope.options as EdgeOptions).apply {
+        optionsScope.binary?.let { setBinary(it) }
+        optionsScope.useWebView?.let { useWebView(it) }
     }
 
 private fun ifExists(file: String?): Boolean {

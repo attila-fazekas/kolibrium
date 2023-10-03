@@ -35,9 +35,6 @@ import io.kolibrium.dsl.chrome.ExperimentalFlags.same_site_by_default_cookies
 import io.kolibrium.dsl.chrome.ExtensionsScope.Extension
 import io.kolibrium.dsl.chrome.Switches
 import io.kolibrium.dsl.chrome.binary
-import io.kolibrium.dsl.chrome.experimentalOptions
-import io.kolibrium.dsl.chrome.extensions
-import io.kolibrium.dsl.chrome.windowSize
 import io.kolibrium.dsl.firefox.binary
 import io.kolibrium.dsl.firefox.preferences
 import io.kolibrium.dsl.firefox.profile
@@ -63,6 +60,7 @@ import org.openqa.selenium.Proxy
 import org.openqa.selenium.Proxy.ProxyType.MANUAL
 import org.openqa.selenium.UnexpectedAlertBehaviour.DISMISS
 import org.openqa.selenium.chrome.ChromeOptions
+import org.openqa.selenium.edge.EdgeOptions
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.safari.SafariOptions
 import kotlin.time.Duration.Companion.seconds
@@ -418,5 +416,188 @@ class OptionsTests {
 
         val timeouts: Map<String, String> = mappedOptions["timeouts"] as Map<String, String>
         timeouts.entries.toString().shouldBe("[implicit=5000, pageLoad=3000, script=2000]")
+    }
+
+    @Test
+    fun `EdgeOptions with custom settings should be created`() {
+        val options = options<EdgeOptions> {
+            acceptInsecureCerts = true
+            binary = "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta"
+            browserVersion = "118.0.2088.17"
+            pageLoadStrategy = EAGER
+            platform = MAC
+            strictFileInteractability = true
+            unhandledPromptBehaviour = DISMISS
+            useWebView = true
+        }
+
+        val mappedOptions = options.asMap()
+        mappedOptions shouldHaveSize 8
+        mappedOptions["acceptInsecureCerts"] shouldBe true
+        mappedOptions["browserName"] shouldBe "webview2"
+        mappedOptions["browserVersion"] shouldBe "118.0.2088.17"
+        mappedOptions["pageLoadStrategy"].toString() shouldBe "eager"
+        mappedOptions["platformName"] shouldBe MAC
+        mappedOptions["strictFileInteractability"] shouldBe true
+        mappedOptions["unhandledPromptBehavior"].toString() shouldBe "dismiss"
+
+        val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
+        googChromeOptions shouldHaveSize 3
+        googChromeOptions["binary"] shouldBe "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta"
+        (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
+        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
+    }
+
+    @Test
+    fun `EdgeOptions with arguments should be created`() {
+        val options = options<EdgeOptions> {
+            arguments {
+                +Arguments.Chrome.headless
+                +incognito
+                windowSize {
+                    width = 1800
+                    height = 1000
+                }
+            }
+        }
+
+        val mappedOptions = options.asMap()
+        mappedOptions shouldHaveSize 2
+
+        val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
+        googChromeOptions shouldHaveSize 2
+        (googChromeOptions["args"] as List<String>).shouldContainExactlyInAnyOrder(
+            "--headless=new",
+            "--incognito",
+            "--window-size=1800,1000",
+            "--remote-allow-origins=*"
+        )
+        (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
+    }
+
+    @Test
+    fun `EdgeOptions with experimentalOptions should be created`() {
+        val options = options<EdgeOptions> {
+            experimentalOptions {
+                preferences {
+                    +(download_default_directory to "~/Downloads/TestAuto")
+                    +(safebrowsing_enabled to false)
+                }
+                excludeSwitches {
+                    +Switches.enable_automation
+                }
+                localState {
+                    browserEnabledLabsExperiments {
+                        +same_site_by_default_cookies
+                        +cookies_without_same_site_must_be_secure
+                    }
+                }
+            }
+        }
+
+        val mappedOptions = options.asMap()
+        val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
+        (googChromeOptions["prefs"] as Map<String, Any>).shouldContainExactly(
+            mapOf(
+                "download.default_directory" to "~/Downloads/TestAuto",
+                "safebrowsing.enabled" to false
+            )
+        )
+        (googChromeOptions["excludeSwitches"] as Set<String>).shouldContainExactly("enable-automation")
+        (googChromeOptions["localState"] as Map<String, Any>).shouldContainExactly(
+            mapOf(
+                "browser.enabled_labs_experiments" to setOf(
+                    "same-site-by-default-cookies@2",
+                    "cookies-without-same-site-must-be-secure@2"
+                )
+            )
+        )
+        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
+        (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
+    }
+
+    @Test
+    fun `EdgeOptions with extensions should be created`() {
+        val options = options<EdgeOptions> {
+            extensions {
+                +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+            }
+        }
+
+        val mappedOptions = options.asMap()
+        val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
+        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
+        (googChromeOptions["extensions"] as List<String>) shouldHaveSize 1
+    }
+
+    @Test
+    fun `EdgeOptions with timeouts should be created`() {
+        val options = options<EdgeOptions> {
+            timeouts {
+                implicitWait = 5.seconds
+                pageLoad = 3.seconds
+                script = 2.seconds
+            }
+        }
+
+        val mappedOptions = options.asMap()
+        val timeouts: Map<String, String> = mappedOptions["timeouts"] as Map<String, String>
+        timeouts.entries.toString().shouldBe("[implicit=5000, pageLoad=3000, script=2000]")
+        val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
+        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
+        (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
+    }
+
+    @Test
+    fun `EdgeOptions with socks proxy should be created`() {
+        val options = options<EdgeOptions> {
+            proxy {
+                proxyType = MANUAL
+                autodetect = false
+                socks {
+                    address = "socks5://192.168.10.100:8888"
+                    version = 5
+                    username = "username"
+                    password = "password"
+                }
+            }
+        }
+
+        val mappedOptions = options.asMap()
+        val proxy = mappedOptions["proxy"] as Proxy
+        with(proxy) {
+            proxyType shouldBe MANUAL
+            isAutodetect shouldBe false
+            socksProxy shouldBe "socks5://192.168.10.100:8888"
+            socksVersion shouldBe 5
+            socksUsername shouldBe "username"
+            socksPassword shouldBe "password"
+        }
+
+        val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
+        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
+        (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
+    }
+
+    @Test
+    fun `EdgeOptions with proxy should be created`() {
+        val options = options<EdgeOptions> {
+            proxy {
+                proxyType = Proxy.ProxyType.MANUAL
+                ftpProxy = "localhost:8888"
+                httpProxy = "localhost:8888"
+            }
+        }
+
+        val mappedOptions = options.asMap()
+
+        val proxy = mappedOptions["proxy"] as Proxy
+        with(proxy) {
+            assertSoftly {
+                proxyType shouldBe MANUAL
+                ftpProxy shouldBe "localhost:8888"
+                httpProxy shouldBe "localhost:8888"
+            }
+        }
     }
 }

@@ -18,6 +18,7 @@ package io.kolibrium.dsl
 
 import org.apache.commons.validator.routines.InetAddressValidator
 import org.openqa.selenium.chrome.ChromeDriverService
+import org.openqa.selenium.edge.EdgeDriverService
 import org.openqa.selenium.firefox.GeckoDriverService
 import org.openqa.selenium.remote.service.DriverService
 
@@ -37,12 +38,12 @@ internal fun allowedIps(builder: DriverService.Builder<*, *>, block: AllowedIpsS
 
             check(invalidIPAddresses.isEmpty()) { "Following IP addresses are invalid: $invalidIPAddresses" }
 
-            if (builder is ChromeDriverService.Builder) {
-                builder.withAllowedListIps(joinToString(separator = ", "))
-            }
+            when (builder) {
+                is ChromeDriverService.Builder -> builder.withAllowedListIps(joinToString(separator = ", "))
 
-            if (builder is GeckoDriverService.Builder) {
-                builder.withAllowHosts(joinToString(separator = " "))
+                is GeckoDriverService.Builder -> builder.withAllowHosts(joinToString(separator = " "))
+
+                is EdgeDriverService.Builder -> builder.withAllowedListIps(joinToString(separator = ", "))
             }
         }
     }
