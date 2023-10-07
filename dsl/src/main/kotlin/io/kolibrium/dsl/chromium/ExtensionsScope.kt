@@ -39,9 +39,11 @@ public class ExtensionsScope : UnaryPlus<Extension> {
 }
 
 @KolibriumDsl
+@JvmName("extensionsChrome")
 public fun OptionsScope<Chrome>.extensions(block: ExtensionsScope.() -> Unit): Unit = extensions(options, block)
 
 @KolibriumDsl
+@JvmName("extensionsChrome")
 public fun DriverScope<Chrome>.OptionsScope.extensions(block: ExtensionsScope.() -> Unit): Unit =
     extensions(options, block)
 

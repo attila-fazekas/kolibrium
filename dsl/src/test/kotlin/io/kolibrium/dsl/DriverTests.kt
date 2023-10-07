@@ -17,13 +17,19 @@
 package io.kolibrium.dsl
 
 import io.kolibrium.dsl.Arguments.Firefox.headless
-import io.kolibrium.dsl.chrome.binary
-import io.kolibrium.dsl.chrome.buildCheckDisabled
-import io.kolibrium.dsl.chrome.executable
-import io.kolibrium.dsl.chrome.logFile
-import io.kolibrium.dsl.chrome.logLevel
-import io.kolibrium.dsl.chrome.readableTimestamp
 import io.kolibrium.dsl.chromium.Extension
+import io.kolibrium.dsl.chromium.chrome.binary
+import io.kolibrium.dsl.chromium.chrome.buildCheckDisabled
+import io.kolibrium.dsl.chromium.chrome.executable
+import io.kolibrium.dsl.chromium.chrome.logFile
+import io.kolibrium.dsl.chromium.chrome.logLevel
+import io.kolibrium.dsl.chromium.chrome.readableTimestamp
+import io.kolibrium.dsl.chromium.edge.binary
+import io.kolibrium.dsl.chromium.edge.buildCheckDisabled
+import io.kolibrium.dsl.chromium.edge.executable
+import io.kolibrium.dsl.chromium.edge.logFile
+import io.kolibrium.dsl.chromium.edge.logLevel
+import io.kolibrium.dsl.chromium.edge.readableTimestamp
 import io.kolibrium.dsl.chromium.experimentalOptions
 import io.kolibrium.dsl.chromium.extensions
 import io.kolibrium.dsl.firefox.binary
@@ -70,7 +76,7 @@ class DriverTests {
     fun driverTest(browser: BrowserType) {
         driver = driver(browser) {
             driverService {
-                timeout = 5.seconds
+                timeout = 15.seconds
             }
             options {
                 acceptInsecureCerts = true
@@ -95,7 +101,11 @@ class DriverTests {
                 logLevel = DEBUG
                 port = 7899
                 readableTimestamp = true
-                timeout = 5.seconds
+                timeout = 15.seconds
+                allowedIps {
+                    +"192.168.0.50"
+                    +"192.168.0.51"
+                }
             }
             options {
                 acceptInsecureCerts = true
@@ -183,6 +193,7 @@ class DriverTests {
                 logLevel = FirefoxDriverLogLevel.CONFIG
                 port = 7900
                 truncatedLogs = false
+                timeout = 15.seconds
             }
             options {
                 acceptInsecureCerts = false
@@ -269,7 +280,11 @@ class DriverTests {
                 logLevel = DEBUG
                 port = 7902
                 readableTimestamp = true
-                timeout = 5.seconds
+                timeout = 15.seconds
+                allowedIps {
+                    +"192.168.0.50"
+                    +"192.168.0.51"
+                }
             }
             options {
                 acceptInsecureCerts = true

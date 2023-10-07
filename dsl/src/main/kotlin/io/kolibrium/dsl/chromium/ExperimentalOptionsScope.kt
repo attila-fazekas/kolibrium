@@ -43,50 +43,41 @@ public class ExperimentalOptionsScope<T : Browser> {
     public fun localState(block: LocalStateScope.() -> Unit): LocalStateScope = localStateScope.apply(block)
 }
 
-context(OptionsScope<Chrome>)
 @KolibriumDsl
 @JvmName("experimentalOptionsChrome")
-public fun experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit): Unit =
+public fun OptionsScope<Chrome>.experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit): Unit =
     experimentalOptions(options, block)
 
-context(OptionsScope<Edge>)
-@KolibriumDsl
-@JvmName("experimentalOptionsEdge")
-public fun experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit): Unit =
-    experimentalOptions(options, block)
-
-context(DriverScope<Chrome>.OptionsScope)
 @KolibriumDsl
 @JvmName("experimentalOptionsChrome")
-public fun experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit): Unit =
-    experimentalOptions(options, block)
+public fun DriverScope<Chrome>.OptionsScope.experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit):
+    Unit = experimentalOptions(options, block)
 
-context(DriverScope<Edge>.OptionsScope)
 @KolibriumDsl
 @JvmName("experimentalOptionsEdge")
-public fun experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit): Unit =
+public fun OptionsScope<Edge>.experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit): Unit =
     experimentalOptions(options, block)
 
-@SuppressWarnings("NestedBlockDepth")
-private inline fun <reified T : Chromium> experimentalOptions(
+@KolibriumDsl
+@JvmName("experimentalOptionsEdge")
+public fun DriverScope<Edge>.OptionsScope.experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit):
+    Unit = experimentalOptions(options, block)
+
+private fun <T : Chromium> experimentalOptions(
     options: AbstractDriverOptions<*>,
     block: ExperimentalOptionsScope<T>.() -> Unit
 ) {
     val expOptionsScope = ExperimentalOptionsScope<T>().apply(block)
     with(expOptionsScope) {
-        when (T::class) {
-            Chromium::class -> {
-                with((options as ChromiumOptions<*>)) {
-                    if (preferencesScope.preferences.isNotEmpty()) {
-                        setExperimentalOption("prefs", preferencesScope.preferences)
-                    }
-                    if (switchesScope.switches.isNotEmpty()) {
-                        setExperimentalOption("excludeSwitches", switchesScope.switches)
-                    }
-                    if (localStateScope.localStatePrefs.isNotEmpty()) {
-                        setExperimentalOption("localState", localStateScope.localStatePrefs)
-                    }
-                }
+        with(options as ChromiumOptions<*>) {
+            if (preferencesScope.preferences.isNotEmpty()) {
+                setExperimentalOption("prefs", preferencesScope.preferences)
+            }
+            if (switchesScope.switches.isNotEmpty()) {
+                setExperimentalOption("excludeSwitches", switchesScope.switches)
+            }
+            if (localStateScope.localStatePrefs.isNotEmpty()) {
+                setExperimentalOption("localState", localStateScope.localStatePrefs)
             }
         }
     }

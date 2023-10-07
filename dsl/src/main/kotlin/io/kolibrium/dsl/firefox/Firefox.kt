@@ -16,14 +16,12 @@
 
 package io.kolibrium.dsl.firefox
 
-import io.kolibrium.dsl.AllowedIpsScope
 import io.kolibrium.dsl.DriverScope
 import io.kolibrium.dsl.DriverServiceScope
 import io.kolibrium.dsl.Firefox
 import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.OptionsScope
 import io.kolibrium.dsl.PreferencesScope
-import io.kolibrium.dsl.allowedIps
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel
 import org.openqa.selenium.firefox.FirefoxOptions
@@ -71,12 +69,6 @@ public var OptionsScope<Firefox>.profileDir: String? by threadLocalLazyDelegate(
 
 @KolibriumDsl
 public var DriverScope<Firefox>.OptionsScope.profileDir: String? by threadLocalLazyDelegate()
-
-public typealias AllowedHostsScope = AllowedIpsScope
-
-@KolibriumDsl
-public fun DriverServiceScope<Firefox>.allowedHosts(block: AllowedHostsScope.() -> Unit): Unit =
-    allowedIps(builder, block)
 
 @KolibriumDsl
 public fun OptionsScope<Firefox>.preferences(block: PreferencesScope<Firefox>.() -> Unit): Unit =

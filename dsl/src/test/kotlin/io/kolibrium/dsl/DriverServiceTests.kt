@@ -16,14 +16,18 @@
 
 package io.kolibrium.dsl
 
-import io.kolibrium.dsl.chrome.allowedIps
-import io.kolibrium.dsl.chrome.appendLog
-import io.kolibrium.dsl.chrome.buildCheckDisabled
-import io.kolibrium.dsl.chrome.executable
-import io.kolibrium.dsl.chrome.logFile
-import io.kolibrium.dsl.chrome.logLevel
-import io.kolibrium.dsl.chrome.readableTimestamp
-import io.kolibrium.dsl.firefox.allowedHosts
+import io.kolibrium.dsl.chromium.chrome.appendLog
+import io.kolibrium.dsl.chromium.chrome.buildCheckDisabled
+import io.kolibrium.dsl.chromium.chrome.executable
+import io.kolibrium.dsl.chromium.chrome.logFile
+import io.kolibrium.dsl.chromium.chrome.logLevel
+import io.kolibrium.dsl.chromium.chrome.readableTimestamp
+import io.kolibrium.dsl.chromium.edge.appendLog
+import io.kolibrium.dsl.chromium.edge.buildCheckDisabled
+import io.kolibrium.dsl.chromium.edge.executable
+import io.kolibrium.dsl.chromium.edge.logFile
+import io.kolibrium.dsl.chromium.edge.logLevel
+import io.kolibrium.dsl.chromium.edge.readableTimestamp
 import io.kolibrium.dsl.firefox.logFile
 import io.kolibrium.dsl.firefox.logLevel
 import io.kolibrium.dsl.firefox.profileRoot

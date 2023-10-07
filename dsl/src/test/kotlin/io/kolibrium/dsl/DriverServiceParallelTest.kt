@@ -16,7 +16,7 @@
 
 package io.kolibrium.dsl
 
-import io.kolibrium.dsl.chrome.logLevel
+import io.kolibrium.dsl.chromium.chrome.logLevel
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe

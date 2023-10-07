@@ -16,12 +16,10 @@
 
 package io.kolibrium.dsl.chromium
 
-import io.kolibrium.dsl.UnaryPlus
+@JvmInline
+public value class Switch(public val name: String)
 
-public class SwitchesScope : UnaryPlus<Switch> {
-    internal val switches = mutableSetOf<String>()
-
-    override operator fun Switch.unaryPlus() {
-        switches.add(name)
-    }
+public object Switches {
+    public val enable_automation: Switch = Switch("enable-automation")
+    public val disable_popup_blocking: Switch = Switch("disable-popup-blocking")
 }

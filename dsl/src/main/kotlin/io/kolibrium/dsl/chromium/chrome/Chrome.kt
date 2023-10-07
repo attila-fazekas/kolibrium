@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.chrome
+package io.kolibrium.dsl.chromium.chrome
 
-import io.kolibrium.dsl.AllowedIpsScope
 import io.kolibrium.dsl.Chrome
 import io.kolibrium.dsl.DriverScope
 import io.kolibrium.dsl.DriverServiceScope
 import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.OptionsScope
-import io.kolibrium.dsl.allowedIps
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
 
@@ -67,11 +65,3 @@ public var OptionsScope<Chrome>.binary: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
 public var DriverScope<Chrome>.OptionsScope.binary: String? by threadLocalLazyDelegate()
-
-@KolibriumDsl
-public fun DriverServiceScope<Chrome>.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
-    allowedIps(builder, block)
-
-@KolibriumDsl
-public fun DriverScope<Chrome>.DriverServiceScope.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
-    allowedIps(builder, block)

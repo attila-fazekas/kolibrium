@@ -29,27 +29,35 @@ public class ArgumentsScope<T : Browser> : UnaryPlus<Argument<T>> {
     }
 }
 
-context(OptionsScope<Chrome>)
 @KolibriumDsl
 @JvmName("argumentsChrome")
-public fun arguments(block: ArgumentsScope<Chrome>.() -> Unit):
+public fun OptionsScope<Chrome>.arguments(block: ArgumentsScope<Chrome>.() -> Unit):
     Unit = arguments(options, block)
 
-context(OptionsScope<Firefox>)
+@KolibriumDsl
+@JvmName("argumentsChrome")
+public fun DriverScope<Chrome>.OptionsScope.arguments(block: ArgumentsScope<Chrome>.() -> Unit):
+    Unit = arguments(options, block)
+
 @KolibriumDsl
 @JvmName("argumentsFirefox")
-public fun arguments(block: ArgumentsScope<Firefox>.() -> Unit):
+public fun OptionsScope<Firefox>.arguments(block: ArgumentsScope<Firefox>.() -> Unit):
     Unit = arguments(options, block)
 
-context(OptionsScope<Edge>)
+@KolibriumDsl
+@JvmName("argumentsFirefox")
+public fun DriverScope<Firefox>.OptionsScope.arguments(block: ArgumentsScope<Firefox>.() -> Unit):
+    Unit = arguments(options, block)
+
 @KolibriumDsl
 @JvmName("argumentsEdge")
-public fun arguments(block: ArgumentsScope<Edge>.() -> Unit):
+public fun OptionsScope<Edge>.arguments(block: ArgumentsScope<Edge>.() -> Unit):
     Unit = arguments(options, block)
 
 @KolibriumDsl
-public fun <T : Browser> DriverScope<T>.OptionsScope.arguments(block: ArgumentsScope<T>.() -> Unit): Unit =
-    arguments(options, block)
+@JvmName("argumentsEdge")
+public fun DriverScope<Edge>.OptionsScope.arguments(block: ArgumentsScope<Edge>.() -> Unit):
+    Unit = arguments(options, block)
 
 private fun <T : Browser> arguments(options: AbstractDriverOptions<*>, block: ArgumentsScope<T>.() -> Unit) {
     val argsScope = ArgumentsScope<T>().apply(block)

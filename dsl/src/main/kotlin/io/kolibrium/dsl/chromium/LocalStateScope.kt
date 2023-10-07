@@ -35,15 +35,6 @@ public class BrowserEnabledLabsExperiments : UnaryPlus<ExperimentalFlag> {
     internal val experimentalFlags = mutableSetOf<String>()
 
     override fun ExperimentalFlag.unaryPlus() {
-        experimentalFlags.add(this.name)
+        experimentalFlags.add(name)
     }
-}
-
-@JvmInline
-public value class ExperimentalFlag(public val name: String)
-
-public object ExperimentalFlags {
-    public val same_site_by_default_cookies: ExperimentalFlag = ExperimentalFlag("same-site-by-default-cookies@2")
-    public val cookies_without_same_site_must_be_secure: ExperimentalFlag =
-        ExperimentalFlag("cookies-without-same-site-must-be-secure@2")
 }

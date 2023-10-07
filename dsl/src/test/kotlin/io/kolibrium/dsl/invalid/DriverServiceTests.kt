@@ -16,8 +16,8 @@
 
 package io.kolibrium.dsl.invalid
 
-import io.kolibrium.dsl.chrome.executable
 import io.kolibrium.dsl.chromeDriverService
+import io.kolibrium.dsl.chromium.chrome.executable
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

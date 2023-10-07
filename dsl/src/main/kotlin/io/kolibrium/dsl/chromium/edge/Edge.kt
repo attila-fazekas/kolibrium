@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl
+package io.kolibrium.dsl.chromium.edge
 
+import io.kolibrium.dsl.DriverScope
+import io.kolibrium.dsl.DriverServiceScope
+import io.kolibrium.dsl.Edge
+import io.kolibrium.dsl.KolibriumDsl
+import io.kolibrium.dsl.OptionsScope
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
 
@@ -66,11 +71,3 @@ public var OptionsScope<Edge>.useWebView: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
 public var DriverScope<Edge>.OptionsScope.useWebView: Boolean? by threadLocalLazyDelegate()
-
-@KolibriumDsl
-public fun DriverServiceScope<Edge>.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
-    allowedIps(builder, block)
-
-@KolibriumDsl
-public fun DriverScope<Edge>.DriverServiceScope.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
-    allowedIps(builder, block)

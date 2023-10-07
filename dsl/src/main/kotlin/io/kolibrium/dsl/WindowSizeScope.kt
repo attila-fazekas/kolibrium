@@ -43,20 +43,17 @@ public class WindowSizeScope<T : Browser> {
     }
 }
 
-context(ArgumentsScope<Chrome>)
 @KolibriumDsl
 @JvmName("windowSizeChrome")
-public fun windowSize(block: WindowSizeScope<Chromium>.() -> Unit): Unit = setWindowSize(block)
+public fun ArgumentsScope<Chrome>.windowSize(block: WindowSizeScope<Chromium>.() -> Unit): Unit = setWindowSize(block)
 
-context(ArgumentsScope<Firefox>)
 @KolibriumDsl
 @JvmName("windowSizeFirefox")
-public fun windowSize(block: WindowSizeScope<Firefox>.() -> Unit): Unit = setWindowSize(block)
+public fun ArgumentsScope<Firefox>.windowSize(block: WindowSizeScope<Firefox>.() -> Unit): Unit = setWindowSize(block)
 
-context(ArgumentsScope<Edge>)
 @KolibriumDsl
 @JvmName("windowSizeEdge")
-public fun windowSize(block: WindowSizeScope<Chromium>.() -> Unit): Unit = setWindowSize(block)
+public fun ArgumentsScope<Edge>.windowSize(block: WindowSizeScope<Chromium>.() -> Unit): Unit = setWindowSize(block)
 
 context(ArgumentsScope<*>)
 private inline fun <reified T : Browser> setWindowSize(block: WindowSizeScope<T>.() -> Unit) {

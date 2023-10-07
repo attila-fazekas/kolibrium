@@ -28,10 +28,12 @@ import io.kolibrium.dsl.Preferences.Firefox.browser_download_manager_useWindow
 import io.kolibrium.dsl.Preferences.Firefox.browser_download_useDownloadDir
 import io.kolibrium.dsl.Preferences.Firefox.browser_helperApps_alwaysAsk_force
 import io.kolibrium.dsl.Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk
-import io.kolibrium.dsl.chrome.binary
 import io.kolibrium.dsl.chromium.ExperimentalFlags.cookies_without_same_site_must_be_secure
 import io.kolibrium.dsl.chromium.ExperimentalFlags.same_site_by_default_cookies
 import io.kolibrium.dsl.chromium.Extension
+import io.kolibrium.dsl.chromium.chrome.binary
+import io.kolibrium.dsl.chromium.edge.binary
+import io.kolibrium.dsl.chromium.edge.useWebView
 import io.kolibrium.dsl.chromium.experimentalOptions
 import io.kolibrium.dsl.chromium.extensions
 import io.kolibrium.dsl.firefox.binary

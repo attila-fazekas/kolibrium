@@ -22,7 +22,7 @@ import org.openqa.selenium.edge.EdgeDriverService
 import org.openqa.selenium.firefox.GeckoDriverService
 import org.openqa.selenium.remote.service.DriverService
 
-public class AllowedIpsScope : UnaryPlus<String> {
+public class AllowedIpsScope<T : Browser> : UnaryPlus<String> {
     internal val allowedIps = mutableSetOf<String>()
 
     override fun String.unaryPlus() {
@@ -30,8 +30,38 @@ public class AllowedIpsScope : UnaryPlus<String> {
     }
 }
 
-internal fun allowedIps(builder: DriverService.Builder<*, *>, block: AllowedIpsScope.() -> Unit) {
-    val allowedIpsScope = AllowedIpsScope().apply(block)
+public typealias AllowedHostsScope = AllowedIpsScope<Browser>
+
+@KolibriumDsl
+@JvmName("allowedIpsChrome")
+public fun DriverServiceScope<Chrome>.allowedIps(block: AllowedIpsScope<Chromium>.() -> Unit): Unit =
+    allowedIps(builder, block)
+
+@KolibriumDsl
+@JvmName("allowedIpsChrome")
+public fun DriverScope<Chrome>.DriverServiceScope.allowedIps(block: AllowedIpsScope<Chromium>.() -> Unit): Unit =
+    allowedIps(builder, block)
+
+@KolibriumDsl
+@JvmName("allowedIpsEdge")
+public fun DriverServiceScope<Edge>.allowedIps(block: AllowedIpsScope<Chromium>.() -> Unit): Unit =
+    allowedIps(builder, block)
+
+@KolibriumDsl
+@JvmName("allowedIpsEdge")
+public fun DriverScope<Edge>.DriverServiceScope.allowedIps(block: AllowedIpsScope<Chromium>.() -> Unit): Unit =
+    allowedIps(builder, block)
+
+@KolibriumDsl
+public fun DriverServiceScope<Firefox>.allowedHosts(block: AllowedHostsScope.() -> Unit): Unit =
+    allowedIps(builder, block)
+
+@KolibriumDsl
+public fun DriverScope<Firefox>.DriverServiceScope.allowedHosts(block: AllowedHostsScope.() -> Unit): Unit =
+    allowedIps(builder, block)
+
+internal fun <T : Browser> allowedIps(builder: DriverService.Builder<*, *>, block: AllowedIpsScope<T>.() -> Unit) {
+    val allowedIpsScope = AllowedIpsScope<T>().apply(block)
     with(allowedIpsScope.allowedIps) {
         if (isNotEmpty()) {
             val invalidIPAddresses = filter { !InetAddressValidator.getInstance().isValid(it) }
