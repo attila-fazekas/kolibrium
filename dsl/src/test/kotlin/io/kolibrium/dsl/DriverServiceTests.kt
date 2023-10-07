@@ -41,6 +41,7 @@ import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldNotBeEmpty
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel.DEBUG
@@ -81,7 +82,7 @@ class DriverServiceTests : DslTest() {
         environment.shouldBeEmpty()
     }
 
-//    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
+    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
     @Test
     fun `custom ChromeDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("chrome.log").toString()
@@ -172,7 +173,7 @@ class DriverServiceTests : DslTest() {
         File(logFilePath).exists() shouldBe true
     }
 
-//    @Disabled("Temporarily disabled due to CI runs a Linux machine")
+    @Disabled("Temporarily disabled due to CI runs a Linux machine")
     @Test
     fun `custom SafariDriverService shall be created`() {
         ds = safariDriverService {
@@ -194,7 +195,7 @@ class DriverServiceTests : DslTest() {
         environment shouldBe mapOf("key1" to "value1", "key2" to "value2")
     }
 
-//    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
+    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
     @Test
     fun `custom EdgeDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("edge.log").toString()
