@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.firefox
+package io.kolibrium.dsl.chromium
 
-import io.kolibrium.dsl.Firefox
-import io.kolibrium.dsl.Preference
-import io.kolibrium.dsl.UnaryPlus
+@JvmInline
+public value class Switch(public val name: String)
 
-public class FirefoxProfileScope : UnaryPlus<Pair<Preference<Firefox>, Any>> {
-    internal val preferences = mutableMapOf<String, Any>()
-
-    override operator fun Pair<Preference<Firefox>, Any>.unaryPlus() {
-        preferences[first.name] = second
-    }
+public object Switches {
+    public val enable_automation: Switch = Switch("enable-automation")
+    public val disable_popup_blocking: Switch = Switch("disable-popup-blocking")
 }

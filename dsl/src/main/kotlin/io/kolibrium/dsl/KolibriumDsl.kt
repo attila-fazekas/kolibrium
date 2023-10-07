@@ -18,13 +18,25 @@
 
 package io.kolibrium.dsl
 
-import io.kolibrium.dsl.chrome.appendLog
-import io.kolibrium.dsl.chrome.binary
-import io.kolibrium.dsl.chrome.buildCheckDisabled
-import io.kolibrium.dsl.chrome.executable
-import io.kolibrium.dsl.chrome.logFile
-import io.kolibrium.dsl.chrome.logLevel
-import io.kolibrium.dsl.chrome.readableTimestamp
+import io.kolibrium.dsl.BrowserType.CHROME
+import io.kolibrium.dsl.BrowserType.EDGE
+import io.kolibrium.dsl.BrowserType.FIREFOX
+import io.kolibrium.dsl.BrowserType.SAFARI
+import io.kolibrium.dsl.chromium.chrome.appendLog
+import io.kolibrium.dsl.chromium.chrome.binary
+import io.kolibrium.dsl.chromium.chrome.buildCheckDisabled
+import io.kolibrium.dsl.chromium.chrome.executable
+import io.kolibrium.dsl.chromium.chrome.logFile
+import io.kolibrium.dsl.chromium.chrome.logLevel
+import io.kolibrium.dsl.chromium.chrome.readableTimestamp
+import io.kolibrium.dsl.chromium.edge.appendLog
+import io.kolibrium.dsl.chromium.edge.binary
+import io.kolibrium.dsl.chromium.edge.buildCheckDisabled
+import io.kolibrium.dsl.chromium.edge.executable
+import io.kolibrium.dsl.chromium.edge.logFile
+import io.kolibrium.dsl.chromium.edge.logLevel
+import io.kolibrium.dsl.chromium.edge.readableTimestamp
+import io.kolibrium.dsl.chromium.edge.useWebView
 import io.kolibrium.dsl.firefox.binary
 import io.kolibrium.dsl.firefox.executable
 import io.kolibrium.dsl.firefox.logFile
@@ -59,45 +71,63 @@ import java.io.File
 internal annotation class KolibriumDsl
 
 @KolibriumDsl
-public inline fun <reified T : WebDriver> driver(noinline block: DriverScope<T>.() -> Unit): T =
+public fun chromeDriver(block: DriverScope<Chrome>.() -> Unit): ChromeDriver = driver<Chrome>(block) as ChromeDriver
+
+@KolibriumDsl
+public fun firefoxDriver(block: DriverScope<Firefox>.() -> Unit): FirefoxDriver =
+    driver<Firefox>(block) as FirefoxDriver
+
+@KolibriumDsl
+public fun safariDriver(block: DriverScope<Safari>.() -> Unit): SafariDriver = driver<Safari>(block) as SafariDriver
+
+@KolibriumDsl
+public fun edgeDriver(block: DriverScope<Edge>.() -> Unit): EdgeDriver = driver<Edge>(block) as EdgeDriver
+
+@KolibriumDsl
+public fun driver(browser: BrowserType, block: DriverScope<Browser>.() -> Unit): WebDriver = when (browser) {
+    CHROME -> driver(block as (DriverScope<Chrome>.() -> Unit))
+    FIREFOX -> driver(block as (DriverScope<Firefox>.() -> Unit))
+    SAFARI -> driver(block as (DriverScope<Safari>.() -> Unit))
+    EDGE -> driver(block as (DriverScope<Edge>.() -> Unit))
+}
+
+internal inline fun <reified T : Browser> driver(noinline block: DriverScope<T>.() -> Unit): WebDriver =
     when (T::class) {
-        ChromeDriver::class -> {
+        Chrome::class -> {
             val driverScope =
-                driverScope(ChromeDriverService.Builder(), ChromeOptions(), block) as DriverScope<ChromeDriver>
+                driverScope(ChromeDriverService.Builder(), ChromeOptions(), block) as DriverScope<Chrome>
             configureChromeDriver(driverScope)
         }
 
-        FirefoxDriver::class -> {
+        Firefox::class -> {
             val driverScope =
-                driverScope(GeckoDriverService.Builder(), FirefoxOptions(), block) as DriverScope<FirefoxDriver>
+                driverScope(GeckoDriverService.Builder(), FirefoxOptions(), block) as DriverScope<Firefox>
             configureFirefoxDriver(driverScope)
         }
 
-        SafariDriver::class -> {
+        Safari::class -> {
             val driverScope =
-                driverScope(SafariDriverService.Builder(), SafariOptions(), block) as DriverScope<SafariDriver>
+                driverScope(SafariDriverService.Builder(), SafariOptions(), block) as DriverScope<Safari>
             configureSafariDriver(driverScope)
         }
 
-        EdgeDriver::class -> {
+        Edge::class -> {
             val driverScope =
-                driverScope(EdgeDriverService.Builder(), EdgeOptions(), block) as DriverScope<EdgeDriver>
+                driverScope(EdgeDriverService.Builder(), EdgeOptions(), block) as DriverScope<Edge>
             configureEdgeDriver(driverScope)
         }
 
         else -> throw UnsupportedOperationException()
-    } as T
+    }
 
-@PublishedApi
-internal fun <T : WebDriver> driverScope(
+internal fun <T : Browser> driverScope(
     builder: DriverService.Builder<*, *>,
     options: AbstractDriverOptions<*>,
     block: DriverScope<T>.() -> Unit
 ): DriverScope<T> = DriverScope<T>(builder, options).apply(block).validate()
 
 @SuppressWarnings("NestedBlockDepth")
-@PublishedApi
-internal fun configureChromeDriver(driverScope: DriverScope<ChromeDriver>): ChromeDriver {
+internal fun configureChromeDriver(driverScope: DriverScope<Chrome>): ChromeDriver {
     with(driverScope) {
         val driverService = (driverServiceScope.builder as ChromeDriverService.Builder).apply {
             with(driverServiceScope) {
@@ -123,8 +153,7 @@ internal fun configureChromeDriver(driverScope: DriverScope<ChromeDriver>): Chro
 }
 
 @SuppressWarnings("NestedBlockDepth")
-@PublishedApi
-internal fun configureFirefoxDriver(driverScope: DriverScope<FirefoxDriver>): FirefoxDriver {
+internal fun configureFirefoxDriver(driverScope: DriverScope<Firefox>): FirefoxDriver {
     with(driverScope) {
         val driverService = (driverServiceScope.builder as GeckoDriverService.Builder).apply {
             with(driverServiceScope) {
@@ -152,8 +181,7 @@ internal fun configureFirefoxDriver(driverScope: DriverScope<FirefoxDriver>): Fi
 }
 
 @SuppressWarnings("NestedBlockDepth")
-@PublishedApi
-internal fun configureSafariDriver(driverScope: DriverScope<SafariDriver>): SafariDriver {
+internal fun configureSafariDriver(driverScope: DriverScope<Safari>): SafariDriver {
     with(driverScope) {
         val driverService = (driverServiceScope.builder as SafariDriverService.Builder).apply {
             driverServiceScope.logging?.let { withLogging(it) }
@@ -172,8 +200,7 @@ internal fun configureSafariDriver(driverScope: DriverScope<SafariDriver>): Safa
 }
 
 @SuppressWarnings("NestedBlockDepth")
-@PublishedApi
-internal fun configureEdgeDriver(driverScope: DriverScope<EdgeDriver>): EdgeDriver {
+internal fun configureEdgeDriver(driverScope: DriverScope<Edge>): EdgeDriver {
     with(driverScope) {
         val driverService = (driverServiceScope.builder as EdgeDriverService.Builder).apply {
             with(driverServiceScope) {
@@ -200,47 +227,71 @@ internal fun configureEdgeDriver(driverScope: DriverScope<EdgeDriver>): EdgeDriv
 }
 
 @KolibriumDsl
-public inline fun <reified T : DriverService> driverService(noinline block: DriverServiceScope<T>.() -> Unit): T {
+public fun chromeDriverService(block: DriverServiceScope<Chrome>.() -> Unit): ChromeDriverService =
+    driverService<Chrome>(block) as ChromeDriverService
+
+@KolibriumDsl
+public fun geckoDriverService(block: DriverServiceScope<Firefox>.() -> Unit): GeckoDriverService =
+    driverService<Firefox>(block) as GeckoDriverService
+
+@KolibriumDsl
+public fun safariDriverService(block: DriverServiceScope<Safari>.() -> Unit): SafariDriverService =
+    driverService<Safari>(block) as SafariDriverService
+
+@KolibriumDsl
+public fun edgeDriverService(block: DriverServiceScope<Edge>.() -> Unit): EdgeDriverService =
+    driverService<Edge>(block) as EdgeDriverService
+
+@KolibriumDsl
+public fun driverService(browser: BrowserType, block: DriverServiceScope<Browser>.() -> Unit): DriverService =
+    when (browser) {
+        CHROME -> driverService(block as (DriverServiceScope<Chrome>.() -> Unit))
+        FIREFOX -> driverService(block as (DriverServiceScope<Firefox>.() -> Unit))
+        SAFARI -> driverService(block as (DriverServiceScope<Safari>.() -> Unit))
+        EDGE -> driverService(block as (DriverServiceScope<Edge>.() -> Unit))
+    }
+
+internal inline fun <reified T : Browser> driverService(
+    noinline block: DriverServiceScope<T>.() -> Unit
+): DriverService {
     return when (T::class) {
-        ChromeDriverService::class -> {
+        Chrome::class -> {
             val driverServiceScope =
-                driverServiceScope(ChromeDriverService.Builder(), block) as DriverServiceScope<ChromeDriverService>
+                driverServiceScope(ChromeDriverService.Builder(), block) as DriverServiceScope<Chrome>
             configureChromeDriverService(driverServiceScope)
         }
 
-        GeckoDriverService::class -> {
+        Firefox::class -> {
             val driverServiceScope =
-                driverServiceScope(GeckoDriverService.Builder(), block) as DriverServiceScope<GeckoDriverService>
-            configureFirefoxDriverService(driverServiceScope)
+                driverServiceScope(GeckoDriverService.Builder(), block) as DriverServiceScope<Firefox>
+            configureGeckoDriverService(driverServiceScope)
         }
 
-        SafariDriverService::class -> {
+        Safari::class -> {
             val driverServiceScope =
-                driverServiceScope(SafariDriverService.Builder(), block) as DriverServiceScope<SafariDriverService>
+                driverServiceScope(SafariDriverService.Builder(), block) as DriverServiceScope<Safari>
             configureSafariDriverService(driverServiceScope)
         }
 
-        EdgeDriverService::class -> {
+        Edge::class -> {
             val driverServiceScope =
-                driverServiceScope(EdgeDriverService.Builder(), block) as DriverServiceScope<EdgeDriverService>
+                driverServiceScope(EdgeDriverService.Builder(), block) as DriverServiceScope<Edge>
             configureEdgeDriverService(driverServiceScope)
         }
 
         else -> throw UnsupportedOperationException()
-    }.build() as T
+    }.build()
 }
 
-@PublishedApi
-internal fun <T : DriverService> driverServiceScope(
+internal fun <T : Browser> driverServiceScope(
     builder: DriverService.Builder<*, *>,
     block: DriverServiceScope<T>.() -> Unit
 ): BaseDriverServiceScope = DriverServiceScope<T>(builder).apply(block)
     .checkPort()
     .configure()
 
-@PublishedApi
 @SuppressWarnings("NestedBlockDepth")
-internal fun configureChromeDriverService(driverServiceScope: DriverServiceScope<ChromeDriverService>):
+internal fun configureChromeDriverService(driverServiceScope: DriverServiceScope<Chrome>):
     ChromeDriverService.Builder = (driverServiceScope.builder as ChromeDriverService.Builder).apply {
     with(driverServiceScope) {
         appendLog?.let { withAppendLog(it) }
@@ -256,9 +307,8 @@ internal fun configureChromeDriverService(driverServiceScope: DriverServiceScope
     }
 }
 
-@PublishedApi
 @SuppressWarnings("NestedBlockDepth")
-internal fun configureFirefoxDriverService(driverServiceScope: DriverServiceScope<GeckoDriverService>):
+internal fun configureGeckoDriverService(driverServiceScope: DriverServiceScope<Firefox>):
     GeckoDriverService.Builder = (driverServiceScope.builder as GeckoDriverService.Builder).apply {
     with(driverServiceScope) {
         executable?.let {
@@ -273,15 +323,13 @@ internal fun configureFirefoxDriverService(driverServiceScope: DriverServiceScop
     }
 }
 
-@PublishedApi
-internal fun configureSafariDriverService(driverServiceScope: DriverServiceScope<SafariDriverService>):
+internal fun configureSafariDriverService(driverServiceScope: DriverServiceScope<Safari>):
     SafariDriverService.Builder = (driverServiceScope.builder as SafariDriverService.Builder).apply {
     driverServiceScope.logging?.let { withLogging(it) }
 }
 
 @SuppressWarnings("NestedBlockDepth")
-@PublishedApi
-internal fun configureEdgeDriverService(driverServiceScope: DriverServiceScope<EdgeDriverService>):
+internal fun configureEdgeDriverService(driverServiceScope: DriverServiceScope<Edge>):
     EdgeDriverService.Builder = (driverServiceScope.builder as EdgeDriverService.Builder).apply {
     with(driverServiceScope) {
         appendLog?.let { withAppendLog(it) }
@@ -298,51 +346,73 @@ internal fun configureEdgeDriverService(driverServiceScope: DriverServiceScope<E
 }
 
 @KolibriumDsl
-public inline fun <reified T : AbstractDriverOptions<*>> options(noinline block: OptionsScope<T>.() -> Unit): T {
+public fun chromeOptions(block: OptionsScope<Chrome>.() -> Unit): ChromeOptions =
+    options<Chrome>(block) as ChromeOptions
+
+@KolibriumDsl
+public fun firefoxOptions(block: OptionsScope<Firefox>.() -> Unit): FirefoxOptions =
+    options<Firefox>(block) as FirefoxOptions
+
+@KolibriumDsl
+public fun safariOptions(block: OptionsScope<Safari>.() -> Unit): SafariOptions =
+    options<Safari>(block) as SafariOptions
+
+@KolibriumDsl
+public fun edgeOptions(block: OptionsScope<Edge>.() -> Unit): EdgeOptions = options<Edge>(block) as EdgeOptions
+
+@KolibriumDsl
+public fun options(browser: BrowserType, block: OptionsScope<Browser>.() -> Unit): AbstractDriverOptions<*> =
+    when (browser) {
+        CHROME -> options(block as (OptionsScope<Chrome>.() -> Unit))
+        FIREFOX -> options(block as (OptionsScope<Firefox>.() -> Unit))
+        SAFARI -> options(block as (OptionsScope<Safari>.() -> Unit))
+        EDGE -> options(block as (OptionsScope<Edge>.() -> Unit))
+    }
+
+internal inline fun <reified T : Browser> options(
+    noinline block: OptionsScope<T>.() -> Unit
+): AbstractDriverOptions<*> {
     return when (T::class) {
-        ChromeOptions::class -> {
+        Chrome::class -> {
             val optionsScope =
-                optionsScope(ChromeOptions(), block) as OptionsScope<ChromeOptions>
+                optionsScope(ChromeOptions(), block) as OptionsScope<Chrome>
             configureChromeOptions(optionsScope)
         }
 
-        FirefoxOptions::class -> {
+        Firefox::class -> {
             val optionsScope =
-                optionsScope(FirefoxOptions(), block) as OptionsScope<FirefoxOptions>
+                optionsScope(FirefoxOptions(), block) as OptionsScope<Firefox>
             configureFirefoxOptions(optionsScope)
         }
 
-        SafariOptions::class -> {
+        Safari::class -> {
             val optionsScope =
-                optionsScope(SafariOptions(), block) as OptionsScope<SafariOptions>
+                optionsScope(SafariOptions(), block) as OptionsScope<Safari>
             configureSafariOptions(optionsScope)
         }
 
-        EdgeOptions::class -> {
+        Edge::class -> {
             val optionsScope =
-                optionsScope(EdgeOptions(), block) as OptionsScope<EdgeOptions>
+                optionsScope(EdgeOptions(), block) as OptionsScope<Edge>
             configureEdgeOptions(optionsScope)
         }
 
         else -> throw UnsupportedOperationException()
-    } as T
+    }
 }
 
-@PublishedApi
-internal fun <T : AbstractDriverOptions<*>> optionsScope(
+internal fun <T : Browser> optionsScope(
     options: AbstractDriverOptions<*>,
     block: OptionsScope<T>.() -> Unit
 ): BaseOptionsScope = OptionsScope<T>(options).apply(block)
     .configure()
 
-@PublishedApi
-internal fun configureChromeOptions(optionsScope: OptionsScope<ChromeOptions>): ChromeOptions =
+internal fun configureChromeOptions(optionsScope: OptionsScope<Chrome>): ChromeOptions =
     (optionsScope.options as ChromeOptions).apply {
         optionsScope.binary?.let { setBinary(it) }
     }
 
-@PublishedApi
-internal fun configureFirefoxOptions(optionsScope: OptionsScope<FirefoxOptions>): FirefoxOptions =
+internal fun configureFirefoxOptions(optionsScope: OptionsScope<Firefox>): FirefoxOptions =
     (optionsScope.options as FirefoxOptions).apply {
         with(optionsScope) {
             binary?.let { setBinary(it) }
@@ -350,8 +420,7 @@ internal fun configureFirefoxOptions(optionsScope: OptionsScope<FirefoxOptions>)
         }
     }
 
-@PublishedApi
-internal fun configureSafariOptions(optionsScope: OptionsScope<SafariOptions>): SafariOptions =
+internal fun configureSafariOptions(optionsScope: OptionsScope<Safari>): SafariOptions =
     (optionsScope.options as SafariOptions).apply {
         with(optionsScope) {
             automaticInspection?.let { setAutomaticInspection(it) }
@@ -360,8 +429,7 @@ internal fun configureSafariOptions(optionsScope: OptionsScope<SafariOptions>): 
         }
     }
 
-@PublishedApi
-internal fun configureEdgeOptions(optionsScope: OptionsScope<EdgeOptions>): EdgeOptions =
+internal fun configureEdgeOptions(optionsScope: OptionsScope<Edge>): EdgeOptions =
     (optionsScope.options as EdgeOptions).apply {
         optionsScope.binary?.let { setBinary(it) }
         optionsScope.useWebView?.let { useWebView(it) }

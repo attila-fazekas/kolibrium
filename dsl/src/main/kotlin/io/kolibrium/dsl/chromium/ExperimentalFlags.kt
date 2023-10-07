@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.firefox
+package io.kolibrium.dsl.chromium
 
-import io.kolibrium.dsl.Firefox
-import io.kolibrium.dsl.Preference
-import io.kolibrium.dsl.UnaryPlus
+@JvmInline
+public value class ExperimentalFlag(public val name: String)
 
-public class FirefoxProfileScope : UnaryPlus<Pair<Preference<Firefox>, Any>> {
-    internal val preferences = mutableMapOf<String, Any>()
-
-    override operator fun Pair<Preference<Firefox>, Any>.unaryPlus() {
-        preferences[first.name] = second
-    }
+public object ExperimentalFlags {
+    public val same_site_by_default_cookies: ExperimentalFlag = ExperimentalFlag("same-site-by-default-cookies@2")
+    public val cookies_without_same_site_must_be_secure: ExperimentalFlag =
+        ExperimentalFlag("cookies-without-same-site-must-be-secure@2")
 }

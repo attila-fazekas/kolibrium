@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.chrome
+package io.kolibrium.dsl.chromium
 
 import io.kolibrium.dsl.UnaryPlus
-import java.io.File
 
-public class ExtensionsScope : UnaryPlus<ExtensionsScope.Extension> {
-    internal val extensions = mutableSetOf<File>()
+public class SwitchesScope : UnaryPlus<Switch> {
+    internal val switches = mutableSetOf<String>()
 
-    override operator fun Extension.unaryPlus() {
-        extensions.add(File(this.path))
+    override operator fun Switch.unaryPlus() {
+        switches.add(name)
     }
-
-    @JvmInline
-    public value class Extension(public val path: String)
 }

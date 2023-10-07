@@ -14,22 +14,11 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.chrome
+package io.kolibrium.dsl
 
-import io.kolibrium.dsl.UnaryPlus
-
-public class SwitchesScope : UnaryPlus<Switch> {
-    internal val switches = mutableSetOf<String>()
-
-    override operator fun Switch.unaryPlus() {
-        switches.add(this.name)
-    }
-}
-
-@JvmInline
-public value class Switch(public val name: String)
-
-public object Switches {
-    public val enable_automation: Switch = Switch("enable-automation")
-    public val disable_popup_blocking: Switch = Switch("disable-popup-blocking")
+public enum class BrowserType {
+    CHROME,
+    FIREFOX,
+    SAFARI,
+    EDGE
 }

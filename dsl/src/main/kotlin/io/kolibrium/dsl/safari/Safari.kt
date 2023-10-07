@@ -20,31 +20,29 @@ import io.kolibrium.dsl.DriverScope
 import io.kolibrium.dsl.DriverServiceScope
 import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.OptionsScope
+import io.kolibrium.dsl.Safari
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
-import org.openqa.selenium.safari.SafariDriver
-import org.openqa.selenium.safari.SafariDriverService
-import org.openqa.selenium.safari.SafariOptions
 
 @KolibriumDsl
-public var DriverServiceScope<SafariDriverService>.logging: Boolean? by threadLocalLazyDelegate()
+public var DriverServiceScope<Safari>.logging: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<SafariDriver>.DriverServiceScope.logging: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Safari>.DriverServiceScope.logging: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var OptionsScope<SafariOptions>.automaticInspection: Boolean? by threadLocalLazyDelegate()
+public var OptionsScope<Safari>.automaticInspection: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<SafariDriver>.OptionsScope.automaticInspection: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Safari>.OptionsScope.automaticInspection: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var OptionsScope<SafariOptions>.automaticProfiling: Boolean? by threadLocalLazyDelegate()
+public var OptionsScope<Safari>.automaticProfiling: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<SafariDriver>.OptionsScope.automaticProfiling: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Safari>.OptionsScope.automaticProfiling: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var OptionsScope<SafariOptions>.useTechnologyPreview: Boolean? by threadLocalLazyDelegate()
+public var OptionsScope<Safari>.useTechnologyPreview: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<SafariDriver>.OptionsScope.useTechnologyPreview: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Safari>.OptionsScope.useTechnologyPreview: Boolean? by threadLocalLazyDelegate()

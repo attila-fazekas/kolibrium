@@ -16,13 +16,12 @@
 
 package io.kolibrium.dsl
 
-import io.kolibrium.dsl.chrome.logLevel
+import io.kolibrium.dsl.chromium.chrome.logLevel
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
-import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
 import org.openqa.selenium.remote.service.DriverService
 
@@ -37,7 +36,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test1() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.DEBUG
             environment {
                 +("key1" to "value1")
@@ -55,7 +54,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test2() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.INFO
             environment {
                 +("key2" to "value2")
@@ -73,7 +72,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test3() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.WARNING
             environment {
                 +("key3" to "value3")
@@ -91,7 +90,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test4() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.ALL
             environment {
                 +("key4" to "value4")
@@ -109,7 +108,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test5() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.SEVERE
             environment {
                 +("key5" to "value5")
@@ -127,7 +126,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test6() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.DEBUG
             environment {
                 +("key6" to "value6")
@@ -145,7 +144,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test7() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.INFO
             environment {
                 +("key7" to "value7")
@@ -163,7 +162,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test8() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.WARNING
             environment {
                 +("key8" to "value8")
@@ -181,7 +180,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test9() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.DEBUG
             environment {
                 +("key9" to "value9")
@@ -199,7 +198,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test10() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.ALL
             environment {
                 +("key10" to "value10")
@@ -217,7 +216,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test11() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.SEVERE
             environment {
                 +("key11" to "value11")
@@ -235,7 +234,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test12() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.DEBUG
             environment {
                 +("key12" to "value12")
@@ -253,7 +252,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test13() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.INFO
             environment {
                 +("key13" to "value13")
@@ -271,7 +270,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test14() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.WARNING
             environment {
                 +("key14" to "value14")
@@ -289,7 +288,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test15() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.ALL
             environment {
                 +("key15" to "value15")
@@ -307,7 +306,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test16() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.SEVERE
             environment {
                 +("key16" to "value16")
@@ -325,7 +324,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test17() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.INFO
             environment {
                 +("key17" to "value17")
@@ -343,7 +342,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test18() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.WARNING
             environment {
                 +("key18" to "value18")
@@ -361,7 +360,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test19() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.ALL
             environment {
                 +("key19" to "value19")
@@ -379,7 +378,7 @@ class DriverServiceParallelTest : DslTest() {
 
     @Test
     fun test20() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             logLevel = ChromiumDriverLogLevel.SEVERE
             environment {
                 +("key20" to "value20")

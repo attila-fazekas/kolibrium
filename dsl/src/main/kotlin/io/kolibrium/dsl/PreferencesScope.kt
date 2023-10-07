@@ -16,10 +16,10 @@
 
 package io.kolibrium.dsl
 
-public class PreferencesScope : UnaryPlus<Pair<Preference, Any>> {
+public class PreferencesScope<T : Browser> : UnaryPlus<Pair<Preference<T>, Any>> {
     internal val preferences = mutableMapOf<String, Any>()
 
-    override operator fun Pair<Preference, Any>.unaryPlus() {
+    override operator fun Pair<Preference<T>, Any>.unaryPlus() {
         preferences[first.name] = second
     }
 }

@@ -6,6 +6,7 @@ plugins {
 dependencies {
     testImplementation(Testing.kotest.assertions.core)
     testImplementation(Testing.junit.jupiter.api)
+    testImplementation(Testing.junit.jupiter.params)
     testRuntimeOnly(Testing.junit.jupiter.engine)
 }
 

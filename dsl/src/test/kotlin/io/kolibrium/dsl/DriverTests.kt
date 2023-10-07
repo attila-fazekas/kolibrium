@@ -17,22 +17,27 @@
 package io.kolibrium.dsl
 
 import io.kolibrium.dsl.Arguments.Firefox.headless
-import io.kolibrium.dsl.chrome.ExperimentalFlags
-import io.kolibrium.dsl.chrome.ExtensionsScope
-import io.kolibrium.dsl.chrome.Switches
-import io.kolibrium.dsl.chrome.binary
-import io.kolibrium.dsl.chrome.buildCheckDisabled
-import io.kolibrium.dsl.chrome.executable
-import io.kolibrium.dsl.chrome.logFile
-import io.kolibrium.dsl.chrome.logLevel
-import io.kolibrium.dsl.chrome.readableTimestamp
+import io.kolibrium.dsl.chromium.Extension
+import io.kolibrium.dsl.chromium.chrome.binary
+import io.kolibrium.dsl.chromium.chrome.buildCheckDisabled
+import io.kolibrium.dsl.chromium.chrome.executable
+import io.kolibrium.dsl.chromium.chrome.logFile
+import io.kolibrium.dsl.chromium.chrome.logLevel
+import io.kolibrium.dsl.chromium.chrome.readableTimestamp
+import io.kolibrium.dsl.chromium.edge.binary
+import io.kolibrium.dsl.chromium.edge.buildCheckDisabled
+import io.kolibrium.dsl.chromium.edge.executable
+import io.kolibrium.dsl.chromium.edge.logFile
+import io.kolibrium.dsl.chromium.edge.logLevel
+import io.kolibrium.dsl.chromium.edge.readableTimestamp
+import io.kolibrium.dsl.chromium.experimentalOptions
+import io.kolibrium.dsl.chromium.extensions
 import io.kolibrium.dsl.firefox.binary
 import io.kolibrium.dsl.firefox.logFile
 import io.kolibrium.dsl.firefox.logLevel
 import io.kolibrium.dsl.firefox.preferences
 import io.kolibrium.dsl.firefox.profile
 import io.kolibrium.dsl.firefox.truncatedLogs
-import io.kolibrium.dsl.firefox.windowSize
 import io.kolibrium.dsl.safari.automaticInspection
 import io.kolibrium.dsl.safari.automaticProfiling
 import io.kolibrium.dsl.safari.logging
@@ -42,24 +47,22 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.openqa.selenium.PageLoadStrategy.NORMAL
 import org.openqa.selenium.Platform.MAC
 import org.openqa.selenium.UnexpectedAlertBehaviour.DISMISS
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel.DEBUG
-import org.openqa.selenium.edge.EdgeDriver
-import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel
-import org.openqa.selenium.safari.SafariDriver
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.regex.Pattern
 import kotlin.io.path.absolutePathString
 import kotlin.time.Duration.Companion.seconds
 
-@SuppressWarnings("MaxLineLength", "LongMethod")
 @Disabled("Temporarily disabled due to CI does not have browsers installed")
+@SuppressWarnings("MaxLineLength", "LongMethod")
 class DriverTests {
 
     private lateinit var driver: WebDriver
@@ -69,12 +72,29 @@ class DriverTests {
         driver.quit()
     }
 
+    @ParameterizedTest
+    @EnumSource(BrowserType::class)
+    fun driverTest(browser: BrowserType) {
+        driver = driver(browser) {
+            driverService {
+                timeout = 15.seconds
+            }
+            options {
+                acceptInsecureCerts = true
+                platform = MAC
+                pageLoadStrategy = NORMAL
+                strictFileInteractability = true
+                unhandledPromptBehaviour = DISMISS
+            }
+        }
+    }
+
     @Test
     fun chromeTest(@TempDir tempDir: Path) {
         val logFile = tempDir.resolve("chrome.log").toString()
         val downloadDir = tempDir.absolutePathString()
 
-        driver = driver<ChromeDriver> {
+        driver = chromeDriver {
             driverService {
                 buildCheckDisabled = true
                 executable = "src/test/resources/executables/chromedriver"
@@ -82,7 +102,11 @@ class DriverTests {
                 logLevel = DEBUG
                 port = 7899
                 readableTimestamp = true
-                timeout = 5.seconds
+                timeout = 15.seconds
+                allowedIps {
+                    +"192.168.0.50"
+                    +"192.168.0.51"
+                }
             }
             options {
                 acceptInsecureCerts = true
@@ -102,22 +126,22 @@ class DriverTests {
                 }
                 experimentalOptions {
                     preferences {
-                        +(Preferences.Chrome.download_default_directory to downloadDir)
-                        +(Preferences.Chrome.download_prompt_for_download to false)
-                        +(Preferences.Chrome.safebrowsing_enabled to false)
+                        +(Preferences.Chromium.download_default_directory to downloadDir)
+                        +(Preferences.Chromium.download_prompt_for_download to false)
+                        +(Preferences.Chromium.safebrowsing_enabled to false)
                     }
                     excludeSwitches {
-                        +Switches.enable_automation
+                        +io.kolibrium.dsl.chromium.Switches.enable_automation
                     }
                     localState {
                         browserEnabledLabsExperiments {
-                            +ExperimentalFlags.same_site_by_default_cookies
-                            +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                            +io.kolibrium.dsl.chromium.ExperimentalFlags.same_site_by_default_cookies
+                            +io.kolibrium.dsl.chromium.ExperimentalFlags.cookies_without_same_site_must_be_secure
                         }
                     }
                 }
                 extensions {
-                    +ExtensionsScope.Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                    +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
                 }
                 proxy {
                     ftpProxy = "192.168.0.1"
@@ -164,12 +188,13 @@ class DriverTests {
     fun firefoxTest(@TempDir tempDir: Path) {
         val logFile = tempDir.resolve("firefox.log").toString()
 
-        driver = driver<FirefoxDriver> {
+        driver = firefoxDriver {
             driverService {
                 this.logFile = logFile
                 logLevel = FirefoxDriverLogLevel.CONFIG
                 port = 7900
                 truncatedLogs = false
+                timeout = 15.seconds
             }
             options {
                 acceptInsecureCerts = false
@@ -230,7 +255,7 @@ class DriverTests {
 
     @Test
     fun safariTest() {
-        driver = driver<SafariDriver> {
+        driver = safariDriver {
             driverService {
                 port = 7901
                 timeout = 15.seconds
@@ -248,7 +273,7 @@ class DriverTests {
         val logFile = tempDir.resolve("edge.log").toString()
         val downloadDir = tempDir.absolutePathString()
 
-        driver = driver<EdgeDriver> {
+        driver = edgeDriver {
             driverService {
                 buildCheckDisabled = true
                 executable = "src/test/resources/executables/msedgedriver"
@@ -256,7 +281,11 @@ class DriverTests {
                 logLevel = DEBUG
                 port = 7902
                 readableTimestamp = true
-                timeout = 5.seconds
+                timeout = 15.seconds
+                allowedIps {
+                    +"192.168.0.50"
+                    +"192.168.0.51"
+                }
             }
             options {
                 acceptInsecureCerts = true
@@ -276,22 +305,22 @@ class DriverTests {
                 }
                 experimentalOptions {
                     preferences {
-                        +(Preferences.Chrome.download_default_directory to downloadDir)
-                        +(Preferences.Chrome.download_prompt_for_download to false)
-                        +(Preferences.Chrome.safebrowsing_enabled to false)
+                        +(Preferences.Chromium.download_default_directory to downloadDir)
+                        +(Preferences.Chromium.download_prompt_for_download to false)
+                        +(Preferences.Chromium.safebrowsing_enabled to false)
                     }
                     excludeSwitches {
-                        +Switches.enable_automation
+                        +io.kolibrium.dsl.chromium.Switches.enable_automation
                     }
                     localState {
                         browserEnabledLabsExperiments {
-                            +ExperimentalFlags.same_site_by_default_cookies
-                            +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                            +io.kolibrium.dsl.chromium.ExperimentalFlags.same_site_by_default_cookies
+                            +io.kolibrium.dsl.chromium.ExperimentalFlags.cookies_without_same_site_must_be_secure
                         }
                     }
                 }
                 extensions {
-                    +ExtensionsScope.Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                    +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
                 }
                 proxy {
                     ftpProxy = "192.168.0.1"

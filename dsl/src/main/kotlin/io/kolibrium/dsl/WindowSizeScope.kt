@@ -22,7 +22,7 @@ import kotlin.properties.Delegates.vetoable
 private const val WIDTH = 1280
 private const val HEIGHT = 720
 
-public class WindowSizeScope {
+public class WindowSizeScope<T : Browser> {
     private val logger = KotlinLogging.logger { }
 
     public var width: Int by vetoable(WIDTH) { _, oldValue, newValue ->
@@ -39,6 +39,35 @@ public class WindowSizeScope {
             false
         } else {
             true
+        }
+    }
+}
+
+@KolibriumDsl
+@JvmName("windowSizeChrome")
+public fun ArgumentsScope<Chrome>.windowSize(block: WindowSizeScope<Chromium>.() -> Unit): Unit = setWindowSize(block)
+
+@KolibriumDsl
+@JvmName("windowSizeFirefox")
+public fun ArgumentsScope<Firefox>.windowSize(block: WindowSizeScope<Firefox>.() -> Unit): Unit = setWindowSize(block)
+
+@KolibriumDsl
+@JvmName("windowSizeEdge")
+public fun ArgumentsScope<Edge>.windowSize(block: WindowSizeScope<Chromium>.() -> Unit): Unit = setWindowSize(block)
+
+context(ArgumentsScope<*>)
+private inline fun <reified T : Browser> setWindowSize(block: WindowSizeScope<T>.() -> Unit) {
+    val windowSizeScope = WindowSizeScope<T>().apply(block)
+    when (T::class) {
+        Chromium::class -> {
+            this@ArgumentsScope.args.add(
+                Argument<Chromium>("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
+            )
+        }
+
+        Firefox::class -> {
+            this@ArgumentsScope.args.add(Argument<Firefox>("--height=${windowSizeScope.width}"))
+            this@ArgumentsScope.args.add(Argument<Firefox>("--width=${windowSizeScope.height}"))
         }
     }
 }

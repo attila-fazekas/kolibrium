@@ -16,14 +16,18 @@
 
 package io.kolibrium.dsl
 
-import io.kolibrium.dsl.chrome.allowedIps
-import io.kolibrium.dsl.chrome.appendLog
-import io.kolibrium.dsl.chrome.buildCheckDisabled
-import io.kolibrium.dsl.chrome.executable
-import io.kolibrium.dsl.chrome.logFile
-import io.kolibrium.dsl.chrome.logLevel
-import io.kolibrium.dsl.chrome.readableTimestamp
-import io.kolibrium.dsl.firefox.allowedHosts
+import io.kolibrium.dsl.chromium.chrome.appendLog
+import io.kolibrium.dsl.chromium.chrome.buildCheckDisabled
+import io.kolibrium.dsl.chromium.chrome.executable
+import io.kolibrium.dsl.chromium.chrome.logFile
+import io.kolibrium.dsl.chromium.chrome.logLevel
+import io.kolibrium.dsl.chromium.chrome.readableTimestamp
+import io.kolibrium.dsl.chromium.edge.appendLog
+import io.kolibrium.dsl.chromium.edge.buildCheckDisabled
+import io.kolibrium.dsl.chromium.edge.executable
+import io.kolibrium.dsl.chromium.edge.logFile
+import io.kolibrium.dsl.chromium.edge.logLevel
+import io.kolibrium.dsl.chromium.edge.readableTimestamp
 import io.kolibrium.dsl.firefox.logFile
 import io.kolibrium.dsl.firefox.logLevel
 import io.kolibrium.dsl.firefox.profileRoot
@@ -40,13 +44,9 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
-import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel.DEBUG
-import org.openqa.selenium.edge.EdgeDriverService
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel.TRACE
-import org.openqa.selenium.firefox.GeckoDriverService
 import org.openqa.selenium.remote.service.DriverService
-import org.openqa.selenium.safari.SafariDriverService
 import java.io.File
 import java.nio.file.Path
 import java.time.Duration
@@ -64,7 +64,7 @@ class DriverServiceTests : DslTest() {
 
     @Test
     fun `empty driverService block should create default DriverService`() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
         }
 
         ds.start()
@@ -88,7 +88,7 @@ class DriverServiceTests : DslTest() {
         val logFilePath = tempDir.resolve("chrome.log").toString()
         val executablePath = Path.of("src/test/resources/executables/chromedriver").toAbsolutePath().toString()
 
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             appendLog = true
             buildCheckDisabled = true
             executable = executablePath
@@ -135,7 +135,7 @@ class DriverServiceTests : DslTest() {
     fun `custom GeckoDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("firefox.log").toString()
 
-        ds = driverService<GeckoDriverService> {
+        ds = geckoDriverService {
             logFile = logFilePath
             logLevel = TRACE
             port = 7001
@@ -176,7 +176,7 @@ class DriverServiceTests : DslTest() {
     @Disabled("Temporarily disabled due to CI runs a Linux machine")
     @Test
     fun `custom SafariDriverService shall be created`() {
-        ds = driverService<SafariDriverService> {
+        ds = safariDriverService {
             logging = true
             port = 7002
             environment {
@@ -201,7 +201,7 @@ class DriverServiceTests : DslTest() {
         val logFilePath = tempDir.resolve("edge.log").toString()
         val executablePath = Path.of("src/test/resources/executables/msedgedriver").toAbsolutePath().toString()
 
-        ds = driverService<EdgeDriverService> {
+        ds = edgeDriverService {
             appendLog = true
             buildCheckDisabled = true
             executable = executablePath
@@ -233,7 +233,7 @@ class DriverServiceTests : DslTest() {
             "--disable-build-check",
             "--log-level=DEBUG",
             "--log-path=$logFilePath",
-            "--port=7000",
+            "--port=7003",
             "--readable-timestamp"
         )
 
