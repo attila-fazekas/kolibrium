@@ -64,5 +64,5 @@ public sealed class BaseDriverServiceScope(internal val builder: DriverService.B
     }
 }
 
-public class DriverServiceScope<T : DriverService>(builder: DriverService.Builder<*, *>) :
+public class DriverServiceScope<T : Browser>(builder: DriverService.Builder<*, *>) :
     BaseDriverServiceScope(builder)

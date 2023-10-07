@@ -17,63 +17,61 @@
 package io.kolibrium.dsl.chrome
 
 import io.kolibrium.dsl.AllowedIpsScope
+import io.kolibrium.dsl.Chrome
 import io.kolibrium.dsl.DriverScope
 import io.kolibrium.dsl.DriverServiceScope
 import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.OptionsScope
 import io.kolibrium.dsl.allowedIps
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.chrome.ChromeDriverService
-import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
 
 @KolibriumDsl
-public var DriverServiceScope<ChromeDriverService>.appendLog: Boolean? by threadLocalLazyDelegate()
+public var DriverServiceScope<Chrome>.appendLog: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<ChromeDriver>.DriverServiceScope.appendLog: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Chrome>.DriverServiceScope.appendLog: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<ChromeDriverService>.buildCheckDisabled: Boolean? by threadLocalLazyDelegate()
+public var DriverServiceScope<Chrome>.buildCheckDisabled: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<ChromeDriver>.DriverServiceScope.buildCheckDisabled: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Chrome>.DriverServiceScope.buildCheckDisabled: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<ChromeDriverService>.executable: String? by threadLocalLazyDelegate()
+public var DriverServiceScope<Chrome>.executable: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<ChromeDriver>.DriverServiceScope.executable: String? by threadLocalLazyDelegate()
+public var DriverScope<Chrome>.DriverServiceScope.executable: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<ChromeDriverService>.logFile: String? by threadLocalLazyDelegate()
+public var DriverServiceScope<Chrome>.logFile: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<ChromeDriver>.DriverServiceScope.logFile: String? by threadLocalLazyDelegate()
+public var DriverScope<Chrome>.DriverServiceScope.logFile: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<ChromeDriverService>.logLevel: ChromiumDriverLogLevel? by threadLocalLazyDelegate()
+public var DriverServiceScope<Chrome>.logLevel: ChromiumDriverLogLevel? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<ChromeDriver>.DriverServiceScope.logLevel: ChromiumDriverLogLevel? by threadLocalLazyDelegate()
+public var DriverScope<Chrome>.DriverServiceScope.logLevel: ChromiumDriverLogLevel? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<ChromeDriverService>.readableTimestamp: Boolean? by threadLocalLazyDelegate()
+public var DriverServiceScope<Chrome>.readableTimestamp: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<ChromeDriver>.DriverServiceScope.readableTimestamp: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Chrome>.DriverServiceScope.readableTimestamp: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var OptionsScope<ChromeOptions>.binary: String? by threadLocalLazyDelegate()
+public var OptionsScope<Chrome>.binary: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<ChromeDriver>.OptionsScope.binary: String? by threadLocalLazyDelegate()
+public var DriverScope<Chrome>.OptionsScope.binary: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public fun DriverServiceScope<ChromeDriverService>.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
+public fun DriverServiceScope<Chrome>.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
     allowedIps(builder, block)
 
 @KolibriumDsl
-public fun DriverScope<ChromeDriver>.DriverServiceScope.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
+public fun DriverScope<Chrome>.DriverServiceScope.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
     allowedIps(builder, block)

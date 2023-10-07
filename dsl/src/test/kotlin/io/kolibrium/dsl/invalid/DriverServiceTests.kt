@@ -17,11 +17,10 @@
 package io.kolibrium.dsl.invalid
 
 import io.kolibrium.dsl.chrome.executable
-import io.kolibrium.dsl.driverService
+import io.kolibrium.dsl.chromeDriverService
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.net.PortProber
 import java.net.ServerSocket
 
@@ -33,7 +32,7 @@ class DriverServiceTests {
 
         ServerSocket(port).use {
             val exception = assertThrows<RuntimeException> {
-                driverService<ChromeDriverService> {
+                chromeDriverService {
                     this.port = port
                 }
             }
@@ -49,7 +48,7 @@ class DriverServiceTests {
     @Test
     fun `ChromeDriverService shall not be created - wrong executable path`() {
         val exception = assertThrows<RuntimeException> {
-            driverService<ChromeDriverService> {
+            chromeDriverService {
                 executable = "does not exist"
             }
         }

@@ -16,49 +16,43 @@
 
 package io.kolibrium.dsl
 
-import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.edge.EdgeOptions
-import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.remote.AbstractDriverOptions
 
-public class ArgumentsScope : UnaryPlus<Argument> {
-    internal val args = mutableSetOf<Argument>()
+public class ArgumentsScope<T : Browser> : UnaryPlus<Argument<T>> {
+    internal val args = mutableSetOf<Argument<*>>()
 
-    override operator fun Argument.unaryPlus() {
+    override operator fun Argument<T>.unaryPlus() {
         args.add(this)
     }
 }
 
+context(OptionsScope<Chrome>)
 @KolibriumDsl
-public fun OptionsScope<ChromeOptions>.arguments(block: ArgumentsScope.() -> Unit): Unit = arguments(options, block)
+@JvmName("argumentsChrome")
+public fun arguments(block: ArgumentsScope<Chrome>.() -> Unit):
+    Unit = arguments(options, block)
 
-@KolibriumDsl
-public fun DriverScope<ChromeDriver>.OptionsScope.arguments(block: ArgumentsScope.() -> Unit): Unit =
-    arguments(options, block)
-
-@KolibriumDsl
-@JvmName("argumentsFirefox")
-public fun OptionsScope<FirefoxOptions>.arguments(block: ArgumentsScope.() -> Unit): Unit = arguments(options, block)
-
+context(OptionsScope<Firefox>)
 @KolibriumDsl
 @JvmName("argumentsFirefox")
-public fun DriverScope<FirefoxDriver>.OptionsScope.arguments(block: ArgumentsScope.() -> Unit): Unit =
-    arguments(options, block)
+public fun arguments(block: ArgumentsScope<Firefox>.() -> Unit):
+    Unit = arguments(options, block)
 
+context(OptionsScope<Edge>)
 @KolibriumDsl
 @JvmName("argumentsEdge")
-public fun OptionsScope<EdgeOptions>.arguments(block: ArgumentsScope.() -> Unit): Unit = arguments(options, block)
+public fun arguments(block: ArgumentsScope<Edge>.() -> Unit):
+    Unit = arguments(options, block)
 
 @KolibriumDsl
-@JvmName("argumentsEdge")
-public fun DriverScope<EdgeDriver>.OptionsScope.arguments(block: ArgumentsScope.() -> Unit): Unit =
+public fun <T : Browser> DriverScope<T>.OptionsScope.arguments(block: ArgumentsScope<T>.() -> Unit): Unit =
     arguments(options, block)
 
-private fun arguments(options: AbstractDriverOptions<*>, block: ArgumentsScope.() -> Unit) {
-    val argsScope = ArgumentsScope().apply(block)
+private fun <T : Browser> arguments(options: AbstractDriverOptions<*>, block: ArgumentsScope<T>.() -> Unit) {
+    val argsScope = ArgumentsScope<T>().apply(block)
     when (options) {
         is ChromeOptions -> options.addArguments(argsScope.args.map { it.name })
 

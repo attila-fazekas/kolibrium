@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.firefox
+package io.kolibrium.dsl
 
-import io.kolibrium.dsl.Firefox
-import io.kolibrium.dsl.Preference
-import io.kolibrium.dsl.UnaryPlus
+public sealed interface Browser
 
-public class FirefoxProfileScope : UnaryPlus<Pair<Preference<Firefox>, Any>> {
-    internal val preferences = mutableMapOf<String, Any>()
+public interface Chromium : Browser
 
-    override operator fun Pair<Preference<Firefox>, Any>.unaryPlus() {
-        preferences[first.name] = second
-    }
-}
+public object Chrome : Chromium
+public object Firefox : Browser
+public object Safari : Browser
+public object Edge : Chromium

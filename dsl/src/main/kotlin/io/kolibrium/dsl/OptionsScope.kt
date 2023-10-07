@@ -17,7 +17,6 @@
 package io.kolibrium.dsl
 
 import dev.drewhamilton.poko.Poko
-import org.openqa.selenium.MutableCapabilities
 import org.openqa.selenium.PageLoadStrategy
 import org.openqa.selenium.Platform
 import org.openqa.selenium.Proxy
@@ -93,4 +92,4 @@ public sealed class BaseOptionsScope(internal val options: AbstractDriverOptions
     }
 }
 
-public class OptionsScope<T : MutableCapabilities>(options: AbstractDriverOptions<*>) : BaseOptionsScope(options)
+public class OptionsScope<T : Browser>(options: AbstractDriverOptions<*>) : BaseOptionsScope(options)

@@ -18,8 +18,6 @@ package io.kolibrium.dsl
 
 import io.kolibrium.dsl.Arguments.Chrome.incognito
 import io.kolibrium.dsl.Arguments.Firefox.headless
-import io.kolibrium.dsl.Preferences.Chrome.download_default_directory
-import io.kolibrium.dsl.Preferences.Chrome.safebrowsing_enabled
 import io.kolibrium.dsl.Preferences.Firefox.browser_download_folderList
 import io.kolibrium.dsl.Preferences.Firefox.browser_download_manager_alertOnEXEOpen
 import io.kolibrium.dsl.Preferences.Firefox.browser_download_manager_closeWhenDone
@@ -30,16 +28,16 @@ import io.kolibrium.dsl.Preferences.Firefox.browser_download_manager_useWindow
 import io.kolibrium.dsl.Preferences.Firefox.browser_download_useDownloadDir
 import io.kolibrium.dsl.Preferences.Firefox.browser_helperApps_alwaysAsk_force
 import io.kolibrium.dsl.Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk
-import io.kolibrium.dsl.chrome.ExperimentalFlags.cookies_without_same_site_must_be_secure
-import io.kolibrium.dsl.chrome.ExperimentalFlags.same_site_by_default_cookies
-import io.kolibrium.dsl.chrome.ExtensionsScope.Extension
-import io.kolibrium.dsl.chrome.Switches
 import io.kolibrium.dsl.chrome.binary
+import io.kolibrium.dsl.chromium.ExperimentalFlags.cookies_without_same_site_must_be_secure
+import io.kolibrium.dsl.chromium.ExperimentalFlags.same_site_by_default_cookies
+import io.kolibrium.dsl.chromium.Extension
+import io.kolibrium.dsl.chromium.experimentalOptions
+import io.kolibrium.dsl.chromium.extensions
 import io.kolibrium.dsl.firefox.binary
 import io.kolibrium.dsl.firefox.preferences
 import io.kolibrium.dsl.firefox.profile
 import io.kolibrium.dsl.firefox.profileDir
-import io.kolibrium.dsl.firefox.windowSize
 import io.kolibrium.dsl.safari.automaticInspection
 import io.kolibrium.dsl.safari.automaticProfiling
 import io.kolibrium.dsl.safari.useTechnologyPreview
@@ -59,10 +57,6 @@ import org.openqa.selenium.Platform.MAC
 import org.openqa.selenium.Proxy
 import org.openqa.selenium.Proxy.ProxyType.MANUAL
 import org.openqa.selenium.UnexpectedAlertBehaviour.DISMISS
-import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.edge.EdgeOptions
-import org.openqa.selenium.firefox.FirefoxOptions
-import org.openqa.selenium.safari.SafariOptions
 import kotlin.time.Duration.Companion.seconds
 
 @Suppress("UNCHECKED_CAST")
@@ -70,7 +64,7 @@ class OptionsTests {
 
     @Test
     fun `empty options block should create default ChromeOptions`() {
-        val options = options<ChromeOptions> {
+        val options = chromeOptions {
             arguments {
             }
             experimentalOptions {
@@ -102,7 +96,7 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with custom settings should be created`() {
-        val options = options<ChromeOptions> {
+        val options = chromeOptions {
             acceptInsecureCerts = true
             binary = "/Applications/Google Chrome Beta 2.app/Contents/MacOS/Google Chrome Beta"
             browserVersion = "109.0.5414.46"
@@ -131,7 +125,7 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with arguments should be created`() {
-        val options = options<ChromeOptions> {
+        val options = chromeOptions {
             arguments {
                 +Arguments.Chrome.headless
                 +incognito
@@ -158,14 +152,14 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with experimentalOptions should be created`() {
-        val options = options<ChromeOptions> {
+        val options = chromeOptions {
             experimentalOptions {
                 preferences {
-                    +(download_default_directory to "~/Downloads/TestAuto")
-                    +(safebrowsing_enabled to false)
+                    +(Preferences.Chromium.download_default_directory to "~/Downloads/TestAuto")
+                    +(Preferences.Chromium.safebrowsing_enabled to false)
                 }
                 excludeSwitches {
-                    +Switches.enable_automation
+                    +io.kolibrium.dsl.chromium.Switches.enable_automation
                 }
                 localState {
                     browserEnabledLabsExperiments {
@@ -199,7 +193,7 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with extensions should be created`() {
-        val options = options<ChromeOptions> {
+        val options = chromeOptions {
             extensions {
                 +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
             }
@@ -213,7 +207,7 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with timeouts should be created`() {
-        val options = options<ChromeOptions> {
+        val options = chromeOptions {
             timeouts {
                 implicitWait = 5.seconds
                 pageLoad = 3.seconds
@@ -231,7 +225,7 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with socks proxy should be created`() {
-        val options = options<ChromeOptions> {
+        val options = chromeOptions {
             proxy {
                 proxyType = MANUAL
                 autodetect = false
@@ -262,7 +256,7 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with proxy should be created`() {
-        val options = options<ChromeOptions> {
+        val options = chromeOptions {
             proxy {
                 proxyType = Proxy.ProxyType.MANUAL
                 ftpProxy = "localhost:8888"
@@ -284,7 +278,7 @@ class OptionsTests {
 
     @Test
     fun `FirefoxOptions with custom binary should be set`() {
-        val options = options<FirefoxOptions> {
+        val options = firefoxOptions {
             binary = "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
         }
 
@@ -299,7 +293,7 @@ class OptionsTests {
 
     @Test
     fun `FirefoxOptions with headless should be set`() {
-        val options = options<FirefoxOptions> {
+        val options = firefoxOptions {
             arguments {
                 +headless
                 +Arguments.Firefox.incognito
@@ -313,7 +307,7 @@ class OptionsTests {
 
     @Test
     fun `FirefoxOptions with preferences should be set`() {
-        val options = options<FirefoxOptions> {
+        val options = firefoxOptions {
             preferences {
                 +(Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris to "http://,https://")
                 +(Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn to false)
@@ -344,7 +338,7 @@ class OptionsTests {
     @Test
     fun `FirefoxOptions with profile from directory should be set`() {
         val firefoxProfileDir = System.getenv("FIREFOX_PROFILE_DIR")
-        val options = options<FirefoxOptions> {
+        val options = firefoxOptions {
             profileDir = firefoxProfileDir
         }
 
@@ -355,7 +349,7 @@ class OptionsTests {
 
     @Test
     fun `FirefoxOptions with profile should be set`() {
-        val options = options<FirefoxOptions> {
+        val options = firefoxOptions {
             profile {
                 +(browser_download_folderList to 1)
                 +(browser_download_manager_showWhenStarting to false)
@@ -377,7 +371,7 @@ class OptionsTests {
 
     @Test
     fun `FirefoxOptions with windowSize should be set`() {
-        val options = options<FirefoxOptions> {
+        val options = firefoxOptions {
             arguments {
                 windowSize {
                     width = 1800
@@ -394,10 +388,10 @@ class OptionsTests {
         )
     }
 
-    @Disabled("Temporarily disabled due to CI runs a Linux image")
+//    @Disabled("Temporarily disabled due to CI runs a Linux image")
     @Test
     fun `SafariOptions with custom settings should be created`() {
-        val options = options<SafariOptions> {
+        val options = safariOptions {
             automaticInspection = true
             automaticProfiling = true
             useTechnologyPreview = true
@@ -420,7 +414,7 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with custom settings should be created`() {
-        val options = options<EdgeOptions> {
+        val options = edgeOptions {
             acceptInsecureCerts = true
             binary = "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta"
             browserVersion = "118.0.2088.17"
@@ -450,10 +444,10 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with arguments should be created`() {
-        val options = options<EdgeOptions> {
+        val options = edgeOptions {
             arguments {
-                +Arguments.Chrome.headless
-                +incognito
+                +Arguments.Edge.headless
+                +Arguments.Edge.inPrivate
                 windowSize {
                     width = 1800
                     height = 1000
@@ -467,8 +461,8 @@ class OptionsTests {
         val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
         googChromeOptions shouldHaveSize 2
         (googChromeOptions["args"] as List<String>).shouldContainExactlyInAnyOrder(
-            "--headless=new",
-            "--incognito",
+            "--headless",
+            "--inprivate",
             "--window-size=1800,1000",
             "--remote-allow-origins=*"
         )
@@ -477,14 +471,14 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with experimentalOptions should be created`() {
-        val options = options<EdgeOptions> {
+        val options = edgeOptions {
             experimentalOptions {
                 preferences {
-                    +(download_default_directory to "~/Downloads/TestAuto")
-                    +(safebrowsing_enabled to false)
+                    +(Preferences.Chromium.download_default_directory to "~/Downloads/TestAuto")
+                    +(Preferences.Chromium.safebrowsing_enabled to false)
                 }
                 excludeSwitches {
-                    +Switches.enable_automation
+                    +io.kolibrium.dsl.chromium.Switches.enable_automation
                 }
                 localState {
                     browserEnabledLabsExperiments {
@@ -518,7 +512,7 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with extensions should be created`() {
-        val options = options<EdgeOptions> {
+        val options = edgeOptions {
             extensions {
                 +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
             }
@@ -532,7 +526,7 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with timeouts should be created`() {
-        val options = options<EdgeOptions> {
+        val options = edgeOptions {
             timeouts {
                 implicitWait = 5.seconds
                 pageLoad = 3.seconds
@@ -550,7 +544,7 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with socks proxy should be created`() {
-        val options = options<EdgeOptions> {
+        val options = edgeOptions {
             proxy {
                 proxyType = MANUAL
                 autodetect = false
@@ -581,7 +575,7 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with proxy should be created`() {
-        val options = options<EdgeOptions> {
+        val options = edgeOptions {
             proxy {
                 proxyType = Proxy.ProxyType.MANUAL
                 ftpProxy = "localhost:8888"

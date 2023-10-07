@@ -17,7 +17,7 @@
 package io.kolibrium.dsl
 
 @JvmInline
-public value class Argument(public val name: String) {
+public value class Argument<T : Browser>(public val name: String) {
     init {
         require(name.startsWith("--")) {
             """
@@ -31,27 +31,27 @@ public object Arguments {
 
     // list of arguments: https://peter.sh/experiments/chromium-command-line-switches/
     public object Chrome {
-        public val disable_dev_shm_usage: Argument = Argument("--disable-dev-shm-usage")
-        public val disable_extensions: Argument = Argument("--disable-extensions")
-        public val disable_gpu: Argument = Argument("--disable-gpu")
-        public val disable_popup_blocking: Argument = Argument("--disable-popup-blocking")
-        public val disable_notifications: Argument = Argument("--disable-notifications")
-        public val headless: Argument = Argument("--headless=new")
-        public val incognito: Argument = Argument("--incognito")
-        public val no_sandbox: Argument = Argument("--no-sandbox")
-        public val remote_allow_origins: Argument = Argument("--remote-allow-origins=*")
-        public val start_maximized: Argument = Argument("--start-maximized")
+        public val disable_dev_shm_usage: Argument<io.kolibrium.dsl.Chrome> = Argument("--disable-dev-shm-usage")
+        public val disable_extensions: Argument<io.kolibrium.dsl.Chrome> = Argument("--disable-extensions")
+        public val disable_gpu: Argument<io.kolibrium.dsl.Chrome> = Argument("--disable-gpu")
+        public val disable_popup_blocking: Argument<io.kolibrium.dsl.Chrome> = Argument("--disable-popup-blocking")
+        public val disable_notifications: Argument<io.kolibrium.dsl.Chrome> = Argument("--disable-notifications")
+        public val headless: Argument<io.kolibrium.dsl.Chrome> = Argument("--headless=new")
+        public val incognito: Argument<io.kolibrium.dsl.Chrome> = Argument("--incognito")
+        public val no_sandbox: Argument<io.kolibrium.dsl.Chrome> = Argument("--no-sandbox")
+        public val remote_allow_origins: Argument<io.kolibrium.dsl.Chrome> = Argument("--remote-allow-origins=*")
+        public val start_maximized: Argument<io.kolibrium.dsl.Chrome> = Argument("--start-maximized")
     }
 
     public object Firefox {
-        public val headless: Argument = Argument("--headless")
-        public val incognito: Argument = Argument("--incognito")
-        public val height: Argument = Argument("--height")
-        public val width: Argument = Argument("--width")
+        public val headless: Argument<io.kolibrium.dsl.Firefox> = Argument("--headless")
+        public val incognito: Argument<io.kolibrium.dsl.Firefox> = Argument("--incognito")
+        public val height: Argument<io.kolibrium.dsl.Firefox> = Argument("--height")
+        public val width: Argument<io.kolibrium.dsl.Firefox> = Argument("--width")
     }
 
     public object Edge {
-        public val headless: Argument = Argument("--headless")
-        public val inPrivate: Argument = Argument("--inprivate")
+        public val headless: Argument<io.kolibrium.dsl.Edge> = Argument("--headless")
+        public val inPrivate: Argument<io.kolibrium.dsl.Edge> = Argument("--inprivate")
     }
 }

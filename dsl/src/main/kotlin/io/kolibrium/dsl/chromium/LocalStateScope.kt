@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.chrome
+package io.kolibrium.dsl.chromium
 
 import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.UnaryPlus

@@ -14,18 +14,11 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.chrome
+package io.kolibrium.dsl
 
-import io.kolibrium.dsl.UnaryPlus
-import java.io.File
-
-public class ExtensionsScope : UnaryPlus<ExtensionsScope.Extension> {
-    internal val extensions = mutableSetOf<File>()
-
-    override operator fun Extension.unaryPlus() {
-        extensions.add(File(this.path))
-    }
-
-    @JvmInline
-    public value class Extension(public val path: String)
+public enum class BrowserType {
+    CHROME,
+    FIREFOX,
+    SAFARI,
+    EDGE
 }

@@ -18,62 +18,59 @@ package io.kolibrium.dsl
 
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
-import org.openqa.selenium.edge.EdgeDriver
-import org.openqa.selenium.edge.EdgeDriverService
-import org.openqa.selenium.edge.EdgeOptions
 
 @KolibriumDsl
-public var DriverServiceScope<EdgeDriverService>.appendLog: Boolean? by threadLocalLazyDelegate()
+public var DriverServiceScope<Edge>.appendLog: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<EdgeDriver>.DriverServiceScope.appendLog: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Edge>.DriverServiceScope.appendLog: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<EdgeDriverService>.buildCheckDisabled: Boolean? by threadLocalLazyDelegate()
+public var DriverServiceScope<Edge>.buildCheckDisabled: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<EdgeDriver>.DriverServiceScope.buildCheckDisabled: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Edge>.DriverServiceScope.buildCheckDisabled: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<EdgeDriverService>.executable: String? by threadLocalLazyDelegate()
+public var DriverServiceScope<Edge>.executable: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<EdgeDriver>.DriverServiceScope.executable: String? by threadLocalLazyDelegate()
+public var DriverScope<Edge>.DriverServiceScope.executable: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<EdgeDriverService>.logFile: String? by threadLocalLazyDelegate()
+public var DriverServiceScope<Edge>.logFile: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<EdgeDriver>.DriverServiceScope.logFile: String? by threadLocalLazyDelegate()
+public var DriverScope<Edge>.DriverServiceScope.logFile: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<EdgeDriverService>.logLevel: ChromiumDriverLogLevel? by threadLocalLazyDelegate()
+public var DriverServiceScope<Edge>.logLevel: ChromiumDriverLogLevel? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<EdgeDriver>.DriverServiceScope.logLevel: ChromiumDriverLogLevel? by threadLocalLazyDelegate()
+public var DriverScope<Edge>.DriverServiceScope.logLevel: ChromiumDriverLogLevel? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<EdgeDriverService>.readableTimestamp: Boolean? by threadLocalLazyDelegate()
+public var DriverServiceScope<Edge>.readableTimestamp: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<EdgeDriver>.DriverServiceScope.readableTimestamp: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Edge>.DriverServiceScope.readableTimestamp: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var OptionsScope<EdgeOptions>.binary: String? by threadLocalLazyDelegate()
+public var OptionsScope<Edge>.binary: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<EdgeDriver>.OptionsScope.binary: String? by threadLocalLazyDelegate()
+public var DriverScope<Edge>.OptionsScope.binary: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var OptionsScope<EdgeOptions>.useWebView: Boolean? by threadLocalLazyDelegate()
+public var OptionsScope<Edge>.useWebView: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<EdgeDriver>.OptionsScope.useWebView: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Edge>.OptionsScope.useWebView: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public fun DriverServiceScope<EdgeDriverService>.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
+public fun DriverServiceScope<Edge>.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
     allowedIps(builder, block)
 
 @KolibriumDsl
-public fun DriverScope<EdgeDriver>.DriverServiceScope.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
+public fun DriverScope<Edge>.DriverServiceScope.allowedIps(block: AllowedIpsScope.() -> Unit): Unit =
     allowedIps(builder, block)

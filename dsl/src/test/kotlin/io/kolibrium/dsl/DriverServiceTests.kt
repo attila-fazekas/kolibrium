@@ -37,16 +37,11 @@ import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldNotBeEmpty
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
-import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel.DEBUG
-import org.openqa.selenium.edge.EdgeDriverService
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel.TRACE
-import org.openqa.selenium.firefox.GeckoDriverService
 import org.openqa.selenium.remote.service.DriverService
-import org.openqa.selenium.safari.SafariDriverService
 import java.io.File
 import java.nio.file.Path
 import java.time.Duration
@@ -64,7 +59,7 @@ class DriverServiceTests : DslTest() {
 
     @Test
     fun `empty driverService block should create default DriverService`() {
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
         }
 
         ds.start()
@@ -82,13 +77,13 @@ class DriverServiceTests : DslTest() {
         environment.shouldBeEmpty()
     }
 
-    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
+//    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
     @Test
     fun `custom ChromeDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("chrome.log").toString()
         val executablePath = Path.of("src/test/resources/executables/chromedriver").toAbsolutePath().toString()
 
-        ds = driverService<ChromeDriverService> {
+        ds = chromeDriverService {
             appendLog = true
             buildCheckDisabled = true
             executable = executablePath
@@ -135,7 +130,7 @@ class DriverServiceTests : DslTest() {
     fun `custom GeckoDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("firefox.log").toString()
 
-        ds = driverService<GeckoDriverService> {
+        ds = geckoDriverService {
             logFile = logFilePath
             logLevel = TRACE
             port = 7001
@@ -173,10 +168,10 @@ class DriverServiceTests : DslTest() {
         File(logFilePath).exists() shouldBe true
     }
 
-    @Disabled("Temporarily disabled due to CI runs a Linux machine")
+//    @Disabled("Temporarily disabled due to CI runs a Linux machine")
     @Test
     fun `custom SafariDriverService shall be created`() {
-        ds = driverService<SafariDriverService> {
+        ds = safariDriverService {
             logging = true
             port = 7002
             environment {
@@ -195,13 +190,13 @@ class DriverServiceTests : DslTest() {
         environment shouldBe mapOf("key1" to "value1", "key2" to "value2")
     }
 
-    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
+//    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
     @Test
     fun `custom EdgeDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("edge.log").toString()
         val executablePath = Path.of("src/test/resources/executables/msedgedriver").toAbsolutePath().toString()
 
-        ds = driverService<EdgeDriverService> {
+        ds = edgeDriverService {
             appendLog = true
             buildCheckDisabled = true
             executable = executablePath
@@ -233,7 +228,7 @@ class DriverServiceTests : DslTest() {
             "--disable-build-check",
             "--log-level=DEBUG",
             "--log-path=$logFilePath",
-            "--port=7000",
+            "--port=7003",
             "--readable-timestamp"
         )
 

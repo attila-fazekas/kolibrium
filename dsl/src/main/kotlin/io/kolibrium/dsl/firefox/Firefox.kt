@@ -17,91 +17,87 @@
 package io.kolibrium.dsl.firefox
 
 import io.kolibrium.dsl.AllowedIpsScope
-import io.kolibrium.dsl.Argument
-import io.kolibrium.dsl.ArgumentsScope
 import io.kolibrium.dsl.DriverScope
 import io.kolibrium.dsl.DriverServiceScope
+import io.kolibrium.dsl.Firefox
 import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.OptionsScope
 import io.kolibrium.dsl.PreferencesScope
-import io.kolibrium.dsl.WindowSizeScope
 import io.kolibrium.dsl.allowedIps
 import io.kolibrium.dsl.internal.threadLocalLazyDelegate
-import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.firefox.FirefoxProfile
-import org.openqa.selenium.firefox.GeckoDriverService
 import org.openqa.selenium.remote.AbstractDriverOptions
 
 @KolibriumDsl
-public var DriverServiceScope<GeckoDriverService>.executable: String? by threadLocalLazyDelegate()
+public var DriverServiceScope<Firefox>.executable: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<FirefoxDriver>.DriverServiceScope.executable: String? by threadLocalLazyDelegate()
+public var DriverScope<Firefox>.DriverServiceScope.executable: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<GeckoDriverService>.logFile: String? by threadLocalLazyDelegate()
+public var DriverServiceScope<Firefox>.logFile: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<FirefoxDriver>.DriverServiceScope.logFile: String? by threadLocalLazyDelegate()
+public var DriverScope<Firefox>.DriverServiceScope.logFile: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<GeckoDriverService>.logLevel: FirefoxDriverLogLevel? by threadLocalLazyDelegate()
+public var DriverServiceScope<Firefox>.logLevel: FirefoxDriverLogLevel? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<FirefoxDriver>.DriverServiceScope.logLevel: FirefoxDriverLogLevel? by threadLocalLazyDelegate()
+public var DriverScope<Firefox>.DriverServiceScope.logLevel: FirefoxDriverLogLevel? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<GeckoDriverService>.profileRoot: String? by threadLocalLazyDelegate()
+public var DriverServiceScope<Firefox>.profileRoot: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<FirefoxDriver>.DriverServiceScope.profileRoot: String? by threadLocalLazyDelegate()
+public var DriverScope<Firefox>.DriverServiceScope.profileRoot: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverServiceScope<GeckoDriverService>.truncatedLogs: Boolean? by threadLocalLazyDelegate()
+public var DriverServiceScope<Firefox>.truncatedLogs: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<FirefoxDriver>.DriverServiceScope.truncatedLogs: Boolean? by threadLocalLazyDelegate()
+public var DriverScope<Firefox>.DriverServiceScope.truncatedLogs: Boolean? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var OptionsScope<FirefoxOptions>.binary: String? by threadLocalLazyDelegate()
+public var OptionsScope<Firefox>.binary: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<FirefoxDriver>.OptionsScope.binary: String? by threadLocalLazyDelegate()
+public var DriverScope<Firefox>.OptionsScope.binary: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var OptionsScope<FirefoxOptions>.profileDir: String? by threadLocalLazyDelegate()
+public var OptionsScope<Firefox>.profileDir: String? by threadLocalLazyDelegate()
 
 @KolibriumDsl
-public var DriverScope<FirefoxDriver>.OptionsScope.profileDir: String? by threadLocalLazyDelegate()
+public var DriverScope<Firefox>.OptionsScope.profileDir: String? by threadLocalLazyDelegate()
 
 public typealias AllowedHostsScope = AllowedIpsScope
 
 @KolibriumDsl
-public fun DriverServiceScope<GeckoDriverService>.allowedHosts(block: AllowedHostsScope.() -> Unit): Unit =
+public fun DriverServiceScope<Firefox>.allowedHosts(block: AllowedHostsScope.() -> Unit): Unit =
     allowedIps(builder, block)
 
 @KolibriumDsl
-public fun OptionsScope<FirefoxOptions>.preferences(block: PreferencesScope.() -> Unit): Unit =
+public fun OptionsScope<Firefox>.preferences(block: PreferencesScope<Firefox>.() -> Unit): Unit =
     preferences(options, block)
 
 @KolibriumDsl
-public fun DriverScope<FirefoxDriver>.OptionsScope.preferences(block: PreferencesScope.() -> Unit): Unit =
+public fun DriverScope<Firefox>.OptionsScope.preferences(block: PreferencesScope<Firefox>.() -> Unit): Unit =
     preferences(options, block)
 
-private fun preferences(options: AbstractDriverOptions<*>, block: PreferencesScope.() -> Unit) {
-    val preferencesScope = PreferencesScope().apply(block)
+private fun preferences(options: AbstractDriverOptions<*>, block: PreferencesScope<Firefox>.() -> Unit) {
+    val preferencesScope = PreferencesScope<Firefox>().apply(block)
     if (preferencesScope.preferences.isNotEmpty()) {
         preferencesScope.preferences.forEach((options as FirefoxOptions)::addPreference)
     }
 }
 
 @KolibriumDsl
-public fun OptionsScope<FirefoxOptions>.profile(block: FirefoxProfileScope.() -> Unit): Unit = profile(options, block)
+public fun OptionsScope<Firefox>.profile(block: FirefoxProfileScope.() -> Unit): Unit = profile(options, block)
 
 @KolibriumDsl
-public fun DriverScope<FirefoxDriver>.OptionsScope.profile(block: FirefoxProfileScope.() -> Unit): Unit =
+public fun DriverScope<Firefox>.OptionsScope.profile(block: FirefoxProfileScope.() -> Unit): Unit =
     profile(options, block)
 
 private fun profile(options: AbstractDriverOptions<*>, block: FirefoxProfileScope.() -> Unit) {
@@ -111,19 +107,4 @@ private fun profile(options: AbstractDriverOptions<*>, block: FirefoxProfileScop
         ffProfileScope.preferences.forEach(profile::setPreference)
         (options as FirefoxOptions).profile = profile
     }
-}
-
-context(OptionsScope<FirefoxOptions>, ArgumentsScope)
-@KolibriumDsl
-public fun windowSize(block: WindowSizeScope.() -> Unit): Unit = setWindowSize(block)
-
-context(DriverScope<FirefoxDriver>, ArgumentsScope)
-@KolibriumDsl
-public fun windowSize(block: WindowSizeScope.() -> Unit): Unit = setWindowSize(block)
-
-context(ArgumentsScope)
-private fun setWindowSize(block: WindowSizeScope.() -> Unit) {
-    val windowSizeScope = WindowSizeScope().apply(block)
-    this@ArgumentsScope.args.add(Argument("--height=${windowSizeScope.width}"))
-    this@ArgumentsScope.args.add(Argument("--width=${windowSizeScope.height}"))
 }
