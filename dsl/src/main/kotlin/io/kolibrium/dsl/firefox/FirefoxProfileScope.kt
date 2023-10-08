@@ -17,9 +17,11 @@
 package io.kolibrium.dsl.firefox
 
 import io.kolibrium.dsl.Firefox
+import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.Preference
 import io.kolibrium.dsl.UnaryPlus
 
+@KolibriumDsl
 public class FirefoxProfileScope : UnaryPlus<Pair<Preference<Firefox>, Any>> {
     internal val preferences = mutableMapOf<String, Any>()
 

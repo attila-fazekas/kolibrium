@@ -18,6 +18,7 @@ package io.kolibrium.dsl
 
 import kotlin.time.Duration
 
+@KolibriumDsl
 public class TimeoutsScope {
     public var implicitWait: Duration? = null
     public var pageLoad: Duration? = null

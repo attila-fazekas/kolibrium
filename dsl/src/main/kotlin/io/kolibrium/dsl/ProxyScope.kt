@@ -18,6 +18,7 @@ package io.kolibrium.dsl
 
 import org.openqa.selenium.Proxy
 
+@KolibriumDsl
 public class ProxyScope {
     internal val proxyMap = mutableMapOf<String, Any>()
 
@@ -34,10 +35,10 @@ public class ProxyScope {
         val socksScope = SocksScope().apply(block)
         proxyMap.apply {
             with(socksScope) {
-                address?.let { proxyMap["socksProxy"] = it }
-                version?.let { proxyMap["socksVersion"] = it }
-                username?.let { proxyMap["socksUsername"] = it }
-                password?.let { proxyMap["socksPassword"] = it }
+                address?.let { this@ProxyScope.proxyMap["socksProxy"] = it }
+                version?.let { this@ProxyScope.proxyMap["socksVersion"] = it }
+                username?.let { this@ProxyScope.proxyMap["socksUsername"] = it }
+                password?.let { this@ProxyScope.proxyMap["socksPassword"] = it }
             }
         }
     }

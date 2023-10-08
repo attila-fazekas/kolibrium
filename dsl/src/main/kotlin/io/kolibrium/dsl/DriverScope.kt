@@ -21,6 +21,7 @@ import org.openqa.selenium.remote.AbstractDriverOptions
 import org.openqa.selenium.remote.service.DriverService
 
 @Poko
+@KolibriumDsl
 public class DriverScope<T : Browser>(
     private val builder: DriverService.Builder<*, *>,
     private val options: AbstractDriverOptions<*>
@@ -50,7 +51,9 @@ public class DriverScope<T : Browser>(
         return this
     }
 
+    @KolibriumDsl
     public inner class DriverServiceScope(builder: DriverService.Builder<*, *>) : BaseDriverServiceScope(builder)
 
+    @KolibriumDsl
     public inner class OptionsScope(options: AbstractDriverOptions<*>) : BaseOptionsScope(options)
 }

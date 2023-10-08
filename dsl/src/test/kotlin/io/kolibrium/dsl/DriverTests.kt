@@ -16,7 +16,6 @@
 
 package io.kolibrium.dsl
 
-import io.kolibrium.dsl.Arguments.Firefox.headless
 import io.kolibrium.dsl.chromium.Extension
 import io.kolibrium.dsl.chromium.chrome.binary
 import io.kolibrium.dsl.chromium.chrome.buildCheckDisabled
@@ -77,7 +76,7 @@ class DriverTests {
     fun driverTest(browser: BrowserType) {
         driver = driver(browser) {
             driverService {
-                timeout = 15.seconds
+                timeout = 30.seconds
             }
             options {
                 acceptInsecureCerts = true
@@ -102,7 +101,7 @@ class DriverTests {
                 logLevel = DEBUG
                 port = 7899
                 readableTimestamp = true
-                timeout = 15.seconds
+                timeout = 30.seconds
                 allowedIps {
                     +"192.168.0.50"
                     +"192.168.0.51"
@@ -194,13 +193,13 @@ class DriverTests {
                 logLevel = FirefoxDriverLogLevel.CONFIG
                 port = 7900
                 truncatedLogs = false
-                timeout = 15.seconds
+                timeout = 30.seconds
             }
             options {
                 acceptInsecureCerts = false
                 binary = "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
                 arguments {
-                    +headless
+                    +Arguments.Firefox.headless
                     windowSize {
                         width = 1800
                         height = 1000
@@ -258,7 +257,7 @@ class DriverTests {
         driver = safariDriver {
             driverService {
                 port = 7901
-                timeout = 15.seconds
+                timeout = 30.seconds
                 logging = true
             }
             options {
@@ -281,7 +280,7 @@ class DriverTests {
                 logLevel = DEBUG
                 port = 7902
                 readableTimestamp = true
-                timeout = 15.seconds
+                timeout = 30.seconds
                 allowedIps {
                     +"192.168.0.50"
                     +"192.168.0.51"

@@ -16,6 +16,7 @@
 
 package io.kolibrium.dsl
 
+@KolibriumDsl
 public class PreferencesScope<T : Browser> : UnaryPlus<Pair<Preference<T>, Any>> {
     internal val preferences = mutableMapOf<String, Any>()
 

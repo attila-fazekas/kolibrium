@@ -65,9 +65,13 @@ import org.openqa.selenium.safari.SafariDriver
 import org.openqa.selenium.safari.SafariDriverService
 import org.openqa.selenium.safari.SafariOptions
 import java.io.File
+import kotlin.annotation.AnnotationTarget.CLASS
+import kotlin.annotation.AnnotationTarget.FUNCTION
+import kotlin.annotation.AnnotationTarget.PROPERTY
+import kotlin.annotation.AnnotationTarget.TYPEALIAS
 
 @DslMarker
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
+@Target(FUNCTION, PROPERTY, CLASS, TYPEALIAS)
 internal annotation class KolibriumDsl
 
 @KolibriumDsl

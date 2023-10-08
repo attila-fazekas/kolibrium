@@ -19,6 +19,7 @@ package io.kolibrium.dsl.chromium
 import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.UnaryPlus
 
+@KolibriumDsl
 public class LocalStateScope {
     internal val localStatePrefs = mutableMapOf<String, Any>()
 
@@ -31,6 +32,7 @@ public class LocalStateScope {
     }
 }
 
+@KolibriumDsl
 public class BrowserEnabledLabsExperiments : UnaryPlus<ExperimentalFlag> {
     internal val experimentalFlags = mutableSetOf<String>()
 

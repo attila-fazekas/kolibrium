@@ -21,6 +21,7 @@ import org.openqa.selenium.edge.EdgeOptions
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.remote.AbstractDriverOptions
 
+@KolibriumDsl
 public class ArgumentsScope<T : Browser> : UnaryPlus<Argument<T>> {
     internal val args = mutableSetOf<Argument<*>>()
 

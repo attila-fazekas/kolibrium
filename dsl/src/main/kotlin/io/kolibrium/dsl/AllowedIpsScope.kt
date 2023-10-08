@@ -22,6 +22,7 @@ import org.openqa.selenium.edge.EdgeDriverService
 import org.openqa.selenium.firefox.GeckoDriverService
 import org.openqa.selenium.remote.service.DriverService
 
+@KolibriumDsl
 public class AllowedIpsScope<T : Browser> : UnaryPlus<String> {
     internal val allowedIps = mutableSetOf<String>()
 
@@ -30,6 +31,7 @@ public class AllowedIpsScope<T : Browser> : UnaryPlus<String> {
     }
 }
 
+@KolibriumDsl
 public typealias AllowedHostsScope = AllowedIpsScope<Browser>
 
 @KolibriumDsl

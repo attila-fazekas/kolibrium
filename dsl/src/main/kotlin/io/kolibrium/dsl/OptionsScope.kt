@@ -92,4 +92,5 @@ public sealed class BaseOptionsScope(internal val options: AbstractDriverOptions
     }
 }
 
+@KolibriumDsl
 public class OptionsScope<T : Browser>(options: AbstractDriverOptions<*>) : BaseOptionsScope(options)
