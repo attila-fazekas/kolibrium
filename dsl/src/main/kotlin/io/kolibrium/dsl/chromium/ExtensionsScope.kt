@@ -30,6 +30,7 @@ import java.io.File
 @JvmInline
 public value class Extension(public val path: String)
 
+@KolibriumDsl
 public class ExtensionsScope : UnaryPlus<Extension> {
     internal val extensions = mutableSetOf<File>()
 

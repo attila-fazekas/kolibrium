@@ -16,6 +16,7 @@
 
 package io.kolibrium.dsl
 
+@KolibriumDsl
 public class EnvironmentScope : UnaryPlus<Pair<String, String>> {
     internal val environmentVariables: MutableMap<String, String> = mutableMapOf()
 

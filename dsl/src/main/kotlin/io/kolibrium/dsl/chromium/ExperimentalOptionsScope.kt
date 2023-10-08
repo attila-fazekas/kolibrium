@@ -27,6 +27,7 @@ import io.kolibrium.dsl.PreferencesScope
 import org.openqa.selenium.chromium.ChromiumOptions
 import org.openqa.selenium.remote.AbstractDriverOptions
 
+@KolibriumDsl
 public class ExperimentalOptionsScope<T : Browser> {
     public val preferencesScope: PreferencesScope<Chromium> by lazy { PreferencesScope() }
     public val switchesScope: SwitchesScope by lazy { SwitchesScope() }

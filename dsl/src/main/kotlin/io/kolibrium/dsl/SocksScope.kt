@@ -16,6 +16,7 @@
 
 package io.kolibrium.dsl
 
+@KolibriumDsl
 public class SocksScope {
     public var address: String? = null
     public var version: Int? = null

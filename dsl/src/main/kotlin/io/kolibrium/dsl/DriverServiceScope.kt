@@ -64,5 +64,6 @@ public sealed class BaseDriverServiceScope(internal val builder: DriverService.B
     }
 }
 
+@KolibriumDsl
 public class DriverServiceScope<T : Browser>(builder: DriverService.Builder<*, *>) :
     BaseDriverServiceScope(builder)

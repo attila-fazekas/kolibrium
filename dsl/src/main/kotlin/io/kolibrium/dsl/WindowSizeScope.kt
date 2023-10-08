@@ -22,6 +22,7 @@ import kotlin.properties.Delegates.vetoable
 private const val WIDTH = 1280
 private const val HEIGHT = 720
 
+@KolibriumDsl
 public class WindowSizeScope<T : Browser> {
     private val logger = KotlinLogging.logger { }
 
@@ -55,8 +56,7 @@ public fun ArgumentsScope<Firefox>.windowSize(block: WindowSizeScope<Firefox>.()
 @JvmName("windowSizeEdge")
 public fun ArgumentsScope<Edge>.windowSize(block: WindowSizeScope<Chromium>.() -> Unit): Unit = setWindowSize(block)
 
-context(ArgumentsScope<*>)
-private inline fun <reified T : Browser> setWindowSize(block: WindowSizeScope<T>.() -> Unit) {
+private inline fun <reified T : Browser> ArgumentsScope<*>.setWindowSize(block: WindowSizeScope<T>.() -> Unit) {
     val windowSizeScope = WindowSizeScope<T>().apply(block)
     when (T::class) {
         Chromium::class -> {

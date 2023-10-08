@@ -16,8 +16,10 @@
 
 package io.kolibrium.dsl.chromium
 
+import io.kolibrium.dsl.KolibriumDsl
 import io.kolibrium.dsl.UnaryPlus
 
+@KolibriumDsl
 public class SwitchesScope : UnaryPlus<Switch> {
     internal val switches = mutableSetOf<String>()
 
