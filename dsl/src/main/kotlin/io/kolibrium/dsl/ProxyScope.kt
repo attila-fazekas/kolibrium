@@ -33,13 +33,11 @@ public class ProxyScope {
     @KolibriumDsl
     public fun socks(block: SocksScope.() -> Unit) {
         val socksScope = SocksScope().apply(block)
-        proxyMap.apply {
-            with(socksScope) {
-                address?.let { this@ProxyScope.proxyMap["socksProxy"] = it }
-                version?.let { this@ProxyScope.proxyMap["socksVersion"] = it }
-                username?.let { this@ProxyScope.proxyMap["socksUsername"] = it }
-                password?.let { this@ProxyScope.proxyMap["socksPassword"] = it }
-            }
+        with(socksScope) {
+            address?.let { this@ProxyScope.proxyMap["socksProxy"] = it }
+            version?.let { this@ProxyScope.proxyMap["socksVersion"] = it }
+            username?.let { this@ProxyScope.proxyMap["socksUsername"] = it }
+            password?.let { this@ProxyScope.proxyMap["socksPassword"] = it }
         }
     }
 }

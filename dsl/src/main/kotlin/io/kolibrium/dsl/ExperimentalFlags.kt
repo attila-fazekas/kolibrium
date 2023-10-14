@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.chromium
+package io.kolibrium.dsl
 
 @JvmInline
 public value class ExperimentalFlag(public val name: String)

@@ -16,15 +16,28 @@
 
 package io.kolibrium.dsl
 
+import org.openqa.selenium.edge.EdgeDriverService
+import org.openqa.selenium.edge.EdgeOptions
+
 @KolibriumDsl
-public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScope> {
+public class EdgeDriverScope : DriverScope<EdgeDriverServiceScope, EdgeOptionsScope>() {
 
-    internal abstract val driverServiceScope: DS
-    internal abstract val optionsScope: O
-
-    @KolibriumDsl
-    public abstract fun driverService(block: DS.() -> Unit)
+    override val driverServiceScope = EdgeDriverServiceScope(EdgeDriverService.Builder())
+    override val optionsScope = EdgeOptionsScope(EdgeOptions())
 
     @KolibriumDsl
-    public abstract fun options(block: O.() -> Unit)
+    override fun driverService(block: EdgeDriverServiceScope.() -> Unit) {
+        driverServiceScope.apply {
+            block()
+            configure()
+        }
+    }
+
+    @KolibriumDsl
+    override fun options(block: EdgeOptionsScope.() -> Unit) {
+        optionsScope.apply {
+            block()
+            configure()
+        }
+    }
 }

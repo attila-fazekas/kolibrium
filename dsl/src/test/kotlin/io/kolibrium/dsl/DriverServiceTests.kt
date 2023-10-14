@@ -16,32 +16,14 @@
 
 package io.kolibrium.dsl
 
-import io.kolibrium.dsl.chromium.chrome.appendLog
-import io.kolibrium.dsl.chromium.chrome.buildCheckDisabled
-import io.kolibrium.dsl.chromium.chrome.executable
-import io.kolibrium.dsl.chromium.chrome.logFile
-import io.kolibrium.dsl.chromium.chrome.logLevel
-import io.kolibrium.dsl.chromium.chrome.readableTimestamp
-import io.kolibrium.dsl.chromium.edge.appendLog
-import io.kolibrium.dsl.chromium.edge.buildCheckDisabled
-import io.kolibrium.dsl.chromium.edge.executable
-import io.kolibrium.dsl.chromium.edge.logFile
-import io.kolibrium.dsl.chromium.edge.logLevel
-import io.kolibrium.dsl.chromium.edge.readableTimestamp
-import io.kolibrium.dsl.firefox.logFile
-import io.kolibrium.dsl.firefox.logLevel
-import io.kolibrium.dsl.firefox.profileRoot
-import io.kolibrium.dsl.firefox.truncatedLogs
-import io.kolibrium.dsl.safari.logging
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.shouldNotBeEmpty
+import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel.DEBUG
@@ -69,8 +51,7 @@ class DriverServiceTests : DslTest() {
 
         ds.start()
 
-        val executable = ds.getField("executable") as String
-        executable.shouldNotBeEmpty()
+        ds.executable shouldContain(".cache/selenium/chromedriver")
 
         val timeout = ds.invokeMethod("getTimeout") as Duration
         timeout shouldBe 20.seconds.toJavaDuration()
@@ -109,8 +90,7 @@ class DriverServiceTests : DslTest() {
 
         ds.start()
 
-        val executable = ds.getField("executable") as String
-        executable.shouldNotBeEmpty()
+        ds.executable shouldBe executablePath
 
         val args = ds.invokeMethod("getArgs") as List<String>
         args shouldHaveSize 7
@@ -134,8 +114,10 @@ class DriverServiceTests : DslTest() {
     @Test
     fun `custom GeckoDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("firefox.log").toString()
+        val executablePath = Path.of("src/test/resources/executables/msedgedriver").toAbsolutePath().toString()
 
         ds = geckoDriverService {
+            executable = executablePath
             logFile = logFilePath
             logLevel = TRACE
             port = 7001
@@ -166,6 +148,8 @@ class DriverServiceTests : DslTest() {
             "--profile-root",
             tempDir.toString()
         )
+
+        ds.executable shouldBe executablePath
 
         val environment = ds.invokeMethod("getEnvironment") as Map<String, String>
         environment shouldBe mapOf("key1" to "value1", "key2" to "value2")
@@ -222,8 +206,7 @@ class DriverServiceTests : DslTest() {
 
         ds.start()
 
-        val executable = ds.getField("executable") as String
-        executable.shouldNotBeEmpty()
+        ds.executable shouldBe executablePath
 
         val args = ds.invokeMethod("getArgs") as List<String>
         args shouldHaveSize 7

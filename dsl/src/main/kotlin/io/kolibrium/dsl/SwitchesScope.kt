@@ -17,14 +17,10 @@
 package io.kolibrium.dsl
 
 @KolibriumDsl
-public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScope> {
+public class SwitchesScope : UnaryPlus<Switch> {
+    internal val switches = mutableSetOf<String>()
 
-    internal abstract val driverServiceScope: DS
-    internal abstract val optionsScope: O
-
-    @KolibriumDsl
-    public abstract fun driverService(block: DS.() -> Unit)
-
-    @KolibriumDsl
-    public abstract fun options(block: O.() -> Unit)
+    override operator fun Switch.unaryPlus() {
+        switches.add(name)
+    }
 }

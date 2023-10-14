@@ -16,6 +16,6 @@
 
 package io.kolibrium.dsl
 
-internal interface UnaryPlus<T> {
-    operator fun T.unaryPlus()
+public sealed interface UnaryPlus<T> {
+    public operator fun T.unaryPlus()
 }

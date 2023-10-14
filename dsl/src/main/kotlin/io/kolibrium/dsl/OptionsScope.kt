@@ -16,7 +16,6 @@
 
 package io.kolibrium.dsl
 
-import dev.drewhamilton.poko.Poko
 import org.openqa.selenium.PageLoadStrategy
 import org.openqa.selenium.Platform
 import org.openqa.selenium.Proxy
@@ -24,39 +23,27 @@ import org.openqa.selenium.UnexpectedAlertBehaviour
 import org.openqa.selenium.remote.AbstractDriverOptions
 import kotlin.time.toJavaDuration
 
-@Poko
-public sealed class BaseOptionsScope(internal val options: AbstractDriverOptions<*>) {
+@KolibriumDsl
+public sealed class OptionsScope {
 
-    @KolibriumDsl
+    internal abstract val options: AbstractDriverOptions<*>
+
     public var acceptInsecureCerts: Boolean? = null
-
-    @KolibriumDsl
     public var browserVersion: String? = null
-
-    @KolibriumDsl
     public var platform: Platform? = null
-
-    @KolibriumDsl
     public var pageLoadStrategy: PageLoadStrategy? = null
-
-    @KolibriumDsl
     public var strictFileInteractability: Boolean? = null
-
-    @KolibriumDsl
     public var unhandledPromptBehaviour: UnexpectedAlertBehaviour? = null
 
-    internal fun configure(): BaseOptionsScope {
-        options.apply {
-            with(this@BaseOptionsScope) {
-                acceptInsecureCerts?.let { setAcceptInsecureCerts(it) }
-                browserVersion?.let { setBrowserVersion(it) }
-                platform?.let { setPlatformName(it.name) }
-                pageLoadStrategy?.let { setPageLoadStrategy(it) }
-                strictFileInteractability?.let { setStrictFileInteractability(it) }
-                unhandledPromptBehaviour?.let { setUnhandledPromptBehaviour(it) }
-            }
+    internal open fun configure() {
+        with(options) {
+            acceptInsecureCerts?.let { setAcceptInsecureCerts(it) }
+            this@OptionsScope.browserVersion?.let { setBrowserVersion(it) }
+            platform?.let { setPlatformName(it.name) }
+            pageLoadStrategy?.let { setPageLoadStrategy(it) }
+            strictFileInteractability?.let { setStrictFileInteractability(it) }
+            unhandledPromptBehaviour?.let { setUnhandledPromptBehaviour(it) }
         }
-        return this
     }
 
     @KolibriumDsl
@@ -91,6 +78,3 @@ public sealed class BaseOptionsScope(internal val options: AbstractDriverOptions
         }
     }
 }
-
-@KolibriumDsl
-public class OptionsScope<T : Browser>(options: AbstractDriverOptions<*>) : BaseOptionsScope(options)

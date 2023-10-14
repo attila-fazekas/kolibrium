@@ -16,15 +16,23 @@
 
 package io.kolibrium.dsl
 
+import org.openqa.selenium.chromium.ChromiumDriverLogLevel
+import java.io.File
+
 @KolibriumDsl
-public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScope> {
+public abstract class ChromiumDriverServiceScope : DriverServiceScope() {
 
-    internal abstract val driverServiceScope: DS
-    internal abstract val optionsScope: O
+    public var appendLog: Boolean? = null
+    public var buildCheckDisabled: Boolean? = null
+    public var executable: String? = null
+    public var logFile: String? = null
+    public var logLevel: ChromiumDriverLogLevel? = null
+    public var readableTimestamp: Boolean? = null
 
-    @KolibriumDsl
-    public abstract fun driverService(block: DS.() -> Unit)
-
-    @KolibriumDsl
-    public abstract fun options(block: O.() -> Unit)
+    override fun configure() {
+        super.configure()
+        builder.apply {
+            logFile?.let { withLogFile(File(it)) }
+        }
+    }
 }

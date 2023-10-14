@@ -17,7 +17,7 @@
 package io.kolibrium.dsl
 
 import mu.KotlinLogging
-import kotlin.properties.Delegates.vetoable
+import kotlin.properties.Delegates
 
 private const val WIDTH = 1280
 private const val HEIGHT = 720
@@ -26,7 +26,7 @@ private const val HEIGHT = 720
 public class WindowSizeScope<T : Browser> {
     private val logger = KotlinLogging.logger { }
 
-    public var width: Int by vetoable(WIDTH) { _, oldValue, newValue ->
+    public var width: Int by Delegates.vetoable(WIDTH) { _, oldValue, newValue ->
         if (newValue < oldValue) {
             logger.debug("Requested window width $newValue < the minimum of $oldValue. Setting width to $oldValue")
             false
@@ -34,40 +34,13 @@ public class WindowSizeScope<T : Browser> {
             true
         }
     }
-    public var height: Int by vetoable(HEIGHT) { _, oldValue, newValue ->
+
+    public var height: Int by Delegates.vetoable(HEIGHT) { _, oldValue, newValue ->
         if (newValue < oldValue) {
             logger.debug("Requested window height $newValue < the minimum of $oldValue. Setting height to $oldValue")
             false
         } else {
             true
-        }
-    }
-}
-
-@KolibriumDsl
-@JvmName("windowSizeChrome")
-public fun ArgumentsScope<Chrome>.windowSize(block: WindowSizeScope<Chromium>.() -> Unit): Unit = setWindowSize(block)
-
-@KolibriumDsl
-@JvmName("windowSizeFirefox")
-public fun ArgumentsScope<Firefox>.windowSize(block: WindowSizeScope<Firefox>.() -> Unit): Unit = setWindowSize(block)
-
-@KolibriumDsl
-@JvmName("windowSizeEdge")
-public fun ArgumentsScope<Edge>.windowSize(block: WindowSizeScope<Chromium>.() -> Unit): Unit = setWindowSize(block)
-
-private inline fun <reified T : Browser> ArgumentsScope<*>.setWindowSize(block: WindowSizeScope<T>.() -> Unit) {
-    val windowSizeScope = WindowSizeScope<T>().apply(block)
-    when (T::class) {
-        Chromium::class -> {
-            this@ArgumentsScope.args.add(
-                Argument<Chromium>("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
-            )
-        }
-
-        Firefox::class -> {
-            this@ArgumentsScope.args.add(Argument<Firefox>("--height=${windowSizeScope.width}"))
-            this@ArgumentsScope.args.add(Argument<Firefox>("--width=${windowSizeScope.height}"))
         }
     }
 }

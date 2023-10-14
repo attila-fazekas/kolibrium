@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2023 Attila Fazekas
  *
@@ -14,16 +15,19 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.chromium
+package io.kolibrium.dsl
 
-import io.kolibrium.dsl.KolibriumDsl
-import io.kolibrium.dsl.UnaryPlus
+import org.openqa.selenium.edge.EdgeOptions
 
 @KolibriumDsl
-public class SwitchesScope : UnaryPlus<Switch> {
-    internal val switches = mutableSetOf<String>()
+public class EdgeOptionsScope(override val options: EdgeOptions) : ChromiumOptionsScope(options) {
 
-    override operator fun Switch.unaryPlus() {
-        switches.add(name)
+    public var useWebView: Boolean? = null
+
+    override fun configure() {
+        super.configure()
+        options.apply {
+            useWebView?.let { useWebView(it) }
+        }
     }
 }

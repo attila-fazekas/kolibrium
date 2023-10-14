@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.firefox
+package io.kolibrium.dsl
 
-import io.kolibrium.dsl.Firefox
-import io.kolibrium.dsl.KolibriumDsl
-import io.kolibrium.dsl.Preference
-import io.kolibrium.dsl.UnaryPlus
+import org.openqa.selenium.safari.SafariDriverService
 
 @KolibriumDsl
-public class FirefoxProfileScope : UnaryPlus<Pair<Preference<Firefox>, Any>> {
-    internal val preferences = mutableMapOf<String, Any>()
+public class SafariDriverServiceScope(override val builder: SafariDriverService.Builder) :
+    DriverServiceScope() {
 
-    override operator fun Pair<Preference<Firefox>, Any>.unaryPlus() {
-        preferences[first.name] = second
+    public var logging: Boolean? = null
+
+    override fun configure() {
+        super.configure()
+        builder.apply {
+            logging?.let { withLogging(it) }
+        }
     }
 }

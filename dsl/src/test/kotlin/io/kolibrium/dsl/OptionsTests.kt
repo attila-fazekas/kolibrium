@@ -18,6 +18,8 @@ package io.kolibrium.dsl
 
 import io.kolibrium.dsl.Arguments.Chrome.incognito
 import io.kolibrium.dsl.Arguments.Firefox.headless
+import io.kolibrium.dsl.ExperimentalFlags.cookies_without_same_site_must_be_secure
+import io.kolibrium.dsl.ExperimentalFlags.same_site_by_default_cookies
 import io.kolibrium.dsl.Preferences.Firefox.browser_download_folderList
 import io.kolibrium.dsl.Preferences.Firefox.browser_download_manager_alertOnEXEOpen
 import io.kolibrium.dsl.Preferences.Firefox.browser_download_manager_closeWhenDone
@@ -28,21 +30,6 @@ import io.kolibrium.dsl.Preferences.Firefox.browser_download_manager_useWindow
 import io.kolibrium.dsl.Preferences.Firefox.browser_download_useDownloadDir
 import io.kolibrium.dsl.Preferences.Firefox.browser_helperApps_alwaysAsk_force
 import io.kolibrium.dsl.Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk
-import io.kolibrium.dsl.chromium.ExperimentalFlags.cookies_without_same_site_must_be_secure
-import io.kolibrium.dsl.chromium.ExperimentalFlags.same_site_by_default_cookies
-import io.kolibrium.dsl.chromium.Extension
-import io.kolibrium.dsl.chromium.chrome.binary
-import io.kolibrium.dsl.chromium.edge.binary
-import io.kolibrium.dsl.chromium.edge.useWebView
-import io.kolibrium.dsl.chromium.experimentalOptions
-import io.kolibrium.dsl.chromium.extensions
-import io.kolibrium.dsl.firefox.binary
-import io.kolibrium.dsl.firefox.preferences
-import io.kolibrium.dsl.firefox.profile
-import io.kolibrium.dsl.firefox.profileDir
-import io.kolibrium.dsl.safari.automaticInspection
-import io.kolibrium.dsl.safari.automaticProfiling
-import io.kolibrium.dsl.safari.useTechnologyPreview
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
@@ -161,7 +148,7 @@ class OptionsTests {
                     +(Preferences.Chromium.safebrowsing_enabled to false)
                 }
                 excludeSwitches {
-                    +io.kolibrium.dsl.chromium.Switches.enable_automation
+                    +Switches.enable_automation
                 }
                 localState {
                     browserEnabledLabsExperiments {
@@ -260,7 +247,7 @@ class OptionsTests {
     fun `ChromeOptions with proxy should be created`() {
         val options = chromeOptions {
             proxy {
-                proxyType = Proxy.ProxyType.MANUAL
+                proxyType = MANUAL
                 ftpProxy = "localhost:8888"
                 httpProxy = "localhost:8888"
             }
@@ -480,7 +467,7 @@ class OptionsTests {
                     +(Preferences.Chromium.safebrowsing_enabled to false)
                 }
                 excludeSwitches {
-                    +io.kolibrium.dsl.chromium.Switches.enable_automation
+                    +Switches.enable_automation
                 }
                 localState {
                     browserEnabledLabsExperiments {
@@ -579,7 +566,7 @@ class OptionsTests {
     fun `EdgeOptions with proxy should be created`() {
         val options = edgeOptions {
             proxy {
-                proxyType = Proxy.ProxyType.MANUAL
+                proxyType = MANUAL
                 ftpProxy = "localhost:8888"
                 httpProxy = "localhost:8888"
             }

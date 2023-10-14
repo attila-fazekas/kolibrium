@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.chromium
-
-import io.kolibrium.dsl.KolibriumDsl
-import io.kolibrium.dsl.UnaryPlus
+package io.kolibrium.dsl
 
 @KolibriumDsl
 public class LocalStateScope {

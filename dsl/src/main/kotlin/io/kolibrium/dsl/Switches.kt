@@ -16,15 +16,10 @@
 
 package io.kolibrium.dsl
 
-@KolibriumDsl
-public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScope> {
+@JvmInline
+public value class Switch(public val name: String)
 
-    internal abstract val driverServiceScope: DS
-    internal abstract val optionsScope: O
-
-    @KolibriumDsl
-    public abstract fun driverService(block: DS.() -> Unit)
-
-    @KolibriumDsl
-    public abstract fun options(block: O.() -> Unit)
+public object Switches {
+    public val enable_automation: Switch = Switch("enable-automation")
+    public val disable_popup_blocking: Switch = Switch("disable-popup-blocking")
 }

@@ -17,14 +17,18 @@
 package io.kolibrium.dsl
 
 @KolibriumDsl
-public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScope> {
-
-    internal abstract val driverServiceScope: DS
-    internal abstract val optionsScope: O
-
-    @KolibriumDsl
-    public abstract fun driverService(block: DS.() -> Unit)
+public class ExperimentalOptionsScope<T : Chromium> {
+    public val preferencesScope: PreferencesScope<T> by lazy { PreferencesScope() }
+    public val switchesScope: SwitchesScope by lazy { SwitchesScope() }
+    public val localStateScope: LocalStateScope by lazy { LocalStateScope() }
 
     @KolibriumDsl
-    public abstract fun options(block: O.() -> Unit)
+    public fun preferences(block: PreferencesScope<T>.() -> Unit): PreferencesScope<T> =
+        preferencesScope.apply(block)
+
+    @KolibriumDsl
+    public fun excludeSwitches(block: SwitchesScope.() -> Unit): SwitchesScope = switchesScope.apply(block)
+
+    @KolibriumDsl
+    public fun localState(block: LocalStateScope.() -> Unit): LocalStateScope = localStateScope.apply(block)
 }

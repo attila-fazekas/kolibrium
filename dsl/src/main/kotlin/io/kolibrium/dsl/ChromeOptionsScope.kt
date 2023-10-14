@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2023 Attila Fazekas
  *
@@ -14,12 +15,9 @@
  * limitations under the License.
  */
 
-package io.kolibrium.dsl.chromium
+package io.kolibrium.dsl
 
-@JvmInline
-public value class Switch(public val name: String)
+import org.openqa.selenium.chrome.ChromeOptions
 
-public object Switches {
-    public val enable_automation: Switch = Switch("enable-automation")
-    public val disable_popup_blocking: Switch = Switch("disable-popup-blocking")
-}
+@KolibriumDsl
+public class ChromeOptionsScope(override val options: ChromeOptions) : ChromiumOptionsScope(options)

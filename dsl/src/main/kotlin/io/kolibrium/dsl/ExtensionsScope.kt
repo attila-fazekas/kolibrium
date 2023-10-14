@@ -16,15 +16,16 @@
 
 package io.kolibrium.dsl
 
+import java.io.File
+
+@JvmInline
+public value class Extension(public val path: String)
+
 @KolibriumDsl
-public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScope> {
+public class ExtensionsScope : UnaryPlus<Extension> {
+    internal val extensions = mutableSetOf<File>()
 
-    internal abstract val driverServiceScope: DS
-    internal abstract val optionsScope: O
-
-    @KolibriumDsl
-    public abstract fun driverService(block: DS.() -> Unit)
-
-    @KolibriumDsl
-    public abstract fun options(block: O.() -> Unit)
+    override operator fun Extension.unaryPlus() {
+        extensions.add(File(path))
+    }
 }
