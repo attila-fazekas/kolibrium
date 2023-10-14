@@ -31,7 +31,7 @@ import org.openqa.selenium.remote.service.DriverService
 
 @Suppress("UNCHECKED_CAST")
 @Disabled
-class DriverServiceParallelTest : DslTest() {
+class DriverServiceParallelTest {
     lateinit var ds: DriverService
 
     @AfterEach

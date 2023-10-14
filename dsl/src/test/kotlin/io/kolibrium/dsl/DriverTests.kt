@@ -16,6 +16,10 @@
 
 package io.kolibrium.dsl
 
+import io.kolibrium.dsl.BrowserType.CHROME
+import io.kolibrium.dsl.BrowserType.EDGE
+import io.kolibrium.dsl.BrowserType.FIREFOX
+import io.kolibrium.dsl.Channel.BETA
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.AfterEach
@@ -68,11 +72,12 @@ class DriverTests {
     fun chromeTest(@TempDir tempDir: Path) {
         val logFile = tempDir.resolve("chrome.log").toString()
         val downloadDir = tempDir.absolutePathString()
+        val executablePath = getExecutablePath(CHROME, BETA)
 
         driver = chromeDriver {
             driverService {
                 buildCheckDisabled = true
-                executable = "src/test/resources/executables/chromedriver"
+                executable = executablePath
                 this.logFile = logFile
                 logLevel = DEBUG
                 port = 7899
@@ -133,7 +138,7 @@ class DriverTests {
         val fileContent = String(Files.readAllBytes(Path.of(logFile)))
 
         fileContent shouldContain "[WARNING]: You are using an unsupported command-line switch: --disable-build-check"
-        fileContent shouldContain "Starting ChromeDriver 110.0.5481.30"
+        fileContent shouldContain "Starting ChromeDriver 119.0.6045.21"
         fileContent shouldContain "[DEBUG]:"
         fileContent shouldContain "on port 7899"
         fileContent shouldContain """"acceptInsecureCerts": true"""
@@ -162,9 +167,11 @@ class DriverTests {
     @Test
     fun firefoxTest(@TempDir tempDir: Path) {
         val logFile = tempDir.resolve("firefox.log").toString()
+        val executablePath = getExecutablePath(FIREFOX)
 
         driver = firefoxDriver {
             driverService {
+                executable = executablePath
                 this.logFile = logFile
                 logLevel = CONFIG
                 port = 7900
@@ -212,23 +219,24 @@ class DriverTests {
                 }
             }
         }
-//
-//        val fileContent = String(Files.readAllBytes(Path.of(logFile)))
-//
-//        fileContent shouldContain "geckodriver\tINFO\tListening on 127.0.0.1:7900"
-//        fileContent shouldContain """"acceptInsecureCerts": false"""
-//        fileContent shouldContain """"binary": "\u002fApplications\u002fFirefox Developer Edition.app\u002fContents\u002fMacOS\u002ffirefox""""
-//        fileContent shouldContain """"--height=1800""""
-//        fileContent shouldContain """"--width=1000""""
-//        fileContent shouldContain """"network.automatic-ntlm-auth.trusted-uris": "http:\u002f\u002f,https:\u002f\u002f""""
-//        fileContent shouldContain """"network.negotiate-auth.delegation-uris": "http:\u002f\u002f,https:\u002f\u002f""""
-//        fileContent shouldContain """"network.negotiate-auth.trusted-uris": "http:\u002f\u002f,https:\u002f\u002f""""
-//        fileContent shouldContain """"network.http.phishy-userpass-length": 255"""
-//        fileContent shouldContain """"network.proxy.no_proxies_on": """""
-//        fileContent shouldContain """"security.csp.enable": false"""
-//        fileContent shouldContain """"implicit": 5000"""
-//        fileContent shouldContain """"pageLoad": 3000"""
-//        fileContent shouldContain """"script": 2000"""
+
+        val fileContent = String(Files.readAllBytes(Path.of(logFile)))
+
+        fileContent shouldContain "geckodriver\tINFO\tListening on 127.0.0.1:7900"
+        fileContent shouldContain """"moz:geckodriverVersion":"0.33.0""""
+        fileContent shouldContain """"acceptInsecureCerts": false"""
+        fileContent shouldContain """"binary": "\u002fApplications\u002fFirefox Developer Edition.app\u002fContents\u002fMacOS\u002ffirefox""""
+        fileContent shouldContain """"--height=1800""""
+        fileContent shouldContain """"--width=1000""""
+        fileContent shouldContain """"network.automatic-ntlm-auth.trusted-uris": "http:\u002f\u002f,https:\u002f\u002f""""
+        fileContent shouldContain """"network.negotiate-auth.delegation-uris": "http:\u002f\u002f,https:\u002f\u002f""""
+        fileContent shouldContain """"network.negotiate-auth.trusted-uris": "http:\u002f\u002f,https:\u002f\u002f""""
+        fileContent shouldContain """"network.http.phishy-userpass-length": 255"""
+        fileContent shouldContain """"network.proxy.no_proxies_on": """""
+        fileContent shouldContain """"security.csp.enable": false"""
+        fileContent shouldContain """"implicit": 5000"""
+        fileContent shouldContain """"pageLoad": 3000"""
+        fileContent shouldContain """"script": 2000"""
     }
 
     @Test
@@ -250,11 +258,12 @@ class DriverTests {
     fun edgeTest(@TempDir tempDir: Path) {
         val logFile = tempDir.resolve("edge.log").toString()
         val downloadDir = tempDir.absolutePathString()
+        val executablePath = getExecutablePath(EDGE, BETA)
 
         driver = edgeDriver {
             driverService {
                 buildCheckDisabled = true
-                executable = "src/test/resources/executables/msedgedriver"
+                executable = executablePath
                 this.logFile = logFile
                 logLevel = DEBUG
                 port = 7902
@@ -315,14 +324,14 @@ class DriverTests {
         val fileContent = String(Files.readAllBytes(Path.of(logFile)))
 
         fileContent shouldContain "[WARNING]: You are using an unsupported command-line switch: --disable-build-check"
-        fileContent shouldContain "Starting Microsoft Edge WebDriver 108.0.1462.54"
+        fileContent shouldContain "Starting Microsoft Edge WebDriver 118.0.2088.46"
         fileContent shouldContain "[DEBUG]:"
         fileContent shouldContain "on port 7902"
         fileContent shouldContain """"acceptInsecureCerts": true"""
         fileContent shouldContain """"binary": "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta""""
         fileContent shouldContain """"browserVersion": "117.0.2045.47""""
         fileContent shouldContain """"pageLoadStrategy": "normal""""
-        fileContent shouldContain """"platformName": "mac os x""""
+        fileContent shouldContain """"platformName": "mac""""
         fileContent shouldContain """"strictFileInteractability": true"""
         fileContent shouldContain """"unhandledPromptBehavior": "dismiss""""
         fileContent shouldContain """"args": [ "--remote-allow-origins=*", "--headless", "--inprivate", "--window-size=1800,1000" ]"""
