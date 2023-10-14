@@ -16,44 +16,15 @@
 
 package io.kolibrium.dsl
 
-import dev.drewhamilton.poko.Poko
-import org.openqa.selenium.remote.AbstractDriverOptions
-import org.openqa.selenium.remote.service.DriverService
-
-@Poko
 @KolibriumDsl
-public class DriverScope<T : Browser>(
-    private val builder: DriverService.Builder<*, *>,
-    private val options: AbstractDriverOptions<*>
-) {
-    internal val driverServiceScope: DriverServiceScope by lazy { DriverServiceScope(builder) }
+public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScope> {
 
-    internal val optionsScope: OptionsScope by lazy { OptionsScope(options) }
+    internal abstract val driverServiceScope: DS
+    internal abstract val optionsScope: O
 
     @KolibriumDsl
-    public fun driverService(block: DriverServiceScope.() -> Unit) {
-        driverServiceScope.apply {
-            block()
-            configure()
-        }
-    }
+    public abstract fun driverService(block: DS.() -> Unit)
 
     @KolibriumDsl
-    public fun options(block: OptionsScope.() -> Unit) {
-        optionsScope.apply {
-            block()
-            configure()
-        }
-    }
-
-    internal fun validate(): DriverScope<T> {
-        driverServiceScope.checkPort()
-        return this
-    }
-
-    @KolibriumDsl
-    public inner class DriverServiceScope(builder: DriverService.Builder<*, *>) : BaseDriverServiceScope(builder)
-
-    @KolibriumDsl
-    public inner class OptionsScope(options: AbstractDriverOptions<*>) : BaseOptionsScope(options)
+    public abstract fun options(block: O.() -> Unit)
 }

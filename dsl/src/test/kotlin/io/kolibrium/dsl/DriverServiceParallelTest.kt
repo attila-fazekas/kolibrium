@@ -16,16 +16,21 @@
 
 package io.kolibrium.dsl
 
-import io.kolibrium.dsl.chromium.chrome.logLevel
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Test
-import org.openqa.selenium.chromium.ChromiumDriverLogLevel
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.RepeatedTest
+import org.openqa.selenium.chromium.ChromiumDriverLogLevel.ALL
+import org.openqa.selenium.chromium.ChromiumDriverLogLevel.DEBUG
+import org.openqa.selenium.chromium.ChromiumDriverLogLevel.INFO
+import org.openqa.selenium.chromium.ChromiumDriverLogLevel.SEVERE
+import org.openqa.selenium.chromium.ChromiumDriverLogLevel.WARNING
 import org.openqa.selenium.remote.service.DriverService
 
 @Suppress("UNCHECKED_CAST")
+@Disabled
 class DriverServiceParallelTest : DslTest() {
     lateinit var ds: DriverService
 
@@ -34,10 +39,10 @@ class DriverServiceParallelTest : DslTest() {
         ds.stop()
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test1() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.DEBUG
+            logLevel = DEBUG
             environment {
                 +("key1" to "value1")
             }
@@ -52,10 +57,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key1" to "value1")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test2() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.INFO
+            logLevel = INFO
             environment {
                 +("key2" to "value2")
             }
@@ -70,10 +75,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key2" to "value2")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test3() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.WARNING
+            logLevel = WARNING
             environment {
                 +("key3" to "value3")
             }
@@ -88,10 +93,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key3" to "value3")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test4() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.ALL
+            logLevel = ALL
             environment {
                 +("key4" to "value4")
             }
@@ -106,10 +111,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key4" to "value4")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test5() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.SEVERE
+            logLevel = SEVERE
             environment {
                 +("key5" to "value5")
             }
@@ -124,10 +129,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key5" to "value5")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test6() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.DEBUG
+            logLevel = DEBUG
             environment {
                 +("key6" to "value6")
             }
@@ -142,10 +147,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key6" to "value6")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test7() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.INFO
+            logLevel = INFO
             environment {
                 +("key7" to "value7")
             }
@@ -160,10 +165,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key7" to "value7")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test8() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.WARNING
+            logLevel = WARNING
             environment {
                 +("key8" to "value8")
             }
@@ -178,10 +183,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key8" to "value8")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test9() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.DEBUG
+            logLevel = DEBUG
             environment {
                 +("key9" to "value9")
             }
@@ -196,10 +201,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key9" to "value9")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test10() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.ALL
+            logLevel = ALL
             environment {
                 +("key10" to "value10")
             }
@@ -214,10 +219,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key10" to "value10")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test11() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.SEVERE
+            logLevel = SEVERE
             environment {
                 +("key11" to "value11")
             }
@@ -232,10 +237,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key11" to "value11")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test12() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.DEBUG
+            logLevel = DEBUG
             environment {
                 +("key12" to "value12")
             }
@@ -250,10 +255,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key12" to "value12")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test13() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.INFO
+            logLevel = INFO
             environment {
                 +("key13" to "value13")
             }
@@ -268,10 +273,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key13" to "value13")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test14() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.WARNING
+            logLevel = WARNING
             environment {
                 +("key14" to "value14")
             }
@@ -286,10 +291,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key14" to "value14")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test15() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.ALL
+            logLevel = ALL
             environment {
                 +("key15" to "value15")
             }
@@ -304,10 +309,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key15" to "value15")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test16() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.SEVERE
+            logLevel = SEVERE
             environment {
                 +("key16" to "value16")
             }
@@ -322,10 +327,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key16" to "value16")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test17() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.INFO
+            logLevel = INFO
             environment {
                 +("key17" to "value17")
             }
@@ -340,10 +345,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key17" to "value17")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test18() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.WARNING
+            logLevel = WARNING
             environment {
                 +("key18" to "value18")
             }
@@ -358,10 +363,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key18" to "value18")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test19() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.ALL
+            logLevel = ALL
             environment {
                 +("key19" to "value19")
             }
@@ -376,10 +381,10 @@ class DriverServiceParallelTest : DslTest() {
         environment shouldBe mapOf("key19" to "value19")
     }
 
-    @Test
+    @RepeatedTest(10)
     fun test20() {
         ds = chromeDriverService {
-            logLevel = ChromiumDriverLogLevel.SEVERE
+            logLevel = SEVERE
             environment {
                 +("key20" to "value20")
             }

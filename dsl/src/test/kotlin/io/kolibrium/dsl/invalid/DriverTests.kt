@@ -16,10 +16,7 @@
 
 package io.kolibrium.dsl.invalid
 
-import io.kolibrium.dsl.Chrome
 import io.kolibrium.dsl.chromeDriver
-import io.kolibrium.dsl.chromium.chrome.executable
-import io.kolibrium.dsl.driverService
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -53,7 +50,7 @@ class DriverTests {
     fun `ChromeDriver shall not be created - wrong executable path`() {
         val exception = assertThrows<RuntimeException> {
             chromeDriver {
-                driverService<Chrome> {
+                driverService {
                     executable = "does not exist"
                 }
             }

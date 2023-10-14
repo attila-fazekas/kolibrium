@@ -17,66 +17,25 @@
 package io.kolibrium.dsl
 
 import org.apache.commons.validator.routines.InetAddressValidator
-import org.openqa.selenium.chrome.ChromeDriverService
-import org.openqa.selenium.edge.EdgeDriverService
-import org.openqa.selenium.firefox.GeckoDriverService
-import org.openqa.selenium.remote.service.DriverService
 
-@KolibriumDsl
-public class AllowedIpsScope<T : Browser> : UnaryPlus<String> {
+public class AllowedIpsScope : UnaryPlus<String> {
     internal val allowedIps = mutableSetOf<String>()
 
     override fun String.unaryPlus() {
         allowedIps.add(this)
     }
-}
 
-@KolibriumDsl
-public typealias AllowedHostsScope = AllowedIpsScope<Browser>
-
-@KolibriumDsl
-@JvmName("allowedIpsChrome")
-public fun DriverServiceScope<Chrome>.allowedIps(block: AllowedIpsScope<Chromium>.() -> Unit): Unit =
-    allowedIps(builder, block)
-
-@KolibriumDsl
-@JvmName("allowedIpsChrome")
-public fun DriverScope<Chrome>.DriverServiceScope.allowedIps(block: AllowedIpsScope<Chromium>.() -> Unit): Unit =
-    allowedIps(builder, block)
-
-@KolibriumDsl
-@JvmName("allowedIpsEdge")
-public fun DriverServiceScope<Edge>.allowedIps(block: AllowedIpsScope<Chromium>.() -> Unit): Unit =
-    allowedIps(builder, block)
-
-@KolibriumDsl
-@JvmName("allowedIpsEdge")
-public fun DriverScope<Edge>.DriverServiceScope.allowedIps(block: AllowedIpsScope<Chromium>.() -> Unit): Unit =
-    allowedIps(builder, block)
-
-@KolibriumDsl
-public fun DriverServiceScope<Firefox>.allowedHosts(block: AllowedHostsScope.() -> Unit): Unit =
-    allowedIps(builder, block)
-
-@KolibriumDsl
-public fun DriverScope<Firefox>.DriverServiceScope.allowedHosts(block: AllowedHostsScope.() -> Unit): Unit =
-    allowedIps(builder, block)
-
-internal fun <T : Browser> allowedIps(builder: DriverService.Builder<*, *>, block: AllowedIpsScope<T>.() -> Unit) {
-    val allowedIpsScope = AllowedIpsScope<T>().apply(block)
-    with(allowedIpsScope.allowedIps) {
-        if (isNotEmpty()) {
-            val invalidIPAddresses = filter { !InetAddressValidator.getInstance().isValid(it) }
-
-            check(invalidIPAddresses.isEmpty()) { "Following IP addresses are invalid: $invalidIPAddresses" }
-
-            when (builder) {
-                is ChromeDriverService.Builder -> builder.withAllowedListIps(joinToString(separator = ", "))
-
-                is GeckoDriverService.Builder -> builder.withAllowHosts(joinToString(separator = " "))
-
-                is EdgeDriverService.Builder -> builder.withAllowedListIps(joinToString(separator = ", "))
+    internal fun allowedIps(block: AllowedIpsScope.() -> Unit): AllowedIpsScope {
+        val allowedIpsScope = AllowedIpsScope().apply(block)
+        with(allowedIpsScope.allowedIps) {
+            if (isNotEmpty()) {
+                val invalidIPAddresses = filter { !InetAddressValidator.getInstance().isValid(it) }
+                check(invalidIPAddresses.isEmpty()) { "Following IP addresses are invalid: $invalidIPAddresses" }
             }
         }
+        return allowedIpsScope
     }
 }
+
+@KolibriumDsl
+public typealias AllowedHostsScope = AllowedIpsScope

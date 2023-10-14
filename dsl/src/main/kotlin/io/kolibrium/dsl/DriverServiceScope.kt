@@ -16,26 +16,35 @@
 
 package io.kolibrium.dsl
 
-import dev.drewhamilton.poko.Poko
 import org.openqa.selenium.remote.service.DriverService
+import java.io.File
 import java.io.IOException
 import java.net.ServerSocket
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
 
-@Poko
-public sealed class BaseDriverServiceScope(internal val builder: DriverService.Builder<*, *>) {
+@KolibriumDsl
+public sealed class DriverServiceScope {
 
-    @KolibriumDsl
+    internal abstract val builder: DriverService.Builder<*, *>
+
     public var port: Int? = null
-
-    @KolibriumDsl
     public var timeout: Duration? = null
 
+    internal open fun configure() {
+        with(builder) {
+            port?.let {
+                checkPort(it)
+                usingPort(it)
+            }
+            timeout?.let { withTimeout(it.toJavaDuration()) }
+        }
+    }
+
     @SuppressWarnings("SwallowedException")
-    internal fun checkPort(): BaseDriverServiceScope {
+    private fun checkPort(port: Int) {
         try {
-            port?.let { ServerSocket(it).use {} }
+            ServerSocket(port).use {}
         } catch (e: IOException) {
             throw KolibriumDslConfigurationException(
                 """
@@ -44,15 +53,6 @@ public sealed class BaseDriverServiceScope(internal val builder: DriverService.B
                 """.trimMargin()
             )
         }
-        return this
-    }
-
-    internal fun configure(): BaseDriverServiceScope {
-        builder.apply {
-            port?.let { usingPort(it) }
-            timeout?.let { withTimeout(it.toJavaDuration()) }
-        }
-        return this
     }
 
     @KolibriumDsl
@@ -62,8 +62,16 @@ public sealed class BaseDriverServiceScope(internal val builder: DriverService.B
             builder.withEnvironment(envScope.environmentVariables)
         }
     }
-}
 
-@KolibriumDsl
-public class DriverServiceScope<T : Browser>(builder: DriverService.Builder<*, *>) :
-    BaseDriverServiceScope(builder)
+    protected fun ifExists(file: String?): Boolean {
+        file?.let {
+            require(File(it).exists()) {
+                """
+                |DriverService is not set up properly:
+                |The following file does not exist at the specified path: $file
+                """.trimMargin()
+            }
+        }
+        return true
+    }
+}
