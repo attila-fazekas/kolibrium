@@ -18,7 +18,7 @@ package io.kolibrium.dsl
 
 public enum class BrowserType {
     CHROME,
-    FIREFOX,
     SAFARI,
-    EDGE
+    EDGE,
+    FIREFOX
 }

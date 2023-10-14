@@ -24,3 +24,4 @@ jobs:
           filters: |
             kotlin:
             - added|modified: '**/src/main/**/*.kt'
+            - added|modified: '**/src/test/**/*.kt'

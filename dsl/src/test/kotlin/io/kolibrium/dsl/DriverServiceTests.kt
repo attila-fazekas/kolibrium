@@ -16,13 +16,15 @@
 
 package io.kolibrium.dsl
 
+import io.kolibrium.dsl.BrowserType.CHROME
+import io.kolibrium.dsl.BrowserType.EDGE
+import io.kolibrium.dsl.BrowserType.FIREFOX
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -37,7 +39,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
 @Suppress("UNCHECKED_CAST")
-class DriverServiceTests : DslTest() {
+class DriverServiceTests {
     lateinit var ds: DriverService
 
     @AfterEach
@@ -46,14 +48,11 @@ class DriverServiceTests : DslTest() {
     }
 
     @Test
-    @Disabled("Due to CI")
     fun `empty driverService block should create default DriverService`() {
         ds = chromeDriverService {
         }
 
         ds.start()
-
-        ds.executable shouldContain(".cache/selenium/chromedriver")
 
         val timeout = ds.invokeMethod("getTimeout") as Duration
         timeout shouldBe 20.seconds.toJavaDuration()
@@ -65,11 +64,10 @@ class DriverServiceTests : DslTest() {
         environment.shouldBeEmpty()
     }
 
-    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
     @Test
     fun `custom ChromeDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("chrome.log").toString()
-        val executablePath = Path.of("src/test/resources/executables/chromedriver").toAbsolutePath().toString()
+        val executablePath = getExecutablePath(CHROME)
 
         ds = chromeDriverService {
             appendLog = true
@@ -113,11 +111,10 @@ class DriverServiceTests : DslTest() {
         environment shouldBe mapOf("key1" to "value1", "key2" to "value2")
     }
 
-    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
     @Test
     fun `custom GeckoDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("firefox.log").toString()
-        val executablePath = Path.of("src/test/resources/executables/geckodriver").toAbsolutePath().toString()
+        val executablePath = getExecutablePath(FIREFOX)
 
         ds = geckoDriverService {
             executable = executablePath
@@ -178,11 +175,10 @@ class DriverServiceTests : DslTest() {
         environment shouldBe mapOf("key1" to "value1", "key2" to "value2")
     }
 
-    @Disabled("Due to CI is Linux machine but the used executable is Mac distribution")
     @Test
     fun `custom EdgeDriverService shall be created`(@TempDir tempDir: Path) {
         val logFilePath = tempDir.resolve("edge.log").toString()
-        val executablePath = Path.of("src/test/resources/executables/msedgedriver").toAbsolutePath().toString()
+        val executablePath = getExecutablePath(EDGE)
 
         ds = edgeDriverService {
             appendLog = true

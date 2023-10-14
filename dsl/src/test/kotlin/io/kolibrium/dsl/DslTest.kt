@@ -16,18 +16,50 @@
 
 package io.kolibrium.dsl
 
+import io.kolibrium.dsl.BrowserType.CHROME
+import io.kolibrium.dsl.BrowserType.EDGE
+import io.kolibrium.dsl.BrowserType.FIREFOX
+import io.kolibrium.dsl.BrowserType.SAFARI
+import org.junit.jupiter.api.condition.OS
+import org.junit.jupiter.api.condition.OS.LINUX
+import org.junit.jupiter.api.condition.OS.MAC
 import org.openqa.selenium.remote.service.DriverService
+import java.nio.file.Path
 
-abstract class DslTest {
-    protected fun DriverService.invokeMethod(methodName: String): Any {
-        val method = DriverService::class.java.getDeclaredMethod(methodName)
-        method.isAccessible = true
-        return method.invoke(this)
+fun DriverService.invokeMethod(methodName: String): Any {
+    val method = DriverService::class.java.getDeclaredMethod(methodName)
+    method.isAccessible = true
+    return method.invoke(this)
+}
+
+fun DriverService.getField(fieldName: String): Any {
+    val field = DriverService::class.java.getDeclaredField(fieldName)
+    field.isAccessible = true
+    return field.get(this)
+}
+
+enum class Channel {
+    BETA,
+    STABLE
+}
+
+fun getExecutablePath(browser: BrowserType, channel: Channel = Channel.STABLE): String {
+    val pathToExecutables = "src/test/resources/executables/"
+
+    val distributionType = when (OS.current()) {
+        MAC -> "mac-x64/"
+        LINUX -> "linux64/"
+        else -> throw KolibriumDslConfigurationException("Unsupported platform")
     }
 
-    protected fun DriverService.getField(fieldName: String): Any {
-        val field = DriverService::class.java.getDeclaredField(fieldName)
-        field.isAccessible = true
-        return field.get(this)
+    val filename = when (browser) {
+        CHROME -> "chromedriver"
+        FIREFOX -> "geckodriver"
+        SAFARI -> throw KolibriumDslConfigurationException("Safari doesn't need driver executable")
+        EDGE -> "msedgedriver"
     }
+
+    val pathToDistribution = pathToExecutables + distributionType
+    val path = Path.of(pathToDistribution + "${browser.name.lowercase()}/${channel.name.lowercase()}/$filename")
+    return path.toAbsolutePath().toString()
 }
