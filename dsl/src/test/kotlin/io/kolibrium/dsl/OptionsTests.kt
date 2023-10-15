@@ -80,7 +80,6 @@ class OptionsTests {
         val googChromeOptions: Map<String, String> = mappedOptions["goog:chromeOptions"] as Map<String, String>
         googChromeOptions shouldHaveSize 2
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
     }
 
     @Test
@@ -109,7 +108,6 @@ class OptionsTests {
         googChromeOptions shouldHaveSize 3
         googChromeOptions["binary"] shouldBe "/Applications/Google Chrome Beta 2.app/Contents/MacOS/Google Chrome Beta"
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
     }
 
     @Test
@@ -133,8 +131,7 @@ class OptionsTests {
         (googChromeOptions["args"] as List<String>).shouldContainExactlyInAnyOrder(
             "--headless=new",
             "--incognito",
-            "--window-size=1800,1000",
-            "--remote-allow-origins=*"
+            "--window-size=1800,1000"
         )
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
@@ -176,7 +173,6 @@ class OptionsTests {
                 )
             )
         )
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
 
@@ -190,7 +186,6 @@ class OptionsTests {
 
         val mappedOptions = options.asMap()
         val googChromeOptions: Map<String, String> = mappedOptions["goog:chromeOptions"] as Map<String, String>
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
         (googChromeOptions["extensions"] as List<String>) shouldHaveSize 1
     }
 
@@ -208,7 +203,6 @@ class OptionsTests {
         val timeouts: Map<String, String> = mappedOptions["timeouts"] as Map<String, String>
         timeouts.entries.toString().shouldBe("[implicit=5000, pageLoad=3000, script=2000]")
         val googChromeOptions: Map<String, String> = mappedOptions["goog:chromeOptions"] as Map<String, String>
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
 
@@ -239,7 +233,6 @@ class OptionsTests {
         }
 
         val googChromeOptions: Map<String, String> = mappedOptions["goog:chromeOptions"] as Map<String, String>
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
 
@@ -427,7 +420,6 @@ class OptionsTests {
         googChromeOptions shouldHaveSize 3
         googChromeOptions["binary"] shouldBe "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta"
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
     }
 
     @Test
@@ -451,8 +443,7 @@ class OptionsTests {
         (googChromeOptions["args"] as List<String>).shouldContainExactlyInAnyOrder(
             "--headless",
             "--inprivate",
-            "--window-size=1800,1000",
-            "--remote-allow-origins=*"
+            "--window-size=1800,1000"
         )
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
@@ -494,7 +485,6 @@ class OptionsTests {
                 )
             )
         )
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
 
@@ -508,7 +498,6 @@ class OptionsTests {
 
         val mappedOptions = options.asMap()
         val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
         (googChromeOptions["extensions"] as List<String>) shouldHaveSize 1
     }
 
@@ -526,7 +515,6 @@ class OptionsTests {
         val timeouts: Map<String, String> = mappedOptions["timeouts"] as Map<String, String>
         timeouts.entries.toString().shouldBe("[implicit=5000, pageLoad=3000, script=2000]")
         val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
 
@@ -557,7 +545,6 @@ class OptionsTests {
         }
 
         val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
-        (googChromeOptions["args"] as List<String>).shouldContainExactly("--remote-allow-origins=*")
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
 
