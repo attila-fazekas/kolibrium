@@ -1,4 +1,4 @@
-name: Build
+name: Run tests
 
 on:
   workflow_dispatch:
@@ -39,7 +39,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: success() || failure()
         with:
-          name: test-reports-core
+          name: test-reports
           path: |
             /home/runner/work/kolibrium/kolibrium/core/build/reports/tests/test-reports-core.zip
             /home/runner/work/kolibrium/kolibrium/dsl/build/reports/tests/test-reports-dsl.zip
