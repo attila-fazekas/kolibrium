@@ -23,6 +23,7 @@ import io.kolibrium.dsl.Channel.BETA
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import org.junit.jupiter.params.ParameterizedTest
@@ -39,7 +40,7 @@ import java.util.regex.Pattern
 import kotlin.io.path.absolutePathString
 import kotlin.time.Duration.Companion.seconds
 
-// @Disabled("Temporarily disabled due to CI does not have browsers installed")
+@Disabled("Temporarily disabled due to CI does not have browsers installed")
 @SuppressWarnings("MaxLineLength", "LongMethod")
 class DriverTests {
 

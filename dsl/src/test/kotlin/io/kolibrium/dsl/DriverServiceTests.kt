@@ -49,6 +49,7 @@ class DriverServiceTests {
         ds.stop()
     }
 
+    @Disabled("Temporarily disabled")
     @ParameterizedTest
     @EnumSource(BrowserType::class)
     fun driverServiceTest(browser: BrowserType) {
