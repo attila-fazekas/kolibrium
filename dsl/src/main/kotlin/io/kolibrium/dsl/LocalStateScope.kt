@@ -18,22 +18,15 @@ package io.kolibrium.dsl
 
 @KolibriumDsl
 public class LocalStateScope {
-    internal val localStatePrefs = mutableMapOf<String, Any>()
+
+    internal val experiments by lazy { BrowserEnabledLabsExperiments() }
 
     @KolibriumDsl
-    public fun browserEnabledLabsExperiments(block: BrowserEnabledLabsExperiments.() -> Unit) {
-        val experiments = BrowserEnabledLabsExperiments().apply(block)
-        if (experiments.experimentalFlags.isNotEmpty()) {
-            localStatePrefs["browser.enabled_labs_experiments"] = experiments.experimentalFlags
-        }
-    }
-}
+    public fun browserEnabledLabsExperiments(
+        block: BrowserEnabledLabsExperiments.() -> Unit
+    ): BrowserEnabledLabsExperiments = experiments.apply(block)
 
-@KolibriumDsl
-public class BrowserEnabledLabsExperiments : UnaryPlus<ExperimentalFlag> {
-    internal val experimentalFlags = mutableSetOf<String>()
-
-    override fun ExperimentalFlag.unaryPlus() {
-        experimentalFlags.add(name)
+    override fun toString(): String {
+        return "LocalStateScope(browserEnabledLabsExperiments=$experiments)"
     }
 }

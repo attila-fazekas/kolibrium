@@ -18,17 +18,24 @@ package io.kolibrium.dsl
 
 @KolibriumDsl
 public class ExperimentalOptionsScope<T : Chromium> {
-    public val preferencesScope: PreferencesScope<T> by lazy { PreferencesScope() }
-    public val switchesScope: SwitchesScope by lazy { SwitchesScope() }
+
+    public val excludeSwitchesScope: ExcludeSwitchesScope by lazy { ExcludeSwitchesScope() }
     public val localStateScope: LocalStateScope by lazy { LocalStateScope() }
+    public val preferencesScope: PreferencesScope<T> by lazy { PreferencesScope() }
+
+    @KolibriumDsl
+    public fun excludeSwitches(block: ExcludeSwitchesScope.() -> Unit): ExcludeSwitchesScope =
+        excludeSwitchesScope.apply(block)
+
+    @KolibriumDsl
+    public fun localState(block: LocalStateScope.() -> Unit): LocalStateScope = localStateScope.apply(block)
 
     @KolibriumDsl
     public fun preferences(block: PreferencesScope<T>.() -> Unit): PreferencesScope<T> =
         preferencesScope.apply(block)
 
-    @KolibriumDsl
-    public fun excludeSwitches(block: SwitchesScope.() -> Unit): SwitchesScope = switchesScope.apply(block)
-
-    @KolibriumDsl
-    public fun localState(block: LocalStateScope.() -> Unit): LocalStateScope = localStateScope.apply(block)
+    override fun toString(): String {
+        return "ExperimentalOptionsScope(excludeSwitchesScope=$excludeSwitchesScope, " +
+            "localStateScope=$localStateScope, preferencesScope=$preferencesScope)"
+    }
 }

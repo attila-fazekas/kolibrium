@@ -16,11 +16,14 @@
 
 package io.kolibrium.dsl
 
+import org.apache.commons.validator.routines.InetAddressValidator
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
 import java.io.File
 
 @KolibriumDsl
 public abstract class ChromiumDriverServiceScope : DriverServiceScope() {
+
+    protected val allowedIpsScope: AllowedIpsScope by lazy { AllowedIpsScope() }
 
     public var appendLog: Boolean? = null
     public var buildCheckDisabled: Boolean? = null
@@ -33,6 +36,20 @@ public abstract class ChromiumDriverServiceScope : DriverServiceScope() {
         super.configure()
         builder.apply {
             logFile?.let { withLogFile(File(it)) }
+        }
+    }
+
+    internal open fun allowedIps(block: AllowedIpsScope.() -> Unit) {
+        allowedIpsScope.apply(block)
+        validateIps()
+    }
+
+    private fun validateIps() {
+        with(allowedIpsScope.allowedIps) {
+            if (isNotEmpty()) {
+                val invalidIPAddresses = filter { !InetAddressValidator.getInstance().isValid(it) }
+                check(invalidIPAddresses.isEmpty()) { "Following IP addresses are invalid: $invalidIPAddresses" }
+            }
         }
     }
 }

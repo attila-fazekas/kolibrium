@@ -23,4 +23,8 @@ public class TimeoutsScope {
     public var implicitWait: Duration? = null
     public var pageLoad: Duration? = null
     public var script: Duration? = null
+
+    override fun toString(): String {
+        return "TimeoutsScope(implicitWait=$implicitWait, pageLoad=$pageLoad, script=$script)"
+    }
 }

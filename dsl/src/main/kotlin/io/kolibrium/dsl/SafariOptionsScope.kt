@@ -34,4 +34,13 @@ public class SafariOptionsScope(override val options: SafariOptions) : OptionsSc
             this@SafariOptionsScope.useTechnologyPreview?.let { setUseTechnologyPreview(it) }
         }
     }
+
+    override fun toString(): String {
+        return "SafariOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, " +
+            "automaticInspection=$automaticInspection, automaticProfiling=$automaticProfiling, " +
+            "browserVersion=$browserVersion, pageLoadStrategy=$pageLoadStrategy, platform=$platform, " +
+            "proxyScope=$proxyScope, strictFileInteractability=$strictFileInteractability, " +
+            "timeoutsScope=$timeoutsScope, unhandledPromptBehaviour=$unhandledPromptBehaviour, " +
+            "useTechnologyPreview=$useTechnologyPreview)"
+    }
 }

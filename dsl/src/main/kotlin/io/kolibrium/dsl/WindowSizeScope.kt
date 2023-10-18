@@ -23,7 +23,7 @@ private const val WIDTH = 1280
 private const val HEIGHT = 720
 
 @KolibriumDsl
-public class WindowSizeScope<T : Browser> {
+public class WindowSizeScope {
     private val logger = KotlinLogging.logger { }
 
     public var width: Int by Delegates.vetoable(WIDTH) { _, oldValue, newValue ->

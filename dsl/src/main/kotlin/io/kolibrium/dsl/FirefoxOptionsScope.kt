@@ -24,6 +24,10 @@ import java.io.File
 @KolibriumDsl
 public class FirefoxOptionsScope(override val options: FirefoxOptions) : OptionsScope() {
 
+    private val argsScope by lazy { ArgumentsScope<Firefox>() }
+    private val preferencesScope by lazy { PreferencesScope<Firefox>() }
+    private val ffProfileScope by lazy { FirefoxProfileScope() }
+
     public var binary: String? = null
     public var profileDir: String? = null
 
@@ -36,8 +40,14 @@ public class FirefoxOptionsScope(override val options: FirefoxOptions) : Options
     }
 
     @KolibriumDsl
+    public fun arguments(block: ArgumentsScope<Firefox>.() -> Unit) {
+        argsScope.apply(block)
+        options.addArguments(argsScope.args.map { it.name })
+    }
+
+    @KolibriumDsl
     public fun preferences(block: PreferencesScope<Firefox>.() -> Unit) {
-        val preferencesScope = PreferencesScope<Firefox>().apply(block)
+        preferencesScope.apply(block)
         if (preferencesScope.preferences.isNotEmpty()) {
             preferencesScope.preferences.forEach(options::addPreference)
         }
@@ -45,11 +55,19 @@ public class FirefoxOptionsScope(override val options: FirefoxOptions) : Options
 
     @KolibriumDsl
     public fun profile(block: FirefoxProfileScope.() -> Unit) {
-        val ffProfileScope = FirefoxProfileScope().apply(block)
+        ffProfileScope.apply(block)
         if (ffProfileScope.preferences.isNotEmpty()) {
             val profile = FirefoxProfile()
             ffProfileScope.preferences.forEach(profile::setPreference)
             options.profile = profile
         }
+    }
+
+    override fun toString(): String {
+        return "FirefoxOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
+            "binary=$binary, browserVersion=$browserVersion, firefoxProfileScope=$ffProfileScope, " +
+            "pageLoadStrategy=$pageLoadStrategy, platform=$platform, preferencesScope=$preferencesScope, " +
+            "profileDir=$profileDir, proxyScope=$proxyScope, strictFileInteractability=$strictFileInteractability, " +
+            "timeoutsScope=$timeoutsScope, unhandledPromptBehaviour=$unhandledPromptBehaviour)"
     }
 }

@@ -9,7 +9,6 @@ repositories {
 dependencies {
     implementation("com.github.johnrengelman.shadow:com.github.johnrengelman.shadow.gradle.plugin:_")
     implementation("com.google.devtools.ksp:symbol-processing-gradle-plugin:_")
-    implementation("dev.drewhamilton.poko:poko-gradle-plugin:_")
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:_")
     implementation("io.kotest:io.kotest.gradle.plugin:_")
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:_")

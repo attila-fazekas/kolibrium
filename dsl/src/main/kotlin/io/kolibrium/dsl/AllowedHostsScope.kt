@@ -17,14 +17,14 @@
 package io.kolibrium.dsl
 
 @KolibriumDsl
-public class FirefoxProfileScope : UnaryPlus<Pair<Preference<Firefox>, Any>> {
-    internal val preferences = mutableMapOf<String, Any>()
+public class AllowedHostsScope : UnaryPlus<String> {
+    internal val allowedHosts = mutableSetOf<String>()
 
-    override operator fun Pair<Preference<Firefox>, Any>.unaryPlus() {
-        preferences[first.name] = second
+    override fun String.unaryPlus() {
+        allowedHosts.add(this)
     }
 
     override fun toString(): String {
-        return "FirefoxProfileScope(preferences=$preferences)"
+        return "AllowedHostsScope(allowedHosts=$allowedHosts)"
     }
 }

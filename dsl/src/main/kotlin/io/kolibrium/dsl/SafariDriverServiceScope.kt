@@ -30,4 +30,9 @@ public class SafariDriverServiceScope(override val builder: SafariDriverService.
             logging?.let { withLogging(it) }
         }
     }
+
+    override fun toString(): String {
+        return "SafariDriverServiceScope(environmentScope=$environmentScope, logging=$logging, port=$port, " +
+            "timeout=$timeout)"
+    }
 }

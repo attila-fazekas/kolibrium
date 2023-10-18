@@ -29,6 +29,8 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel.DEBUG
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel.TRACE
 import org.openqa.selenium.remote.service.DriverService
@@ -45,6 +47,19 @@ class DriverServiceTests {
     @AfterEach
     fun stopDriverService() {
         ds.stop()
+    }
+
+    @ParameterizedTest
+    @EnumSource(BrowserType::class)
+    fun driverServiceTest(browser: BrowserType) {
+        ds = driverService(browser) {
+            timeout = 30.seconds
+        }
+
+        ds.start()
+
+        val timeout = ds.invokeMethod("getTimeout") as Duration
+        timeout shouldBe 30.seconds.toJavaDuration()
     }
 
     @Test
@@ -123,9 +138,9 @@ class DriverServiceTests {
             port = 7001
             profileRoot = tempDir.toString()
             truncatedLogs = false
-//            allowedHosts {
-//                +"localhost"
-//            }
+            allowedHosts {
+                +"localhost"
+            }
             environment {
                 +("key1" to "value1")
                 +("key2" to "value2")
@@ -135,13 +150,15 @@ class DriverServiceTests {
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
-        args shouldHaveSize 11
+        args shouldHaveSize 13
         args.shouldContainAll(
             "--port=7001",
             "--log",
             "trace",
             "--log-no-truncate",
             "--profile-root",
+            "--allow-hosts",
+            "localhost",
             tempDir.toString()
         )
 

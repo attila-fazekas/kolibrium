@@ -24,6 +24,8 @@ import java.io.File
 public class GeckoDriverServiceScope(override val builder: GeckoDriverService.Builder) :
     DriverServiceScope() {
 
+    private val allowedHostsScope: AllowedHostsScope by lazy { AllowedHostsScope() }
+
     public var executable: String? = null
     public var logFile: String? = null
     public var logLevel: FirefoxDriverLogLevel? = null
@@ -47,7 +49,13 @@ public class GeckoDriverServiceScope(override val builder: GeckoDriverService.Bu
 
     @KolibriumDsl
     public fun allowedHosts(block: AllowedHostsScope.() -> Unit) {
-        val allowedHostsScope = AllowedHostsScope().allowedIps(block)
-        builder.withAllowHosts(allowedHostsScope.allowedIps.joinToString(separator = " "))
+        allowedHostsScope.apply(block)
+        builder.withAllowHosts(allowedHostsScope.allowedHosts.joinToString(separator = " "))
+    }
+
+    override fun toString(): String {
+        return "GeckoDriverServiceScope(allowedHostsScope=$allowedHostsScope, environmentScope=$environmentScope, " +
+            "executable=$executable, logFile=$logFile, logLevel=$logLevel, port=$port, profileRoot=$profileRoot, " +
+            "timeout=$timeout, truncatedLogs=$truncatedLogs)"
     }
 }

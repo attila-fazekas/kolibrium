@@ -28,6 +28,8 @@ public sealed class DriverServiceScope {
 
     internal abstract val builder: DriverService.Builder<*, *>
 
+    protected val environmentScope: EnvironmentScope by lazy { EnvironmentScope() }
+
     public var port: Int? = null
     public var timeout: Duration? = null
 
@@ -57,9 +59,9 @@ public sealed class DriverServiceScope {
 
     @KolibriumDsl
     public fun environment(block: EnvironmentScope.() -> Unit) {
-        val envScope = EnvironmentScope().apply(block)
-        if (envScope.environmentVariables.isNotEmpty()) {
-            builder.withEnvironment(envScope.environmentVariables)
+        environmentScope.apply(block)
+        if (environmentScope.environmentVariables.isNotEmpty()) {
+            builder.withEnvironment(environmentScope.environmentVariables)
         }
     }
 
@@ -73,5 +75,9 @@ public sealed class DriverServiceScope {
             }
         }
         return true
+    }
+
+    override fun toString(): String {
+        return "DriverServiceScope(environmentScope=$environmentScope, port=$port, timeout=$timeout)"
     }
 }

@@ -17,10 +17,14 @@
 package io.kolibrium.dsl
 
 @KolibriumDsl
-public class SwitchesScope : UnaryPlus<Switch> {
-    internal val switches = mutableSetOf<String>()
+public class BrowserEnabledLabsExperiments : UnaryPlus<ExperimentalFlag> {
+    internal val experimentalFlags = mutableSetOf<String>()
 
-    override operator fun Switch.unaryPlus() {
-        switches.add(name)
+    override fun ExperimentalFlag.unaryPlus() {
+        experimentalFlags.add(name)
+    }
+
+    override fun toString(): String {
+        return "BrowserEnabledLabsExperiments(experimentalFlags=$experimentalFlags)"
     }
 }

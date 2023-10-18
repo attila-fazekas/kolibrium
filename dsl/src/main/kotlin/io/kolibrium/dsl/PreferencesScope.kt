@@ -23,4 +23,8 @@ public class PreferencesScope<T : Browser> : UnaryPlus<Pair<Preference<T>, Any>>
     override operator fun Pair<Preference<T>, Any>.unaryPlus() {
         preferences[first.name] = second
     }
+
+    override fun toString(): String {
+        return "PreferencesScope(preferences=$preferences)"
+    }
 }

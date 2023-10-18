@@ -22,6 +22,8 @@ import org.openqa.selenium.edge.EdgeOptions
 @KolibriumDsl
 public class EdgeOptionsScope(override val options: EdgeOptions) : ChromiumOptionsScope(options) {
 
+    private val argsScope by lazy { ArgumentsScope<Edge>() }
+
     public var useWebView: Boolean? = null
 
     override fun configure() {
@@ -29,5 +31,20 @@ public class EdgeOptionsScope(override val options: EdgeOptions) : ChromiumOptio
         options.apply {
             useWebView?.let { useWebView(it) }
         }
+    }
+
+    @KolibriumDsl
+    public fun arguments(block: ArgumentsScope<Edge>.() -> Unit) {
+        argsScope.apply(block)
+        options.addArguments(argsScope.args.map { it.name })
+    }
+
+    override fun toString(): String {
+        return "EdgeOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
+            "binary=$binary, browserVersion=$browserVersion, experimentalOptionsScope=$expOptionsScope, " +
+            "extensionsScope=$extensionsScope, pageLoadStrategy=$pageLoadStrategy, platform=$platform, " +
+            "proxyScope=$proxyScope, strictFileInteractability=$strictFileInteractability, " +
+            "timeoutsScope=$timeoutsScope, unhandledPromptBehaviour=$unhandledPromptBehaviour, " +
+            "useWebView=$useWebView)"
     }
 }

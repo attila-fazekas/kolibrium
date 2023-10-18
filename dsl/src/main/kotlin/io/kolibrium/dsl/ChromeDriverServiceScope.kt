@@ -40,8 +40,15 @@ public class ChromeDriverServiceScope internal constructor(
     }
 
     @KolibriumDsl
-    public fun allowedIps(block: AllowedIpsScope.() -> Unit) {
-        val allowedIpsScope = AllowedIpsScope().allowedIps(block)
+    public override fun allowedIps(block: AllowedIpsScope.() -> Unit) {
+        super.allowedIps(block)
         builder.withAllowedListIps(allowedIpsScope.allowedIps.joinToString(separator = ", "))
+    }
+
+    override fun toString(): String {
+        return "ChromiumDriverServiceScope(allowedIpsScope=$allowedIpsScope, appendLog=$appendLog, " +
+            "buildCheckDisabled=$buildCheckDisabled, environmentScope=$environmentScope, executable=$executable, " +
+            "logFile=$logFile, logLevel=$logLevel, port=$port, readableTimestamp=$readableTimestamp, " +
+            "timeout=$timeout)"
     }
 }
