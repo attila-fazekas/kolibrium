@@ -18,7 +18,7 @@
 
 package io.kolibrium.core
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.By.className
 import org.openqa.selenium.By.cssSelector
@@ -370,7 +370,7 @@ private fun <T> execute(
     element: String,
     block: () -> T
 ): T {
-    logger.trace("Waiting for \"$element\"")
+    logger.trace { "Waiting for \"$element\"" }
     return block()
 }
 

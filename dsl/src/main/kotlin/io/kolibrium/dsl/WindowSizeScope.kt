@@ -16,7 +16,7 @@
 
 package io.kolibrium.dsl
 
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlin.properties.Delegates
 
 private const val WIDTH = 1280
@@ -28,7 +28,7 @@ public class WindowSizeScope {
 
     public var width: Int by Delegates.vetoable(WIDTH) { _, oldValue, newValue ->
         if (newValue < oldValue) {
-            logger.debug("Requested window width $newValue < the minimum of $oldValue. Setting width to $oldValue")
+            logger.debug { "Requested window width $newValue < the minimum of $oldValue. Setting width to $oldValue" }
             false
         } else {
             true
@@ -37,7 +37,7 @@ public class WindowSizeScope {
 
     public var height: Int by Delegates.vetoable(HEIGHT) { _, oldValue, newValue ->
         if (newValue < oldValue) {
-            logger.debug("Requested window height $newValue < the minimum of $oldValue. Setting height to $oldValue")
+            logger.debug { "Requested window height $newValue < the minimum of $oldValue. Setting height to $oldValue" }
             false
         } else {
             true
