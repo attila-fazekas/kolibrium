@@ -23,4 +23,8 @@ public class EnvironmentScope : UnaryPlus<Pair<String, String>> {
     override fun Pair<String, String>.unaryPlus() {
         environmentVariables[first] = second
     }
+
+    override fun toString(): String {
+        return "EnvironmentScope(environmentVariables=$environmentVariables)"
+    }
 }

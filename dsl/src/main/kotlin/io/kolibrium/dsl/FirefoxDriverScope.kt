@@ -40,4 +40,8 @@ public class FirefoxDriverScope : DriverScope<GeckoDriverServiceScope, FirefoxOp
             configure()
         }
     }
+
+    override fun toString(): String {
+        return "FirefoxDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
+    }
 }

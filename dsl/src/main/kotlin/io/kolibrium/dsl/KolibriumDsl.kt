@@ -32,6 +32,8 @@ import org.openqa.selenium.edge.EdgeOptions
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.firefox.GeckoDriverService
+import org.openqa.selenium.remote.AbstractDriverOptions
+import org.openqa.selenium.remote.service.DriverService
 import org.openqa.selenium.safari.SafariDriver
 import org.openqa.selenium.safari.SafariDriverService
 import org.openqa.selenium.safari.SafariOptions
@@ -40,6 +42,10 @@ import kotlin.annotation.AnnotationTarget.FUNCTION
 import kotlin.annotation.AnnotationTarget.PROPERTY
 import kotlin.annotation.AnnotationTarget.TYPEALIAS
 
+@DslMarker
+@Target(FUNCTION, PROPERTY, CLASS, TYPEALIAS)
+internal annotation class KolibriumDsl
+
 @KolibriumDsl
 public fun driver(browser: BrowserType, block: DriverScope<*, *>.() -> Unit): WebDriver = when (browser) {
     CHROME -> chromeDriver(block as (ChromeDriverScope.() -> Unit))
@@ -47,10 +53,6 @@ public fun driver(browser: BrowserType, block: DriverScope<*, *>.() -> Unit): We
     FIREFOX -> firefoxDriver(block as (FirefoxDriverScope.() -> Unit))
     EDGE -> edgeDriver(block as (EdgeDriverScope.() -> Unit))
 }
-
-@DslMarker
-@Target(FUNCTION, PROPERTY, CLASS, TYPEALIAS)
-internal annotation class KolibriumDsl
 
 @KolibriumDsl
 public fun chromeDriver(block: ChromeDriverScope.() -> Unit): ChromeDriver {
@@ -89,6 +91,14 @@ public fun firefoxDriver(block: FirefoxDriverScope.() -> Unit): FirefoxDriver {
 }
 
 @KolibriumDsl
+public fun driverService(browser: BrowserType, block: DriverServiceScope.() -> Unit): DriverService = when (browser) {
+    CHROME -> chromeDriverService(block as (ChromeDriverServiceScope.() -> Unit))
+    SAFARI -> safariDriverService(block as (SafariDriverServiceScope.() -> Unit))
+    FIREFOX -> geckoDriverService(block as (GeckoDriverServiceScope.() -> Unit))
+    EDGE -> edgeDriverService(block as (EdgeDriverServiceScope.() -> Unit))
+}
+
+@KolibriumDsl
 public fun chromeDriverService(block: ChromeDriverServiceScope.() -> Unit): ChromeDriverService {
     val driverServiceScopeScope = ChromeDriverServiceScope(
         ChromeDriverService.Builder()
@@ -124,6 +134,14 @@ public fun geckoDriverService(block: GeckoDriverServiceScope.() -> Unit): GeckoD
         configure()
     }
     return driverServiceScopeScope.builder.build()
+}
+
+@KolibriumDsl
+public fun options(browser: BrowserType, block: OptionsScope.() -> Unit): AbstractDriverOptions<*> = when (browser) {
+    CHROME -> chromeOptions(block as (ChromeOptionsScope.() -> Unit))
+    SAFARI -> safariOptions(block as (SafariOptionsScope.() -> Unit))
+    FIREFOX -> firefoxOptions(block as (FirefoxOptionsScope.() -> Unit))
+    EDGE -> edgeOptions(block as (EdgeOptionsScope.() -> Unit))
 }
 
 @KolibriumDsl

@@ -22,6 +22,8 @@ import org.openqa.selenium.Proxy
 public class ProxyScope {
     internal val proxyMap = mutableMapOf<String, Any>()
 
+    private val socksScope by lazy { SocksScope() }
+
     public var proxyType: Proxy.ProxyType? = null
     public var autodetect: Boolean? = null
     public var ftpProxy: String? = null
@@ -32,12 +34,16 @@ public class ProxyScope {
 
     @KolibriumDsl
     public fun socks(block: SocksScope.() -> Unit) {
-        val socksScope = SocksScope().apply(block)
+        socksScope.apply(block)
         with(socksScope) {
             address?.let { this@ProxyScope.proxyMap["socksProxy"] = it }
             version?.let { this@ProxyScope.proxyMap["socksVersion"] = it }
             username?.let { this@ProxyScope.proxyMap["socksUsername"] = it }
             password?.let { this@ProxyScope.proxyMap["socksPassword"] = it }
         }
+    }
+
+    override fun toString(): String {
+        return "ProxyScope(proxyMap=$proxyMap)"
     }
 }

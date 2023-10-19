@@ -16,8 +16,7 @@
 
 package io.kolibrium.dsl
 
-import org.apache.commons.validator.routines.InetAddressValidator
-
+@KolibriumDsl
 public class AllowedIpsScope : UnaryPlus<String> {
     internal val allowedIps = mutableSetOf<String>()
 
@@ -25,17 +24,7 @@ public class AllowedIpsScope : UnaryPlus<String> {
         allowedIps.add(this)
     }
 
-    internal fun allowedIps(block: AllowedIpsScope.() -> Unit): AllowedIpsScope {
-        val allowedIpsScope = AllowedIpsScope().apply(block)
-        with(allowedIpsScope.allowedIps) {
-            if (isNotEmpty()) {
-                val invalidIPAddresses = filter { !InetAddressValidator.getInstance().isValid(it) }
-                check(invalidIPAddresses.isEmpty()) { "Following IP addresses are invalid: $invalidIPAddresses" }
-            }
-        }
-        return allowedIpsScope
+    override fun toString(): String {
+        return "AllowedIpsScope(allowedIps=$allowedIps)"
     }
 }
-
-@KolibriumDsl
-public typealias AllowedHostsScope = AllowedIpsScope

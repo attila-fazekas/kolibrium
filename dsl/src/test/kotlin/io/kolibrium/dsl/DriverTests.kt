@@ -60,8 +60,8 @@ class DriverTests {
             }
             options {
                 acceptInsecureCerts = true
-                platform = MAC
                 pageLoadStrategy = NORMAL
+                platform = MAC
                 strictFileInteractability = true
                 unhandledPromptBehaviour = DISMISS
             }
@@ -177,9 +177,9 @@ class DriverTests {
                 port = 7900
                 truncatedLogs = false
                 timeout = 30.seconds
-//                allowedHosts {
-//                    +"localhost"
-//                }
+                allowedHosts {
+                    +"localhost"
+                }
             }
             options {
                 acceptInsecureCerts = false

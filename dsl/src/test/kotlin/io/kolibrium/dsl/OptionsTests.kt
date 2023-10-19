@@ -41,6 +41,8 @@ import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldNotBeEmpty
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.openqa.selenium.PageLoadStrategy.EAGER
 import org.openqa.selenium.Platform.MAC
 import org.openqa.selenium.Proxy
@@ -51,19 +53,47 @@ import kotlin.time.Duration.Companion.seconds
 @Suppress("UNCHECKED_CAST")
 class OptionsTests {
 
+    @ParameterizedTest
+    @EnumSource(BrowserType::class)
+    fun optionsTest(browser: BrowserType) {
+        options(browser) {
+            acceptInsecureCerts = true
+            browserVersion = "109.0.5414.46"
+            pageLoadStrategy = EAGER
+            platform = MAC
+            strictFileInteractability = true
+            unhandledPromptBehaviour = DISMISS
+            proxy {
+                proxyType = MANUAL
+                autodetect = false
+                socks {
+                    address = "socks5://192.168.10.100:8888"
+                    version = 5
+                    username = "username"
+                    password = "password"
+                }
+            }
+            timeouts {
+                implicitWait = 5.seconds
+                pageLoad = 3.seconds
+                script = 2.seconds
+            }
+        }
+    }
+
     @Test
     fun `empty options block should create default ChromeOptions`() {
         val options = chromeOptions {
             arguments {
             }
             experimentalOptions {
-                preferences {
-                }
                 excludeSwitches {
                 }
                 localState {
                     browserEnabledLabsExperiments {
                     }
+                }
+                preferences {
                 }
             }
             extensions {
@@ -140,10 +170,6 @@ class OptionsTests {
     fun `ChromeOptions with experimentalOptions should be created`() {
         val options = chromeOptions {
             experimentalOptions {
-                preferences {
-                    +(Preferences.Chromium.download_default_directory to "~/Downloads/TestAuto")
-                    +(Preferences.Chromium.safebrowsing_enabled to false)
-                }
                 excludeSwitches {
                     +Switches.enable_automation
                 }
@@ -152,6 +178,10 @@ class OptionsTests {
                         +same_site_by_default_cookies
                         +cookies_without_same_site_must_be_secure
                     }
+                }
+                preferences {
+                    +(Preferences.Chromium.download_default_directory to "~/Downloads/TestAuto")
+                    +(Preferences.Chromium.safebrowsing_enabled to false)
                 }
             }
         }

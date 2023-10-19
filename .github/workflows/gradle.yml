@@ -1,24 +1,13 @@
-name: Build
+name: Run tests
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches: [ "main" ]
-  push:
-    branches: [ "main" ]
 
 permissions:
   contents: read
 
 jobs:
-  call-change-detection:
-    uses: ./.github/workflows/change_detection.yml
-    permissions:
-      pull-requests: read
-
   build:
-    needs: call-change-detection
-    if: ${{ needs.call-change-detection.outputs.kotlin == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
@@ -50,7 +39,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         if: success() || failure()
         with:
-          name: test-reports-core
+          name: test-reports
           path: |
             /home/runner/work/kolibrium/kolibrium/core/build/reports/tests/test-reports-core.zip
             /home/runner/work/kolibrium/kolibrium/dsl/build/reports/tests/test-reports-dsl.zip

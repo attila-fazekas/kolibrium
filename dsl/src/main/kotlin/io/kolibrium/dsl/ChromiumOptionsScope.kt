@@ -23,6 +23,9 @@ import org.openqa.selenium.edge.EdgeOptions
 @KolibriumDsl
 public abstract class ChromiumOptionsScope(override val options: ChromiumOptions<*>) : OptionsScope() {
 
+    protected val expOptionsScope: ExperimentalOptionsScope<Chromium> by lazy { ExperimentalOptionsScope() }
+    protected val extensionsScope: ExtensionsScope by lazy { ExtensionsScope() }
+
     public var binary: String? = null
 
     override fun configure() {
@@ -34,17 +37,22 @@ public abstract class ChromiumOptionsScope(override val options: ChromiumOptions
 
     @KolibriumDsl
     public fun experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit) {
-        val expOptionsScope = ExperimentalOptionsScope<Chromium>().apply(block)
+        expOptionsScope.apply(block)
         with(expOptionsScope) {
             with(this@ChromiumOptionsScope.options) {
                 if (preferencesScope.preferences.isNotEmpty()) {
                     setExperimentalOption("prefs", preferencesScope.preferences)
                 }
-                if (switchesScope.switches.isNotEmpty()) {
-                    setExperimentalOption("excludeSwitches", switchesScope.switches)
+                if (excludeSwitchesScope.switches.isNotEmpty()) {
+                    setExperimentalOption("excludeSwitches", excludeSwitchesScope.switches)
                 }
-                if (localStateScope.localStatePrefs.isNotEmpty()) {
-                    setExperimentalOption("localState", localStateScope.localStatePrefs)
+                if (localStateScope.experiments.experimentalFlags.isNotEmpty()) {
+//                    val x = localStatePrefs["browser.enabled_labs_experiments"] = experiments.experimentalFlags
+
+                    setExperimentalOption(
+                        "localState",
+                        mapOf("browser.enabled_labs_experiments" to localStateScope.experiments.experimentalFlags)
+                    )
                 }
             }
         }
@@ -52,7 +60,7 @@ public abstract class ChromiumOptionsScope(override val options: ChromiumOptions
 
     @KolibriumDsl
     public fun extensions(block: ExtensionsScope.() -> Unit) {
-        val extensionsScope = ExtensionsScope().apply(block)
+        extensionsScope.apply(block)
         when (options) {
             is ChromeOptions -> options.addExtensions(extensionsScope.extensions.toList())
 

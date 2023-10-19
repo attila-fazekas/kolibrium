@@ -22,4 +22,8 @@ public class SocksScope {
     public var version: Int? = null
     public var username: String? = null
     public var password: String? = null
+
+    override fun toString(): String {
+        return "SocksScope(address=$address, version=$version, username=$username, password=$password)"
+    }
 }

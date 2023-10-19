@@ -20,4 +20,21 @@ package io.kolibrium.dsl
 import org.openqa.selenium.chrome.ChromeOptions
 
 @KolibriumDsl
-public class ChromeOptionsScope(override val options: ChromeOptions) : ChromiumOptionsScope(options)
+public class ChromeOptionsScope(override val options: ChromeOptions) : ChromiumOptionsScope(options) {
+
+    private val argsScope by lazy { ArgumentsScope<Chrome>() }
+
+    @KolibriumDsl
+    public fun arguments(block: ArgumentsScope<Chrome>.() -> Unit) {
+        argsScope.apply(block)
+        options.addArguments(argsScope.args.map { it.name })
+    }
+
+    override fun toString(): String {
+        return "ChromeOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
+            "binary=$binary, browserVersion=$browserVersion, experimentalOptionsScope=$expOptionsScope, " +
+            "extensionsScope=$extensionsScope, pageLoadStrategy=$pageLoadStrategy, platform=$platform, " +
+            "proxyScope=$proxyScope, strictFileInteractability=$strictFileInteractability, " +
+            "timeoutsScope=$timeoutsScope, unhandledPromptBehaviour=$unhandledPromptBehaviour)"
+    }
+}

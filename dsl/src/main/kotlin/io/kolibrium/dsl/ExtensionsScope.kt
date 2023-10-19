@@ -28,4 +28,8 @@ public class ExtensionsScope : UnaryPlus<Extension> {
     override operator fun Extension.unaryPlus() {
         extensions.add(File(path))
     }
+
+    override fun toString(): String {
+        return "ExtensionsScope(extensions=$extensions)"
+    }
 }

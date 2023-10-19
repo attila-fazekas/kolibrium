@@ -28,10 +28,13 @@ public sealed class OptionsScope {
 
     internal abstract val options: AbstractDriverOptions<*>
 
+    protected val proxyScope: ProxyScope by lazy { ProxyScope() }
+    protected val timeoutsScope: TimeoutsScope by lazy { TimeoutsScope() }
+
     public var acceptInsecureCerts: Boolean? = null
     public var browserVersion: String? = null
-    public var platform: Platform? = null
     public var pageLoadStrategy: PageLoadStrategy? = null
+    public var platform: Platform? = null
     public var strictFileInteractability: Boolean? = null
     public var unhandledPromptBehaviour: UnexpectedAlertBehaviour? = null
 
@@ -39,8 +42,8 @@ public sealed class OptionsScope {
         with(options) {
             acceptInsecureCerts?.let { setAcceptInsecureCerts(it) }
             this@OptionsScope.browserVersion?.let { setBrowserVersion(it) }
-            platform?.let { setPlatformName(it.name) }
             pageLoadStrategy?.let { setPageLoadStrategy(it) }
+            platform?.let { setPlatformName(it.name) }
             strictFileInteractability?.let { setStrictFileInteractability(it) }
             unhandledPromptBehaviour?.let { setUnhandledPromptBehaviour(it) }
         }
@@ -48,7 +51,7 @@ public sealed class OptionsScope {
 
     @KolibriumDsl
     public fun timeouts(block: TimeoutsScope.() -> Unit) {
-        val timeoutsScope = TimeoutsScope().apply(block)
+        timeoutsScope.apply(block)
         options.apply {
             with(timeoutsScope) {
                 implicitWait?.let { setImplicitWaitTimeout(it.toJavaDuration()) }
@@ -60,7 +63,7 @@ public sealed class OptionsScope {
 
     @KolibriumDsl
     public fun proxy(block: ProxyScope.() -> Unit) {
-        val proxyScope = ProxyScope().apply(block)
+        proxyScope.apply(block)
         proxyScope.proxyMap.apply {
             with(proxyScope) {
                 proxyType?.let { proxyMap["proxyType"] = it.name }
@@ -76,5 +79,12 @@ public sealed class OptionsScope {
         if (proxyScope.proxyMap.isNotEmpty()) {
             options.setProxy(Proxy(proxyScope.proxyMap))
         }
+    }
+
+    override fun toString(): String {
+        return "OptionsScope(acceptInsecureCerts=$acceptInsecureCerts, browserVersion=$browserVersion, " +
+            "pageLoadStrategy=$pageLoadStrategy, platform=$platform, proxyScope=$proxyScope, " +
+            "strictFileInteractability=$strictFileInteractability, timeoutsScope=$timeoutsScope, " +
+            "unhandledPromptBehaviour=$unhandledPromptBehaviour)"
     }
 }
