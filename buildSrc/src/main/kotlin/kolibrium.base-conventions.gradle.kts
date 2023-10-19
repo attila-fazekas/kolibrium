@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     implementation("ch.qos.logback:logback-classic:_")
-    implementation("io.github.microutils:kotlin-logging-jvm:_")
+    implementation("io.github.oshai:kotlin-logging-jvm:_")
 }
 
 tasks.withType<KotlinCompile> {
