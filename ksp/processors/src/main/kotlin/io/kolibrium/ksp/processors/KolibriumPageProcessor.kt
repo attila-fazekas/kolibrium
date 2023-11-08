@@ -45,6 +45,7 @@ import io.kolibrium.ksp.annotations.LinkText
 import io.kolibrium.ksp.annotations.Name
 import io.kolibrium.ksp.annotations.PartialLinkText
 import io.kolibrium.ksp.annotations.TagName
+import io.kolibrium.ksp.annotations.Url
 import io.kolibrium.ksp.annotations.Xpath
 import org.apache.commons.validator.routines.UrlValidator
 import kotlin.reflect.KClass
@@ -79,24 +80,26 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
         override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
             validate(classDeclaration)
 
-            val className = classDeclaration.simpleName.asString()
-            val typeBuilder = TypeSpec.classBuilder(className)
-                .contextReceivers(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver")).apply {
-                    val baseUrl =
-                        classDeclaration.getAnnotation(KolibriumPage::class)!!.getArgument("baseUrl").value as String
+            val className = getClassName(classDeclaration)
 
-                    if (baseUrl.isNotEmpty()) {
-                        if (!UrlValidator.getInstance().isValid(baseUrl)) {
-                            logger.error("Provided URL in \"$classDeclaration\" is invalid: $baseUrl")
-                        } else {
-                            addInitializerBlock(
-                                CodeBlock.builder()
-                                    .addStatement("get(%S)", baseUrl)
-                                    .build()
-                            )
-                        }
+            val typeBuilder = TypeSpec.classBuilder(className)
+                .contextReceivers(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
+
+            val baseUrl = classDeclaration.getAnnotation(Url::class)?.getArgument("baseUrl")?.value as? String
+
+            if (baseUrl != null) {
+                if (baseUrl.isNotEmpty()) {
+                    if (!UrlValidator.getInstance().isValid(baseUrl)) {
+                        logger.error("Provided URL in \"$classDeclaration\" is invalid: $baseUrl")
                     }
+
+                    typeBuilder.addInitializerBlock(
+                        CodeBlock.builder()
+                            .addStatement("get(%S)", baseUrl)
+                            .build()
+                    )
                 }
+            }
 
             classDeclaration.getEnumEntries().forEach {
                 it.accept(KolibriumEnumEntryVisitor(typeBuilder), Unit)
@@ -126,6 +129,20 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
 
             if (classDeclaration.getEnumEntries().count() == 0) {
                 logger.error("At least one enum shall be defined in \"$classDeclaration\".")
+            }
+        }
+
+        private fun getClassName(classDeclaration: KSClassDeclaration): String {
+            val originalClassName = classDeclaration.simpleName.asString()
+            val generatedClassName =
+                classDeclaration.getAnnotation(KolibriumPage::class)!!.getArgument("generatedClassName").value as String
+
+            return if (generatedClassName.isNotEmpty()) {
+                generatedClassName
+            } else if (originalClassName.endsWith("Locators")) {
+                originalClassName.removeSuffix("Locators")
+            } else {
+                originalClassName
             }
         }
 

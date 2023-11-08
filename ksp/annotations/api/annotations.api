@@ -14,7 +14,7 @@ public abstract interface annotation class io/kolibrium/ksp/annotations/Id : jav
 }
 
 public abstract interface annotation class io/kolibrium/ksp/annotations/KolibriumPage : java/lang/annotation/Annotation {
-	public abstract fun baseUrl ()Ljava/lang/String;
+	public abstract fun generatedClassName ()Ljava/lang/String;
 }
 
 public abstract interface annotation class io/kolibrium/ksp/annotations/LinkText : java/lang/annotation/Annotation {
@@ -35,6 +35,10 @@ public abstract interface annotation class io/kolibrium/ksp/annotations/PartialL
 public abstract interface annotation class io/kolibrium/ksp/annotations/TagName : java/lang/annotation/Annotation {
 	public abstract fun collectToList ()Z
 	public abstract fun locator ()Ljava/lang/String;
+}
+
+public abstract interface annotation class io/kolibrium/ksp/annotations/Url : java/lang/annotation/Annotation {
+	public abstract fun baseUrl ()Ljava/lang/String;
 }
 
 public abstract interface annotation class io/kolibrium/ksp/annotations/Xpath : java/lang/annotation/Annotation {
