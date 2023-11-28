@@ -50,7 +50,7 @@ import io.kolibrium.ksp.annotations.Xpath
 import org.apache.commons.validator.routines.UrlValidator
 import kotlin.reflect.KClass
 
-private const val KOLIBRIUM_CORE_PACKAGE_NAME = "io.kolibrium.core"
+private const val KOLIBRIUM_SELENIUM_PACKAGE_NAME = "io.kolibrium.selenium"
 private const val SELENIUM_PACKAGE_NAME = "org.openqa.selenium"
 
 public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private val logger: KSPLogger) :
@@ -182,7 +182,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
                 val locator =
                     (locatorAnnotation.getArgument("locator").value as String).ifEmpty { enumEntryName }
                 val locatorStrategyClassName = ClassName(
-                    KOLIBRIUM_CORE_PACKAGE_NAME,
+                    KOLIBRIUM_SELENIUM_PACKAGE_NAME,
                     getLocatorStrategy(locatorAnnotation)
                 )
                 val mustacheTemplateParser = MustacheTemplateParser(locator)
@@ -204,7 +204,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
                 generateProperty(enumEntryName, delegateTypeClassName) {
                     add(
                         "%T<%T>(%S)",
-                        ClassName(KOLIBRIUM_CORE_PACKAGE_NAME, "idOrName"),
+                        ClassName(KOLIBRIUM_SELENIUM_PACKAGE_NAME, "idOrName"),
                         delegateTypeClassName,
                         enumEntryName
                     )
@@ -269,7 +269,7 @@ private fun KSAnnotation.getArgument(arg: String) =
 
 private fun getDelegateTypeClassName(collectToListValue: Boolean = false) =
     if (collectToListValue) {
-        ClassName(KOLIBRIUM_CORE_PACKAGE_NAME, "WebElements")
+        ClassName(KOLIBRIUM_SELENIUM_PACKAGE_NAME, "WebElements")
     } else {
         ClassName(SELENIUM_PACKAGE_NAME, "WebElement")
     }
