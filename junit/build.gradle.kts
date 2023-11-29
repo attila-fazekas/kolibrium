@@ -1,15 +1,18 @@
 import org.jreleaser.model.Active
 
 plugins {
-    id("kolibrium.library-conventions")
     id("kolibrium.test-conventions")
+    id("kolibrium.library-conventions")
+    id("com.google.devtools.ksp")
 }
 
 version = "0.1.0-SNAPSHOT"
 
 dependencies {
     implementation(project(":core"))
-    implementation("commons-validator:commons-validator:_")
+    implementation(Testing.junit.jupiter.api)
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.20")
+    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
 }
 
 val projectGitUrl = "https://github.com/attila-fazekas/kolibrium"
@@ -55,7 +58,7 @@ jreleaser {
             nexus2 {
                 register("maven-central") {
                     active = Active.ALWAYS
-                    description = "DSL module of Kolibrium"
+                    description = "JUnit module of Kolibrium"
                     group = "io.github.attila-fazekas"
                     closeRepository = true
                     releaseRepository = true

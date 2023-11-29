@@ -1,15 +1,14 @@
 import org.jreleaser.model.Active
 
 plugins {
-    id("kolibrium.library-conventions")
     id("kolibrium.test-conventions")
+    id("kolibrium.library-conventions")
 }
 
 version = "0.1.0-SNAPSHOT"
 
 dependencies {
-    implementation(project(":core"))
-    implementation("commons-validator:commons-validator:_")
+    api("org.seleniumhq.selenium:selenium-java:_")
 }
 
 val projectGitUrl = "https://github.com/attila-fazekas/kolibrium"
@@ -55,7 +54,7 @@ jreleaser {
             nexus2 {
                 register("maven-central") {
                     active = Active.ALWAYS
-                    description = "DSL module of Kolibrium"
+                    description = "Selenium module of Kolibrium"
                     group = "io.github.attila-fazekas"
                     closeRepository = true
                     releaseRepository = true

@@ -5,7 +5,7 @@ plugins {
     id("kolibrium.library-conventions")
 }
 
-version = "0.3.0-SNAPSHOT"
+version = "0.1.0-SNAPSHOT"
 
 dependencies {
     api("org.seleniumhq.selenium:selenium-java:_")
