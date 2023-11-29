@@ -32,26 +32,32 @@ jobs:
 
       - uses: ./.github/actions/run-gradle
 
-      - name: Zip output - Core
-        if: success() || failure()
-        run: zip -qq -r test-reports-core.zip test
-        working-directory: /home/runner/work/kolibrium/kolibrium/core/build/reports/tests
-
       - name: Zip output - DSL
         if: success() || failure()
         run: zip -qq -r test-reports-dsl.zip test
         working-directory: /home/runner/work/kolibrium/kolibrium/dsl/build/reports/tests
+
+      - name: Zip output - JUnit
+        if: success() || failure()
+        run: zip -qq -r test-reports-junit.zip test
+        working-directory: /home/runner/work/kolibrium/kolibrium/junit/build/reports/tests
 
       - name: Zip output - KSP
         if: success() || failure()
         run: zip -qq -r test-reports-ksp.zip test
         working-directory: /home/runner/work/kolibrium/kolibrium/ksp/processors/build/reports/tests
 
+      - name: Zip output - Selenium
+        if: success() || failure()
+        run: zip -qq -r test-reports-selenium.zip test
+        working-directory: /home/runner/work/kolibrium/kolibrium/selenium/build/reports/tests
+
       - uses: actions/upload-artifact@v3
         if: success() || failure()
         with:
           name: test-reports
           path: |
-            /home/runner/work/kolibrium/kolibrium/core/build/reports/tests/test-reports-core.zip
             /home/runner/work/kolibrium/kolibrium/dsl/build/reports/tests/test-reports-dsl.zip
+            /home/runner/work/kolibrium/kolibrium/junit/build/reports/tests/test-reports-junit.zip
             /home/runner/work/kolibrium/kolibrium/ksp/processors/build/reports/tests/test-reports-ksp.zip
+            /home/runner/work/kolibrium/kolibrium/selenium/build/reports/tests/test-reports-selenium.zip
