@@ -22,7 +22,7 @@ import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 
 @AutoService(SymbolProcessorProvider::class)
-public class KolibriumPageProcessorProvider : SymbolProcessorProvider {
+public class PageProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor =
-        KolibriumPageProcessor(environment.codeGenerator, environment.logger)
+        PageProcessor(environment.codeGenerator, environment.logger)
 }

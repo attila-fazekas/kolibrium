@@ -34,7 +34,7 @@ private fun getPage(pageName: String) = Paths.get("").toAbsolutePath()
 private val homePage = getPage("home")
 private val imagesPage = getPage("images")
 
-class KolibriumLocatorDelegateTest {
+class LocatorDelegatesTest {
 
     private lateinit var driver: WebDriver
 
