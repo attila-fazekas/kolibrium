@@ -40,9 +40,9 @@ import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import io.kolibrium.ksp.annotations.Css
 import io.kolibrium.ksp.annotations.Id
-import io.kolibrium.ksp.annotations.KolibriumPage
 import io.kolibrium.ksp.annotations.LinkText
 import io.kolibrium.ksp.annotations.Name
+import io.kolibrium.ksp.annotations.Page
 import io.kolibrium.ksp.annotations.PartialLinkText
 import io.kolibrium.ksp.annotations.TagName
 import io.kolibrium.ksp.annotations.Url
@@ -53,28 +53,28 @@ import kotlin.reflect.KClass
 private const val KOLIBRIUM_SELENIUM_PACKAGE_NAME = "io.kolibrium.selenium"
 private const val SELENIUM_PACKAGE_NAME = "org.openqa.selenium"
 
-public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private val logger: KSPLogger) :
+public class PageProcessor(private val codeGen: CodeGenerator, private val logger: KSPLogger) :
     SymbolProcessor {
 
     // process function returns a list of KSAnnotated objects, which represent symbols that
     // the processor can't currently process and need to be deferred to another round
     override fun process(resolver: Resolver): List<KSAnnotated> {
-        // retrieve all class declarations annotated with KolibriumPage
+        // retrieve all class declarations annotated with Page
         val symbols =
             resolver
-                .getSymbolsWithAnnotation(KolibriumPage::class.java.name)
+                .getSymbolsWithAnnotation(Page::class.java.name)
                 .filterIsInstance<KSClassDeclaration>()
 
         // in case there are no symbols that can be processed — exit
         if (symbols.iterator().hasNext().not()) return emptyList()
 
-        symbols.forEach { it.accept(KolibriumPageVisitor(), Unit) }
+        symbols.forEach { it.accept(PageVisitor(), Unit) }
 
         // return deferred symbols that the processor can't process but in theory we have none
         return emptyList()
     }
 
-    private inner class KolibriumPageVisitor : KSVisitorVoid() {
+    private inner class PageVisitor : KSVisitorVoid() {
 
         @OptIn(ExperimentalKotlinPoetApi::class)
         override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
@@ -102,7 +102,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
             }
 
             classDeclaration.getEnumEntries().forEach {
-                it.accept(KolibriumEnumEntryVisitor(typeBuilder), Unit)
+                it.accept(EnumEntryVisitor(typeBuilder), Unit)
             }
 
             val pckName = classDeclaration.packageName.asString() + ".generated"
@@ -122,7 +122,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
             if (classDeclaration.classKind != ClassKind.ENUM_CLASS) {
                 logger.error(
                     """
-                        Only enum classes can be annotated with @KolibriumPage. Please make sure "$classDeclaration" is an enum class.
+                        Only enum classes can be annotated with @Page. Please make sure "$classDeclaration" is an enum class.
                     """.trimIndent()
                 )
             }
@@ -135,7 +135,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
         private fun getClassName(classDeclaration: KSClassDeclaration): String {
             val originalClassName = classDeclaration.simpleName.asString()
             val generatedClassName =
-                classDeclaration.getAnnotation(KolibriumPage::class)!!.getArgument("generatedClassName").value as String
+                classDeclaration.getAnnotation(Page::class)!!.getArgument("generatedClassName").value as String
 
             return if (generatedClassName.isNotEmpty()) {
                 generatedClassName
@@ -150,7 +150,7 @@ public class KolibriumPageProcessor(private val codeGen: CodeGenerator, private 
             declarations.filter { it.closestClassDeclaration()?.classKind == ClassKind.ENUM_ENTRY }
     }
 
-    private inner class KolibriumEnumEntryVisitor(private val typeSpecBuilder: TypeSpec.Builder) : KSVisitorVoid() {
+    private inner class EnumEntryVisitor(private val typeSpecBuilder: TypeSpec.Builder) : KSVisitorVoid() {
 
         override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
             val locatorAnnotations = listOf(

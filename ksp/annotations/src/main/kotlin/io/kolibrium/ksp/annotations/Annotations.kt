@@ -17,14 +17,14 @@
 package io.kolibrium.ksp.annotations
 
 /**
- * Enum classes annotated with [KolibriumPage] will instruct kolibrium-codegen to generate Page Object classes.
+ * Enum classes annotated with [Page] will instruct kolibrium-codegen to generate Page Object classes.
  * If the class name ends with "Locators" that part will be removed from the generated class name. For example,
  * the LoginPageLocators enum class will be named as LoginPage.
  * If [generatedClassName] is defined, it will be used as the generated class name.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-public annotation class KolibriumPage(val generatedClassName: String = "")
+public annotation class Page(val generatedClassName: String = "")
 
 /**
  *

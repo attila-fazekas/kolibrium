@@ -28,19 +28,19 @@ import org.intellij.lang.annotations.Language
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 
-class KolibriumPageProcessorTest {
+class PageProcessorTest {
 
     @ValidTest
-    fun `enum class annotated with KolibriumPage and enum entries annotated with locators`(@TempDir path: File) {
+    fun `enum class annotated with Page and enum entries annotated with locators`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
             package io.kolibrium.ksp.processors.test  
 
             import io.kolibrium.ksp.annotations.*
 
-            @KolibriumPage
-            enum class KolibriumTestPageLocators {
+            @Page
+            enum class KolibriumTestPage {
                 @ClassName("className")
                 entry1,
 
@@ -111,16 +111,16 @@ class KolibriumPageProcessorTest {
     }
 
     @ValidTest
-    fun `enum class annotated with KolibriumPage and enum entries have collectToList = true set`(@TempDir path: File) {
+    fun `enum class annotated with Page and enum entries have collectToList = true set`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
             package io.kolibrium.ksp.processors.test  
 
             import io.kolibrium.ksp.annotations.*
 
-            @KolibriumPage
-            enum class KolibriumTestPageLocators {
+            @Page
+            enum class KolibriumTestPage {
                 @ClassName("className", true)
                 entry1,
 
@@ -193,14 +193,14 @@ class KolibriumPageProcessorTest {
     @ValidTest
     fun `locator strategy annotation is missing`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
                 package io.kolibrium.ksp.processors.test  
     
                 import io.kolibrium.ksp.annotations.*
     
-                @KolibriumPage
-                enum class KolibriumTestPageLocators {
+                @Page
+                enum class KolibriumTestPage {
                     entry
                 }
             """.trimIndent()
@@ -230,14 +230,14 @@ class KolibriumPageProcessorTest {
     @ValidTest
     fun `locator strategy annotation has Mustache template`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
                 package io.kolibrium.ksp.processors.test  
     
                 import io.kolibrium.ksp.annotations.*
     
-                @KolibriumPage
-                enum class KolibriumTestPageLocators {
+                @Page
+                enum class KolibriumTestPage {
                     @Css(locator = "//a[@class='{{color}}'][contains(text(),'{{shape}}')]")
                     tableCell
                 }
@@ -271,17 +271,17 @@ class KolibriumPageProcessorTest {
     }
 
     @ValidTest
-    fun `KolibriumPage has valid URL`(@TempDir path: File) {
+    fun `Page has valid URL`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
               package io.kolibrium.ksp.processors.test  
     
               import io.kolibrium.ksp.annotations.*
     
-              @KolibriumPage
+              @Page
               @Url("https://www.google.com")
-              enum class KolibriumTestPageLocators {
+              enum class KolibriumTestPage {
                 searchBar
             }
             """.trimIndent()
@@ -321,7 +321,7 @@ class KolibriumPageProcessorTest {
     
                 import io.kolibrium.ksp.annotations.*
     
-                @KolibriumPage
+                @Page
                 enum class KolibriumTestPage {
                     entry
                 }
@@ -358,7 +358,7 @@ class KolibriumPageProcessorTest {
     
                 import io.kolibrium.ksp.annotations.*
     
-                @KolibriumPage("KolibriumForm")
+                @Page("KolibriumForm")
                 enum class KolibriumTestPage {
                     entry
                 }
@@ -388,16 +388,16 @@ class KolibriumPageProcessorTest {
     }
 
     @InvalidTest
-    fun `class annotated with KolibriumPage`(@TempDir path: File) {
+    fun `class annotated with Page`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
                 package io.kolibrium.ksp.processors.test  
     
                 import io.kolibrium.ksp.annotations.*
     
-                @KolibriumPage
-                class KolibriumTestPageLocator {                
+                @Page
+                class KolibriumTestPage {
                 }
             """.trimIndent()
         )
@@ -405,21 +405,21 @@ class KolibriumPageProcessorTest {
         val result = getCompilation(path, sourceFile).compile()
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
         result.messages shouldContain """
-            Only enum classes can be annotated with @KolibriumPage. Please make sure "KolibriumTestPageLocator" is an enum class.
+            Only enum classes can be annotated with @Page. Please make sure "KolibriumTestPage" is an enum class.
         """.trimIndent()
     }
 
     @InvalidTest
-    fun `data class annotated with KolibriumPage`(@TempDir path: File) {
+    fun `data class annotated with Page`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
                 package io.kolibrium.ksp.processors.test  
     
                 import io.kolibrium.ksp.annotations.*
     
-                @KolibriumPage
-                data class KolibriumTestPageLocator {                
+                @Page
+                data class KolibriumTestPage {
                 }
             """.trimIndent()
         )
@@ -427,21 +427,21 @@ class KolibriumPageProcessorTest {
         val result = getCompilation(path, sourceFile).compile()
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
         result.messages shouldContain """
-            Only enum classes can be annotated with @KolibriumPage. Please make sure "KolibriumTestPageLocator" is an enum class.
+            Only enum classes can be annotated with @Page. Please make sure "KolibriumTestPage" is an enum class.
         """.trimIndent()
     }
 
     @InvalidTest
-    fun `object annotated with KolibriumPage`(@TempDir path: File) {
+    fun `object annotated with Page`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
                 package io.kolibrium.ksp.processors.test  
     
                 import io.kolibrium.ksp.annotations.*
     
-                @KolibriumPage
-                object KolibriumTestPageLocator {                
+                @Page
+                object KolibriumTestPage {
                 }
             """.trimIndent()
         )
@@ -449,41 +449,41 @@ class KolibriumPageProcessorTest {
         val result = getCompilation(path, sourceFile).compile()
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
         result.messages shouldContain """
-            Only enum classes can be annotated with @KolibriumPage. Please make sure "KolibriumTestPageLocator" is an enum class.
+            Only enum classes can be annotated with @Page. Please make sure "KolibriumTestPage" is an enum class.
         """.trimIndent()
     }
 
     @InvalidTest
     fun `no enum entry defined`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
                 package io.kolibrium.ksp.processors.test  
     
                 import io.kolibrium.ksp.annotations.*
     
-                @KolibriumPage
-                class KolibriumTestPageLocator {                
+                @Page
+                class KolibriumTestPage {
                 }
             """.trimIndent()
         )
 
         val result = getCompilation(path, sourceFile).compile()
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        result.messages shouldContain "At least one enum shall be defined in \"KolibriumTestPageLocator\"."
+        result.messages shouldContain "At least one enum shall be defined in \"KolibriumTestPage\"."
     }
 
     @InvalidTest
     fun `more than one locator annotation present`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
                 package io.kolibrium.ksp.processors.test  
     
                 import io.kolibrium.ksp.annotations.*
     
-                @KolibriumPage
-                enum class KolibriumTestPageLocators {
+                @Page
+                enum class KolibriumTestPage {
                   @Id("usr")
                   @Name
                   username,
@@ -503,15 +503,15 @@ class KolibriumPageProcessorTest {
     @InvalidTest
     fun `url is invalid`(@TempDir path: File) {
         val sourceFile = SourceFile.kotlin(
-            "KolibriumTestPageLocators.kt",
+            "KolibriumTestPage.kt",
             """
                 package io.kolibrium.ksp.processors.test  
     
                 import io.kolibrium.ksp.annotations.*
     
-                @KolibriumPage
+                @Page
                 @Url("https://www")
-                enum class KolibriumTestPageLocators { 
+                enum class KolibriumTestPage { 
                   @Id
                   username
                 }
@@ -520,7 +520,7 @@ class KolibriumPageProcessorTest {
 
         val result = getCompilation(path, sourceFile).compile()
         verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
-        result.messages shouldContain "Provided URL in \"KolibriumTestPageLocators\" is invalid: https://www"
+        result.messages shouldContain "Provided URL in \"KolibriumTestPage\" is invalid: https://www"
     }
 }
 
@@ -528,7 +528,7 @@ private fun getCompilation(path: File, vararg sourceFiles: SourceFile) = KotlinC
     workingDir = path.absoluteFile
     inheritClassPath = true
     sources = sourceFiles.asList()
-    symbolProcessorProviders = listOf(KolibriumPageProcessorProvider())
+    symbolProcessorProviders = listOf(PageProcessorProvider())
     verbose = false
 }
 

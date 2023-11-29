@@ -3,7 +3,6 @@ import org.jreleaser.model.Active
 plugins {
     id("kolibrium.test-conventions")
     id("kolibrium.library-conventions")
-    id("com.google.devtools.ksp")
 }
 
 version = "0.1.0-SNAPSHOT"
@@ -12,7 +11,6 @@ dependencies {
     implementation(project(":core"))
     implementation(Testing.junit.jupiter.api)
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.20")
-    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
 }
 
 val projectGitUrl = "https://github.com/attila-fazekas/kolibrium"

@@ -16,8 +16,8 @@
 
 package io.kolibrium.dsl.selenium.creation
 
-@io.kolibrium.dsl.selenium.creation.KolibriumDsl
-public class AllowedIpsScope : io.kolibrium.dsl.selenium.creation.UnaryPlus<String> {
+@KolibriumDsl
+public class AllowedIpsScope : UnaryPlus<String> {
     internal val allowedIps = mutableSetOf<String>()
 
     override fun String.unaryPlus() {

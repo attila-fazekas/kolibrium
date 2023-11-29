@@ -1,4 +1,4 @@
-public final class io/kolibrium/selenium/KolibriumLocatorDelegateKt {
+public final class io/kolibrium/selenium/LocatorDelegatesKt {
 	public static final fun className (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;ILkotlin/jvm/functions/Function2;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun className (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
 	public static synthetic fun className$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
