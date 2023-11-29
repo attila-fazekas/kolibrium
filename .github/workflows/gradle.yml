@@ -37,11 +37,6 @@ jobs:
         run: zip -qq -r test-reports-dsl.zip test
         working-directory: /home/runner/work/kolibrium/kolibrium/dsl/build/reports/tests
 
-      - name: Zip output - JUnit
-        if: success() || failure()
-        run: zip -qq -r test-reports-junit.zip test
-        working-directory: /home/runner/work/kolibrium/kolibrium/junit/build/reports/tests
-
       - name: Zip output - KSP
         if: success() || failure()
         run: zip -qq -r test-reports-ksp.zip test
@@ -58,6 +53,5 @@ jobs:
           name: test-reports
           path: |
             /home/runner/work/kolibrium/kolibrium/dsl/build/reports/tests/test-reports-dsl.zip
-            /home/runner/work/kolibrium/kolibrium/junit/build/reports/tests/test-reports-junit.zip
             /home/runner/work/kolibrium/kolibrium/ksp/processors/build/reports/tests/test-reports-ksp.zip
             /home/runner/work/kolibrium/kolibrium/selenium/build/reports/tests/test-reports-selenium.zip
