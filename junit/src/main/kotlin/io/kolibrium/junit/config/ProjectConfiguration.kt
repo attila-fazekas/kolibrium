@@ -26,9 +26,9 @@ import org.openqa.selenium.safari.SafariDriver
 internal class ProjectConfiguration : AbstractProjectConfiguration() {
 
     companion object {
-        internal var autoQuit: Boolean = true
-
         internal var defaultBrowser: Browser = CHROME
+
+        internal var keepBrowserOpen: Boolean = false
 
         internal var verbose: Boolean = true
 
