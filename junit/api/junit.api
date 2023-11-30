@@ -13,11 +13,11 @@ public final class io/kolibrium/junit/KolibriumExtension : org/junit/jupiter/api
 
 public abstract class io/kolibrium/junit/config/AbstractProjectConfiguration {
 	public fun <init> ()V
-	public fun getAutoQuit ()Ljava/lang/Boolean;
 	public fun getChromeDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getDefaultBrowser ()Lio/kolibrium/core/Browser;
 	public fun getEdgeDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getFirefoxDriver ()Lkotlin/jvm/functions/Function0;
+	public fun getKeepBrowserOpen ()Ljava/lang/Boolean;
 	public fun getSafariDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getVerbose ()Ljava/lang/Boolean;
 }

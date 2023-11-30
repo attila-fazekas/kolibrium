@@ -29,9 +29,9 @@ private val logger = KotlinLogging.logger { }
 
 public abstract class AbstractProjectConfiguration {
 
-    public open val autoQuit: Boolean? = null
-
     public open val defaultBrowser: Browser? = null
+
+    public open val keepBrowserOpen: Boolean? = null
 
     public open val verbose: Boolean? = null
 
@@ -93,7 +93,7 @@ internal fun findImplementingClasses(): List<Class<out AbstractProjectConfigurat
 }
 
 internal fun AbstractProjectConfiguration.applyConfig(): AbstractProjectConfiguration = apply {
-    this.autoQuit?.let { ProjectConfiguration.autoQuit = it }
+    this.keepBrowserOpen?.let { ProjectConfiguration.keepBrowserOpen = it }
     this.chromeDriver?.let { ProjectConfiguration.chromeDriver = it }
     this.edgeDriver?.let { ProjectConfiguration.edgeDriver = it }
     this.firefoxDriver?.let { ProjectConfiguration.firefoxDriver = it }

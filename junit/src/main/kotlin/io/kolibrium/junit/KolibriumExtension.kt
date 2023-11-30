@@ -138,7 +138,7 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
 
     override fun afterEach(extCtx: ExtensionContext) {
         val driver: WebDriver = extCtx.store().get(Thread.currentThread().id) as WebDriver
-        if (ProjectConfiguration.autoQuit) {
+        if (!ProjectConfiguration.keepBrowserOpen) {
             driver.quit()
         }
     }
