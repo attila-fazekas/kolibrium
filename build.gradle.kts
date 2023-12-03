@@ -8,6 +8,6 @@ repositories {
 
 tasks.dokkaHtmlMultiModule {
     removeChildTasks(
-        project(":ksp:processors"),
+        project(":ksp:processors")
     )
 }
