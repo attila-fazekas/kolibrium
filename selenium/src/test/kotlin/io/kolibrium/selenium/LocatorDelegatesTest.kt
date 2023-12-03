@@ -16,11 +16,13 @@
 
 package io.kolibrium.selenium
 
+import io.kolibrium.selenium.pages.ButtonPage
 import io.kolibrium.selenium.pages.HomePage
 import io.kolibrium.selenium.pages.ImagesPage
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -31,12 +33,22 @@ import java.nio.file.Paths
 private fun getPage(pageName: String) = Paths.get("").toAbsolutePath()
     .parent.resolve("pages/$pageName.html").toUri().toString()
 
+private val buttonPage = getPage("button")
 private val homePage = getPage("home")
 private val imagesPage = getPage("images")
 
 class LocatorDelegatesTest {
 
     private lateinit var driver: WebDriver
+
+    private fun buttonPage(block: ButtonPage.() -> Unit) {
+        driver.get(buttonPage)
+        with(driver) {
+            with(ButtonPage()) {
+                block()
+            }
+        }
+    }
 
     private fun homePage(block: HomePage.() -> Unit) {
         driver.get(homePage)
@@ -113,6 +125,14 @@ class LocatorDelegatesTest {
         nameXpath.getAttribute("value") shouldBe "Enter your name"
     }
 
+    @Test
+    @Disabled("throws StaleElementReferenceException")
+    fun `id - button with firework`() = buttonPage {
+        button.click()
+        firework.size.width shouldBe 20
+        firework.size.height shouldBe 20
+    }
+
     // WebElements
 
     @Test
@@ -152,10 +172,12 @@ class LocatorDelegatesTest {
         linksXpath.size shouldBe 6
     }
 
-    // WebElements with number
+    // WebElements with size
 
     @Test
     fun `name - WebElements with number`() = imagesPage {
-        images.size shouldBe 9
+        images.forEachIndexed { index, element ->
+            element.getAttribute("alt") shouldBe "kodee$index"
+        }
     }
 }

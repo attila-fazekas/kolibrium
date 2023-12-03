@@ -16,13 +16,16 @@
 
 package io.kolibrium.selenium.pages
 
-import io.kolibrium.selenium.WebElements
-import io.kolibrium.selenium.name
+import io.kolibrium.selenium.className
+import io.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 
 context(WebDriver)
-class ImagesPage {
-    val images by name<WebElements>("kodee") {
-        it.size == 9
+class ButtonPage {
+    val button by id<WebElement>("myButton") {
+        it.isEnabled
     }
+
+    val firework by className<WebElement>("firework")
 }
