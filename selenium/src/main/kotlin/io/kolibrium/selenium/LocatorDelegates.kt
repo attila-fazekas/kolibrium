@@ -137,12 +137,12 @@ public fun <T : WebElement> xpath(
 ): ReadOnlyProperty<Any?, T> = KolibriumElement(xpath(locator), waitUntil)
 
 context(WebDriver)
+@Suppress("UNCHECKED_CAST")
 private class KolibriumElement<T : WebElement>(
-    by: By,
+    private val by: By,
     private val waitUntil: ((T) -> Boolean)
 ) : ReadOnlyProperty<Any?, T> {
 
-    @Suppress("UNCHECKED_CAST")
     private val element: T by lazy {
         findElement(by) as T
     }
@@ -150,7 +150,10 @@ private class KolibriumElement<T : WebElement>(
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return execute(property.name) {
             val wait = setUpWait(this@WebDriver)
-            wait.until { waitUntil.invoke(element) }
+            wait.until {
+                val e: T = findElement(by) as T
+                waitUntil.invoke(e)
+            }
             element
         }
     }
@@ -258,7 +261,6 @@ private class KolibriumElements<T : WebElements>(
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return execute(property.name) {
             val wait = setUpWait(this@WebDriver)
-
             wait.until {
                 val e: T = findElements(by) as T
                 waitUntil.invoke(e)

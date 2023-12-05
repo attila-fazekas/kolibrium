@@ -22,7 +22,6 @@ import io.kolibrium.selenium.pages.ImagesPage
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -126,14 +125,13 @@ class LocatorDelegatesTest {
     }
 
     @Test
-    @Disabled("throws StaleElementReferenceException")
     fun `id - button with firework`() = buttonPage {
         button.click()
-        firework.size.width shouldBe 20
-        firework.size.height shouldBe 20
+        firework.size.width shouldBe 10
+        firework.size.height shouldBe 10
     }
 
-    // WebElements
+// WebElements
 
     @Test
     fun `className - WebElements`() = homePage {
@@ -172,7 +170,7 @@ class LocatorDelegatesTest {
         linksXpath.size shouldBe 6
     }
 
-    // WebElements with size
+// WebElements with size
 
     @Test
     fun `name - WebElements with number`() = imagesPage {
