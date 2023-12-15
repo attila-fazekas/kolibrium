@@ -1,7 +1,7 @@
-public abstract interface annotation class io/kolibrium/junit/Kolibrium : java/lang/annotation/Annotation {
+public abstract interface annotation class dev/kolibrium/junit/Kolibrium : java/lang/annotation/Annotation {
 }
 
-public final class io/kolibrium/junit/KolibriumExtension : org/junit/jupiter/api/extension/AfterEachCallback, org/junit/jupiter/api/extension/ParameterResolver {
+public final class dev/kolibrium/junit/KolibriumExtension : org/junit/jupiter/api/extension/AfterEachCallback, org/junit/jupiter/api/extension/ParameterResolver {
 	public fun <init> ()V
 	public fun <init> (Lkotlin/jvm/functions/Function0;)V
 	public synthetic fun <init> (Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -11,10 +11,10 @@ public final class io/kolibrium/junit/KolibriumExtension : org/junit/jupiter/api
 	public fun supportsParameter (Lorg/junit/jupiter/api/extension/ParameterContext;Lorg/junit/jupiter/api/extension/ExtensionContext;)Z
 }
 
-public abstract class io/kolibrium/junit/config/AbstractProjectConfiguration {
+public abstract class dev/kolibrium/junit/config/AbstractProjectConfiguration {
 	public fun <init> ()V
 	public fun getChromeDriver ()Lkotlin/jvm/functions/Function0;
-	public fun getDefaultBrowser ()Lio/kolibrium/core/Browser;
+	public fun getDefaultBrowser ()Ldev/kolibrium/core/Browser;
 	public fun getEdgeDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getFirefoxDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getKeepBrowserOpen ()Ljava/lang/Boolean;

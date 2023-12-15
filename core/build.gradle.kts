@@ -55,7 +55,6 @@ jreleaser {
                 register("maven-central") {
                     active = Active.ALWAYS
                     description = "Core module of Kolibrium"
-                    group = "io.github.attila-fazekas"
                     closeRepository = true
                     releaseRepository = true
                     snapshotUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"

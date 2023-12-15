@@ -10,7 +10,7 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint")
 }
 
-group = "io.kolibrium"
+group = "dev.kolibrium"
 
 repositories {
     mavenCentral()

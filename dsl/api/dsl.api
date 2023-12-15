@@ -1,19 +1,19 @@
-public final class io/kolibrium/dsl/selenium/creation/AllowedHostsScope : io/kolibrium/dsl/selenium/creation/UnaryPlus {
+public final class dev/kolibrium/dsl/selenium/creation/AllowedHostsScope : dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ljava/lang/Object;)V
 	public fun unaryPlus (Ljava/lang/String;)V
 }
 
-public final class io/kolibrium/dsl/selenium/creation/AllowedIpsScope : io/kolibrium/dsl/selenium/creation/UnaryPlus {
+public final class dev/kolibrium/dsl/selenium/creation/AllowedIpsScope : dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ljava/lang/Object;)V
 	public fun unaryPlus (Ljava/lang/String;)V
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Argument {
-	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/kolibrium/dsl/selenium/creation/Argument;
+public final class dev/kolibrium/dsl/selenium/creation/Argument {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/creation/Argument;
 	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
@@ -26,82 +26,82 @@ public final class io/kolibrium/dsl/selenium/creation/Argument {
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Arguments {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Arguments;
+public final class dev/kolibrium/dsl/selenium/creation/Arguments {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Arguments;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Arguments$Chrome {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Arguments$Chrome;
-	public final fun getDisable_dev_shm_usage-PJAWlzU ()Ljava/lang/String;
-	public final fun getDisable_extensions-PJAWlzU ()Ljava/lang/String;
-	public final fun getDisable_gpu-PJAWlzU ()Ljava/lang/String;
-	public final fun getDisable_notifications-PJAWlzU ()Ljava/lang/String;
-	public final fun getDisable_popup_blocking-PJAWlzU ()Ljava/lang/String;
-	public final fun getHeadless-PJAWlzU ()Ljava/lang/String;
-	public final fun getIncognito-PJAWlzU ()Ljava/lang/String;
-	public final fun getNo_sandbox-PJAWlzU ()Ljava/lang/String;
-	public final fun getRemote_allow_origins-PJAWlzU ()Ljava/lang/String;
-	public final fun getStart_maximized-PJAWlzU ()Ljava/lang/String;
+public final class dev/kolibrium/dsl/selenium/creation/Arguments$Chrome {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Arguments$Chrome;
+	public final fun getDisable_dev_shm_usage-cOXmqfc ()Ljava/lang/String;
+	public final fun getDisable_extensions-cOXmqfc ()Ljava/lang/String;
+	public final fun getDisable_gpu-cOXmqfc ()Ljava/lang/String;
+	public final fun getDisable_notifications-cOXmqfc ()Ljava/lang/String;
+	public final fun getDisable_popup_blocking-cOXmqfc ()Ljava/lang/String;
+	public final fun getHeadless-cOXmqfc ()Ljava/lang/String;
+	public final fun getIncognito-cOXmqfc ()Ljava/lang/String;
+	public final fun getNo_sandbox-cOXmqfc ()Ljava/lang/String;
+	public final fun getRemote_allow_origins-cOXmqfc ()Ljava/lang/String;
+	public final fun getStart_maximized-cOXmqfc ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Arguments$Edge {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Arguments$Edge;
-	public final fun getHeadless-PJAWlzU ()Ljava/lang/String;
-	public final fun getInPrivate-PJAWlzU ()Ljava/lang/String;
+public final class dev/kolibrium/dsl/selenium/creation/Arguments$Edge {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Arguments$Edge;
+	public final fun getHeadless-cOXmqfc ()Ljava/lang/String;
+	public final fun getInPrivate-cOXmqfc ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Arguments$Firefox {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Arguments$Firefox;
-	public final fun getHeadless-PJAWlzU ()Ljava/lang/String;
-	public final fun getHeight-PJAWlzU ()Ljava/lang/String;
-	public final fun getIncognito-PJAWlzU ()Ljava/lang/String;
-	public final fun getWidth-PJAWlzU ()Ljava/lang/String;
+public final class dev/kolibrium/dsl/selenium/creation/Arguments$Firefox {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Arguments$Firefox;
+	public final fun getHeadless-cOXmqfc ()Ljava/lang/String;
+	public final fun getHeight-cOXmqfc ()Ljava/lang/String;
+	public final fun getIncognito-cOXmqfc ()Ljava/lang/String;
+	public final fun getWidth-cOXmqfc ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ArgumentsScope : io/kolibrium/dsl/selenium/creation/UnaryPlus {
+public final class dev/kolibrium/dsl/selenium/creation/ArgumentsScope : dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ljava/lang/Object;)V
-	public fun unaryPlus-p_jrReY (Ljava/lang/String;)V
+	public fun unaryPlus-_r27FHU (Ljava/lang/String;)V
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ArgumentsScopeKt {
-	public static final fun windowSizeChrome (Lio/kolibrium/dsl/selenium/creation/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
-	public static final fun windowSizeEdge (Lio/kolibrium/dsl/selenium/creation/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
-	public static final fun windowSizeFirefox (Lio/kolibrium/dsl/selenium/creation/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
+public final class dev/kolibrium/dsl/selenium/creation/ArgumentsScopeKt {
+	public static final fun windowSizeChrome (Ldev/kolibrium/dsl/selenium/creation/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun windowSizeEdge (Ldev/kolibrium/dsl/selenium/creation/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
+	public static final fun windowSizeFirefox (Ldev/kolibrium/dsl/selenium/creation/ArgumentsScope;Lkotlin/jvm/functions/Function1;)V
 }
 
-public abstract interface class io/kolibrium/dsl/selenium/creation/Browser {
+public abstract interface class dev/kolibrium/dsl/selenium/creation/Browser {
 }
 
-public final class io/kolibrium/dsl/selenium/creation/BrowserEnabledLabsExperiments : io/kolibrium/dsl/selenium/creation/UnaryPlus {
+public final class dev/kolibrium/dsl/selenium/creation/BrowserEnabledLabsExperiments : dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ljava/lang/Object;)V
-	public fun unaryPlus-_icPIqE (Ljava/lang/String;)V
+	public fun unaryPlus-FBl3WhA (Ljava/lang/String;)V
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Chrome : io/kolibrium/dsl/selenium/creation/Chromium {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Chrome;
+public final class dev/kolibrium/dsl/selenium/creation/Chrome : dev/kolibrium/dsl/selenium/creation/Chromium {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Chrome;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ChromeDriverScope : io/kolibrium/dsl/selenium/creation/DriverScope {
+public final class dev/kolibrium/dsl/selenium/creation/ChromeDriverScope : dev/kolibrium/dsl/selenium/creation/DriverScope {
 	public fun <init> ()V
 	public fun driverService (Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun getDriverServiceScope$dsl ()Lio/kolibrium/dsl/selenium/creation/DriverServiceScope;
-	public synthetic fun getOptionsScope$dsl ()Lio/kolibrium/dsl/selenium/creation/OptionsScope;
+	public synthetic fun getDriverServiceScope$dsl ()Ldev/kolibrium/dsl/selenium/creation/DriverServiceScope;
+	public synthetic fun getOptionsScope$dsl ()Ldev/kolibrium/dsl/selenium/creation/OptionsScope;
 	public fun options (Lkotlin/jvm/functions/Function1;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ChromeDriverServiceScope : io/kolibrium/dsl/selenium/creation/ChromiumDriverServiceScope {
+public final class dev/kolibrium/dsl/selenium/creation/ChromeDriverServiceScope : dev/kolibrium/dsl/selenium/creation/ChromiumDriverServiceScope {
 	public fun allowedIps (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun allowedIps$dsl (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getBuilder$dsl ()Lorg/openqa/selenium/remote/service/DriverService$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ChromeOptionsScope : io/kolibrium/dsl/selenium/creation/ChromiumOptionsScope {
+public final class dev/kolibrium/dsl/selenium/creation/ChromeOptionsScope : dev/kolibrium/dsl/selenium/creation/ChromiumOptionsScope {
 	public fun <init> (Lorg/openqa/selenium/chrome/ChromeOptions;)V
 	public final fun arguments (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getOptions$dsl ()Lorg/openqa/selenium/chromium/ChromiumOptions;
@@ -109,12 +109,12 @@ public final class io/kolibrium/dsl/selenium/creation/ChromeOptionsScope : io/ko
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class io/kolibrium/dsl/selenium/creation/Chromium : io/kolibrium/dsl/selenium/creation/Browser {
+public abstract interface class dev/kolibrium/dsl/selenium/creation/Chromium : dev/kolibrium/dsl/selenium/creation/Browser {
 }
 
-public abstract class io/kolibrium/dsl/selenium/creation/ChromiumDriverServiceScope : io/kolibrium/dsl/selenium/creation/DriverServiceScope {
+public abstract class dev/kolibrium/dsl/selenium/creation/ChromiumDriverServiceScope : dev/kolibrium/dsl/selenium/creation/DriverServiceScope {
 	public fun <init> ()V
-	protected final fun getAllowedIpsScope ()Lio/kolibrium/dsl/selenium/creation/AllowedIpsScope;
+	protected final fun getAllowedIpsScope ()Ldev/kolibrium/dsl/selenium/creation/AllowedIpsScope;
 	public final fun getAppendLog ()Ljava/lang/Boolean;
 	public final fun getBuildCheckDisabled ()Ljava/lang/Boolean;
 	public final fun getExecutable ()Ljava/lang/String;
@@ -129,25 +129,25 @@ public abstract class io/kolibrium/dsl/selenium/creation/ChromiumDriverServiceSc
 	public final fun setReadableTimestamp (Ljava/lang/Boolean;)V
 }
 
-public abstract class io/kolibrium/dsl/selenium/creation/ChromiumOptionsScope : io/kolibrium/dsl/selenium/creation/OptionsScope {
+public abstract class dev/kolibrium/dsl/selenium/creation/ChromiumOptionsScope : dev/kolibrium/dsl/selenium/creation/OptionsScope {
 	public fun <init> (Lorg/openqa/selenium/chromium/ChromiumOptions;)V
 	public final fun experimentalOptions (Lkotlin/jvm/functions/Function1;)V
 	public final fun extensions (Lkotlin/jvm/functions/Function1;)V
 	public final fun getBinary ()Ljava/lang/String;
-	protected final fun getExpOptionsScope ()Lio/kolibrium/dsl/selenium/creation/ExperimentalOptionsScope;
-	protected final fun getExtensionsScope ()Lio/kolibrium/dsl/selenium/creation/ExtensionsScope;
+	protected final fun getExpOptionsScope ()Ldev/kolibrium/dsl/selenium/creation/ExperimentalOptionsScope;
+	protected final fun getExtensionsScope ()Ldev/kolibrium/dsl/selenium/creation/ExtensionsScope;
 	public synthetic fun getOptions$dsl ()Lorg/openqa/selenium/remote/AbstractDriverOptions;
 	public final fun setBinary (Ljava/lang/String;)V
 }
 
-public abstract class io/kolibrium/dsl/selenium/creation/DriverScope {
+public abstract class dev/kolibrium/dsl/selenium/creation/DriverScope {
 	public abstract fun driverService (Lkotlin/jvm/functions/Function1;)V
 	public abstract fun options (Lkotlin/jvm/functions/Function1;)V
 }
 
-public abstract class io/kolibrium/dsl/selenium/creation/DriverServiceScope {
+public abstract class dev/kolibrium/dsl/selenium/creation/DriverServiceScope {
 	public final fun environment (Lkotlin/jvm/functions/Function1;)V
-	protected final fun getEnvironmentScope ()Lio/kolibrium/dsl/selenium/creation/EnvironmentScope;
+	protected final fun getEnvironmentScope ()Ldev/kolibrium/dsl/selenium/creation/EnvironmentScope;
 	public final fun getPort ()Ljava/lang/Integer;
 	public final fun getTimeout-FghU774 ()Lkotlin/time/Duration;
 	protected final fun ifExists (Ljava/lang/String;)Z
@@ -156,20 +156,20 @@ public abstract class io/kolibrium/dsl/selenium/creation/DriverServiceScope {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Edge : io/kolibrium/dsl/selenium/creation/Chromium {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Edge;
+public final class dev/kolibrium/dsl/selenium/creation/Edge : dev/kolibrium/dsl/selenium/creation/Chromium {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Edge;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/EdgeDriverScope : io/kolibrium/dsl/selenium/creation/DriverScope {
+public final class dev/kolibrium/dsl/selenium/creation/EdgeDriverScope : dev/kolibrium/dsl/selenium/creation/DriverScope {
 	public fun <init> ()V
 	public fun driverService (Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun getDriverServiceScope$dsl ()Lio/kolibrium/dsl/selenium/creation/DriverServiceScope;
-	public synthetic fun getOptionsScope$dsl ()Lio/kolibrium/dsl/selenium/creation/OptionsScope;
+	public synthetic fun getDriverServiceScope$dsl ()Ldev/kolibrium/dsl/selenium/creation/DriverServiceScope;
+	public synthetic fun getOptionsScope$dsl ()Ldev/kolibrium/dsl/selenium/creation/OptionsScope;
 	public fun options (Lkotlin/jvm/functions/Function1;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/EdgeDriverServiceScope : io/kolibrium/dsl/selenium/creation/ChromiumDriverServiceScope {
+public final class dev/kolibrium/dsl/selenium/creation/EdgeDriverServiceScope : dev/kolibrium/dsl/selenium/creation/ChromiumDriverServiceScope {
 	public fun <init> (Lorg/openqa/selenium/edge/EdgeDriverService$Builder;)V
 	public fun allowedIps (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun allowedIps$dsl (Lkotlin/jvm/functions/Function1;)V
@@ -177,7 +177,7 @@ public final class io/kolibrium/dsl/selenium/creation/EdgeDriverServiceScope : i
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/EdgeOptionsScope : io/kolibrium/dsl/selenium/creation/ChromiumOptionsScope {
+public final class dev/kolibrium/dsl/selenium/creation/EdgeOptionsScope : dev/kolibrium/dsl/selenium/creation/ChromiumOptionsScope {
 	public fun <init> (Lorg/openqa/selenium/edge/EdgeOptions;)V
 	public final fun arguments (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getOptions$dsl ()Lorg/openqa/selenium/chromium/ChromiumOptions;
@@ -187,22 +187,22 @@ public final class io/kolibrium/dsl/selenium/creation/EdgeOptionsScope : io/koli
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/EnvironmentScope : io/kolibrium/dsl/selenium/creation/UnaryPlus {
+public final class dev/kolibrium/dsl/selenium/creation/EnvironmentScope : dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ljava/lang/Object;)V
 	public fun unaryPlus (Lkotlin/Pair;)V
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ExcludeSwitchesScope : io/kolibrium/dsl/selenium/creation/UnaryPlus {
+public final class dev/kolibrium/dsl/selenium/creation/ExcludeSwitchesScope : dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ljava/lang/Object;)V
-	public fun unaryPlus-KbVGTnU (Ljava/lang/String;)V
+	public fun unaryPlus-Xw-ETNE (Ljava/lang/String;)V
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ExperimentalFlag {
-	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/kolibrium/dsl/selenium/creation/ExperimentalFlag;
+public final class dev/kolibrium/dsl/selenium/creation/ExperimentalFlag {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/creation/ExperimentalFlag;
 	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
@@ -215,25 +215,25 @@ public final class io/kolibrium/dsl/selenium/creation/ExperimentalFlag {
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ExperimentalFlags {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/ExperimentalFlags;
-	public final fun getCookies_without_same_site_must_be_secure-HoWdiVs ()Ljava/lang/String;
-	public final fun getSame_site_by_default_cookies-HoWdiVs ()Ljava/lang/String;
+public final class dev/kolibrium/dsl/selenium/creation/ExperimentalFlags {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/ExperimentalFlags;
+	public final fun getCookies_without_same_site_must_be_secure-GsNgzw4 ()Ljava/lang/String;
+	public final fun getSame_site_by_default_cookies-GsNgzw4 ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ExperimentalOptionsScope {
+public final class dev/kolibrium/dsl/selenium/creation/ExperimentalOptionsScope {
 	public fun <init> ()V
-	public final fun excludeSwitches (Lkotlin/jvm/functions/Function1;)Lio/kolibrium/dsl/selenium/creation/ExcludeSwitchesScope;
-	public final fun getExcludeSwitchesScope ()Lio/kolibrium/dsl/selenium/creation/ExcludeSwitchesScope;
-	public final fun getLocalStateScope ()Lio/kolibrium/dsl/selenium/creation/LocalStateScope;
-	public final fun getPreferencesScope ()Lio/kolibrium/dsl/selenium/creation/PreferencesScope;
-	public final fun localState (Lkotlin/jvm/functions/Function1;)Lio/kolibrium/dsl/selenium/creation/LocalStateScope;
-	public final fun preferences (Lkotlin/jvm/functions/Function1;)Lio/kolibrium/dsl/selenium/creation/PreferencesScope;
+	public final fun excludeSwitches (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/creation/ExcludeSwitchesScope;
+	public final fun getExcludeSwitchesScope ()Ldev/kolibrium/dsl/selenium/creation/ExcludeSwitchesScope;
+	public final fun getLocalStateScope ()Ldev/kolibrium/dsl/selenium/creation/LocalStateScope;
+	public final fun getPreferencesScope ()Ldev/kolibrium/dsl/selenium/creation/PreferencesScope;
+	public final fun localState (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/creation/LocalStateScope;
+	public final fun preferences (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/creation/PreferencesScope;
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Extension {
-	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/kolibrium/dsl/selenium/creation/Extension;
+public final class dev/kolibrium/dsl/selenium/creation/Extension {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/creation/Extension;
 	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
@@ -246,27 +246,27 @@ public final class io/kolibrium/dsl/selenium/creation/Extension {
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ExtensionsScope : io/kolibrium/dsl/selenium/creation/UnaryPlus {
+public final class dev/kolibrium/dsl/selenium/creation/ExtensionsScope : dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ljava/lang/Object;)V
-	public fun unaryPlus-nwcfBCU (Ljava/lang/String;)V
+	public fun unaryPlus-bTGED04 (Ljava/lang/String;)V
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Firefox : io/kolibrium/dsl/selenium/creation/Browser {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Firefox;
+public final class dev/kolibrium/dsl/selenium/creation/Firefox : dev/kolibrium/dsl/selenium/creation/Browser {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Firefox;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/FirefoxDriverScope : io/kolibrium/dsl/selenium/creation/DriverScope {
+public final class dev/kolibrium/dsl/selenium/creation/FirefoxDriverScope : dev/kolibrium/dsl/selenium/creation/DriverScope {
 	public fun <init> ()V
 	public fun driverService (Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun getDriverServiceScope$dsl ()Lio/kolibrium/dsl/selenium/creation/DriverServiceScope;
-	public synthetic fun getOptionsScope$dsl ()Lio/kolibrium/dsl/selenium/creation/OptionsScope;
+	public synthetic fun getDriverServiceScope$dsl ()Ldev/kolibrium/dsl/selenium/creation/DriverServiceScope;
+	public synthetic fun getOptionsScope$dsl ()Ldev/kolibrium/dsl/selenium/creation/OptionsScope;
 	public fun options (Lkotlin/jvm/functions/Function1;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/FirefoxOptionsScope : io/kolibrium/dsl/selenium/creation/OptionsScope {
+public final class dev/kolibrium/dsl/selenium/creation/FirefoxOptionsScope : dev/kolibrium/dsl/selenium/creation/OptionsScope {
 	public fun <init> (Lorg/openqa/selenium/firefox/FirefoxOptions;)V
 	public final fun arguments (Lkotlin/jvm/functions/Function1;)V
 	public final fun getBinary ()Ljava/lang/String;
@@ -279,14 +279,14 @@ public final class io/kolibrium/dsl/selenium/creation/FirefoxOptionsScope : io/k
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/FirefoxProfileScope : io/kolibrium/dsl/selenium/creation/UnaryPlus {
+public final class dev/kolibrium/dsl/selenium/creation/FirefoxProfileScope : dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ljava/lang/Object;)V
 	public fun unaryPlus (Lkotlin/Pair;)V
 }
 
-public final class io/kolibrium/dsl/selenium/creation/GeckoDriverServiceScope : io/kolibrium/dsl/selenium/creation/DriverServiceScope {
+public final class dev/kolibrium/dsl/selenium/creation/GeckoDriverServiceScope : dev/kolibrium/dsl/selenium/creation/DriverServiceScope {
 	public fun <init> (Lorg/openqa/selenium/firefox/GeckoDriverService$Builder;)V
 	public final fun allowedHosts (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getBuilder$dsl ()Lorg/openqa/selenium/remote/service/DriverService$Builder;
@@ -303,38 +303,38 @@ public final class io/kolibrium/dsl/selenium/creation/GeckoDriverServiceScope : 
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/KolibriumDslKt {
+public final class dev/kolibrium/dsl/selenium/creation/KolibriumDslKt {
 	public static final fun chromeDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/chrome/ChromeDriver;
 	public static final fun chromeDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/chrome/ChromeDriverService;
 	public static final fun chromeOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/chrome/ChromeOptions;
-	public static final fun driver (Lio/kolibrium/core/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/WebDriver;
-	public static final fun driverService (Lio/kolibrium/core/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/service/DriverService;
+	public static final fun driver (Ldev/kolibrium/core/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/WebDriver;
+	public static final fun driverService (Ldev/kolibrium/core/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/service/DriverService;
 	public static final fun edgeDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/edge/EdgeDriver;
 	public static final fun edgeDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/edge/EdgeDriverService;
 	public static final fun edgeOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/edge/EdgeOptions;
 	public static final fun firefoxDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/firefox/FirefoxDriver;
 	public static final fun firefoxOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/firefox/FirefoxOptions;
 	public static final fun geckoDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/firefox/GeckoDriverService;
-	public static final fun options (Lio/kolibrium/core/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/AbstractDriverOptions;
+	public static final fun options (Ldev/kolibrium/core/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/AbstractDriverOptions;
 	public static final fun safariDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/safari/SafariDriver;
 	public static final fun safariDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/safari/SafariDriverService;
 	public static final fun safariOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/safari/SafariOptions;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/LocalStateScope {
+public final class dev/kolibrium/dsl/selenium/creation/LocalStateScope {
 	public fun <init> ()V
-	public final fun browserEnabledLabsExperiments (Lkotlin/jvm/functions/Function1;)Lio/kolibrium/dsl/selenium/creation/BrowserEnabledLabsExperiments;
+	public final fun browserEnabledLabsExperiments (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/creation/BrowserEnabledLabsExperiments;
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract class io/kolibrium/dsl/selenium/creation/OptionsScope {
+public abstract class dev/kolibrium/dsl/selenium/creation/OptionsScope {
 	public final fun getAcceptInsecureCerts ()Ljava/lang/Boolean;
 	public final fun getBrowserVersion ()Ljava/lang/String;
 	public final fun getPageLoadStrategy ()Lorg/openqa/selenium/PageLoadStrategy;
 	public final fun getPlatform ()Lorg/openqa/selenium/Platform;
-	protected final fun getProxyScope ()Lio/kolibrium/dsl/selenium/creation/ProxyScope;
+	protected final fun getProxyScope ()Ldev/kolibrium/dsl/selenium/creation/ProxyScope;
 	public final fun getStrictFileInteractability ()Ljava/lang/Boolean;
-	protected final fun getTimeoutsScope ()Lio/kolibrium/dsl/selenium/creation/TimeoutsScope;
+	protected final fun getTimeoutsScope ()Ldev/kolibrium/dsl/selenium/creation/TimeoutsScope;
 	public final fun getUnhandledPromptBehaviour ()Lorg/openqa/selenium/UnexpectedAlertBehaviour;
 	public final fun proxy (Lkotlin/jvm/functions/Function1;)V
 	public final fun setAcceptInsecureCerts (Ljava/lang/Boolean;)V
@@ -347,8 +347,8 @@ public abstract class io/kolibrium/dsl/selenium/creation/OptionsScope {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Preference {
-	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/kolibrium/dsl/selenium/creation/Preference;
+public final class dev/kolibrium/dsl/selenium/creation/Preference {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/creation/Preference;
 	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
@@ -361,46 +361,46 @@ public final class io/kolibrium/dsl/selenium/creation/Preference {
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Preferences {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Preferences;
+public final class dev/kolibrium/dsl/selenium/creation/Preferences {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Preferences;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Preferences$Chromium {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Preferences$Chromium;
-	public final fun getDownload_default_directory-uMrihT0 ()Ljava/lang/String;
-	public final fun getDownload_prompt_for_download-uMrihT0 ()Ljava/lang/String;
-	public final fun getSafebrowsing_enabled-uMrihT0 ()Ljava/lang/String;
+public final class dev/kolibrium/dsl/selenium/creation/Preferences$Chromium {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Preferences$Chromium;
+	public final fun getDownload_default_directory-51wqxRk ()Ljava/lang/String;
+	public final fun getDownload_prompt_for_download-51wqxRk ()Ljava/lang/String;
+	public final fun getSafebrowsing_enabled-51wqxRk ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Preferences$Firefox {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Preferences$Firefox;
-	public final fun getBrowser_download_folderList-uMrihT0 ()Ljava/lang/String;
-	public final fun getBrowser_download_manager_alertOnEXEOpen-uMrihT0 ()Ljava/lang/String;
-	public final fun getBrowser_download_manager_closeWhenDone-uMrihT0 ()Ljava/lang/String;
-	public final fun getBrowser_download_manager_focusWhenStarting-uMrihT0 ()Ljava/lang/String;
-	public final fun getBrowser_download_manager_showAlertOnComplete-uMrihT0 ()Ljava/lang/String;
-	public final fun getBrowser_download_manager_showWhenStarting-uMrihT0 ()Ljava/lang/String;
-	public final fun getBrowser_download_manager_useWindow-uMrihT0 ()Ljava/lang/String;
-	public final fun getBrowser_download_useDownloadDir-uMrihT0 ()Ljava/lang/String;
-	public final fun getBrowser_helperApps_alwaysAsk_force-uMrihT0 ()Ljava/lang/String;
-	public final fun getBrowser_helperApps_neverAsk_saveToDisk-uMrihT0 ()Ljava/lang/String;
-	public final fun getNetwork_automatic_ntlm_auth_allow_non_fqdn-uMrihT0 ()Ljava/lang/String;
-	public final fun getNetwork_automatic_ntlm_auth_trusted_uris-uMrihT0 ()Ljava/lang/String;
-	public final fun getNetwork_http_phishy_userpass_length-uMrihT0 ()Ljava/lang/String;
-	public final fun getNetwork_negotiate_auth_delegation_uris-uMrihT0 ()Ljava/lang/String;
-	public final fun getNetwork_negotiate_auth_trusted_uris-uMrihT0 ()Ljava/lang/String;
-	public final fun getNetwork_proxy_no_proxies_on-uMrihT0 ()Ljava/lang/String;
-	public final fun getSecurity_csp_enable-uMrihT0 ()Ljava/lang/String;
+public final class dev/kolibrium/dsl/selenium/creation/Preferences$Firefox {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Preferences$Firefox;
+	public final fun getBrowser_download_folderList-51wqxRk ()Ljava/lang/String;
+	public final fun getBrowser_download_manager_alertOnEXEOpen-51wqxRk ()Ljava/lang/String;
+	public final fun getBrowser_download_manager_closeWhenDone-51wqxRk ()Ljava/lang/String;
+	public final fun getBrowser_download_manager_focusWhenStarting-51wqxRk ()Ljava/lang/String;
+	public final fun getBrowser_download_manager_showAlertOnComplete-51wqxRk ()Ljava/lang/String;
+	public final fun getBrowser_download_manager_showWhenStarting-51wqxRk ()Ljava/lang/String;
+	public final fun getBrowser_download_manager_useWindow-51wqxRk ()Ljava/lang/String;
+	public final fun getBrowser_download_useDownloadDir-51wqxRk ()Ljava/lang/String;
+	public final fun getBrowser_helperApps_alwaysAsk_force-51wqxRk ()Ljava/lang/String;
+	public final fun getBrowser_helperApps_neverAsk_saveToDisk-51wqxRk ()Ljava/lang/String;
+	public final fun getNetwork_automatic_ntlm_auth_allow_non_fqdn-51wqxRk ()Ljava/lang/String;
+	public final fun getNetwork_automatic_ntlm_auth_trusted_uris-51wqxRk ()Ljava/lang/String;
+	public final fun getNetwork_http_phishy_userpass_length-51wqxRk ()Ljava/lang/String;
+	public final fun getNetwork_negotiate_auth_delegation_uris-51wqxRk ()Ljava/lang/String;
+	public final fun getNetwork_negotiate_auth_trusted_uris-51wqxRk ()Ljava/lang/String;
+	public final fun getNetwork_proxy_no_proxies_on-51wqxRk ()Ljava/lang/String;
+	public final fun getSecurity_csp_enable-51wqxRk ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/PreferencesScope : io/kolibrium/dsl/selenium/creation/UnaryPlus {
+public final class dev/kolibrium/dsl/selenium/creation/PreferencesScope : dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ljava/lang/Object;)V
 	public fun unaryPlus (Lkotlin/Pair;)V
 }
 
-public final class io/kolibrium/dsl/selenium/creation/ProxyScope {
+public final class dev/kolibrium/dsl/selenium/creation/ProxyScope {
 	public fun <init> ()V
 	public final fun getAutodetect ()Ljava/lang/Boolean;
 	public final fun getFtpProxy ()Ljava/lang/String;
@@ -420,20 +420,20 @@ public final class io/kolibrium/dsl/selenium/creation/ProxyScope {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Safari : io/kolibrium/dsl/selenium/creation/Browser {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Safari;
+public final class dev/kolibrium/dsl/selenium/creation/Safari : dev/kolibrium/dsl/selenium/creation/Browser {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Safari;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/SafariDriverScope : io/kolibrium/dsl/selenium/creation/DriverScope {
+public final class dev/kolibrium/dsl/selenium/creation/SafariDriverScope : dev/kolibrium/dsl/selenium/creation/DriverScope {
 	public fun <init> ()V
 	public fun driverService (Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun getDriverServiceScope$dsl ()Lio/kolibrium/dsl/selenium/creation/DriverServiceScope;
-	public synthetic fun getOptionsScope$dsl ()Lio/kolibrium/dsl/selenium/creation/OptionsScope;
+	public synthetic fun getDriverServiceScope$dsl ()Ldev/kolibrium/dsl/selenium/creation/DriverServiceScope;
+	public synthetic fun getOptionsScope$dsl ()Ldev/kolibrium/dsl/selenium/creation/OptionsScope;
 	public fun options (Lkotlin/jvm/functions/Function1;)V
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/SafariDriverServiceScope : io/kolibrium/dsl/selenium/creation/DriverServiceScope {
+public final class dev/kolibrium/dsl/selenium/creation/SafariDriverServiceScope : dev/kolibrium/dsl/selenium/creation/DriverServiceScope {
 	public fun <init> (Lorg/openqa/selenium/safari/SafariDriverService$Builder;)V
 	public synthetic fun getBuilder$dsl ()Lorg/openqa/selenium/remote/service/DriverService$Builder;
 	public final fun getLogging ()Ljava/lang/Boolean;
@@ -441,7 +441,7 @@ public final class io/kolibrium/dsl/selenium/creation/SafariDriverServiceScope :
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/SafariOptionsScope : io/kolibrium/dsl/selenium/creation/OptionsScope {
+public final class dev/kolibrium/dsl/selenium/creation/SafariOptionsScope : dev/kolibrium/dsl/selenium/creation/OptionsScope {
 	public fun <init> (Lorg/openqa/selenium/safari/SafariOptions;)V
 	public final fun getAutomaticInspection ()Ljava/lang/Boolean;
 	public final fun getAutomaticProfiling ()Ljava/lang/Boolean;
@@ -453,7 +453,7 @@ public final class io/kolibrium/dsl/selenium/creation/SafariOptionsScope : io/ko
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/SocksScope {
+public final class dev/kolibrium/dsl/selenium/creation/SocksScope {
 	public fun <init> ()V
 	public final fun getAddress ()Ljava/lang/String;
 	public final fun getPassword ()Ljava/lang/String;
@@ -466,8 +466,8 @@ public final class io/kolibrium/dsl/selenium/creation/SocksScope {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Switch {
-	public static final synthetic fun box-impl (Ljava/lang/String;)Lio/kolibrium/dsl/selenium/creation/Switch;
+public final class dev/kolibrium/dsl/selenium/creation/Switch {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/creation/Switch;
 	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
@@ -480,13 +480,13 @@ public final class io/kolibrium/dsl/selenium/creation/Switch {
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/Switches {
-	public static final field INSTANCE Lio/kolibrium/dsl/selenium/creation/Switches;
-	public final fun getDisable_popup_blocking-e6YQ2rs ()Ljava/lang/String;
-	public final fun getEnable_automation-e6YQ2rs ()Ljava/lang/String;
+public final class dev/kolibrium/dsl/selenium/creation/Switches {
+	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Switches;
+	public final fun getDisable_popup_blocking-8li8oKs ()Ljava/lang/String;
+	public final fun getEnable_automation-8li8oKs ()Ljava/lang/String;
 }
 
-public final class io/kolibrium/dsl/selenium/creation/TimeoutsScope {
+public final class dev/kolibrium/dsl/selenium/creation/TimeoutsScope {
 	public fun <init> ()V
 	public final fun getImplicitWait-FghU774 ()Lkotlin/time/Duration;
 	public final fun getPageLoad-FghU774 ()Lkotlin/time/Duration;
@@ -497,11 +497,11 @@ public final class io/kolibrium/dsl/selenium/creation/TimeoutsScope {
 	public fun toString ()Ljava/lang/String;
 }
 
-public abstract interface class io/kolibrium/dsl/selenium/creation/UnaryPlus {
+public abstract interface class dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public abstract fun unaryPlus (Ljava/lang/Object;)V
 }
 
-public final class io/kolibrium/dsl/selenium/creation/WindowSizeScope {
+public final class dev/kolibrium/dsl/selenium/creation/WindowSizeScope {
 	public fun <init> ()V
 	public final fun getHeight ()I
 	public final fun getWidth ()I

@@ -6,7 +6,7 @@ plugins {
     id("kolibrium.library-conventions")
 }
 
-version = "0.2.0-SNAPSHOT"
+version = "0.1.0-SNAPSHOT"
 
 dependencies {
     implementation(project(":ksp:annotations"))
@@ -43,7 +43,6 @@ jreleaser {
                 register("maven-central") {
                     active = Active.ALWAYS
                     description = "KSP module of Kolibrium"
-                    group = "io.github.attila-fazekas"
                     closeRepository = true
                     releaseRepository = true
                     snapshotUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
