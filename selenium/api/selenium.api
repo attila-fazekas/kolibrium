@@ -1,4 +1,4 @@
-public final class io/kolibrium/selenium/LocatorDelegatesKt {
+public final class dev/kolibrium/selenium/LocatorDelegatesKt {
 	public static final fun className (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
 	public static synthetic fun className$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun classNames (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
@@ -33,7 +33,7 @@ public final class io/kolibrium/selenium/LocatorDelegatesKt {
 	public static synthetic fun xpaths$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 }
 
-public final class io/kolibrium/selenium/LocatorUtilsKt {
+public final class dev/kolibrium/selenium/LocatorUtilsKt {
 	public static final fun getClickable (Lorg/openqa/selenium/WebElement;)Z
 	public static final fun isDisplayed (Ljava/util/List;)Z
 }

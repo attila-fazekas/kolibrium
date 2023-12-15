@@ -5,7 +5,7 @@
         </encoder>
     </appender>
 
-    <logger name="io.kolibrium" level="TRACE"/>
+    <logger name="dev.kolibrium" level="TRACE"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
