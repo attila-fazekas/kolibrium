@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package io.kolibrium.selenium.pages
+package io.kolibrium.selenium.internal.pages
 
-import io.kolibrium.selenium.WebElements
-import io.kolibrium.selenium.name
+import io.kolibrium.selenium.clickable
+import io.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
 
 context(WebDriver)
-class ImagesPage {
-    val images by name<WebElements>("kodee") {
-        it.size == 9
+class ButtonDelayedPage {
+    val button by id<WebElement>("button") {
+        it.clickable
     }
+
+    val message by id<WebElement>("message")
 }

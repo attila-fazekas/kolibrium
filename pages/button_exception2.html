@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElementClickInterceptedException thrown when button clicked</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Transparent black overlay */
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<button id="button" style="display: none;">Click me!</button>
+<div class="overlay" id="overlay"></div>
+
+<script>
+    let clickCount = 0;
+
+    function enableButton() {
+        const button = document.getElementById("button");
+        const overlay = document.getElementById("overlay");
+
+        button.style.display = "block";
+
+        button.addEventListener("click", function () {
+            clickCount++;
+            button.textContent = "Clicked: " + clickCount;
+
+            // Add the overlay after each click
+            overlay.style.display = "block";
+
+            // Remove the overlay after 2000 milliseconds
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 2000);
+        });
+    }
+
+    setTimeout(enableButton, 2000);
+</script>
+
+</body>
+</html>

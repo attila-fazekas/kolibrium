@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enable Button After 2 Seconds (Stale Element)</title>
+    <title>StaleElementReferenceException thrown when button clicked</title>
     <style>
         body {
             display: flex;
@@ -38,22 +38,32 @@
 </head>
 <body>
 
-<button id="myButton" disabled>Click me after 2 seconds</button>
+<div id="buttonContainer">
+    <button id="myButton" disabled>Click me after 2 seconds</button>
+</div>
 
 <script>
     // Function to enable the button after 2 seconds
     function enableButton() {
-        // Remove the existing button
-        const existingButton = document.getElementById("myButton");
-        existingButton.parentNode.removeChild(existingButton);
+        // Remove the existing wrapper
+        const existingWrapper = document.getElementById("buttonContainer");
+        const parent = existingWrapper.parentNode;
+        parent.removeChild(existingWrapper);
 
-        // Create a new button
+        // Create a new wrapper with the same ID
+        const newWrapper = document.createElement("div");
+        newWrapper.id = "buttonContainer"; // Reuse the same ID
+
+        // Create a new button with the same ID
         const newButton = document.createElement("button");
-        newButton.id = "myButton";
+        newButton.id = "myButton"; // Reuse the same ID
         newButton.textContent = "Click me after 2 seconds";
 
-        // Append the new button to the body
-        document.body.appendChild(newButton);
+        // Append the new button to the new wrapper
+        newWrapper.appendChild(newButton);
+
+        // Append the new wrapper to the same parent
+        parent.appendChild(newWrapper);
 
         // Set a click event listener for the new button
         newButton.addEventListener("click", startFireworks);

@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package io.kolibrium.selenium
+package io.kolibrium.selenium.internal.pages
 
+import io.kolibrium.selenium.id
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
-public typealias WebElements = List<WebElement>
+context(WebDriver)
+class ElementNotInteractableExceptionPage {
+    val input by id<WebElement>("disabledInput")
+}

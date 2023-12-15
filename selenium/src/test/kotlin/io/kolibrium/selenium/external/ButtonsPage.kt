@@ -14,18 +14,36 @@
  * limitations under the License.
  */
 
-package io.kolibrium.selenium.pages
+package io.kolibrium.selenium.external
 
-import io.kolibrium.selenium.className
+import io.kolibrium.selenium.css
 import io.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 context(WebDriver)
-class ButtonPage {
-    val button by id<WebElement>("myButton") {
+class ButtonsPage {
+    val easyButton1 by css<WebElement>("#easy00")
+    val easyButton2 by css<WebElement>("#easy01")
+    val easyButton3 by css<WebElement>("#easy02")
+    val easyButton4 by css<WebElement>("#easy03")
+    val easyMessage by id<WebElement>("easybuttonmessage")
+
+    val hardButton1 by css<WebElement>("#button00") {
         it.isEnabled
     }
 
-    val firework by className<WebElement>("firework")
+    val hardButton2 by css<WebElement>("#button01") {
+        it.isEnabled
+    }
+
+    val hardButton3 by css<WebElement>("#button02") {
+        it.isEnabled
+    }
+
+    val hardButton4 by css<WebElement>("#button03") {
+        it.isEnabled
+    }
+
+    val hardMessage by id<WebElement>("buttonmessage")
 }

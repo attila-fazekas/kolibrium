@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Sequence</title>
+    <style>
+        .hidden {
+          display: none;
+        }
+    </style>
+</head>
+<body>
+
+<button id="button1" class="hidden" onclick="buttonClicked(1)">Button 1</button>
+<button id="button2" class="hidden" onclick="buttonClicked(2)">Button 2</button>
+<button id="button3" class="hidden" onclick="buttonClicked(3)">Button 3</button>
+<button id="button4" class="hidden" onclick="buttonClicked(4)">Button 4</button>
+<p id="result" class="hidden">All buttons clicked!</p>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(() => {
+        const button1 = document.getElementById("button1");
+        button1.classList.remove("hidden");
+        button1.disabled = true;
+
+        setTimeout(() => {
+          button1.disabled = false;
+        }, 2000);
+      }, 2000);
+    });
+
+    function buttonClicked(buttonNumber) {
+      const currentButton = document.getElementById(`button${buttonNumber}`);
+      const nextButtonNumber = buttonNumber + 1;
+      const nextButton = document.getElementById(`button${nextButtonNumber}`);
+      const resultText = document.getElementById("result");
+
+      // Disable the current button
+      currentButton.disabled = true;
+
+      // Show the next button after a delay
+      setTimeout(() => {
+        if (nextButton) {
+          nextButton.classList.remove("hidden");
+          nextButton.disabled = true;
+
+          // Enable the next button after a delay
+          setTimeout(() => {
+            nextButton.disabled = false;
+
+            // Show and enable result text if it's the last button
+            if (buttonNumber === 3) {
+              setTimeout(() => {
+                resultText.classList.remove("hidden");
+              }, 1000);
+            }
+          }, 2000);
+        }
+      }, buttonNumber * 1000); // Delay based on the button number
+    }
+</script>
+
+</body>
+</html>
