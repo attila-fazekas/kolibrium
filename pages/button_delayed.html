@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delayed Button Page</title>
+    <style>
+        body {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100vh;
+          margin: 0;
+          flex-direction: column; /* Added to arrange items vertically */
+        }
+
+        button {
+          font-size: 16px;
+          padding: 10px 20px;
+          margin-bottom: 10px; /* Added margin to separate button and text */
+        }
+
+        .hidden {
+          display: none;
+        }
+    </style>
+</head>
+<body>
+
+<button id="button" class="hidden" onclick="enableButton()">Click me!</button>
+<p id="message" class="hidden">Button clicked!</p>
+
+<script>
+    setTimeout(() => {
+      const button = document.getElementById("button");
+      button.classList.remove("hidden");
+      button.disabled = true;
+
+      setTimeout(() => {
+        button.disabled = false;
+      }, 3000);
+    }, 5000);
+
+    function enableButton() {
+      const resultText = document.getElementById("message");
+      resultText.classList.remove("hidden");
+    }
+</script>
+
+</body>
+</html>

@@ -14,25 +14,36 @@
  * limitations under the License.
  */
 
-package io.kolibrium.selenium
+package io.kolibrium.selenium.internal
 
-import io.kolibrium.selenium.pages.ButtonPage
-import io.kolibrium.selenium.pages.HomePage
-import io.kolibrium.selenium.pages.ImagesPage
+import io.kolibrium.selenium.internal.pages.ButtonDelayedPage
+import io.kolibrium.selenium.internal.pages.ButtonElementClickInterceptedExceptionPage
+import io.kolibrium.selenium.internal.pages.ButtonStaleElementReferenceExceptionPage
+import io.kolibrium.selenium.internal.pages.ButtonsPage
+import io.kolibrium.selenium.internal.pages.ElementNotInteractableExceptionPage
+import io.kolibrium.selenium.internal.pages.HomePage
+import io.kolibrium.selenium.internal.pages.ImagesPage
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.support.ui.Select
 import java.nio.file.Paths
+import java.util.concurrent.TimeUnit.MILLISECONDS
 
 private fun getPage(pageName: String) = Paths.get("").toAbsolutePath()
     .parent.resolve("pages/$pageName.html").toUri().toString()
 
-private val buttonPage = getPage("button")
+private val buttonPage1 = getPage("button_delayed")
+private val buttonPage2 = getPage("button_exception1")
+private val buttonPage3 = getPage("button_exception2")
+private val buttonPage4 = getPage("input_exception")
+private val buttonsPage = getPage("buttons")
 private val homePage = getPage("home")
 private val imagesPage = getPage("images")
 
@@ -40,10 +51,48 @@ class LocatorDelegatesTest {
 
     private lateinit var driver: WebDriver
 
-    private fun buttonPage(block: ButtonPage.() -> Unit) {
-        driver.get(buttonPage)
+    private fun buttonDelayedPage(block: ButtonDelayedPage.() -> Unit) {
+        driver.get(buttonPage1)
         with(driver) {
-            with(ButtonPage()) {
+            with(ButtonDelayedPage()) {
+                block()
+            }
+        }
+    }
+
+    private fun buttonStaleElementReferenceExceptionPage(block: ButtonStaleElementReferenceExceptionPage.() -> Unit) {
+        driver.get(buttonPage2)
+        with(driver) {
+            with(ButtonStaleElementReferenceExceptionPage()) {
+                block()
+            }
+        }
+    }
+
+    private fun buttonElementClickInterceptedExceptionPage(
+        block: ButtonElementClickInterceptedExceptionPage.() -> Unit
+    ) {
+        driver.get(buttonPage3)
+        with(driver) {
+            with(ButtonElementClickInterceptedExceptionPage()) {
+                block()
+            }
+        }
+    }
+
+    private fun inputElementNotInteractableExceptionPage(block: ElementNotInteractableExceptionPage.() -> Unit) {
+        driver.get(buttonPage4)
+        with(driver) {
+            with(ElementNotInteractableExceptionPage()) {
+                block()
+            }
+        }
+    }
+
+    private fun buttonsPage(block: ButtonsPage.() -> Unit) {
+        driver.get(buttonsPage)
+        with(driver) {
+            with(ButtonsPage()) {
                 block()
             }
         }
@@ -64,6 +113,14 @@ class LocatorDelegatesTest {
             with(ImagesPage()) {
                 block()
             }
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        @BeforeAll
+        fun printExecutionPath() {
+//            SeleniumLogger.enable("RemoteWebDriver")
         }
     }
 
@@ -125,10 +182,48 @@ class LocatorDelegatesTest {
     }
 
     @Test
-    fun `id - button with firework`() = buttonPage {
+    fun `button delayed`() = buttonDelayedPage {
+        button.click()
+        message.text shouldBe "Button clicked!"
+    }
+
+    @Test
+    fun `buttons delayed`() = buttonsPage {
+        with(driver) {
+            with(ButtonsPage()) {
+                button1.click()
+                button2.click()
+                button3.click()
+                button4.click()
+
+                result.text shouldBe "All buttons clicked!"
+            }
+        }
+    }
+
+    @Test
+    @Disabled
+    fun `throws StaleElementReferenceException`() = buttonStaleElementReferenceExceptionPage {
         button.click()
         firework.size.width shouldBe 10
         firework.size.height shouldBe 10
+    }
+
+    @Test
+    @Disabled
+    fun `throws ElementClickInterceptedException`() = buttonElementClickInterceptedExceptionPage {
+        button.click()
+        MILLISECONDS.sleep(250)
+        button.click()
+        button.click()
+        button.text shouldBe "Clicked: 3"
+    }
+
+    @Test
+    @Disabled
+    fun `throws ElementNotInteractableException`() = inputElementNotInteractableExceptionPage {
+        input.sendKeys("test")
+        input.getAttribute("value") shouldBe "test"
     }
 
 // WebElements

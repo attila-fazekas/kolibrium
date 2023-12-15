@@ -33,3 +33,8 @@ public final class io/kolibrium/selenium/LocatorDelegatesKt {
 	public static synthetic fun xpaths$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 }
 
+public final class io/kolibrium/selenium/LocatorUtilsKt {
+	public static final fun getClickable (Lorg/openqa/selenium/WebElement;)Z
+	public static final fun isDisplayed (Ljava/util/List;)Z
+}
+

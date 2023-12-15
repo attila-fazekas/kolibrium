@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.kolibrium.selenium.pages
+package io.kolibrium.selenium.internal.pages
 
 import io.kolibrium.selenium.WebElements
 import io.kolibrium.selenium.className

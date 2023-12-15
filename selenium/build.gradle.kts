@@ -9,6 +9,7 @@ version = "0.1.0-SNAPSHOT"
 
 dependencies {
     api("org.seleniumhq.selenium:selenium-java:_")
+    testImplementation("com.titusfortner:selenium-logger:_")
 }
 
 val projectGitUrl = "https://github.com/attila-fazekas/kolibrium"
