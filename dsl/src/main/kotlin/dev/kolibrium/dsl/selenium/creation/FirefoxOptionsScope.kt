@@ -28,7 +28,10 @@ public class FirefoxOptionsScope(override val options: FirefoxOptions) : Options
     private val preferencesScope by lazy { PreferencesScope<Firefox>() }
     private val ffProfileScope by lazy { FirefoxProfileScope() }
 
+    @KolibriumPropertyDsl
     public var binary: String? = null
+
+    @KolibriumPropertyDsl
     public var profileDir: String? = null
 
     override fun configure() {

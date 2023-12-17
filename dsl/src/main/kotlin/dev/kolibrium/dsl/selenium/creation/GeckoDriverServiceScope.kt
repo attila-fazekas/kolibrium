@@ -26,10 +26,19 @@ public class GeckoDriverServiceScope(override val builder: GeckoDriverService.Bu
 
     private val allowedHostsScope: AllowedHostsScope by lazy { AllowedHostsScope() }
 
+    @KolibriumPropertyDsl
     public var executable: String? = null
+
+    @KolibriumPropertyDsl
     public var logFile: String? = null
+
+    @KolibriumPropertyDsl
     public var logLevel: FirefoxDriverLogLevel? = null
+
+    @KolibriumPropertyDsl
     public var profileRoot: String? = null
+
+    @KolibriumPropertyDsl
     public var truncatedLogs: Boolean? = null
 
     override fun configure() {

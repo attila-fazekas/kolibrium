@@ -26,6 +26,7 @@ public abstract class ChromiumOptionsScope(override val options: ChromiumOptions
     protected val expOptionsScope: ExperimentalOptionsScope<Chromium> by lazy { ExperimentalOptionsScope() }
     protected val extensionsScope: ExtensionsScope by lazy { ExtensionsScope() }
 
+    @KolibriumPropertyDsl
     public var binary: String? = null
 
     override fun configure() {

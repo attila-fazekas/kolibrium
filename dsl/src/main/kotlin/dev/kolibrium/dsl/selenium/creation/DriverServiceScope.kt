@@ -30,7 +30,10 @@ public sealed class DriverServiceScope {
 
     protected val environmentScope: EnvironmentScope by lazy { EnvironmentScope() }
 
+    @KolibriumPropertyDsl
     public var port: Int? = null
+
+    @KolibriumPropertyDsl
     public var timeout: Duration? = null
 
     internal open fun configure() {

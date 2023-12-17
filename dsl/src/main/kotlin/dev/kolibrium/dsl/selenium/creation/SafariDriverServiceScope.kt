@@ -22,6 +22,7 @@ import org.openqa.selenium.safari.SafariDriverService
 public class SafariDriverServiceScope(override val builder: SafariDriverService.Builder) :
     DriverServiceScope() {
 
+    @KolibriumPropertyDsl
     public var logging: Boolean? = null
 
     override fun configure() {

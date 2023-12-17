@@ -31,11 +31,22 @@ public sealed class OptionsScope {
     protected val proxyScope: ProxyScope by lazy { ProxyScope() }
     protected val timeoutsScope: TimeoutsScope by lazy { TimeoutsScope() }
 
+    @KolibriumPropertyDsl
     public var acceptInsecureCerts: Boolean? = null
+
+    @KolibriumPropertyDsl
     public var browserVersion: String? = null
+
+    @KolibriumPropertyDsl
     public var pageLoadStrategy: PageLoadStrategy? = null
+
+    @KolibriumPropertyDsl
     public var platform: Platform? = null
+
+    @KolibriumPropertyDsl
     public var strictFileInteractability: Boolean? = null
+
+    @KolibriumPropertyDsl
     public var unhandledPromptBehaviour: UnexpectedAlertBehaviour? = null
 
     internal open fun configure() {

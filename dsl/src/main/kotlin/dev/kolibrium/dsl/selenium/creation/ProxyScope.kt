@@ -24,12 +24,25 @@ public class ProxyScope {
 
     private val socksScope by lazy { SocksScope() }
 
+    @KolibriumPropertyDsl
     public var proxyType: Proxy.ProxyType? = null
+
+    @KolibriumPropertyDsl
     public var autodetect: Boolean? = null
+
+    @KolibriumPropertyDsl
     public var ftpProxy: String? = null
+
+    @KolibriumPropertyDsl
     public var httpProxy: String? = null
+
+    @KolibriumPropertyDsl
     public var noProxy: String? = null
+
+    @KolibriumPropertyDsl
     public var sslProxy: String? = null
+
+    @KolibriumPropertyDsl
     public var proxyAutoconfigUrl: String? = null
 
     @KolibriumDsl

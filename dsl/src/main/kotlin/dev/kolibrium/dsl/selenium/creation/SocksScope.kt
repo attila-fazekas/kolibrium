@@ -18,9 +18,17 @@ package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
 public class SocksScope {
+
+    @KolibriumPropertyDsl
     public var address: String? = null
+
+    @KolibriumPropertyDsl
     public var version: Int? = null
+
+    @KolibriumPropertyDsl
     public var username: String? = null
+
+    @KolibriumPropertyDsl
     public var password: String? = null
 
     override fun toString(): String {
