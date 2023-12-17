@@ -20,8 +20,14 @@ import kotlin.time.Duration
 
 @KolibriumDsl
 public class TimeoutsScope {
+
+    @KolibriumPropertyDsl
     public var implicitWait: Duration? = null
+
+    @KolibriumPropertyDsl
     public var pageLoad: Duration? = null
+
+    @KolibriumPropertyDsl
     public var script: Duration? = null
 
     override fun toString(): String {

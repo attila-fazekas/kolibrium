@@ -25,11 +25,22 @@ public abstract class ChromiumDriverServiceScope : DriverServiceScope() {
 
     protected val allowedIpsScope: AllowedIpsScope by lazy { AllowedIpsScope() }
 
+    @KolibriumPropertyDsl
     public var appendLog: Boolean? = null
+
+    @KolibriumPropertyDsl
     public var buildCheckDisabled: Boolean? = null
+
+    @KolibriumPropertyDsl
     public var executable: String? = null
+
+    @KolibriumPropertyDsl
     public var logFile: String? = null
+
+    @KolibriumPropertyDsl
     public var logLevel: ChromiumDriverLogLevel? = null
+
+    @KolibriumPropertyDsl
     public var readableTimestamp: Boolean? = null
 
     override fun configure() {

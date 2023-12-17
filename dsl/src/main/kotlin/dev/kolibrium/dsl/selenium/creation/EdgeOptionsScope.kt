@@ -24,6 +24,7 @@ public class EdgeOptionsScope(override val options: EdgeOptions) : ChromiumOptio
 
     private val argsScope by lazy { ArgumentsScope<Edge>() }
 
+    @KolibriumPropertyDsl
     public var useWebView: Boolean? = null
 
     override fun configure() {

@@ -41,11 +41,14 @@ import org.openqa.selenium.safari.SafariOptions
 import kotlin.annotation.AnnotationTarget.CLASS
 import kotlin.annotation.AnnotationTarget.FUNCTION
 import kotlin.annotation.AnnotationTarget.PROPERTY
-import kotlin.annotation.AnnotationTarget.TYPEALIAS
 
 @DslMarker
-@Target(FUNCTION, PROPERTY, CLASS, TYPEALIAS)
+@Target(FUNCTION, CLASS)
 internal annotation class KolibriumDsl
+
+@DslMarker
+@Target(PROPERTY)
+internal annotation class KolibriumPropertyDsl
 
 @KolibriumDsl
 public fun driver(browser: Browser, block: DriverScope<*, *>.() -> Unit): WebDriver = when (browser) {
