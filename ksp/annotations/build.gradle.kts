@@ -4,7 +4,7 @@ plugins {
     id("kolibrium.library-conventions")
 }
 
-version = "0.1.0-SNAPSHOT"
+version = "0.2.0-SNAPSHOT"
 
 val projectGitUrl = "https://github.com/attila-fazekas/kolibrium"
 val scm = "scm:git:$projectGitUrl.git"
@@ -35,8 +35,8 @@ jreleaser {
                 register("maven-central") {
                     active = Active.ALWAYS
                     description = "Annotations module of Kolibrium"
-                    closeRepository = true
-                    releaseRepository = true
+                    closeRepository = false
+                    releaseRepository = false
                     snapshotUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
                     url = "https://s01.oss.sonatype.org/service/local"
                     stagingRepository(stagingDir.get().toString())
