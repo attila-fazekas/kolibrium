@@ -5,7 +5,7 @@ plugins {
     id("kolibrium.test-conventions")
 }
 
-version = "0.1.0-SNAPSHOT"
+version = "0.2.0-SNAPSHOT"
 
 dependencies {
     implementation(project(":core"))
@@ -56,8 +56,8 @@ jreleaser {
                 register("maven-central") {
                     active = Active.ALWAYS
                     description = "DSL module of Kolibrium"
-                    closeRepository = true
-                    releaseRepository = true
+                    closeRepository = false
+                    releaseRepository = false
                     snapshotUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
                     url = "https://s01.oss.sonatype.org/service/local"
                     stagingRepository(stagingDir.get().toString())
