@@ -369,4 +369,3 @@ class KolibriumConfiguration : AbstractProjectConfiguration() {
 When initiating tests, a ChromeDriver with some experimental options will be injected into the tests.
 
 See the full files [here](https://gist.github.com/attila-fazekas/edc6d919a75122d29d956b8119170c0c)
-
