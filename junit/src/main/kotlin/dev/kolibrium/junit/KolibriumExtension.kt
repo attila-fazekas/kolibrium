@@ -92,10 +92,10 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
                     " $currentTestClass class"
             }
             instantiatedDriver
-        } ?: let {
+        } ?: run {
             // defaultBrowser was overridden in configuration
-            if (actualConfig.defaultBrowser != null) {
-                val defaultBrowserDriverClass = actualConfig.defaultBrowser?.driverClass()!!.java
+            actualConfig.defaultBrowser?.let {
+                val defaultBrowserDriverClass = it.driverClass().java
                 if (RemoteWebDriver::class.java.isAssignableFrom(constructorDriverClass) &&
                     constructorDriverClass != defaultBrowserDriverClass
                 ) {
@@ -110,7 +110,7 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
                         )
                     )
                 }
-            } else { // otherwise get the driver from default config
+            } ?: run { // otherwise get the driver from default config
                 if (RemoteWebDriver::class.java.isAssignableFrom(constructorDriverClass) &&
                     constructorDriverClass != ProjectConfiguration.defaultBrowser.driverClass()::class.java
                 ) {

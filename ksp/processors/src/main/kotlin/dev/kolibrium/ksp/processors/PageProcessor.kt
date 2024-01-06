@@ -87,7 +87,7 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
 
             val baseUrl = classDeclaration.getAnnotation(Url::class)?.getArgument("baseUrl")?.value as? String
 
-            if (baseUrl != null) {
+            baseUrl?.let {
                 if (baseUrl.isNotEmpty()) {
                     if (!UrlValidator.getInstance().isValid(baseUrl)) {
                         logger.error("Provided URL in \"$classDeclaration\" is invalid: $baseUrl")
