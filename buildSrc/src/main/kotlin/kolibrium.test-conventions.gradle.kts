@@ -1,12 +1,12 @@
 plugins {
-    id("kolibrium.base-conventions")
     id("io.kotest")
+    id("kolibrium.kotlin-conventions")
 }
 
 dependencies {
-    testImplementation(Testing.kotest.assertions.core)
     testImplementation(Testing.junit.jupiter.api)
     testImplementation(Testing.junit.jupiter.params)
+    testImplementation(Testing.kotest.assertions.core)
     testRuntimeOnly(Testing.junit.jupiter.engine)
 }
 

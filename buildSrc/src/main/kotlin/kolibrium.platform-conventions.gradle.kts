@@ -2,28 +2,19 @@ import dev.kolibrium.PublicationProperties.PROJECT_GIT_URL
 import dev.kolibrium.PublicationProperties.SCM
 
 plugins {
-    `java-library`
-    id("kolibrium.kotlin-conventions")
+    `java-platform`
+    id("kolibrium.base-conventions")
     id("kolibrium.publication-conventions")
-    id("org.jetbrains.kotlinx.binary-compatibility-validator")
 }
 
-kotlin {
-    explicitApi()
-}
-
-val sourcesJar by tasks.register<Jar>("sourcesJar") {
-    archiveClassifier = "sources"
-    from(sourceSets.main.get().allSource)
-}
-
-val javadocJar by tasks.register<Jar>("javadocJar") {
-    description = "Assembles a JAR containing the Javadoc documentation."
-    group = "documentation"
-
-    dependsOn(tasks.dokkatooGeneratePublicationHtml)
-    from(tasks.dokkatooGeneratePublicationHtml.flatMap { it.outputDirectory })
-    archiveClassifier = "javadoc"
+dependencies {
+    constraints {
+        api(project(":ksp:annotations"))
+        api(project(":core"))
+        api(project(":dsl"))
+        api(project(":junit"))
+        api(project(":selenium"))
+    }
 }
 
 val stagingDir = layout.buildDirectory.dir("staging-deploy")
@@ -31,15 +22,11 @@ val stagingDir = layout.buildDirectory.dir("staging-deploy")
 publishing {
     publications {
         create<MavenPublication>("kolibrium") {
-            from(components["kotlin"])
-            artifact(javadocJar)
-            artifact(sourcesJar)
-            artifactId = if (project.name.contains("processors")) "ksp" else project.name
-            artifactId = "$name-$artifactId"
+            from(components["javaPlatform"])
+            artifactId = "$name-${project.name}"
             pom {
-                name = rootProject.name
-                description = "\"${project.name}\" module of Kolibrium"
-                inceptionYear = "2023"
+                name = "Kolibrium BOM (Bill of Materials)"
+                description = "Bill of materials to make sure a consistent set of versions is used for Kolibrium"
                 url = PROJECT_GIT_URL
                 licenses {
                     license {
@@ -63,10 +50,10 @@ publishing {
                     url = PROJECT_GIT_URL
                 }
             }
-        }
-        repositories {
-            maven {
-                url = uri(stagingDir)
+            repositories {
+                maven {
+                    url = uri(stagingDir)
+                }
             }
         }
     }
