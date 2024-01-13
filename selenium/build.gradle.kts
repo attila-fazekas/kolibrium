@@ -1,6 +1,6 @@
 plugins {
-    id("kolibrium.test-conventions")
     id("kolibrium.library-conventions")
+    id("kolibrium.test-conventions")
 }
 
 dependencies {

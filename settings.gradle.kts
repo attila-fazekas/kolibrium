@@ -1,4 +1,6 @@
 rootProject.name = "kolibrium"
+
+include("bom")
 include("core")
 include("dsl")
 include("junit")
