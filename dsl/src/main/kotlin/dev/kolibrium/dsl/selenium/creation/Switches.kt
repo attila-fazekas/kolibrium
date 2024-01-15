@@ -22,6 +22,7 @@ public value class Switch(public val name: String)
 public object Switches {
     @KolibriumPropertyDsl
     public val enable_automation: Switch = Switch("enable-automation")
+
     @KolibriumPropertyDsl
     public val disable_popup_blocking: Switch = Switch("disable-popup-blocking")
 }
