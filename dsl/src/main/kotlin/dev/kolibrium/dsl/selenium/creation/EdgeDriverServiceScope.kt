@@ -22,7 +22,6 @@ import java.io.File
 @KolibriumDsl
 public class EdgeDriverServiceScope(override val builder: EdgeDriverService.Builder) :
     ChromiumDriverServiceScope() {
-
     override fun configure() {
         super.configure()
         builder.apply {

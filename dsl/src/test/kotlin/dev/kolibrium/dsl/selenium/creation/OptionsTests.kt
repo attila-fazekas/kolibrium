@@ -53,7 +53,6 @@ import kotlin.time.Duration.Companion.seconds
 
 @Suppress("UNCHECKED_CAST")
 class OptionsTests {
-
     @ParameterizedTest
     @EnumSource(Browser::class)
     fun optionsTest(browser: Browser) {
@@ -84,26 +83,27 @@ class OptionsTests {
 
     @Test
     fun `empty options block should create default ChromeOptions`() {
-        val options = chromeOptions {
-            arguments {
-            }
-            experimentalOptions {
-                excludeSwitches {
+        val options =
+            chromeOptions {
+                arguments {
                 }
-                localState {
-                    browserEnabledLabsExperiments {
+                experimentalOptions {
+                    excludeSwitches {
+                    }
+                    localState {
+                        browserEnabledLabsExperiments {
+                        }
+                    }
+                    preferences {
                     }
                 }
-                preferences {
+                extensions {
+                }
+                proxy {
+                }
+                timeouts {
                 }
             }
-            extensions {
-            }
-            proxy {
-            }
-            timeouts {
-            }
-        }
 
         val mappedOptions = options.asMap()
         mappedOptions["browserName"] shouldBe "chrome"
@@ -115,15 +115,16 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with custom settings should be created`() {
-        val options = chromeOptions {
-            acceptInsecureCerts = true
-            binary = "/Applications/Google Chrome Beta 2.app/Contents/MacOS/Google Chrome Beta"
-            browserVersion = "109.0.5414.46"
-            pageLoadStrategy = EAGER
-            platform = MAC
-            strictFileInteractability = true
-            unhandledPromptBehaviour = DISMISS
-        }
+        val options =
+            chromeOptions {
+                acceptInsecureCerts = true
+                binary = "/Applications/Google Chrome Beta 2.app/Contents/MacOS/Google Chrome Beta"
+                browserVersion = "109.0.5414.46"
+                pageLoadStrategy = EAGER
+                platform = MAC
+                strictFileInteractability = true
+                unhandledPromptBehaviour = DISMISS
+            }
 
         val mappedOptions = options.asMap()
         mappedOptions shouldHaveSize 8
@@ -143,16 +144,17 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with arguments should be created`() {
-        val options = chromeOptions {
-            arguments {
-                +Arguments.Chrome.headless
-                +incognito
-                windowSize {
-                    width = 1800
-                    height = 1000
+        val options =
+            chromeOptions {
+                arguments {
+                    +Arguments.Chrome.headless
+                    +incognito
+                    windowSize {
+                        width = 1800
+                        height = 1000
+                    }
                 }
             }
-        }
 
         val mappedOptions = options.asMap()
         mappedOptions shouldHaveSize 2
@@ -162,58 +164,61 @@ class OptionsTests {
         (googChromeOptions["args"] as List<String>).shouldContainExactlyInAnyOrder(
             "--headless=new",
             "--incognito",
-            "--window-size=1800,1000"
+            "--window-size=1800,1000",
         )
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
 
     @Test
     fun `ChromeOptions with experimentalOptions should be created`() {
-        val options = chromeOptions {
-            experimentalOptions {
-                excludeSwitches {
-                    +Switches.enable_automation
-                }
-                localState {
-                    browserEnabledLabsExperiments {
-                        +same_site_by_default_cookies
-                        +cookies_without_same_site_must_be_secure
+        val options =
+            chromeOptions {
+                experimentalOptions {
+                    excludeSwitches {
+                        +Switches.enable_automation
+                    }
+                    localState {
+                        browserEnabledLabsExperiments {
+                            +same_site_by_default_cookies
+                            +cookies_without_same_site_must_be_secure
+                        }
+                    }
+                    preferences {
+                        +(Preferences.Chromium.download_default_directory to "~/Downloads/TestAuto")
+                        +(Preferences.Chromium.safebrowsing_enabled to false)
                     }
                 }
-                preferences {
-                    +(Preferences.Chromium.download_default_directory to "~/Downloads/TestAuto")
-                    +(Preferences.Chromium.safebrowsing_enabled to false)
-                }
             }
-        }
 
         val mappedOptions = options.asMap()
         val googChromeOptions: Map<String, String> = mappedOptions["goog:chromeOptions"] as Map<String, String>
         (googChromeOptions["prefs"] as Map<String, Any>).shouldContainExactly(
             mapOf(
                 "download.default_directory" to "~/Downloads/TestAuto",
-                "safebrowsing.enabled" to false
-            )
+                "safebrowsing.enabled" to false,
+            ),
         )
         (googChromeOptions["excludeSwitches"] as Set<String>).shouldContainExactly("enable-automation")
         (googChromeOptions["localState"] as Map<String, Any>).shouldContainExactly(
             mapOf(
-                "browser.enabled_labs_experiments" to setOf(
-                    "same-site-by-default-cookies@2",
-                    "cookies-without-same-site-must-be-secure@2"
-                )
-            )
+                "browser.enabled_labs_experiments" to
+                    setOf(
+                        "same-site-by-default-cookies@2",
+                        "cookies-without-same-site-must-be-secure@2",
+                    ),
+            ),
         )
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
 
     @Test
     fun `ChromeOptions with extensions should be created`() {
-        val options = chromeOptions {
-            extensions {
-                +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+        val options =
+            chromeOptions {
+                extensions {
+                    +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                }
             }
-        }
 
         val mappedOptions = options.asMap()
         val googChromeOptions: Map<String, String> = mappedOptions["goog:chromeOptions"] as Map<String, String>
@@ -222,13 +227,14 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with timeouts should be created`() {
-        val options = chromeOptions {
-            timeouts {
-                implicitWait = 5.seconds
-                pageLoad = 3.seconds
-                script = 2.seconds
+        val options =
+            chromeOptions {
+                timeouts {
+                    implicitWait = 5.seconds
+                    pageLoad = 3.seconds
+                    script = 2.seconds
+                }
             }
-        }
 
         val mappedOptions = options.asMap()
         val timeouts: Map<String, String> = mappedOptions["timeouts"] as Map<String, String>
@@ -239,18 +245,19 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with socks proxy should be created`() {
-        val options = chromeOptions {
-            proxy {
-                proxyType = MANUAL
-                autodetect = false
-                socks {
-                    address = "socks5://192.168.10.100:8888"
-                    version = 5
-                    username = "username"
-                    password = "password"
+        val options =
+            chromeOptions {
+                proxy {
+                    proxyType = MANUAL
+                    autodetect = false
+                    socks {
+                        address = "socks5://192.168.10.100:8888"
+                        version = 5
+                        username = "username"
+                        password = "password"
+                    }
                 }
             }
-        }
 
         val mappedOptions = options.asMap()
         val proxy = mappedOptions["proxy"] as Proxy
@@ -269,13 +276,14 @@ class OptionsTests {
 
     @Test
     fun `ChromeOptions with proxy should be created`() {
-        val options = chromeOptions {
-            proxy {
-                proxyType = MANUAL
-                ftpProxy = "localhost:8888"
-                httpProxy = "localhost:8888"
+        val options =
+            chromeOptions {
+                proxy {
+                    proxyType = MANUAL
+                    ftpProxy = "localhost:8888"
+                    httpProxy = "localhost:8888"
+                }
             }
-        }
 
         val mappedOptions = options.asMap()
 
@@ -291,9 +299,10 @@ class OptionsTests {
 
     @Test
     fun `FirefoxOptions with custom binary should be set`() {
-        val options = firefoxOptions {
-            binary = "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
-        }
+        val options =
+            firefoxOptions {
+                binary = "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
+            }
 
         val mappedOptions = options.asMap()
         mappedOptions["acceptInsecureCerts"] shouldBe true
@@ -306,12 +315,13 @@ class OptionsTests {
 
     @Test
     fun `FirefoxOptions with headless should be set`() {
-        val options = firefoxOptions {
-            arguments {
-                +headless
-                +Arguments.Firefox.incognito
+        val options =
+            firefoxOptions {
+                arguments {
+                    +headless
+                    +Arguments.Firefox.incognito
+                }
             }
-        }
 
         val mappedOptions = options.asMap()
         val mozfirefoxOptions: Map<String, String> = mappedOptions["moz:firefoxOptions"] as Map<String, String>
@@ -320,17 +330,18 @@ class OptionsTests {
 
     @Test
     fun `FirefoxOptions with preferences should be set`() {
-        val options = firefoxOptions {
-            preferences {
-                +(Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris to "http://,https://")
-                +(Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn to false)
-                +(Preferences.Firefox.network_negotiate_auth_delegation_uris to "http://,https://")
-                +(Preferences.Firefox.network_negotiate_auth_trusted_uris to "http://,https://")
-                +(Preferences.Firefox.network_http_phishy_userpass_length to 255)
-                +(Preferences.Firefox.network_proxy_no_proxies_on to "")
-                +(Preferences.Firefox.security_csp_enable to false)
+        val options =
+            firefoxOptions {
+                preferences {
+                    +(Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris to "http://,https://")
+                    +(Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn to false)
+                    +(Preferences.Firefox.network_negotiate_auth_delegation_uris to "http://,https://")
+                    +(Preferences.Firefox.network_negotiate_auth_trusted_uris to "http://,https://")
+                    +(Preferences.Firefox.network_http_phishy_userpass_length to 255)
+                    +(Preferences.Firefox.network_proxy_no_proxies_on to "")
+                    +(Preferences.Firefox.security_csp_enable to false)
+                }
             }
-        }
 
         val mappedOptions = options.asMap()
         val mozfirefoxOptions: Map<String, String> = mappedOptions["moz:firefoxOptions"] as Map<String, String>
@@ -342,8 +353,8 @@ class OptionsTests {
                 "network.negotiate-auth.delegation-uris" to "http://,https://",
                 "network.negotiate-auth.trusted-uris" to "http://,https://",
                 "network.proxy.no_proxies_on" to "",
-                "security.csp.enable" to false
-            )
+                "security.csp.enable" to false,
+            ),
         )
     }
 
@@ -351,9 +362,10 @@ class OptionsTests {
     @Test
     fun `FirefoxOptions with profile from directory should be set`() {
         val firefoxProfileDir = System.getenv("FIREFOX_PROFILE_DIR")
-        val options = firefoxOptions {
-            profileDir = firefoxProfileDir
-        }
+        val options =
+            firefoxOptions {
+                profileDir = firefoxProfileDir
+            }
 
         val mappedOptions = options.asMap()
         val mozfirefoxOptions: Map<String, String> = mappedOptions["moz:firefoxOptions"] as Map<String, String>
@@ -362,20 +374,21 @@ class OptionsTests {
 
     @Test
     fun `FirefoxOptions with profile should be set`() {
-        val options = firefoxOptions {
-            profile {
-                +(browser_download_folderList to 1)
-                +(browser_download_manager_showWhenStarting to false)
-                +(browser_download_manager_focusWhenStarting to false)
-                +(browser_download_useDownloadDir to true)
-                +(browser_helperApps_alwaysAsk_force to false)
-                +(browser_download_manager_alertOnEXEOpen to false)
-                +(browser_download_manager_closeWhenDone to true)
-                +(browser_download_manager_showAlertOnComplete to false)
-                +(browser_download_manager_useWindow to false)
-                +(browser_helperApps_neverAsk_saveToDisk to "application/octet-stream")
+        val options =
+            firefoxOptions {
+                profile {
+                    +(browser_download_folderList to 1)
+                    +(browser_download_manager_showWhenStarting to false)
+                    +(browser_download_manager_focusWhenStarting to false)
+                    +(browser_download_useDownloadDir to true)
+                    +(browser_helperApps_alwaysAsk_force to false)
+                    +(browser_download_manager_alertOnEXEOpen to false)
+                    +(browser_download_manager_closeWhenDone to true)
+                    +(browser_download_manager_showAlertOnComplete to false)
+                    +(browser_download_manager_useWindow to false)
+                    +(browser_helperApps_neverAsk_saveToDisk to "application/octet-stream")
+                }
             }
-        }
 
         val mappedOptions = options.asMap()
         val mozfirefoxOptions: Map<String, String> = mappedOptions["moz:firefoxOptions"] as Map<String, String>
@@ -384,35 +397,37 @@ class OptionsTests {
 
     @Test
     fun `FirefoxOptions with windowSize should be set`() {
-        val options = firefoxOptions {
-            arguments {
-                windowSize {
-                    width = 1800
-                    height = 1000
+        val options =
+            firefoxOptions {
+                arguments {
+                    windowSize {
+                        width = 1800
+                        height = 1000
+                    }
                 }
             }
-        }
 
         val mappedOptions = options.asMap()
         val mozfirefoxOptions: Map<String, String> = mappedOptions["moz:firefoxOptions"] as Map<String, String>
         (mozfirefoxOptions["args"] as List<String>).shouldContainExactly(
             "--height=1800",
-            "--width=1000"
+            "--width=1000",
         )
     }
 
     @Test
     fun `SafariOptions with custom settings should be created`() {
-        val options = safariOptions {
-            automaticInspection = true
-            automaticProfiling = true
-            useTechnologyPreview = true
-            timeouts {
-                implicitWait = 5.seconds
-                pageLoad = 3.seconds
-                script = 2.seconds
+        val options =
+            safariOptions {
+                automaticInspection = true
+                automaticProfiling = true
+                useTechnologyPreview = true
+                timeouts {
+                    implicitWait = 5.seconds
+                    pageLoad = 3.seconds
+                    script = 2.seconds
+                }
             }
-        }
 
         val mappedOptions = options.asMap()
         mappedOptions shouldHaveSize 4
@@ -426,16 +441,17 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with custom settings should be created`() {
-        val options = edgeOptions {
-            acceptInsecureCerts = true
-            binary = "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta"
-            browserVersion = "118.0.2088.17"
-            pageLoadStrategy = EAGER
-            platform = MAC
-            strictFileInteractability = true
-            unhandledPromptBehaviour = DISMISS
-            useWebView = true
-        }
+        val options =
+            edgeOptions {
+                acceptInsecureCerts = true
+                binary = "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta"
+                browserVersion = "118.0.2088.17"
+                pageLoadStrategy = EAGER
+                platform = MAC
+                strictFileInteractability = true
+                unhandledPromptBehaviour = DISMISS
+                useWebView = true
+            }
 
         val mappedOptions = options.asMap()
         mappedOptions shouldHaveSize 8
@@ -455,16 +471,17 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with arguments should be created`() {
-        val options = edgeOptions {
-            arguments {
-                +Arguments.Edge.headless
-                +Arguments.Edge.inPrivate
-                windowSize {
-                    width = 1800
-                    height = 1000
+        val options =
+            edgeOptions {
+                arguments {
+                    +Arguments.Edge.headless
+                    +Arguments.Edge.inPrivate
+                    windowSize {
+                        width = 1800
+                        height = 1000
+                    }
                 }
             }
-        }
 
         val mappedOptions = options.asMap()
         mappedOptions shouldHaveSize 2
@@ -474,58 +491,61 @@ class OptionsTests {
         (googChromeOptions["args"] as List<String>).shouldContainExactlyInAnyOrder(
             "--headless",
             "--inprivate",
-            "--window-size=1800,1000"
+            "--window-size=1800,1000",
         )
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
 
     @Test
     fun `EdgeOptions with experimentalOptions should be created`() {
-        val options = edgeOptions {
-            experimentalOptions {
-                preferences {
-                    +(Preferences.Chromium.download_default_directory to "~/Downloads/TestAuto")
-                    +(Preferences.Chromium.safebrowsing_enabled to false)
-                }
-                excludeSwitches {
-                    +Switches.enable_automation
-                }
-                localState {
-                    browserEnabledLabsExperiments {
-                        +same_site_by_default_cookies
-                        +cookies_without_same_site_must_be_secure
+        val options =
+            edgeOptions {
+                experimentalOptions {
+                    preferences {
+                        +(Preferences.Chromium.download_default_directory to "~/Downloads/TestAuto")
+                        +(Preferences.Chromium.safebrowsing_enabled to false)
+                    }
+                    excludeSwitches {
+                        +Switches.enable_automation
+                    }
+                    localState {
+                        browserEnabledLabsExperiments {
+                            +same_site_by_default_cookies
+                            +cookies_without_same_site_must_be_secure
+                        }
                     }
                 }
             }
-        }
 
         val mappedOptions = options.asMap()
         val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
         (googChromeOptions["prefs"] as Map<String, Any>).shouldContainExactly(
             mapOf(
                 "download.default_directory" to "~/Downloads/TestAuto",
-                "safebrowsing.enabled" to false
-            )
+                "safebrowsing.enabled" to false,
+            ),
         )
         (googChromeOptions["excludeSwitches"] as Set<String>).shouldContainExactly("enable-automation")
         (googChromeOptions["localState"] as Map<String, Any>).shouldContainExactly(
             mapOf(
-                "browser.enabled_labs_experiments" to setOf(
-                    "same-site-by-default-cookies@2",
-                    "cookies-without-same-site-must-be-secure@2"
-                )
-            )
+                "browser.enabled_labs_experiments" to
+                    setOf(
+                        "same-site-by-default-cookies@2",
+                        "cookies-without-same-site-must-be-secure@2",
+                    ),
+            ),
         )
         (googChromeOptions["extensions"] as List<String>).shouldBeEmpty()
     }
 
     @Test
     fun `EdgeOptions with extensions should be created`() {
-        val options = edgeOptions {
-            extensions {
-                +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+        val options =
+            edgeOptions {
+                extensions {
+                    +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                }
             }
-        }
 
         val mappedOptions = options.asMap()
         val googChromeOptions: Map<String, String> = mappedOptions["ms:edgeOptions"] as Map<String, String>
@@ -534,13 +554,14 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with timeouts should be created`() {
-        val options = edgeOptions {
-            timeouts {
-                implicitWait = 5.seconds
-                pageLoad = 3.seconds
-                script = 2.seconds
+        val options =
+            edgeOptions {
+                timeouts {
+                    implicitWait = 5.seconds
+                    pageLoad = 3.seconds
+                    script = 2.seconds
+                }
             }
-        }
 
         val mappedOptions = options.asMap()
         val timeouts: Map<String, String> = mappedOptions["timeouts"] as Map<String, String>
@@ -551,18 +572,19 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with socks proxy should be created`() {
-        val options = edgeOptions {
-            proxy {
-                proxyType = MANUAL
-                autodetect = false
-                socks {
-                    address = "socks5://192.168.10.100:8888"
-                    version = 5
-                    username = "username"
-                    password = "password"
+        val options =
+            edgeOptions {
+                proxy {
+                    proxyType = MANUAL
+                    autodetect = false
+                    socks {
+                        address = "socks5://192.168.10.100:8888"
+                        version = 5
+                        username = "username"
+                        password = "password"
+                    }
                 }
             }
-        }
 
         val mappedOptions = options.asMap()
         val proxy = mappedOptions["proxy"] as Proxy
@@ -581,13 +603,14 @@ class OptionsTests {
 
     @Test
     fun `EdgeOptions with proxy should be created`() {
-        val options = edgeOptions {
-            proxy {
-                proxyType = MANUAL
-                ftpProxy = "localhost:8888"
-                httpProxy = "localhost:8888"
+        val options =
+            edgeOptions {
+                proxy {
+                    proxyType = MANUAL
+                    ftpProxy = "localhost:8888"
+                    httpProxy = "localhost:8888"
+                }
             }
-        }
 
         val mappedOptions = options.asMap()
 

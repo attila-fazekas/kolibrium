@@ -26,7 +26,6 @@ private val logger = KotlinLogging.logger { }
 
 @KolibriumDsl
 public class WindowSizeScope {
-
     @KolibriumPropertyDsl
     public var width: Int by Delegates.vetoable(WIDTH) { _, oldValue, newValue ->
         if (newValue < oldValue) {

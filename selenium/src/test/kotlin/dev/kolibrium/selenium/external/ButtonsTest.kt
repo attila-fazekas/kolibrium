@@ -40,9 +40,10 @@ class ButtonsTest {
 
     @BeforeEach
     fun setUp() {
-        driver = ChromeDriver(
-            ChromeOptions().addArguments("--headless")
-        )
+        driver =
+            ChromeDriver(
+                ChromeOptions().addArguments("--headless"),
+            )
         driver[url]
     }
 

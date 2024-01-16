@@ -22,13 +22,13 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.safari.SafariDriver
-import java.util.*
+import java.util.ServiceConfigurationError
+import java.util.ServiceLoader
 import kotlin.text.Typography.bullet
 
 private val logger = KotlinLogging.logger { }
 
 public abstract class AbstractProjectConfiguration {
-
     public open val defaultBrowser: Browser? = null
 
     public open val keepBrowserOpen: Boolean? = null
@@ -59,14 +59,15 @@ internal fun loadProjectConfigFromClassName(): AbstractProjectConfiguration? {
         logger.info { "Loading project configuration from $configFileName" }
         Class.forName(configFileName).getDeclaredConstructor().newInstance() as AbstractProjectConfiguration?
     } else {
-        val classNames = classes.map {
-            "$bullet ${it.name}"
-        }.joinToString(separator = "\n")
+        val classNames =
+            classes.map {
+                "$bullet ${it.name}"
+            }.joinToString(separator = "\n")
 
         throw ProjectConfigurationException(
             """
-                More than one project configuration found in the following classes: $classNames
-            """.trimIndent()
+            More than one project configuration found in the following classes: $classNames
+            """.trimIndent(),
         )
     }
 }
@@ -84,20 +85,21 @@ internal fun findImplementingClasses(): List<Class<out AbstractProjectConfigurat
     } catch (e: ServiceConfigurationError) {
         throw ProjectConfigurationException(
             """
-                Implementing class must have a public no argument constructor.
-            """.trimIndent()
+            Implementing class must have a public no argument constructor.
+            """.trimIndent(),
         )
     }
 
     return implementingClasses
 }
 
-internal fun AbstractProjectConfiguration.applyConfig(): AbstractProjectConfiguration = apply {
-    this.keepBrowserOpen?.let { ProjectConfiguration.keepBrowserOpen = it }
-    this.chromeDriver?.let { ProjectConfiguration.chromeDriver = it }
-    this.edgeDriver?.let { ProjectConfiguration.edgeDriver = it }
-    this.firefoxDriver?.let { ProjectConfiguration.firefoxDriver = it }
-    this.safariDriver?.let { ProjectConfiguration.safariDriver = it }
-    this.defaultBrowser?.let { ProjectConfiguration.defaultBrowser = it }
-    this.verbose?.let { ProjectConfiguration.verbose = it }
-}
+internal fun AbstractProjectConfiguration.applyConfig(): AbstractProjectConfiguration =
+    apply {
+        this.keepBrowserOpen?.let { ProjectConfiguration.keepBrowserOpen = it }
+        this.chromeDriver?.let { ProjectConfiguration.chromeDriver = it }
+        this.edgeDriver?.let { ProjectConfiguration.edgeDriver = it }
+        this.firefoxDriver?.let { ProjectConfiguration.firefoxDriver = it }
+        this.safariDriver?.let { ProjectConfiguration.safariDriver = it }
+        this.defaultBrowser?.let { ProjectConfiguration.defaultBrowser = it }
+        this.verbose?.let { ProjectConfiguration.verbose = it }
+    }

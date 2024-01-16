@@ -25,7 +25,6 @@ import kotlin.time.toJavaDuration
 
 @KolibriumDsl
 public sealed class OptionsScope {
-
     internal abstract val options: AbstractDriverOptions<*>
 
     protected val proxyScope: ProxyScope by lazy { ProxyScope() }

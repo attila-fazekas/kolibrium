@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("TooManyFunctions")
-
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.core.Browser
@@ -51,19 +49,23 @@ internal annotation class KolibriumDsl
 internal annotation class KolibriumPropertyDsl
 
 @KolibriumDsl
-public fun driver(browser: Browser, block: DriverScope<*, *>.() -> Unit): WebDriver = when (browser) {
-    CHROME -> chromeDriver(block as (ChromeDriverScope.() -> Unit))
-    SAFARI -> safariDriver(block as (SafariDriverScope.() -> Unit))
-    FIREFOX -> firefoxDriver(block as (FirefoxDriverScope.() -> Unit))
-    EDGE -> edgeDriver(block as (EdgeDriverScope.() -> Unit))
-}
+public fun driver(
+    browser: Browser,
+    block: DriverScope<*, *>.() -> Unit,
+): WebDriver =
+    when (browser) {
+        CHROME -> chromeDriver(block as (ChromeDriverScope.() -> Unit))
+        SAFARI -> safariDriver(block as (SafariDriverScope.() -> Unit))
+        FIREFOX -> firefoxDriver(block as (FirefoxDriverScope.() -> Unit))
+        EDGE -> edgeDriver(block as (EdgeDriverScope.() -> Unit))
+    }
 
 @KolibriumDsl
 public fun chromeDriver(block: ChromeDriverScope.() -> Unit): ChromeDriver {
     val driverScope = ChromeDriverScope().apply(block)
     return ChromeDriver(
         driverScope.driverServiceScope.builder.build(),
-        driverScope.optionsScope.options
+        driverScope.optionsScope.options,
     )
 }
 
@@ -72,7 +74,7 @@ public fun safariDriver(block: SafariDriverScope.() -> Unit): SafariDriver {
     val driverScope = SafariDriverScope().apply(block)
     return SafariDriver(
         driverScope.driverServiceScope.builder.build(),
-        driverScope.optionsScope.options
+        driverScope.optionsScope.options,
     )
 }
 
@@ -81,7 +83,7 @@ public fun edgeDriver(block: EdgeDriverScope.() -> Unit): EdgeDriver {
     val driverScope = EdgeDriverScope().apply(block)
     return EdgeDriver(
         driverScope.driverServiceScope.builder.build(),
-        driverScope.optionsScope.options
+        driverScope.optionsScope.options,
     )
 }
 
@@ -90,96 +92,112 @@ public fun firefoxDriver(block: FirefoxDriverScope.() -> Unit): FirefoxDriver {
     val driverScope = FirefoxDriverScope().apply(block)
     return FirefoxDriver(
         driverScope.driverServiceScope.builder.build(),
-        driverScope.optionsScope.options
+        driverScope.optionsScope.options,
     )
 }
 
 @KolibriumDsl
-public fun driverService(browser: Browser, block: DriverServiceScope.() -> Unit): DriverService = when (browser) {
-    CHROME -> chromeDriverService(block as (ChromeDriverServiceScope.() -> Unit))
-    SAFARI -> safariDriverService(block as (SafariDriverServiceScope.() -> Unit))
-    FIREFOX -> geckoDriverService(block as (GeckoDriverServiceScope.() -> Unit))
-    EDGE -> edgeDriverService(block as (EdgeDriverServiceScope.() -> Unit))
-}
+public fun driverService(
+    browser: Browser,
+    block: DriverServiceScope.() -> Unit,
+): DriverService =
+    when (browser) {
+        CHROME -> chromeDriverService(block as (ChromeDriverServiceScope.() -> Unit))
+        SAFARI -> safariDriverService(block as (SafariDriverServiceScope.() -> Unit))
+        FIREFOX -> geckoDriverService(block as (GeckoDriverServiceScope.() -> Unit))
+        EDGE -> edgeDriverService(block as (EdgeDriverServiceScope.() -> Unit))
+    }
 
 @KolibriumDsl
 public fun chromeDriverService(block: ChromeDriverServiceScope.() -> Unit): ChromeDriverService {
-    val driverServiceScopeScope = ChromeDriverServiceScope(
-        ChromeDriverService.Builder()
-    ).apply {
-        block()
-        configure()
-    }
+    val driverServiceScopeScope =
+        ChromeDriverServiceScope(
+            ChromeDriverService.Builder(),
+        ).apply {
+            block()
+            configure()
+        }
     return driverServiceScopeScope.builder.build()
 }
 
 @KolibriumDsl
 public fun safariDriverService(block: SafariDriverServiceScope.() -> Unit): SafariDriverService {
-    val driverServiceScopeScope = SafariDriverServiceScope(SafariDriverService.Builder()).apply {
-        block()
-        configure()
-    }
+    val driverServiceScopeScope =
+        SafariDriverServiceScope(SafariDriverService.Builder()).apply {
+            block()
+            configure()
+        }
     return driverServiceScopeScope.builder.build()
 }
 
 @KolibriumDsl
 public fun edgeDriverService(block: EdgeDriverServiceScope.() -> Unit): EdgeDriverService {
-    val driverServiceScopeScope = EdgeDriverServiceScope(EdgeDriverService.Builder()).apply {
-        block()
-        configure()
-    }
+    val driverServiceScopeScope =
+        EdgeDriverServiceScope(EdgeDriverService.Builder()).apply {
+            block()
+            configure()
+        }
     return driverServiceScopeScope.builder.build()
 }
 
 @KolibriumDsl
 public fun geckoDriverService(block: GeckoDriverServiceScope.() -> Unit): GeckoDriverService {
-    val driverServiceScopeScope = GeckoDriverServiceScope(GeckoDriverService.Builder()).apply {
-        block()
-        configure()
-    }
+    val driverServiceScopeScope =
+        GeckoDriverServiceScope(GeckoDriverService.Builder()).apply {
+            block()
+            configure()
+        }
     return driverServiceScopeScope.builder.build()
 }
 
 @KolibriumDsl
-public fun options(browser: Browser, block: OptionsScope.() -> Unit): AbstractDriverOptions<*> = when (browser) {
-    CHROME -> chromeOptions(block as (ChromeOptionsScope.() -> Unit))
-    SAFARI -> safariOptions(block as (SafariOptionsScope.() -> Unit))
-    FIREFOX -> firefoxOptions(block as (FirefoxOptionsScope.() -> Unit))
-    EDGE -> edgeOptions(block as (EdgeOptionsScope.() -> Unit))
-}
+public fun options(
+    browser: Browser,
+    block: OptionsScope.() -> Unit,
+): AbstractDriverOptions<*> =
+    when (browser) {
+        CHROME -> chromeOptions(block as (ChromeOptionsScope.() -> Unit))
+        SAFARI -> safariOptions(block as (SafariOptionsScope.() -> Unit))
+        FIREFOX -> firefoxOptions(block as (FirefoxOptionsScope.() -> Unit))
+        EDGE -> edgeOptions(block as (EdgeOptionsScope.() -> Unit))
+    }
 
 @KolibriumDsl
 public fun chromeOptions(block: ChromeOptionsScope.() -> Unit): ChromeOptions {
-    val optionsScope = ChromeOptionsScope(ChromeOptions()).apply {
-        block()
-        configure()
-    }
+    val optionsScope =
+        ChromeOptionsScope(ChromeOptions()).apply {
+            block()
+            configure()
+        }
     return optionsScope.options
 }
 
 @KolibriumDsl
 public fun safariOptions(block: SafariOptionsScope.() -> Unit): SafariOptions {
-    val optionsScope = SafariOptionsScope(SafariOptions()).apply {
-        block()
-        configure()
-    }
+    val optionsScope =
+        SafariOptionsScope(SafariOptions()).apply {
+            block()
+            configure()
+        }
     return optionsScope.options
 }
 
 @KolibriumDsl
 public fun edgeOptions(block: EdgeOptionsScope.() -> Unit): EdgeOptions {
-    val optionsScope = EdgeOptionsScope(EdgeOptions()).apply {
-        block()
-        configure()
-    }
+    val optionsScope =
+        EdgeOptionsScope(EdgeOptions()).apply {
+            block()
+            configure()
+        }
     return optionsScope.options
 }
 
 @KolibriumDsl
 public fun firefoxOptions(block: FirefoxOptionsScope.() -> Unit): FirefoxOptions {
-    val optionsScope = FirefoxOptionsScope(FirefoxOptions()).apply {
-        block()
-        configure()
-    }
+    val optionsScope =
+        FirefoxOptionsScope(FirefoxOptions()).apply {
+            block()
+            configure()
+        }
     return optionsScope.options
 }

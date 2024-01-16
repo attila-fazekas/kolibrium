@@ -54,9 +54,10 @@ class DriverServiceTests {
     @ParameterizedTest
     @EnumSource(Browser::class)
     fun driverServiceTest(browser: Browser) {
-        ds = driverService(browser) {
-            timeout = 30.seconds
-        }
+        ds =
+            driverService(browser) {
+                timeout = 30.seconds
+            }
 
         ds.start()
 
@@ -66,8 +67,9 @@ class DriverServiceTests {
 
     @Test
     fun `empty driverService block should create default DriverService`() {
-        ds = chromeDriverService {
-        }
+        ds =
+            chromeDriverService {
+            }
 
         ds.start()
 
@@ -82,28 +84,31 @@ class DriverServiceTests {
     }
 
     @Test
-    fun `custom ChromeDriverService shall be created`(@TempDir tempDir: Path) {
+    fun `custom ChromeDriverService shall be created`(
+        @TempDir tempDir: Path,
+    ) {
         val logFilePath = tempDir.resolve("chrome.log").toString()
         val executablePath = getExecutablePath(CHROME)
 
-        ds = chromeDriverService {
-            appendLog = true
-            buildCheckDisabled = true
-            executable = executablePath
-            logFile = logFilePath
-            logLevel = DEBUG
-            port = 7000
-            readableTimestamp = true
-            timeout = 5.seconds
-            allowedIps {
-                +"192.168.0.50"
-                +"192.168.0.51"
+        ds =
+            chromeDriverService {
+                appendLog = true
+                buildCheckDisabled = true
+                executable = executablePath
+                logFile = logFilePath
+                logLevel = DEBUG
+                port = 7000
+                readableTimestamp = true
+                timeout = 5.seconds
+                allowedIps {
+                    +"192.168.0.50"
+                    +"192.168.0.51"
+                }
+                environment {
+                    +("key1" to "value1")
+                    +("key2" to "value2")
+                }
             }
-            environment {
-                +("key1" to "value1")
-                +("key2" to "value2")
-            }
-        }
 
         ds.start()
 
@@ -118,7 +123,7 @@ class DriverServiceTests {
             "--log-level=DEBUG",
             "--log-path=$logFilePath",
             "--port=7000",
-            "--readable-timestamp"
+            "--readable-timestamp",
         )
 
         val timeout = ds.invokeMethod("getTimeout") as Duration
@@ -129,25 +134,28 @@ class DriverServiceTests {
     }
 
     @Test
-    fun `custom GeckoDriverService shall be created`(@TempDir tempDir: Path) {
+    fun `custom GeckoDriverService shall be created`(
+        @TempDir tempDir: Path,
+    ) {
         val logFilePath = tempDir.resolve("firefox.log").toString()
         val executablePath = getExecutablePath(FIREFOX)
 
-        ds = geckoDriverService {
-            executable = executablePath
-            logFile = logFilePath
-            logLevel = TRACE
-            port = 7001
-            profileRoot = tempDir.toString()
-            truncatedLogs = false
-            allowedHosts {
-                +"localhost"
+        ds =
+            geckoDriverService {
+                executable = executablePath
+                logFile = logFilePath
+                logLevel = TRACE
+                port = 7001
+                profileRoot = tempDir.toString()
+                truncatedLogs = false
+                allowedHosts {
+                    +"localhost"
+                }
+                environment {
+                    +("key1" to "value1")
+                    +("key2" to "value2")
+                }
             }
-            environment {
-                +("key1" to "value1")
-                +("key2" to "value2")
-            }
-        }
 
         ds.start()
 
@@ -161,7 +169,7 @@ class DriverServiceTests {
             "--profile-root",
             "--allow-hosts",
             "localhost",
-            tempDir.toString()
+            tempDir.toString(),
         )
 
         ds.executable shouldBe executablePath
@@ -175,14 +183,15 @@ class DriverServiceTests {
     @Disabled("Temporarily disabled due to CI runs a Linux machine")
     @Test
     fun `custom SafariDriverService shall be created`() {
-        ds = safariDriverService {
-            logging = true
-            port = 7002
-            environment {
-                +("key1" to "value1")
-                +("key2" to "value2")
+        ds =
+            safariDriverService {
+                logging = true
+                port = 7002
+                environment {
+                    +("key1" to "value1")
+                    +("key2" to "value2")
+                }
             }
-        }
 
         ds.start()
 
@@ -195,28 +204,31 @@ class DriverServiceTests {
     }
 
     @Test
-    fun `custom EdgeDriverService shall be created`(@TempDir tempDir: Path) {
+    fun `custom EdgeDriverService shall be created`(
+        @TempDir tempDir: Path,
+    ) {
         val logFilePath = tempDir.resolve("edge.log").toString()
         val executablePath = getExecutablePath(EDGE)
 
-        ds = edgeDriverService {
-            appendLog = true
-            buildCheckDisabled = true
-            executable = executablePath
-            logFile = logFilePath
-            logLevel = DEBUG
-            port = 7003
-            readableTimestamp = true
-            timeout = 5.seconds
-            allowedIps {
-                +"192.168.0.50"
-                +"192.168.0.51"
+        ds =
+            edgeDriverService {
+                appendLog = true
+                buildCheckDisabled = true
+                executable = executablePath
+                logFile = logFilePath
+                logLevel = DEBUG
+                port = 7003
+                readableTimestamp = true
+                timeout = 5.seconds
+                allowedIps {
+                    +"192.168.0.50"
+                    +"192.168.0.51"
+                }
+                environment {
+                    +("key1" to "value1")
+                    +("key2" to "value2")
+                }
             }
-            environment {
-                +("key1" to "value1")
-                +("key2" to "value2")
-            }
-        }
 
         ds.start()
 
@@ -231,7 +243,7 @@ class DriverServiceTests {
             "--log-level=DEBUG",
             "--log-path=$logFilePath",
             "--port=7003",
-            "--readable-timestamp"
+            "--readable-timestamp",
         )
 
         val timeout = ds.invokeMethod("getTimeout") as Duration

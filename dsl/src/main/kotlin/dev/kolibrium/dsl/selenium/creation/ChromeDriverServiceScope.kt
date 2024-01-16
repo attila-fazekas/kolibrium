@@ -21,9 +21,8 @@ import java.io.File
 
 @KolibriumDsl
 public class ChromeDriverServiceScope internal constructor(
-    override val builder: ChromeDriverService.Builder
+    override val builder: ChromeDriverService.Builder,
 ) : ChromiumDriverServiceScope() {
-
     override fun configure() {
         super.configure()
         builder.apply {

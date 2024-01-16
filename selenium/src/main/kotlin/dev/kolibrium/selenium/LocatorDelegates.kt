@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("TooManyFunctions")
-
 package dev.kolibrium.selenium
 
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -42,7 +40,7 @@ import kotlin.reflect.KProperty
 context(WebDriver)
 public fun <T : WebElement> className(
     locator: String,
-    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElement> = Element(className(locator), waitUntil)
 
 /**
@@ -53,7 +51,7 @@ public fun <T : WebElement> className(
 context(WebDriver)
 public fun <T : WebElement> css(
     locator: String,
-    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElement> = Element(cssSelector(locator), waitUntil)
 
 /**
@@ -64,7 +62,7 @@ public fun <T : WebElement> css(
 context(WebDriver)
 public fun <T : WebElement> id(
     locator: String,
-    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElement> = Element(id(locator), waitUntil)
 
 /**
@@ -75,7 +73,7 @@ public fun <T : WebElement> id(
 context(WebDriver)
 public fun <T : WebElement> idOrName(
     locator: String,
-    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElement> = Element(ByIdOrName(locator), waitUntil)
 
 /**
@@ -86,7 +84,7 @@ public fun <T : WebElement> idOrName(
 context(WebDriver)
 public fun <T : WebElement> linkText(
     locator: String,
-    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElement> = Element(linkText(locator), waitUntil)
 
 /**
@@ -97,7 +95,7 @@ public fun <T : WebElement> linkText(
 context(WebDriver)
 public fun <T : WebElement> name(
     locator: String,
-    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElement> = Element(name(locator), waitUntil)
 
 /**
@@ -108,7 +106,7 @@ public fun <T : WebElement> name(
 context(WebDriver)
 public fun <T : WebElement> partialLinkText(
     locator: String,
-    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElement> = Element(partialLinkText(locator), waitUntil)
 
 /**
@@ -119,7 +117,7 @@ public fun <T : WebElement> partialLinkText(
 context(WebDriver)
 public fun <T : WebElement> tagName(
     locator: String,
-    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElement> = Element(tagName(locator), waitUntil)
 
 /**
@@ -130,20 +128,22 @@ public fun <T : WebElement> tagName(
 context(WebDriver)
 public fun <T : WebElement> xpath(
     locator: String,
-    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElement) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElement> = Element(xpath(locator), waitUntil)
 
 context(WebDriver)
 private class Element(
     private val by: By,
-    private val waitUntil: ((WebElement) -> Boolean)
+    private val waitUntil: ((WebElement) -> Boolean),
 ) : ReadOnlyProperty<Any?, WebElement> {
-
     private val wait = setUpWait(this@WebDriver)
 
     private val webElement: WebElement by lazy { findElement(by) }
 
-    override fun getValue(thisRef: Any?, property: KProperty<*>): WebElement {
+    override fun getValue(
+        thisRef: Any?,
+        property: KProperty<*>,
+    ): WebElement {
         return execute(property.name) {
             wait.until { waitUntil.invoke(webElement) }
             webElement
@@ -162,7 +162,7 @@ context(WebDriver)
 @JvmName("classNames")
 public fun <T : WebElements> className(
     locator: String,
-    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElements> = KolibriumElements<WebElements>(className(locator), waitUntil)
 
 /**
@@ -174,7 +174,7 @@ context(WebDriver)
 @JvmName("csss")
 public fun <T : WebElements> css(
     locator: String,
-    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElements> = KolibriumElements<WebElements>(cssSelector(locator), waitUntil)
 
 /**
@@ -186,7 +186,7 @@ context(WebDriver)
 @JvmName("linkTexts")
 public fun <T : WebElements> linkText(
     locator: String,
-    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElements> = KolibriumElements<WebElements>(linkText(locator), waitUntil)
 
 /**
@@ -198,7 +198,7 @@ context(WebDriver)
 @JvmName("names")
 public fun <T : WebElements> name(
     locator: String,
-    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElements> = KolibriumElements<WebElements>(name(locator), waitUntil)
 
 /**
@@ -210,7 +210,7 @@ context(WebDriver)
 @JvmName("partialLinkTexts")
 public fun <T : WebElements> partialLinkText(
     locator: String,
-    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElements> = KolibriumElements<WebElements>(partialLinkText(locator), waitUntil)
 
 /**
@@ -222,7 +222,7 @@ context(WebDriver)
 @JvmName("tagNames")
 public fun <T : WebElements> tagName(
     locator: String,
-    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElements> = KolibriumElements<WebElements>(tagName(locator), waitUntil)
 
 /**
@@ -234,26 +234,29 @@ context(WebDriver)
 @JvmName("xpaths")
 public fun <T : WebElements> xpath(
     locator: String,
-    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed }
+    waitUntil: ((WebElements) -> Boolean) = { it.isDisplayed },
 ): ReadOnlyProperty<Any?, WebElements> = KolibriumElements<WebElements>(xpath(locator), waitUntil)
 
 context(WebDriver)
 private class KolibriumElements<T : WebElements>(
     private val by: By,
-    private val waitUntil: ((WebElements) -> Boolean)
+    private val waitUntil: ((WebElements) -> Boolean),
 ) : ReadOnlyProperty<Any?, WebElements> {
-
     private val wait = setUpWait(this@WebDriver)
 
     private val element: WebElements by lazy { findElements(by) }
 
-    override fun getValue(thisRef: Any?, property: KProperty<*>): WebElements = execute(property.name) {
-        wait.until {
-            val e = findElements(by)
-            waitUntil.invoke(e)
+    override fun getValue(
+        thisRef: Any?,
+        property: KProperty<*>,
+    ): WebElements =
+        execute(property.name) {
+            wait.until {
+                val e = findElements(by)
+                waitUntil.invoke(e)
+            }
+            element
         }
-        element
-    }
 }
 
 private val logger = KotlinLogging.logger {}
@@ -261,7 +264,7 @@ private val logger = KotlinLogging.logger {}
 context(WebDriver)
 private fun <T> execute(
     element: String,
-    block: () -> T
+    block: () -> T,
 ): T {
     logger.trace { "Waiting for \"$element\"" }
     return block()

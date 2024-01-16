@@ -22,7 +22,6 @@ import org.openqa.selenium.edge.EdgeOptions
 
 @KolibriumDsl
 public abstract class ChromiumOptionsScope(override val options: ChromiumOptions<*>) : OptionsScope() {
-
     protected val expOptionsScope: ExperimentalOptionsScope<Chromium> by lazy { ExperimentalOptionsScope() }
     protected val extensionsScope: ExtensionsScope by lazy { ExtensionsScope() }
 
@@ -52,7 +51,7 @@ public abstract class ChromiumOptionsScope(override val options: ChromiumOptions
 
                     setExperimentalOption(
                         "localState",
-                        mapOf("browser.enabled_labs_experiments" to localStateScope.experiments.experimentalFlags)
+                        mapOf("browser.enabled_labs_experiments" to localStateScope.experiments.experimentalFlags),
                     )
                 }
             }

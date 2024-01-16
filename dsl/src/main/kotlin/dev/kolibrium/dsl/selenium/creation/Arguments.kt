@@ -21,14 +21,13 @@ public value class Argument<T : Browser>(public val name: String) {
     init {
         require(name.startsWith("--")) {
             """
-                Argument "$name" must start with "--" prefix
+            Argument "$name" must start with "--" prefix
             """.trimIndent()
         }
     }
 }
 
 public object Arguments {
-
     // list of arguments: https://peter.sh/experiments/chromium-command-line-switches/
     public object Chrome {
         @KolibriumPropertyDsl

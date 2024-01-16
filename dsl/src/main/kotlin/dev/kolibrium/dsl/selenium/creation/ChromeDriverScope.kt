@@ -21,7 +21,6 @@ import org.openqa.selenium.chrome.ChromeOptions
 
 @KolibriumDsl
 public class ChromeDriverScope : DriverScope<ChromeDriverServiceScope, ChromeOptionsScope>() {
-
     override val driverServiceScope = ChromeDriverServiceScope(ChromeDriverService.Builder())
     override val optionsScope = ChromeOptionsScope(ChromeOptions())
 

@@ -24,7 +24,7 @@ import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.safari.SafariDriver
 
 internal class ProjectConfiguration : AbstractProjectConfiguration() {
-
+    @Suppress("UNUSED_PARAMETER")
     companion object {
         internal var defaultBrowser: Browser = CHROME
 

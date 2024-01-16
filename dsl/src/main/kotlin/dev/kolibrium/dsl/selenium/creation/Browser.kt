@@ -21,6 +21,9 @@ public sealed interface Browser
 public sealed interface Chromium : Browser
 
 public object Chrome : Chromium
+
 public object Edge : Chromium
+
 public object Safari : Browser
+
 public object Firefox : Browser

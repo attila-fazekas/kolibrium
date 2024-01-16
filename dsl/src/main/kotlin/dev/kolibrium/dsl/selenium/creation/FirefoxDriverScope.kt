@@ -21,7 +21,6 @@ import org.openqa.selenium.firefox.GeckoDriverService
 
 @KolibriumDsl
 public class FirefoxDriverScope : DriverScope<GeckoDriverServiceScope, FirefoxOptionsScope>() {
-
     override val driverServiceScope = GeckoDriverServiceScope(GeckoDriverService.Builder())
     override val optionsScope = FirefoxOptionsScope(FirefoxOptions())
 

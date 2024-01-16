@@ -22,7 +22,6 @@ import java.io.File
 
 @KolibriumDsl
 public abstract class ChromiumDriverServiceScope : DriverServiceScope() {
-
     protected val allowedIpsScope: AllowedIpsScope by lazy { AllowedIpsScope() }
 
     @KolibriumPropertyDsl

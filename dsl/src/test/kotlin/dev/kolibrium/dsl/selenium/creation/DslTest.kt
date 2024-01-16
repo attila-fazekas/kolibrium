@@ -41,24 +41,29 @@ fun DriverService.getField(fieldName: String): Any {
 
 enum class Channel {
     BETA,
-    STABLE
+    STABLE,
 }
 
-fun getExecutablePath(browser: Browser, channel: Channel = Channel.STABLE): String {
+fun getExecutablePath(
+    browser: Browser,
+    channel: Channel = Channel.STABLE,
+): String {
     val pathToExecutables = "src/test/resources/executables/"
 
-    val distributionType = when (OS.current()) {
-        MAC -> "mac-x64/"
-        LINUX -> "linux64/"
-        else -> throw DslConfigurationException("Unsupported platform")
-    }
+    val distributionType =
+        when (OS.current()) {
+            MAC -> "mac-x64/"
+            LINUX -> "linux64/"
+            else -> throw DslConfigurationException("Unsupported platform")
+        }
 
-    val filename = when (browser) {
-        CHROME -> "chromedriver"
-        FIREFOX -> "geckodriver"
-        SAFARI -> throw DslConfigurationException("Safari doesn't need driver executable")
-        EDGE -> "msedgedriver"
-    }
+    val filename =
+        when (browser) {
+            CHROME -> "chromedriver"
+            FIREFOX -> "geckodriver"
+            SAFARI -> throw DslConfigurationException("Safari doesn't need driver executable")
+            EDGE -> "msedgedriver"
+        }
 
     val pathToDistribution = pathToExecutables + distributionType
     val path = Path.of(pathToDistribution + "${browser.name.lowercase()}/${channel.name.lowercase()}/$filename")
