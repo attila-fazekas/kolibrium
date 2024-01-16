@@ -42,9 +42,7 @@ import kotlin.io.path.absolutePathString
 import kotlin.time.Duration.Companion.seconds
 
 @Disabled("Temporarily disabled due to CI does not have browsers installed")
-@SuppressWarnings("MaxLineLength", "LongMethod")
 class DriverTests {
-
     private lateinit var driver: WebDriver
 
     @AfterEach
@@ -55,86 +53,90 @@ class DriverTests {
     @ParameterizedTest
     @EnumSource(Browser::class)
     fun driverTest(browser: Browser) {
-        driver = driver(browser) {
-            driverService {
-                timeout = 30.seconds
+        driver =
+            driver(browser) {
+                driverService {
+                    timeout = 30.seconds
+                }
+                options {
+                    acceptInsecureCerts = true
+                    pageLoadStrategy = NORMAL
+                    platform = MAC
+                    strictFileInteractability = true
+                    unhandledPromptBehaviour = DISMISS
+                }
             }
-            options {
-                acceptInsecureCerts = true
-                pageLoadStrategy = NORMAL
-                platform = MAC
-                strictFileInteractability = true
-                unhandledPromptBehaviour = DISMISS
-            }
-        }
     }
 
     @Test
-    fun chromeTest(@TempDir tempDir: Path) {
+    fun chromeTest(
+        @TempDir tempDir: Path,
+    ) {
         val logFile = tempDir.resolve("chrome.log").toString()
         val downloadDir = tempDir.absolutePathString()
         val executablePath = getExecutablePath(CHROME, BETA)
 
-        driver = chromeDriver {
-            driverService {
-                buildCheckDisabled = true
-                executable = executablePath
-                this.logFile = logFile
-                logLevel = DEBUG
-                port = 7899
-                readableTimestamp = true
-                timeout = 30.seconds
-                allowedIps {
-                    +"192.168.0.50"
-                    +"192.168.0.51"
-                }
-            }
-            options {
-                acceptInsecureCerts = true
-                binary = "/Applications/Google Chrome Beta 2.app/Contents/MacOS/Google Chrome Beta"
-                browserVersion = "116.0.5845.110"
-                pageLoadStrategy = NORMAL
-                platform = MAC
-                strictFileInteractability = true
-                unhandledPromptBehaviour = DISMISS
-                arguments {
-                    +Arguments.Chrome.headless
-                    +Arguments.Chrome.incognito
-                    windowSize {
-                        width = 1800
-                        height = 1000
+        driver =
+            chromeDriver {
+                driverService {
+                    buildCheckDisabled = true
+                    executable = executablePath
+                    this.logFile = logFile
+                    logLevel = DEBUG
+                    port = 7899
+                    readableTimestamp = true
+                    timeout = 30.seconds
+                    allowedIps {
+                        +"192.168.0.50"
+                        +"192.168.0.51"
                     }
                 }
-                experimentalOptions {
-                    preferences {
-                        +(Preferences.Chromium.download_default_directory to downloadDir)
-                        +(Preferences.Chromium.download_prompt_for_download to false)
-                        +(Preferences.Chromium.safebrowsing_enabled to false)
-                    }
-                    excludeSwitches {
-                        +Switches.enable_automation
-                    }
-                    localState {
-                        browserEnabledLabsExperiments {
-                            +ExperimentalFlags.same_site_by_default_cookies
-                            +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                options {
+                    acceptInsecureCerts = true
+                    binary = "/Applications/Google Chrome Beta 2.app/Contents/MacOS/Google Chrome Beta"
+                    browserVersion = "116.0.5845.110"
+                    pageLoadStrategy = NORMAL
+                    platform = MAC
+                    strictFileInteractability = true
+                    unhandledPromptBehaviour = DISMISS
+                    arguments {
+                        +Arguments.Chrome.headless
+                        +Arguments.Chrome.incognito
+                        windowSize {
+                            width = 1800
+                            height = 1000
                         }
                     }
-                }
-                extensions {
-                    +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
-                }
-                proxy {
-                    ftpProxy = "192.168.0.1"
-                    httpProxy = "192.168.0.1"
-                }
-                timeouts {
-                    implicitWait = 5.seconds
-                    pageLoad = 3.seconds
-                    script = 2.seconds
+                    experimentalOptions {
+                        preferences {
+                            +(Preferences.Chromium.download_default_directory to downloadDir)
+                            +(Preferences.Chromium.download_prompt_for_download to false)
+                            +(Preferences.Chromium.safebrowsing_enabled to false)
+                        }
+                        excludeSwitches {
+                            +Switches.enable_automation
+                        }
+                        localState {
+                            browserEnabledLabsExperiments {
+                                +ExperimentalFlags.same_site_by_default_cookies
+                                +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                            }
+                        }
+                    }
+                    extensions {
+                        +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                    }
+                    proxy {
+                        ftpProxy = "192.168.0.1"
+                        httpProxy = "192.168.0.1"
+                    }
+                    timeouts {
+                        implicitWait = 5.seconds
+                        pageLoad = 3.seconds
+                        script = 2.seconds
+                    }
                 }
             }
-        }
 
         val fileContent = String(Files.readAllBytes(Path.of(logFile)))
 
@@ -166,60 +168,63 @@ class DriverTests {
     }
 
     @Test
-    fun firefoxTest(@TempDir tempDir: Path) {
+    fun firefoxTest(
+        @TempDir tempDir: Path,
+    ) {
         val logFile = tempDir.resolve("firefox.log").toString()
         val executablePath = getExecutablePath(FIREFOX)
 
-        driver = firefoxDriver {
-            driverService {
-                executable = executablePath
-                this.logFile = logFile
-                logLevel = CONFIG
-                port = 7900
-                truncatedLogs = false
-                timeout = 30.seconds
-                allowedHosts {
-                    +"localhost"
-                }
-            }
-            options {
-                acceptInsecureCerts = false
-                binary = "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
-                arguments {
-                    +Arguments.Firefox.headless
-                    windowSize {
-                        width = 1800
-                        height = 1000
+        driver =
+            firefoxDriver {
+                driverService {
+                    executable = executablePath
+                    this.logFile = logFile
+                    logLevel = CONFIG
+                    port = 7900
+                    truncatedLogs = false
+                    timeout = 30.seconds
+                    allowedHosts {
+                        +"localhost"
                     }
                 }
-                preferences {
-                    +(Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris to "http://,https://")
-                    +(Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn to false)
-                    +(Preferences.Firefox.network_negotiate_auth_delegation_uris to "http://,https://")
-                    +(Preferences.Firefox.network_negotiate_auth_trusted_uris to "http://,https://")
-                    +(Preferences.Firefox.network_http_phishy_userpass_length to 255)
-                    +(Preferences.Firefox.network_proxy_no_proxies_on to "")
-                    +(Preferences.Firefox.security_csp_enable to false)
-                }
-                profile {
-                    +(Preferences.Firefox.browser_download_folderList to 1)
-                    +(Preferences.Firefox.browser_download_manager_showWhenStarting to false)
-                    +(Preferences.Firefox.browser_download_manager_focusWhenStarting to false)
-                    +(Preferences.Firefox.browser_download_useDownloadDir to true)
-                    +(Preferences.Firefox.browser_helperApps_alwaysAsk_force to false)
-                    +(Preferences.Firefox.browser_download_manager_alertOnEXEOpen to false)
-                    +(Preferences.Firefox.browser_download_manager_closeWhenDone to true)
-                    +(Preferences.Firefox.browser_download_manager_showAlertOnComplete to false)
-                    +(Preferences.Firefox.browser_download_manager_useWindow to false)
-                    +(Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk to "application/octet-stream")
-                }
-                timeouts {
-                    implicitWait = 5.seconds
-                    pageLoad = 3.seconds
-                    script = 2.seconds
+                options {
+                    acceptInsecureCerts = false
+                    binary = "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
+                    arguments {
+                        +Arguments.Firefox.headless
+                        windowSize {
+                            width = 1800
+                            height = 1000
+                        }
+                    }
+                    preferences {
+                        +(Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris to "http://,https://")
+                        +(Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn to false)
+                        +(Preferences.Firefox.network_negotiate_auth_delegation_uris to "http://,https://")
+                        +(Preferences.Firefox.network_negotiate_auth_trusted_uris to "http://,https://")
+                        +(Preferences.Firefox.network_http_phishy_userpass_length to 255)
+                        +(Preferences.Firefox.network_proxy_no_proxies_on to "")
+                        +(Preferences.Firefox.security_csp_enable to false)
+                    }
+                    profile {
+                        +(Preferences.Firefox.browser_download_folderList to 1)
+                        +(Preferences.Firefox.browser_download_manager_showWhenStarting to false)
+                        +(Preferences.Firefox.browser_download_manager_focusWhenStarting to false)
+                        +(Preferences.Firefox.browser_download_useDownloadDir to true)
+                        +(Preferences.Firefox.browser_helperApps_alwaysAsk_force to false)
+                        +(Preferences.Firefox.browser_download_manager_alertOnEXEOpen to false)
+                        +(Preferences.Firefox.browser_download_manager_closeWhenDone to true)
+                        +(Preferences.Firefox.browser_download_manager_showAlertOnComplete to false)
+                        +(Preferences.Firefox.browser_download_manager_useWindow to false)
+                        +(Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk to "application/octet-stream")
+                    }
+                    timeouts {
+                        implicitWait = 5.seconds
+                        pageLoad = 3.seconds
+                        script = 2.seconds
+                    }
                 }
             }
-        }
 
         val fileContent = String(Files.readAllBytes(Path.of(logFile)))
 
@@ -242,85 +247,89 @@ class DriverTests {
 
     @Test
     fun safariTest() {
-        driver = safariDriver {
-            driverService {
-                port = 7901
-                timeout = 30.seconds
-                logging = true
+        driver =
+            safariDriver {
+                driverService {
+                    port = 7901
+                    timeout = 30.seconds
+                    logging = true
+                }
+                options {
+                    automaticInspection = true
+                    automaticProfiling = true
+                }
             }
-            options {
-                automaticInspection = true
-                automaticProfiling = true
-            }
-        }
     }
 
     @Test
-    fun edgeTest(@TempDir tempDir: Path) {
+    fun edgeTest(
+        @TempDir tempDir: Path,
+    ) {
         val logFile = tempDir.resolve("edge.log").toString()
         val downloadDir = tempDir.absolutePathString()
         val executablePath = getExecutablePath(EDGE, BETA)
 
-        driver = edgeDriver {
-            driverService {
-                buildCheckDisabled = true
-                executable = executablePath
-                this.logFile = logFile
-                logLevel = DEBUG
-                port = 7902
-                readableTimestamp = true
-                timeout = 30.seconds
-                allowedIps {
-                    +"192.168.0.50"
-                    +"192.168.0.51"
-                }
-            }
-            options {
-                acceptInsecureCerts = true
-                binary = "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta"
-                browserVersion = "117.0.2045.47"
-                pageLoadStrategy = NORMAL
-                platform = MAC
-                strictFileInteractability = true
-                unhandledPromptBehaviour = DISMISS
-                arguments {
-                    +Arguments.Edge.headless
-                    +Arguments.Edge.inPrivate
-                    windowSize {
-                        width = 1800
-                        height = 1000
+        driver =
+            edgeDriver {
+                driverService {
+                    buildCheckDisabled = true
+                    executable = executablePath
+                    this.logFile = logFile
+                    logLevel = DEBUG
+                    port = 7902
+                    readableTimestamp = true
+                    timeout = 30.seconds
+                    allowedIps {
+                        +"192.168.0.50"
+                        +"192.168.0.51"
                     }
                 }
-                experimentalOptions {
-                    preferences {
-                        +(Preferences.Chromium.download_default_directory to downloadDir)
-                        +(Preferences.Chromium.download_prompt_for_download to false)
-                        +(Preferences.Chromium.safebrowsing_enabled to false)
-                    }
-                    excludeSwitches {
-                        +Switches.enable_automation
-                    }
-                    localState {
-                        browserEnabledLabsExperiments {
-                            +ExperimentalFlags.same_site_by_default_cookies
-                            +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                options {
+                    acceptInsecureCerts = true
+                    binary = "/Applications/Microsoft Edge Beta.app/Contents/MacOS/Microsoft Edge Beta"
+                    browserVersion = "117.0.2045.47"
+                    pageLoadStrategy = NORMAL
+                    platform = MAC
+                    strictFileInteractability = true
+                    unhandledPromptBehaviour = DISMISS
+                    arguments {
+                        +Arguments.Edge.headless
+                        +Arguments.Edge.inPrivate
+                        windowSize {
+                            width = 1800
+                            height = 1000
                         }
                     }
-                }
-                extensions {
-                    +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
-                }
-                proxy {
-                    ftpProxy = "192.168.0.1"
-                    httpProxy = "192.168.0.1"
-                }
-                timeouts {
-                    implicitWait = 5.seconds
-                    pageLoad = 3.seconds
-                    script = 2.seconds
+                    experimentalOptions {
+                        preferences {
+                            +(Preferences.Chromium.download_default_directory to downloadDir)
+                            +(Preferences.Chromium.download_prompt_for_download to false)
+                            +(Preferences.Chromium.safebrowsing_enabled to false)
+                        }
+                        excludeSwitches {
+                            +Switches.enable_automation
+                        }
+                        localState {
+                            browserEnabledLabsExperiments {
+                                +ExperimentalFlags.same_site_by_default_cookies
+                                +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                            }
+                        }
+                    }
+                    extensions {
+                        +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                    }
+                    proxy {
+                        ftpProxy = "192.168.0.1"
+                        httpProxy = "192.168.0.1"
+                    }
+                    timeouts {
+                        implicitWait = 5.seconds
+                        pageLoad = 3.seconds
+                        script = 2.seconds
+                    }
                 }
             }
-        }
 
         val fileContent = String(Files.readAllBytes(Path.of(logFile)))
 

@@ -18,12 +18,11 @@ package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
 public class LocalStateScope {
-
     internal val experiments by lazy { BrowserEnabledLabsExperiments() }
 
     @KolibriumDsl
     public fun browserEnabledLabsExperiments(
-        block: BrowserEnabledLabsExperiments.() -> Unit
+        block: BrowserEnabledLabsExperiments.() -> Unit,
     ): BrowserEnabledLabsExperiments = experiments.apply(block)
 
     override fun toString(): String {

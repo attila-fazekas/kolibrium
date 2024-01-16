@@ -34,12 +34,13 @@ public val WebElements.isDisplayed: Boolean
 private const val TIMEOUT: Long = 10
 private const val POOLING_INTERVAL: Long = 1
 
-internal fun setUpWait(driver: WebDriver) = FluentWait(driver)
-    .withTimeout(Duration.ofSeconds(TIMEOUT))
-    .pollingEvery(Duration.ofSeconds(POOLING_INTERVAL))
-    .ignoreAll(
-        listOf(
-            NoSuchElementException::class.java,
-            ElementNotInteractableException::class.java
+internal fun setUpWait(driver: WebDriver) =
+    FluentWait(driver)
+        .withTimeout(Duration.ofSeconds(TIMEOUT))
+        .pollingEvery(Duration.ofSeconds(POOLING_INTERVAL))
+        .ignoreAll(
+            listOf(
+                NoSuchElementException::class.java,
+                ElementNotInteractableException::class.java,
+            ),
         )
-    )

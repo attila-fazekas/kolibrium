@@ -1,0 +1,17 @@
+complexity:
+  LongMethod:
+    active: true
+    threshold: 50
+    excludes: ["**/ksp/processors/src/main/kotlin/**", "**/test/kotlin/**"]
+  TooManyFunctions:
+    thresholdInFiles: 20
+formatting:
+  NoWildcardImports:
+    active: true
+libraries:
+  ForbiddenPublicDataClass:
+    active: true
+style:
+  MagicNumber:
+    active: true
+    excludes: ["**/test/kotlin/**"]

@@ -20,7 +20,6 @@ import kotlin.time.Duration
 
 @KolibriumDsl
 public class TimeoutsScope {
-
     @KolibriumPropertyDsl
     public var implicitWait: Duration? = null
 

@@ -8,6 +8,22 @@ plugins {
 }
 
 dependencies {
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:_")
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-rules-libraries:_")
     implementation("ch.qos.logback:logback-classic:_")
     implementation("io.github.oshai:kotlin-logging-jvm:_")
+}
+
+detekt {
+    config.setFrom(files(rootProject.file("detekt.yml")))
+}
+
+ktlint {
+    version = "1.1.1"
+    debug = true
+    verbose = true
+    outputToConsole = true
+    outputColorName = "RED"
+    ignoreFailures = false
+    enableExperimentalRules = false
 }

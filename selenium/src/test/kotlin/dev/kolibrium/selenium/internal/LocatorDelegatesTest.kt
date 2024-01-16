@@ -36,8 +36,9 @@ import org.openqa.selenium.support.ui.Select
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
-private fun getPage(pageName: String) = Paths.get("").toAbsolutePath()
-    .parent.resolve("pages/$pageName.html").toUri().toString()
+private fun getPage(pageName: String) =
+    Paths.get("").toAbsolutePath()
+        .parent.resolve("pages/$pageName.html").toUri().toString()
 
 private val buttonPage1 = getPage("button_delayed")
 private val buttonPage2 = getPage("button_exception1")
@@ -48,7 +49,6 @@ private val homePage = getPage("home")
 private val imagesPage = getPage("images")
 
 class LocatorDelegatesTest {
-
     private lateinit var driver: WebDriver
 
     private fun buttonDelayedPage(block: ButtonDelayedPage.() -> Unit) {
@@ -69,9 +69,7 @@ class LocatorDelegatesTest {
         }
     }
 
-    private fun buttonElementClickInterceptedExceptionPage(
-        block: ButtonElementClickInterceptedExceptionPage.() -> Unit
-    ) {
+    private fun buttonElementClickInterceptedExceptionPage(block: ButtonElementClickInterceptedExceptionPage.() -> Unit) {
         driver.get(buttonPage3)
         with(driver) {
             with(ButtonElementClickInterceptedExceptionPage()) {
@@ -126,9 +124,10 @@ class LocatorDelegatesTest {
 
     @BeforeEach
     fun setUp() {
-        driver = ChromeDriver(
-            ChromeOptions().addArguments("--headless=new")
-        )
+        driver =
+            ChromeDriver(
+                ChromeOptions().addArguments("--headless=new"),
+            )
     }
 
     @AfterEach
@@ -137,140 +136,162 @@ class LocatorDelegatesTest {
     }
 
     @Test
-    fun `className - WebElement`() = homePage {
-        header.text shouldBe "Kolibrium"
-    }
+    fun `className - WebElement`() =
+        homePage {
+            header.text shouldBe "Kolibrium"
+        }
 
     @Test
-    fun `css - WebElement`() = homePage {
-        name.getAttribute("value") shouldBe "Enter your name"
-    }
+    fun `css - WebElement`() =
+        homePage {
+            name.getAttribute("value") shouldBe "Enter your name"
+        }
 
     @Test
-    fun `id - WebElement`() = homePage {
-        phone.getAttribute("value") shouldBe "Enter your phone number"
-    }
+    fun `id - WebElement`() =
+        homePage {
+            phone.getAttribute("value") shouldBe "Enter your phone number"
+        }
 
     @Test
-    fun `idOrName - WebElement`() = homePage {
-        email.getAttribute("value") shouldBe "Enter your email"
-    }
+    fun `idOrName - WebElement`() =
+        homePage {
+            email.getAttribute("value") shouldBe "Enter your email"
+        }
 
     @Test
-    fun `linkText - WebElement`() = homePage {
-        fbLink.text shouldBe "Facebook"
-    }
+    fun `linkText - WebElement`() =
+        homePage {
+            fbLink.text shouldBe "Facebook"
+        }
 
     @Test
-    fun `name - WebElement`() = homePage {
-        phoneName.getAttribute("value") shouldBe "Enter your phone number"
-    }
+    fun `name - WebElement`() =
+        homePage {
+            phoneName.getAttribute("value") shouldBe "Enter your phone number"
+        }
 
     @Test
-    fun `partialLinkText - WebElement`() = homePage {
-        clickHereLink.text shouldBe "Click here"
-    }
+    fun `partialLinkText - WebElement`() =
+        homePage {
+            clickHereLink.text shouldBe "Click here"
+        }
 
     @Test
-    fun `tagName - WebElement`() = homePage {
-        a1TagName.text shouldBe "Kolibrium"
-    }
+    fun `tagName - WebElement`() =
+        homePage {
+            a1TagName.text shouldBe "Kolibrium"
+        }
 
     @Test
-    fun `xpath - WebElement`() = homePage {
-        nameXpath.getAttribute("value") shouldBe "Enter your name"
-    }
+    fun `xpath - WebElement`() =
+        homePage {
+            nameXpath.getAttribute("value") shouldBe "Enter your name"
+        }
 
     @Test
-    fun `button delayed`() = buttonDelayedPage {
-        button.click()
-        message.text shouldBe "Button clicked!"
-    }
+    fun `button delayed`() =
+        buttonDelayedPage {
+            button.click()
+            message.text shouldBe "Button clicked!"
+        }
 
     @Test
-    fun `buttons delayed`() = buttonsPage {
-        with(driver) {
-            with(ButtonsPage()) {
-                button1.click()
-                button2.click()
-                button3.click()
-                button4.click()
+    fun `buttons delayed`() =
+        buttonsPage {
+            with(driver) {
+                with(ButtonsPage()) {
+                    button1.click()
+                    button2.click()
+                    button3.click()
+                    button4.click()
 
-                result.text shouldBe "All buttons clicked!"
+                    result.text shouldBe "All buttons clicked!"
+                }
             }
         }
-    }
 
     @Test
     @Disabled
-    fun `throws StaleElementReferenceException`() = buttonStaleElementReferenceExceptionPage {
-        button.click()
-        firework.size.width shouldBe 10
-        firework.size.height shouldBe 10
-    }
+    fun `throws StaleElementReferenceException`() =
+        buttonStaleElementReferenceExceptionPage {
+            button.click()
+            firework.size.width shouldBe 10
+            firework.size.height shouldBe 10
+        }
 
     @Test
     @Disabled
-    fun `throws ElementClickInterceptedException`() = buttonElementClickInterceptedExceptionPage {
-        button.click()
-        MILLISECONDS.sleep(250)
-        button.click()
-        button.click()
-        button.text shouldBe "Clicked: 3"
-    }
+    fun `throws ElementClickInterceptedException`() =
+        buttonElementClickInterceptedExceptionPage {
+            button.click()
+            MILLISECONDS.sleep(250)
+            button.click()
+            button.click()
+            button.text shouldBe "Clicked: 3"
+        }
 
     @Test
     @Disabled
-    fun `throws ElementNotInteractableException`() = inputElementNotInteractableExceptionPage {
-        input.sendKeys("test")
-        input.getAttribute("value") shouldBe "test"
-    }
+    fun `throws ElementNotInteractableException`() =
+        inputElementNotInteractableExceptionPage {
+            input.sendKeys("test")
+            input.getAttribute("value") shouldBe "test"
+        }
 
 // WebElements
 
     @Test
-    fun `className - WebElements`() = homePage {
-        links.size shouldBe 6
-    }
-
-    @Test
-    fun `css - WebElements`() = homePage {
-        linksCss.size shouldBe 6
-    }
-
-    @Test
-    fun `linkText - WebElements`() = homePage {
-        fbLinks.size shouldBe 2
-    }
-
-    @Test
-    fun `name - WebElements`() = homePage {
-        selects.forEach {
-            Select(it).options.size shouldBe 3
+    fun `className - WebElements`() =
+        homePage {
+            links.size shouldBe 6
         }
-    }
 
     @Test
-    fun `partialLinkText - WebElements`() = homePage {
-        fbPartialLinks.size shouldBe 3
-    }
+    fun `css - WebElements`() =
+        homePage {
+            linksCss.size shouldBe 6
+        }
 
     @Test
-    fun `tagName - WebElements`() = homePage {
-        linksTagName.size shouldBe 6
-    }
+    fun `linkText - WebElements`() =
+        homePage {
+            fbLinks.size shouldBe 2
+        }
 
     @Test
-    fun `xpath - WebElements`() = homePage {
-        linksXpath.size shouldBe 6
-    }
+    fun `name - WebElements`() =
+        homePage {
+            selects.forEach {
+                Select(it).options.size shouldBe 3
+            }
+        }
+
+    @Test
+    fun `partialLinkText - WebElements`() =
+        homePage {
+            fbPartialLinks.size shouldBe 3
+        }
+
+    @Test
+    fun `tagName - WebElements`() =
+        homePage {
+            linksTagName.size shouldBe 6
+        }
+
+    @Test
+    fun `xpath - WebElements`() =
+        homePage {
+            linksXpath.size shouldBe 6
+        }
 
 // WebElements with size
 
     @Test
-    fun `name - WebElements with number`() = imagesPage {
-        images.forEachIndexed { index, element ->
-            element.getAttribute("alt") shouldBe "kodee$index"
+    fun `name - WebElements with number`() =
+        imagesPage {
+            images.forEachIndexed { index, element ->
+                element.getAttribute("alt") shouldBe "kodee$index"
+            }
         }
-    }
 }

@@ -20,5 +20,5 @@ public enum class Browser {
     CHROME,
     SAFARI,
     EDGE,
-    FIREFOX
+    FIREFOX,
 }

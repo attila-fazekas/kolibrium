@@ -18,7 +18,6 @@ package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
 public class ArgumentsScope<T : Browser> : UnaryPlus<Argument<T>> {
-
     internal val windowSizeScope by lazy { WindowSizeScope() }
 
     internal val args = mutableSetOf<Argument<*>>()
@@ -49,7 +48,7 @@ private inline fun <reified T : Browser> ArgumentsScope<*>.setWindowSize(block: 
     when (T::class) {
         Chrome::class, Edge::class -> {
             this@ArgumentsScope.args.add(
-                Argument<Chromium>("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
+                Argument<Chromium>("--window-size=${windowSizeScope.width},${windowSizeScope.height}"),
             )
         }
 

@@ -24,17 +24,17 @@ import org.openqa.selenium.net.PortProber
 import java.net.ServerSocket
 
 class DriverServiceTests {
-
     @Test
     fun `ChromeDriverService shall not be created - port in use`() {
         val port = PortProber.findFreePort()
 
         ServerSocket(port).use {
-            val exception = assertThrows<RuntimeException> {
-                chromeDriverService {
-                    this.port = port
+            val exception =
+                assertThrows<RuntimeException> {
+                    chromeDriverService {
+                        this.port = port
+                    }
                 }
-            }
 
             exception.message shouldBe
                 """
@@ -46,11 +46,12 @@ class DriverServiceTests {
 
     @Test
     fun `ChromeDriverService shall not be created - wrong executable path`() {
-        val exception = assertThrows<RuntimeException> {
-            chromeDriverService {
-                executable = "does not exist"
+        val exception =
+            assertThrows<RuntimeException> {
+                chromeDriverService {
+                    executable = "does not exist"
+                }
             }
-        }
 
         exception.message shouldBe
             """

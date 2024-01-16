@@ -21,7 +21,6 @@ import org.openqa.selenium.safari.SafariOptions
 
 @KolibriumDsl
 public class SafariDriverScope : DriverScope<SafariDriverServiceScope, SafariOptionsScope>() {
-
     override val driverServiceScope = SafariDriverServiceScope(SafariDriverService.Builder())
     override val optionsScope = SafariOptionsScope(SafariOptions())
 

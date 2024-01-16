@@ -21,7 +21,6 @@ import org.openqa.selenium.safari.SafariOptions
 
 @KolibriumDsl
 public class SafariOptionsScope(override val options: SafariOptions) : OptionsScope() {
-
     @KolibriumPropertyDsl
     public var automaticInspection: Boolean? = null
 

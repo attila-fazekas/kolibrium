@@ -41,12 +41,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test1() {
-        ds = chromeDriverService {
-            logLevel = DEBUG
-            environment {
-                +("key1" to "value1")
+        ds =
+            chromeDriverService {
+                logLevel = DEBUG
+                environment {
+                    +("key1" to "value1")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -59,12 +60,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test2() {
-        ds = chromeDriverService {
-            logLevel = INFO
-            environment {
-                +("key2" to "value2")
+        ds =
+            chromeDriverService {
+                logLevel = INFO
+                environment {
+                    +("key2" to "value2")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -77,12 +79,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test3() {
-        ds = chromeDriverService {
-            logLevel = WARNING
-            environment {
-                +("key3" to "value3")
+        ds =
+            chromeDriverService {
+                logLevel = WARNING
+                environment {
+                    +("key3" to "value3")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -95,12 +98,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test4() {
-        ds = chromeDriverService {
-            logLevel = ALL
-            environment {
-                +("key4" to "value4")
+        ds =
+            chromeDriverService {
+                logLevel = ALL
+                environment {
+                    +("key4" to "value4")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -113,12 +117,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test5() {
-        ds = chromeDriverService {
-            logLevel = SEVERE
-            environment {
-                +("key5" to "value5")
+        ds =
+            chromeDriverService {
+                logLevel = SEVERE
+                environment {
+                    +("key5" to "value5")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -131,12 +136,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test6() {
-        ds = chromeDriverService {
-            logLevel = DEBUG
-            environment {
-                +("key6" to "value6")
+        ds =
+            chromeDriverService {
+                logLevel = DEBUG
+                environment {
+                    +("key6" to "value6")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -149,12 +155,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test7() {
-        ds = chromeDriverService {
-            logLevel = INFO
-            environment {
-                +("key7" to "value7")
+        ds =
+            chromeDriverService {
+                logLevel = INFO
+                environment {
+                    +("key7" to "value7")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -167,12 +174,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test8() {
-        ds = chromeDriverService {
-            logLevel = WARNING
-            environment {
-                +("key8" to "value8")
+        ds =
+            chromeDriverService {
+                logLevel = WARNING
+                environment {
+                    +("key8" to "value8")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -185,12 +193,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test9() {
-        ds = chromeDriverService {
-            logLevel = DEBUG
-            environment {
-                +("key9" to "value9")
+        ds =
+            chromeDriverService {
+                logLevel = DEBUG
+                environment {
+                    +("key9" to "value9")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -203,12 +212,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test10() {
-        ds = chromeDriverService {
-            logLevel = ALL
-            environment {
-                +("key10" to "value10")
+        ds =
+            chromeDriverService {
+                logLevel = ALL
+                environment {
+                    +("key10" to "value10")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -221,12 +231,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test11() {
-        ds = chromeDriverService {
-            logLevel = SEVERE
-            environment {
-                +("key11" to "value11")
+        ds =
+            chromeDriverService {
+                logLevel = SEVERE
+                environment {
+                    +("key11" to "value11")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -239,12 +250,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test12() {
-        ds = chromeDriverService {
-            logLevel = DEBUG
-            environment {
-                +("key12" to "value12")
+        ds =
+            chromeDriverService {
+                logLevel = DEBUG
+                environment {
+                    +("key12" to "value12")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -257,12 +269,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test13() {
-        ds = chromeDriverService {
-            logLevel = INFO
-            environment {
-                +("key13" to "value13")
+        ds =
+            chromeDriverService {
+                logLevel = INFO
+                environment {
+                    +("key13" to "value13")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -275,12 +288,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test14() {
-        ds = chromeDriverService {
-            logLevel = WARNING
-            environment {
-                +("key14" to "value14")
+        ds =
+            chromeDriverService {
+                logLevel = WARNING
+                environment {
+                    +("key14" to "value14")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -293,12 +307,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test15() {
-        ds = chromeDriverService {
-            logLevel = ALL
-            environment {
-                +("key15" to "value15")
+        ds =
+            chromeDriverService {
+                logLevel = ALL
+                environment {
+                    +("key15" to "value15")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -311,12 +326,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test16() {
-        ds = chromeDriverService {
-            logLevel = SEVERE
-            environment {
-                +("key16" to "value16")
+        ds =
+            chromeDriverService {
+                logLevel = SEVERE
+                environment {
+                    +("key16" to "value16")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -329,12 +345,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test17() {
-        ds = chromeDriverService {
-            logLevel = INFO
-            environment {
-                +("key17" to "value17")
+        ds =
+            chromeDriverService {
+                logLevel = INFO
+                environment {
+                    +("key17" to "value17")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -347,12 +364,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test18() {
-        ds = chromeDriverService {
-            logLevel = WARNING
-            environment {
-                +("key18" to "value18")
+        ds =
+            chromeDriverService {
+                logLevel = WARNING
+                environment {
+                    +("key18" to "value18")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -365,12 +383,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test19() {
-        ds = chromeDriverService {
-            logLevel = ALL
-            environment {
-                +("key19" to "value19")
+        ds =
+            chromeDriverService {
+                logLevel = ALL
+                environment {
+                    +("key19" to "value19")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
@@ -383,12 +402,13 @@ class DriverServiceParallelTest {
 
     @RepeatedTest(10)
     fun test20() {
-        ds = chromeDriverService {
-            logLevel = SEVERE
-            environment {
-                +("key20" to "value20")
+        ds =
+            chromeDriverService {
+                logLevel = SEVERE
+                environment {
+                    +("key20" to "value20")
+                }
             }
-        }
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>

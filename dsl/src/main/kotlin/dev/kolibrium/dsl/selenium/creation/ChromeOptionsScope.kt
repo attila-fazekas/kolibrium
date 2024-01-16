@@ -21,7 +21,6 @@ import org.openqa.selenium.chrome.ChromeOptions
 
 @KolibriumDsl
 public class ChromeOptionsScope(override val options: ChromeOptions) : ChromiumOptionsScope(options) {
-
     private val argsScope by lazy { ArgumentsScope<Chrome>() }
 
     @KolibriumDsl

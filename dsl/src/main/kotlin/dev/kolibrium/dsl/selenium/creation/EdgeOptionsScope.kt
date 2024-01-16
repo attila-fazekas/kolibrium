@@ -21,7 +21,6 @@ import org.openqa.selenium.edge.EdgeOptions
 
 @KolibriumDsl
 public class EdgeOptionsScope(override val options: EdgeOptions) : ChromiumOptionsScope(options) {
-
     private val argsScope by lazy { ArgumentsScope<Edge>() }
 
     @KolibriumPropertyDsl

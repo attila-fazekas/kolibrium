@@ -23,7 +23,6 @@ import java.io.File
 @KolibriumDsl
 public class GeckoDriverServiceScope(override val builder: GeckoDriverService.Builder) :
     DriverServiceScope() {
-
     private val allowedHostsScope: AllowedHostsScope by lazy { AllowedHostsScope() }
 
     @KolibriumPropertyDsl

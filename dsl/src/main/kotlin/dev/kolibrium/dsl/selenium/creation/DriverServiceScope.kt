@@ -25,7 +25,6 @@ import kotlin.time.toJavaDuration
 
 @KolibriumDsl
 public sealed class DriverServiceScope {
-
     internal abstract val builder: DriverService.Builder<*, *>
 
     protected val environmentScope: EnvironmentScope by lazy { EnvironmentScope() }
@@ -46,7 +45,6 @@ public sealed class DriverServiceScope {
         }
     }
 
-    @SuppressWarnings("SwallowedException")
     private fun checkPort(port: Int) {
         try {
             ServerSocket(port).use {}
@@ -55,7 +53,7 @@ public sealed class DriverServiceScope {
                 """
                     |DriverService is not set up properly:
                     |Port $port already in use
-                """.trimMargin()
+                """.trimMargin(),
             )
         }
     }

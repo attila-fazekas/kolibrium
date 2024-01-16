@@ -18,7 +18,6 @@ package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
 public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScope> {
-
     internal abstract val driverServiceScope: DS
     internal abstract val optionsScope: O
 

@@ -18,7 +18,6 @@ package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
 public class ExperimentalOptionsScope<T : Chromium> {
-
     public val excludeSwitchesScope: ExcludeSwitchesScope by lazy { ExcludeSwitchesScope() }
     public val localStateScope: LocalStateScope by lazy { LocalStateScope() }
     public val preferencesScope: PreferencesScope<T> by lazy { PreferencesScope() }
@@ -31,8 +30,7 @@ public class ExperimentalOptionsScope<T : Chromium> {
     public fun localState(block: LocalStateScope.() -> Unit): LocalStateScope = localStateScope.apply(block)
 
     @KolibriumDsl
-    public fun preferences(block: PreferencesScope<T>.() -> Unit): PreferencesScope<T> =
-        preferencesScope.apply(block)
+    public fun preferences(block: PreferencesScope<T>.() -> Unit): PreferencesScope<T> = preferencesScope.apply(block)
 
     override fun toString(): String {
         return "ExperimentalOptionsScope(excludeSwitchesScope=$excludeSwitchesScope, " +

@@ -18,7 +18,6 @@ package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
 public class SocksScope {
-
     @KolibriumPropertyDsl
     public var address: String? = null
 

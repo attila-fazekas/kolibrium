@@ -20,7 +20,6 @@ package dev.kolibrium.dsl.selenium.creation
 public value class Preference<T : Browser>(public val name: String)
 
 public object Preferences {
-
     public object Chromium {
         @KolibriumPropertyDsl
         public val download_default_directory: Preference<dev.kolibrium.dsl.selenium.creation.Chromium> =
@@ -95,7 +94,7 @@ public object Preferences {
         @KolibriumPropertyDsl
         public val browser_download_manager_showAlertOnComplete:
             Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-                Preference("browser.download.manager.showAlertOnComplete")
+            Preference("browser.download.manager.showAlertOnComplete")
 
         @KolibriumPropertyDsl
         public val browser_download_manager_useWindow: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =

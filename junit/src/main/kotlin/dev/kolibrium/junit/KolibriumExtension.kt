@@ -50,18 +50,21 @@ public annotation class Kolibrium
 private val logger = KotlinLogging.logger { }
 
 public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) : ParameterResolver, AfterEachCallback {
-
     private val actualConfig: AbstractProjectConfiguration by lazy { actualConfig() }
 
-    override fun supportsParameter(paramCtx: ParameterContext, extCtx: ExtensionContext): Boolean {
+    override fun supportsParameter(
+        paramCtx: ParameterContext,
+        extCtx: ExtensionContext,
+    ): Boolean {
         val driver = paramCtx.parameter.type
-        val supportedDriverClasses = listOf(
-            WebDriver::class.java,
-            ChromeDriver::class.java,
-            SafariDriver::class.java,
-            EdgeDriver::class.java,
-            FirefoxDriver::class.java
-        )
+        val supportedDriverClasses =
+            listOf(
+                WebDriver::class.java,
+                ChromeDriver::class.java,
+                SafariDriver::class.java,
+                EdgeDriver::class.java,
+                FirefoxDriver::class.java,
+            )
 
         if (!supportedDriverClasses.contains(driver)) {
             throw ParameterResolutionException(
@@ -74,54 +77,58 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
                     |$bullet SafariDriver
                     |$bullet EdgeDriver
                     |$bullet FirefoxDriver
-                """.trimMargin()
+                """.trimMargin(),
             )
         }
 
         return true
     }
 
-    override fun resolveParameter(paramCtx: ParameterContext, extCtx: ExtensionContext): WebDriver {
+    override fun resolveParameter(
+        paramCtx: ParameterContext,
+        extCtx: ExtensionContext,
+    ): WebDriver {
         val constructorDriverClass = paramCtx.parameter.type
         val currentTestClass = extCtx.testClass.get().name
 
-        val driver = this.driver?.let {
-            val instantiatedDriver = it()
-            logger.trace {
-                "${instantiatedDriver::class.simpleName} created with Programmatic Extension Registration in" +
-                    " $currentTestClass class"
-            }
-            instantiatedDriver
-        } ?: run {
-            // defaultBrowser was overridden in configuration
-            actualConfig.defaultBrowser?.let {
-                val defaultBrowserDriverClass = it.driverClass().java
-                if (RemoteWebDriver::class.java.isAssignableFrom(constructorDriverClass) &&
-                    constructorDriverClass != defaultBrowserDriverClass
-                ) {
-                    createDriver(
-                        Browser.valueOf(constructorDriverClass.simpleName.substringBefore("Driver").uppercase())
-                    )
-                } else {
-                    createDriver(
-                        Browser.valueOf(
-                            defaultBrowserDriverClass.simpleName
-                                .substringBefore("Driver").uppercase()
+        val driver =
+            this.driver?.let {
+                val instantiatedDriver = it()
+                logger.trace {
+                    "${instantiatedDriver::class.simpleName} created with Programmatic Extension Registration in" +
+                        " $currentTestClass class"
+                }
+                instantiatedDriver
+            } ?: run {
+                // defaultBrowser was overridden in configuration
+                actualConfig.defaultBrowser?.let {
+                    val defaultBrowserDriverClass = it.driverClass().java
+                    if (RemoteWebDriver::class.java.isAssignableFrom(constructorDriverClass) &&
+                        constructorDriverClass != defaultBrowserDriverClass
+                    ) {
+                        createDriver(
+                            Browser.valueOf(constructorDriverClass.simpleName.substringBefore("Driver").uppercase()),
                         )
-                    )
-                }
-            } ?: run { // otherwise get the driver from default config
-                if (RemoteWebDriver::class.java.isAssignableFrom(constructorDriverClass) &&
-                    constructorDriverClass != ProjectConfiguration.defaultBrowser.driverClass()::class.java
-                ) {
-                    createDriver(
-                        Browser.valueOf(constructorDriverClass.simpleName.substringBefore("Driver").uppercase())
-                    )
-                } else {
-                    createDriver(ProjectConfiguration.defaultBrowser)
+                    } else {
+                        createDriver(
+                            Browser.valueOf(
+                                defaultBrowserDriverClass.simpleName
+                                    .substringBefore("Driver").uppercase(),
+                            ),
+                        )
+                    }
+                } ?: run { // otherwise get the driver from default config
+                    if (RemoteWebDriver::class.java.isAssignableFrom(constructorDriverClass) &&
+                        constructorDriverClass != ProjectConfiguration.defaultBrowser.driverClass()::class.java
+                    ) {
+                        createDriver(
+                            Browser.valueOf(constructorDriverClass.simpleName.substringBefore("Driver").uppercase()),
+                        )
+                    } else {
+                        createDriver(ProjectConfiguration.defaultBrowser)
+                    }
                 }
             }
-        }
 
         extCtx.store().put(Thread.currentThread().id, driver)
         return driver
@@ -151,6 +158,5 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
             FIREFOX -> actualConfig.firefoxDriver ?: ProjectConfiguration.firefoxDriver
         }()
 
-    private fun ExtensionContext.store() =
-        getStore(ExtensionContext.Namespace.create(KOLIBRIUM_STORE))
+    private fun ExtensionContext.store() = getStore(ExtensionContext.Namespace.create(KOLIBRIUM_STORE))
 }
