@@ -19,7 +19,7 @@ package dev.kolibrium.dsl.selenium.creation
 import java.io.File
 
 @JvmInline
-public value class Extension(public val path: String)
+public value class Extension(internal val path: String)
 
 @KolibriumDsl
 public class ExtensionsScope : UnaryPlus<Extension> {

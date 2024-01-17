@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @JvmInline
-public value class ExperimentalFlag(public val name: String)
+public value class ExperimentalFlag(internal val name: String)
 
 public object ExperimentalFlags {
     @KolibriumPropertyDsl
