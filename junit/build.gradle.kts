@@ -5,6 +5,5 @@ plugins {
 
 dependencies {
     implementation(project(":core"))
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.20")
     implementation(Testing.junit.jupiter.api)
 }

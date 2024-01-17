@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @JvmInline
-public value class Argument<T : Browser>(public val name: String) {
+public value class Argument<T : Browser>(internal val name: String) {
     init {
         require(name.startsWith("--")) {
             """

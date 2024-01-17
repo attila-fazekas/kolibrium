@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @JvmInline
-public value class Switch(public val name: String)
+public value class Switch(internal val name: String)
 
 public object Switches {
     @KolibriumPropertyDsl

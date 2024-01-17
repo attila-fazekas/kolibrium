@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @JvmInline
-public value class Preference<T : Browser>(public val name: String)
+public value class Preference<T : Browser>(internal val name: String)
 
 public object Preferences {
     public object Chromium {
