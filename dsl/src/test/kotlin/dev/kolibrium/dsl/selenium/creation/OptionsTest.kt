@@ -52,7 +52,7 @@ import org.openqa.selenium.UnexpectedAlertBehaviour.DISMISS
 import kotlin.time.Duration.Companion.seconds
 
 @Suppress("UNCHECKED_CAST")
-class OptionsTests {
+class OptionsTest {
     @ParameterizedTest
     @EnumSource(Browser::class)
     fun optionsTest(browser: Browser) {
