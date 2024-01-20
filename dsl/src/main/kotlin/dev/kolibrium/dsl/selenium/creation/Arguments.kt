@@ -17,11 +17,11 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @JvmInline
-public value class Argument<T : Browser>(internal val name: String) {
+public value class Argument<T : Browser>(internal val value: String) {
     init {
-        require(name.startsWith("--")) {
+        require(value.startsWith("--")) {
             """
-            Argument "$name" must start with "--" prefix
+            Argument "$value" must start with "--" prefix
             """.trimIndent()
         }
     }

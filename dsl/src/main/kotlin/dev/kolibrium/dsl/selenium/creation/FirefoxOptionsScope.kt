@@ -44,7 +44,7 @@ public class FirefoxOptionsScope(override val options: FirefoxOptions) : Options
     @KolibriumDsl
     public fun arguments(block: ArgumentsScope<Firefox>.() -> Unit) {
         argsScope.apply(block)
-        options.addArguments(argsScope.args.map { it.name })
+        options.addArguments(argsScope.args.map { it.value })
     }
 
     @KolibriumDsl

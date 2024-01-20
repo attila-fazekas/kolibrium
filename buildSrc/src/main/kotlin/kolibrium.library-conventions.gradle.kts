@@ -3,8 +3,10 @@ import dev.kolibrium.PublicationProperties.SCM
 
 plugins {
     `java-library`
+    id("dev.adamko.dokkatoo-html")
     id("kolibrium.kotlin-conventions")
     id("kolibrium.publication-conventions")
+    id("kolibrium.static-analysis-conventions")
     id("org.jetbrains.kotlinx.binary-compatibility-validator")
 }
 

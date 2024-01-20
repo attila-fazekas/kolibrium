@@ -36,7 +36,7 @@ public class EdgeOptionsScope(override val options: EdgeOptions) : ChromiumOptio
     @KolibriumDsl
     public fun arguments(block: ArgumentsScope<Edge>.() -> Unit) {
         argsScope.apply(block)
-        options.addArguments(argsScope.args.map { it.name })
+        options.addArguments(argsScope.args.map { it.value })
     }
 
     override fun toString(): String {

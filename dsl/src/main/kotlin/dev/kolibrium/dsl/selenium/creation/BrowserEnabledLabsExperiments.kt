@@ -21,7 +21,7 @@ public class BrowserEnabledLabsExperiments : UnaryPlus<ExperimentalFlag> {
     internal val experimentalFlags = mutableSetOf<String>()
 
     override fun ExperimentalFlag.unaryPlus() {
-        experimentalFlags.add(name)
+        experimentalFlags.add(value)
     }
 
     override fun toString(): String {
