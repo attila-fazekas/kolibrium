@@ -16,9 +16,8 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
-import com.lemonappdev.konsist.api.KoModifier
 import com.lemonappdev.konsist.api.Konsist
-import com.lemonappdev.konsist.api.ext.list.modifierprovider.withModifier
+import com.lemonappdev.konsist.api.ext.list.modifierprovider.withPublicModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutOperatorModifier
 import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.jupiter.api.Test
@@ -29,7 +28,7 @@ class KonsistTest {
         Konsist
             .scopeFromPackage("dev.kolibrium.dsl..")
             .properties()
-            .withModifier(KoModifier.PUBLIC)
+            .withPublicModifier()
             .assertTrue {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "KolibriumPropertyDsl"
@@ -42,7 +41,7 @@ class KonsistTest {
         Konsist
             .scopeFromPackage("dev.kolibrium.dsl..")
             .functions()
-            .withModifier(KoModifier.PUBLIC)
+            .withPublicModifier()
             .withoutOperatorModifier()
             .assertTrue {
                 it.hasAnnotation { koAnnotationDeclaration ->

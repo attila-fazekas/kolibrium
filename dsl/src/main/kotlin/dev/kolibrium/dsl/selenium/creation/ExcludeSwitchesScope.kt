@@ -21,7 +21,7 @@ public class ExcludeSwitchesScope : UnaryPlus<Switch> {
     internal val switches = mutableSetOf<String>()
 
     override operator fun Switch.unaryPlus() {
-        switches.add(name)
+        switches.add(value)
     }
 
     override fun toString(): String {

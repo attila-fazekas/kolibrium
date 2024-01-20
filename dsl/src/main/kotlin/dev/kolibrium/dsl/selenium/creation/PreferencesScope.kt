@@ -21,7 +21,7 @@ public class PreferencesScope<T : Browser> : UnaryPlus<Pair<Preference<T>, Any>>
     internal val preferences = mutableMapOf<String, Any>()
 
     override operator fun Pair<Preference<T>, Any>.unaryPlus() {
-        preferences[first.name] = second
+        preferences[first.value] = second
     }
 
     override fun toString(): String {

@@ -4,6 +4,7 @@ include("bom")
 include("core")
 include("dsl")
 include("junit")
+include("konsistTest")
 include("ksp")
 include("ksp:annotations")
 findProject(":ksp:annotations")?.name = "annotations"

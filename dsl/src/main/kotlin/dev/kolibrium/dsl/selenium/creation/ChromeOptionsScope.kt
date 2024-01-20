@@ -26,7 +26,7 @@ public class ChromeOptionsScope(override val options: ChromeOptions) : ChromiumO
     @KolibriumDsl
     public fun arguments(block: ArgumentsScope<Chrome>.() -> Unit) {
         argsScope.apply(block)
-        options.addArguments(argsScope.args.map { it.name })
+        options.addArguments(argsScope.args.map { it.value })
     }
 
     override fun toString(): String {
