@@ -42,7 +42,7 @@ import kotlin.io.path.absolutePathString
 import kotlin.time.Duration.Companion.seconds
 
 @Disabled("Temporarily disabled due to CI does not have browsers installed")
-class DriverTests {
+class DriverTest {
     private lateinit var driver: WebDriver
 
     @AfterEach

@@ -18,11 +18,28 @@ package dev.kolibrium
 
 import com.lemonappdev.konsist.api.Konsist
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withValueModifier
+import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutEnumModifier
 import com.lemonappdev.konsist.api.ext.list.properties
+import com.lemonappdev.konsist.api.ext.list.withName
+import com.lemonappdev.konsist.api.ext.list.withoutType
 import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.jupiter.api.Test
 
 class KonsistTest {
+    @Test
+    fun `test classes should have 'Test' suffix`() {
+        Konsist
+            .scopeFromTest()
+            .classes()
+            .withoutEnumModifier()
+            .filterNot {
+                it.name.endsWith("Page")
+            }
+            .assertTrue {
+                it.name.endsWith("Test")
+            }
+    }
+
     @Test
     fun `value classes should have 'value' property`() {
         Konsist
@@ -35,6 +52,21 @@ class KonsistTest {
             .properties()
             .assertTrue {
                 it.name == "value"
+            }
+    }
+
+    // as per https://github.com/oshai/kotlin-logging/issues/364#issuecomment-1763871697
+    @Test
+    fun `loggers should be declared outside of classes`() {
+        Konsist
+            .scopeFromProduction()
+            .properties()
+            .withName("logger")
+            .withoutType {
+                it.name == "KSPLogger"
+            }
+            .assertTrue {
+                it.hasPrivateModifier && it.isTopLevel
             }
     }
 }

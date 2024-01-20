@@ -42,7 +42,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
 @Suppress("UNCHECKED_CAST")
-class DriverServiceTests {
+class DriverServiceTest {
     lateinit var ds: DriverService
 
     @AfterEach
