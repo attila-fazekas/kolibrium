@@ -17,9 +17,12 @@
 package dev.kolibrium
 
 import com.lemonappdev.konsist.api.Konsist
+import com.lemonappdev.konsist.api.declaration.KoFunctionDeclaration
+import com.lemonappdev.konsist.api.declaration.KoPropertyDeclaration
+import com.lemonappdev.konsist.api.ext.list.indexOfFirstInstance
+import com.lemonappdev.konsist.api.ext.list.indexOfLastInstance
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withValueModifier
-import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutEnumModifier
-import com.lemonappdev.konsist.api.ext.list.properties
+import com.lemonappdev.konsist.api.ext.list.primaryConstructors
 import com.lemonappdev.konsist.api.ext.list.withName
 import com.lemonappdev.konsist.api.ext.list.withoutType
 import com.lemonappdev.konsist.api.verify.assertTrue
@@ -31,28 +34,21 @@ class KonsistTest {
         Konsist
             .scopeFromTest()
             .classes()
-            .withoutEnumModifier()
-            .filterNot {
-                it.name.endsWith("Page")
-            }
-            .assertTrue {
-                it.name.endsWith("Test")
-            }
+            .filter { it.functions().any { func -> func.hasAnnotationOf(Test::class) } }
+            .assertTrue { it.hasNameEndingWith("Test") }
     }
 
     @Test
     fun `value classes should have 'value' property`() {
         Konsist
-            .scopeFromPackage("dev.kolibrium.dsl..")
+            .scopeFromProject()
             .classes()
             .withValueModifier()
             .filterNot {
                 it.name == "Extension"
             }
-            .properties()
-            .assertTrue {
-                it.name == "value"
-            }
+            .primaryConstructors
+            .assertTrue { it.hasParameterWithName("value") }
     }
 
     // as per https://github.com/oshai/kotlin-logging/issues/364#issuecomment-1763871697
@@ -68,5 +64,54 @@ class KonsistTest {
             .assertTrue {
                 it.hasPrivateModifier && it.isTopLevel
             }
+    }
+
+    @Test
+    fun `properties are declared before functions`() {
+        Konsist
+            .scopeFromProject()
+            .classes()
+            .assertTrue {
+                val lastKoPropertyDeclarationIndex =
+                    it
+                        .declarations(includeNested = false, includeLocal = false)
+                        .indexOfLastInstance<KoPropertyDeclaration>()
+
+                val firstKoFunctionDeclarationIndex =
+                    it
+                        .declarations(includeNested = false, includeLocal = false)
+                        .indexOfFirstInstance<KoFunctionDeclaration>()
+
+                if (lastKoPropertyDeclarationIndex != -1 && firstKoFunctionDeclarationIndex != -1) {
+                    lastKoPropertyDeclarationIndex < firstKoFunctionDeclarationIndex
+                } else {
+                    true
+                }
+            }
+    }
+
+    @Test
+    fun `companion object is last declaration in class in 'main' source set`() {
+        Konsist
+            .scopeFromProduction()
+            .classes()
+            .assertTrue { koClassDeclaration ->
+                val companionObject =
+                    koClassDeclaration.objects(includeNested = false).lastOrNull { obj ->
+                        obj.hasCompanionModifier
+                    }
+
+                companionObject?.let {
+                    koClassDeclaration.declarations(includeNested = false, includeLocal = false).last() == companionObject
+                } ?: true
+            }
+    }
+
+    @Test
+    fun `package name must match file path`() {
+        Konsist
+            .scopeFromProject()
+            .packages
+            .assertTrue { it.hasMatchingPath }
     }
 }
