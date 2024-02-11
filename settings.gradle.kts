@@ -15,7 +15,7 @@ include("selenium")
 gradle.startParameter.isContinueOnFailure = true
 
 plugins {
-    id("de.fayard.refreshVersions") version "0.60.4"
+    id("de.fayard.refreshVersions") version "0.60.5"
 }
 
 refreshVersions {
