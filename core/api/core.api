@@ -12,3 +12,6 @@ public class dev/kolibrium/core/ConfigurationException : java/lang/RuntimeExcept
 	public fun <init> (Ljava/lang/String;)V
 }
 
+public abstract interface annotation class dev/kolibrium/core/InternalKolibriumApi : java/lang/annotation/Annotation {
+}
+
