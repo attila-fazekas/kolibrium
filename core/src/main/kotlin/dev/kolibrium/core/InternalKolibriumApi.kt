@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Attila Fazekas
+ * Copyright 2024 Attila Fazekas
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,5 +16,8 @@
 
 package dev.kolibrium.core
 
-@InternalKolibriumApi
-public open class ConfigurationException(exception: String) : RuntimeException(exception)
+@RequiresOptIn(
+    level = RequiresOptIn.Level.ERROR,
+    message = "This is an internal API of Kolibrium, please do not use it.",
+)
+public annotation class InternalKolibriumApi

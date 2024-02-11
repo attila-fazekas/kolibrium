@@ -47,14 +47,14 @@ private inline fun <reified T : Browser> ArgumentsScope<*>.setWindowSize(block: 
     windowSizeScope.apply(block)
     when (T::class) {
         Chrome::class, Edge::class -> {
-            this@ArgumentsScope.args.add(
+            this.args.add(
                 Argument<Chromium>("--window-size=${windowSizeScope.width},${windowSizeScope.height}"),
             )
         }
 
         Firefox::class -> {
-            this@ArgumentsScope.args.add(Argument<Firefox>("--height=${windowSizeScope.width}"))
-            this@ArgumentsScope.args.add(Argument<Firefox>("--width=${windowSizeScope.height}"))
+            this.args.add(Argument<Firefox>("--height=${windowSizeScope.width}"))
+            this.args.add(Argument<Firefox>("--width=${windowSizeScope.height}"))
         }
     }
 }
