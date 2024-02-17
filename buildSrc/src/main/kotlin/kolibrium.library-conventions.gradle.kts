@@ -14,6 +14,10 @@ kotlin {
     explicitApi()
 }
 
+tasks.named("compileTestKotlin") {
+    dependsOn(tasks.named("ktlintFormat"))
+}
+
 val sourcesJar by tasks.register<Jar>("sourcesJar") {
     archiveClassifier = "sources"
     from(sourceSets.main.get().allSource)
