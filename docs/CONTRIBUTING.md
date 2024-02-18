@@ -8,18 +8,18 @@ Please take a moment to review this document **before submitting a Pull Request*
 
 There are numerous ways to make contributions to Kolibrium, but if you are just starting with contributions, we suggest focusing on the following areas:
 
-- Try out the [Get started](https://github.com/attila-fazekas/kolibrium#get-started) guide and provide feedback by opening a [new discussion](https://github.com/attila-fazekas/kolibrium/discussions/new?category=general). Your feedback helps us to iron out any confusion and is very much appreciated. ❤️
+- Try out the [Get started](https://github.com/attila-fazekas/kolibrium#get-started) guide and provide feedback by [starting a new discussion](https://github.com/attila-fazekas/kolibrium/discussions/new?category=general). Your feedback helps us to iron out any confusion and is very much appreciated. ❤️
 - Review a [Pull Request](https://github.com/attila-fazekas/kolibrium/pulls?q=is%3Apr+is%3Aopen+label%3A%22good+first+issue%22)
 - Pick an [issue](https://github.com/attila-fazekas/kolibrium/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and fix it
 - Update the [documentation](https://github.com/attila-fazekas/kolibrium/blob/main/README.md)
 
 # Filing bug reports
 
-Have you found a bug in code or a typo in documentation? Please [open](https://github.com/attila-fazekas/kolibrium/issues/new?assignees=attila-fazekas&labels=bug&projects=&template=%F0%9F%90%9B-bug-report.md&title=%5B%F0%9F%90%9B+Bug%5D%3A+) a Bug Report.
+Have you found a bug in code or a typo in documentation? Please [open a Bug Report](https://github.com/attila-fazekas/kolibrium/issues/new?assignees=attila-fazekas&labels=bug&projects=&template=%F0%9F%90%9B-bug-report.md&title=%5B%F0%9F%90%9B+Bug%5D%3A+).
 
 # Proposing new features
 
-Since the project is still in the early stages, this is the perfect time to influence its APIs. If you happen to have a cool idea about DSL design or any other module, or wish to have a Selenium feature implemented in Kolibrium, please [open](https://github.com/attila-fazekas/kolibrium/issues/new?assignees=attila-fazekas&labels=enhancement&projects=&template=%F0%9F%9A%80-feature-proposal.md&title=%5B%F0%9F%9A%80+Feature%5D%3A+) a Feature Proposal.
+Since the project is still in the early stages, this is the perfect time to influence its APIs. If you happen to have a cool idea about DSL design or any other module, or wish to have a Selenium feature implemented in Kolibrium, please [start a new discussion](https://github.com/attila-fazekas/kolibrium/discussions/new?category=ideas).
 
 # Setting up your environment
 
@@ -76,4 +76,4 @@ Depending on the scope of your change, you might see errors indicating that some
 
 # Get in touch
 
-If you have a question or comment, please [open an issue](https://github.com/attila-fazekas/kolibrium/issues/new).
+If you have a question or comment, please [start a new discussion](https://github.com/attila-fazekas/kolibrium/discussions/new?category=q-a).
