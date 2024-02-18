@@ -14,6 +14,15 @@ Build simple and maintainable automation faster with Kolibrium.
 Kolibrium is a declarative Kotlin library designed to reduce boilerplate code and find better abstractions to express Selenium tests in a compact way.
 Quickly bring your test automation efforts to life with less code and easy-to-read APIs.
 
+# Table of content
+
+- [Get started](#get-started)
+  - [Write your first test](#write-your-first-test)
+  - [Generate Page Object classes with kolibrium-codegen](#generate-page-object-classes-with-kolibrium-codegen)
+  - [Use DSL functions for creating driver instances](#use-dsl-functions-for-creating-driver-instances)
+  - [Inject driver instances to your tests with JUNit module](#inject-driver-instances-to-your-tests-with-junit-module)
+- [Project status](#project-status)
+
 # Get Started
 
 Kolibrium is divided into several subprojects (modules), each of which can be used either independently or in conjunction with others.
@@ -369,3 +378,8 @@ class KolibriumConfiguration : AbstractProjectConfiguration() {
 When initiating tests, a ChromeDriver with some experimental options will be injected into the tests.
 
 See the full files [here](https://gist.github.com/attila-fazekas/edc6d919a75122d29d956b8119170c0c)
+
+
+# Project status
+
+The library is not yet ready for production but is expected to be released as version 1.0.0 once Kotlin's context receivers are stabilized.

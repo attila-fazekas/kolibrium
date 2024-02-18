@@ -14,6 +14,14 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.named("compileTestKotlin") {
-    dependsOn(tasks.named("ktlintFormat"))
+tasks.ktlintMainSourceSetCheck {
+    dependsOn(tasks.ktlintMainSourceSetFormat)
+}
+
+tasks.ktlintTestSourceSetCheck {
+    dependsOn(tasks.ktlintTestSourceSetFormat)
+}
+
+tasks.ktlintKotlinScriptCheck {
+    dependsOn(tasks.ktlintKotlinScriptFormat)
 }
