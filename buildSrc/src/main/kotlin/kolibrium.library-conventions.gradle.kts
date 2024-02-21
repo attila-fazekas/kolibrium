@@ -1,9 +1,11 @@
 import dev.kolibrium.PublicationProperties.PROJECT_GIT_URL
 import dev.kolibrium.PublicationProperties.SCM
+import java.io.FileOutputStream
 
 plugins {
     `java-library`
     id("dev.adamko.dokkatoo-html")
+    id("com.jaredsburrows.license")
     id("kolibrium.kotlin-conventions")
     id("kolibrium.publication-conventions")
     id("kolibrium.static-analysis-conventions")
@@ -14,7 +16,7 @@ kotlin {
     explicitApi()
 }
 
-tasks.ktlintMainSourceSetCheck{
+tasks.ktlintMainSourceSetCheck {
     dependsOn(tasks.ktlintMainSourceSetFormat)
 }
 
@@ -82,6 +84,44 @@ publishing {
             maven {
                 url = uri(stagingDir)
             }
+        }
+    }
+}
+
+licenseReport {
+    generateCsvReport = false
+    generateHtmlReport = false
+    generateJsonReport = false
+    generateTextReport = true
+}
+
+tasks.register("createNoticeFile") {
+    group = "notice"
+
+    if (!File("NOTICE").exists()) {
+        val header = """
+            Kolibrium includes work under the Apache License v2.0 (given in full in LICENSE file) requiring this NOTICE file to be
+            provided.
+
+            This software bundles unchanged copies of third-party libraries, to which different licenses may apply.
+            Please see below for the list of third-party libraries organized by modules, along with their respective licenses.
+        """.trimIndent()
+        File("NOTICE").writeText(header)
+    }
+
+    val licenseFile = file(layout.buildDirectory.dir("reports/licenses/licenseReport.txt"))
+
+    FileOutputStream("NOTICE", true).use { output ->
+        val header = """
+            ${System.lineSeparator()}
+            ==========================
+            ${project.projectDir.name} module
+            ==========================
+             ${System.lineSeparator()}
+        """.trimIndent()
+        output.write(header.toByteArray())
+        licenseFile.forEachBlock { buffer, bytesRead ->
+            output.write(buffer, 0, bytesRead)
         }
     }
 }
