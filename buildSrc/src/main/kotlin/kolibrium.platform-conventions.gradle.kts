@@ -17,7 +17,7 @@ dependencies {
     }
 }
 
-val stagingDir = layout.buildDirectory.dir("staging-deploy")
+val stagingDir: Provider<Directory> = layout.buildDirectory.dir("staging-deploy")
 
 publishing {
     publications {

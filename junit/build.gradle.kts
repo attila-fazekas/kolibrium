@@ -13,6 +13,6 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions.freeCompilerArgs =
         listOf(
-            "-Xopt-in=dev.kolibrium.core.InternalKolibriumApi",
+            "-opt-in=dev.kolibrium.core.InternalKolibriumApi",
         )
 }

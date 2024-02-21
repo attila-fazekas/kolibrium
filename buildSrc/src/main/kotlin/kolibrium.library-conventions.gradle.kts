@@ -42,7 +42,7 @@ val javadocJar by tasks.register<Jar>("javadocJar") {
     archiveClassifier = "javadoc"
 }
 
-val stagingDir = layout.buildDirectory.dir("staging-deploy")
+val stagingDir: Provider<Directory> = layout.buildDirectory.dir("staging-deploy")
 
 publishing {
     publications {

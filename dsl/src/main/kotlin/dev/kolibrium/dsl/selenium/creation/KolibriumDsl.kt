@@ -46,7 +46,7 @@ internal annotation class KolibriumDsl
 
 @DslMarker
 @Target(PROPERTY)
-internal annotation class KolibriumPropertyDsl
+public annotation class KolibriumPropertyDsl
 
 @KolibriumDsl
 public fun driver(

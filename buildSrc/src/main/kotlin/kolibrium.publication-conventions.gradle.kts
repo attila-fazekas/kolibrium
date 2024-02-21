@@ -7,7 +7,7 @@ plugins {
     id("org.jreleaser")
 }
 
-val stagingDir = layout.buildDirectory.dir("staging-deploy")
+val stagingDir: Provider<Directory> = layout.buildDirectory.dir("staging-deploy")
 
 jreleaser {
     dryrun = true
