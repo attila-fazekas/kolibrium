@@ -315,6 +315,9 @@ public final class dev/kolibrium/dsl/selenium/creation/KolibriumDslKt {
 	public static final fun safariOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/safari/SafariOptions;
 }
 
+public abstract interface annotation class dev/kolibrium/dsl/selenium/creation/KolibriumPropertyDsl : java/lang/annotation/Annotation {
+}
+
 public final class dev/kolibrium/dsl/selenium/creation/LocalStateScope {
 	public fun <init> ()V
 	public final fun browserEnabledLabsExperiments (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/creation/BrowserEnabledLabsExperiments;
