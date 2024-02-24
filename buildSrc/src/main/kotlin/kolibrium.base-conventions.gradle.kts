@@ -22,11 +22,13 @@ spotless {
     kotlin {
         target("**/*.kt")
         endWithNewline()
+        trimTrailingWhitespace()
         licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
     }
     kotlinGradle {
         target("**/*.kts")
         endWithNewline()
+        trimTrailingWhitespace()
         licenseHeaderFile(rootProject.file("spotless/copyright.kt"), "(package |@file|import |fun )|buildscript |plugins |subprojects |spotless ")
     }
 }

@@ -69,9 +69,9 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
         if (!supportedDriverClasses.contains(driver)) {
             throw ParameterResolutionException(
                 """
-                    | 
+                    |
                     |${driver.simpleName} class cannot be injected into ${extCtx.testClass.get().name} tests.
-                    |Only the following classes are supported: 
+                    |Only the following classes are supported:
                     |$bullet WebDriver
                     |$bullet ChromeDriver
                     |$bullet SafariDriver
