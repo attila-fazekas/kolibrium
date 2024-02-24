@@ -7,6 +7,7 @@ repositories {
 }
 
 dependencies {
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:_")
     implementation("com.google.devtools.ksp:symbol-processing-gradle-plugin:_")
     implementation("com.jaredsburrows:gradle-license-plugin:_")
     implementation("dev.adamko.dokkatoo:dev.adamko.dokkatoo.gradle.plugin:_")

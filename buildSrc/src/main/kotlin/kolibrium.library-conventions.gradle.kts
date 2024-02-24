@@ -125,3 +125,7 @@ tasks.register("createNoticeFile") {
         }
     }
 }
+
+dokkatoo.pluginsConfiguration.html {
+    footerMessage.set("Copyright 2024 Attila Fazekas & contributors")
+}
