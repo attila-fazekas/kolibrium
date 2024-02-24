@@ -14,22 +14,3 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.creation
-
-import kotlin.time.Duration
-
-@KolibriumDsl
-public class TimeoutsScope {
-    @KolibriumPropertyDsl
-    public var implicitWait: Duration? = null
-
-    @KolibriumPropertyDsl
-    public var pageLoad: Duration? = null
-
-    @KolibriumPropertyDsl
-    public var script: Duration? = null
-
-    override fun toString(): String {
-        return "TimeoutsScope(implicitWait=$implicitWait, pageLoad=$pageLoad, script=$script)"
-    }
-}

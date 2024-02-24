@@ -1,3 +1,5 @@
+# https://editorconfig.org/
+
 [**/main/kotlin/**.{kt,kts}]
 max_line_length=120
 
