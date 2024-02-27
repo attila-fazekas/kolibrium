@@ -1,0 +1,62 @@
+name: Create notice file
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0"
+
+jobs:
+  notice-file:
+    name: Create Notice File
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    
+    env:
+      DEPENDENCY_UPDATE_BRANCH: "dependency-update"
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: "generate_notice_file_with_github_action"
+
+      - uses: ./.github/actions/setup-jdk
+
+      - name: Create branch
+        uses: peterjgrainger/action-create-branch@v2.3.0
+        with:
+          branch: ${{ env.DEPENDENCY_UPDATE_BRANCH }}
+
+      - name: Delete Notice File
+        run: rm NOTICE
+        working-directory: ${{ github.workspace }}
+
+      - name: Run License Report
+        uses: ./.github/actions/run-gradle
+        with:
+          arguments: licenseReport
+
+      - name: Run Create Notice File
+        uses: ./.github/actions/run-gradle
+        with:
+          arguments: createNoticeFile
+
+      - name: Commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: "GitHub Actions"
+          author_email: "noreply@github.com"
+          message: "Update notice file"
+          new_branch: ${{ env.DEPENDENCY_UPDATE_BRANCH }}
+
+      - name: Create Pull Request
+        run: >
+          gh pr create
+          --head ${{ env.DEPENDENCY_UPDATE_BRANCH }}
+          --base generate_notice_file_with_github_action
+          --title "Update notice file"
+          --body "[Update Notice File] notice file has been updated."
+          --label "notice file"
