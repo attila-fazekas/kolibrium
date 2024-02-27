@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      DEPENDENCY_UPDATE_BRANCH: "dependency-update"
+      NOTICE_FILE_UPDATE_BRANCH: "notice-file-update"
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -28,7 +28,7 @@ jobs:
       - name: Create branch
         uses: peterjgrainger/action-create-branch@v2.3.0
         with:
-          branch: ${{ env.DEPENDENCY_UPDATE_BRANCH }}
+          branch: ${{ env.NOTICE_FILE_UPDATE_BRANCH }}
 
       - name: Delete Notice File
         run: rm NOTICE
@@ -50,12 +50,12 @@ jobs:
           author_name: "GitHub Actions"
           author_email: "noreply@github.com"
           message: "Update notice file"
-          new_branch: ${{ env.DEPENDENCY_UPDATE_BRANCH }}
+          new_branch: ${{ env.NOTICE_FILE_UPDATE_BRANCH }}
 
       - name: Create Pull Request
         run: >
           gh pr create
-          --head ${{ env.DEPENDENCY_UPDATE_BRANCH }}
+          --head ${{ env.NOTICE_FILE_UPDATE_BRANCH }}
           --base generate_notice_file_with_github_action
           --title "Update notice file"
           --body "[Update Notice File] notice file has been updated."
