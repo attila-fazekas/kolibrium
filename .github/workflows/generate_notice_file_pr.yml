@@ -21,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          ref: "generate_notice_file_with_github_action"
+          ref: "main"
 
       - uses: ./.github/actions/setup-jdk
 
@@ -56,7 +56,7 @@ jobs:
         run: >
           gh pr create
           --head ${{ env.NOTICE_FILE_UPDATE_BRANCH }}
-          --base generate_notice_file_with_github_action
+          --base main
           --title "Update notice file"
           --body "[Update Notice File] notice file has been updated."
           --label "notice file"
