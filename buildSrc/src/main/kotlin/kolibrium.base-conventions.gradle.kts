@@ -49,3 +49,7 @@ spotless {
         licenseHeaderFile(rootProject.file("spotless/copyright.kt"), "(package |@file|import |fun )|buildscript |plugins |subprojects |spotless ")
     }
 }
+
+tasks.spotlessCheck {
+    dependsOn(tasks.spotlessApply)
+}
