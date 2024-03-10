@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Attila Fazekas
+ * Copyright 2023-2024 Attila Fazekas & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ internal annotation class KolibriumDsl
 
 @DslMarker
 @Target(PROPERTY)
-internal annotation class KolibriumPropertyDsl
+public annotation class KolibriumPropertyDsl
 
 @KolibriumDsl
 public fun driver(

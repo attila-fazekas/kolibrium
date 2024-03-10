@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Attila Fazekas
+ * Copyright 2023-2024 Attila Fazekas & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,9 +69,9 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
         if (!supportedDriverClasses.contains(driver)) {
             throw ParameterResolutionException(
                 """
-                    | 
+                    |
                     |${driver.simpleName} class cannot be injected into ${extCtx.testClass.get().name} tests.
-                    |Only the following classes are supported: 
+                    |Only the following classes are supported:
                     |$bullet WebDriver
                     |$bullet ChromeDriver
                     |$bullet SafariDriver

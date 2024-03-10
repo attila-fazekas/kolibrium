@@ -1,9 +1,27 @@
+/*
+ * Copyright 2023-2024 Attila Fazekas & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import dev.kolibrium.PublicationProperties.PROJECT_GIT_URL
 import dev.kolibrium.PublicationProperties.SCM
+import java.io.FileOutputStream
 
 plugins {
     `java-library`
     id("dev.adamko.dokkatoo-html")
+    id("com.jaredsburrows.license")
     id("kolibrium.kotlin-conventions")
     id("kolibrium.publication-conventions")
     id("kolibrium.static-analysis-conventions")
@@ -14,7 +32,7 @@ kotlin {
     explicitApi()
 }
 
-tasks.ktlintMainSourceSetCheck{
+tasks.ktlintMainSourceSetCheck {
     dependsOn(tasks.ktlintMainSourceSetFormat)
 }
 
@@ -40,7 +58,7 @@ val javadocJar by tasks.register<Jar>("javadocJar") {
     archiveClassifier = "javadoc"
 }
 
-val stagingDir = layout.buildDirectory.dir("staging-deploy")
+val stagingDir: Provider<Directory> = layout.buildDirectory.dir("staging-deploy")
 
 publishing {
     publications {
@@ -84,4 +102,46 @@ publishing {
             }
         }
     }
+}
+
+licenseReport {
+    generateCsvReport = false
+    generateHtmlReport = false
+    generateJsonReport = false
+    generateTextReport = true
+}
+
+tasks.register("createNoticeFile") {
+    group = "notice"
+
+    if (!File("NOTICE").exists()) {
+        val header = """
+            Kolibrium includes work under the Apache License v2.0 (given in full in LICENSE file) requiring this NOTICE file to be
+            provided.
+
+            This software bundles unchanged copies of third-party libraries, to which different licenses may apply.
+            Please see below for the list of third-party libraries organized by modules, along with their respective licenses.
+        """.trimIndent()
+        File("NOTICE").writeText(header)
+    }
+
+    val licenseFile = file(layout.buildDirectory.dir("reports/licenses/licenseReport.txt"))
+
+    FileOutputStream("NOTICE", true).use { output ->
+        val header = """
+            ${System.lineSeparator()}
+            ==========================
+            ${project.projectDir.name} module
+            ==========================
+             ${System.lineSeparator()}
+        """.trimIndent()
+        output.write(header.toByteArray())
+        licenseFile.forEachBlock { buffer, bytesRead ->
+            output.write(buffer, 0, bytesRead)
+        }
+    }
+}
+
+dokkatoo.pluginsConfiguration.html {
+    footerMessage.set("Copyright 2024 Attila Fazekas & contributors")
 }
