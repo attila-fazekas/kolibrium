@@ -29,6 +29,11 @@ class KonsistTest {
             .scopeFromPackage("dev.kolibrium.dsl..")
             .properties()
             .withPublicModifier()
+            .filterNot {
+                it.hasAnnotation { koAnnotationDeclaration ->
+                    koAnnotationDeclaration.name == "InternalKolibriumApi"
+                }
+            }
             .assertTrue {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "KolibriumPropertyDsl"

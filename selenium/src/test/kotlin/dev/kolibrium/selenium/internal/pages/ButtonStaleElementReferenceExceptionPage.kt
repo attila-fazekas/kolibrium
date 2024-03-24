@@ -24,7 +24,7 @@ import org.openqa.selenium.WebElement
 context(WebDriver)
 class ButtonStaleElementReferenceExceptionPage {
     val button by id<WebElement>("myButton") {
-        it.isEnabled
+        until = { isEnabled }
     }
 
     val firework by className<WebElement>("firework")

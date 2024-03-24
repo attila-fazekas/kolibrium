@@ -14,16 +14,8 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.internal.pages
+package dev.kolibrium.core
 
-import dev.kolibrium.selenium.clickable
-import dev.kolibrium.selenium.id
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
-context(WebDriver)
-class ButtonElementClickInterceptedExceptionPage {
-    val button by id<WebElement>("button") {
-        until = { clickable }
-    }
-}
+public typealias WebElements = List<WebElement>
