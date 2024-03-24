@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.internal.pages
 
-import dev.kolibrium.selenium.WebElements
+import dev.kolibrium.core.WebElements
 import dev.kolibrium.selenium.className
 import dev.kolibrium.selenium.css
 import dev.kolibrium.selenium.id

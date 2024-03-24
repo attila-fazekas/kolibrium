@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.internal.pages
+package dev.kolibrium.dsl.selenium.wait
 
-import dev.kolibrium.selenium.clickable
-import dev.kolibrium.selenium.id
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
+import dev.kolibrium.core.InternalKolibriumApi
+import dev.kolibrium.dsl.selenium.creation.KolibriumDsl
+import kotlin.reflect.KClass
 
-context(WebDriver)
-class ButtonElementClickInterceptedExceptionPage {
-    val button by id<WebElement>("button") {
-        until = { clickable }
+@KolibriumDsl
+public class IgnoringScope {
+    @InternalKolibriumApi
+    public var exceptions: MutableSet<Class<out Throwable>> = mutableSetOf()
+        private set
+
+    public operator fun <T : Throwable> KClass<T>.unaryPlus() {
+        exceptions.add(this.java)
     }
 }

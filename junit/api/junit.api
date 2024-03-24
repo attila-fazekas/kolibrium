@@ -19,6 +19,6 @@ public abstract class dev/kolibrium/junit/config/AbstractProjectConfiguration {
 	public fun getFirefoxDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getKeepBrowserOpen ()Ljava/lang/Boolean;
 	public fun getSafariDriver ()Lkotlin/jvm/functions/Function0;
-	public fun getVerbose ()Ljava/lang/Boolean;
+	public fun getWaitConfig ()Ldev/kolibrium/dsl/selenium/wait/WaitScope;
 }
 

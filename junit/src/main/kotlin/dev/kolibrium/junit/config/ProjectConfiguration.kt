@@ -18,6 +18,8 @@ package dev.kolibrium.junit.config
 
 import dev.kolibrium.core.Browser
 import dev.kolibrium.core.Browser.CHROME
+import dev.kolibrium.dsl.selenium.wait.WaitScope
+import dev.kolibrium.dsl.selenium.wait.defaultWait
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
@@ -29,8 +31,6 @@ internal class ProjectConfiguration : AbstractProjectConfiguration() {
         internal var defaultBrowser: Browser = CHROME
 
         internal var keepBrowserOpen: Boolean = false
-
-        internal var verbose: Boolean = true
 
         internal var chromeDriver: (() -> ChromeDriver)
             get() = { ChromeDriver() }
@@ -47,5 +47,7 @@ internal class ProjectConfiguration : AbstractProjectConfiguration() {
         internal var firefoxDriver: (() -> FirefoxDriver)
             get() = { FirefoxDriver() }
             set(value) {}
+
+        internal var waitConfig: WaitScope = defaultWait
     }
 }

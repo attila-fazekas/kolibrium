@@ -22,7 +22,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core"))
+    implementation(project(":dsl"))
     implementation(Testing.junit.jupiter.api)
 }
 

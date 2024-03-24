@@ -17,6 +17,7 @@
 package dev.kolibrium.junit.config
 
 import dev.kolibrium.core.Browser
+import dev.kolibrium.dsl.selenium.wait.WaitScope
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.edge.EdgeDriver
@@ -33,8 +34,6 @@ public abstract class AbstractProjectConfiguration {
 
     public open val keepBrowserOpen: Boolean? = null
 
-    public open val verbose: Boolean? = null
-
     public open val chromeDriver: (() -> ChromeDriver)? = null
 
     public open val safariDriver: (() -> SafariDriver)? = null
@@ -42,6 +41,8 @@ public abstract class AbstractProjectConfiguration {
     public open val edgeDriver: (() -> EdgeDriver)? = null
 
     public open val firefoxDriver: (() -> FirefoxDriver)? = null
+
+    public open val waitConfig: WaitScope? = null
 }
 
 internal fun actualConfig(): AbstractProjectConfiguration {
@@ -60,9 +61,9 @@ internal fun loadProjectConfigFromClassName(): AbstractProjectConfiguration? {
         Class.forName(configFileName).getDeclaredConstructor().newInstance() as AbstractProjectConfiguration?
     } else {
         val classNames =
-            classes.map {
+            classes.joinToString(separator = "\n") {
                 "$bullet ${it.name}"
-            }.joinToString(separator = "\n")
+            }
 
         throw ProjectConfigurationException(
             """
@@ -101,5 +102,5 @@ internal fun AbstractProjectConfiguration.applyConfig(): AbstractProjectConfigur
         this.firefoxDriver?.let { ProjectConfiguration.firefoxDriver = it }
         this.safariDriver?.let { ProjectConfiguration.safariDriver = it }
         this.defaultBrowser?.let { ProjectConfiguration.defaultBrowser = it }
-        this.verbose?.let { ProjectConfiguration.verbose = it }
+        this.waitConfig?.let { ProjectConfiguration.waitConfig = it }
     }
