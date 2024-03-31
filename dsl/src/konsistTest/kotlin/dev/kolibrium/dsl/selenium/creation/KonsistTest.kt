@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import com.lemonappdev.konsist.api.Konsist
-import com.lemonappdev.konsist.api.ext.list.modifierprovider.withDataModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withPublicModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutAbstractModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutAnnotationModifier
