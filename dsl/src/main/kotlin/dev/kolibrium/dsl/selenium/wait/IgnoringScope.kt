@@ -29,4 +29,8 @@ public class IgnoringScope {
     public operator fun <T : Throwable> KClass<T>.unaryPlus() {
         exceptions.add(this.java)
     }
+
+    override fun toString(): String {
+        return "IgnoringScope(exceptions=$exceptions)"
+    }
 }

@@ -68,6 +68,11 @@ class KonsistTest {
             .withPublicModifier()
             .withoutValueModifier()
             .withoutAnnotationModifier()
+            .filterNot {
+                it.hasAnnotation { koAnnotationDeclaration ->
+                    koAnnotationDeclaration.name == "InternalKolibriumApi"
+                }
+            }
             .assertTrue {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "KolibriumDsl"
@@ -81,7 +86,9 @@ class KonsistTest {
             .scopeFromPackage("dev.kolibrium.dsl..")
             .classes()
             .filterNot {
-                it.name == "WindowSizeScope"
+                it.name == "WindowSizeScope" ||
+                    it.name == "Synchronization" ||
+                    it.name == "Synchronizations"
             }
             .withPublicModifier()
             .withoutValueModifier()

@@ -61,13 +61,18 @@ public class WaitScope {
 
     @KolibriumDsl
     public fun ignoring(block: IgnoringScope.() -> Unit): IgnoringScope = ignoringScope.apply(block)
+
+    override fun toString(): String {
+        return "WaitScope(pollingInterval=$pollingInterval, timeout=$timeout, message=$message, " +
+            "ignoringScope=$ignoringScope)"
+    }
 }
 
 @InternalKolibriumApi
 public val defaultWait: WaitScope =
     wait {
-        timeout = 10.seconds
         pollingInterval = 200.milliseconds
+        timeout = 10.seconds
         message = "Element could not be found"
         ignoring {
             +NoSuchElementException::class
