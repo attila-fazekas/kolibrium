@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import com.lemonappdev.konsist.api.Konsist
-import com.lemonappdev.konsist.api.ext.list.modifierprovider.withDataModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withPublicModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutAbstractModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutAnnotationModifier
@@ -35,6 +34,11 @@ class KonsistTest {
             .scopeFromPackage("dev.kolibrium.dsl..")
             .properties()
             .withPublicModifier()
+            .filterNot {
+                it.hasAnnotation { koAnnotationDeclaration ->
+                    koAnnotationDeclaration.name == "InternalKolibriumApi"
+                }
+            }
             .assertTrue {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "KolibriumPropertyDsl"
@@ -64,6 +68,11 @@ class KonsistTest {
             .withPublicModifier()
             .withoutValueModifier()
             .withoutAnnotationModifier()
+            .filterNot {
+                it.hasAnnotation { koAnnotationDeclaration ->
+                    koAnnotationDeclaration.name == "InternalKolibriumApi"
+                }
+            }
             .assertTrue {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "KolibriumDsl"
@@ -77,7 +86,9 @@ class KonsistTest {
             .scopeFromPackage("dev.kolibrium.dsl..")
             .classes()
             .filterNot {
-                it.name == "WindowSizeScope"
+                it.name == "WindowSizeScope" ||
+                    it.name == "Synchronization" ||
+                    it.name == "Synchronizations"
             }
             .withPublicModifier()
             .withoutValueModifier()
