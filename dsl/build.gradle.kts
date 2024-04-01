@@ -22,13 +22,14 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core"))
+    api(project(":core"))
     implementation("commons-validator:commons-validator:_")
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.freeCompilerArgs =
         listOf(
+            "-Xcontext-receivers",
             "-opt-in=dev.kolibrium.core.InternalKolibriumApi",
         )
 }

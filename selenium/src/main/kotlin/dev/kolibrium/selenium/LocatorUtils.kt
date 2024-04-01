@@ -16,14 +16,13 @@
 
 package dev.kolibrium.selenium
 
-import org.openqa.selenium.ElementNotInteractableException
-import org.openqa.selenium.NoSuchElementException
+import dev.kolibrium.core.InternalKolibriumApi
+import dev.kolibrium.core.WebElements
+import dev.kolibrium.dsl.selenium.wait.WaitScope
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.FluentWait
-import java.time.Duration
-
-public typealias WebElements = List<WebElement>
+import kotlin.time.toJavaDuration
 
 public val WebElement.clickable: Boolean
     get() = isDisplayed && isEnabled
@@ -31,16 +30,17 @@ public val WebElement.clickable: Boolean
 public val WebElements.isDisplayed: Boolean
     get() = all { it.isDisplayed }
 
-private const val TIMEOUT: Long = 10
-private const val POOLING_INTERVAL: Long = 1
-
-internal fun setUpWait(driver: WebDriver) =
-    FluentWait(driver)
-        .withTimeout(Duration.ofSeconds(TIMEOUT))
-        .pollingEvery(Duration.ofSeconds(POOLING_INTERVAL))
-        .ignoreAll(
-            listOf(
-                NoSuchElementException::class.java,
-                ElementNotInteractableException::class.java,
-            ),
-        )
+@OptIn(InternalKolibriumApi::class)
+internal fun setUpWait(
+    driver: WebDriver,
+    waitScope: WaitScope,
+) = FluentWait(driver).apply {
+    with(waitScope) {
+        timeout?.let { withTimeout(it.toJavaDuration()) }
+        pollingInterval?.let { pollingEvery(it.toJavaDuration()) }
+        message?.let { withMessage { it } }
+        if (ignoringScope.exceptions.isNotEmpty()) {
+            ignoreAll(ignoringScope.exceptions as Collection<Class<out Throwable>>)
+        }
+    }
+}
