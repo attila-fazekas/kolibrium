@@ -52,8 +52,8 @@ repositories {
 	mavenCentral()  
 }
 
-tasks.withType<KotlinCompile> {  
-    kotlinOptions.freeCompilerArgs = listOf(  
+tasks.withType<KotlinCompile> {
+    compilerOptions.freeCompilerArgs = listOf(  
         "-Xcontext-receivers",  
     )  
 }

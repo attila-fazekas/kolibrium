@@ -27,7 +27,7 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs =
+    compilerOptions.freeCompilerArgs =
         listOf(
             "-Xcontext-receivers",
             "-opt-in=dev.kolibrium.core.InternalKolibriumApi",

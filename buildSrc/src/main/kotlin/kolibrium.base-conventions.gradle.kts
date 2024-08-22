@@ -29,7 +29,7 @@ repositories {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs = listOf(
+    compilerOptions.freeCompilerArgs = listOf(
         "-Xcontext-receivers",
     )
 }

@@ -27,7 +27,7 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs =
+    compilerOptions.freeCompilerArgs =
         listOf(
             "-opt-in=dev.kolibrium.core.InternalKolibriumApi",
         )
