@@ -24,25 +24,29 @@ import org.openqa.selenium.WebElement
 context(WebDriver)
 class ButtonsPage {
     val easyButton1 by css<WebElement>("#easy00")
+
     val easyButton2 by css<WebElement>("#easy01")
+
     val easyButton3 by css<WebElement>("#easy02")
+
     val easyButton4 by css<WebElement>("#easy03")
+
     val easyMessage by id<WebElement>("easybuttonmessage")
 
     val hardButton1 by css<WebElement>("#button00") {
-        it.isEnabled
+        until = { isEnabled }
     }
 
     val hardButton2 by css<WebElement>("#button01") {
-        it.isEnabled
+        until = { isEnabled }
     }
 
     val hardButton3 by css<WebElement>("#button02") {
-        it.isEnabled
+        until = { isEnabled }
     }
 
     val hardButton4 by css<WebElement>("#button03") {
-        it.isEnabled
+        until = { isEnabled }
     }
 
     val hardMessage by id<WebElement>("buttonmessage")
