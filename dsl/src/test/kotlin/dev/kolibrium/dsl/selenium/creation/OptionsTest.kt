@@ -347,6 +347,7 @@ class OptionsTest {
         val mozfirefoxOptions: Map<String, String> = mappedOptions["moz:firefoxOptions"] as Map<String, String>
         (mozfirefoxOptions["prefs"] as Map<String, Any>).shouldContainExactly(
             mapOf(
+                "remote.active-protocols" to 3,
                 "network.automatic-ntlm-auth.allow-non-fqdn" to false,
                 "network.automatic-ntlm-auth.trusted-uris" to "http://,https://",
                 "network.http.phishy-userpass-length" to 255,

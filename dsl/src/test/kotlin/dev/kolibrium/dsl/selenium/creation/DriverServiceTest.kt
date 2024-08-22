@@ -97,7 +97,7 @@ class DriverServiceTest {
                 executable = executablePath
                 logFile = logFilePath
                 logLevel = DEBUG
-                port = 7000
+                port = 7001
                 readableTimestamp = true
                 timeout = 5.seconds
                 allowedIps {
@@ -122,7 +122,7 @@ class DriverServiceTest {
             "--disable-build-check",
             "--log-level=DEBUG",
             "--log-path=$logFilePath",
-            "--port=7000",
+            "--port=7001",
             "--readable-timestamp",
         )
 
@@ -145,7 +145,7 @@ class DriverServiceTest {
                 executable = executablePath
                 logFile = logFilePath
                 logLevel = TRACE
-                port = 7001
+                port = 7002
                 profileRoot = tempDir.toString()
                 truncatedLogs = false
                 allowedHosts {
@@ -162,7 +162,7 @@ class DriverServiceTest {
         val args = ds.invokeMethod("getArgs") as List<String>
         args shouldHaveSize 13
         args.shouldContainAll(
-            "--port=7001",
+            "--port=7002",
             "--log",
             "trace",
             "--log-no-truncate",
@@ -186,7 +186,7 @@ class DriverServiceTest {
         ds =
             safariDriverService {
                 logging = true
-                port = 7002
+                port = 7003
                 environment {
                     +("key1" to "value1")
                     +("key2" to "value2")
@@ -197,7 +197,7 @@ class DriverServiceTest {
 
         val args = ds.invokeMethod("getArgs") as List<String>
         args shouldHaveSize 3
-        args.shouldContainExactly("--port", "7002", "--diagnose")
+        args.shouldContainExactly("--port", "7003", "--diagnose")
 
         val environment = ds.invokeMethod("getEnvironment") as Map<String, String>
         environment shouldBe mapOf("key1" to "value1", "key2" to "value2")
@@ -217,7 +217,7 @@ class DriverServiceTest {
                 executable = executablePath
                 logFile = logFilePath
                 logLevel = DEBUG
-                port = 7003
+                port = 7004
                 readableTimestamp = true
                 timeout = 5.seconds
                 allowedIps {
@@ -242,7 +242,7 @@ class DriverServiceTest {
             "--disable-build-check",
             "--log-level=DEBUG",
             "--log-path=$logFilePath",
-            "--port=7003",
+            "--port=7004",
             "--readable-timestamp",
         )
 

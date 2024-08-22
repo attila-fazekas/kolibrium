@@ -130,7 +130,7 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
                 }
             }
 
-        extCtx.store().put(Thread.currentThread().id, driver)
+        extCtx.store().put(Thread.currentThread().threadId(), driver)
         return driver
     }
 
@@ -144,7 +144,7 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
     }
 
     override fun afterEach(extCtx: ExtensionContext) {
-        val driver: WebDriver = extCtx.store().get(Thread.currentThread().id) as WebDriver
+        val driver: WebDriver = extCtx.store().get(Thread.currentThread().threadId()) as WebDriver
         if (!ProjectConfiguration.keepBrowserOpen) {
             driver.quit()
         }

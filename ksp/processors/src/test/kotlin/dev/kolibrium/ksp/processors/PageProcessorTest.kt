@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:OptIn(ExperimentalCompilerApi::class)
+
 package dev.kolibrium.ksp.processors
 
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -23,6 +25,7 @@ import com.tschuchort.compiletesting.symbolProcessorProviders
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.intellij.lang.annotations.Language
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 
