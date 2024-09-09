@@ -289,7 +289,7 @@ It's easy to guess what the `chromeDriver` function call does, but let's dissect
 
 See the full file [here](https://gist.github.com/attila-fazekas/0bf7aafa985914d9b4929333e979bfc6)
 
-## Inject driver instances to your tests with JUNit module
+## Inject driver instances to your tests with JUnit module
 
 It's time to unlock the full potential of Kolibrium by letting it inject drivers into your JUnit 5 tests.
 
@@ -382,4 +382,4 @@ See the full files [here](https://gist.github.com/attila-fazekas/edc6d919a75122d
 
 # Project status
 
-The library is not yet ready for production but is expected to be released as version 1.0.0 once Kotlin's context receivers are stabilized.
+The library is not yet ready for production but is expected to be released as version 1.0.0 once Kotlin's [context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md) are stabilized.

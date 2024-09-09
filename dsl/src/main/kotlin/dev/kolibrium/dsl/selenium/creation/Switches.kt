@@ -17,7 +17,11 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @JvmInline
-public value class Switch(internal val value: String)
+public value class Switch(internal val value: String) {
+    init {
+        require(value.isNotBlank()) { "Switch value cannot be blank" }
+    }
+}
 
 public object Switches {
     @KolibriumPropertyDsl

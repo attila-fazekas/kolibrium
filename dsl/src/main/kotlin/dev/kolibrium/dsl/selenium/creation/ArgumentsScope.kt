@@ -16,45 +16,67 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+public sealed interface ArgumentsScope {
+    public val args: MutableSet<Argument>
+
+    @KolibriumDsl
+    public fun windowSize(block: WindowSizeScope.() -> Unit)
+}
+
 @KolibriumDsl
-public class ArgumentsScope<T : Browser> : UnaryPlus<Argument<T>> {
-    internal val windowSizeScope by lazy { WindowSizeScope() }
+public class ChromeArgumentsScope : ArgumentsScope, UnaryPlus<ChromeArgument> {
+    public override val args: MutableSet<Argument> = mutableSetOf<Argument>()
 
-    internal val args = mutableSetOf<Argument<*>>()
-
-    override operator fun Argument<T>.unaryPlus() {
+    override operator fun ChromeArgument.unaryPlus() {
         args.add(this)
     }
 
+    @KolibriumDsl
+    public override fun windowSize(block: WindowSizeScope.() -> Unit) {
+        val windowSizeScope = WindowSizeScope().apply(block)
+        +ChromeArgument.of("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
+    }
+
     override fun toString(): String {
-        return "ArgumentsScope(args=$args)"
+        return "ChromeArgumentsScope(args=$args)"
     }
 }
 
 @KolibriumDsl
-@JvmName("windowSizeChrome")
-public fun ArgumentsScope<Chrome>.windowSize(block: WindowSizeScope.() -> Unit): Unit = setWindowSize<Chrome>(block)
+public class FirefoxArgumentsScope : ArgumentsScope {
+    override val args: MutableSet<Argument> = mutableSetOf<Argument>()
+
+    public operator fun FirefoxArgument.unaryPlus() {
+        args.add(this)
+    }
+
+    @KolibriumDsl
+    public override fun windowSize(block: WindowSizeScope.() -> Unit) {
+        val windowSizeScope = WindowSizeScope().apply(block)
+        +FirefoxArgument.of("--width=${windowSizeScope.width}")
+        +FirefoxArgument.of("--height=${windowSizeScope.height}")
+    }
+
+    override fun toString(): String {
+        return "FirefoxArgumentsScope(args=$args)"
+    }
+}
 
 @KolibriumDsl
-@JvmName("windowSizeEdge")
-public fun ArgumentsScope<Edge>.windowSize(block: WindowSizeScope.() -> Unit): Unit = setWindowSize<Edge>(block)
+public class EdgeArgumentsScope : ArgumentsScope {
+    public override val args: MutableSet<Argument> = mutableSetOf<Argument>()
 
-@KolibriumDsl
-@JvmName("windowSizeFirefox")
-public fun ArgumentsScope<Firefox>.windowSize(block: WindowSizeScope.() -> Unit): Unit = setWindowSize<Firefox>(block)
+    public operator fun EdgeArgument.unaryPlus() {
+        args.add(this)
+    }
 
-private inline fun <reified T : Browser> ArgumentsScope<*>.setWindowSize(block: WindowSizeScope.() -> Unit) {
-    windowSizeScope.apply(block)
-    when (T::class) {
-        Chrome::class, Edge::class -> {
-            this.args.add(
-                Argument<Chromium>("--window-size=${windowSizeScope.width},${windowSizeScope.height}"),
-            )
-        }
+    @KolibriumDsl
+    public override fun windowSize(block: WindowSizeScope.() -> Unit) {
+        val windowSizeScope = WindowSizeScope().apply(block)
+        +EdgeArgument.of("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
+    }
 
-        Firefox::class -> {
-            this.args.add(Argument<Firefox>("--height=${windowSizeScope.width}"))
-            this.args.add(Argument<Firefox>("--width=${windowSizeScope.height}"))
-        }
+    override fun toString(): String {
+        return "EdgeArgumentsScope(args=$args)"
     }
 }

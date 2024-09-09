@@ -33,12 +33,6 @@ fun DriverService.invokeMethod(methodName: String): Any {
     return method.invoke(this)
 }
 
-fun DriverService.getField(fieldName: String): Any {
-    val field = DriverService::class.java.getDeclaredField(fieldName)
-    field.isAccessible = true
-    return field.get(this)
-}
-
 enum class Channel {
     BETA,
     STABLE,

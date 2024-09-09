@@ -20,6 +20,7 @@ import dev.kolibrium.core.Browser
 import dev.kolibrium.core.Browser.CHROME
 import dev.kolibrium.core.Browser.EDGE
 import dev.kolibrium.core.Browser.FIREFOX
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.Channel.BETA
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
@@ -93,7 +94,7 @@ class DriverTest {
                 }
                 options {
                     acceptInsecureCerts = true
-                    binary = "/Applications/Google Chrome Beta 2.app/Contents/MacOS/Google Chrome Beta"
+                    binary = "/Applications/Google Chrome Beta.app/Contents/MacOS/Google Chrome Beta"
                     browserVersion = "116.0.5845.110"
                     pageLoadStrategy = NORMAL
                     platform = MAC
@@ -102,6 +103,7 @@ class DriverTest {
                     arguments {
                         +Arguments.Chrome.headless
                         +Arguments.Chrome.incognito
+                        +disable_search_engine_choice_screen
                         windowSize {
                             width = 1800
                             height = 1000
@@ -145,13 +147,13 @@ class DriverTest {
         fileContent shouldContain "[DEBUG]:"
         fileContent shouldContain "on port 7899"
         fileContent shouldContain """"acceptInsecureCerts": true"""
-        fileContent shouldContain """"binary": "/Applications/Google Chrome Beta 2.app/Contents/MacOS/Google Chrome Beta""""
+        fileContent shouldContain """"binary": "/Applications/Google Chrome Beta.app/Contents/MacOS/Google Chrome Beta""""
         fileContent shouldContain """"browserVersion": "116.0.5845.110""""
         fileContent shouldContain """"pageLoadStrategy": "normal""""
         fileContent shouldContain """"platformName": "mac""""
         fileContent shouldContain """"strictFileInteractability": true"""
         fileContent shouldContain """"unhandledPromptBehavior": "dismiss""""
-        fileContent shouldContain """"args": [ "--headless=new", "--incognito", "--window-size=1800,1000" ]"""
+        fileContent shouldContain """"args": [ "--headless=new", "--incognito", "--disable-search-engine-choice-screen", "--window-size=1800,1000" ]"""
         fileContent shouldContain """"download.default_directory": "$tempDir""""
         fileContent shouldContain """"download.prompt_for_download": false"""
         fileContent shouldContain """"safebrowsing.enabled": false"""
@@ -211,11 +213,11 @@ class DriverTest {
                         +(Preferences.Firefox.browser_download_manager_showWhenStarting to false)
                         +(Preferences.Firefox.browser_download_manager_focusWhenStarting to false)
                         +(Preferences.Firefox.browser_download_useDownloadDir to true)
-                        +(Preferences.Firefox.browser_helperApps_alwaysAsk_force to false)
                         +(Preferences.Firefox.browser_download_manager_alertOnEXEOpen to false)
                         +(Preferences.Firefox.browser_download_manager_closeWhenDone to true)
                         +(Preferences.Firefox.browser_download_manager_showAlertOnComplete to false)
                         +(Preferences.Firefox.browser_download_manager_useWindow to false)
+                        +(Preferences.Firefox.browser_helperApps_alwaysAsk_force to false)
                         +(Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk to "application/octet-stream")
                     }
                     timeouts {
@@ -230,16 +232,20 @@ class DriverTest {
 
         fileContent shouldContain "geckodriver\tINFO\tListening on 127.0.0.1:7900"
         fileContent shouldContain """"moz:geckodriverVersion":"0.33.0""""
+        fileContent shouldContain """"--remote-allow-hosts" "localhost""""
         fileContent shouldContain """"acceptInsecureCerts": false"""
         fileContent shouldContain """"binary": "\u002fApplications\u002fFirefox Developer Edition.app\u002fContents\u002fMacOS\u002ffirefox""""
-        fileContent shouldContain """"--height=1800""""
-        fileContent shouldContain """"--width=1000""""
+        fileContent shouldContain """"--headless""""
+        fileContent shouldContain """"--width=1800""""
+        fileContent shouldContain """"--height=1000""""
         fileContent shouldContain """"network.automatic-ntlm-auth.trusted-uris": "http:\u002f\u002f,https:\u002f\u002f""""
+        fileContent shouldContain """"network.automatic-ntlm-auth.allow-non-fqdn": false"""
         fileContent shouldContain """"network.negotiate-auth.delegation-uris": "http:\u002f\u002f,https:\u002f\u002f""""
         fileContent shouldContain """"network.negotiate-auth.trusted-uris": "http:\u002f\u002f,https:\u002f\u002f""""
         fileContent shouldContain """"network.http.phishy-userpass-length": 255"""
         fileContent shouldContain """"network.proxy.no_proxies_on": """""
         fileContent shouldContain """"security.csp.enable": false"""
+        fileContent shouldContain """"-profile""""
         fileContent shouldContain """"implicit": 5000"""
         fileContent shouldContain """"pageLoad": 3000"""
         fileContent shouldContain """"script": 2000"""

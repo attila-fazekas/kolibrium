@@ -16,13 +16,36 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+public sealed interface Argument {
+    public val value: String
+}
+
 @JvmInline
-public value class Argument<T : Browser>(internal val value: String) {
-    init {
-        require(value.startsWith("--")) {
-            """
-            Argument "$value" must start with "--" prefix
-            """.trimIndent()
+public value class ChromeArgument private constructor(override val value: String) : Argument {
+    public companion object {
+        public fun of(value: String): ChromeArgument {
+            require(value.startsWith("--")) { "Chrome argument \"$value\" must start with \"--\"" }
+            return ChromeArgument(value)
+        }
+    }
+}
+
+@JvmInline
+public value class FirefoxArgument private constructor(override val value: String) : Argument {
+    public companion object {
+        public fun of(value: String): FirefoxArgument {
+            require(value.startsWith("--")) { "Firefox argument \"$value\" must start with \"--\"" }
+            return FirefoxArgument(value)
+        }
+    }
+}
+
+@JvmInline
+public value class EdgeArgument private constructor(override val value: String) : Argument {
+    public companion object {
+        public fun of(value: String): EdgeArgument {
+            require(value.startsWith("--")) { "Edge argument \"$value\" must start with \"--\"" }
+            return EdgeArgument(value)
         }
     }
 }
@@ -31,71 +54,61 @@ public object Arguments {
     // list of arguments: https://peter.sh/experiments/chromium-command-line-switches/
     public object Chrome {
         @KolibriumPropertyDsl
-        public val disable_dev_shm_usage: Argument<dev.kolibrium.dsl.selenium.creation.Chrome> =
-            Argument("--disable-dev-shm-usage")
+        public val disable_dev_shm_usage: ChromeArgument = ChromeArgument.of("--disable-dev-shm-usage")
 
         @KolibriumPropertyDsl
-        public val disable_extensions: Argument<dev.kolibrium.dsl.selenium.creation.Chrome> =
-            Argument("--disable-extensions")
+        public val disable_extensions: ChromeArgument = ChromeArgument.of("--disable-extensions")
 
         @KolibriumPropertyDsl
-        public val disable_gpu: Argument<dev.kolibrium.dsl.selenium.creation.Chrome> =
-            Argument("--disable-gpu")
+        public val disable_gpu: ChromeArgument = ChromeArgument.of("--disable-gpu")
 
         @KolibriumPropertyDsl
-        public val disable_popup_blocking: Argument<dev.kolibrium.dsl.selenium.creation.Chrome> =
-            Argument("--disable-popup-blocking")
+        public val disable_popup_blocking: ChromeArgument = ChromeArgument.of("--disable-popup-blocking")
 
         @KolibriumPropertyDsl
-        public val disable_notifications: Argument<dev.kolibrium.dsl.selenium.creation.Chrome> =
-            Argument("--disable-notifications")
+        public val disable_notifications: ChromeArgument = ChromeArgument.of("--disable-notifications")
 
         @KolibriumPropertyDsl
-        public val headless: Argument<dev.kolibrium.dsl.selenium.creation.Chrome> =
-            Argument("--headless=new")
+        public val disable_search_engine_choice_screen: ChromeArgument =
+            ChromeArgument.of(
+                "--disable-search-engine-choice-screen",
+            )
 
         @KolibriumPropertyDsl
-        public val incognito: Argument<dev.kolibrium.dsl.selenium.creation.Chrome> =
-            Argument("--incognito")
+        public val headless: ChromeArgument = ChromeArgument.of("--headless=new")
 
         @KolibriumPropertyDsl
-        public val no_sandbox: Argument<dev.kolibrium.dsl.selenium.creation.Chrome> =
-            Argument("--no-sandbox")
+        public val incognito: ChromeArgument = ChromeArgument.of("--incognito")
 
         @KolibriumPropertyDsl
-        public val remote_allow_origins: Argument<dev.kolibrium.dsl.selenium.creation.Chrome> =
-            Argument("--remote-allow-origins=*")
+        public val no_sandbox: ChromeArgument = ChromeArgument.of("--no-sandbox")
 
         @KolibriumPropertyDsl
-        public val start_maximized: Argument<dev.kolibrium.dsl.selenium.creation.Chrome> =
-            Argument("--start-maximized")
+        public val remote_allow_origins: ChromeArgument = ChromeArgument.of("--remote-allow-origins=*")
+
+        @KolibriumPropertyDsl
+        public val start_maximized: ChromeArgument = ChromeArgument.of("--start-maximized")
     }
 
     public object Firefox {
         @KolibriumPropertyDsl
-        public val headless: Argument<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Argument("--headless")
+        public val headless: FirefoxArgument = FirefoxArgument.of("--headless")
 
         @KolibriumPropertyDsl
-        public val incognito: Argument<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Argument("--incognito")
+        public val incognito: FirefoxArgument = FirefoxArgument.of("--incognito")
 
         @KolibriumPropertyDsl
-        public val height: Argument<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Argument("--height")
+        public val height: FirefoxArgument = FirefoxArgument.of("--height")
 
         @KolibriumPropertyDsl
-        public val width: Argument<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Argument("--width")
+        public val width: FirefoxArgument = FirefoxArgument.of("--width")
     }
 
     public object Edge {
         @KolibriumPropertyDsl
-        public val headless: Argument<dev.kolibrium.dsl.selenium.creation.Edge> =
-            Argument("--headless")
+        public val headless: EdgeArgument = EdgeArgument.of("--headless")
 
         @KolibriumPropertyDsl
-        public val inPrivate: Argument<dev.kolibrium.dsl.selenium.creation.Edge> =
-            Argument("--inprivate")
+        public val inPrivate: EdgeArgument = EdgeArgument.of("--inprivate")
     }
 }

@@ -411,8 +411,8 @@ class OptionsTest {
         val mappedOptions = options.asMap()
         val mozfirefoxOptions: Map<String, String> = mappedOptions["moz:firefoxOptions"] as Map<String, String>
         (mozfirefoxOptions["args"] as List<String>).shouldContainExactly(
-            "--height=1800",
-            "--width=1000",
+            "--width=1800",
+            "--height=1000",
         )
     }
 

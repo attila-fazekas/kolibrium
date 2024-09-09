@@ -32,9 +32,9 @@ public class SafariOptionsScope(override val options: SafariOptions) : OptionsSc
     override fun configure() {
         super.configure()
         options.apply {
-            this@SafariOptionsScope.automaticInspection?.let { setAutomaticInspection(it) }
-            this@SafariOptionsScope.automaticProfiling?.let { setAutomaticProfiling(it) }
-            this@SafariOptionsScope.useTechnologyPreview?.let { setUseTechnologyPreview(it) }
+            this@SafariOptionsScope.automaticInspection?.let { automaticInspection = it }
+            this@SafariOptionsScope.automaticProfiling?.let { automaticProfiling = it }
+            this@SafariOptionsScope.useTechnologyPreview?.let { useTechnologyPreview = it }
         }
     }
 

@@ -20,7 +20,7 @@ import org.openqa.selenium.edge.EdgeOptions
 
 @KolibriumDsl
 public class EdgeOptionsScope(override val options: EdgeOptions) : ChromiumOptionsScope(options) {
-    private val argsScope by lazy { ArgumentsScope<Edge>() }
+    private val argsScope by lazy { EdgeArgumentsScope() }
 
     @KolibriumPropertyDsl
     public var useWebView: Boolean? = null
@@ -33,7 +33,7 @@ public class EdgeOptionsScope(override val options: EdgeOptions) : ChromiumOptio
     }
 
     @KolibriumDsl
-    public fun arguments(block: ArgumentsScope<Edge>.() -> Unit) {
+    public fun arguments(block: EdgeArgumentsScope.() -> Unit) {
         argsScope.apply(block)
         options.addArguments(argsScope.args.map { it.value })
     }
