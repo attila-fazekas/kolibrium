@@ -39,7 +39,7 @@ public class ChromeDriverServiceScope internal constructor(
     }
 
     @KolibriumDsl
-    public override fun allowedIps(block: dev.kolibrium.dsl.selenium.creation.AllowedIpsScope.() -> Unit) {
+    public override fun allowedIps(block: AllowedIpsScope.() -> Unit) {
         super.allowedIps(block)
         builder.withAllowedListIps(allowedIpsScope.allowedIps.joinToString(separator = ", "))
     }
