@@ -80,10 +80,6 @@ public object Preferences {
             Preference("browser.download.useDownloadDir")
 
         @KolibriumPropertyDsl
-        public val browser_helperApps_alwaysAsk_force: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.helperApps.alwaysAsk.force")
-
-        @KolibriumPropertyDsl
         public val browser_download_manager_alertOnEXEOpen: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
             Preference("browser.download.manager.alertOnEXEOpen")
 
@@ -99,6 +95,10 @@ public object Preferences {
         @KolibriumPropertyDsl
         public val browser_download_manager_useWindow: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
             Preference("browser.download.manager.useWindow")
+
+        @KolibriumPropertyDsl
+        public val browser_helperApps_alwaysAsk_force: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
+            Preference("browser.helperApps.alwaysAsk.force")
 
         @KolibriumPropertyDsl
         public val browser_helperApps_neverAsk_saveToDisk: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =

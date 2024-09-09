@@ -47,8 +47,6 @@ public abstract class ChromiumOptionsScope(override val options: ChromiumOptions
                     setExperimentalOption("excludeSwitches", excludeSwitchesScope.switches)
                 }
                 if (localStateScope.experiments.experimentalFlags.isNotEmpty()) {
-//                    val x = localStatePrefs["browser.enabled_labs_experiments"] = experiments.experimentalFlags
-
                     setExperimentalOption(
                         "localState",
                         mapOf("browser.enabled_labs_experiments" to localStateScope.experiments.experimentalFlags),

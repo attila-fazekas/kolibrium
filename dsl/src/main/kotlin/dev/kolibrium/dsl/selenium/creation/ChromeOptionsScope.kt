@@ -20,10 +20,10 @@ import org.openqa.selenium.chrome.ChromeOptions
 
 @KolibriumDsl
 public class ChromeOptionsScope(override val options: ChromeOptions) : ChromiumOptionsScope(options) {
-    private val argsScope by lazy { ArgumentsScope<Chrome>() }
+    private val argsScope by lazy { ChromeArgumentsScope() }
 
     @KolibriumDsl
-    public fun arguments(block: ArgumentsScope<Chrome>.() -> Unit) {
+    public fun arguments(block: ChromeArgumentsScope.() -> Unit) {
         argsScope.apply(block)
         options.addArguments(argsScope.args.map { it.value })
     }

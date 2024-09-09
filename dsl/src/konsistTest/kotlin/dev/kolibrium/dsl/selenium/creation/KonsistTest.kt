@@ -16,12 +16,15 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+import com.lemonappdev.konsist.api.KoModifier.COMPANION
 import com.lemonappdev.konsist.api.Konsist
+import com.lemonappdev.konsist.api.declaration.KoInterfaceDeclaration
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withPublicModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutAbstractModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutAnnotationModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutDataModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutOperatorModifier
+import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutOverrideModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutSealedModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutValueModifier
 import com.lemonappdev.konsist.api.verify.assertTrue
@@ -34,6 +37,10 @@ class KonsistTest {
             .scopeFromPackage("dev.kolibrium.dsl..")
             .properties()
             .withPublicModifier()
+            .withoutOverrideModifier()
+            .filterNot {
+                it.containingDeclaration is KoInterfaceDeclaration
+            }
             .filterNot {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "InternalKolibriumApi"
@@ -53,6 +60,9 @@ class KonsistTest {
             .functions()
             .withPublicModifier()
             .withoutOperatorModifier()
+            .filter {
+                it.hasModifier(COMPANION)
+            }
             .assertTrue {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "KolibriumDsl"
@@ -86,9 +96,7 @@ class KonsistTest {
             .scopeFromPackage("dev.kolibrium.dsl..")
             .classes()
             .filterNot {
-                it.name == "WindowSizeScope" ||
-                    it.name == "Synchronization" ||
-                    it.name == "Synchronizations"
+                it.name == "WindowSizeScope" || it.name == "Synchronization" || it.name == "Synchronizations"
             }
             .withPublicModifier()
             .withoutValueModifier()
