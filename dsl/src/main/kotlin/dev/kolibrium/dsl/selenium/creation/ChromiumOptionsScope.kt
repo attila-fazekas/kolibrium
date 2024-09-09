@@ -22,7 +22,7 @@ import org.openqa.selenium.edge.EdgeOptions
 
 @KolibriumDsl
 public abstract class ChromiumOptionsScope(override val options: ChromiumOptions<*>) : OptionsScope() {
-    protected val expOptionsScope: ExperimentalOptionsScope<Chromium> by lazy { ExperimentalOptionsScope() }
+    protected val expOptionsScope: ExperimentalOptionsScope by lazy { ExperimentalOptionsScope() }
     protected val extensionsScope: ExtensionsScope by lazy { ExtensionsScope() }
 
     @KolibriumPropertyDsl
@@ -36,7 +36,7 @@ public abstract class ChromiumOptionsScope(override val options: ChromiumOptions
     }
 
     @KolibriumDsl
-    public fun experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit) {
+    public fun experimentalOptions(block: ExperimentalOptionsScope.() -> Unit) {
         expOptionsScope.apply(block)
         with(expOptionsScope) {
             with(this@ChromiumOptionsScope.options) {
