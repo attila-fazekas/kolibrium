@@ -25,7 +25,7 @@ public sealed interface ArgumentsScope {
 
 @KolibriumDsl
 public class ChromeArgumentsScope : ArgumentsScope, UnaryPlus<ChromeArgument> {
-    public override val args: MutableSet<Argument> = mutableSetOf<Argument>()
+    public override val args: MutableSet<Argument> = mutableSetOf()
 
     override operator fun ChromeArgument.unaryPlus() {
         args.add(this)
@@ -44,7 +44,7 @@ public class ChromeArgumentsScope : ArgumentsScope, UnaryPlus<ChromeArgument> {
 
 @KolibriumDsl
 public class FirefoxArgumentsScope : ArgumentsScope {
-    override val args: MutableSet<Argument> = mutableSetOf<Argument>()
+    override val args: MutableSet<Argument> = mutableSetOf()
 
     public operator fun FirefoxArgument.unaryPlus() {
         args.add(this)
@@ -64,7 +64,7 @@ public class FirefoxArgumentsScope : ArgumentsScope {
 
 @KolibriumDsl
 public class EdgeArgumentsScope : ArgumentsScope {
-    public override val args: MutableSet<Argument> = mutableSetOf<Argument>()
+    public override val args: MutableSet<Argument> = mutableSetOf()
 
     public operator fun EdgeArgument.unaryPlus() {
         args.add(this)

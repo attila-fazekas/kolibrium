@@ -66,6 +66,9 @@ public final class dev/kolibrium/dsl/selenium/creation/BrowserEnabledLabsExperim
 
 public final class dev/kolibrium/dsl/selenium/creation/Chrome : dev/kolibrium/dsl/selenium/creation/Chromium {
 	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Chrome;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/ChromeArgument : dev/kolibrium/dsl/selenium/creation/Argument {
@@ -193,6 +196,9 @@ public abstract class dev/kolibrium/dsl/selenium/creation/DriverServiceScope {
 
 public final class dev/kolibrium/dsl/selenium/creation/Edge : dev/kolibrium/dsl/selenium/creation/Chromium {
 	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Edge;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/EdgeArgument : dev/kolibrium/dsl/selenium/creation/Argument {
@@ -311,6 +317,9 @@ public final class dev/kolibrium/dsl/selenium/creation/ExtensionsScope : dev/kol
 
 public final class dev/kolibrium/dsl/selenium/creation/Firefox : dev/kolibrium/dsl/selenium/creation/Browser {
 	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Firefox;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgument : dev/kolibrium/dsl/selenium/creation/Argument {
@@ -515,6 +524,9 @@ public final class dev/kolibrium/dsl/selenium/creation/ProxyScope {
 
 public final class dev/kolibrium/dsl/selenium/creation/Safari : dev/kolibrium/dsl/selenium/creation/Browser {
 	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Safari;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/SafariDriverScope : dev/kolibrium/dsl/selenium/creation/DriverScope {
