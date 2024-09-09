@@ -16,92 +16,107 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+public sealed interface Preference {
+    public val value: String
+}
+
 @JvmInline
-public value class Preference<T : Browser>(internal val value: String)
+public value class ChromiumPreference(internal val value: String) {
+    public companion object {
+        public fun of(value: String): ChromiumPreference = ChromiumPreference(value)
+    }
+}
+
+@JvmInline
+public value class FirefoxPreference(internal val value: String) {
+    public companion object {
+        public fun of(value: String): FirefoxPreference = FirefoxPreference(value)
+    }
+}
 
 public object Preferences {
     public object Chromium {
         @KolibriumPropertyDsl
-        public val download_default_directory: Preference<dev.kolibrium.dsl.selenium.creation.Chromium> =
-            Preference("download.default_directory")
+        public val download_default_directory: ChromiumPreference = ChromiumPreference.of("download.default_directory")
 
         @KolibriumPropertyDsl
-        public val download_prompt_for_download: Preference<dev.kolibrium.dsl.selenium.creation.Chromium> =
-            Preference("download.prompt_for_download")
+        public val download_prompt_for_download: ChromiumPreference =
+            ChromiumPreference.of(
+                "download.prompt_for_download",
+            )
 
         @KolibriumPropertyDsl
-        public val safebrowsing_enabled: Preference<dev.kolibrium.dsl.selenium.creation.Chromium> =
-            Preference("safebrowsing.enabled")
+        public val safebrowsing_enabled: ChromiumPreference = ChromiumPreference.of("safebrowsing.enabled")
     }
 
     public object Firefox {
         @KolibriumPropertyDsl
-        public val network_automatic_ntlm_auth_trusted_uris: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("network.automatic-ntlm-auth.trusted-uris")
+        public val network_automatic_ntlm_auth_trusted_uris: FirefoxPreference =
+            FirefoxPreference.of("network.automatic-ntlm-auth.trusted-uris")
 
         @KolibriumPropertyDsl
-        public val network_automatic_ntlm_auth_allow_non_fqdn: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("network.automatic-ntlm-auth.allow-non-fqdn")
+        public val network_automatic_ntlm_auth_allow_non_fqdn: FirefoxPreference =
+            FirefoxPreference.of("network.automatic-ntlm-auth.allow-non-fqdn")
 
         @KolibriumPropertyDsl
-        public val network_negotiate_auth_delegation_uris: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("network.negotiate-auth.delegation-uris")
+        public val network_negotiate_auth_delegation_uris: FirefoxPreference =
+            FirefoxPreference.of("network.negotiate-auth.delegation-uris")
 
         @KolibriumPropertyDsl
-        public val network_negotiate_auth_trusted_uris: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("network.negotiate-auth.trusted-uris")
+        public val network_negotiate_auth_trusted_uris: FirefoxPreference =
+            FirefoxPreference.of("network.negotiate-auth.trusted-uris")
 
         @KolibriumPropertyDsl
-        public val network_http_phishy_userpass_length: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("network.http.phishy-userpass-length")
+        public val network_http_phishy_userpass_length: FirefoxPreference =
+            FirefoxPreference.of("network.http.phishy-userpass-length")
 
         @KolibriumPropertyDsl
-        public val security_csp_enable: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("security.csp.enable")
+        public val security_csp_enable: FirefoxPreference =
+            FirefoxPreference.of("security.csp.enable")
 
         @KolibriumPropertyDsl
-        public val network_proxy_no_proxies_on: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("network.proxy.no_proxies_on")
+        public val network_proxy_no_proxies_on: FirefoxPreference =
+            FirefoxPreference.of("network.proxy.no_proxies_on")
 
         @KolibriumPropertyDsl
-        public val browser_download_folderList: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.download.folderList")
+        public val browser_download_folderList: FirefoxPreference =
+            FirefoxPreference.of("browser.download.folderList")
 
         @KolibriumPropertyDsl
-        public val browser_download_manager_showWhenStarting: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.download.manager.showWhenStarting")
+        public val browser_download_manager_showWhenStarting: FirefoxPreference =
+            FirefoxPreference.of("browser.download.manager.showWhenStarting")
 
         @KolibriumPropertyDsl
-        public val browser_download_manager_focusWhenStarting: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.download.manager.focusWhenStarting")
+        public val browser_download_manager_focusWhenStarting: FirefoxPreference =
+            FirefoxPreference.of("browser.download.manager.focusWhenStarting")
 
         @KolibriumPropertyDsl
-        public val browser_download_useDownloadDir: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.download.useDownloadDir")
+        public val browser_download_useDownloadDir: FirefoxPreference =
+            FirefoxPreference.of("browser.download.useDownloadDir")
 
         @KolibriumPropertyDsl
-        public val browser_download_manager_alertOnEXEOpen: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.download.manager.alertOnEXEOpen")
+        public val browser_download_manager_alertOnEXEOpen: FirefoxPreference =
+            FirefoxPreference.of("browser.download.manager.alertOnEXEOpen")
 
         @KolibriumPropertyDsl
-        public val browser_download_manager_closeWhenDone: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.download.manager.closeWhenDone")
+        public val browser_download_manager_closeWhenDone: FirefoxPreference =
+            FirefoxPreference.of("browser.download.manager.closeWhenDone")
 
         @KolibriumPropertyDsl
         public val browser_download_manager_showAlertOnComplete:
-            Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.download.manager.showAlertOnComplete")
+            FirefoxPreference =
+            FirefoxPreference.of("browser.download.manager.showAlertOnComplete")
 
         @KolibriumPropertyDsl
-        public val browser_download_manager_useWindow: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.download.manager.useWindow")
+        public val browser_download_manager_useWindow: FirefoxPreference =
+            FirefoxPreference.of("browser.download.manager.useWindow")
 
         @KolibriumPropertyDsl
-        public val browser_helperApps_alwaysAsk_force: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.helperApps.alwaysAsk.force")
+        public val browser_helperApps_alwaysAsk_force: FirefoxPreference =
+            FirefoxPreference.of("browser.helperApps.alwaysAsk.force")
 
         @KolibriumPropertyDsl
-        public val browser_helperApps_neverAsk_saveToDisk: Preference<dev.kolibrium.dsl.selenium.creation.Firefox> =
-            Preference("browser.helperApps.neverAsk.saveToDisk")
+        public val browser_helperApps_neverAsk_saveToDisk: FirefoxPreference =
+            FirefoxPreference.of("browser.helperApps.neverAsk.saveToDisk")
     }
 }

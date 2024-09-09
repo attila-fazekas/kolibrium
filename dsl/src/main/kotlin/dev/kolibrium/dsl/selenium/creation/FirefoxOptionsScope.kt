@@ -23,7 +23,7 @@ import java.io.File
 @KolibriumDsl
 public class FirefoxOptionsScope(override val options: FirefoxOptions) : OptionsScope() {
     private val argsScope by lazy { FirefoxArgumentsScope() }
-    private val preferencesScope by lazy { PreferencesScope<Firefox>() }
+    private val preferencesScope by lazy { FirefoxPreferencesScope() }
     private val ffProfileScope by lazy { FirefoxProfileScope() }
 
     @KolibriumPropertyDsl
@@ -47,7 +47,7 @@ public class FirefoxOptionsScope(override val options: FirefoxOptions) : Options
     }
 
     @KolibriumDsl
-    public fun preferences(block: PreferencesScope<Firefox>.() -> Unit) {
+    public fun preferences(block: FirefoxPreferencesScope.() -> Unit) {
         preferencesScope.apply(block)
         if (preferencesScope.preferences.isNotEmpty()) {
             preferencesScope.preferences.forEach(options::addPreference)

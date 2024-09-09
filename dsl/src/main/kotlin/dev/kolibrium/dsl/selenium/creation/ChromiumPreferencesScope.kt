@@ -17,14 +17,14 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
-public class FirefoxProfileScope : UnaryPlus<Pair<FirefoxPreference, Any>> {
+public class ChromiumPreferencesScope : UnaryPlus<Pair<ChromiumPreference, Any>> {
     internal val preferences = mutableMapOf<String, Any>()
 
-    override operator fun Pair<FirefoxPreference, Any>.unaryPlus() {
+    override operator fun Pair<ChromiumPreference, Any>.unaryPlus() {
         preferences[first.value] = second
     }
 
     override fun toString(): String {
-        return "FirefoxProfileScope(preferences=$preferences)"
+        return "PreferencesScope(preferences=$preferences)"
     }
 }
