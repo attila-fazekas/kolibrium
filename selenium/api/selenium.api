@@ -1,36 +1,13 @@
-public final class dev/kolibrium/selenium/LocatorDelegatesKt {
-	public static final fun className (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun className$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun classNames (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun classNames$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun css (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun css$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun csss (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun csss$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun id (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun id$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun idOrName (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun idOrName$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun linkText (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun linkText$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun linkTexts (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun linkTexts$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun name (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun name$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun names (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun names$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun partialLinkText (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun partialLinkText$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun partialLinkTexts (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun partialLinkTexts$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun tagName (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun tagName$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun tagNames (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun tagNames$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun xpath (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun xpath$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun xpaths (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun xpaths$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+public final class dev/kolibrium/selenium/KWebElement : kotlin/properties/ReadOnlyProperty {
+	public fun <init> (Lorg/openqa/selenium/WebDriver;Lorg/openqa/selenium/By;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Lorg/openqa/selenium/WebElement;
+}
+
+public final class dev/kolibrium/selenium/KWebElements : kotlin/properties/ReadOnlyProperty {
+	public fun <init> (Lorg/openqa/selenium/WebDriver;Lorg/openqa/selenium/By;Lkotlin/jvm/functions/Function1;)V
+	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/util/List;
 }
 
 public final class dev/kolibrium/selenium/LocatorUtilsKt {

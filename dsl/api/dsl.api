@@ -620,23 +620,11 @@ public final class dev/kolibrium/dsl/selenium/wait/IgnoringScope {
 	public final fun unaryPlus (Lkotlin/reflect/KClass;)V
 }
 
-public abstract class dev/kolibrium/dsl/selenium/wait/InternalSynchronization {
-	public synthetic fun <init> (Ldev/kolibrium/dsl/selenium/wait/WaitScope;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Ldev/kolibrium/dsl/selenium/wait/WaitScope;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+public abstract class dev/kolibrium/dsl/selenium/wait/SyncConfig {
+	public abstract fun getUntil ()Lkotlin/jvm/functions/Function1;
 	public final fun getWait ()Ldev/kolibrium/dsl/selenium/wait/WaitScope;
+	public abstract fun setUntil (Lkotlin/jvm/functions/Function1;)V
 	public final fun setWait (Ldev/kolibrium/dsl/selenium/wait/WaitScope;)V
-}
-
-public final class dev/kolibrium/dsl/selenium/wait/Synchronization : dev/kolibrium/dsl/selenium/wait/InternalSynchronization {
-	public fun <init> ()V
-	public final fun getUntil ()Lkotlin/jvm/functions/Function1;
-	public final fun setUntil (Lkotlin/jvm/functions/Function1;)V
-}
-
-public final class dev/kolibrium/dsl/selenium/wait/Synchronizations : dev/kolibrium/dsl/selenium/wait/InternalSynchronization {
-	public fun <init> ()V
-	public final fun getUntil ()Lkotlin/jvm/functions/Function1;
-	public final fun setUntil (Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class dev/kolibrium/dsl/selenium/wait/WaitScope {
@@ -655,5 +643,17 @@ public final class dev/kolibrium/dsl/selenium/wait/WaitScope {
 public final class dev/kolibrium/dsl/selenium/wait/WaitScopeKt {
 	public static final fun getDefaultWait ()Ldev/kolibrium/dsl/selenium/wait/WaitScope;
 	public static final fun wait (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/wait/WaitScope;
+}
+
+public final class dev/kolibrium/dsl/selenium/wait/WebElementSyncConfig : dev/kolibrium/dsl/selenium/wait/SyncConfig {
+	public fun <init> ()V
+	public fun getUntil ()Lkotlin/jvm/functions/Function1;
+	public fun setUntil (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/kolibrium/dsl/selenium/wait/WebElementsSyncConfig : dev/kolibrium/dsl/selenium/wait/SyncConfig {
+	public fun <init> ()V
+	public fun getUntil ()Lkotlin/jvm/functions/Function1;
+	public fun setUntil (Lkotlin/jvm/functions/Function1;)V
 }
 
