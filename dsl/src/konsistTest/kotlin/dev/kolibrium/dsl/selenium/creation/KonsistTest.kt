@@ -38,6 +38,7 @@ class KonsistTest {
             .properties()
             .withPublicModifier()
             .withoutOverrideModifier()
+            .withoutAbstractModifier()
             .filterNot {
                 it.containingDeclaration is KoInterfaceDeclaration
             }
@@ -78,6 +79,7 @@ class KonsistTest {
             .withPublicModifier()
             .withoutValueModifier()
             .withoutAnnotationModifier()
+            .withoutSealedModifier()
             .filterNot {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "InternalKolibriumApi"
