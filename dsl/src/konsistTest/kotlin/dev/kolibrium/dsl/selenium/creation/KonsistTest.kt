@@ -96,7 +96,7 @@ class KonsistTest {
             .scopeFromPackage("dev.kolibrium.dsl..")
             .classes()
             .filterNot {
-                it.name == "WindowSizeScope" || it.name == "SyncConfig" || it.name == "SyncConfigs"
+                it.name == "WindowSizeScope" || it.name == "SyncConfig"
             }
             .withPublicModifier()
             .withoutValueModifier()

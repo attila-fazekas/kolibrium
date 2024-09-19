@@ -126,7 +126,7 @@ class LocatorDelegatesTest {
     fun setUp() {
         driver =
             ChromeDriver(
-                ChromeOptions().addArguments("--headless=new"),
+                ChromeOptions().addArguments("--headless=new", "--disable-search-engine-choice-screen"),
             )
     }
 

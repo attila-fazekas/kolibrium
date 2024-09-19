@@ -37,76 +37,115 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 context(WebDriver)
-public inline fun <reified T> className(
+public fun className(
     locator: String,
-    noinline syncConfig: (SyncConfig<T>.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = genericLocator(className(locator), syncConfig)
+    syncConfig: (SyncConfig<WebElement>.() -> Unit) = {},
+): ReadOnlyProperty<Any, WebElement> = genericLocator(className(locator), syncConfig)
 
 context(WebDriver)
-public inline fun <reified T> css(
+public fun classNames(
     locator: String,
-    noinline syncConfig: SyncConfig<T>.() -> Unit = {},
-): ReadOnlyProperty<Any, T> = genericLocator(cssSelector(locator), syncConfig)
+    syncConfig: (SyncConfig<WebElements>.() -> Unit) = {},
+): ReadOnlyProperty<Any, WebElements> = genericLocator(className(locator), syncConfig)
 
 context(WebDriver)
-public inline fun <reified T> id(
+public fun cssSelector(
     locator: String,
-    noinline syncConfig: SyncConfig<T>.() -> Unit = {},
-): ReadOnlyProperty<Any, T> = genericLocator(id(locator), syncConfig)
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElement> = genericLocator(cssSelector(locator), syncConfig)
 
 context(WebDriver)
-public inline fun <reified T> idOrName(
+public fun cssSelectors(
     locator: String,
-    noinline syncConfig: SyncConfig<T>.() -> Unit = {},
-): ReadOnlyProperty<Any, T> = genericLocator(ByIdOrName(locator), syncConfig)
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElements> = genericLocator(cssSelector(locator), syncConfig)
 
 context(WebDriver)
-public inline fun <reified T> linkText(
+public fun id(
     locator: String,
-    noinline syncConfig: SyncConfig<T>.() -> Unit = {},
-): ReadOnlyProperty<Any, T> = genericLocator(linkText(locator), syncConfig)
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElement> = genericLocator(id(locator), syncConfig)
 
 context(WebDriver)
-public inline fun <reified T> name(
+public fun idOrName(
     locator: String,
-    noinline syncConfig: SyncConfig<T>.() -> Unit = {},
-): ReadOnlyProperty<Any, T> = genericLocator(name(locator), syncConfig)
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElement> = genericLocator(ByIdOrName(locator), syncConfig)
 
 context(WebDriver)
-public inline fun <reified T> partialLinkText(
+public fun linkText(
     locator: String,
-    noinline syncConfig: SyncConfig<T>.() -> Unit = {},
-): ReadOnlyProperty<Any, T> = genericLocator(partialLinkText(locator), syncConfig)
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElement> = genericLocator(linkText(locator), syncConfig)
 
 context(WebDriver)
-public inline fun <reified T> tagName(
+public fun linkTexts(
     locator: String,
-    noinline syncConfig: SyncConfig<T>.() -> Unit = {},
-): ReadOnlyProperty<Any, T> = genericLocator(tagName(locator), syncConfig)
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElements> = genericLocator(linkText(locator), syncConfig)
 
 context(WebDriver)
-public inline fun <reified T> xpath(
+public fun name(
     locator: String,
-    noinline syncConfig: SyncConfig<T>.() -> Unit = {},
-): ReadOnlyProperty<Any, T> = genericLocator(xpath(locator), syncConfig)
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElement> = genericLocator(name(locator), syncConfig)
+
+context(WebDriver)
+public fun names(
+    locator: String,
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElements> = genericLocator(name(locator), syncConfig)
+
+context(WebDriver)
+public fun partialLinkText(
+    locator: String,
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElement> = genericLocator(partialLinkText(locator), syncConfig)
+
+context(WebDriver)
+public fun partialLinkTexts(
+    locator: String,
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElements> = genericLocator(partialLinkText(locator), syncConfig)
+
+context(WebDriver)
+public fun tagName(
+    locator: String,
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElement> = genericLocator(tagName(locator), syncConfig)
+
+context(WebDriver)
+public fun tagNames(
+    locator: String,
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElements> = genericLocator(tagName(locator), syncConfig)
+
+context(WebDriver)
+public fun xpath(
+    locator: String,
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElement> = genericLocator(xpath(locator), syncConfig)
+
+context(WebDriver)
+public fun xpaths(
+    locator: String,
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): ReadOnlyProperty<Any, WebElements> = genericLocator(xpath(locator), syncConfig)
 
 context(WebDriver)
 @Suppress("UNCHECKED_CAST")
-public inline fun <reified T> genericLocator(
+internal inline fun <reified T> genericLocator(
     by: By,
     noinline syncConfig: SyncConfig<T>.() -> Unit = {},
 ): ReadOnlyProperty<Any, T> =
     when (T::class) {
         WebElement::class -> KWebElement(by, syncConfig as SyncConfig<WebElement>.() -> Unit)
         List::class -> KWebElements(by, syncConfig as SyncConfig<WebElements>.() -> Unit)
-        else -> throw IllegalArgumentException(
-            "'$by' locator has unsupported type: ${T::class.simpleName}. " +
-                "Please use either WebElement or WebElements instead.",
-        )
+        else -> throw IllegalArgumentException("Unsupported type: ${T::class.simpleName}")
     } as ReadOnlyProperty<Any, T>
 
 context(WebDriver)
-public class KWebElement(
+internal class KWebElement(
     private val by: By,
     private val syncConfig: SyncConfig<WebElement>.() -> Unit,
 ) : ReadOnlyProperty<Any, WebElement> {
@@ -126,7 +165,7 @@ public class KWebElement(
 }
 
 context(WebDriver)
-public class KWebElements(
+internal class KWebElements(
     private val by: By,
     private val syncConfig: SyncConfig<WebElements>.() -> Unit,
 ) : ReadOnlyProperty<Any, WebElements> {
