@@ -22,119 +22,97 @@ import dev.kolibrium.dsl.selenium.wait.WebElementSyncConfig
 import dev.kolibrium.dsl.selenium.wait.WebElementsSyncConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
-import org.openqa.selenium.By.className
-import org.openqa.selenium.By.cssSelector
-import org.openqa.selenium.By.id
-import org.openqa.selenium.By.linkText
-import org.openqa.selenium.By.name
-import org.openqa.selenium.By.partialLinkText
-import org.openqa.selenium.By.tagName
-import org.openqa.selenium.By.xpath
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ByIdOrName
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-context(WebDriver)
-public fun className(
+private typealias WebElementProperty = ReadOnlyProperty<Any, WebElement>
+private typealias WebElementsProperty = ReadOnlyProperty<Any, WebElements>
+
+public fun WebDriver.className(
     locator: String,
     syncConfig: (SyncConfig<WebElement>.() -> Unit) = {},
-): ReadOnlyProperty<Any, WebElement> = genericLocator(locator, By::className, syncConfig)
+): WebElementProperty = genericLocator(locator, By::className, syncConfig)
 
-context(WebDriver)
-public fun classNames(
+public fun WebDriver.classNames(
     locator: String,
     syncConfig: (SyncConfig<WebElements>.() -> Unit) = {},
-): ReadOnlyProperty<Any, WebElements> = genericLocator(locator, By::className, syncConfig)
+): WebElementsProperty = genericLocator(locator, By::className, syncConfig)
 
-context(WebDriver)
-public fun cssSelector(
+public fun WebDriver.cssSelector(
     locator: String,
     syncConfig: SyncConfig<WebElement>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElement> = genericLocator(locator, By::cssSelector, syncConfig)
+): WebElementProperty = genericLocator(locator, By::cssSelector, syncConfig)
 
-context(WebDriver)
-public fun cssSelectors(
+public fun WebDriver.cssSelectors(
     locator: String,
     syncConfig: SyncConfig<WebElements>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElements> = genericLocator(locator, By::cssSelector, syncConfig)
+): WebElementsProperty = genericLocator(locator, By::cssSelector, syncConfig)
 
-context(WebDriver)
-public fun id(
+public fun WebDriver.id(
     locator: String,
     syncConfig: SyncConfig<WebElement>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElement> = genericLocator(locator, By::id, syncConfig)
+): WebElementProperty = genericLocator(locator, By::id, syncConfig)
 
-context(WebDriver)
-public fun idOrName(
+public fun WebDriver.idOrName(
     locator: String,
     syncConfig: SyncConfig<WebElement>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElement> = genericLocator(locator, ::ByIdOrName, syncConfig)
+): WebElementProperty = genericLocator(locator, ::ByIdOrName, syncConfig)
 
-context(WebDriver)
-public fun linkText(
+public fun WebDriver.linkText(
     locator: String,
     syncConfig: SyncConfig<WebElement>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElement> = genericLocator(locator, By::linkText, syncConfig)
+): WebElementProperty = genericLocator(locator, By::linkText, syncConfig)
 
-context(WebDriver)
-public fun linkTexts(
+public fun WebDriver.linkTexts(
     locator: String,
     syncConfig: SyncConfig<WebElements>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElements> = genericLocator(locator, By::linkText, syncConfig)
+): WebElementsProperty = genericLocator(locator, By::linkText, syncConfig)
 
-context(WebDriver)
-public fun name(
+public fun WebDriver.name(
     locator: String,
     syncConfig: SyncConfig<WebElement>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElement> = genericLocator(locator, By::name, syncConfig)
+): WebElementProperty = genericLocator(locator, By::name, syncConfig)
 
-context(WebDriver)
-public fun names(
+public fun WebDriver.names(
     locator: String,
     syncConfig: SyncConfig<WebElements>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElements> = genericLocator(locator, By::name, syncConfig)
+): WebElementsProperty = genericLocator(locator, By::name, syncConfig)
 
-context(WebDriver)
-public fun partialLinkText(
+public fun WebDriver.partialLinkText(
     locator: String,
     syncConfig: SyncConfig<WebElement>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElement> = genericLocator(locator, By::partialLinkText, syncConfig)
+): WebElementProperty = genericLocator(locator, By::partialLinkText, syncConfig)
 
-context(WebDriver)
-public fun partialLinkTexts(
+public fun WebDriver.partialLinkTexts(
     locator: String,
     syncConfig: SyncConfig<WebElements>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElements> = genericLocator(locator, By::partialLinkText, syncConfig)
+): WebElementsProperty = genericLocator(locator, By::partialLinkText, syncConfig)
 
-context(WebDriver)
-public fun tagName(
+public fun WebDriver.tagName(
     locator: String,
     syncConfig: SyncConfig<WebElement>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElement> = genericLocator(locator, By::tagName, syncConfig)
+): WebElementProperty = genericLocator(locator, By::tagName, syncConfig)
 
-context(WebDriver)
-public fun tagNames(
+public fun WebDriver.tagNames(
     locator: String,
     syncConfig: SyncConfig<WebElements>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElements> = genericLocator(locator, By::tagName, syncConfig)
+): WebElementsProperty = genericLocator(locator, By::tagName, syncConfig)
 
-context(WebDriver)
-public fun xpath(
+public fun WebDriver.xpath(
     locator: String,
     syncConfig: SyncConfig<WebElement>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElement> = genericLocator(locator, By::xpath, syncConfig)
+): WebElementProperty = genericLocator(locator, By::xpath, syncConfig)
 
-context(WebDriver)
-public fun xpaths(
+public fun WebDriver.xpaths(
     locator: String,
     syncConfig: SyncConfig<WebElements>.() -> Unit = {},
-): ReadOnlyProperty<Any, WebElements> = genericLocator(locator, By::xpath, syncConfig)
+): WebElementsProperty = genericLocator(locator, By::xpath, syncConfig)
 
-context(WebDriver)
 @Suppress("UNCHECKED_CAST")
-internal inline fun <reified T> genericLocator(
+internal inline fun <reified T> WebDriver.genericLocator(
     locator: String,
     noinline by: (String) -> By,
     noinline syncConfig: SyncConfig<T>.() -> Unit = {},
@@ -150,7 +128,7 @@ internal class KWebElement(
     private val locator: String,
     private val by: (String) -> By,
     private val syncConfig: SyncConfig<WebElement>.() -> Unit,
-) : ReadOnlyProperty<Any, WebElement> {
+) : WebElementProperty {
     private val webElement: WebElement by lazy { findElement(by(locator)) }
 
     override fun getValue(
@@ -171,7 +149,7 @@ internal class KWebElements(
     private val locator: String,
     private val by: (String) -> By,
     private val syncConfig: SyncConfig<WebElements>.() -> Unit,
-) : ReadOnlyProperty<Any, WebElements> {
+) : WebElementsProperty {
     private val webElements: WebElements by lazy { findElements(by(locator)) }
 
     override fun getValue(
@@ -192,7 +170,6 @@ internal class KWebElements(
 
 private val logger = KotlinLogging.logger {}
 
-context(WebDriver)
 private fun <T> execute(
     element: String,
     block: () -> T,
