@@ -3,10 +3,10 @@ public final class dev/kolibrium/selenium/LocatorDelegatesKt {
 	public static synthetic fun className$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun classNames (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
 	public static synthetic fun classNames$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun css (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun css$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun csss (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun csss$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun cssSelector (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun cssSelector$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun cssSelectors (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun cssSelectors$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun id (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
 	public static synthetic fun id$default (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun idOrName (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;

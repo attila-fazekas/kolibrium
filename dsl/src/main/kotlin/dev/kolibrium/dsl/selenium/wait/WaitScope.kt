@@ -27,22 +27,31 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
-@InternalKolibriumApi
-public sealed class InternalSynchronization(
+public sealed class SyncConfig<T> {
     @KolibriumPropertyDsl
-    public var wait: WaitScope = defaultWait,
-)
-
-@KolibriumDsl
-public class Synchronization : InternalSynchronization() {
-    @KolibriumPropertyDsl
-    public var until: (WebElement.() -> Boolean) = { isDisplayed }
+    @OptIn(InternalKolibriumApi::class)
+    public var wait: WaitScope = defaultWait
+    public abstract var until: T.() -> Boolean
 }
 
 @KolibriumDsl
-public class Synchronizations : InternalSynchronization() {
+public class WebElementSyncConfig : SyncConfig<WebElement>() {
     @KolibriumPropertyDsl
-    public var until: (WebElements.() -> Boolean) = { all { it.isDisplayed } }
+    override var until: WebElement.() -> Boolean = { isDisplayed }
+
+    override fun toString(): String {
+        return "WebElementSyncConfig(until=$until)"
+    }
+}
+
+@KolibriumDsl
+public class WebElementsSyncConfig : SyncConfig<WebElements>() {
+    @KolibriumPropertyDsl
+    override var until: WebElements.() -> Boolean = { all { it.isDisplayed } }
+
+    override fun toString(): String {
+        return "WebElementsSyncConfig(until=$until)"
+    }
 }
 
 @KolibriumDsl

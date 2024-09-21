@@ -17,248 +17,427 @@
 package dev.kolibrium.selenium
 
 import dev.kolibrium.core.WebElements
-import dev.kolibrium.dsl.selenium.wait.Synchronization
-import dev.kolibrium.dsl.selenium.wait.Synchronizations
+import dev.kolibrium.dsl.selenium.wait.SyncConfig
+import dev.kolibrium.dsl.selenium.wait.WebElementSyncConfig
+import dev.kolibrium.dsl.selenium.wait.WebElementsSyncConfig
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
-import org.openqa.selenium.By.className
-import org.openqa.selenium.By.cssSelector
-import org.openqa.selenium.By.id
-import org.openqa.selenium.By.linkText
-import org.openqa.selenium.By.name
-import org.openqa.selenium.By.partialLinkText
-import org.openqa.selenium.By.tagName
-import org.openqa.selenium.By.xpath
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ByIdOrName
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-/**
- * Finds element by [className] locator strategy.
- * [locator] is the value of the "class" attribute to search for.
- * [waitUntil] can be defined to wait for the element.
- */
-context(WebDriver)
-public fun <T : WebElement> className(
-    locator: String,
-    synchronization: (Synchronization.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = Element(className(locator), synchronization)
+private typealias WebElementProperty = ReadOnlyProperty<Any?, WebElement>
+private typealias WebElementsProperty = ReadOnlyProperty<Any?, WebElements>
 
 /**
- * Finds element by [cssSelector] locator strategy.
- * [locator] is the CSS expression to search for.
- * [waitUntil] can be defined to wait for the element.
+ * Creates a property delegate that lazily finds an element using the className locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds a web element
+ * with the specified class name. The element lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The value of the "class" attribute to search for. If multiple classes are
+ *                specified, the element must have all of them to match.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the element.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElementProperty
  */
-context(WebDriver)
-public fun <T : WebElement> css(
+public fun WebDriver.className(
     locator: String,
-    synchronization: (Synchronization.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = Element(cssSelector(locator), synchronization)
+    syncConfig: (SyncConfig<WebElement>.() -> Unit) = {},
+): WebElementProperty = genericLocator(locator, By::className, syncConfig)
 
 /**
- * Finds element by [id] locator strategy.
- * [locator] is the value of the "id" attribute to search for.
- * [waitUntil] can be defined to wait for the element.
+ * Creates a property delegate that lazily finds multiple elements using the className locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds all web elements
+ * with the specified class name. The elements lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The value of the "class" attribute to search for. If multiple classes are
+ *                specified, elements must have all of them to match.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the elements.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElements
  */
-context(WebDriver)
-public fun <T : WebElement> id(
+public fun WebDriver.classNames(
     locator: String,
-    synchronization: (Synchronization.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = Element(id(locator), synchronization)
+    syncConfig: (SyncConfig<WebElements>.() -> Unit) = {},
+): WebElementsProperty = genericLocator(locator, By::className, syncConfig)
 
 /**
- * Tries to find element by [ByIdOrName] locator strategy.
- * [locator] is the value of the "id" or "name" attribute to search for.
- * [waitUntil] can be defined to wait for the element.
+ * Creates a property delegate that lazily finds an element using the CSS selector locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds a web element
+ * matching the specified CSS selector. The element lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The CSS selector to locate the element.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the element.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElementProperty
  */
-context(WebDriver)
-public fun <T : WebElement> idOrName(
+public fun WebDriver.cssSelector(
     locator: String,
-    synchronization: (Synchronization.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = Element(ByIdOrName(locator), synchronization)
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): WebElementProperty = genericLocator(locator, By::cssSelector, syncConfig)
 
 /**
- * Finds element by [linkText] locator strategy.
- * [locator] is the exact text to match against.
- * [waitUntil] can be defined to wait for the element.
+ * Creates a property delegate that lazily finds multiple elements using the CSS selector locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds all web elements
+ * matching the specified CSS selector. The elements lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The CSS selector to locate the elements.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the elements.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElements
  */
-context(WebDriver)
-public fun <T : WebElement> linkText(
+public fun WebDriver.cssSelectors(
     locator: String,
-    synchronization: (Synchronization.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = Element(linkText(locator), synchronization)
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): WebElementsProperty = genericLocator(locator, By::cssSelector, syncConfig)
 
 /**
- * Finds element by [name] locator strategy.
- * [locator] is the value of the "name" attribute to search for.
- * [waitUntil] can be defined to wait for the element.
+ * Creates a property delegate that lazily finds an element using the id locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds a web element
+ * with the specified id attribute. The element lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The value of the "id" attribute to search for.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the element.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElementProperty
  */
-context(WebDriver)
-public fun <T : WebElement> name(
+public fun WebDriver.id(
     locator: String,
-    synchronization: (Synchronization.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = Element(name(locator), synchronization)
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): WebElementProperty = genericLocator(locator, By::id, syncConfig)
 
 /**
- * Finds element by [partialLinkText] locator strategy.
- * [locator] is the partial text in link to match against.
- * [waitUntil] can be defined to wait for the element.
+ * Creates a property delegate that lazily finds an element using either the id or name locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds a web element
+ * with the specified id or name attribute. The element lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The value of either the "id" or "name" attribute to search for.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the element.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElementProperty
+ * @see ByIdOrName
  */
-context(WebDriver)
-public fun <T : WebElement> partialLinkText(
+public fun WebDriver.idOrName(
     locator: String,
-    synchronization: (Synchronization.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = Element(partialLinkText(locator), synchronization)
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): WebElementProperty = genericLocator(locator, ::ByIdOrName, syncConfig)
 
 /**
- * Finds element by [tagName] locator strategy.
- * [locator] is the element's tag name.
- * [waitUntil] can be defined to wait for the element.
+ * Creates a property delegate that lazily finds an element using the link text locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds a web element
+ * with the specified link text. The element lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The exact text of the link to search for.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the element.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElementProperty
  */
-context(WebDriver)
-public fun <T : WebElement> tagName(
+public fun WebDriver.linkText(
     locator: String,
-    synchronization: (Synchronization.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = Element(tagName(locator), synchronization)
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): WebElementProperty = genericLocator(locator, By::linkText, syncConfig)
 
 /**
- * Finds element by [xpath] locator strategy.
- * [locator] is the XPath to use.
- * [waitUntil] can be defined to wait for the element.
+ * Creates a property delegate that lazily finds multiple elements using the link text locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds all web elements
+ * with the specified link text. The elements lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The exact text of the links to search for.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the elements.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElements
  */
-context(WebDriver)
-public fun <T : WebElement> xpath(
+public fun WebDriver.linkTexts(
     locator: String,
-    synchronization: (Synchronization.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = Element(xpath(locator), synchronization)
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): WebElementsProperty = genericLocator(locator, By::linkText, syncConfig)
+
+/**
+ * Creates a property delegate that lazily finds an element using the name locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds a web element
+ * with the specified name attribute. The element lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The value of the "name" attribute to search for.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the element.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElementProperty
+ */
+public fun WebDriver.name(
+    locator: String,
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): WebElementProperty = genericLocator(locator, By::name, syncConfig)
+
+/**
+ * Creates a property delegate that lazily finds multiple elements using the name locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds all web elements
+ * with the specified name attribute. The elements lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The value of the "name" attribute to search for.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the elements.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElements
+ */
+public fun WebDriver.names(
+    locator: String,
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): WebElementsProperty = genericLocator(locator, By::name, syncConfig)
+
+/**
+ * Creates a property delegate that lazily finds an element using the partial link text locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds a web element
+ * containing the specified partial link text. The element lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The partial text of the link to search for.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the element.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElementProperty
+ */
+public fun WebDriver.partialLinkText(
+    locator: String,
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): WebElementProperty = genericLocator(locator, By::partialLinkText, syncConfig)
+
+/**
+ * Creates a property delegate that lazily finds multiple elements using the partial link text locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds all web elements
+ * containing the specified partial link text. The elements lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The partial text of the links to search for.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the elements.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElements
+ */
+public fun WebDriver.partialLinkTexts(
+    locator: String,
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): WebElementsProperty = genericLocator(locator, By::partialLinkText, syncConfig)
+
+/**
+ * Creates a property delegate that lazily finds an element using the tag name locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds a web element
+ * with the specified tag name. The element lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The name of the HTML tag to search for.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the element.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElementProperty
+ */
+public fun WebDriver.tagName(
+    locator: String,
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): WebElementProperty = genericLocator(locator, By::tagName, syncConfig)
+
+/**
+ * Creates a property delegate that lazily finds multiple elements using the tag name locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds all web elements
+ * with the specified tag name. The elements lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The name of the HTML tag to search for.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the elements.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElements
+ */
+public fun WebDriver.tagNames(
+    locator: String,
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): WebElementsProperty = genericLocator(locator, By::tagName, syncConfig)
+
+/**
+ * Creates a property delegate that lazily finds an element using the XPath locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds a web element
+ * matching the specified XPath expression. The element lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The XPath expression to locate the element.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the element.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElementProperty
+ */
+public fun WebDriver.xpath(
+    locator: String,
+    syncConfig: SyncConfig<WebElement>.() -> Unit = {},
+): WebElementProperty = genericLocator(locator, By::xpath, syncConfig)
+
+/**
+ * Creates a property delegate that lazily finds multiple elements using the XPath locator strategy.
+ *
+ * This function returns a property delegate that, when accessed, finds all web elements
+ * matching the specified XPath expression. The elements lookup is performed lazily and can be
+ * configured with custom synchronization behavior.
+ *
+ * @param locator The XPath expression to locate the elements.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ *                   Default is an empty lambda, which uses the default synchronization settings.
+ * @receiver The WebDriver instance used to search for the elements.
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElements
+ */
+public fun WebDriver.xpaths(
+    locator: String,
+    syncConfig: SyncConfig<WebElements>.() -> Unit = {},
+): WebElementsProperty = genericLocator(locator, By::xpath, syncConfig)
+
+/**
+ * Creates a property delegate that lazily finds an element or elements using a generic locator strategy.
+ *
+ * This internal function is used by the public locator functions to create property delegates
+ * for finding web elements. It supports both single element and multiple elements lookups.
+ *
+ * @param T The type of the result, either [WebElement] or [WebElements].
+ * @param locator The locator string used to find the element(s).
+ * @param by A function that converts the locator string to a Selenium [By] object.
+ * @param syncConfig A lambda with receiver to configure the synchronization behavior.
+ * @receiver The WebDriver instance used to search for the element(s).
+ * @return A [ReadOnlyProperty] delegate that provides either a [WebElement] or [WebElements] when accessed.
+ *
+ * @see SyncConfig
+ * @see WebElementProperty
+ * @see WebElements
+ */
+@Suppress("UNCHECKED_CAST")
+internal inline fun <reified T> WebDriver.genericLocator(
+    locator: String,
+    noinline by: (String) -> By,
+    noinline syncConfig: SyncConfig<T>.() -> Unit = {},
+): ReadOnlyProperty<Any?, T> =
+    when (T::class) {
+        WebElement::class -> KWebElement(locator, by, syncConfig as SyncConfig<WebElement>.() -> Unit)
+        List::class -> KWebElements(locator, by, syncConfig as SyncConfig<WebElements>.() -> Unit)
+        else -> throw IllegalArgumentException("Unsupported type: ${T::class.simpleName}")
+    } as ReadOnlyProperty<Any?, T>
 
 context(WebDriver)
-private class Element<T : WebElement>(
-    private val by: By,
-    private val synchronization: Synchronization.() -> Unit,
-) : ReadOnlyProperty<Any, T> {
-    @Suppress("UNCHECKED_CAST")
-    private val webElement: T by lazy { findElement(by) as T }
+internal class KWebElement(
+    private val locator: String,
+    private val by: (String) -> By,
+    private val syncConfig: SyncConfig<WebElement>.() -> Unit,
+) : WebElementProperty {
+    private val webElement: WebElement by lazy { findElement(by(locator)) }
 
     override fun getValue(
-        thisRef: Any,
+        thisRef: Any?,
         property: KProperty<*>,
-    ): T {
+    ): WebElement {
         return execute(property.name) {
-            val synchronization = Synchronization().apply(synchronization)
-            val wait = setUpWait(this@WebDriver, synchronization.wait)
-            wait.until { synchronization.until.invoke(webElement) }
+            val config = WebElementSyncConfig().apply(syncConfig)
+            val wait = setUpWait(this@WebDriver, config.wait)
+            wait.until { config.until(webElement) }
             webElement
         }
     }
 }
 
-// WebElements
-
-/**
- * Finds elements by [className] locator strategy.
- * [locator] is the value of the "class" attribute to search for.
- * [waitUntil] can be defined to wait for the elements.
- */
 context(WebDriver)
-@JvmName("classNames")
-public fun <T : WebElements> className(
-    locator: String,
-    synchronizations: (Synchronizations.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = KolibriumElements(className(locator), synchronizations)
-
-/**
- * Finds elements by [cssSelector] locator strategy.
- * [locator] is the CSS expression to search for.
- * [waitUntil] can be defined to wait for the elements.
- */
-context(WebDriver)
-@JvmName("csss")
-public fun <T : WebElements> css(
-    locator: String,
-    synchronizations: (Synchronizations.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = KolibriumElements(cssSelector(locator), synchronizations)
-
-/**
- * Finds elements by [linkText] locator strategy.
- * [locator] is the exact text to match against.
- * [waitUntil] can be defined to wait for the elements.
- */
-context(WebDriver)
-@JvmName("linkTexts")
-public fun <T : WebElements> linkText(
-    locator: String,
-    synchronizations: (Synchronizations.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = KolibriumElements(linkText(locator), synchronizations)
-
-/**
- * Finds elements by [name] locator strategy.
- * [locator] is the value of the "name" attribute to search for.
- * [waitUntil] can be defined to wait for the elements.
- */
-context(WebDriver)
-@JvmName("names")
-public fun <T : WebElements> name(
-    locator: String,
-    synchronizations: (Synchronizations.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = KolibriumElements(name(locator), synchronizations)
-
-/**
- * Finds elements by [partialLinkText] locator strategy.
- * [locator] is the partial text to match against.
- * [waitUntil] can be defined to wait for the elements.
- */
-context(WebDriver)
-@JvmName("partialLinkTexts")
-public fun <T : WebElements> partialLinkText(
-    locator: String,
-    synchronizations: (Synchronizations.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = KolibriumElements(partialLinkText(locator), synchronizations)
-
-/**
- * Finds elements by [tagName] locator strategy.
- * [locator] is the element's tag name.
- * [waitUntil] can be defined to wait for the elements.
- */
-context(WebDriver)
-@JvmName("tagNames")
-public fun <T : WebElements> tagName(
-    locator: String,
-    synchronizations: (Synchronizations.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = KolibriumElements(tagName(locator), synchronizations)
-
-/**
- * Finds elements by [xpath] locator strategy.
- * [locator] is the XPath to use.
- * [waitUntil] can be defined to wait for the elements.
- */
-context(WebDriver)
-@JvmName("xpaths")
-public fun <T : WebElements> xpath(
-    locator: String,
-    synchronizations: (Synchronizations.() -> Unit) = {},
-): ReadOnlyProperty<Any, T> = KolibriumElements(xpath(locator), synchronizations)
-
-context(WebDriver)
-private class KolibriumElements<T : WebElements>(
-    private val by: By,
-    private val synchronizations: Synchronizations.() -> Unit,
-) : ReadOnlyProperty<Any, T> {
-    @Suppress("UNCHECKED_CAST")
-    private val webElements: T by lazy { findElements(by) as T }
+internal class KWebElements(
+    private val locator: String,
+    private val by: (String) -> By,
+    private val syncConfig: SyncConfig<WebElements>.() -> Unit,
+) : WebElementsProperty {
+    private val webElements: WebElements by lazy { findElements(by(locator)) }
 
     override fun getValue(
-        thisRef: Any,
+        thisRef: Any?,
         property: KProperty<*>,
-    ): T {
+    ): WebElements {
         return execute(property.name) {
-            val synchronizations = Synchronizations().apply(synchronizations)
-            val wait = setUpWait(this@WebDriver, synchronizations.wait)
+            val config = WebElementsSyncConfig().apply(syncConfig)
+            val wait = setUpWait(this@WebDriver, config.wait)
             wait.until {
-                val elements = findElements(by)
-                synchronizations.until.invoke(elements)
+                val elements = findElements(by(locator))
+                config.until(elements)
             }
             webElements
         }
@@ -267,7 +446,6 @@ private class KolibriumElements<T : WebElements>(
 
 private val logger = KotlinLogging.logger {}
 
-context(WebDriver)
 private fun <T> execute(
     element: String,
     block: () -> T,

@@ -18,9 +18,8 @@ package dev.kolibrium.selenium.internal.pages
 
 import dev.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 
 context(WebDriver)
 class ElementNotInteractableExceptionPage {
-    val input by id<WebElement>("disabledInput")
+    val input by id("disabledInput")
 }

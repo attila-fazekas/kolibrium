@@ -94,7 +94,7 @@ class PageProcessorTest {
             public class KolibriumTestPage {
               public val entry1: WebElement by className<WebElement>("className")
 
-              public val entry2: WebElement by css<WebElement>("css")
+              public val entry2: WebElement by cssSelector("css")
 
               public val entry3: WebElement by id<WebElement>("id")
 
@@ -273,7 +273,7 @@ class PageProcessorTest {
             public class KolibriumTestPage {
               public fun tableCell(color: String, shape: String): WebElement {
                 val locator = ${'"'}${'"'}${'"'}//a[@class='${'$'}color'][contains(text(),'${'$'}shape')]${'"'}${'"'}${'"'}
-                val element: WebElement by css<WebElement>(locator)
+                val element: WebElement by cssSelector(locator)
                 return element
               }
             }

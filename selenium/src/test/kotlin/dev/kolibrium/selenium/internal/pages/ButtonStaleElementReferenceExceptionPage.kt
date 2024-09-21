@@ -19,13 +19,12 @@ package dev.kolibrium.selenium.internal.pages
 import dev.kolibrium.selenium.className
 import dev.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 
 context(WebDriver)
 class ButtonStaleElementReferenceExceptionPage {
-    val button by id<WebElement>("myButton") {
+    val button by id("myButton") {
         until = { isEnabled }
     }
 
-    val firework by className<WebElement>("firework")
+    val firework by className("firework")
 }

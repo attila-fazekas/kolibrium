@@ -163,41 +163,29 @@ public fun options(
     }
 
 @KolibriumDsl
-public fun chromeOptions(block: ChromeOptionsScope.() -> Unit): ChromeOptions {
-    val optionsScope =
-        ChromeOptionsScope(ChromeOptions()).apply {
-            block()
-            configure()
-        }
-    return optionsScope.options
-}
+public fun chromeOptions(block: ChromeOptionsScope.() -> Unit): ChromeOptions =
+    ChromeOptionsScope(ChromeOptions()).apply {
+        block()
+        configure()
+    }.options
 
 @KolibriumDsl
-public fun safariOptions(block: SafariOptionsScope.() -> Unit): SafariOptions {
-    val optionsScope =
-        SafariOptionsScope(SafariOptions()).apply {
-            block()
-            configure()
-        }
-    return optionsScope.options
-}
+public fun safariOptions(block: SafariOptionsScope.() -> Unit): SafariOptions =
+    SafariOptionsScope(SafariOptions()).apply {
+        block()
+        configure()
+    }.options
 
 @KolibriumDsl
-public fun edgeOptions(block: EdgeOptionsScope.() -> Unit): EdgeOptions {
-    val optionsScope =
-        EdgeOptionsScope(EdgeOptions()).apply {
-            block()
-            configure()
-        }
-    return optionsScope.options
-}
+public fun edgeOptions(block: EdgeOptionsScope.() -> Unit): EdgeOptions =
+    EdgeOptionsScope(EdgeOptions()).apply {
+        block()
+        configure()
+    }.options
 
 @KolibriumDsl
-public fun firefoxOptions(block: FirefoxOptionsScope.() -> Unit): FirefoxOptions {
-    val optionsScope =
-        FirefoxOptionsScope(FirefoxOptions()).apply {
-            block()
-            configure()
-        }
-    return optionsScope.options
-}
+public fun firefoxOptions(block: FirefoxOptionsScope.() -> Unit): FirefoxOptions =
+    FirefoxOptionsScope(FirefoxOptions()).apply {
+        block()
+        configure()
+    }.options
