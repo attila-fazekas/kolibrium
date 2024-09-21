@@ -28,8 +28,8 @@ import org.openqa.selenium.support.ByIdOrName
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-private typealias WebElementProperty = ReadOnlyProperty<Any, WebElement>
-private typealias WebElementsProperty = ReadOnlyProperty<Any, WebElements>
+private typealias WebElementProperty = ReadOnlyProperty<Any?, WebElement>
+private typealias WebElementsProperty = ReadOnlyProperty<Any?, WebElements>
 
 /**
  * Creates a property delegate that lazily finds an element using the className locator strategy.
@@ -392,12 +392,12 @@ internal inline fun <reified T> WebDriver.genericLocator(
     locator: String,
     noinline by: (String) -> By,
     noinline syncConfig: SyncConfig<T>.() -> Unit = {},
-): ReadOnlyProperty<Any, T> =
+): ReadOnlyProperty<Any?, T> =
     when (T::class) {
         WebElement::class -> KWebElement(locator, by, syncConfig as SyncConfig<WebElement>.() -> Unit)
         List::class -> KWebElements(locator, by, syncConfig as SyncConfig<WebElements>.() -> Unit)
         else -> throw IllegalArgumentException("Unsupported type: ${T::class.simpleName}")
-    } as ReadOnlyProperty<Any, T>
+    } as ReadOnlyProperty<Any?, T>
 
 context(WebDriver)
 internal class KWebElement(
@@ -408,7 +408,7 @@ internal class KWebElement(
     private val webElement: WebElement by lazy { findElement(by(locator)) }
 
     override fun getValue(
-        thisRef: Any,
+        thisRef: Any?,
         property: KProperty<*>,
     ): WebElement {
         return execute(property.name) {
@@ -429,7 +429,7 @@ internal class KWebElements(
     private val webElements: WebElements by lazy { findElements(by(locator)) }
 
     override fun getValue(
-        thisRef: Any,
+        thisRef: Any?,
         property: KProperty<*>,
     ): WebElements {
         return execute(property.name) {
