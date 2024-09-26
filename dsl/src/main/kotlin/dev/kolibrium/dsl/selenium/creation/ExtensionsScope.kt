@@ -22,10 +22,10 @@ import java.io.File
 public value class Extension(internal val path: String)
 
 @KolibriumDsl
-public class ExtensionsScope : UnaryPlus<Extension> {
+public class ExtensionsScope {
     internal val extensions = mutableSetOf<File>()
 
-    override operator fun Extension.unaryPlus() {
+    public operator fun Extension.unaryPlus() {
         extensions.add(File(path))
     }
 

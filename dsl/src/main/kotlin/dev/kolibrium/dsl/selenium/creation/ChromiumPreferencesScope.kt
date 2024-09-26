@@ -17,10 +17,10 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
-public class ChromiumPreferencesScope : UnaryPlus<Pair<ChromiumPreference, Any>> {
+public class ChromiumPreferencesScope {
     internal val preferences = mutableMapOf<String, Any>()
 
-    override operator fun Pair<ChromiumPreference, Any>.unaryPlus() {
+    public operator fun Pair<ChromiumPreference, Any>.unaryPlus() {
         preferences[first.value] = second
     }
 

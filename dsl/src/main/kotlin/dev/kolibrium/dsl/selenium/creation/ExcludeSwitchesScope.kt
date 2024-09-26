@@ -17,10 +17,10 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
-public class ExcludeSwitchesScope : UnaryPlus<Switch> {
+public class ExcludeSwitchesScope {
     internal val switches = mutableSetOf<String>()
 
-    override operator fun Switch.unaryPlus() {
+    public operator fun Switch.unaryPlus() {
         switches.add(value)
     }
 

@@ -22,6 +22,7 @@ import dev.kolibrium.core.Browser.EDGE
 import dev.kolibrium.core.Browser.FIREFOX
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.Channel.BETA
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.AfterEach
@@ -200,25 +201,25 @@ class DriverTest {
                         }
                     }
                     preferences {
-                        +(Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris to "http://,https://")
-                        +(Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn to false)
-                        +(Preferences.Firefox.network_negotiate_auth_delegation_uris to "http://,https://")
-                        +(Preferences.Firefox.network_negotiate_auth_trusted_uris to "http://,https://")
-                        +(Preferences.Firefox.network_http_phishy_userpass_length to 255)
-                        +(Preferences.Firefox.network_proxy_no_proxies_on to "")
-                        +(Preferences.Firefox.security_csp_enable to false)
+                        +(Firefox.network_automatic_ntlm_auth_trusted_uris to "http://,https://")
+                        +(Firefox.network_automatic_ntlm_auth_allow_non_fqdn to false)
+                        +(Firefox.network_negotiate_auth_delegation_uris to "http://,https://")
+                        +(Firefox.network_negotiate_auth_trusted_uris to "http://,https://")
+                        +(Firefox.network_http_phishy_userpass_length to 255)
+                        +(Firefox.network_proxy_no_proxies_on to "")
+                        +(Firefox.security_csp_enable to false)
                     }
                     profile {
-                        +(Preferences.Firefox.browser_download_folderList to 1)
-                        +(Preferences.Firefox.browser_download_manager_showWhenStarting to false)
-                        +(Preferences.Firefox.browser_download_manager_focusWhenStarting to false)
-                        +(Preferences.Firefox.browser_download_useDownloadDir to true)
-                        +(Preferences.Firefox.browser_download_manager_alertOnEXEOpen to false)
-                        +(Preferences.Firefox.browser_download_manager_closeWhenDone to true)
-                        +(Preferences.Firefox.browser_download_manager_showAlertOnComplete to false)
-                        +(Preferences.Firefox.browser_download_manager_useWindow to false)
-                        +(Preferences.Firefox.browser_helperApps_alwaysAsk_force to false)
-                        +(Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk to "application/octet-stream")
+                        +(Firefox.browser_download_folderList to 1)
+                        +(Firefox.browser_download_manager_showWhenStarting to false)
+                        +(Firefox.browser_download_manager_focusWhenStarting to false)
+                        +(Firefox.browser_download_useDownloadDir to true)
+                        +(Firefox.browser_download_manager_alertOnEXEOpen to false)
+                        +(Firefox.browser_download_manager_closeWhenDone to true)
+                        +(Firefox.browser_download_manager_showAlertOnComplete to false)
+                        +(Firefox.browser_download_manager_useWindow to false)
+                        +(Firefox.browser_helperApps_alwaysAsk_force to false)
+                        +(Firefox.browser_helperApps_neverAsk_saveToDisk to "application/octet-stream")
                     }
                     timeouts {
                         implicitWait = 5.seconds
