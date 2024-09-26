@@ -72,20 +72,10 @@ public abstract interface class dev/kolibrium/dsl/selenium/creation/ArgumentsSco
 	public abstract fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
 
-public abstract interface class dev/kolibrium/dsl/selenium/creation/Browser {
-}
-
 public final class dev/kolibrium/dsl/selenium/creation/BrowserEnabledLabsExperiments {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public final fun unaryPlus-FBl3WhA (Ljava/lang/String;)V
-}
-
-public final class dev/kolibrium/dsl/selenium/creation/Chrome : dev/kolibrium/dsl/selenium/creation/Chromium {
-	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Chrome;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/ChromeArgument : dev/kolibrium/dsl/selenium/creation/Argument {
@@ -136,9 +126,6 @@ public final class dev/kolibrium/dsl/selenium/creation/ChromeOptionsScope : dev/
 	public synthetic fun getOptions$dsl ()Lorg/openqa/selenium/chromium/ChromiumOptions;
 	public synthetic fun getOptions$dsl ()Lorg/openqa/selenium/remote/AbstractDriverOptions;
 	public fun toString ()Ljava/lang/String;
-}
-
-public abstract interface class dev/kolibrium/dsl/selenium/creation/Chromium : dev/kolibrium/dsl/selenium/creation/Browser {
 }
 
 public abstract class dev/kolibrium/dsl/selenium/creation/ChromiumDriverServiceScope : dev/kolibrium/dsl/selenium/creation/DriverServiceScope {
@@ -206,13 +193,6 @@ public abstract class dev/kolibrium/dsl/selenium/creation/DriverServiceScope {
 	protected final fun ifExists (Ljava/lang/String;)Z
 	public final fun setPort (Ljava/lang/Integer;)V
 	public final fun setTimeout-BwNAW2A (Lkotlin/time/Duration;)V
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class dev/kolibrium/dsl/selenium/creation/Edge : dev/kolibrium/dsl/selenium/creation/Chromium {
-	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Edge;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -325,13 +305,6 @@ public final class dev/kolibrium/dsl/selenium/creation/ExtensionsScope {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public final fun unaryPlus-bTGED04 (Ljava/lang/String;)V
-}
-
-public final class dev/kolibrium/dsl/selenium/creation/Firefox : dev/kolibrium/dsl/selenium/creation/Browser {
-	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Firefox;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgument : dev/kolibrium/dsl/selenium/creation/Argument {
@@ -529,13 +502,6 @@ public final class dev/kolibrium/dsl/selenium/creation/ProxyScope {
 	public final fun setProxyType (Lorg/openqa/selenium/Proxy$ProxyType;)V
 	public final fun setSslProxy (Ljava/lang/String;)V
 	public final fun socks (Lkotlin/jvm/functions/Function1;)V
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class dev/kolibrium/dsl/selenium/creation/Safari : dev/kolibrium/dsl/selenium/creation/Browser {
-	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Safari;
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
