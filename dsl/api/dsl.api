@@ -1,3 +1,23 @@
+public final class dev/kolibrium/dsl/selenium/cookie/CookieKt {
+	public static final fun cookies (Lorg/openqa/selenium/WebDriver;Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/kolibrium/dsl/selenium/cookie/CookiesScope {
+	public fun <init> (Lorg/openqa/selenium/WebDriver$Options;)V
+	public final fun cookie (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/cookie/SameSite;)V
+	public static synthetic fun cookie$default (Ldev/kolibrium/dsl/selenium/cookie/CookiesScope;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/cookie/SameSite;ILjava/lang/Object;)V
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/kolibrium/dsl/selenium/cookie/SameSite : java/lang/Enum {
+	public static final field LAX Ldev/kolibrium/dsl/selenium/cookie/SameSite;
+	public static final field NONE Ldev/kolibrium/dsl/selenium/cookie/SameSite;
+	public static final field STRICT Ldev/kolibrium/dsl/selenium/cookie/SameSite;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/cookie/SameSite;
+	public static fun values ()[Ldev/kolibrium/dsl/selenium/cookie/SameSite;
+}
+
 public final class dev/kolibrium/dsl/selenium/creation/AllowedHostsScope : dev/kolibrium/dsl/selenium/creation/UnaryPlus {
 	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
