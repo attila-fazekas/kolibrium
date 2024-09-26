@@ -50,8 +50,13 @@ public class CookiesScope(private val options: Options) {
         sameSite?.let { cookie.sameSite(it.type) }
         options.addCookie(cookie.build())
     }
+
+    override fun toString(): String {
+        return "CookiesScope(options=${options.cookies})"
+    }
 }
 
+@KolibriumDsl
 public enum class SameSite(internal val type: String) {
     STRICT("Strict"),
     LAX("Lax"),

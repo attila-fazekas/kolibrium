@@ -23,6 +23,7 @@ import com.lemonappdev.konsist.api.ext.list.modifierprovider.withPublicModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutAbstractModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutAnnotationModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutDataModifier
+import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutEnumModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutOperatorModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutOverrideModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutSealedModifier
@@ -106,6 +107,7 @@ class KonsistTest {
             .withoutSealedModifier()
             .withoutAbstractModifier()
             .withoutDataModifier()
+            .withoutEnumModifier()
             .assertTrue {
                 it.hasFunctionWithName("toString")
             }
