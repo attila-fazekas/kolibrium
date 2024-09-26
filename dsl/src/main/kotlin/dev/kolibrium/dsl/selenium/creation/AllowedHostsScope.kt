@@ -17,10 +17,10 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
-public class AllowedHostsScope : UnaryPlus<String> {
+public class AllowedHostsScope {
     internal val allowedHosts = mutableSetOf<String>()
 
-    override fun String.unaryPlus() {
+    public operator fun String.unaryPlus() {
         allowedHosts.add(this)
     }
 

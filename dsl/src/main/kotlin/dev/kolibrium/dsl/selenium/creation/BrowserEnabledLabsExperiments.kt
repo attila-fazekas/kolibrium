@@ -17,10 +17,10 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
-public class BrowserEnabledLabsExperiments : UnaryPlus<ExperimentalFlag> {
+public class BrowserEnabledLabsExperiments {
     internal val experimentalFlags = mutableSetOf<String>()
 
-    override fun ExperimentalFlag.unaryPlus() {
+    public operator fun ExperimentalFlag.unaryPlus() {
         experimentalFlags.add(value)
     }
 

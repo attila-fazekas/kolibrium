@@ -24,10 +24,10 @@ public sealed interface ArgumentsScope {
 }
 
 @KolibriumDsl
-public class ChromeArgumentsScope : ArgumentsScope, UnaryPlus<ChromeArgument> {
+public class ChromeArgumentsScope : ArgumentsScope {
     public override val args: MutableSet<Argument> = mutableSetOf()
 
-    override operator fun ChromeArgument.unaryPlus() {
+    public operator fun ChromeArgument.unaryPlus() {
         args.add(this)
     }
 

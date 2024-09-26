@@ -17,10 +17,10 @@
 package dev.kolibrium.dsl.selenium.creation
 
 @KolibriumDsl
-public class EnvironmentScope : UnaryPlus<Pair<String, String>> {
+public class EnvironmentScope {
     internal val environmentVariables: MutableMap<String, String> = mutableMapOf()
 
-    override fun Pair<String, String>.unaryPlus() {
+    public operator fun Pair<String, String>.unaryPlus() {
         environmentVariables[first] = second
     }
 
