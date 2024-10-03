@@ -131,6 +131,7 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
             }
 
         extCtx.store().put(Thread.currentThread().threadId(), driver)
+        driver.get(actualConfig.baseUrl ?: ProjectConfiguration.baseUrl)
         return driver
     }
 

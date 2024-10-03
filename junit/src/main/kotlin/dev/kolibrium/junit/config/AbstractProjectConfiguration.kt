@@ -30,6 +30,8 @@ import kotlin.text.Typography.bullet
 private val logger = KotlinLogging.logger { }
 
 public abstract class AbstractProjectConfiguration {
+    public open val baseUrl: String? = null
+
     public open val defaultBrowser: Browser? = null
 
     public open val keepBrowserOpen: Boolean? = null

@@ -20,16 +20,12 @@ package dev.kolibrium.ksp.processors
 
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
-import com.tschuchort.compiletesting.kspSourcesDir
-import com.tschuchort.compiletesting.symbolProcessorProviders
-import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import org.intellij.lang.annotations.Language
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 
-class PageProcessorTest {
+class PageProcessorTest : ProcessorBaseTest() {
     @ValidTest
     fun `enum class annotated with Page and enum entries annotated with locators`(
         @TempDir path: File,
@@ -403,7 +399,7 @@ class PageProcessorTest {
               public val entry: WebElement by idOrName<WebElement>("entry")
             }
             """.trimIndent(),
-            actual = "KolibriumForm.kt",
+            actualFileName = "KolibriumForm.kt",
             compilation = compilation,
         )
     }
@@ -444,7 +440,7 @@ class PageProcessorTest {
               public val entry: WebElement by idOrName<WebElement>("entry")
             }
             """.trimIndent(),
-            actual = "KolibriumPage.kt",
+            actualFileName = "KolibriumPage.kt",
             compilation = compilation,
         )
     }
@@ -606,30 +602,3 @@ class PageProcessorTest {
         result.messages shouldContain "Provided URL in \"KolibriumTestPage\" is invalid: https://www"
     }
 }
-
-private fun getCompilation(
-    path: File,
-    vararg sourceFiles: SourceFile,
-) = KotlinCompilation().apply {
-    workingDir = path.absoluteFile
-    inheritClassPath = true
-    sources = sourceFiles.asList()
-    symbolProcessorProviders = listOf(PageProcessorProvider())
-    verbose = false
-}
-
-private fun verifyExitCode(
-    result: KotlinCompilation.Result,
-    exitCode: KotlinCompilation.ExitCode,
-) = result.exitCode shouldBe exitCode
-
-private fun assertSourceEquals(
-    @Language("kotlin") expected: String,
-    actual: String = "KolibriumTestPage.kt",
-    compilation: KotlinCompilation,
-) = compilation.getGeneratedSource(actual).trimIndent() shouldBe expected.trimIndent()
-
-private fun KotlinCompilation.getGeneratedSource(fileName: String) =
-    kspSourcesDir.walkTopDown().first {
-        it.name == fileName
-    }.readText()
