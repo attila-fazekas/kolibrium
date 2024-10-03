@@ -32,13 +32,21 @@ public abstract interface annotation class dev/kolibrium/ksp/annotations/Partial
 	public abstract fun locator ()Ljava/lang/String;
 }
 
+public abstract interface annotation class dev/kolibrium/ksp/annotations/Path : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
+}
+
+public abstract interface annotation class dev/kolibrium/ksp/annotations/Resource : java/lang/annotation/Annotation {
+	public abstract fun value ()Ljava/lang/String;
+}
+
 public abstract interface annotation class dev/kolibrium/ksp/annotations/TagName : java/lang/annotation/Annotation {
 	public abstract fun collectToList ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/Url : java/lang/annotation/Annotation {
-	public abstract fun baseUrl ()Ljava/lang/String;
+	public abstract fun value ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/Xpath : java/lang/annotation/Annotation {

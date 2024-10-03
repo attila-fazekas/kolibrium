@@ -14,29 +14,17 @@
  * limitations under the License.
  */
 
-rootProject.name = "kolibrium"
-
-include("bom")
-include("core")
-include("dsl")
-include("junit")
-include("konsistTest")
-include("ksp")
-include("ksp:annotations")
-findProject(":ksp:annotations")?.name = "annotations"
-include("ksp:processors")
-findProject(":ksp:processors")?.name = "processors"
-include("selenium")
-include("test")
-
-gradle.startParameter.isContinueOnFailure = true
-
 plugins {
-    id("de.fayard.refreshVersions") version "0.60.5"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+    id("kolibrium.test-conventions")
+    id("com.google.devtools.ksp")
 }
-refreshVersions {
-    rejectVersionIf {
-        candidate.stabilityLevel.isLessStableThan(current.stabilityLevel)
-    }
+
+dependencies {
+    implementation(project(":dsl"))
+    implementation(project(":junit"))
+    implementation(project(":ksp:annotations"))
+    implementation(project(":selenium"))
+    ksp(project(":ksp:processors"))
+    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
+    testImplementation("com.titusfortner:selenium-logger:_")
 }

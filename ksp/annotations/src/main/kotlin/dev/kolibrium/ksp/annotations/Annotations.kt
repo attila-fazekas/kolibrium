@@ -17,19 +17,33 @@
 package dev.kolibrium.ksp.annotations
 
 /**
- * Enum classes annotated with [Page] will instruct kolibrium-codegen to generate Page Object classes.
- * If the class name ends with "Locators" that part will be removed from the generated class name. For example,
- * the LoginPageLocators enum class will be named as LoginPage.
- * If [generatedClassName] is defined, it will be used as the generated class name.
+ * Marks an enum class as a source for generating a Page Object class using kolibrium-codegen.
+ *
+ * The generated class will have the same name as the enum class, with the optional "Locators" suffix removed.
+ * For example, `LoginPageLocators` will generate a class named `LoginPage`.
+ *
+ * @property generatedClassName If provided, this name will be used for the generated class instead of the derived name.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
 public annotation class Page(val generatedClassName: String = "")
 
 /**
+ * Specifies the base URL for the Page Object class.
  *
- * If [baseUrl] is defined, an init block will be generated to open the URL upon page initialization.
+ * If provided, an `init` block will be generated in the Page Object class to navigate to the specified URL
+ * when the class is instantiated.
+ *
+ * @property value The base URL to navigate to when the Page Object class is instantiated.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-public annotation class Url(val baseUrl: String = "")
+public annotation class Url(val value: String = "")
+
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.CLASS)
+public annotation class Path(val value: String = "")
+
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.CLASS)
+public annotation class Resource(val value: String = "")

@@ -13,6 +13,7 @@ public final class dev/kolibrium/junit/KolibriumExtension : org/junit/jupiter/ap
 
 public abstract class dev/kolibrium/junit/config/AbstractProjectConfiguration {
 	public fun <init> ()V
+	public fun getBaseUrl ()Ljava/lang/String;
 	public fun getChromeDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getDefaultBrowser ()Ldev/kolibrium/core/Browser;
 	public fun getEdgeDriver ()Lkotlin/jvm/functions/Function0;
