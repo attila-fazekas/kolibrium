@@ -55,7 +55,7 @@ class ResourceProcessorTest : ProcessorBaseTest() {
             import org.openqa.selenium.WebDriver
 
             public fun WebDriver.inventoryPage(block: InventoryPage.() -> Unit) {
-              get("https://www.saucedemo.com")
+              get(${'"'}${'"'}${'"'}${'$'}{currentUrl}inventory.html${'"'}${'"'}${'"'})
               with(InventoryPage()) {
                   block()
               }
