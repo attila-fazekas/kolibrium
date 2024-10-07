@@ -552,11 +552,11 @@ JSpecify annotations (1.0.0) - The Apache License, Version 2.0
 An artifact of well-named and well-specified annotations to power static analysis checks
 http://jspecify.org/
 
-JUnit Jupiter API (5.11.0) - Eclipse Public License v2.0
+JUnit Jupiter API (5.11.1) - Eclipse Public License v2.0
 Module "junit-jupiter-api" of JUnit 5.
 https://junit.org/junit5/
 
-JUnit Platform Commons (1.11.0) - Eclipse Public License v2.0
+JUnit Platform Commons (1.11.1) - Eclipse Public License v2.0
 Module "junit-platform-commons" of JUnit 5.
 https://junit.org/junit5/
 
