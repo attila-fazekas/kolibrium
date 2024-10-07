@@ -16,74 +16,134 @@
 
 package dev.kolibrium.ksp.annotations
 
+// for WebElement
+
 /**
- * Instructs kolibrium-codegen to use "className" locator strategy when generating source code.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using "className" locator strategy.
  * [locator] is the value of the "class" attribute to search for.
- * If [collectToList] is true, the generated source code will look for list of elements.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class ClassName(val locator: String = "", val collectToList: Boolean = false)
+public annotation class ClassName(val locator: String = "")
 
 /**
- * Instructs kolibrium-codegen to use "css" locator strategy when generating source code.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using "cssSelector" locator strategy.
  * [locator] is the CSS expression to search for.
- * If [collectToList] is true, the generated source code will look for list of elements.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Css(val locator: String = "", val collectToList: Boolean = false)
+public annotation class CssSelector(val locator: String = "")
 
 /**
- * Instructs kolibrium-codegen to use "id" locator strategy when generating source code.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using "id" locator strategy.
  * [locator] is the value of the "id" attribute to search for.
- * If [collectToList] is true, the generated source code will look for list of elements.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Id(val locator: String = "", val collectToList: Boolean = false)
+public annotation class Id(val locator: String = "")
 
 /**
- * Instructs kolibrium-codegen to use "linkText" locator strategy when generating source code.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using "linkText" locator strategy.
  * [locator] is the exact text to match against.
- * If [collectToList] is true, the generated source code will look for list of elements.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class LinkText(val locator: String = "", val collectToList: Boolean = false)
+public annotation class LinkText(val locator: String = "")
 
 /**
- * Instructs kolibrium-codegen to use "name" locator strategy when generating source code.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using "name" locator strategy.
  * [locator] is the value of the "name" attribute to search for.
- * If [collectToList] is true, the generated source code will look for list of elements.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Name(val locator: String = "", val collectToList: Boolean = false)
+public annotation class Name(val locator: String = "")
 
 /**
- * Instructs kolibrium-codegen to use "partialLinkText" locator strategy when generating source code.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using "partialLinkText" locator strategy.
  * [locator] is the partial text in link to match against.
- * If [collectToList] is true, the generated source code will look for list of elements.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class PartialLinkText(val locator: String = "", val collectToList: Boolean = false)
+public annotation class PartialLinkText(val locator: String = "")
 
 /**
- * Instructs kolibrium-codegen to use "tagName" locator strategy when generating source code.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using "tagName" locator strategy.
  * [locator] is the element's tag name.
- * If [collectToList] is true, the generated source code will look for list of elements.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class TagName(val locator: String = "", val collectToList: Boolean = false)
+public annotation class TagName(val locator: String = "")
 
 /**
- * Instructs kolibrium-codegen to use "xpath" locator strategy when generating source code.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using "xpath" locator strategy.
  * [locator] is the XPath to use.
- * If [collectToList] is true, the generated source code will look for list of elements.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Xpath(val locator: String = "", val collectToList: Boolean = false)
+public annotation class Xpath(val locator: String = "")
+
+// for WebElements
+
+/**
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using "className" locator strategy.
+ * [locator] is the value of the "class" attribute to search for.
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FIELD)
+public annotation class ClassNames(val locator: String = "")
+
+/**
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using "cssSelector" locator strategy.
+ * [locator] is the CSS expression to search for.
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FIELD)
+public annotation class CssSelectors(val locator: String = "")
+
+/**
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using "id" locator strategy.
+ * [locator] is the value of the "id" attribute to search for.
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FIELD)
+public annotation class Ids(val locator: String = "")
+
+/**
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using "linkText" locator strategy.
+ * [locator] is the exact text to match against.
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FIELD)
+public annotation class LinkTexts(val locator: String = "")
+
+/**
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using "name" locator strategy.
+ * [locator] is the value of the "name" attribute to search for.
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FIELD)
+public annotation class Names(val locator: String = "")
+
+/**
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using "partialLinkText" locator strategy.
+ * [locator] is the partial text in link to match against.
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FIELD)
+public annotation class PartialLinkTexts(val locator: String = "")
+
+/**
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using "tagName" locator strategy.
+ * [locator] is the element's tag name.
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FIELD)
+public annotation class TagNames(val locator: String = "")
+
+/**
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using "xpath" locator strategy.
+ * [locator] is the XPath to use.
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.FIELD)
+public annotation class Xpaths(val locator: String = "")

@@ -28,14 +28,6 @@ package dev.kolibrium.ksp.annotations
 @Target(AnnotationTarget.CLASS)
 public annotation class Page(val generatedClassName: String = "")
 
-/**
- * Specifies the base URL for the Page Object class.
- *
- * If provided, an `init` block will be generated in the Page Object class to navigate to the specified URL
- * when the class is instantiated.
- *
- * @property value The base URL to navigate to when the Page Object class is instantiated.
- */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
 public annotation class Url(val value: String = "")

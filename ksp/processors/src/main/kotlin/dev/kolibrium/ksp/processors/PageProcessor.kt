@@ -37,16 +37,23 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import dev.kolibrium.ksp.annotations.Css
+import dev.kolibrium.ksp.annotations.ClassNames
+import dev.kolibrium.ksp.annotations.CssSelector
+import dev.kolibrium.ksp.annotations.CssSelectors
 import dev.kolibrium.ksp.annotations.Id
+import dev.kolibrium.ksp.annotations.Ids
 import dev.kolibrium.ksp.annotations.LinkText
+import dev.kolibrium.ksp.annotations.LinkTexts
 import dev.kolibrium.ksp.annotations.Name
+import dev.kolibrium.ksp.annotations.Names
 import dev.kolibrium.ksp.annotations.Page
 import dev.kolibrium.ksp.annotations.PartialLinkText
+import dev.kolibrium.ksp.annotations.PartialLinkTexts
 import dev.kolibrium.ksp.annotations.TagName
-import dev.kolibrium.ksp.annotations.Url
+import dev.kolibrium.ksp.annotations.TagNames
 import dev.kolibrium.ksp.annotations.Xpath
-import org.apache.commons.validator.routines.UrlValidator
+import dev.kolibrium.ksp.annotations.Xpaths
+import kotlin.reflect.KClass
 
 private const val KOLIBRIUM_SELENIUM_PACKAGE_NAME = "dev.kolibrium.selenium"
 
@@ -83,22 +90,6 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
             val typeBuilder =
                 TypeSpec.classBuilder(className)
                     .contextReceivers(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
-
-            val baseUrl = classDeclaration.getAnnotation(Url::class)?.getArgument("value")?.value as? String
-
-            baseUrl?.let {
-                if (baseUrl.isNotEmpty()) {
-                    if (!UrlValidator.getInstance().isValid(baseUrl)) {
-                        logger.error("Provided URL in \"$classDeclaration\" is invalid: $baseUrl")
-                    }
-
-                    typeBuilder.addInitializerBlock(
-                        CodeBlock.builder()
-                            .addStatement("get(%S)", baseUrl)
-                            .build(),
-                    )
-                }
-            }
 
             classDeclaration.getEnumEntries().forEach {
                 it.accept(EnumEntryVisitor(typeBuilder), Unit)
@@ -148,20 +139,8 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
             classDeclaration: KSClassDeclaration,
             data: Unit,
         ) {
-            val locatorAnnotations =
-                listOf(
-                    dev.kolibrium.ksp.annotations.ClassName::class,
-                    Css::class,
-                    Id::class,
-                    LinkText::class,
-                    Name::class,
-                    PartialLinkText::class,
-                    TagName::class,
-                    Xpath::class,
-                )
-
             val annotationsPresent =
-                locatorAnnotations.filter {
+                (singleElementLocatorAnnotations + multipleElementLocatorAnnotations).filter {
                     classDeclaration.getAnnotation(it) != null
                 }
             val enumEntryName = classDeclaration.simpleName.asString()
@@ -174,9 +153,7 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
             }
 
             if (annotationsPresent.size == 1) {
-                val locatorAnnotation = classDeclaration.getAnnotation(annotationsPresent[0])!!
-                val collectToListValue = locatorAnnotation.getArgument("collectToList").value as Boolean
-                val delegateTypeClassName = getDelegateTypeClassName(collectToListValue)
+                val locatorAnnotation = classDeclaration.getAnnotation(annotationsPresent.first())!!
                 val locator =
                     (locatorAnnotation.getArgument("locator").value as String).ifEmpty { enumEntryName }
                 val locatorStrategyClassName =
@@ -184,42 +161,72 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
                         KOLIBRIUM_SELENIUM_PACKAGE_NAME,
                         getLocatorStrategy(locatorAnnotation),
                     )
+                val delegateReturnType = getDelegateReturnType(annotationsPresent.first())
                 val mustacheTemplateParser = MustacheTemplateParser(locator)
 
                 if (mustacheTemplateParser.templateVariables.isEmpty()) {
-                    generateProperty(enumEntryName, delegateTypeClassName) {
-                        add("%T<%T>(%S)", locatorStrategyClassName, delegateTypeClassName, locator)
+                    generateProperty(enumEntryName, delegateReturnType) {
+                        add("%T(%S)", locatorStrategyClassName, locator)
                     }
                 } else {
                     generateDynamicLocatorFunction(
                         enumEntryName,
                         mustacheTemplateParser,
                         locatorStrategyClassName,
-                        delegateTypeClassName,
+                        delegateReturnType,
                     )
                 }
             } else { // fallback to idOrName
-                val delegateTypeClassName = getDelegateTypeClassName()
-                generateProperty(enumEntryName, delegateTypeClassName) {
+                generateProperty(enumEntryName, ClassName(SELENIUM_PACKAGE_NAME, "WebElement")) {
                     add(
-                        "%T<%T>(%S)",
+                        "%T(%S)",
                         ClassName(KOLIBRIUM_SELENIUM_PACKAGE_NAME, "idOrName"),
-                        delegateTypeClassName,
                         enumEntryName,
                     )
                 }
             }
         }
 
+        private val singleElementLocatorAnnotations =
+            listOf(
+                dev.kolibrium.ksp.annotations.ClassName::class,
+                CssSelector::class,
+                Id::class,
+                LinkText::class,
+                Name::class,
+                PartialLinkText::class,
+                TagName::class,
+                Xpath::class,
+            )
+
+        private val multipleElementLocatorAnnotations =
+            listOf(
+                ClassNames::class,
+                CssSelectors::class,
+                Ids::class,
+                LinkTexts::class,
+                Names::class,
+                PartialLinkTexts::class,
+                TagNames::class,
+                Xpaths::class,
+            )
+
+        private fun getDelegateReturnType(annotation: KClass<out Annotation>) =
+            if (annotation in singleElementLocatorAnnotations) {
+                ClassName(SELENIUM_PACKAGE_NAME, "WebElement")
+            } else {
+                ClassName(KOLIBRIUM_SELENIUM_PACKAGE_NAME, "WebElements")
+            }
+
         private fun generateProperty(
             enumEntryName: String,
-            delegateTypeClassName: ClassName,
+            delegateReturnType: ClassName,
             block: CodeBlock.Builder.() -> Unit,
         ) {
             typeSpecBuilder.addProperty(
                 PropertySpec.builder(
                     enumEntryName,
-                    delegateTypeClassName,
+                    delegateReturnType,
                 ).delegate(
                     CodeBlock.builder().apply {
                         block()
@@ -232,7 +239,7 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
             enumEntryName: String,
             mustacheTemplateParser: MustacheTemplateParser,
             locatorStrategyClassName: ClassName,
-            delegateTypeClassName: ClassName,
+            delegateReturnType: ClassName,
         ) {
             typeSpecBuilder.addFunction(
                 FunSpec.builder(enumEntryName)
@@ -245,33 +252,26 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
                         CodeBlock.of(
                             """
                             val locator = %P
-                            val element: WebElement by %T<WebElement>(locator)
+                            val element: WebElement by %T(locator)
                             return element
                             """.trimIndent(),
                             mustacheTemplateParser.visitedTexts.joinToString(separator = ""),
                             locatorStrategyClassName,
                         ),
                     )
-                    .returns(delegateTypeClassName)
+                    .returns(delegateReturnType)
                     .build(),
             )
         }
+
+        private fun getLocatorStrategy(annotation: KSAnnotation) =
+            annotation.toString()
+                .removePrefix("@")
+                .replaceFirstChar {
+                    it.lowercaseChar()
+                }
     }
 }
-
-private fun getDelegateTypeClassName(collectToListValue: Boolean = false) =
-    if (collectToListValue) {
-        ClassName(KOLIBRIUM_SELENIUM_PACKAGE_NAME, "WebElements")
-    } else {
-        ClassName(SELENIUM_PACKAGE_NAME, "WebElement")
-    }
-
-private fun getLocatorStrategy(annotation: KSAnnotation) =
-    annotation.toString()
-        .removePrefix("@")
-        .replaceFirstChar {
-            it.lowercaseChar()
-        }
 
 private class MustacheTemplateParser(locator: String) {
     private val template: Template = Mustache.compiler().compile(locator)
