@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.external
+package dev.kolibrium.selenium.external.eviltester
 
 import dev.kolibrium.selenium.cssSelector
 import dev.kolibrium.selenium.id
@@ -35,7 +35,7 @@ class ButtonsTest {
     companion object {
         @JvmStatic
         @BeforeAll
-        fun printExecutionPath() {
+        fun enableLogging() {
 //            SeleniumLogger.enable("RemoteWebDriver")
         }
     }

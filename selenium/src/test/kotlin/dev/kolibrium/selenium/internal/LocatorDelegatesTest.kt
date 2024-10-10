@@ -117,7 +117,7 @@ class LocatorDelegatesTest {
     companion object {
         @JvmStatic
         @BeforeAll
-        fun printExecutionPath() {
+        fun enableLogging() {
 //            SeleniumLogger.enable("RemoteWebDriver")
         }
     }

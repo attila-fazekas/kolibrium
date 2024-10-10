@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.external
+package dev.kolibrium.selenium.external.eviltester
 
 import dev.kolibrium.selenium.cssSelector
 import dev.kolibrium.selenium.id
