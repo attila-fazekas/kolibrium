@@ -18,15 +18,25 @@ package dev.kolibrium.test.swaglabs
 
 import dev.kolibrium.dsl.selenium.cookie.cookies
 import dev.kolibrium.junit.Kolibrium
+import dev.kolibrium.test.Product.BACKPACK
+import dev.kolibrium.test.Product.BIKE_LIGHT
 import dev.kolibrium.test.pages.generated.inventoryPage
-import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.WebDriver
 
 context(WebDriver)
 @Kolibrium
-class InventoryPageTest {
+class ShoppingCartTest {
+    companion object {
+        @JvmStatic
+        @BeforeAll
+        fun enableLogging() {
+//            SeleniumLogger.enable("RemoteWebDriver")
+        }
+    }
+
     @BeforeEach
     fun setUp() {
         cookies {
@@ -40,7 +50,19 @@ class InventoryPageTest {
     }
 
     @Test
-    fun `inventory page should have shopping cart`() = inventoryPage {
-            shoppingCart.isDisplayed shouldBe true
+    fun `shopping cart badge is updated when product added or removed`() = inventoryPage {
+        val products = setOf(BACKPACK, BIKE_LIGHT)
+
+        products.forEach { product ->
+            product.addToCart()
         }
+
+        verifyShoppingCartCountIs(products.size)
+
+        products.forEach { product ->
+            product.removeFromCart()
+        }
+
+        verifyShoppingCartIsEmpty()
+    }
 }

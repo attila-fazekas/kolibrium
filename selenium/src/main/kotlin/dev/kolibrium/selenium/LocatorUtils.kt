@@ -19,7 +19,7 @@ package dev.kolibrium.selenium
 import dev.kolibrium.core.InternalKolibriumApi
 import dev.kolibrium.core.WebElements
 import dev.kolibrium.dsl.selenium.wait.WaitScope
-import org.openqa.selenium.WebDriver
+import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.FluentWait
 import kotlin.time.toJavaDuration
@@ -32,7 +32,7 @@ public val WebElements.isDisplayed: Boolean
 
 @OptIn(InternalKolibriumApi::class)
 internal fun setUpWait(
-    driver: WebDriver,
+    driver: SearchContext,
     waitScope: WaitScope,
 ) = FluentWait(driver).apply {
     with(waitScope) {
