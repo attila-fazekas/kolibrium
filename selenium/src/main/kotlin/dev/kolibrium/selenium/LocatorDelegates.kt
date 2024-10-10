@@ -443,8 +443,8 @@ public fun SearchContext.xpaths(
  * @param locator The locator string used to find the element(s).
  * @param by A function that converts the locator string to a Selenium [By] object.
  * @param cacheLookup If true, the element(s) will be looked up only once and cached for subsequent
- *                    accesses. If false, a new lookup will be performed each time the element(s)
- *                    are accessed. This is equivalent to Selenium's @CacheLookup annotation.
+ *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                    a new lookup will be performed each time the element(s) are accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  * @receiver The SearchContext instance used to search for the element(s).
  * @return A [ReadOnlyProperty] delegate that provides either a [WebElement] or [WebElements] when accessed.
