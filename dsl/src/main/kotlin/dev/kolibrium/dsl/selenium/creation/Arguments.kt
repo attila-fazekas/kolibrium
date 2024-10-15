@@ -21,7 +21,9 @@ public sealed interface Argument {
 }
 
 @JvmInline
-public value class ChromeArgument private constructor(override val value: String) : Argument {
+public value class ChromeArgument private constructor(
+    override val value: String,
+) : Argument {
     public companion object {
         public fun of(value: String): ChromeArgument {
             require(value.startsWith("--")) { "Chrome argument \"$value\" must start with \"--\"" }
@@ -31,7 +33,9 @@ public value class ChromeArgument private constructor(override val value: String
 }
 
 @JvmInline
-public value class FirefoxArgument private constructor(override val value: String) : Argument {
+public value class FirefoxArgument private constructor(
+    override val value: String,
+) : Argument {
     public companion object {
         public fun of(value: String): FirefoxArgument {
             require(value.startsWith("--")) { "Firefox argument \"$value\" must start with \"--\"" }
@@ -41,7 +45,9 @@ public value class FirefoxArgument private constructor(override val value: Strin
 }
 
 @JvmInline
-public value class EdgeArgument private constructor(override val value: String) : Argument {
+public value class EdgeArgument private constructor(
+    override val value: String,
+) : Argument {
     public companion object {
         public fun of(value: String): EdgeArgument {
             require(value.startsWith("--")) { "Edge argument \"$value\" must start with \"--\"" }

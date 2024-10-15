@@ -29,7 +29,9 @@ public fun WebDriver.cookies(block: CookiesScope.() -> Unit) {
 }
 
 @KolibriumDsl
-public class CookiesScope(private val options: Options) {
+public class CookiesScope(
+    private val options: Options,
+) {
     @KolibriumDsl
     public fun cookie(
         name: String,
@@ -51,13 +53,13 @@ public class CookiesScope(private val options: Options) {
         options.addCookie(cookie.build())
     }
 
-    override fun toString(): String {
-        return "CookiesScope(options=${options.cookies})"
-    }
+    override fun toString(): String = "CookiesScope(options=${options.cookies})"
 }
 
 @KolibriumDsl
-public enum class SameSite(internal val type: String) {
+public enum class SameSite(
+    internal val type: String,
+) {
     STRICT("Strict"),
     LAX("Lax"),
     NONE("None"),

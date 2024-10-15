@@ -78,7 +78,5 @@ public sealed class DriverServiceScope {
         return true
     }
 
-    override fun toString(): String {
-        return "DriverServiceScope(environmentScope=$environmentScope, port=$port, timeout=$timeout)"
-    }
+    override fun toString(): String = "DriverServiceScope(environmentScope=$environmentScope, port=$port, timeout=$timeout)"
 }

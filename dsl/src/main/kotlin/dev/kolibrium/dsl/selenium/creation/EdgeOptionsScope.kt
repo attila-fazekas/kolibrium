@@ -19,7 +19,9 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.edge.EdgeOptions
 
 @KolibriumDsl
-public class EdgeOptionsScope(override val options: EdgeOptions) : ChromiumOptionsScope(options) {
+public class EdgeOptionsScope(
+    override val options: EdgeOptions,
+) : ChromiumOptionsScope(options) {
     private val argsScope by lazy { EdgeArgumentsScope() }
 
     @KolibriumPropertyDsl
@@ -38,12 +40,11 @@ public class EdgeOptionsScope(override val options: EdgeOptions) : ChromiumOptio
         options.addArguments(argsScope.args.map { it.value })
     }
 
-    override fun toString(): String {
-        return "EdgeOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
+    override fun toString(): String =
+        "EdgeOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
             "binary=$binary, browserVersion=$browserVersion, experimentalOptionsScope=$expOptionsScope, " +
             "extensionsScope=$extensionsScope, pageLoadStrategy=$pageLoadStrategy, platform=$platform, " +
             "proxyScope=$proxyScope, strictFileInteractability=$strictFileInteractability, " +
             "timeoutsScope=$timeoutsScope, unhandledPromptBehaviour=$unhandledPromptBehaviour, " +
             "useWebView=$useWebView)"
-    }
 }

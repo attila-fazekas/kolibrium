@@ -44,10 +44,9 @@ public class ChromeDriverServiceScope internal constructor(
         builder.withAllowedListIps(allowedIpsScope.allowedIps.joinToString(separator = ", "))
     }
 
-    override fun toString(): String {
-        return "ChromiumDriverServiceScope(allowedIpsScope=$allowedIpsScope, appendLog=$appendLog, " +
+    override fun toString(): String =
+        "ChromiumDriverServiceScope(allowedIpsScope=$allowedIpsScope, appendLog=$appendLog, " +
             "buildCheckDisabled=$buildCheckDisabled, environmentScope=$environmentScope, executable=$executable, " +
             "logFile=$logFile, logLevel=$logLevel, port=$port, readableTimestamp=$readableTimestamp, " +
             "timeout=$timeout)"
-    }
 }

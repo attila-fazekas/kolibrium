@@ -42,13 +42,11 @@ class KonsistTest {
             .withoutAbstractModifier()
             .filterNot {
                 it.containingDeclaration is KoInterfaceDeclaration
-            }
-            .filterNot {
+            }.filterNot {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "InternalKolibriumApi"
                 }
-            }
-            .assertTrue {
+            }.assertTrue {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "KolibriumPropertyDsl"
                 }
@@ -64,8 +62,7 @@ class KonsistTest {
             .withoutOperatorModifier()
             .filter {
                 it.hasModifier(COMPANION)
-            }
-            .assertTrue {
+            }.assertTrue {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "KolibriumDsl"
                 }
@@ -85,8 +82,7 @@ class KonsistTest {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "InternalKolibriumApi"
                 }
-            }
-            .assertTrue {
+            }.assertTrue {
                 it.hasAnnotation { koAnnotationDeclaration ->
                     koAnnotationDeclaration.name == "KolibriumDsl"
                 }
@@ -100,8 +96,7 @@ class KonsistTest {
             .classes()
             .filterNot {
                 it.name == "WindowSizeScope" || it.name == "SyncConfig"
-            }
-            .withPublicModifier()
+            }.withPublicModifier()
             .withoutValueModifier()
             .withoutAnnotationModifier()
             .withoutSealedModifier()

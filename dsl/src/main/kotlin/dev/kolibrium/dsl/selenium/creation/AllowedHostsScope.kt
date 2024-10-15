@@ -24,7 +24,5 @@ public class AllowedHostsScope {
         allowedHosts.add(this)
     }
 
-    override fun toString(): String {
-        return "AllowedHostsScope(allowedHosts=$allowedHosts)"
-    }
+    override fun toString(): String = "AllowedHostsScope(allowedHosts=$allowedHosts)"
 }

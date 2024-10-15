@@ -56,7 +56,5 @@ public class ProxyScope {
         }
     }
 
-    override fun toString(): String {
-        return "ProxyScope(proxyMap=$proxyMap)"
-    }
+    override fun toString(): String = "ProxyScope(proxyMap=$proxyMap)"
 }

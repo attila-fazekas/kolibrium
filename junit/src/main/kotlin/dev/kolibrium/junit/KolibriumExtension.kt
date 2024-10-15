@@ -49,7 +49,10 @@ public annotation class Kolibrium
 
 private val logger = KotlinLogging.logger { }
 
-public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) : ParameterResolver, AfterEachCallback {
+public class KolibriumExtension(
+    private val driver: (() -> WebDriver)? = null,
+) : ParameterResolver,
+    AfterEachCallback {
     private val actualConfig: AbstractProjectConfiguration by lazy { actualConfig() }
 
     override fun supportsParameter(
@@ -113,11 +116,13 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
                         createDriver(
                             Browser.valueOf(
                                 defaultBrowserDriverClass.simpleName
-                                    .substringBefore("Driver").uppercase(),
+                                    .substringBefore("Driver")
+                                    .uppercase(),
                             ),
                         )
                     }
-                } ?: run { // otherwise get the driver from default config
+                } ?: run {
+                    // otherwise get the driver from default config
                     if (RemoteWebDriver::class.java.isAssignableFrom(constructorDriverClass) &&
                         constructorDriverClass != ProjectConfiguration.defaultBrowser.driverClass()::class.java
                     ) {
@@ -135,14 +140,13 @@ public class KolibriumExtension(private val driver: (() -> WebDriver)? = null) :
         return driver
     }
 
-    private fun Browser.driverClass(): KClass<out WebDriver> {
-        return when (this) {
+    private fun Browser.driverClass(): KClass<out WebDriver> =
+        when (this) {
             CHROME -> ChromeDriver::class
             SAFARI -> SafariDriver::class
             EDGE -> EdgeDriver::class
             FIREFOX -> FirefoxDriver::class
         }
-    }
 
     override fun afterEach(extCtx: ExtensionContext) {
         val driver: WebDriver = extCtx.store().get(Thread.currentThread().threadId()) as WebDriver

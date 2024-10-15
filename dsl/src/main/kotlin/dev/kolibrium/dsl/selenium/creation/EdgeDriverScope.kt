@@ -40,7 +40,5 @@ public class EdgeDriverScope : DriverScope<EdgeDriverServiceScope, EdgeOptionsSc
         }
     }
 
-    override fun toString(): String {
-        return "EdgeDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
-    }
+    override fun toString(): String = "EdgeDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
 }

@@ -24,7 +24,5 @@ public class EnvironmentScope {
         environmentVariables[first] = second
     }
 
-    override fun toString(): String {
-        return "EnvironmentScope(environmentVariables=$environmentVariables)"
-    }
+    override fun toString(): String = "EnvironmentScope(environmentVariables=$environmentVariables)"
 }

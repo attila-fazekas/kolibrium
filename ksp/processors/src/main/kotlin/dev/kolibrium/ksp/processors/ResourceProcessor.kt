@@ -32,8 +32,10 @@ import com.squareup.kotlinpoet.asTypeName
 import dev.kolibrium.ksp.annotations.Resource
 import java.util.Locale
 
-public class ResourceProcessor(private val codeGen: CodeGenerator, private val logger: KSPLogger) :
-    SymbolProcessor {
+public class ResourceProcessor(
+    private val codeGen: CodeGenerator,
+    private val logger: KSPLogger,
+) : SymbolProcessor {
     // process function returns a list of KSAnnotated objects, which represent symbols that
     // the processor can't currently process and need to be deferred to another round
     override fun process(resolver: Resolver): List<KSAnnotated> {
@@ -61,19 +63,19 @@ public class ResourceProcessor(private val codeGen: CodeGenerator, private val l
             val resource = classDeclaration.getAnnotation(Resource::class)?.getArgument("value")?.value as? String
 
             val function =
-                FunSpec.builder(
-                    className.replaceFirstChar { it.lowercase(Locale.getDefault()) },
-                )
-                    .receiver(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
+                FunSpec
+                    .builder(
+                        className.replaceFirstChar { it.lowercase(Locale.getDefault()) },
+                    ).receiver(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
                     .addParameter(
                         "block",
                         LambdaTypeName.get(
                             receiver = ClassName(classDeclaration.packageName.asString(), className),
                             returnType = Unit::class.asTypeName(),
                         ),
-                    )
-                    .addCode(
-                        CodeBlock.builder()
+                    ).addCode(
+                        CodeBlock
+                            .builder()
                             .addStatement("get(%P)", "\${currentUrl}$resource")
                             .add(
                                 """
@@ -81,13 +83,12 @@ public class ResourceProcessor(private val codeGen: CodeGenerator, private val l
                                     block()
                                 }
                                 """.trimIndent(),
-                            )
-                            .build(),
-                    )
-                    .build()
+                            ).build(),
+                    ).build()
 
             val fileSpec =
-                FileSpec.builder(classDeclaration.generatedPackageName, className)
+                FileSpec
+                    .builder(classDeclaration.generatedPackageName, className)
                     .addFunction(function)
 
             codeGen.writeToFile(classDeclaration, fileSpec)

@@ -24,7 +24,5 @@ public class FirefoxProfileScope {
         preferences[first.value] = second
     }
 
-    override fun toString(): String {
-        return "FirefoxProfileScope(preferences=$preferences)"
-    }
+    override fun toString(): String = "FirefoxProfileScope(preferences=$preferences)"
 }

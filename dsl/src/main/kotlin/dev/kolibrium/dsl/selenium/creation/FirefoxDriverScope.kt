@@ -40,7 +40,5 @@ public class FirefoxDriverScope : DriverScope<GeckoDriverServiceScope, FirefoxOp
         }
     }
 
-    override fun toString(): String {
-        return "FirefoxDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
-    }
+    override fun toString(): String = "FirefoxDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
 }

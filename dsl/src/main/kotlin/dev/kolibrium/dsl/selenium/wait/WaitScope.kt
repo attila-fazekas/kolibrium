@@ -39,9 +39,7 @@ public class WebElementSyncConfig : SyncConfig<WebElement>() {
     @KolibriumPropertyDsl
     override var until: WebElement.() -> Boolean = { isDisplayed }
 
-    override fun toString(): String {
-        return "WebElementSyncConfig(until=$until)"
-    }
+    override fun toString(): String = "WebElementSyncConfig(until=$until)"
 }
 
 @KolibriumDsl
@@ -49,9 +47,7 @@ public class WebElementsSyncConfig : SyncConfig<WebElements>() {
     @KolibriumPropertyDsl
     override var until: WebElements.() -> Boolean = { all { it.isDisplayed } }
 
-    override fun toString(): String {
-        return "WebElementsSyncConfig(until=$until)"
-    }
+    override fun toString(): String = "WebElementsSyncConfig(until=$until)"
 }
 
 @KolibriumDsl
@@ -71,10 +67,9 @@ public class WaitScope {
     @KolibriumDsl
     public fun ignoring(block: IgnoringScope.() -> Unit): IgnoringScope = ignoringScope.apply(block)
 
-    override fun toString(): String {
-        return "WaitScope(pollingInterval=$pollingInterval, timeout=$timeout, message=$message, " +
+    override fun toString(): String =
+        "WaitScope(pollingInterval=$pollingInterval, timeout=$timeout, message=$message, " +
             "ignoringScope=$ignoringScope)"
-    }
 }
 
 @InternalKolibriumApi
@@ -90,6 +85,4 @@ public val defaultWait: WaitScope =
     }
 
 @KolibriumDsl
-public fun wait(block: WaitScope.() -> Unit): WaitScope {
-    return WaitScope().apply(block)
-}
+public fun wait(block: WaitScope.() -> Unit): WaitScope = WaitScope().apply(block)

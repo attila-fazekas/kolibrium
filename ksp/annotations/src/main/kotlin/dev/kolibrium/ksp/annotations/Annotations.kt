@@ -26,16 +26,24 @@ package dev.kolibrium.ksp.annotations
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-public annotation class Page(val generatedClassName: String = "")
+public annotation class Page(
+    val generatedClassName: String = "",
+)
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-public annotation class Url(val value: String = "")
+public annotation class Url(
+    val value: String = "",
+)
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-public annotation class Path(val value: String = "")
+public annotation class Path(
+    val value: String = "",
+)
 
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-public annotation class Resource(val value: String = "")
+public annotation class Resource(
+    val value: String = "",
+)

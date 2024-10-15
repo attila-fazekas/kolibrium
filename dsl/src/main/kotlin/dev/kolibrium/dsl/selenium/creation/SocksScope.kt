@@ -30,7 +30,5 @@ public class SocksScope {
     @KolibriumPropertyDsl
     public var password: String? = null
 
-    override fun toString(): String {
-        return "SocksScope(address=$address, version=$version, username=$username, password=$password)"
-    }
+    override fun toString(): String = "SocksScope(address=$address, version=$version, username=$username, password=$password)"
 }

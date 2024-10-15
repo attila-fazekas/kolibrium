@@ -164,28 +164,32 @@ public fun options(
 
 @KolibriumDsl
 public fun chromeOptions(block: ChromeOptionsScope.() -> Unit): ChromeOptions =
-    ChromeOptionsScope(ChromeOptions()).apply {
-        block()
-        configure()
-    }.options
+    ChromeOptionsScope(ChromeOptions())
+        .apply {
+            block()
+            configure()
+        }.options
 
 @KolibriumDsl
 public fun safariOptions(block: SafariOptionsScope.() -> Unit): SafariOptions =
-    SafariOptionsScope(SafariOptions()).apply {
-        block()
-        configure()
-    }.options
+    SafariOptionsScope(SafariOptions())
+        .apply {
+            block()
+            configure()
+        }.options
 
 @KolibriumDsl
 public fun edgeOptions(block: EdgeOptionsScope.() -> Unit): EdgeOptions =
-    EdgeOptionsScope(EdgeOptions()).apply {
-        block()
-        configure()
-    }.options
+    EdgeOptionsScope(EdgeOptions())
+        .apply {
+            block()
+            configure()
+        }.options
 
 @KolibriumDsl
 public fun firefoxOptions(block: FirefoxOptionsScope.() -> Unit): FirefoxOptions =
-    FirefoxOptionsScope(FirefoxOptions()).apply {
-        block()
-        configure()
-    }.options
+    FirefoxOptionsScope(FirefoxOptions())
+        .apply {
+            block()
+            configure()
+        }.options

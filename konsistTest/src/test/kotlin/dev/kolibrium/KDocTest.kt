@@ -36,8 +36,7 @@ class KDocTest {
             .functions()
             .filter {
                 it.resideInModule("core") || it.resideInModule("dsl") || it.resideInModule("selenium")
-            }
-            .withoutOverrideModifier()
+            }.withoutOverrideModifier()
             .withPublicModifier()
             .assertTrue {
                 it.hasValidKDocParamTags()
@@ -52,8 +51,7 @@ class KDocTest {
             .functions()
             .filter {
                 it.resideInModule("core") || it.resideInModule("dsl") || it.resideInModule("selenium")
-            }
-            .withoutOverrideModifier()
+            }.withoutOverrideModifier()
             .withPublicModifier()
             .assertTrue {
                 it.hasValidKDocReturnTag()
@@ -68,8 +66,7 @@ class KDocTest {
             .functions()
             .filter {
                 it.resideInModule("core") || it.resideInModule("dsl") || it.resideInModule("selenium")
-            }
-            .withoutOverrideModifier()
+            }.withoutOverrideModifier()
             .withPublicModifier()
             .withoutOperatorModifier()
             .assertTrue {
@@ -85,8 +82,7 @@ class KDocTest {
             .properties()
             .filter {
                 it.resideInModule("core") || it.resideInModule("dsl") || it.resideInModule("selenium")
-            }
-            .withoutOverrideModifier()
+            }.withoutOverrideModifier()
             .withPublicModifier()
             .assertTrue {
                 it.hasValidKDocReceiverTag()

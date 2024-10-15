@@ -21,14 +21,18 @@ public sealed interface Preference {
 }
 
 @JvmInline
-public value class ChromiumPreference(internal val value: String) {
+public value class ChromiumPreference(
+    internal val value: String,
+) {
     public companion object {
         public fun of(value: String): ChromiumPreference = ChromiumPreference(value)
     }
 }
 
 @JvmInline
-public value class FirefoxPreference(internal val value: String) {
+public value class FirefoxPreference(
+    internal val value: String,
+) {
     public companion object {
         public fun of(value: String): FirefoxPreference = FirefoxPreference(value)
     }

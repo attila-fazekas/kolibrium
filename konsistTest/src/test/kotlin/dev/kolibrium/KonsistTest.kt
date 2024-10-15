@@ -46,8 +46,7 @@ class KonsistTest {
             .withValueModifier()
             .filterNot {
                 it.name == "Extension"
-            }
-            .primaryConstructors
+            }.primaryConstructors
             .assertTrue { it.hasParameterWithName("value") }
     }
 
@@ -60,8 +59,7 @@ class KonsistTest {
             .withName("logger")
             .withoutType {
                 it.name == "KSPLogger"
-            }
-            .assertTrue {
+            }.assertTrue {
                 it.hasPrivateModifier && it.isTopLevel
             }
     }

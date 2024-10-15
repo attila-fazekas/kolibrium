@@ -21,8 +21,9 @@ import org.openqa.selenium.firefox.GeckoDriverService
 import java.io.File
 
 @KolibriumDsl
-public class GeckoDriverServiceScope(override val builder: GeckoDriverService.Builder) :
-    DriverServiceScope() {
+public class GeckoDriverServiceScope(
+    override val builder: GeckoDriverService.Builder,
+) : DriverServiceScope() {
     private val allowedHostsScope: AllowedHostsScope by lazy { AllowedHostsScope() }
 
     @KolibriumPropertyDsl
@@ -61,9 +62,8 @@ public class GeckoDriverServiceScope(override val builder: GeckoDriverService.Bu
         builder.withAllowHosts(allowedHostsScope.allowedHosts.joinToString(separator = " "))
     }
 
-    override fun toString(): String {
-        return "GeckoDriverServiceScope(allowedHostsScope=$allowedHostsScope, environmentScope=$environmentScope, " +
+    override fun toString(): String =
+        "GeckoDriverServiceScope(allowedHostsScope=$allowedHostsScope, environmentScope=$environmentScope, " +
             "executable=$executable, logFile=$logFile, logLevel=$logLevel, port=$port, profileRoot=$profileRoot, " +
             "timeout=$timeout, truncatedLogs=$truncatedLogs)"
-    }
 }

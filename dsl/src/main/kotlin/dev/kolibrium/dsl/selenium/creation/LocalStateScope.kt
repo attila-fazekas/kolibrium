@@ -21,11 +21,8 @@ public class LocalStateScope {
     internal val experiments by lazy { BrowserEnabledLabsExperiments() }
 
     @KolibriumDsl
-    public fun browserEnabledLabsExperiments(
-        block: BrowserEnabledLabsExperiments.() -> Unit,
-    ): BrowserEnabledLabsExperiments = experiments.apply(block)
+    public fun browserEnabledLabsExperiments(block: BrowserEnabledLabsExperiments.() -> Unit): BrowserEnabledLabsExperiments =
+        experiments.apply(block)
 
-    override fun toString(): String {
-        return "LocalStateScope(browserEnabledLabsExperiments=$experiments)"
-    }
+    override fun toString(): String = "LocalStateScope(browserEnabledLabsExperiments=$experiments)"
 }

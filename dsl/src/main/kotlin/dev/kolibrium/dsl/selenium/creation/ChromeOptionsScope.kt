@@ -19,7 +19,9 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.chrome.ChromeOptions
 
 @KolibriumDsl
-public class ChromeOptionsScope(override val options: ChromeOptions) : ChromiumOptionsScope(options) {
+public class ChromeOptionsScope(
+    override val options: ChromeOptions,
+) : ChromiumOptionsScope(options) {
     private val argsScope by lazy { ChromeArgumentsScope() }
 
     @KolibriumDsl
@@ -28,11 +30,10 @@ public class ChromeOptionsScope(override val options: ChromeOptions) : ChromiumO
         options.addArguments(argsScope.args.map { it.value })
     }
 
-    override fun toString(): String {
-        return "ChromeOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
+    override fun toString(): String =
+        "ChromeOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
             "binary=$binary, browserVersion=$browserVersion, experimentalOptionsScope=$expOptionsScope, " +
             "extensionsScope=$extensionsScope, pageLoadStrategy=$pageLoadStrategy, platform=$platform, " +
             "proxyScope=$proxyScope, strictFileInteractability=$strictFileInteractability, " +
             "timeoutsScope=$timeoutsScope, unhandledPromptBehaviour=$unhandledPromptBehaviour)"
-    }
 }
