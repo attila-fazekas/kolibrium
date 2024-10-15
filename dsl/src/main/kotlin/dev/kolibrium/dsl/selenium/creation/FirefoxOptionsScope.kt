@@ -21,7 +21,9 @@ import org.openqa.selenium.firefox.FirefoxProfile
 import java.io.File
 
 @KolibriumDsl
-public class FirefoxOptionsScope(override val options: FirefoxOptions) : OptionsScope() {
+public class FirefoxOptionsScope(
+    override val options: FirefoxOptions,
+) : OptionsScope() {
     private val argsScope by lazy { FirefoxArgumentsScope() }
     private val preferencesScope by lazy { FirefoxPreferencesScope() }
     private val ffProfileScope by lazy { FirefoxProfileScope() }
@@ -64,11 +66,10 @@ public class FirefoxOptionsScope(override val options: FirefoxOptions) : Options
         }
     }
 
-    override fun toString(): String {
-        return "FirefoxOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
+    override fun toString(): String =
+        "FirefoxOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
             "binary=$binary, browserVersion=$browserVersion, firefoxProfileScope=$ffProfileScope, " +
             "pageLoadStrategy=$pageLoadStrategy, platform=$platform, preferencesScope=$preferencesScope, " +
             "profileDir=$profileDir, proxyScope=$proxyScope, strictFileInteractability=$strictFileInteractability, " +
             "timeoutsScope=$timeoutsScope, unhandledPromptBehaviour=$unhandledPromptBehaviour)"
-    }
 }

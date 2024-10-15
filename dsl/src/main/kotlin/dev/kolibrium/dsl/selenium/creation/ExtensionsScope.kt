@@ -19,7 +19,9 @@ package dev.kolibrium.dsl.selenium.creation
 import java.io.File
 
 @JvmInline
-public value class Extension(internal val path: String)
+public value class Extension(
+    internal val path: String,
+)
 
 @KolibriumDsl
 public class ExtensionsScope {
@@ -29,7 +31,5 @@ public class ExtensionsScope {
         extensions.add(File(path))
     }
 
-    override fun toString(): String {
-        return "ExtensionsScope(extensions=$extensions)"
-    }
+    override fun toString(): String = "ExtensionsScope(extensions=$extensions)"
 }

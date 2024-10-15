@@ -91,10 +91,9 @@ public sealed class OptionsScope {
         }
     }
 
-    override fun toString(): String {
-        return "OptionsScope(acceptInsecureCerts=$acceptInsecureCerts, browserVersion=$browserVersion, " +
+    override fun toString(): String =
+        "OptionsScope(acceptInsecureCerts=$acceptInsecureCerts, browserVersion=$browserVersion, " +
             "pageLoadStrategy=$pageLoadStrategy, platform=$platform, proxyScope=$proxyScope, " +
             "strictFileInteractability=$strictFileInteractability, timeoutsScope=$timeoutsScope, " +
             "unhandledPromptBehaviour=$unhandledPromptBehaviour)"
-    }
 }

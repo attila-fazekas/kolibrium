@@ -24,7 +24,5 @@ public class AllowedIpsScope {
         allowedIps.add(this)
     }
 
-    override fun toString(): String {
-        return "AllowedIpsScope(allowedIps=$allowedIps)"
-    }
+    override fun toString(): String = "AllowedIpsScope(allowedIps=$allowedIps)"
 }

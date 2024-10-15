@@ -29,7 +29,5 @@ public class TimeoutsScope {
     @KolibriumPropertyDsl
     public var script: Duration? = null
 
-    override fun toString(): String {
-        return "TimeoutsScope(implicitWait=$implicitWait, pageLoad=$pageLoad, script=$script)"
-    }
+    override fun toString(): String = "TimeoutsScope(implicitWait=$implicitWait, pageLoad=$pageLoad, script=$script)"
 }

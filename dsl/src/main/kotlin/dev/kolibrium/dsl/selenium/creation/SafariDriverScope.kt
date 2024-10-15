@@ -40,7 +40,5 @@ public class SafariDriverScope : DriverScope<SafariDriverServiceScope, SafariOpt
         }
     }
 
-    override fun toString(): String {
-        return "SafariDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
-    }
+    override fun toString(): String = "SafariDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
 }

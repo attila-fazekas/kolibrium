@@ -19,8 +19,9 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.safari.SafariDriverService
 
 @KolibriumDsl
-public class SafariDriverServiceScope(override val builder: SafariDriverService.Builder) :
-    DriverServiceScope() {
+public class SafariDriverServiceScope(
+    override val builder: SafariDriverService.Builder,
+) : DriverServiceScope() {
     @KolibriumPropertyDsl
     public var logging: Boolean? = null
 
@@ -31,8 +32,7 @@ public class SafariDriverServiceScope(override val builder: SafariDriverService.
         }
     }
 
-    override fun toString(): String {
-        return "SafariDriverServiceScope(environmentScope=$environmentScope, logging=$logging, port=$port, " +
+    override fun toString(): String =
+        "SafariDriverServiceScope(environmentScope=$environmentScope, logging=$logging, port=$port, " +
             "timeout=$timeout)"
-    }
 }

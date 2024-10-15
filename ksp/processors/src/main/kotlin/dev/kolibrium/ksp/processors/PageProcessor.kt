@@ -57,8 +57,10 @@ import kotlin.reflect.KClass
 
 private const val KOLIBRIUM_SELENIUM_PACKAGE_NAME = "dev.kolibrium.selenium"
 
-public class PageProcessor(private val codeGen: CodeGenerator, private val logger: KSPLogger) :
-    SymbolProcessor {
+public class PageProcessor(
+    private val codeGen: CodeGenerator,
+    private val logger: KSPLogger,
+) : SymbolProcessor {
     // process function returns a list of KSAnnotated objects, which represent symbols that
     // the processor can't currently process and need to be deferred to another round
     override fun process(resolver: Resolver): List<KSAnnotated> {
@@ -88,7 +90,8 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
             val className = getClassName(classDeclaration)
 
             val typeBuilder =
-                TypeSpec.classBuilder(className)
+                TypeSpec
+                    .classBuilder(className)
                     .contextReceivers(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
 
             classDeclaration.getEnumEntries().forEach {
@@ -96,7 +99,8 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
             }
 
             val fileSpec =
-                FileSpec.builder(classDeclaration.generatedPackageName, className)
+                FileSpec
+                    .builder(classDeclaration.generatedPackageName, className)
                     .addType(typeBuilder.build())
 
             codeGen.writeToFile(classDeclaration, fileSpec)
@@ -134,7 +138,9 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
             declarations.filter { it.closestClassDeclaration()?.classKind == ClassKind.ENUM_ENTRY }
     }
 
-    private inner class EnumEntryVisitor(private val typeSpecBuilder: TypeSpec.Builder) : KSVisitorVoid() {
+    private inner class EnumEntryVisitor(
+        private val typeSpecBuilder: TypeSpec.Builder,
+    ) : KSVisitorVoid() {
         override fun visitClassDeclaration(
             classDeclaration: KSClassDeclaration,
             data: Unit,
@@ -224,14 +230,17 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
             block: CodeBlock.Builder.() -> Unit,
         ) {
             typeSpecBuilder.addProperty(
-                PropertySpec.builder(
-                    enumEntryName,
-                    delegateReturnType,
-                ).delegate(
-                    CodeBlock.builder().apply {
-                        block()
-                    }.build(),
-                ).build(),
+                PropertySpec
+                    .builder(
+                        enumEntryName,
+                        delegateReturnType,
+                    ).delegate(
+                        CodeBlock
+                            .builder()
+                            .apply {
+                                block()
+                            }.build(),
+                    ).build(),
             )
         }
 
@@ -242,13 +251,13 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
             delegateReturnType: ClassName,
         ) {
             typeSpecBuilder.addFunction(
-                FunSpec.builder(enumEntryName)
+                FunSpec
+                    .builder(enumEntryName)
                     .addParameters(
                         mustacheTemplateParser.templateVariables.map { templateVariable ->
                             ParameterSpec.builder(templateVariable, String::class).build()
                         },
-                    )
-                    .addCode(
+                    ).addCode(
                         CodeBlock.of(
                             """
                             val locator = %P
@@ -258,14 +267,14 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
                             mustacheTemplateParser.visitedTexts.joinToString(separator = ""),
                             locatorStrategyClassName,
                         ),
-                    )
-                    .returns(delegateReturnType)
+                    ).returns(delegateReturnType)
                     .build(),
             )
         }
 
         private fun getLocatorStrategy(annotation: KSAnnotation) =
-            annotation.toString()
+            annotation
+                .toString()
                 .removePrefix("@")
                 .replaceFirstChar {
                     it.lowercaseChar()
@@ -273,7 +282,9 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
     }
 }
 
-private class MustacheTemplateParser(locator: String) {
+private class MustacheTemplateParser(
+    locator: String,
+) {
     private val template: Template = Mustache.compiler().compile(locator)
     val templateVariables = mutableListOf<String>()
     val visitedTexts = mutableListOf<String>()

@@ -51,7 +51,9 @@ open class ProcessorBaseTest {
     ) = compilation.getGeneratedSource(actualFileName).trimIndent() shouldBe expected.trimIndent()
 
     private fun KotlinCompilation.getGeneratedSource(fileName: String) =
-        kspSourcesDir.walkTopDown().first {
-            it.name == fileName
-        }.readText()
+        kspSourcesDir
+            .walkTopDown()
+            .first {
+                it.name == fileName
+            }.readText()
 }

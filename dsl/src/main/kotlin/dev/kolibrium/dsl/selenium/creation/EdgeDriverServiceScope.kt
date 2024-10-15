@@ -20,8 +20,9 @@ import org.openqa.selenium.edge.EdgeDriverService
 import java.io.File
 
 @KolibriumDsl
-public class EdgeDriverServiceScope(override val builder: EdgeDriverService.Builder) :
-    ChromiumDriverServiceScope() {
+public class EdgeDriverServiceScope(
+    override val builder: EdgeDriverService.Builder,
+) : ChromiumDriverServiceScope() {
     override fun configure() {
         super.configure()
         builder.apply {
@@ -43,10 +44,9 @@ public class EdgeDriverServiceScope(override val builder: EdgeDriverService.Buil
         builder.withAllowedListIps(allowedIpsScope.allowedIps.joinToString(separator = ", "))
     }
 
-    override fun toString(): String {
-        return "EdgeDriverServiceScope(allowedIpsScope=$allowedIpsScope, appendLog=$appendLog, " +
+    override fun toString(): String =
+        "EdgeDriverServiceScope(allowedIpsScope=$allowedIpsScope, appendLog=$appendLog, " +
             "buildCheckDisabled=$buildCheckDisabled, environmentScope=$environmentScope, executable=$executable, " +
             "logFile=$logFile, logLevel=$logLevel, port=$port, readableTimestamp=$readableTimestamp, " +
             "timeout=$timeout)"
-    }
 }

@@ -24,7 +24,9 @@ package dev.kolibrium.ksp.annotations
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class ClassName(val locator: String = "")
+public annotation class ClassName(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using "cssSelector" locator strategy.
@@ -32,7 +34,9 @@ public annotation class ClassName(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class CssSelector(val locator: String = "")
+public annotation class CssSelector(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using "id" locator strategy.
@@ -40,7 +44,9 @@ public annotation class CssSelector(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Id(val locator: String = "")
+public annotation class Id(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using "linkText" locator strategy.
@@ -48,7 +54,9 @@ public annotation class Id(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class LinkText(val locator: String = "")
+public annotation class LinkText(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using "name" locator strategy.
@@ -56,7 +64,9 @@ public annotation class LinkText(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Name(val locator: String = "")
+public annotation class Name(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using "partialLinkText" locator strategy.
@@ -64,7 +74,9 @@ public annotation class Name(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class PartialLinkText(val locator: String = "")
+public annotation class PartialLinkText(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using "tagName" locator strategy.
@@ -72,7 +84,9 @@ public annotation class PartialLinkText(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class TagName(val locator: String = "")
+public annotation class TagName(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using "xpath" locator strategy.
@@ -80,7 +94,9 @@ public annotation class TagName(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Xpath(val locator: String = "")
+public annotation class Xpath(
+    val locator: String = "",
+)
 
 // for WebElements
 
@@ -90,7 +106,9 @@ public annotation class Xpath(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class ClassNames(val locator: String = "")
+public annotation class ClassNames(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using "cssSelector" locator strategy.
@@ -98,7 +116,9 @@ public annotation class ClassNames(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class CssSelectors(val locator: String = "")
+public annotation class CssSelectors(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using "id" locator strategy.
@@ -106,7 +126,9 @@ public annotation class CssSelectors(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Ids(val locator: String = "")
+public annotation class Ids(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using "linkText" locator strategy.
@@ -114,7 +136,9 @@ public annotation class Ids(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class LinkTexts(val locator: String = "")
+public annotation class LinkTexts(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using "name" locator strategy.
@@ -122,7 +146,9 @@ public annotation class LinkTexts(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Names(val locator: String = "")
+public annotation class Names(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using "partialLinkText" locator strategy.
@@ -130,7 +156,9 @@ public annotation class Names(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class PartialLinkTexts(val locator: String = "")
+public annotation class PartialLinkTexts(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using "tagName" locator strategy.
@@ -138,7 +166,9 @@ public annotation class PartialLinkTexts(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class TagNames(val locator: String = "")
+public annotation class TagNames(
+    val locator: String = "",
+)
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using "xpath" locator strategy.
@@ -146,4 +176,6 @@ public annotation class TagNames(val locator: String = "")
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Xpaths(val locator: String = "")
+public annotation class Xpaths(
+    val locator: String = "",
+)

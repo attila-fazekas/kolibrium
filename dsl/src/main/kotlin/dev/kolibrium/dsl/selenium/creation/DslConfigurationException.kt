@@ -18,4 +18,6 @@ package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.core.ConfigurationException
 
-internal class DslConfigurationException(exception: String) : ConfigurationException(exception)
+internal class DslConfigurationException(
+    exception: String,
+) : ConfigurationException(exception)

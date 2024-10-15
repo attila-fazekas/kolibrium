@@ -481,14 +481,13 @@ internal class KWebElement(
     override fun getValue(
         thisRef: Any?,
         property: KProperty<*>,
-    ): WebElement {
-        return execute(property.name, by(locator)) {
+    ): WebElement =
+        execute(property.name, by(locator)) {
             val config = WebElementSyncConfig().apply(syncConfig)
             val wait = setUpWait(this@SearchContext, config.wait)
             wait.until { config.until(webElement) }
             webElement
         }
-    }
 }
 
 context(SearchContext)
@@ -506,8 +505,8 @@ internal class KWebElements(
     override fun getValue(
         thisRef: Any?,
         property: KProperty<*>,
-    ): WebElements {
-        return execute(property.name, by(locator)) {
+    ): WebElements =
+        execute(property.name, by(locator)) {
             val config = WebElementsSyncConfig().apply(syncConfig)
             val wait = setUpWait(this@SearchContext, config.wait)
             wait.until {
@@ -516,7 +515,6 @@ internal class KWebElements(
             }
             webElements
         }
-    }
 }
 
 private val logger = KotlinLogging.logger {}

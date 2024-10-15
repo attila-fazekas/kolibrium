@@ -21,7 +21,9 @@ import org.openqa.selenium.chromium.ChromiumOptions
 import org.openqa.selenium.edge.EdgeOptions
 
 @KolibriumDsl
-public abstract class ChromiumOptionsScope(override val options: ChromiumOptions<*>) : OptionsScope() {
+public abstract class ChromiumOptionsScope(
+    override val options: ChromiumOptions<*>,
+) : OptionsScope() {
     protected val expOptionsScope: ExperimentalOptionsScope by lazy { ExperimentalOptionsScope() }
     protected val extensionsScope: ExtensionsScope by lazy { ExtensionsScope() }
 

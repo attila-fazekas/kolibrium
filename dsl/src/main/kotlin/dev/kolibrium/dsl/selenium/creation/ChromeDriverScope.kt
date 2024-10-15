@@ -40,7 +40,5 @@ public class ChromeDriverScope : DriverScope<ChromeDriverServiceScope, ChromeOpt
         }
     }
 
-    override fun toString(): String {
-        return "ChromeDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
-    }
+    override fun toString(): String = "ChromeDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
 }

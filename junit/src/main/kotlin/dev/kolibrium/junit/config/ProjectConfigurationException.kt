@@ -18,4 +18,6 @@ package dev.kolibrium.junit.config
 
 import dev.kolibrium.core.ConfigurationException
 
-internal class ProjectConfigurationException(exception: String) : ConfigurationException(exception)
+internal class ProjectConfigurationException(
+    exception: String,
+) : ConfigurationException(exception)

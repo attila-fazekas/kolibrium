@@ -37,8 +37,13 @@ import java.nio.file.Paths
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 private fun getPage(pageName: String) =
-    Paths.get("").toAbsolutePath()
-        .parent.resolve("pages/$pageName.html").toUri().toString()
+    Paths
+        .get("")
+        .toAbsolutePath()
+        .parent
+        .resolve("pages/$pageName.html")
+        .toUri()
+        .toString()
 
 private val buttonPage1 = getPage("button_delayed")
 private val buttonPage2 = getPage("button_exception1")

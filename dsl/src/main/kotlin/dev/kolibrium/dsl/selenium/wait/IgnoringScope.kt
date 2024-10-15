@@ -30,7 +30,5 @@ public class IgnoringScope {
         exceptions.add(this.java)
     }
 
-    override fun toString(): String {
-        return "IgnoringScope(exceptions=$exceptions)"
-    }
+    override fun toString(): String = "IgnoringScope(exceptions=$exceptions)"
 }

@@ -24,7 +24,5 @@ public class BrowserEnabledLabsExperiments {
         experimentalFlags.add(value)
     }
 
-    override fun toString(): String {
-        return "BrowserEnabledLabsExperiments(experimentalFlags=$experimentalFlags)"
-    }
+    override fun toString(): String = "BrowserEnabledLabsExperiments(experimentalFlags=$experimentalFlags)"
 }

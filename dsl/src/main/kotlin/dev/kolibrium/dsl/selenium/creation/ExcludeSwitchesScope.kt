@@ -24,7 +24,5 @@ public class ExcludeSwitchesScope {
         switches.add(value)
     }
 
-    override fun toString(): String {
-        return "ExcludeSwitchesScope(switches=$switches)"
-    }
+    override fun toString(): String = "ExcludeSwitchesScope(switches=$switches)"
 }

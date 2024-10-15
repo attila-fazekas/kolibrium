@@ -19,7 +19,9 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.safari.SafariOptions
 
 @KolibriumDsl
-public class SafariOptionsScope(override val options: SafariOptions) : OptionsScope() {
+public class SafariOptionsScope(
+    override val options: SafariOptions,
+) : OptionsScope() {
     @KolibriumPropertyDsl
     public var automaticInspection: Boolean? = null
 
@@ -38,12 +40,11 @@ public class SafariOptionsScope(override val options: SafariOptions) : OptionsSc
         }
     }
 
-    override fun toString(): String {
-        return "SafariOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, " +
+    override fun toString(): String =
+        "SafariOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, " +
             "automaticInspection=$automaticInspection, automaticProfiling=$automaticProfiling, " +
             "browserVersion=$browserVersion, pageLoadStrategy=$pageLoadStrategy, platform=$platform, " +
             "proxyScope=$proxyScope, strictFileInteractability=$strictFileInteractability, " +
             "timeoutsScope=$timeoutsScope, unhandledPromptBehaviour=$unhandledPromptBehaviour, " +
             "useTechnologyPreview=$useTechnologyPreview)"
-    }
 }

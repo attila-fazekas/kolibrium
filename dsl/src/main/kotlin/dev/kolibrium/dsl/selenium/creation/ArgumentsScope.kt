@@ -37,9 +37,7 @@ public class ChromeArgumentsScope : ArgumentsScope {
         +ChromeArgument.of("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
     }
 
-    override fun toString(): String {
-        return "ChromeArgumentsScope(args=$args)"
-    }
+    override fun toString(): String = "ChromeArgumentsScope(args=$args)"
 }
 
 @KolibriumDsl
@@ -57,9 +55,7 @@ public class FirefoxArgumentsScope : ArgumentsScope {
         +FirefoxArgument.of("--height=${windowSizeScope.height}")
     }
 
-    override fun toString(): String {
-        return "FirefoxArgumentsScope(args=$args)"
-    }
+    override fun toString(): String = "FirefoxArgumentsScope(args=$args)"
 }
 
 @KolibriumDsl
@@ -76,7 +72,5 @@ public class EdgeArgumentsScope : ArgumentsScope {
         +EdgeArgument.of("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
     }
 
-    override fun toString(): String {
-        return "EdgeArgumentsScope(args=$args)"
-    }
+    override fun toString(): String = "EdgeArgumentsScope(args=$args)"
 }

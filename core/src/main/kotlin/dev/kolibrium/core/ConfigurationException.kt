@@ -17,4 +17,6 @@
 package dev.kolibrium.core
 
 @InternalKolibriumApi
-public open class ConfigurationException(exception: String) : RuntimeException(exception)
+public open class ConfigurationException(
+    exception: String,
+) : RuntimeException(exception)
