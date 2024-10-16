@@ -21,29 +21,13 @@ package dev.kolibrium.ksp.annotations
  *
  * The generated class will have the same name as the enum class, with the optional "Locators" suffix removed.
  * For example, `LoginPageLocators` will generate a class named `LoginPage`.
- *
- * @property generatedClassName If provided, this name will be used for the generated class instead of the derived name.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
+public annotation class Locators
+
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.CLASS)
 public annotation class Page(
-    val generatedClassName: String = "",
-)
-
-@Retention(AnnotationRetention.SOURCE)
-@Target(AnnotationTarget.CLASS)
-public annotation class Url(
-    val value: String = "",
-)
-
-@Retention(AnnotationRetention.SOURCE)
-@Target(AnnotationTarget.CLASS)
-public annotation class Path(
-    val value: String = "",
-)
-
-@Retention(AnnotationRetention.SOURCE)
-@Target(AnnotationTarget.CLASS)
-public annotation class Resource(
     val value: String = "",
 )

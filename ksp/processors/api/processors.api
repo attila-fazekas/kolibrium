@@ -1,14 +1,14 @@
-public final class dev/kolibrium/ksp/processors/PageProcessor : com/google/devtools/ksp/processing/SymbolProcessor {
+public final class dev/kolibrium/ksp/processors/LocatorsProcessor : com/google/devtools/ksp/processing/SymbolProcessor {
 	public fun <init> (Lcom/google/devtools/ksp/processing/CodeGenerator;Lcom/google/devtools/ksp/processing/KSPLogger;)V
 	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
 }
 
-public final class dev/kolibrium/ksp/processors/PageProcessorProvider : com/google/devtools/ksp/processing/SymbolProcessorProvider {
+public final class dev/kolibrium/ksp/processors/LocatorsProcessorProvider : com/google/devtools/ksp/processing/SymbolProcessorProvider {
 	public fun <init> ()V
 	public fun create (Lcom/google/devtools/ksp/processing/SymbolProcessorEnvironment;)Lcom/google/devtools/ksp/processing/SymbolProcessor;
 }
 
-public final class dev/kolibrium/ksp/processors/ResourceProcessor : com/google/devtools/ksp/processing/SymbolProcessor {
+public final class dev/kolibrium/ksp/processors/PageProcessor : com/google/devtools/ksp/processing/SymbolProcessor {
 	public fun <init> (Lcom/google/devtools/ksp/processing/CodeGenerator;Lcom/google/devtools/ksp/processing/KSPLogger;)V
 	public fun process (Lcom/google/devtools/ksp/processing/Resolver;)Ljava/util/List;
 }
