@@ -16,7 +16,7 @@
 
 package dev.kolibrium.test.pages
 
-import dev.kolibrium.ksp.annotations.Resource
+import dev.kolibrium.ksp.annotations.Page
 import dev.kolibrium.selenium.className
 import dev.kolibrium.selenium.id
 import dev.kolibrium.test.Product
@@ -28,7 +28,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 context(WebDriver)
-@Resource("inventory.html")
+@Page("inventory.html")
 class InventoryPage {
     private val shoppingCart by className("shopping_cart_link")
     private val shoppingCartBadge by dataTests("shopping-cart-badge", cacheLookup = false)

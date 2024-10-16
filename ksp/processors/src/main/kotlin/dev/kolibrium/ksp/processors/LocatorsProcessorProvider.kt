@@ -16,17 +16,13 @@
 
 package dev.kolibrium.ksp.processors
 
-import org.junit.jupiter.api.Tag
-import org.junit.jupiter.api.Test
+import com.google.auto.service.AutoService
+import com.google.devtools.ksp.processing.SymbolProcessor
+import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
+import com.google.devtools.ksp.processing.SymbolProcessorProvider
 
-@Test
-@Tag("Valid")
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION)
-internal annotation class ValidTest
-
-@Test
-@Tag("Invalid")
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION)
-internal annotation class InvalidTest
+@AutoService(SymbolProcessorProvider::class)
+public class LocatorsProcessorProvider : SymbolProcessorProvider {
+    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor =
+        LocatorsProcessor(environment.codeGenerator, environment.logger)
+}

@@ -35,7 +35,7 @@ open class ProcessorBaseTest {
         workingDir = path.absoluteFile
         inheritClassPath = true
         sources = sourceFiles.asList()
-        symbolProcessorProviders = listOf(PageProcessorProvider(), ResourceProcessorProvider())
+        symbolProcessorProviders = listOf(LocatorsProcessorProvider(), ResourceProcessorProvider())
         verbose = false
     }
 
