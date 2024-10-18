@@ -20,25 +20,49 @@ import org.apache.commons.validator.routines.InetAddressValidator
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
 import java.io.File
 
+/**
+ * A base scope for configuring Chromium-based browser driver service settings.
+ *
+ * This abstract scope provides common configuration options for Chromium-based browsers (Chrome and Edge),
+ * such as logging preferences, allowed IP addresses, and build check settings.
+ */
 @KolibriumDsl
 public abstract class ChromiumDriverServiceScope : DriverServiceScope() {
     protected val allowedIpsScope: AllowedIpsScope by lazy { AllowedIpsScope() }
 
+    /**
+     * Controls whether the driver's log output should be appended to an existing log file.
+     */
     @KolibriumPropertyDsl
     public var appendLog: Boolean? = null
 
+    /**
+     * Controls whether the driver executable can be used with potentially incompatible versions of the browser.
+     */
     @KolibriumPropertyDsl
     public var buildCheckDisabled: Boolean? = null
 
+    /**
+     * The path to the driver executable.
+     */
     @KolibriumPropertyDsl
     public var executable: String? = null
 
+    /**
+     * The path to the log file where the driver's output will be written.
+     */
     @KolibriumPropertyDsl
     public var logFile: String? = null
 
+    /**
+     * The logging level for the driver.
+     */
     @KolibriumPropertyDsl
     public var logLevel: ChromiumDriverLogLevel? = null
 
+    /**
+     * Controls whether timestamps in the driver's log should be human-readable.
+     */
     @KolibriumPropertyDsl
     public var readableTimestamp: Boolean? = null
 

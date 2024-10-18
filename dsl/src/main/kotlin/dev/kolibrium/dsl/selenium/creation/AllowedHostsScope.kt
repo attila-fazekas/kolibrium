@@ -16,13 +16,26 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * DSL scope for specifying allowed hosts.
+ *
+ * Use this scope to define values of the Host header to allow for incoming requests.
+ */
 @KolibriumDsl
 public class AllowedHostsScope {
     internal val allowedHosts = mutableSetOf<String>()
 
+    /**
+     * Adds a hostname to the set of allowed hosts.
+     *
+     * This operator function allows adding allowed hosts using the unary plus operator (+).
+     */
     public operator fun String.unaryPlus() {
         allowedHosts.add(this)
     }
 
+    /**
+     * Returns a string representation of the [AllowedHostsScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "AllowedHostsScope(allowedHosts=$allowedHosts)"
 }

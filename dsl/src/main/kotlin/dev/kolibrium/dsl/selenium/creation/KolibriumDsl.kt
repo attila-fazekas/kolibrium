@@ -96,6 +96,16 @@ public fun firefoxDriver(block: FirefoxDriverScope.() -> Unit): FirefoxDriver {
     )
 }
 
+/**
+ * Creates a Selenium [DriverService] instance based on the specified browser type.
+ *
+ * This function provides a DSL for configuring browser-specific driver services. It delegates to the appropriate
+ * browser-specific driver service creation function based on the provided [browser] parameter.
+ *
+ * @param browser The browser type for which to create a driver service.
+ * @param block The configuration block that defines driver service settings within the appropriate scope.
+ * @return A configured [DriverService] instance for the specified browser.
+ */
 @KolibriumDsl
 public fun driverService(
     browser: Browser,
@@ -108,6 +118,15 @@ public fun driverService(
         EDGE -> edgeDriverService(block as (EdgeDriverServiceScope.() -> Unit))
     }
 
+/**
+ * Creates a ChromeDriver service with custom configurations.
+ *
+ * This function provides a DSL for configuring ChromeDriver service settings such as log level, allowed IPs,
+ * executable path, and other Chrome-specific options.
+ *
+ * @param block The configuration block that defines ChromeDriver service settings within [ChromeDriverServiceScope].
+ * @return A configured [ChromeDriverService] instance.
+ */
 @KolibriumDsl
 public fun chromeDriverService(block: ChromeDriverServiceScope.() -> Unit): ChromeDriverService {
     val driverServiceScopeScope =
@@ -120,6 +139,15 @@ public fun chromeDriverService(block: ChromeDriverServiceScope.() -> Unit): Chro
     return driverServiceScopeScope.builder.build()
 }
 
+/**
+ * Creates a SafariDriver service with custom configurations.
+ *
+ * This function provides a DSL for configuring SafariDriver service settings such as logging, port configuration, and
+ * timeout.
+ *
+ * @param block The configuration block that defines SafariDriver service settings within [SafariDriverServiceScope].
+ * @return A configured [SafariDriverService] instance.
+ */
 @KolibriumDsl
 public fun safariDriverService(block: SafariDriverServiceScope.() -> Unit): SafariDriverService {
     val driverServiceScopeScope =
@@ -130,6 +158,15 @@ public fun safariDriverService(block: SafariDriverServiceScope.() -> Unit): Safa
     return driverServiceScopeScope.builder.build()
 }
 
+/**
+ * Creates an EdgeDriver service with custom configurations.
+ *
+ * This function provides a DSL for configuring EdgeDriver service settings such as log level, allowed IPs,
+ * executable path, and other Edge-specific options.
+ *
+ * @param block The configuration block that defines EdgeDriver service settings within [EdgeDriverServiceScope].
+ * @return A configured [EdgeDriverService] instance.
+ */
 @KolibriumDsl
 public fun edgeDriverService(block: EdgeDriverServiceScope.() -> Unit): EdgeDriverService {
     val driverServiceScopeScope =
@@ -140,6 +177,15 @@ public fun edgeDriverService(block: EdgeDriverServiceScope.() -> Unit): EdgeDriv
     return driverServiceScopeScope.builder.build()
 }
 
+/**
+ * Creates a GeckoDriver service with custom configurations.
+ *
+ * This function provides a DSL for configuring GeckoDriver service settings such as logging, allowed hosts,
+ * executable path, profile root, and other Firefox-specific options.
+ *
+ * @param block The configuration block that defines GeckoDriver service settings within [GeckoDriverServiceScope].
+ * @return A configured [GeckoDriverService] instance.
+ */
 @KolibriumDsl
 public fun geckoDriverService(block: GeckoDriverServiceScope.() -> Unit): GeckoDriverService {
     val driverServiceScopeScope =

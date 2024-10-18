@@ -20,24 +20,47 @@ import org.openqa.selenium.firefox.FirefoxDriverLogLevel
 import org.openqa.selenium.firefox.GeckoDriverService
 import java.io.File
 
+/**
+ * A scope for configuring Firefox-specific driver service settings.
+ *
+ * This scope provides configuration options specific to GeckoDriver, such as logging preferences,
+ * allowed hosts for incoming connections, profile settings, and Firefox-specific capabilities.
+ *
+ * @property builder The underlying GeckoDriver service builder.
+ */
 @KolibriumDsl
 public class GeckoDriverServiceScope(
     override val builder: GeckoDriverService.Builder,
 ) : DriverServiceScope() {
     private val allowedHostsScope: AllowedHostsScope by lazy { AllowedHostsScope() }
 
+    /**
+     * The path to the GeckoDriver executable.
+     */
     @KolibriumPropertyDsl
     public var executable: String? = null
 
+    /**
+     * The path to the log file where GeckoDriver's output will be written.
+     */
     @KolibriumPropertyDsl
     public var logFile: String? = null
 
+    /**
+     * The logging level for GeckoDriver.
+     */
     @KolibriumPropertyDsl
     public var logLevel: FirefoxDriverLogLevel? = null
 
+    /**
+     * The directory containing the Firefox profile to be used.
+     */
     @KolibriumPropertyDsl
     public var profileRoot: String? = null
 
+    /**
+     * Controls whether GeckoDriver's log output should be truncated.
+     */
     @KolibriumPropertyDsl
     public var truncatedLogs: Boolean? = null
 
@@ -56,12 +79,20 @@ public class GeckoDriverServiceScope(
         }
     }
 
+    /**
+     * Configures the allowed host header values for incoming requests to GeckoDriver service.
+     *
+     * @param block The configuration block for specifying allowed hosts.
+     */
     @KolibriumDsl
     public fun allowedHosts(block: AllowedHostsScope.() -> Unit) {
         allowedHostsScope.apply(block)
         builder.withAllowHosts(allowedHostsScope.allowedHosts.joinToString(separator = " "))
     }
 
+    /**
+     * Returns a string representation of the [GeckoDriverServiceScope], primarily for debugging purposes.
+     */
     override fun toString(): String =
         "GeckoDriverServiceScope(allowedHostsScope=$allowedHostsScope, environmentScope=$environmentScope, " +
             "executable=$executable, logFile=$logFile, logLevel=$logLevel, port=$port, profileRoot=$profileRoot, " +

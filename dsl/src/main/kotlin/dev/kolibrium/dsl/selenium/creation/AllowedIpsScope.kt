@@ -16,6 +16,12 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * A scope for configuring allowed IP addresses for incoming connections to Chromium-based driver services.
+ *
+ * This scope enables specification of IPv4 addresses that are allowed to connect to the driver service,
+ * providing a security mechanism for controlling access to the browser automation interface.
+ */
 @KolibriumDsl
 public class AllowedIpsScope {
     internal val allowedIps = mutableSetOf<String>()
@@ -24,5 +30,8 @@ public class AllowedIpsScope {
         allowedIps.add(this)
     }
 
+    /**
+     * Returns a string representation of the [AllowedIpsScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "AllowedIpsScope(allowedIps=$allowedIps)"
 }

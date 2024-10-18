@@ -27,51 +27,138 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
+/**
+ * A sealed class that provides a base configuration for synchronization.
+ *
+ * It includes a [WaitScope] for defining wait behavior and an abstract [until] property that specifies
+ * the condition for synchronization.
+ *
+ * @param T The type of the object for which synchronization conditions are defined.
+ */
 public sealed class SyncConfig<T> {
+    /**
+     * The wait configuration for synchronization, defined using a [WaitScope].
+     *
+     * This property is initialized with a default wait configuration.
+     */
     @KolibriumPropertyDsl
     @OptIn(InternalKolibriumApi::class)
     public var wait: WaitScope = defaultWait
+
+    /**
+     * An abstract property that defines the condition for synchronization.
+     *
+     * This lambda function receives the object of type [T] and returns a Boolean value indicating
+     * whether the synchronization condition is met.
+     */
     public abstract var until: T.() -> Boolean
 }
 
+/**
+ * A synchronization configuration specifically for [WebElement].
+ *
+ * This class extends [SyncConfig] and provides a default condition for synchronization,
+ * which is to wait until the [WebElement] is displayed.
+ */
 @KolibriumDsl
 public class WebElementSyncConfig : SyncConfig<WebElement>() {
+    /**
+     * The condition that determines when the synchronization is complete.
+     *
+     * By default, the condition is that the [WebElement] is displayed.
+     */
     @KolibriumPropertyDsl
     override var until: WebElement.() -> Boolean = { isDisplayed }
 
+    /**
+     * Returns a string representation of the [WebElementSyncConfig], primarily for debugging purposes.
+     *
+     * @return A string containing the condition defined in [until].
+     */
     override fun toString(): String = "WebElementSyncConfig(until=$until)"
 }
 
+/**
+ * A synchronization configuration specifically for [WebElements].
+ *
+ * This class extends [SyncConfig] and provides a default condition for synchronization,
+ * which is to wait until the [WebElements] in the list are displayed.
+ */
 @KolibriumDsl
 public class WebElementsSyncConfig : SyncConfig<WebElements>() {
+    /**
+     * The condition that determines when the synchronization is complete.
+     *
+     * This property is overridden to check if [WebElements] are displayed.
+     */
     @KolibriumPropertyDsl
     override var until: WebElements.() -> Boolean = { all { it.isDisplayed } }
 
+    /**
+     * Returns a string representation of the [WebElementsSyncConfig], primarily for debugging purposes.
+     *
+     * @return A string containing the condition defined in [until].
+     */
     override fun toString(): String = "WebElementsSyncConfig(until=$until)"
 }
 
+/**
+ * A scope for configuring wait parameters in synchronization operations.
+ *
+ * This class allows the configuration of various wait settings, such as polling intervals,
+ * timeouts, and custom messages for operations that involve waiting for conditions to be met.
+ */
 @KolibriumDsl
 public class WaitScope {
+    /**
+     * A lazy-initialized scope for defining exceptions to ignore during synchronization.
+     */
     @InternalKolibriumApi
     public val ignoringScope: IgnoringScope by lazy { IgnoringScope() }
 
+    /**
+     * The duration between polling attempts when waiting for a condition.
+     */
     @KolibriumPropertyDsl
     public var pollingInterval: Duration? = null
 
+    /**
+     * The maximum duration to wait for a condition to be met.
+     */
     @KolibriumPropertyDsl
     public var timeout: Duration? = null
 
+    /**
+     * A custom message to be displayed if the wait condition is not met.
+     */
     @KolibriumPropertyDsl
     public var message: String? = null
 
+    /**
+     * Configures which exceptions to ignore during waiting.
+     *
+     * @param block The configuration block that defines ignored exceptions.
+     * @return The [IgnoringScope] used for configuring ignored exceptions.
+     */
     @KolibriumDsl
     public fun ignoring(block: IgnoringScope.() -> Unit): IgnoringScope = ignoringScope.apply(block)
 
+    /**
+     * Returns a string representation of the [WaitScope], primarily for debugging purposes.
+     *
+     * @return A string containing the polling interval, timeout, message, and ignoring scope details.
+     */
     override fun toString(): String =
         "WaitScope(pollingInterval=$pollingInterval, timeout=$timeout, message=$message, " +
             "ignoringScope=$ignoringScope)"
 }
 
+/**
+ * The default wait configuration for synchronization operations.
+ *
+ * This predefined [WaitScope] specifies default settings for polling interval, timeout,
+ * message, and exceptions to ignore during synchronization.
+ */
 @InternalKolibriumApi
 public val defaultWait: WaitScope =
     wait {
@@ -84,5 +171,14 @@ public val defaultWait: WaitScope =
         }
     }
 
+/**
+ * Creates a [WaitScope] for configuring wait parameters.
+ *
+ * This function provides a DSL for defining wait behaviors by allowing a block of logic
+ * to configure various wait settings, such as polling intervals and timeouts.
+ *
+ * @param block The configuration block for the [WaitScope].
+ * @return The configured [WaitScope].
+ */
 @KolibriumDsl
 public fun wait(block: WaitScope.() -> Unit): WaitScope = WaitScope().apply(block)

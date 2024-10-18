@@ -19,6 +19,14 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.edge.EdgeDriverService
 import java.io.File
 
+/**
+ * A scope for configuring Edge-specific driver service settings.
+ *
+ * This scope extends [ChromiumDriverServiceScope] and provides configuration options specific to EdgeDriver,
+ * such as log level, allowed IPv4 addresses for incoming connections, and build check settings.
+ *
+ * @property builder The underlying EdgeDriver service builder.
+ */
 @KolibriumDsl
 public class EdgeDriverServiceScope(
     override val builder: EdgeDriverService.Builder,
@@ -38,12 +46,20 @@ public class EdgeDriverServiceScope(
         }
     }
 
+    /**
+     * Configures the allowed host header values for incoming requests to EdgeDriver service.
+     *
+     * @param block The configuration block for specifying allowed hosts.
+     */
     @KolibriumDsl
     public override fun allowedIps(block: AllowedIpsScope.() -> Unit) {
         super.allowedIps(block)
         builder.withAllowedListIps(allowedIpsScope.allowedIps.joinToString(separator = ", "))
     }
 
+    /**
+     * Returns a string representation of the [EdgeDriverServiceScope], primarily for debugging purposes.
+     */
     override fun toString(): String =
         "EdgeDriverServiceScope(allowedIpsScope=$allowedIpsScope, appendLog=$appendLog, " +
             "buildCheckDisabled=$buildCheckDisabled, environmentScope=$environmentScope, executable=$executable, " +
