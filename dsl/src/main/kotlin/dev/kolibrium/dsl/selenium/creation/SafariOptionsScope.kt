@@ -18,16 +18,30 @@ package dev.kolibrium.dsl.selenium.creation
 
 import org.openqa.selenium.safari.SafariOptions
 
+/**
+ * Scope for configuring Safari-specific options.
+ *
+ * @property options The underlying [SafariOptions] instance being configured.
+ */
 @KolibriumDsl
 public class SafariOptionsScope(
     override val options: SafariOptions,
 ) : OptionsScope() {
+    /**
+     * Enables automatic inspection of web pages.
+     */
     @KolibriumPropertyDsl
     public var automaticInspection: Boolean? = null
 
+    /**
+     * Enables automatic profiling of web pages.
+     */
     @KolibriumPropertyDsl
     public var automaticProfiling: Boolean? = null
 
+    /**
+     * Enables the use of Safari Technology Preview.
+     */
     @KolibriumPropertyDsl
     public var useTechnologyPreview: Boolean? = null
 

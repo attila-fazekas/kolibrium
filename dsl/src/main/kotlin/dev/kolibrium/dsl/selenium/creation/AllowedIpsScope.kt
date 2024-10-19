@@ -26,6 +26,11 @@ package dev.kolibrium.dsl.selenium.creation
 public class AllowedIpsScope {
     internal val allowedIps = mutableSetOf<String>()
 
+    /**
+     * Adds an allowed IP address.
+     *
+     * This operator function allows adding allowed IP addresses using the unary plus operator (+).
+     */
     public operator fun String.unaryPlus() {
         allowedIps.add(this)
     }

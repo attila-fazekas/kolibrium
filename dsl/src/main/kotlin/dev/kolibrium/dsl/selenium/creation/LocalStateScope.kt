@@ -16,13 +16,25 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * Scope for configuring browser local state settings.
+ */
 @KolibriumDsl
 public class LocalStateScope {
     internal val experiments by lazy { BrowserEnabledLabsExperiments() }
 
+    /**
+     * Configures browser lab experiments.
+     *
+     * @param block The configuration block for lab experiments.
+     * @return The configured [BrowserEnabledLabsExperiments].
+     */
     @KolibriumDsl
     public fun browserEnabledLabsExperiments(block: BrowserEnabledLabsExperiments.() -> Unit): BrowserEnabledLabsExperiments =
         experiments.apply(block)
 
+    /**
+     * Returns a string representation of the [LocalStateScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "LocalStateScope(browserEnabledLabsExperiments=$experiments)"
 }

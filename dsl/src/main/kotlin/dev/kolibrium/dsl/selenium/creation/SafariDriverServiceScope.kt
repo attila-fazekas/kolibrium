@@ -30,6 +30,9 @@ import org.openqa.selenium.safari.SafariDriverService
 public class SafariDriverServiceScope(
     override val builder: SafariDriverService.Builder,
 ) : DriverServiceScope() {
+    /**
+     * Enables or disables logging for the SafariDriver service.
+     */
     @KolibriumPropertyDsl
     public var logging: Boolean? = null
 

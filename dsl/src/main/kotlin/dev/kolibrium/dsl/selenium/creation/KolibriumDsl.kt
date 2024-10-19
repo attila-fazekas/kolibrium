@@ -196,6 +196,13 @@ public fun geckoDriverService(block: GeckoDriverServiceScope.() -> Unit): GeckoD
     return driverServiceScopeScope.builder.build()
 }
 
+/**
+ * Creates browser-specific driver options based on the provided [browser] type.
+ *
+ * @param browser The browser type for which to create options.
+ * @param block The configuration block to customize the options.
+ * @return The configured driver options for the specified browser.
+ */
 @KolibriumDsl
 public fun options(
     browser: Browser,
@@ -208,6 +215,12 @@ public fun options(
         EDGE -> edgeOptions(block as (EdgeOptionsScope.() -> Unit))
     }
 
+/**
+ * Creates ChromeOptions with customizable settings.
+ *
+ * @param block The configuration block to customize Chrome-specific options.
+ * @return The configured [ChromeOptions] instance.
+ */
 @KolibriumDsl
 public fun chromeOptions(block: ChromeOptionsScope.() -> Unit): ChromeOptions =
     ChromeOptionsScope(ChromeOptions())
@@ -216,6 +229,12 @@ public fun chromeOptions(block: ChromeOptionsScope.() -> Unit): ChromeOptions =
             configure()
         }.options
 
+/**
+ * Creates SafariOptions with customizable settings.
+ *
+ * @param block The configuration block to customize Safari-specific options.
+ * @return The configured [SafariOptions] instance.
+ */
 @KolibriumDsl
 public fun safariOptions(block: SafariOptionsScope.() -> Unit): SafariOptions =
     SafariOptionsScope(SafariOptions())
@@ -224,6 +243,12 @@ public fun safariOptions(block: SafariOptionsScope.() -> Unit): SafariOptions =
             configure()
         }.options
 
+/**
+ * Creates EdgeOptions with customizable settings.
+ *
+ * @param block The configuration block to customize Edge-specific options.
+ * @return The configured [EdgeOptions] instance.
+ */
 @KolibriumDsl
 public fun edgeOptions(block: EdgeOptionsScope.() -> Unit): EdgeOptions =
     EdgeOptionsScope(EdgeOptions())
@@ -232,6 +257,12 @@ public fun edgeOptions(block: EdgeOptionsScope.() -> Unit): EdgeOptions =
             configure()
         }.options
 
+/**
+ * Creates FirefoxOptions with customizable settings.
+ *
+ * @param block The configuration block to customize Firefox-specific options.
+ * @return The configured [FirefoxOptions] instance.
+ */
 @KolibriumDsl
 public fun firefoxOptions(block: FirefoxOptionsScope.() -> Unit): FirefoxOptions =
     FirefoxOptionsScope(FirefoxOptions())

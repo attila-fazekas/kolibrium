@@ -70,6 +70,11 @@ public sealed class DriverServiceScope {
         }
     }
 
+    /**
+     * Configures environment variables for the driver service.
+     *
+     * @param block The configuration block for environment variables.
+     */
     @KolibriumDsl
     public fun environment(block: EnvironmentScope.() -> Unit) {
         environmentScope.apply(block)

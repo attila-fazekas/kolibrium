@@ -16,38 +16,73 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
-public sealed interface ArgumentsScope {
-    public val args: MutableSet<Argument>
-
+/**
+ * Base interface for adding additional command line arguments to be used when starting the browser.
+ */
+internal sealed interface ArgumentsScope {
+    /**
+     * Configures the browser window size.
+     *
+     * @param block The configuration block for window size settings
+     */
     @KolibriumDsl
-    public fun windowSize(block: WindowSizeScope.() -> Unit)
+    fun windowSize(block: WindowSizeScope.() -> Unit)
 }
 
+/**
+ * Class for adding additional Chrome-specific command line arguments.
+ */
 @KolibriumDsl
 public class ChromeArgumentsScope : ArgumentsScope {
-    public override val args: MutableSet<Argument> = mutableSetOf()
+    internal val args: MutableSet<Argument> = mutableSetOf()
 
+    /**
+     * Adds a Chrome-specific command line argument.
+     *
+     * This operator function allows adding Chrome-specific command line arguments using the unary plus operator (+).
+     */
     public operator fun ChromeArgument.unaryPlus() {
         args.add(this)
     }
 
+    /**
+     * Configures the browser window size.
+     *
+     * @param block The configuration block for window dimensions.
+     */
     @KolibriumDsl
     public override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
         +ChromeArgument.of("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
     }
 
+    /**
+     * Returns a string representation of the [ChromeArgumentsScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "ChromeArgumentsScope(args=$args)"
 }
 
+/**
+ * Class for adding additional Firefox-specific command line arguments.
+ */
 @KolibriumDsl
 public class FirefoxArgumentsScope : ArgumentsScope {
-    override val args: MutableSet<Argument> = mutableSetOf()
+    internal val args: MutableSet<Argument> = mutableSetOf()
 
+    /**
+     * Adds a Firefox-specific command line argument.
+     *
+     * This operator function allows adding Firefox-specific command line arguments using the unary plus operator (+).
+     */
     public operator fun FirefoxArgument.unaryPlus() {
         args.add(this)
     }
 
+    /**
+     * Configures the browser window size.
+     *
+     * @param block The configuration block for window dimensions.
+     */
     @KolibriumDsl
     public override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
@@ -55,13 +90,24 @@ public class FirefoxArgumentsScope : ArgumentsScope {
         +FirefoxArgument.of("--height=${windowSizeScope.height}")
     }
 
+    /**
+     * Returns a string representation of the [FirefoxArgumentsScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "FirefoxArgumentsScope(args=$args)"
 }
 
+/**
+ * Class for adding additional Edge-specific command line arguments.
+ */
 @KolibriumDsl
 public class EdgeArgumentsScope : ArgumentsScope {
-    public override val args: MutableSet<Argument> = mutableSetOf()
+    internal val args: MutableSet<Argument> = mutableSetOf()
 
+    /**
+     * Adds an Edge-specific command line argument.
+     *
+     * This operator function allows adding Edge-specific command line arguments using the unary plus operator (+).
+     */
     public operator fun EdgeArgument.unaryPlus() {
         args.add(this)
     }
@@ -72,5 +118,8 @@ public class EdgeArgumentsScope : ArgumentsScope {
         +EdgeArgument.of("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
     }
 
+    /**
+     * Returns a string representation of the [EdgeArgumentsScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "EdgeArgumentsScope(args=$args)"
 }

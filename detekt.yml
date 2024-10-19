@@ -1,5 +1,6 @@
 comments:
   active: true
+  excludes: ["**/test/kotlin/**"]
   AbsentOrWrongFileLicense:
     active: true
     excludes: ['**/build/generated/**']

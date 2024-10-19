@@ -20,6 +20,12 @@ import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.chromium.ChromiumOptions
 import org.openqa.selenium.edge.EdgeOptions
 
+/**
+ * Base scope for configuring Chromium-based browser options.
+ * Provides configuration options common to Chrome and Edge browsers.
+ *
+ * @property options The underlying [ChromiumOptions] instance being configured.
+ */
 @KolibriumDsl
 public abstract class ChromiumOptionsScope(
     override val options: ChromiumOptions<*>,
@@ -27,6 +33,9 @@ public abstract class ChromiumOptionsScope(
     protected val expOptionsScope: ExperimentalOptionsScope by lazy { ExperimentalOptionsScope() }
     protected val extensionsScope: ExtensionsScope by lazy { ExtensionsScope() }
 
+    /**
+     * Sets the path to the browser binary.
+     */
     @KolibriumPropertyDsl
     public var binary: String? = null
 
@@ -37,6 +46,11 @@ public abstract class ChromiumOptionsScope(
         }
     }
 
+    /**
+     * Configures experimental browser options.
+     *
+     * @param block The configuration block for experimental options.
+     */
     @KolibriumDsl
     public fun experimentalOptions(block: ExperimentalOptionsScope.() -> Unit) {
         expOptionsScope.apply(block)
@@ -58,6 +72,11 @@ public abstract class ChromiumOptionsScope(
         }
     }
 
+    /**
+     * Configures browser extensions.
+     *
+     * @param block The configuration block for extension settings.
+     */
     @KolibriumDsl
     public fun extensions(block: ExtensionsScope.() -> Unit) {
         extensionsScope.apply(block)

@@ -16,6 +16,12 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * Value class representing a browser feature switch to be excluded from the browser launch.
+ *
+ * @property value The string identifier of the switch.
+ * @throws IllegalArgumentException if the value is blank.
+ */
 @JvmInline
 public value class Switch(
     internal val value: String,
@@ -25,10 +31,19 @@ public value class Switch(
     }
 }
 
+/**
+ * Collection of predefined browser feature switches.
+ */
 public object Switches {
+    /**
+     * Enables automation mode.
+     */
     @KolibriumPropertyDsl
     public val enable_automation: Switch = Switch("enable-automation")
 
+    /**
+     * Disables popup blocking.
+     */
     @KolibriumPropertyDsl
     public val disable_popup_blocking: Switch = Switch("disable-popup-blocking")
 }

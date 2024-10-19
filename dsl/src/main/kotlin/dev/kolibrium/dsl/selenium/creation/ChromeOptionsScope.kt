@@ -18,18 +18,31 @@ package dev.kolibrium.dsl.selenium.creation
 
 import org.openqa.selenium.chrome.ChromeOptions
 
+/**
+ * Scope for configuring Chrome-specific options.
+ *
+ * @property options The underlying [ChromeOptions] instance being configured.
+ */
 @KolibriumDsl
 public class ChromeOptionsScope(
     override val options: ChromeOptions,
 ) : ChromiumOptionsScope(options) {
     private val argsScope by lazy { ChromeArgumentsScope() }
 
+    /**
+     * Configures command-line arguments for Chrome browser.
+     *
+     * @param block The configuration block for Chrome-specific arguments.
+     */
     @KolibriumDsl
     public fun arguments(block: ChromeArgumentsScope.() -> Unit) {
         argsScope.apply(block)
         options.addArguments(argsScope.args.map { it.value })
     }
 
+    /**
+     * Returns a string representation of the [ChromeOptionsScope], primarily for debugging purposes.
+     */
     override fun toString(): String =
         "ChromeOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
             "binary=$binary, browserVersion=$browserVersion, experimentalOptionsScope=$expOptionsScope, " +
