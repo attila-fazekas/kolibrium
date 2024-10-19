@@ -44,10 +44,23 @@ import kotlin.annotation.AnnotationTarget.PROPERTY
 @Target(FUNCTION, CLASS)
 internal annotation class KolibriumDsl
 
+/**
+ * Marker annotation for Kolibrium DSL properties.
+ *
+ * Use this annotation to extend the Kolibrium DSL with your own properties, such as command-line arguments,
+ * experimental flags, browser preferences, or browser feature switches.
+ */
 @DslMarker
 @Target(PROPERTY)
 public annotation class KolibriumPropertyDsl
 
+/**
+ * Creates a WebDriver instance for the specified browser type with custom configuration.
+ *
+ * @param browser The browser type to create a driver for (CHROME, SAFARI, FIREFOX, or EDGE).
+ * @param block The configuration block to customize the driver settings.
+ * @return A configured WebDriver instance for the specified browser.
+ */
 @KolibriumDsl
 public fun driver(
     browser: Browser,
@@ -60,6 +73,12 @@ public fun driver(
         EDGE -> edgeDriver(block as (EdgeDriverScope.() -> Unit))
     }
 
+/**
+ * Creates a ChromeDriver instance with custom configuration.
+ *
+ * @param block The configuration block to customize Chrome-specific driver settings.
+ * @return A configured ChromeDriver instance.
+ */
 @KolibriumDsl
 public fun chromeDriver(block: ChromeDriverScope.() -> Unit): ChromeDriver {
     val driverScope = ChromeDriverScope().apply(block)
@@ -69,6 +88,12 @@ public fun chromeDriver(block: ChromeDriverScope.() -> Unit): ChromeDriver {
     )
 }
 
+/**
+ * Creates a SafariDriver instance with custom configuration.
+ *
+ * @param block The configuration block to customize Safari-specific driver settings.
+ * @return A configured SafariDriver instance.
+ */
 @KolibriumDsl
 public fun safariDriver(block: SafariDriverScope.() -> Unit): SafariDriver {
     val driverScope = SafariDriverScope().apply(block)
@@ -78,6 +103,12 @@ public fun safariDriver(block: SafariDriverScope.() -> Unit): SafariDriver {
     )
 }
 
+/**
+ * Creates an EdgeDriver instance with custom configuration.
+ *
+ * @param block The configuration block to customize Edge-specific driver settings.
+ * @return A configured EdgeDriver instance.
+ */
 @KolibriumDsl
 public fun edgeDriver(block: EdgeDriverScope.() -> Unit): EdgeDriver {
     val driverScope = EdgeDriverScope().apply(block)
@@ -87,6 +118,12 @@ public fun edgeDriver(block: EdgeDriverScope.() -> Unit): EdgeDriver {
     )
 }
 
+/**
+ * Creates a FirefoxDriver instance with custom configuration.
+ *
+ * @param block The configuration block to customize Firefox-specific driver settings.
+ * @return A configured FirefoxDriver instance.
+ */
 @KolibriumDsl
 public fun firefoxDriver(block: FirefoxDriverScope.() -> Unit): FirefoxDriver {
     val driverScope = FirefoxDriverScope().apply(block)

@@ -48,8 +48,6 @@ public class IgnoringScope {
 
     /**
      * Returns a string representation of the [IgnoringScope], primarily for debugging purposes.
-     *
-     * @return A string containing the exceptions to be ignored.
      */
     override fun toString(): String = "IgnoringScope(exceptions=$exceptions)"
 }

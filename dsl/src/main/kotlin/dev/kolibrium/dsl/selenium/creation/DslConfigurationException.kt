@@ -18,6 +18,11 @@ package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.core.ConfigurationException
 
+/**
+ * Exception thrown when there is an error in the DSL configuration.
+ *
+ * @param exception The detailed error message describing the configuration issue.
+ */
 internal class DslConfigurationException(
     exception: String,
 ) : ConfigurationException(exception)

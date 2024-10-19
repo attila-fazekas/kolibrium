@@ -25,6 +25,11 @@ package dev.kolibrium.dsl.selenium.creation
 public value class ChromiumPreference(
     internal val value: String,
 ) {
+    /**
+     * Provides factory method for creating Chromium browser preferences.
+     *
+     * @see ChromiumPreference
+     */
     public companion object {
         /**
          * Creates a new Chromium preference.
@@ -66,7 +71,7 @@ public value class FirefoxPreference(
  */
 public object Preferences {
     /**
-     * Collection of predefined Chromium-based browser preferences.
+     * Collection of predefined Chromium browser preferences.
      */
     public object Chromium {
         /**

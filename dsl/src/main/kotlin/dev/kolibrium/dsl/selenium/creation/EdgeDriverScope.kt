@@ -19,6 +19,9 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.edge.EdgeDriverService
 import org.openqa.selenium.edge.EdgeOptions
 
+/**
+ * Configuration scope for Edge WebDriver providing Edge-specific settings.
+ */
 @KolibriumDsl
 public class EdgeDriverScope : DriverScope<EdgeDriverServiceScope, EdgeOptionsScope>() {
     override val driverServiceScope = EdgeDriverServiceScope(EdgeDriverService.Builder())
@@ -40,5 +43,8 @@ public class EdgeDriverScope : DriverScope<EdgeDriverServiceScope, EdgeOptionsSc
         }
     }
 
+    /**
+     * Returns a string representation of the [EdgeDriverScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "EdgeDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
 }

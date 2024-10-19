@@ -72,8 +72,6 @@ public class WebElementSyncConfig : SyncConfig<WebElement>() {
 
     /**
      * Returns a string representation of the [WebElementSyncConfig], primarily for debugging purposes.
-     *
-     * @return A string containing the condition defined in [until].
      */
     override fun toString(): String = "WebElementSyncConfig(until=$until)"
 }
@@ -96,8 +94,6 @@ public class WebElementsSyncConfig : SyncConfig<WebElements>() {
 
     /**
      * Returns a string representation of the [WebElementsSyncConfig], primarily for debugging purposes.
-     *
-     * @return A string containing the condition defined in [until].
      */
     override fun toString(): String = "WebElementsSyncConfig(until=$until)"
 }
@@ -145,8 +141,6 @@ public class WaitScope {
 
     /**
      * Returns a string representation of the [WaitScope], primarily for debugging purposes.
-     *
-     * @return A string containing the polling interval, timeout, message, and ignoring scope details.
      */
     override fun toString(): String =
         "WaitScope(pollingInterval=$pollingInterval, timeout=$timeout, message=$message, " +

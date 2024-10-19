@@ -19,6 +19,9 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.safari.SafariDriverService
 import org.openqa.selenium.safari.SafariOptions
 
+/**
+ * Configuration scope for Safari WebDriver providing Safari-specific settings.
+ */
 @KolibriumDsl
 public class SafariDriverScope : DriverScope<SafariDriverServiceScope, SafariOptionsScope>() {
     override val driverServiceScope = SafariDriverServiceScope(SafariDriverService.Builder())
@@ -40,5 +43,8 @@ public class SafariDriverScope : DriverScope<SafariDriverServiceScope, SafariOpt
         }
     }
 
+    /**
+     * Returns a string representation of the [SafariDriverScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "SafariDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
 }

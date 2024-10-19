@@ -54,6 +54,9 @@ public class SafariOptionsScope(
         }
     }
 
+    /**
+     * Returns a string representation of the [SafariOptionsScope], primarily for debugging purposes.
+     */
     override fun toString(): String =
         "SafariOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, " +
             "automaticInspection=$automaticInspection, automaticProfiling=$automaticProfiling, " +

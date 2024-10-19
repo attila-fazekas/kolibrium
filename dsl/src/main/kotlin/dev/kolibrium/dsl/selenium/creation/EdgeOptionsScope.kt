@@ -22,7 +22,7 @@ import org.openqa.selenium.edge.EdgeOptions
  * Scope class for configuring Microsoft Edge browser-specific options.
  *
  * This class extends [ChromiumOptionsScope] to provide Edge-specific configurations
- * while inheriting common Chromium-based browser options.
+ * while inheriting common Chromium browser options.
  *
  * @property options The underlying Selenium [EdgeOptions] instance being configured.
  */
