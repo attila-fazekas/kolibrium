@@ -28,10 +28,7 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 /**
- * A sealed class that provides a base configuration for synchronization.
- *
- * It includes a [WaitScope] for defining wait behavior and an abstract [until] property that specifies
- * the condition for synchronization.
+ * Sealed class that provides a base configuration for synchronization.
  *
  * @param T The type of the object for which synchronization conditions are defined.
  */
@@ -55,7 +52,7 @@ public sealed class SyncConfig<T> {
 }
 
 /**
- * A synchronization configuration specifically for [WebElement].
+ * Synchronization configuration specifically for [WebElement].
  *
  * This class extends [SyncConfig] and provides a default condition for synchronization,
  * which is to wait until the [WebElement] is displayed.
@@ -77,17 +74,17 @@ public class WebElementSyncConfig : SyncConfig<WebElement>() {
 }
 
 /**
- * A synchronization configuration specifically for [WebElements].
+ * Synchronization configuration specifically for [WebElements].
  *
  * This class extends [SyncConfig] and provides a default condition for synchronization,
- * which is to wait until the [WebElements] in the list are displayed.
+ * which is to wait until all the [WebElements] are displayed.
  */
 @KolibriumDsl
 public class WebElementsSyncConfig : SyncConfig<WebElements>() {
     /**
      * The condition that determines when the synchronization is complete.
      *
-     * This property is overridden to check if [WebElements] are displayed.
+     * By default, the condition is that all the [WebElements] are displayed.
      */
     @KolibriumPropertyDsl
     override var until: WebElements.() -> Boolean = { all { it.isDisplayed } }
@@ -99,10 +96,7 @@ public class WebElementsSyncConfig : SyncConfig<WebElements>() {
 }
 
 /**
- * A scope for configuring wait parameters in synchronization operations.
- *
- * This class allows the configuration of various wait settings, such as polling intervals,
- * timeouts, and custom messages for operations that involve waiting for conditions to be met.
+ * Scope class for configuring wait parameters in synchronization operations.
  */
 @KolibriumDsl
 public class WaitScope {
@@ -166,10 +160,7 @@ public val defaultWait: WaitScope =
     }
 
 /**
- * Creates a [WaitScope] for configuring wait parameters.
- *
- * This function provides a DSL for defining wait behaviors by allowing a block of logic
- * to configure various wait settings, such as polling intervals and timeouts.
+ * Configures wait behaviors.
  *
  * @param block The configuration block for the [WaitScope].
  * @return The configured [WaitScope].

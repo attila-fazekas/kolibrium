@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 /**
- * Scope for configuring Firefox profile preferences.
+ * Scope class for configuring Firefox profile preferences.
  */
 @KolibriumDsl
 public class FirefoxProfileScope {

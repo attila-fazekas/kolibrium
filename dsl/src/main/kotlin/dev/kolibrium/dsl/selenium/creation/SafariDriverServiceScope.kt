@@ -19,10 +19,10 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.safari.SafariDriverService
 
 /**
- * A scope for configuring Safari-specific driver service settings.
+ * Scope class for configuring Safari-specific driver service settings.
  *
- * This scope provides configuration options specific to SafariDriver, such as
- * logging and service port settings.
+ * This class provides Safari-specific configurations while inheriting driver service settings
+ * from [DriverServiceScope].
  *
  * @property builder The underlying SafariDriver service builder.
  */

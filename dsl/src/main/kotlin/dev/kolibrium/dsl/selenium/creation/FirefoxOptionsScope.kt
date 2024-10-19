@@ -26,7 +26,7 @@ import java.io.File
  * This class provides Firefox-specific configurations while inheriting common browser options
  * from [OptionsScope].
  *
- * @property options The underlying Selenium [FirefoxOptions] instance being configured.
+ * @property options The underlying [FirefoxOptions] instance being configured.
  */
 @KolibriumDsl
 public class FirefoxOptionsScope(

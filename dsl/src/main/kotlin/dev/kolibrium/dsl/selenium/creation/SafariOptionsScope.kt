@@ -19,7 +19,10 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.safari.SafariOptions
 
 /**
- * Scope for configuring Safari-specific options.
+ * Scope class for configuring Safari-specific options.
+ *
+ * This class provides Safari-specific configurations while inheriting common browser options
+ * from [OptionsScope].
  *
  * @property options The underlying [SafariOptions] instance being configured.
  */

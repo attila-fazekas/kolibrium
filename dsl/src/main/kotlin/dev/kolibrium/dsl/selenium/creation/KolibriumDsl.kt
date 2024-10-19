@@ -40,6 +40,9 @@ import kotlin.annotation.AnnotationTarget.CLASS
 import kotlin.annotation.AnnotationTarget.FUNCTION
 import kotlin.annotation.AnnotationTarget.PROPERTY
 
+/**
+ * Marker annotation for Kolibrium DSL functions and classes.
+ */
 @DslMarker
 @Target(FUNCTION, CLASS)
 internal annotation class KolibriumDsl
@@ -55,7 +58,10 @@ internal annotation class KolibriumDsl
 public annotation class KolibriumPropertyDsl
 
 /**
- * Creates a WebDriver instance for the specified browser type with custom configuration.
+ * Creates a [WebDriver] instance for the specified browser type with custom configuration.
+ *
+ * It delegates to the appropriate browser-specific driver creation function based on
+ * the provided [browser] parameter.
  *
  * @param browser The browser type to create a driver for (CHROME, SAFARI, FIREFOX, or EDGE).
  * @param block The configuration block to customize the driver settings.
@@ -76,6 +82,8 @@ public fun driver(
 /**
  * Creates a ChromeDriver instance with custom configuration.
  *
+ * This function provides a DSL for configuring [ChromeDriverService] and [ChromeOptions] settings.
+ *
  * @param block The configuration block to customize Chrome-specific driver settings.
  * @return A configured ChromeDriver instance.
  */
@@ -91,6 +99,8 @@ public fun chromeDriver(block: ChromeDriverScope.() -> Unit): ChromeDriver {
 /**
  * Creates a SafariDriver instance with custom configuration.
  *
+ * This function provides a DSL for configuring [SafariDriverService] and [SafariOptions] settings.
+ *
  * @param block The configuration block to customize Safari-specific driver settings.
  * @return A configured SafariDriver instance.
  */
@@ -104,22 +114,9 @@ public fun safariDriver(block: SafariDriverScope.() -> Unit): SafariDriver {
 }
 
 /**
- * Creates an EdgeDriver instance with custom configuration.
- *
- * @param block The configuration block to customize Edge-specific driver settings.
- * @return A configured EdgeDriver instance.
- */
-@KolibriumDsl
-public fun edgeDriver(block: EdgeDriverScope.() -> Unit): EdgeDriver {
-    val driverScope = EdgeDriverScope().apply(block)
-    return EdgeDriver(
-        driverScope.driverServiceScope.builder.build(),
-        driverScope.optionsScope.options,
-    )
-}
-
-/**
  * Creates a FirefoxDriver instance with custom configuration.
+ *
+ * This function provides a DSL for configuring [GeckoDriverService] and [FirefoxOptions] settings.
  *
  * @param block The configuration block to customize Firefox-specific driver settings.
  * @return A configured FirefoxDriver instance.
@@ -134,10 +131,27 @@ public fun firefoxDriver(block: FirefoxDriverScope.() -> Unit): FirefoxDriver {
 }
 
 /**
- * Creates a Selenium [DriverService] instance based on the specified browser type.
+ * Creates an EdgeDriver instance with custom configuration.
  *
- * This function provides a DSL for configuring browser-specific driver services. It delegates to the appropriate
- * browser-specific driver service creation function based on the provided [browser] parameter.
+ * This function provides a DSL for configuring [EdgeDriverService] and [EdgeOptions] settings.
+ *
+ * @param block The configuration block to customize Edge-specific driver settings.
+ * @return A configured EdgeDriver instance.
+ */
+@KolibriumDsl
+public fun edgeDriver(block: EdgeDriverScope.() -> Unit): EdgeDriver {
+    val driverScope = EdgeDriverScope().apply(block)
+    return EdgeDriver(
+        driverScope.driverServiceScope.builder.build(),
+        driverScope.optionsScope.options,
+    )
+}
+
+/**
+ * Creates a [DriverService] instance for the specified browser type with custom configuration.
+ *
+ * It delegates to the appropriate browser-specific driver service creation function based on
+ * the provided [browser] parameter.
  *
  * @param browser The browser type for which to create a driver service.
  * @param block The configuration block that defines driver service settings within the appropriate scope.
@@ -158,7 +172,7 @@ public fun driverService(
 /**
  * Creates a ChromeDriver service with custom configurations.
  *
- * This function provides a DSL for configuring ChromeDriver service settings such as log level, allowed IPs,
+ * This function provides a DSL for configuring ChromeDriver service settings, such as log level, allowed IPs,
  * executable path, and other Chrome-specific options.
  *
  * @param block The configuration block that defines ChromeDriver service settings within [ChromeDriverServiceScope].
@@ -179,7 +193,7 @@ public fun chromeDriverService(block: ChromeDriverServiceScope.() -> Unit): Chro
 /**
  * Creates a SafariDriver service with custom configurations.
  *
- * This function provides a DSL for configuring SafariDriver service settings such as logging, port configuration, and
+ * This function provides a DSL for configuring SafariDriver service settings, such as logging, port configuration, and
  * timeout.
  *
  * @param block The configuration block that defines SafariDriver service settings within [SafariDriverServiceScope].
@@ -196,28 +210,9 @@ public fun safariDriverService(block: SafariDriverServiceScope.() -> Unit): Safa
 }
 
 /**
- * Creates an EdgeDriver service with custom configurations.
- *
- * This function provides a DSL for configuring EdgeDriver service settings such as log level, allowed IPs,
- * executable path, and other Edge-specific options.
- *
- * @param block The configuration block that defines EdgeDriver service settings within [EdgeDriverServiceScope].
- * @return A configured [EdgeDriverService] instance.
- */
-@KolibriumDsl
-public fun edgeDriverService(block: EdgeDriverServiceScope.() -> Unit): EdgeDriverService {
-    val driverServiceScopeScope =
-        EdgeDriverServiceScope(EdgeDriverService.Builder()).apply {
-            block()
-            configure()
-        }
-    return driverServiceScopeScope.builder.build()
-}
-
-/**
  * Creates a GeckoDriver service with custom configurations.
  *
- * This function provides a DSL for configuring GeckoDriver service settings such as logging, allowed hosts,
+ * This function provides a DSL for configuring GeckoDriver service settings, such as logging, allowed hosts,
  * executable path, profile root, and other Firefox-specific options.
  *
  * @param block The configuration block that defines GeckoDriver service settings within [GeckoDriverServiceScope].
@@ -234,7 +229,29 @@ public fun geckoDriverService(block: GeckoDriverServiceScope.() -> Unit): GeckoD
 }
 
 /**
- * Creates browser-specific driver options based on the provided [browser] type.
+ * Creates an EdgeDriver service with custom configurations.
+ *
+ * This function provides a DSL for configuring EdgeDriver service settings, such as log level, allowed IPs,
+ * executable path, and other Edge-specific options.
+ *
+ * @param block The configuration block that defines EdgeDriver service settings within [EdgeDriverServiceScope].
+ * @return A configured [EdgeDriverService] instance.
+ */
+@KolibriumDsl
+public fun edgeDriverService(block: EdgeDriverServiceScope.() -> Unit): EdgeDriverService {
+    val driverServiceScopeScope =
+        EdgeDriverServiceScope(EdgeDriverService.Builder()).apply {
+            block()
+            configure()
+        }
+    return driverServiceScopeScope.builder.build()
+}
+
+/**
+ * Creates an options instance for the specified browser type with custom configuration.
+ *
+ * It delegates to the appropriate browser-specific options creation function based on
+ * the provided [browser] parameter.
  *
  * @param browser The browser type for which to create options.
  * @param block The configuration block to customize the options.
@@ -253,7 +270,10 @@ public fun options(
     }
 
 /**
- * Creates ChromeOptions with customizable settings.
+ * Creates an ChromeOptions with custom configurations.
+ *
+ * This function provides a DSL for configuring ChromeOptions settings, such as experimental options,
+ * extensions, and other Chrome-specific options.
  *
  * @param block The configuration block to customize Chrome-specific options.
  * @return The configured [ChromeOptions] instance.
@@ -267,7 +287,10 @@ public fun chromeOptions(block: ChromeOptionsScope.() -> Unit): ChromeOptions =
         }.options
 
 /**
- * Creates SafariOptions with customizable settings.
+ * Creates an SafariOptions with custom configurations.
+ *
+ * This function provides a DSL for configuring SafariOptions settings, such as automatic inspection,
+ * profiling of web pages, and enabling Safari Technology Preview
  *
  * @param block The configuration block to customize Safari-specific options.
  * @return The configured [SafariOptions] instance.
@@ -281,21 +304,10 @@ public fun safariOptions(block: SafariOptionsScope.() -> Unit): SafariOptions =
         }.options
 
 /**
- * Creates EdgeOptions with customizable settings.
+ * Creates an FirefoxOptions with custom configurations.
  *
- * @param block The configuration block to customize Edge-specific options.
- * @return The configured [EdgeOptions] instance.
- */
-@KolibriumDsl
-public fun edgeOptions(block: EdgeOptionsScope.() -> Unit): EdgeOptions =
-    EdgeOptionsScope(EdgeOptions())
-        .apply {
-            block()
-            configure()
-        }.options
-
-/**
- * Creates FirefoxOptions with customizable settings.
+ * This function provides a DSL for configuring FirefoxOptions settings, such as the path to the binary
+ * executable, profile preferences, directory, and other Firefox-specific options.
  *
  * @param block The configuration block to customize Firefox-specific options.
  * @return The configured [FirefoxOptions] instance.
@@ -303,6 +315,23 @@ public fun edgeOptions(block: EdgeOptionsScope.() -> Unit): EdgeOptions =
 @KolibriumDsl
 public fun firefoxOptions(block: FirefoxOptionsScope.() -> Unit): FirefoxOptions =
     FirefoxOptionsScope(FirefoxOptions())
+        .apply {
+            block()
+            configure()
+        }.options
+
+/**
+ * Creates an EdgeOptions with custom configurations.
+ *
+ * This function provides a DSL for configuring EdgeOptions settings, such as experimental options,
+ * extensions, and other Edge-specific options.
+ *
+ * @param block The configuration block to customize Edge-specific options.
+ * @return The configured [EdgeOptions] instance.
+ */
+@KolibriumDsl
+public fun edgeOptions(block: EdgeOptionsScope.() -> Unit): EdgeOptions =
+    EdgeOptionsScope(EdgeOptions())
         .apply {
             block()
             configure()

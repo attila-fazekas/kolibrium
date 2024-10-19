@@ -23,14 +23,14 @@ internal sealed interface ArgumentsScope {
     /**
      * Configures the browser window size.
      *
-     * @param block The configuration block for window size settings
+     * @param block The configuration block for window dimensions.
      */
     @KolibriumDsl
     fun windowSize(block: WindowSizeScope.() -> Unit)
 }
 
 /**
- * Class for adding additional Chrome-specific command line arguments.
+ * Scope class for adding additional Chrome-specific command line arguments.
  */
 @KolibriumDsl
 public class ChromeArgumentsScope : ArgumentsScope {
@@ -46,12 +46,12 @@ public class ChromeArgumentsScope : ArgumentsScope {
     }
 
     /**
-     * Configures the browser window size.
+     * Configures the Chrome browser window size.
      *
      * @param block The configuration block for window dimensions.
      */
     @KolibriumDsl
-    public override fun windowSize(block: WindowSizeScope.() -> Unit) {
+    override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
         +ChromeArgument.of("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
     }
@@ -63,7 +63,7 @@ public class ChromeArgumentsScope : ArgumentsScope {
 }
 
 /**
- * Class for adding additional Firefox-specific command line arguments.
+ * Scope class for adding additional Firefox-specific command line arguments.
  */
 @KolibriumDsl
 public class FirefoxArgumentsScope : ArgumentsScope {
@@ -79,12 +79,12 @@ public class FirefoxArgumentsScope : ArgumentsScope {
     }
 
     /**
-     * Configures the browser window size.
+     * Configures the Firefox browser window size.
      *
      * @param block The configuration block for window dimensions.
      */
     @KolibriumDsl
-    public override fun windowSize(block: WindowSizeScope.() -> Unit) {
+    override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
         +FirefoxArgument.of("--width=${windowSizeScope.width}")
         +FirefoxArgument.of("--height=${windowSizeScope.height}")
@@ -97,7 +97,7 @@ public class FirefoxArgumentsScope : ArgumentsScope {
 }
 
 /**
- * Class for adding additional Edge-specific command line arguments.
+ * Scope class for adding additional Edge-specific command line arguments.
  */
 @KolibriumDsl
 public class EdgeArgumentsScope : ArgumentsScope {
@@ -112,8 +112,13 @@ public class EdgeArgumentsScope : ArgumentsScope {
         args.add(this)
     }
 
+    /**
+     * Configures the Edge browser window size.
+     *
+     * @param block The configuration block for window dimensions.
+     */
     @KolibriumDsl
-    public override fun windowSize(block: WindowSizeScope.() -> Unit) {
+    override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
         +EdgeArgument.of("--window-size=${windowSizeScope.width},${windowSizeScope.height}")
     }

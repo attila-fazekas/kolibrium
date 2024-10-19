@@ -21,7 +21,7 @@ import org.openqa.selenium.chromium.ChromiumOptions
 import org.openqa.selenium.edge.EdgeOptions
 
 /**
- * Base scope for configuring Chromium browser options.
+ * Base scope class for configuring Chromium browser options.
  * Provides configuration options common to Chrome and Edge browsers.
  *
  * @property options The underlying [ChromiumOptions] instance being configured.

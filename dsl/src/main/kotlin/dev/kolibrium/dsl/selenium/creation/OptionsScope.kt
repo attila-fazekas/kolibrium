@@ -24,7 +24,7 @@ import org.openqa.selenium.remote.AbstractDriverOptions
 import kotlin.time.toJavaDuration
 
 /**
- * Base scope for configuring browser-specific WebDriver options.
+ * Base scope class for configuring browser-specific WebDriver options.
  * Provides common configuration options supported across different browsers.
  */
 @KolibriumDsl

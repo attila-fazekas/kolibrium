@@ -19,7 +19,7 @@ package dev.kolibrium.dsl.selenium.creation
 import kotlin.time.Duration
 
 /**
- * Scope for configuring timeout settings.
+ * Scope class for configuring timeout settings.
  */
 @KolibriumDsl
 public class TimeoutsScope {

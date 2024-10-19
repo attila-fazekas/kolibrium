@@ -21,10 +21,10 @@ import org.openqa.selenium.firefox.GeckoDriverService
 import java.io.File
 
 /**
- * A scope for configuring Firefox-specific driver service settings.
+ * Scope class for configuring Firefox-specific driver service settings.
  *
- * This scope provides configuration options specific to GeckoDriver, such as logging preferences,
- * allowed hosts for incoming connections, profile settings, and Firefox-specific capabilities.
+ * This class provides Firefox-specific configurations while inheriting driver service settings
+ * from [DriverServiceScope].
  *
  * @property builder The underlying GeckoDriver service builder.
  */

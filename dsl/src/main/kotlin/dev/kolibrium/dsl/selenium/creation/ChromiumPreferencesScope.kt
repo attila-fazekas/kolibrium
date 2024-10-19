@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 /**
- * Scope for configuring Chromium browser preferences.
+ * Scope class for configuring Chromium browser preferences.
  */
 @KolibriumDsl
 public class ChromiumPreferencesScope {

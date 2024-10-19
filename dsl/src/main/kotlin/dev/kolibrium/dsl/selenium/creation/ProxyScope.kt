@@ -19,7 +19,7 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.Proxy
 
 /**
- * Scope for configuring proxy settings.
+ * Scope class for configuring proxy settings.
  */
 @KolibriumDsl
 public class ProxyScope {

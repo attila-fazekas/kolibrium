@@ -25,7 +25,7 @@ private const val HEIGHT = 720
 private val logger = KotlinLogging.logger { }
 
 /**
- * Scope for configuring browser window dimensions.
+ * Scope class for configuring browser window dimensions.
  */
 @KolibriumDsl
 public class WindowSizeScope {

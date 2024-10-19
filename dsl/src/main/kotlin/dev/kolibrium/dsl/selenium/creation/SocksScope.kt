@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 /**
- * Scope  for configuring SOCKS proxy settings.
+ * Scope class for configuring SOCKS proxy settings.
  */
 @KolibriumDsl
 public class SocksScope {

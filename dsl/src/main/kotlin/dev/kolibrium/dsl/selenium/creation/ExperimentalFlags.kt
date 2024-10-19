@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 /**
- * Wrapper class for experimental feature flags.
+ * Value class representing an experimental feature flag.
  *
  * @property value The string value of the experimental flag
  */

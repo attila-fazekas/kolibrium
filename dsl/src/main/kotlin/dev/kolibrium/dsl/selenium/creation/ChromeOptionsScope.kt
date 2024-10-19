@@ -19,7 +19,10 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.chrome.ChromeOptions
 
 /**
- * Scope for configuring Chrome-specific options.
+ * Scope class for configuring Chrome-specific options.
+ *
+ * This class extends [ChromiumOptionsScope] to provide Edge-specific configurations
+ * while inheriting common Chromium browser options.
  *
  * @property options The underlying [ChromeOptions] instance being configured.
  */

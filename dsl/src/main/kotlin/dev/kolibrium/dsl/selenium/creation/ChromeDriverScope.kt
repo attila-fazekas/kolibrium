@@ -20,13 +20,18 @@ import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chrome.ChromeOptions
 
 /**
- * Configuration scope for Chrome WebDriver providing Chrome-specific settings.
+ * Scope class for configuring Chrome-specific settings for Chrome WebDriver.
  */
 @KolibriumDsl
 public class ChromeDriverScope : DriverScope<ChromeDriverServiceScope, ChromeOptionsScope>() {
     override val driverServiceScope = ChromeDriverServiceScope(ChromeDriverService.Builder())
     override val optionsScope = ChromeOptionsScope(ChromeOptions())
 
+    /**
+     * Configures the Chrome driver service.
+     *
+     * @param block The configuration block for Chrome driver service.
+     */
     @KolibriumDsl
     override fun driverService(block: ChromeDriverServiceScope.() -> Unit) {
         driverServiceScope.apply {
@@ -35,6 +40,11 @@ public class ChromeDriverScope : DriverScope<ChromeDriverServiceScope, ChromeOpt
         }
     }
 
+    /**
+     * Configures the Chrome-specific options.
+     *
+     * @param block The configuration block for Chrome browser options.
+     */
     @KolibriumDsl
     override fun options(block: ChromeOptionsScope.() -> Unit) {
         optionsScope.apply {

@@ -21,10 +21,7 @@ import org.openqa.selenium.chromium.ChromiumDriverLogLevel
 import java.io.File
 
 /**
- * A base scope for configuring Chromium-based browser driver service settings.
- *
- * This abstract scope provides common configuration options for Chromium-based browsers (Chrome and Edge),
- * such as logging preferences, allowed IP addresses, and build check settings.
+ * Base scope class for configuring Chromium-based browser driver service settings.
  */
 @KolibriumDsl
 public abstract class ChromiumDriverServiceScope : DriverServiceScope() {

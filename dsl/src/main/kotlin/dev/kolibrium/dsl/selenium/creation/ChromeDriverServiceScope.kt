@@ -20,10 +20,10 @@ import org.openqa.selenium.chrome.ChromeDriverService
 import java.io.File
 
 /**
- * A scope for configuring Chrome-specific driver service settings.
+ * Scope class for configuring Chrome-specific driver service settings.
  *
- * This scope extends [ChromiumDriverServiceScope] and provides configuration options specific to ChromeDriver,
- * such as logging preferences, allowed IP addresses for incoming connections, and build check settings.
+ * This class provides Chrome-specific configurations while inheriting driver service settings
+ * from [ChromiumDriverServiceScope].
  *
  * @property builder The underlying ChromeDriver service builder.
  */
@@ -52,7 +52,7 @@ public class ChromeDriverServiceScope internal constructor(
      * @param block The configuration block for specifying allowed hosts.
      */
     @KolibriumDsl
-    public override fun allowedIps(block: AllowedIpsScope.() -> Unit) {
+    override fun allowedIps(block: AllowedIpsScope.() -> Unit) {
         super.allowedIps(block)
         builder.withAllowedListIps(allowedIpsScope.allowedIps.joinToString(separator = ", "))
     }

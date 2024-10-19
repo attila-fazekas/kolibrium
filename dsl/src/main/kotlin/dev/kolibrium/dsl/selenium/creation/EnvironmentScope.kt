@@ -17,10 +17,10 @@
 package dev.kolibrium.dsl.selenium.creation
 
 /**
- * A scope for configuring environment variables for the driver service.
+ * Scope class for configuring environment variables for the driver service.
  *
- * This scope allows setting environment variables that will be inherited by every browser session launched by the
- * server.
+ * This scope allows setting environment variables that will be inherited by every browser session
+ * launched by the server.
  */
 @KolibriumDsl
 public class EnvironmentScope {

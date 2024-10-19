@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 /**
- * Scope for configuring experimental browser options.
+ * Scope class for configuring experimental browser options.
  */
 @KolibriumDsl
 public class ExperimentalOptionsScope {

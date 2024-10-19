@@ -19,12 +19,12 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.edge.EdgeOptions
 
 /**
- * Scope class for configuring Microsoft Edge browser-specific options.
+ * Scope class for configuring Edge browser-specific options.
  *
  * This class extends [ChromiumOptionsScope] to provide Edge-specific configurations
  * while inheriting common Chromium browser options.
  *
- * @property options The underlying Selenium [EdgeOptions] instance being configured.
+ * @property options The underlying [EdgeOptions] instance being configured.
  */
 @KolibriumDsl
 public class EdgeOptionsScope(
@@ -33,7 +33,8 @@ public class EdgeOptionsScope(
     private val argsScope by lazy { EdgeArgumentsScope() }
 
     /**
-     * Configures whether to change the browser name to 'webview2' to enable test automation of WebView2 apps with Microsoft Edge WebDriver.
+     * Configures whether to change the browser name to 'webview2' to enable test automation
+     * of WebView2 apps with Edge WebDriver.
      */
     @KolibriumPropertyDsl
     public var useWebView: Boolean? = null

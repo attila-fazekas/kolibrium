@@ -20,13 +20,18 @@ import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.firefox.GeckoDriverService
 
 /**
- * Configuration scope for Firefox WebDriver providing Firefox-specific settings.
+ * Scope class for configuring Firefox-specific settings for Firefox WebDriver.
  */
 @KolibriumDsl
 public class FirefoxDriverScope : DriverScope<GeckoDriverServiceScope, FirefoxOptionsScope>() {
     override val driverServiceScope = GeckoDriverServiceScope(GeckoDriverService.Builder())
     override val optionsScope = FirefoxOptionsScope(FirefoxOptions())
 
+    /**
+     * Configures the Gecko driver service.
+     *
+     * @param block The configuration block for Gecko driver service.
+     */
     @KolibriumDsl
     override fun driverService(block: GeckoDriverServiceScope.() -> Unit) {
         driverServiceScope.apply {
@@ -35,6 +40,11 @@ public class FirefoxDriverScope : DriverScope<GeckoDriverServiceScope, FirefoxOp
         }
     }
 
+    /**
+     * Configures the Firefox-specific options.
+     *
+     * @param block The configuration block for Firefox browser options.
+     */
     @KolibriumDsl
     override fun options(block: FirefoxOptionsScope.() -> Unit) {
         optionsScope.apply {

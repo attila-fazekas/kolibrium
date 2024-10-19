@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 /**
- * DSL scope for specifying allowed hosts.
+ * Scope class for specifying allowed hosts.
  *
  * Use this scope to define values of the Host header to allow for incoming requests.
  */

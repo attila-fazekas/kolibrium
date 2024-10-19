@@ -21,10 +21,10 @@ import dev.kolibrium.dsl.selenium.creation.KolibriumDsl
 import kotlin.reflect.KClass
 
 /**
- * A scope for configuring exceptions to ignore during synchronization operations.
+ * Scope class for configuring exceptions to ignore during synchronization operations.
  *
- * This class provides a way to specify which exceptions should be ignored when waiting for
- * synchronization conditions to be met.
+ * This class provides a way to specify which exceptions should be ignored when waiting
+ * for synchronization conditions to be met.
  */
 @KolibriumDsl
 public class IgnoringScope {

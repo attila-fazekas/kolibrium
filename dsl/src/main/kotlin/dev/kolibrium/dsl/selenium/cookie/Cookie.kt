@@ -23,10 +23,7 @@ import org.openqa.selenium.WebDriver.Options
 import java.util.Date
 
 /**
- * DSL function to manage cookies in the context of a [WebDriver] instance.
- *
- * This function allows you to configure cookies by providing a block of logic to a [CookiesScope].
- * It applies the provided block within the context of a [CookiesScope], giving you a concise way to manage cookies.
+ * Function to manage cookies in the context of a [WebDriver] instance.
  *
  * @param block The configuration block that defines cookie operations within the [CookiesScope].
  */
@@ -37,10 +34,7 @@ public fun WebDriver.cookies(block: CookiesScope.() -> Unit) {
 }
 
 /**
- * A scope that provides a DSL for managing cookies in a [WebDriver].
- *
- * The [CookiesScope] class offers functionality to create and configure cookies with various properties,
- * such as domain, path, expiration date, security settings, and SameSite policy.
+ * Scope class that provides configuration for managing cookies in a [WebDriver].
  *
  * @constructor Creates a [CookiesScope] with the provided [options].
  * @param options The cookie management options of the current [WebDriver].
@@ -88,8 +82,6 @@ public class CookiesScope(
 
     /**
      * Returns a string representation of the [CookiesScope], primarily for debugging purposes.
-     *
-     * @return A string showing the current cookies managed in this scope.
      */
     override fun toString(): String = "CookiesScope(options=${options.cookies})"
 }
@@ -97,21 +89,25 @@ public class CookiesScope(
 /**
  * Specifies the SameSite attribute for cookies in the [CookiesScope] class.
  *
- * The SameSite attribute determines how cookies are handled in cross-site requests when creating cookies via the DSL.
- * This enum allows you to set the SameSite policy when configuring a cookie in the [CookiesScope].
- *
- * @property type The string representation of the SameSite policy ("Strict", "Lax", or "None") used in the cookie configuration.
+ * @property type The string representation of the SameSite policy ("Strict", "Lax", or "None") used in the cookie
+ * configuration.
  */
 @KolibriumDsl
 public enum class SameSite(
     internal val type: String,
 ) {
-    /** Strict SameSite policy, which restricts the cookie to same-site requests only. */
+    /**
+     * Strict SameSite policy, which restricts the cookie to same-site requests only.
+     */
     STRICT("Strict"),
 
-    /** Lax SameSite policy, which allows the cookie to be sent with top-level navigations and some cross-site requests. */
+    /**
+     * Lax SameSite policy, which allows the cookie to be sent with top-level navigations and some cross-site requests.
+     */
     LAX("Lax"),
 
-    /** No SameSite restriction, allowing the cookie to be sent with any cross-site request. */
+    /**
+     * No SameSite restriction, allowing the cookie to be sent with any cross-site request.
+     */
     NONE("None"),
 }

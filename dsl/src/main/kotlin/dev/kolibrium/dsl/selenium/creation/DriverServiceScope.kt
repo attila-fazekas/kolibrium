@@ -24,10 +24,7 @@ import kotlin.time.Duration
 import kotlin.time.toJavaDuration
 
 /**
- * A base scope for configuring Selenium driver service settings.
- *
- * This abstract scope provides common configuration options for all browser driver services,
- * such as port selection, environment variables, and timeout setting.
+ * Base scope class for configuring Selenium driver service settings.
  */
 @KolibriumDsl
 public sealed class DriverServiceScope {

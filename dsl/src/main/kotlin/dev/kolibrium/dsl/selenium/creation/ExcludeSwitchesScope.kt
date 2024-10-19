@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 /**
- * Scope for configuring browser switches to be excluded.
+ * Scope class for configuring browser switches to be excluded.
  */
 @KolibriumDsl
 public class ExcludeSwitchesScope {

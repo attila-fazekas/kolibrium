@@ -17,7 +17,7 @@
 package dev.kolibrium.dsl.selenium.creation
 
 /**
- * Scope for configuring browser experimental flags.
+ * Scope class for configuring browser experimental flags.
  */
 @KolibriumDsl
 public class BrowserEnabledLabsExperiments {

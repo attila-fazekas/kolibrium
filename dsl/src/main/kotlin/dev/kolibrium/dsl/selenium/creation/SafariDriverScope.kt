@@ -20,13 +20,18 @@ import org.openqa.selenium.safari.SafariDriverService
 import org.openqa.selenium.safari.SafariOptions
 
 /**
- * Configuration scope for Safari WebDriver providing Safari-specific settings.
+ * Scope class for configuring Safari-specific settings for Safari WebDriver.
  */
 @KolibriumDsl
 public class SafariDriverScope : DriverScope<SafariDriverServiceScope, SafariOptionsScope>() {
     override val driverServiceScope = SafariDriverServiceScope(SafariDriverService.Builder())
     override val optionsScope = SafariOptionsScope(SafariOptions())
 
+    /**
+     * Configures the Safari driver service.
+     *
+     * @param block The configuration block for Safari driver service.
+     */
     @KolibriumDsl
     override fun driverService(block: SafariDriverServiceScope.() -> Unit) {
         driverServiceScope.apply {
@@ -35,6 +40,11 @@ public class SafariDriverScope : DriverScope<SafariDriverServiceScope, SafariOpt
         }
     }
 
+    /**
+     * Configures the Safari-specific options.
+     *
+     * @param block The configuration block for Safari browser options.
+     */
     @KolibriumDsl
     override fun options(block: SafariOptionsScope.() -> Unit) {
         optionsScope.apply {

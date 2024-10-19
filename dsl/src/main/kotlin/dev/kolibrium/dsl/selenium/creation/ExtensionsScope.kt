@@ -19,7 +19,7 @@ package dev.kolibrium.dsl.selenium.creation
 import java.io.File
 
 /**
- * Represents a browser extension to be loaded.
+ * Value class representing a browser extension to be loaded.
  *
  * @property path The file system path to the extension.
  */
@@ -29,7 +29,7 @@ public value class Extension(
 )
 
 /**
- * Scope for configuring browser extensions.
+ * Scope class for configuring browser extensions.
  */
 @KolibriumDsl
 public class ExtensionsScope {
