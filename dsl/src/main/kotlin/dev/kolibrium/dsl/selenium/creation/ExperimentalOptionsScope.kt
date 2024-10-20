@@ -16,21 +16,45 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * Scope class for configuring experimental browser options.
+ */
 @KolibriumDsl
 public class ExperimentalOptionsScope {
     internal val excludeSwitchesScope: ExcludeSwitchesScope by lazy { ExcludeSwitchesScope() }
     internal val localStateScope: LocalStateScope by lazy { LocalStateScope() }
     internal val preferencesScope: ChromiumPreferencesScope by lazy { ChromiumPreferencesScope() }
 
+    /**
+     * Configures switches to be excluded from the browser launch.
+     *
+     * @param block The configuration block for excluded switches.
+     * @return The configured [ExcludeSwitchesScope].
+     */
     @KolibriumDsl
     public fun excludeSwitches(block: ExcludeSwitchesScope.() -> Unit): ExcludeSwitchesScope = excludeSwitchesScope.apply(block)
 
+    /**
+     * Configures browser local state preferences.
+     *
+     * @param block The configuration block for local state settings.
+     * @return The configured [LocalStateScope].
+     */
     @KolibriumDsl
     public fun localState(block: LocalStateScope.() -> Unit): LocalStateScope = localStateScope.apply(block)
 
+    /**
+     * Configures Chromium-specific preferences.
+     *
+     * @param block The configuration block for browser preferences.
+     * @return The configured [ChromiumPreferencesScope].
+     */
     @KolibriumDsl
     public fun preferences(block: ChromiumPreferencesScope.() -> Unit): ChromiumPreferencesScope = preferencesScope.apply(block)
 
+    /**
+     * Returns a string representation of the [ExperimentalOptionsScope], primarily for debugging purposes.
+     */
     override fun toString(): String =
         "ExperimentalOptionsScope(excludeSwitchesScope=$excludeSwitchesScope, " +
             "localStateScope=$localStateScope, preferencesScope=$preferencesScope)"

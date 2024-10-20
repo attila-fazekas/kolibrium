@@ -16,15 +16,29 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * Value class representing an experimental feature flag.
+ *
+ * @property value The string value of the experimental flag
+ */
 @JvmInline
 public value class ExperimentalFlag(
     internal val value: String,
 )
 
+/**
+ * Object containing predefined experimental flags.
+ */
 public object ExperimentalFlags {
+    /**
+     * Enables SameSite by default for cookies.
+     */
     @KolibriumPropertyDsl
     public val same_site_by_default_cookies: ExperimentalFlag = ExperimentalFlag("same-site-by-default-cookies@2")
 
+    /**
+     * Requires secure attribute for cookies without SameSite.
+     */
     @KolibriumPropertyDsl
     public val cookies_without_same_site_must_be_secure: ExperimentalFlag =
         ExperimentalFlag("cookies-without-same-site-must-be-secure@2")

@@ -27,7 +27,7 @@ import java.io.File
 
 class PageProcessorTest : ProcessorBaseTest() {
     @Test
-    fun `enum class annotated with Page and enum entries annotated with locators`(
+    fun `class annotated with Page`(
         @TempDir path: File,
     ) {
         val sourceFile =
@@ -57,9 +57,7 @@ class PageProcessorTest : ProcessorBaseTest() {
 
             public fun WebDriver.inventoryPage(block: InventoryPage.() -> Unit) {
               get(${'"'}${'"'}${'"'}${'$'}{currentUrl}inventory.html${'"'}${'"'}${'"'})
-              with(InventoryPage()) {
-                  block()
-              }
+              InventoryPage().apply(block)
             }
             """.trimIndent(),
             actualFileName = "InventoryPage.kt",

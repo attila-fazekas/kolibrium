@@ -32,6 +32,23 @@ import com.squareup.kotlinpoet.asTypeName
 import dev.kolibrium.ksp.annotations.Page
 import java.util.Locale
 
+/**
+ * Symbol processor that generates a navigation function for Page Object classes.
+ *
+ * This processor scans for classes annotated with [Page] and generates an extension function
+ * for `WebDriver` that enable type-safe navigation and interaction with the annotated page.
+ *
+ * ### How It Works
+ * The processor looks for all classes annotated with the `@Page` annotation, extracts the
+ * page's URL (if specified), and generates an extension function for `WebDriver` named after
+ * the annotated class. This function allows developers to navigate to the page and interact
+ * with it using a block of code applied to the page object.
+ *
+ * ### Generated Output
+ * For each annotated class, a corresponding function is generated in the `generated` package.
+ * If a URL path is provided in the annotation, the generated function includes that path in
+ * the navigation logic; otherwise, it navigates to the current URL.
+ */
 public class PageProcessor(
     private val codeGen: CodeGenerator,
     private val logger: KSPLogger,
@@ -79,9 +96,7 @@ public class PageProcessor(
                             .addStatement("get(%P)", "\${currentUrl}$page")
                             .add(
                                 """
-                                with($className()) {
-                                    block()
-                                }
+                                $className().apply(block)
                                 """.trimIndent(),
                             ).build(),
                     ).build()

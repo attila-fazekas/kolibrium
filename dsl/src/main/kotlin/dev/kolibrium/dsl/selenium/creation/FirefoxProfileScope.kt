@@ -16,13 +16,24 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * Scope class for configuring Firefox profile preferences.
+ */
 @KolibriumDsl
 public class FirefoxProfileScope {
     internal val preferences = mutableMapOf<String, Any>()
 
+    /**
+     * Adds a preference key-value pair to the Firefox profile.
+     *
+     * This operator function allows adding a preference key-value pair using the unary plus operator (+).
+     */
     public operator fun Pair<FirefoxPreference, Any>.unaryPlus() {
         preferences[first.value] = second
     }
 
+    /**
+     * Returns a string representation of the [FirefoxProfileScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "FirefoxProfileScope(preferences=$preferences)"
 }

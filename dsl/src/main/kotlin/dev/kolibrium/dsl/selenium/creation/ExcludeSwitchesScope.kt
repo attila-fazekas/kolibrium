@@ -16,13 +16,24 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * Scope class for configuring browser switches to be excluded.
+ */
 @KolibriumDsl
 public class ExcludeSwitchesScope {
     internal val switches = mutableSetOf<String>()
 
+    /**
+     * Adds a switch to the list of excluded switches.
+     *
+     * This operator function allows adding switches to the exclusion list using the unary plus operator (`+`).
+     */
     public operator fun Switch.unaryPlus() {
         switches.add(value)
     }
 
+    /**
+     * Returns a string representation of the [ExcludeSwitchesScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "ExcludeSwitchesScope(switches=$switches)"
 }

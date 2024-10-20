@@ -18,16 +18,33 @@ package dev.kolibrium.dsl.selenium.creation
 
 import org.openqa.selenium.safari.SafariOptions
 
+/**
+ * Scope class for configuring Safari-specific options.
+ *
+ * This class provides Safari-specific configurations while inheriting common browser options
+ * from [OptionsScope].
+ *
+ * @property options The underlying [SafariOptions] instance being configured.
+ */
 @KolibriumDsl
 public class SafariOptionsScope(
     override val options: SafariOptions,
 ) : OptionsScope() {
+    /**
+     * Enables automatic inspection of web pages.
+     */
     @KolibriumPropertyDsl
     public var automaticInspection: Boolean? = null
 
+    /**
+     * Enables automatic profiling of web pages.
+     */
     @KolibriumPropertyDsl
     public var automaticProfiling: Boolean? = null
 
+    /**
+     * Enables the use of Safari Technology Preview.
+     */
     @KolibriumPropertyDsl
     public var useTechnologyPreview: Boolean? = null
 
@@ -40,6 +57,9 @@ public class SafariOptionsScope(
         }
     }
 
+    /**
+     * Returns a string representation of the [SafariOptionsScope], primarily for debugging purposes.
+     */
     override fun toString(): String =
         "SafariOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, " +
             "automaticInspection=$automaticInspection, automaticProfiling=$automaticProfiling, " +

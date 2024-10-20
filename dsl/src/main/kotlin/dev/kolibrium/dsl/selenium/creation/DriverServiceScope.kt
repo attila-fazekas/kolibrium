@@ -23,15 +23,24 @@ import java.net.ServerSocket
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
 
+/**
+ * Base scope class for configuring Selenium driver service settings.
+ */
 @KolibriumDsl
 public sealed class DriverServiceScope {
     internal abstract val builder: DriverService.Builder<*, *>
 
     protected val environmentScope: EnvironmentScope by lazy { EnvironmentScope() }
 
+    /**
+     * The port on which the driver service should listen for incoming connections.
+     */
     @KolibriumPropertyDsl
     public var port: Int? = null
 
+    /**
+     * The maximum time to wait for the driver service to start.
+     */
     @KolibriumPropertyDsl
     public var timeout: Duration? = null
 
@@ -58,6 +67,11 @@ public sealed class DriverServiceScope {
         }
     }
 
+    /**
+     * Configures environment variables for the driver service.
+     *
+     * @param block The configuration block for environment variables.
+     */
     @KolibriumDsl
     public fun environment(block: EnvironmentScope.() -> Unit) {
         environmentScope.apply(block)
@@ -78,5 +92,8 @@ public sealed class DriverServiceScope {
         return true
     }
 
+    /**
+     * Returns a string representation of the [DriverServiceScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "DriverServiceScope(environmentScope=$environmentScope, port=$port, timeout=$timeout)"
 }

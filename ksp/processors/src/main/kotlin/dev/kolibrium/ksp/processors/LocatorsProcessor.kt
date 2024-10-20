@@ -57,6 +57,25 @@ import kotlin.reflect.KClass
 
 private const val KOLIBRIUM_SELENIUM_PACKAGE_NAME = "dev.kolibrium.selenium"
 
+/**
+ * A symbol processor that generates a repository class for locators.
+ *
+ * This processor scans for enum classes annotated with [Locators] and generates classes containing `WebElement`
+ * and `WebElements` properties, using locator delegate functions from the kolibrium-selenium module.
+ *
+ * The generated classes facilitate the access and management of locators in a type-safe manner.
+ *
+ * ### How It Works
+ * The processor looks for all classes annotated with the `@Locators` annotation. It analyzes the enum entries
+ * within these classes to identify the locator annotations applied to each entry. Based on this analysis, it generates
+ * corresponding properties in the output class that utilize the appropriate locator delegate functions.
+ *
+ * ### Generated Output
+ * For each annotated class, a corresponding class is generated in the `generated` package. This generated class
+ * contains properties for each locator entry, enabling seamless access to the `WebElement` and `WebElements`
+ * associated with each locator. The properties are defined using the appropriate locator delegate functions,
+ * ensuring type safety and ease of use.
+ */
 public class LocatorsProcessor(
     private val codeGen: CodeGenerator,
     private val logger: KSPLogger,

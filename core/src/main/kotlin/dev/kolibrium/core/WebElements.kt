@@ -18,4 +18,9 @@ package dev.kolibrium.core
 
 import org.openqa.selenium.WebElement
 
+/**
+ * A typealias for a list of [WebElement]s.
+ *
+ * This provides a more readable and concise way to refer to a list of web elements in the code.
+ */
 public typealias WebElements = List<WebElement>

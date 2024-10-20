@@ -13,16 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package dev.kolibrium.dsl.selenium.creation
-
-import dev.kolibrium.core.ConfigurationException
-
-/**
- * Exception thrown when there is an error in the DSL configuration.
- *
- * @param exception The detailed error message describing the configuration issue.
- */
-internal class DslConfigurationException(
-    exception: String,
-) : ConfigurationException(exception)

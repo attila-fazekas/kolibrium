@@ -1,3 +1,28 @@
+comments:
+  active: true
+  excludes: ["**/test/kotlin/**"]
+  AbsentOrWrongFileLicense:
+    active: true
+    excludes: ['**/build/generated/**']
+    licenseTemplateFile: 'license.template'
+  CommentOverPrivateFunction:
+    active: true
+  CommentOverPrivateProperty:
+    active: true
+  DeprecatedBlockTag:
+    active: true
+  EndOfSentenceFormat:
+    active: true
+  KDocReferencesNonPublicProperty:
+    active: true
+  OutdatedDocumentation:
+    active: true
+  UndocumentedPublicClass:
+    active: true
+  UndocumentedPublicFunction:
+    active: true
+  UndocumentedPublicProperty:
+    active: true
 complexity:
   LongMethod:
     active: true

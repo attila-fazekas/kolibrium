@@ -18,10 +18,21 @@ package dev.kolibrium.dsl.selenium.creation
 
 import org.openqa.selenium.safari.SafariDriverService
 
+/**
+ * Scope class for configuring Safari-specific driver service settings.
+ *
+ * This class provides Safari-specific configurations while inheriting driver service settings
+ * from [DriverServiceScope].
+ *
+ * @property builder The underlying SafariDriver service builder.
+ */
 @KolibriumDsl
 public class SafariDriverServiceScope(
     override val builder: SafariDriverService.Builder,
 ) : DriverServiceScope() {
+    /**
+     * Enables or disables logging for the SafariDriver service.
+     */
     @KolibriumPropertyDsl
     public var logging: Boolean? = null
 
@@ -32,6 +43,9 @@ public class SafariDriverServiceScope(
         }
     }
 
+    /**
+     * Returns a string representation of the [SafariDriverServiceScope], primarily for debugging purposes.
+     */
     override fun toString(): String =
         "SafariDriverServiceScope(environmentScope=$environmentScope, logging=$logging, port=$port, " +
             "timeout=$timeout)"

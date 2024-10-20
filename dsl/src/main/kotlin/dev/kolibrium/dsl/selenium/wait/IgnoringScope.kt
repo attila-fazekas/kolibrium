@@ -20,15 +20,34 @@ import dev.kolibrium.core.InternalKolibriumApi
 import dev.kolibrium.dsl.selenium.creation.KolibriumDsl
 import kotlin.reflect.KClass
 
+/**
+ * Scope class for configuring exceptions to ignore during synchronization operations.
+ *
+ * This class provides a way to specify which exceptions should be ignored when waiting
+ * for synchronization conditions to be met.
+ */
 @KolibriumDsl
 public class IgnoringScope {
+    /**
+     * A set of exception classes to be ignored during synchronization.
+     */
     @InternalKolibriumApi
     public var exceptions: MutableSet<Class<out Throwable>> = mutableSetOf()
         private set
 
+    /**
+     * Adds an exception class to the set of ignored exceptions.
+     *
+     * This operator function allows adding exceptions using the unary plus operator (+).
+     *
+     * @param T The type of the exception to be ignored.
+     */
     public operator fun <T : Throwable> KClass<T>.unaryPlus() {
         exceptions.add(this.java)
     }
 
+    /**
+     * Returns a string representation of the [IgnoringScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "IgnoringScope(exceptions=$exceptions)"
 }

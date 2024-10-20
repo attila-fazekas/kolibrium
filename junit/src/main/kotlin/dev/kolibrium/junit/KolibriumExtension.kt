@@ -42,6 +42,23 @@ import kotlin.text.Typography.bullet
 
 private const val KOLIBRIUM_STORE = "KOLIBRIUM_STORE"
 
+/**
+ * Marks a test class to be managed by the Kolibrium JUnit extension.
+ *
+ * This annotation enables automatic WebDriver injection and lifecycle management for Selenium WebDriver instances
+ * in JUnit 5 test classes. When applied to a test class, it automatically registers [KolibriumExtension].
+ *
+ * Example usage:
+ * ```kotlin
+ * @Kolibrium
+ * class MySeleniumTest {
+ *     @Test
+ *     fun `test with chrome driver`(driver: ChromeDriver) {
+ *         // Test implementation
+ *     }
+ * }
+ * ```
+ */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
 @ExtendWith(KolibriumExtension::class)
@@ -49,12 +66,49 @@ public annotation class Kolibrium
 
 private val logger = KotlinLogging.logger { }
 
+/**
+ * JUnit 5 extension for managing WebDriver instances in Selenium tests.
+ *
+ * This extension provides automatic WebDriver injection and lifecycle management for Selenium tests.
+ * It supports injection of WebDriver, ChromeDriver, SafariDriver, EdgeDriver, and FirefoxDriver instances.
+ *
+ * Features:
+ * - Automatic WebDriver creation and cleanup
+ * - Configurable browser selection
+ * - Support for custom WebDriver initialization
+ * - Automatic navigation to base URL
+ * - Thread-safe WebDriver management
+ *
+ * Example usage with constructor-based configuration:
+ * ```kotlin
+ * @ExtendWith(KolibriumExtension::class)
+ * class MyTest {
+ *     @Test
+ *     fun `test with chrome`(driver: ChromeDriver) {
+ *         // Test implementation
+ *     }
+ * }
+ * ```
+ *
+ * @param driver Optional factory function to create custom WebDriver instances.
+ *               When provided, this function takes precedence over other configuration methods.
+ *
+ * @throws ParameterResolutionException if an unsupported driver type is requested for injection.
+ */
 public class KolibriumExtension(
     private val driver: (() -> WebDriver)? = null,
 ) : ParameterResolver,
     AfterEachCallback {
     private val actualConfig: AbstractProjectConfiguration by lazy { actualConfig() }
 
+    /**
+     * Checks if the requested parameter type is supported for injection.
+     *
+     * @param paramCtx The parameter context containing information about the parameter to be injected.
+     * @param extCtx The extension context.
+     * @return true if the parameter type is supported, false otherwise.
+     * @throws ParameterResolutionException if an unsupported driver type is requested.
+     */
     override fun supportsParameter(
         paramCtx: ParameterContext,
         extCtx: ExtensionContext,
@@ -87,6 +141,20 @@ public class KolibriumExtension(
         return true
     }
 
+    /**
+     * Creates and configures a WebDriver instance for injection.
+     *
+     * The driver is created based on the following precedence:
+     * 1. Constructor-provided driver factory
+     * 2. Project configuration override
+     * 3. Default configuration
+     *
+     * The created driver automatically navigates to the configured base URL.
+     *
+     * @param paramCtx The parameter context containing information about the parameter to be injected.
+     * @param extCtx The extension context.
+     * @return A configured WebDriver instance.
+     */
     override fun resolveParameter(
         paramCtx: ParameterContext,
         extCtx: ExtensionContext,
@@ -148,6 +216,13 @@ public class KolibriumExtension(
             FIREFOX -> FirefoxDriver::class
         }
 
+    /**
+     * Performs cleanup after each test execution.
+     *
+     * Quits the WebDriver instance unless `keepBrowserOpen` is set to true in the configuration.
+     *
+     * @param extCtx The extension context.
+     */
     override fun afterEach(extCtx: ExtensionContext) {
         val driver: WebDriver = extCtx.store().get(Thread.currentThread().threadId()) as WebDriver
         if (!ProjectConfiguration.keepBrowserOpen) {

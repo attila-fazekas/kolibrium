@@ -16,13 +16,24 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * Scope class for configuring Chromium browser preferences.
+ */
 @KolibriumDsl
 public class ChromiumPreferencesScope {
     internal val preferences = mutableMapOf<String, Any>()
 
+    /**
+     * Adds a browser preference setting.
+     *
+     * This operator function allows adding browser preference settings using the unary plus operator (+).
+     */
     public operator fun Pair<ChromiumPreference, Any>.unaryPlus() {
         preferences[first.value] = second
     }
 
+    /**
+     * Returns a string representation of the [ChromiumPreferencesScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "PreferencesScope(preferences=$preferences)"
 }

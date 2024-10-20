@@ -19,6 +19,14 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.chrome.ChromeDriverService
 import java.io.File
 
+/**
+ * Scope class for configuring Chrome-specific driver service settings.
+ *
+ * This class provides Chrome-specific configurations while inheriting driver service settings
+ * from [ChromiumDriverServiceScope].
+ *
+ * @property builder The underlying ChromeDriver service builder.
+ */
 @KolibriumDsl
 public class ChromeDriverServiceScope internal constructor(
     override val builder: ChromeDriverService.Builder,
@@ -38,12 +46,20 @@ public class ChromeDriverServiceScope internal constructor(
         }
     }
 
+    /**
+     * Configures the allowed host header values for incoming requests to ChromeDriver service.
+     *
+     * @param block The configuration block for specifying allowed hosts.
+     */
     @KolibriumDsl
-    public override fun allowedIps(block: AllowedIpsScope.() -> Unit) {
+    override fun allowedIps(block: AllowedIpsScope.() -> Unit) {
         super.allowedIps(block)
         builder.withAllowedListIps(allowedIpsScope.allowedIps.joinToString(separator = ", "))
     }
 
+    /**
+     * Returns a string representation of the [ChromeDriverServiceScope], primarily for debugging purposes.
+     */
     override fun toString(): String =
         "ChromiumDriverServiceScope(allowedIpsScope=$allowedIpsScope, appendLog=$appendLog, " +
             "buildCheckDisabled=$buildCheckDisabled, environmentScope=$environmentScope, executable=$executable, " +

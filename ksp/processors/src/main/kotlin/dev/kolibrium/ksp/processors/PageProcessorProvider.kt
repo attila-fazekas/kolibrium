@@ -21,8 +21,14 @@ import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 
+/**
+ * Processor provider for [PageProcessor].
+ *
+ * This provider is automatically discovered by KSP and creates instances
+ * of [PageProcessor] for processing `@Page` annotations.
+ */
 @AutoService(SymbolProcessorProvider::class)
-public class ResourceProcessorProvider : SymbolProcessorProvider {
+public class PageProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor =
         PageProcessor(environment.codeGenerator, environment.logger)
 }

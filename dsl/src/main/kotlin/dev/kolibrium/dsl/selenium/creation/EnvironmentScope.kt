@@ -16,13 +16,27 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * Scope class for configuring environment variables for the driver service.
+ *
+ * This scope allows setting environment variables that will be inherited by every browser session
+ * launched by the server.
+ */
 @KolibriumDsl
 public class EnvironmentScope {
     internal val environmentVariables: MutableMap<String, String> = mutableMapOf()
 
+    /**
+     * Adds an environment variable to the map of environment variables.
+     *
+     * This operator function allows adding environment variables using the unary plus operator (+).
+     */
     public operator fun Pair<String, String>.unaryPlus() {
         environmentVariables[first] = second
     }
 
+    /**
+     * Returns a string representation of the [EnvironmentScope], primarily for debugging purposes.
+     */
     override fun toString(): String = "EnvironmentScope(environmentVariables=$environmentVariables)"
 }
