@@ -29,7 +29,7 @@ public class ProxyScope {
 
     /**
      * Sets the proxy type to be used.
-     * @see [Proxy.ProxyType]
+     * @see Proxy.ProxyType
      */
     @KolibriumPropertyDsl
     public var proxyType: Proxy.ProxyType? = null

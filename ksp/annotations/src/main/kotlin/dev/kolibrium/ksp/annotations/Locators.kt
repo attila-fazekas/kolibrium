@@ -16,11 +16,14 @@
 
 package dev.kolibrium.ksp.annotations
 
-// for WebElement
+// WebElement locator annotations
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds a single element using "className" locator strategy.
- * [locator] is the value of the "class" attribute to search for.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using the
+ * "className" locator strategy.
+ *
+ * @property locator The value of the "class" attribute to search for.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -29,8 +32,11 @@ public annotation class ClassName(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds a single element using "cssSelector" locator strategy.
- * [locator] is the CSS expression to search for.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using the
+ * "cssSelector" locator strategy.
+ *
+ * @property locator The value of the CSS expression to search for.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -39,8 +45,11 @@ public annotation class CssSelector(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds a single element using "id" locator strategy.
- * [locator] is the value of the "id" attribute to search for.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using the
+ * "id" locator strategy.
+ *
+ * @property locator The value of the "id" attribute to search for.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -49,8 +58,11 @@ public annotation class Id(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds a single element using "linkText" locator strategy.
- * [locator] is the exact text to match against.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using the
+ * "linkText" locator strategy.
+ *
+ * @property locator The exact text to match against.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -59,8 +71,11 @@ public annotation class LinkText(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds a single element using "name" locator strategy.
- * [locator] is the value of the "name" attribute to search for.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using the
+ * "name" locator strategy.
+ *
+ * @property locator The value of the "name" attribute to search for.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -69,8 +84,11 @@ public annotation class Name(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds a single element using "partialLinkText" locator strategy.
- * [locator] is the partial text in link to match against.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using the
+ * "partialLinkText" locator strategy.
+ *
+ * @property locator The partial text in the link to match against.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -79,8 +97,11 @@ public annotation class PartialLinkText(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds a single element using "tagName" locator strategy.
- * [locator] is the element's tag name.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using the
+ * "tagName" locator strategy.
+ *
+ * @property locator The element's tag name.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -89,8 +110,11 @@ public annotation class TagName(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds a single element using "xpath" locator strategy.
- * [locator] is the XPath to use.
+ * Instructs kolibrium-codegen to generate source code that finds a single element using the
+ * "xpath" locator strategy.
+ *
+ * @property locator The XPath expression to use.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -98,11 +122,14 @@ public annotation class Xpath(
     val locator: String = "",
 )
 
-// for WebElements
+// WebElements locator annotations
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds multiple elements using "className" locator strategy.
- * [locator] is the value of the "class" attribute to search for.
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
+ * "className" locator strategy.
+ *
+ * @property locator The value of the "class" attribute to search for.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -111,8 +138,11 @@ public annotation class ClassNames(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds multiple elements using "cssSelector" locator strategy.
- * [locator] is the CSS expression to search for.
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
+ * "cssSelector" locator strategy.
+ *
+ * @property locator The CSS expression to search for.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -121,8 +151,11 @@ public annotation class CssSelectors(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds multiple elements using "id" locator strategy.
- * [locator] is the value of the "id" attribute to search for.
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
+ * "id" locator strategy.
+ *
+ * @property locator The value of the "id" attribute to search for.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -131,8 +164,11 @@ public annotation class Ids(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds multiple elements using "linkText" locator strategy.
- * [locator] is the exact text to match against.
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
+ * "linkText" locator strategy.
+ *
+ * @property locator The exact text to match against.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -141,8 +177,11 @@ public annotation class LinkTexts(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds multiple elements using "name" locator strategy.
- * [locator] is the value of the "name" attribute to search for.
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
+ * "name" locator strategy.
+ *
+ * @property locator The value of the "name" attribute to search for.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -151,8 +190,11 @@ public annotation class Names(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds multiple elements using "partialLinkText" locator strategy.
- * [locator] is the partial text in link to match against.
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
+ * "partialLinkText" locator strategy.
+ *
+ * @property locator The partial text in the link to match against.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -161,8 +203,11 @@ public annotation class PartialLinkTexts(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds multiple elements using "tagName" locator strategy.
- * [locator] is the element's tag name.
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
+ * "tagName" locator strategy.
+ *
+ * @property locator The element's tag name.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
@@ -171,8 +216,11 @@ public annotation class TagNames(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code that finds multiple elements using "xpath" locator strategy.
- * [locator] is the XPath to use.
+ * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
+ * "xpath" locator strategy.
+ *
+ * @property locator The XPath expression to use.
+ * If empty, the enum entry name will be used as the property name in the generated source code.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)

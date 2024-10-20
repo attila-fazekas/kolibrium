@@ -21,6 +21,12 @@ import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.processing.SymbolProcessorProvider
 
+/**
+ * Processor provider for [LocatorsProcessor].
+ *
+ * This provider is automatically discovered by KSP and creates instances
+ * of [LocatorsProcessor] for processing `@Locators` annotations.
+ */
 @AutoService(SymbolProcessorProvider::class)
 public class LocatorsProcessorProvider : SymbolProcessorProvider {
     override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor =

@@ -35,7 +35,7 @@ open class ProcessorBaseTest {
         workingDir = path.absoluteFile
         inheritClassPath = true
         sources = sourceFiles.asList()
-        symbolProcessorProviders = listOf(LocatorsProcessorProvider(), ResourceProcessorProvider())
+        symbolProcessorProviders = listOf(LocatorsProcessorProvider(), PageProcessorProvider())
         verbose = false
     }
 
@@ -46,7 +46,7 @@ open class ProcessorBaseTest {
 
     protected fun assertSourceEquals(
         @Language("kotlin") expected: String,
-        actualFileName: String = "KolibriumTestPage.kt",
+        actualFileName: String,
         compilation: KotlinCompilation,
     ) = compilation.getGeneratedSource(actualFileName).trimIndent() shouldBe expected.trimIndent()
 

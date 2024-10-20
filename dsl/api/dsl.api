@@ -104,8 +104,6 @@ public final class dev/kolibrium/dsl/selenium/creation/ChromeDriverScope : dev/k
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/ChromeDriverServiceScope : dev/kolibrium/dsl/selenium/creation/ChromiumDriverServiceScope {
-	public fun allowedIps (Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun allowedIps$dsl (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getBuilder$dsl ()Lorg/openqa/selenium/remote/service/DriverService$Builder;
 	public fun toString ()Ljava/lang/String;
 }
@@ -222,8 +220,6 @@ public final class dev/kolibrium/dsl/selenium/creation/EdgeDriverScope : dev/kol
 
 public final class dev/kolibrium/dsl/selenium/creation/EdgeDriverServiceScope : dev/kolibrium/dsl/selenium/creation/ChromiumDriverServiceScope {
 	public fun <init> (Lorg/openqa/selenium/edge/EdgeDriverService$Builder;)V
-	public fun allowedIps (Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun allowedIps$dsl (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getBuilder$dsl ()Lorg/openqa/selenium/remote/service/DriverService$Builder;
 	public fun toString ()Ljava/lang/String;
 }

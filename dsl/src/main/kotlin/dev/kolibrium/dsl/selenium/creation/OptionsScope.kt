@@ -48,14 +48,14 @@ public sealed class OptionsScope {
 
     /**
      * Sets the page load strategy for the WebDriver.
-     * @see [PageLoadStrategy]
+     * @see PageLoadStrategy
      */
     @KolibriumPropertyDsl
     public var pageLoadStrategy: PageLoadStrategy? = null
 
     /**
      * Sets the desired platform where the WebDriver should run.
-     * @see [Platform]
+     * @see Platform
      */
     @KolibriumPropertyDsl
     public var platform: Platform? = null
@@ -68,7 +68,7 @@ public sealed class OptionsScope {
 
     /**
      * Sets the behavior for handling unexpected alerts.
-     * @see [UnexpectedAlertBehaviour]
+     * @see UnexpectedAlertBehaviour
      */
     @KolibriumPropertyDsl
     public var unhandledPromptBehaviour: UnexpectedAlertBehaviour? = null
