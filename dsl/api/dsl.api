@@ -1,11 +1,16 @@
-public final class dev/kolibrium/dsl/selenium/cookie/CookieKt {
+public final class dev/kolibrium/dsl/selenium/cookie/CookiesKt {
 	public static final fun cookies (Lorg/openqa/selenium/WebDriver;Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class dev/kolibrium/dsl/selenium/cookie/CookiesScope {
 	public fun <init> (Lorg/openqa/selenium/WebDriver$Options;)V
-	public final fun cookie (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/cookie/SameSite;)V
-	public static synthetic fun cookie$default (Ldev/kolibrium/dsl/selenium/cookie/CookiesScope;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/cookie/SameSite;ILjava/lang/Object;)V
+	public final fun addCookie (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/cookie/SameSite;)Lorg/openqa/selenium/Cookie;
+	public static synthetic fun addCookie$default (Ldev/kolibrium/dsl/selenium/cookie/CookiesScope;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/cookie/SameSite;ILjava/lang/Object;)Lorg/openqa/selenium/Cookie;
+	public final fun deleteCookie (Ljava/lang/String;)V
+	public final fun deleteCookie (Lorg/openqa/selenium/Cookie;)V
+	public final fun deleteCookies ()V
+	public final fun getCookie (Ljava/lang/String;)Lorg/openqa/selenium/Cookie;
+	public final fun getCookies ()Ljava/util/Set;
 	public fun toString ()Ljava/lang/String;
 }
 

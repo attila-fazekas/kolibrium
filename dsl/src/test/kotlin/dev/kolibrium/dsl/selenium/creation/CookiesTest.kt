@@ -18,7 +18,10 @@ package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.cookie.SameSite.STRICT
 import dev.kolibrium.dsl.selenium.cookie.cookies
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import io.kotest.assertions.assertSoftly
+import io.kotest.matchers.collections.shouldBeEmpty
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -26,12 +29,12 @@ import org.junit.jupiter.api.Test
 import java.time.Instant.now
 import java.util.Date
 
-class CookieTest {
+class CookiesTest {
     private val driver =
         chromeDriver {
             options {
                 arguments {
-                    +Arguments.Chrome.disable_search_engine_choice_screen
+                    +disable_search_engine_choice_screen
                 }
             }
         }
@@ -48,17 +51,17 @@ class CookieTest {
     }
 
     @Test
-    fun `add cookies`() {
+    fun `add cookie`() {
         val now = Date.from(now().plusSeconds(60))
 
         driver.cookies {
-            cookie(
+            addCookie(
                 name = "username",
                 value = "test",
                 domain = "bonigarcia.dev",
                 path = "/selenium-webdriver-java",
                 expiresOn = now,
-                isSecure = false,
+                isSecure = true,
                 isHttpOnly = false,
                 sameSite = STRICT,
             )
@@ -73,6 +76,54 @@ class CookieTest {
             isSecure shouldBe true
             isHttpOnly shouldBe false
             sameSite shouldBe "Strict"
+        }
+    }
+
+    @Test
+    fun `get cookie`() {
+        driver.cookies {
+            val cookie = addCookie(name = "username", value = "test")
+
+            cookie.name shouldBe "username"
+            cookie.value shouldBe "test"
+        }
+    }
+
+    @Test
+    fun `get all cookies`() {
+        driver.cookies {
+            val cookie1 = addCookie(name = "username", value = "test")
+            val cookie2 = addCookie(name = "password", value = "secret")
+
+            with(getCookies()) {
+                size shouldBe 2
+                shouldContain(cookie1)
+                shouldContain(cookie2)
+            }
+        }
+    }
+
+    @Test
+    fun `delete cookie`() {
+        driver.cookies {
+            val cookie1 = addCookie(name = "username", value = "test")
+
+            deleteCookie(cookie1)
+            deleteCookie(name = "password")
+
+            getCookies().shouldBeEmpty()
+        }
+    }
+
+    @Test
+    fun `delete all cookies`() {
+        driver.cookies {
+            addCookie(name = "username", value = "test")
+            addCookie(name = "password", value = "secret")
+
+            deleteCookies()
+
+            getCookies().shouldBeEmpty()
         }
     }
 }
