@@ -118,7 +118,7 @@ public annotation class TagName(
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Xpath(
+public annotation class XPath(
     val locator: String = "",
 )
 
@@ -224,6 +224,6 @@ public annotation class TagNames(
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
-public annotation class Xpaths(
+public annotation class XPaths(
     val locator: String = "",
 )

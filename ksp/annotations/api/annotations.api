@@ -61,11 +61,11 @@ public abstract interface annotation class dev/kolibrium/ksp/annotations/TagName
 	public abstract fun locator ()Ljava/lang/String;
 }
 
-public abstract interface annotation class dev/kolibrium/ksp/annotations/Xpath : java/lang/annotation/Annotation {
+public abstract interface annotation class dev/kolibrium/ksp/annotations/XPath : java/lang/annotation/Annotation {
 	public abstract fun locator ()Ljava/lang/String;
 }
 
-public abstract interface annotation class dev/kolibrium/ksp/annotations/Xpaths : java/lang/annotation/Annotation {
+public abstract interface annotation class dev/kolibrium/ksp/annotations/XPaths : java/lang/annotation/Annotation {
 	public abstract fun locator ()Ljava/lang/String;
 }
 

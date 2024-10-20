@@ -18,8 +18,8 @@ package dev.kolibrium.test
 
 import dev.kolibrium.core.WebElements
 import dev.kolibrium.dsl.selenium.wait.SyncConfig
-import dev.kolibrium.selenium.xpath
-import dev.kolibrium.selenium.xpaths
+import dev.kolibrium.selenium.xPath
+import dev.kolibrium.selenium.xPaths
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 
@@ -27,10 +27,10 @@ fun SearchContext.dataTest(
     locator: String,
     cacheLookup: Boolean = true,
     syncConfig: (SyncConfig<WebElement>.() -> Unit) = {},
-) = xpath("//*[@data-test='$locator']", cacheLookup, syncConfig)
+) = xPath("//*[@data-test='$locator']", cacheLookup, syncConfig)
 
 fun SearchContext.dataTests(
     locator: String,
     cacheLookup: Boolean = true,
     syncConfig: (SyncConfig<WebElements>.() -> Unit) = {},
-) = xpaths("//*[@data-test='$locator']", cacheLookup, syncConfig)
+) = xPaths("//*[@data-test='$locator']", cacheLookup, syncConfig)

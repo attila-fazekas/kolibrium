@@ -34,7 +34,7 @@ package dev.kolibrium.ksp.annotations
  * - [Name]
  * - [PartialLinkText]
  * - [TagName]
- * - [Xpath]
+ * - [XPath]
  *
  * For locating multiple `WebElements`, the following locator annotations can be used:
  * - [ClassNames]
@@ -44,7 +44,7 @@ package dev.kolibrium.ksp.annotations
  * - [Names]
  * - [PartialLinkTexts]
  * - [TagNames]
- * - [Xpaths]
+ * - [XPaths]
  *
  * ### Example Usage:
  * ```kotlin
