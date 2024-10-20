@@ -62,7 +62,7 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                     @TagName("tagName")
                     entry7,
 
-                    @Xpath("xpath")
+                    @XPath("xPath")
                     entry8,
 
                     @ClassNames("className")
@@ -86,7 +86,7 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                     @TagNames("tagName")
                     entries7,
 
-                    @Xpaths("xpath")
+                    @XPaths("xPath")
                     entries8
                 }
                 """.trimIndent(),
@@ -115,8 +115,8 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
             import dev.kolibrium.selenium.partialLinkTexts
             import dev.kolibrium.selenium.tagName
             import dev.kolibrium.selenium.tagNames
-            import dev.kolibrium.selenium.xpath
-            import dev.kolibrium.selenium.xpaths
+            import dev.kolibrium.selenium.xPath
+            import dev.kolibrium.selenium.xPaths
             import org.openqa.selenium.WebDriver
             import org.openqa.selenium.WebElement
 
@@ -136,7 +136,7 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
 
               public val entry7: WebElement by tagName("tagName")
 
-              public val entry8: WebElement by xpath("xpath")
+              public val entry8: WebElement by xPath("xPath")
 
               public val entries1: WebElements by classNames("className")
 
@@ -152,7 +152,7 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
 
               public val entries7: WebElements by tagNames("tagName")
 
-              public val entries8: WebElements by xpaths("xpath")
+              public val entries8: WebElements by xPaths("xPath")
             }
             """.trimIndent(),
             actualFileName = "KolibriumTestLocators.kt",

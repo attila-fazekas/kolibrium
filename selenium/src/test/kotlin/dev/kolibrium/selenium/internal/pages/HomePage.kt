@@ -30,8 +30,8 @@ import dev.kolibrium.selenium.partialLinkText
 import dev.kolibrium.selenium.partialLinkTexts
 import dev.kolibrium.selenium.tagName
 import dev.kolibrium.selenium.tagNames
-import dev.kolibrium.selenium.xpath
-import dev.kolibrium.selenium.xpaths
+import dev.kolibrium.selenium.xPath
+import dev.kolibrium.selenium.xPaths
 import org.openqa.selenium.WebDriver
 
 context(WebDriver)
@@ -40,7 +40,7 @@ class HomePage {
 
     val name by cssSelector("#name")
 
-    val nameXpath by xpath("//*[@id='name']")
+    val nameXPath by xPath("//*[@id='name']")
 
     val email by idOrName("email")
 
@@ -48,7 +48,7 @@ class HomePage {
 
     val phoneName by name("phone")
 
-    val googleLink by xpath("//a[@class='link'][contains(text(),'Google')]")
+    val googleLink by xPath("//a[@class='link'][contains(text(),'Google')]")
 
     val fbLink by linkText("Facebook")
 
@@ -64,7 +64,7 @@ class HomePage {
 
     val linksCss by cssSelectors("a")
 
-    val linksXpath by xpaths("//a[@class='link']")
+    val linksXPath by xPaths("//a[@class='link']")
 
     val fbLinks by linkTexts("Facebook")
 

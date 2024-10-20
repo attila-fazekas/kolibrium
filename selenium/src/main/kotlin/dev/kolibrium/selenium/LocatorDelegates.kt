@@ -402,7 +402,7 @@ public fun SearchContext.tagNames(
  * @see SyncConfig
  * @see WebElementProperty
  */
-public fun SearchContext.xpath(
+public fun SearchContext.xPath(
     locator: String,
     cacheLookup: Boolean = true,
     syncConfig: SyncConfig<WebElement>.() -> Unit = {},
@@ -427,7 +427,7 @@ public fun SearchContext.xpath(
  * @see SyncConfig
  * @see WebElements
  */
-public fun SearchContext.xpaths(
+public fun SearchContext.xPaths(
     locator: String,
     cacheLookup: Boolean = true,
     syncConfig: SyncConfig<WebElements>.() -> Unit = {},

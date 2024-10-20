@@ -51,8 +51,8 @@ import dev.kolibrium.ksp.annotations.PartialLinkText
 import dev.kolibrium.ksp.annotations.PartialLinkTexts
 import dev.kolibrium.ksp.annotations.TagName
 import dev.kolibrium.ksp.annotations.TagNames
-import dev.kolibrium.ksp.annotations.Xpath
-import dev.kolibrium.ksp.annotations.Xpaths
+import dev.kolibrium.ksp.annotations.XPath
+import dev.kolibrium.ksp.annotations.XPaths
 import kotlin.reflect.KClass
 
 private const val KOLIBRIUM_SELENIUM_PACKAGE_NAME = "dev.kolibrium.selenium"
@@ -207,7 +207,7 @@ public class LocatorsProcessor(
                 Name::class,
                 PartialLinkText::class,
                 TagName::class,
-                Xpath::class,
+                XPath::class,
             )
 
         private val multipleElementLocatorAnnotations =
@@ -219,7 +219,7 @@ public class LocatorsProcessor(
                 Names::class,
                 PartialLinkTexts::class,
                 TagNames::class,
-                Xpaths::class,
+                XPaths::class,
             )
 
         private fun getDelegateReturnType(annotation: KClass<out Annotation>) =

@@ -189,9 +189,9 @@ class LocatorDelegatesTest {
         }
 
     @Test
-    fun `xpath - WebElement`() =
+    fun `xPath - WebElement`() =
         homePage {
-            nameXpath.getAttribute("value") shouldBe "Enter your name"
+            nameXPath.getAttribute("value") shouldBe "Enter your name"
         }
 
     @Test
@@ -285,9 +285,9 @@ class LocatorDelegatesTest {
         }
 
     @Test
-    fun `xpath - WebElements`() =
+    fun `xPath - WebElements`() =
         homePage {
-            linksXpath.size shouldBe 6
+            linksXPath.size shouldBe 6
         }
 
 // WebElements with size
