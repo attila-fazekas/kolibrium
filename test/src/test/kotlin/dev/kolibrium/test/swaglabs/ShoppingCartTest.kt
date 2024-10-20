@@ -40,12 +40,7 @@ class ShoppingCartTest {
     @BeforeEach
     fun setUp() {
         cookies {
-            cookie(
-                name = "session-username",
-                value = "standard_user",
-                domain = "www.saucedemo.com",
-                path = "/",
-            )
+            addCookie(name = "session-username", value = "standard_user")
         }
     }
 
