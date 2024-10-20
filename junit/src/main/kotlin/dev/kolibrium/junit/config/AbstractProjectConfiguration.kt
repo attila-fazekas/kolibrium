@@ -29,21 +29,51 @@ import kotlin.text.Typography.bullet
 
 private val logger = KotlinLogging.logger { }
 
+/**
+ * Abstract base class for configuring Kolibrium project settings.
+ *
+ * Provides customization points for WebDriver initialization, browser selection, and wait strategies.
+ * To customize the configuration, create a class that extends this class and override the desired properties.
+ */
 public abstract class AbstractProjectConfiguration {
+    /**
+     * The base URL to navigate to when a WebDriver instance is created.
+     */
     public open val baseUrl: String? = null
 
+    /**
+     * The preferred browser to use for tests when not explicitly specified.
+     */
     public open val defaultBrowser: Browser? = null
 
+    /**
+     * Whether to keep the browser window open after test execution.
+     */
     public open val keepBrowserOpen: Boolean? = null
 
+    /**
+     * Factory function for creating ChromeDriver instances.
+     */
     public open val chromeDriver: (() -> ChromeDriver)? = null
 
+    /**
+     * Factory function for creating SafariDriver instances.
+     */
     public open val safariDriver: (() -> SafariDriver)? = null
 
+    /**
+     * Factory function for creating EdgeDriver instances.
+     */
     public open val edgeDriver: (() -> EdgeDriver)? = null
 
+    /**
+     * Factory function for creating FirefoxDriver instances.
+     */
     public open val firefoxDriver: (() -> FirefoxDriver)? = null
 
+    /**
+     * Custom wait configuration for WebDriver wait operations.
+     */
     public open val waitConfig: WaitScope? = null
 }
 
