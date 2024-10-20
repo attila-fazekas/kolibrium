@@ -80,7 +80,7 @@ private val logger = KotlinLogging.logger { }
  * - Thread-safe WebDriver management
  *
  * Example usage with constructor-based configuration:
- * ```
+ * ```kotlin
  * @ExtendWith(KolibriumExtension::class)
  * class MyTest {
  *     @Test
