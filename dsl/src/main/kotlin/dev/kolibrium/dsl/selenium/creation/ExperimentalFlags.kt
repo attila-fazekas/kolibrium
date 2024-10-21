@@ -19,7 +19,7 @@ package dev.kolibrium.dsl.selenium.creation
 /**
  * Value class representing an experimental feature flag.
  *
- * @property value The string value of the experimental flag
+ * @property value The string value of the experimental flag.
  */
 @JvmInline
 public value class ExperimentalFlag(

@@ -19,8 +19,11 @@ package dev.kolibrium.dsl.selenium.creation
 /**
  * Base interface for browser command-line arguments.
  */
-internal sealed interface Argument {
-    val value: String
+public sealed interface Argument {
+    /**
+     * The string value of the argument.
+     */
+    public val value: String
 }
 
 /**

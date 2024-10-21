@@ -25,11 +25,13 @@ public class ChromiumPreferencesScope {
 
     /**
      * Adds a browser preference setting.
-     *
-     * This operator function allows adding browser preference settings using the unary plus operator (+).
      */
-    public operator fun Pair<ChromiumPreference, Any>.unaryPlus() {
-        preferences[first.value] = second
+    @KolibriumDsl
+    public fun preference(
+        key: ChromiumPreference,
+        value: Any,
+    ) {
+        preferences[key.value] = value
     }
 
     /**

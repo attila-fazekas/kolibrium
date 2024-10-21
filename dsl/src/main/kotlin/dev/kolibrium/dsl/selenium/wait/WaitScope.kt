@@ -154,8 +154,8 @@ public val defaultWait: WaitScope =
         timeout = 10.seconds
         message = "Element could not be found"
         ignoring {
-            +NoSuchElementException::class
-            +StaleElementReferenceException::class
+            exception(NoSuchElementException::class)
+            exception(StaleElementReferenceException::class)
         }
     }
 

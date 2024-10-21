@@ -25,11 +25,13 @@ public class FirefoxProfileScope {
 
     /**
      * Adds a preference key-value pair to the Firefox profile.
-     *
-     * This operator function allows adding a preference key-value pair using the unary plus operator (+).
      */
-    public operator fun Pair<FirefoxPreference, Any>.unaryPlus() {
-        preferences[first.value] = second
+    @KolibriumDsl
+    public fun preference(
+        key: FirefoxPreference,
+        value: Any,
+    ) {
+        preferences[key.value] = value
     }
 
     /**

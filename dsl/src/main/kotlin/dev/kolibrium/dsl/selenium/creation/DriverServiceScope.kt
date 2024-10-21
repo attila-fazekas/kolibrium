@@ -73,7 +73,7 @@ public sealed class DriverServiceScope {
      * @param block The configuration block for environment variables.
      */
     @KolibriumDsl
-    public fun environment(block: EnvironmentScope.() -> Unit) {
+    public fun environments(block: EnvironmentScope.() -> Unit) {
         environmentScope.apply(block)
         if (environmentScope.environmentVariables.isNotEmpty()) {
             builder.withEnvironment(environmentScope.environmentVariables)
@@ -82,7 +82,7 @@ public sealed class DriverServiceScope {
 
     protected fun ifExists(file: String?): Boolean {
         file?.let {
-            require(File(it).exists()) {
+            check(File(it).exists()) {
                 """
                 |DriverService is not set up properly:
                 |The following file does not exist at the specified path: $file

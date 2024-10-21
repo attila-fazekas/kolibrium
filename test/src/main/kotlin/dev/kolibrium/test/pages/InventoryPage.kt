@@ -36,7 +36,9 @@ class InventoryPage {
     private val products by dataTests("inventory-item")
 
     init {
-        require(sortMenu.isDisplayed)
+        check(sortMenu.isDisplayed) {
+            "This is not the Inventory Page, current page is: " + this@WebDriver.currentUrl
+        }
     }
 
     fun Product.addToCart() {
