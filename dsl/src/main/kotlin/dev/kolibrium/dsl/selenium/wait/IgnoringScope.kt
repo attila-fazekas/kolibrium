@@ -38,12 +38,12 @@ public class IgnoringScope {
     /**
      * Adds an exception class to the set of ignored exceptions.
      *
-     * This operator function allows adding exceptions using the unary plus operator (+).
-     *
      * @param T The type of the exception to be ignored.
+     * @param exception The [KClass] of the exception to be ignored.
      */
-    public operator fun <T : Throwable> KClass<T>.unaryPlus() {
-        exceptions.add(this.java)
+    @KolibriumDsl
+    public fun <T : Throwable> exception(exception: KClass<T>) {
+        exceptions.add(exception.java)
     }
 
     /**

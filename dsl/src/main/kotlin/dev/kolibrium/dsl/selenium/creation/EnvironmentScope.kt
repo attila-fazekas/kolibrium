@@ -28,11 +28,13 @@ public class EnvironmentScope {
 
     /**
      * Adds an environment variable to the map of environment variables.
-     *
-     * This operator function allows adding environment variables using the unary plus operator (+).
      */
-    public operator fun Pair<String, String>.unaryPlus() {
-        environmentVariables[first] = second
+    @KolibriumDsl
+    public fun environment(
+        key: String,
+        value: String,
+    ) {
+        environmentVariables[key] = value
     }
 
     /**

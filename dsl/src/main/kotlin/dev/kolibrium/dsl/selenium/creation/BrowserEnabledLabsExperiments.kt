@@ -25,11 +25,10 @@ public class BrowserEnabledLabsExperiments {
 
     /**
      * Adds an experimental flag to the configuration.
-     *
-     * This operator function allows adding experimental flags using the unary plus operator (+).
      */
-    public operator fun ExperimentalFlag.unaryPlus() {
-        experimentalFlags.add(value)
+    @KolibriumDsl
+    public fun experimentalFlag(experimentalFlag: ExperimentalFlag) {
+        experimentalFlags.add(experimentalFlag.value)
     }
 
     /**

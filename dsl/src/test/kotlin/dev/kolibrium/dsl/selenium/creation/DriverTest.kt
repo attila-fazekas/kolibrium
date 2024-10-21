@@ -21,12 +21,35 @@ import dev.kolibrium.core.Browser.CHROME
 import dev.kolibrium.core.Browser.EDGE
 import dev.kolibrium.core.Browser.FIREFOX
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.headless
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.Channel.BETA
-import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox
+import dev.kolibrium.dsl.selenium.creation.ExperimentalFlags.cookies_without_same_site_must_be_secure
+import dev.kolibrium.dsl.selenium.creation.ExperimentalFlags.same_site_by_default_cookies
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.download_default_directory
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.download_prompt_for_download
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.safebrowsing_enabled
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_folderList
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_alertOnEXEOpen
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_closeWhenDone
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_focusWhenStarting
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_showAlertOnComplete
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_showWhenStarting
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_useWindow
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_useDownloadDir
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_helperApps_alwaysAsk_force
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_http_phishy_userpass_length
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_negotiate_auth_delegation_uris
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_negotiate_auth_trusted_uris
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_proxy_no_proxies_on
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.security_csp_enable
+import dev.kolibrium.dsl.selenium.creation.Switches.enable_automation
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import org.junit.jupiter.params.ParameterizedTest
@@ -43,7 +66,7 @@ import java.util.regex.Pattern
 import kotlin.io.path.absolutePathString
 import kotlin.time.Duration.Companion.seconds
 
-@Disabled("Temporarily disabled due to CI does not have browsers installed")
+// @Disabled("Temporarily disabled due to CI does not have browsers installed")
 class DriverTest {
     private lateinit var driver: WebDriver
 
@@ -89,8 +112,8 @@ class DriverTest {
                     readableTimestamp = true
                     timeout = 30.seconds
                     allowedIps {
-                        +"192.168.0.50"
-                        +"192.168.0.51"
+                        allowedIp("192.168.0.50")
+                        allowedIp("192.168.0.51")
                     }
                 }
                 options {
@@ -102,9 +125,9 @@ class DriverTest {
                     strictFileInteractability = true
                     unhandledPromptBehaviour = DISMISS
                     arguments {
-                        +Arguments.Chrome.headless
-                        +Arguments.Chrome.incognito
-                        +disable_search_engine_choice_screen
+                        argument(headless)
+                        argument(incognito)
+                        argument(disable_search_engine_choice_screen)
                         windowSize {
                             width = 1800
                             height = 1000
@@ -112,22 +135,23 @@ class DriverTest {
                     }
                     experimentalOptions {
                         preferences {
-                            +(Preferences.Chromium.download_default_directory to downloadDir)
-                            +(Preferences.Chromium.download_prompt_for_download to false)
-                            +(Preferences.Chromium.safebrowsing_enabled to false)
+                            preference(download_default_directory, downloadDir)
+                            preference(download_default_directory, downloadDir)
+                            preference(download_prompt_for_download, false)
+                            preference(safebrowsing_enabled, false)
                         }
                         excludeSwitches {
-                            +Switches.enable_automation
+                            switch(enable_automation)
                         }
                         localState {
                             browserEnabledLabsExperiments {
-                                +ExperimentalFlags.same_site_by_default_cookies
-                                +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                                experimentalFlag(same_site_by_default_cookies)
+                                experimentalFlag(cookies_without_same_site_must_be_secure)
                             }
                         }
                     }
                     extensions {
-                        +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                        extension("src/test/resources/extensions/webextensions-selenium-example.crx")
                     }
                     proxy {
                         ftpProxy = "192.168.0.1"
@@ -187,39 +211,39 @@ class DriverTest {
                     truncatedLogs = false
                     timeout = 30.seconds
                     allowedHosts {
-                        +"localhost"
+                        allowedHost("localhost")
                     }
                 }
                 options {
                     acceptInsecureCerts = false
                     binary = "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
                     arguments {
-                        +Arguments.Firefox.headless
+                        argument(Arguments.Firefox.headless)
                         windowSize {
                             width = 1800
                             height = 1000
                         }
                     }
                     preferences {
-                        +(Firefox.network_automatic_ntlm_auth_trusted_uris to "http://,https://")
-                        +(Firefox.network_automatic_ntlm_auth_allow_non_fqdn to false)
-                        +(Firefox.network_negotiate_auth_delegation_uris to "http://,https://")
-                        +(Firefox.network_negotiate_auth_trusted_uris to "http://,https://")
-                        +(Firefox.network_http_phishy_userpass_length to 255)
-                        +(Firefox.network_proxy_no_proxies_on to "")
-                        +(Firefox.security_csp_enable to false)
+                        preference(network_automatic_ntlm_auth_trusted_uris, "http://,https://")
+                        preference(network_automatic_ntlm_auth_allow_non_fqdn, false)
+                        preference(network_negotiate_auth_delegation_uris, "http://,https://")
+                        preference(network_negotiate_auth_trusted_uris, "http://,https://")
+                        preference(network_http_phishy_userpass_length, 255)
+                        preference(network_proxy_no_proxies_on, "")
+                        preference(security_csp_enable, false)
                     }
                     profile {
-                        +(Firefox.browser_download_folderList to 1)
-                        +(Firefox.browser_download_manager_showWhenStarting to false)
-                        +(Firefox.browser_download_manager_focusWhenStarting to false)
-                        +(Firefox.browser_download_useDownloadDir to true)
-                        +(Firefox.browser_download_manager_alertOnEXEOpen to false)
-                        +(Firefox.browser_download_manager_closeWhenDone to true)
-                        +(Firefox.browser_download_manager_showAlertOnComplete to false)
-                        +(Firefox.browser_download_manager_useWindow to false)
-                        +(Firefox.browser_helperApps_alwaysAsk_force to false)
-                        +(Firefox.browser_helperApps_neverAsk_saveToDisk to "application/octet-stream")
+                        preference(browser_download_folderList, 1)
+                        preference(browser_download_manager_showWhenStarting, false)
+                        preference(browser_download_manager_focusWhenStarting, false)
+                        preference(browser_download_useDownloadDir, true)
+                        preference(browser_download_manager_alertOnEXEOpen, false)
+                        preference(browser_download_manager_closeWhenDone, true)
+                        preference(browser_download_manager_showAlertOnComplete, false)
+                        preference(browser_download_manager_useWindow, false)
+                        preference(browser_helperApps_alwaysAsk_force, false)
+                        preference(browser_helperApps_neverAsk_saveToDisk, "application/octet-stream")
                     }
                     timeouts {
                         implicitWait = 5.seconds
@@ -287,8 +311,8 @@ class DriverTest {
                     readableTimestamp = true
                     timeout = 30.seconds
                     allowedIps {
-                        +"192.168.0.50"
-                        +"192.168.0.51"
+                        allowedIp("192.168.0.50")
+                        allowedIp("192.168.0.51")
                     }
                 }
                 options {
@@ -300,8 +324,8 @@ class DriverTest {
                     strictFileInteractability = true
                     unhandledPromptBehaviour = DISMISS
                     arguments {
-                        +Arguments.Edge.headless
-                        +Arguments.Edge.inPrivate
+                        argument(Arguments.Edge.headless)
+                        argument(Arguments.Edge.inPrivate)
                         windowSize {
                             width = 1800
                             height = 1000
@@ -309,22 +333,22 @@ class DriverTest {
                     }
                     experimentalOptions {
                         preferences {
-                            +(Preferences.Chromium.download_default_directory to downloadDir)
-                            +(Preferences.Chromium.download_prompt_for_download to false)
-                            +(Preferences.Chromium.safebrowsing_enabled to false)
+                            preference(download_default_directory, downloadDir)
+                            preference(download_prompt_for_download, false)
+                            preference(safebrowsing_enabled, false)
                         }
                         excludeSwitches {
-                            +Switches.enable_automation
+                            enable_automation
                         }
                         localState {
                             browserEnabledLabsExperiments {
-                                +ExperimentalFlags.same_site_by_default_cookies
-                                +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                                experimentalFlag(same_site_by_default_cookies)
+                                experimentalFlag(cookies_without_same_site_must_be_secure)
                             }
                         }
                     }
                     extensions {
-                        +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                        extension("src/test/resources/extensions/webextensions-selenium-example.crx")
                     }
                     proxy {
                         ftpProxy = "192.168.0.1"

@@ -25,11 +25,10 @@ public class ExcludeSwitchesScope {
 
     /**
      * Adds a switch to the list of excluded switches.
-     *
-     * This operator function allows adding switches to the exclusion list using the unary plus operator (`+`).
      */
-    public operator fun Switch.unaryPlus() {
-        switches.add(value)
+    @KolibriumDsl
+    public fun switch(switch: Switch) {
+        switches.add(switch.value)
     }
 
     /**

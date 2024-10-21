@@ -101,12 +101,12 @@ class DriverServiceTest {
                 readableTimestamp = true
                 timeout = 5.seconds
                 allowedIps {
-                    +"192.168.0.50"
-                    +"192.168.0.51"
+                    allowedIp("192.168.0.50")
+                    allowedIp("192.168.0.51")
                 }
-                environment {
-                    +("key1" to "value1")
-                    +("key2" to "value2")
+                environments {
+                    environment("key1", "value1")
+                    environment("key2", "value2")
                 }
             }
 
@@ -149,11 +149,11 @@ class DriverServiceTest {
                 profileRoot = tempDir.toString()
                 truncatedLogs = false
                 allowedHosts {
-                    +"localhost"
+                    allowedHost("localhost")
                 }
-                environment {
-                    +("key1" to "value1")
-                    +("key2" to "value2")
+                environments {
+                    environment("key1", "value1")
+                    environment("key2", "value2")
                 }
             }
 
@@ -187,9 +187,9 @@ class DriverServiceTest {
             safariDriverService {
                 logging = true
                 port = 7003
-                environment {
-                    +("key1" to "value1")
-                    +("key2" to "value2")
+                environments {
+                    environment("key1", "value1")
+                    environment("key2", "value2")
                 }
             }
 
@@ -221,12 +221,12 @@ class DriverServiceTest {
                 readableTimestamp = true
                 timeout = 5.seconds
                 allowedIps {
-                    +"192.168.0.50"
-                    +"192.168.0.51"
+                    allowedIp("192.168.0.50")
+                    allowedIp("192.168.0.51")
                 }
-                environment {
-                    +("key1" to "value1")
-                    +("key2" to "value2")
+                environments {
+                    environment("key1", "value1")
+                    environment("key2", "value2")
                 }
             }
 

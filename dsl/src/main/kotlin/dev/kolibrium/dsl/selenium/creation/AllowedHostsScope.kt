@@ -27,11 +27,10 @@ public class AllowedHostsScope {
 
     /**
      * Adds a hostname to the set of allowed hosts.
-     *
-     * This operator function allows adding allowed hosts using the unary plus operator (+).
      */
-    public operator fun String.unaryPlus() {
-        allowedHosts.add(this)
+    @KolibriumDsl
+    public fun allowedHost(host: String) {
+        allowedHosts.add(host)
     }
 
     /**

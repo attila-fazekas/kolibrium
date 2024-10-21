@@ -34,7 +34,7 @@ class CookiesTest {
         chromeDriver {
             options {
                 arguments {
-                    +disable_search_engine_choice_screen
+                    argument(disable_search_engine_choice_screen)
                 }
             }
         }
