@@ -60,12 +60,17 @@ public abstract class ChromiumOptionsScope(
                     setExperimentalOption("prefs", preferencesScope.preferences)
                 }
                 if (excludeSwitchesScope.switches.isNotEmpty()) {
-                    setExperimentalOption("excludeSwitches", excludeSwitchesScope.switches)
+                    setExperimentalOption("excludeSwitches", excludeSwitchesScope.switches.map { it.value }.toSet())
                 }
                 if (localStateScope.experiments.experimentalFlags.isNotEmpty()) {
                     setExperimentalOption(
                         "localState",
-                        mapOf("browser.enabled_labs_experiments" to localStateScope.experiments.experimentalFlags),
+                        mapOf(
+                            "browser.enabled_labs_experiments" to
+                                localStateScope.experiments.experimentalFlags
+                                    .map { it.value }
+                                    .toSet(),
+                        ),
                     )
                 }
             }

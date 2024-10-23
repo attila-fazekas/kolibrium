@@ -80,6 +80,30 @@ public class LocatorsProcessor(
     private val codeGen: CodeGenerator,
     private val logger: KSPLogger,
 ) : SymbolProcessor {
+    private val singleElementLocatorAnnotations =
+        listOf(
+            dev.kolibrium.ksp.annotations.ClassName::class,
+            CssSelector::class,
+            Id::class,
+            LinkText::class,
+            Name::class,
+            PartialLinkText::class,
+            TagName::class,
+            XPath::class,
+        )
+
+    private val multipleElementLocatorAnnotations =
+        listOf(
+            ClassNames::class,
+            CssSelectors::class,
+            Ids::class,
+            LinkTexts::class,
+            Names::class,
+            PartialLinkTexts::class,
+            TagNames::class,
+            XPaths::class,
+        )
+
     // process function returns a list of KSAnnotated objects, which represent symbols that
     // the processor can't currently process and need to be deferred to another round
     override fun process(resolver: Resolver): List<KSAnnotated> {
@@ -197,30 +221,6 @@ public class LocatorsProcessor(
                 }
             }
         }
-
-        private val singleElementLocatorAnnotations =
-            listOf(
-                dev.kolibrium.ksp.annotations.ClassName::class,
-                CssSelector::class,
-                Id::class,
-                LinkText::class,
-                Name::class,
-                PartialLinkText::class,
-                TagName::class,
-                XPath::class,
-            )
-
-        private val multipleElementLocatorAnnotations =
-            listOf(
-                ClassNames::class,
-                CssSelectors::class,
-                Ids::class,
-                LinkTexts::class,
-                Names::class,
-                PartialLinkTexts::class,
-                TagNames::class,
-                XPaths::class,
-            )
 
         private fun getDelegateReturnType(annotation: KClass<out Annotation>) =
             if (annotation in singleElementLocatorAnnotations) {

@@ -50,6 +50,7 @@ import dev.kolibrium.dsl.selenium.creation.Switches.enable_automation
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import org.junit.jupiter.params.ParameterizedTest
@@ -66,7 +67,7 @@ import java.util.regex.Pattern
 import kotlin.io.path.absolutePathString
 import kotlin.time.Duration.Companion.seconds
 
-// @Disabled("Temporarily disabled due to CI does not have browsers installed")
+@Disabled("Temporarily disabled due to CI does not have browsers installed")
 class DriverTest {
     private lateinit var driver: WebDriver
 
@@ -125,9 +126,9 @@ class DriverTest {
                     strictFileInteractability = true
                     unhandledPromptBehaviour = DISMISS
                     arguments {
-                        argument(headless)
-                        argument(incognito)
-                        argument(disable_search_engine_choice_screen)
+                        arg(headless)
+                        arg(incognito)
+                        arg(disable_search_engine_choice_screen)
                         windowSize {
                             width = 1800
                             height = 1000
@@ -218,7 +219,7 @@ class DriverTest {
                     acceptInsecureCerts = false
                     binary = "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
                     arguments {
-                        argument(Arguments.Firefox.headless)
+                        arg(Arguments.Firefox.headless)
                         windowSize {
                             width = 1800
                             height = 1000
@@ -324,8 +325,8 @@ class DriverTest {
                     strictFileInteractability = true
                     unhandledPromptBehaviour = DISMISS
                     arguments {
-                        argument(Arguments.Edge.headless)
-                        argument(Arguments.Edge.inPrivate)
+                        arg(Arguments.Edge.headless)
+                        arg(Arguments.Edge.inPrivate)
                         windowSize {
                             width = 1800
                             height = 1000

@@ -155,8 +155,8 @@ class OptionsTest {
         val options =
             chromeOptions {
                 arguments {
-                    argument(Chrome.headless)
-                    argument(incognito)
+                    arg(Chrome.headless)
+                    arg(incognito)
                     windowSize {
                         width = 1800
                         height = 1000
@@ -326,8 +326,8 @@ class OptionsTest {
         val options =
             firefoxOptions {
                 arguments {
-                    argument(Arguments.Firefox.headless)
-                    argument(Arguments.Firefox.incognito)
+                    arg(Arguments.Firefox.headless)
+                    arg(Arguments.Firefox.incognito)
                 }
             }
 
@@ -483,8 +483,8 @@ class OptionsTest {
         val options =
             edgeOptions {
                 arguments {
-                    argument(Arguments.Edge.headless)
-                    argument(Arguments.Edge.inPrivate)
+                    arg(Arguments.Edge.headless)
+                    arg(Arguments.Edge.inPrivate)
                     windowSize {
                         width = 1800
                         height = 1000

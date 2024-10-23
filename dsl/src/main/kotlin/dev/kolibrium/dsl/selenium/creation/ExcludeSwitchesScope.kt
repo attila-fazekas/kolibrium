@@ -21,14 +21,26 @@ package dev.kolibrium.dsl.selenium.creation
  */
 @KolibriumDsl
 public class ExcludeSwitchesScope {
-    internal val switches = mutableSetOf<String>()
+    internal val switches = mutableSetOf<Switch>()
 
     /**
-     * Adds a switch to the list of excluded switches.
+     * Adds a [Switch] to the list of excluded switches.
+     *
+     * @param switch The switch instance to be added to the excluded list.
      */
     @KolibriumDsl
     public fun switch(switch: Switch) {
-        switches.add(switch.value)
+        switches.add(switch)
+    }
+
+    /**
+     * Adds a switch to the list of excluded switches using the provided string value.
+     *
+     * @param value The string representation of the switch to be added to the excluded list.
+     */
+    @KolibriumDsl
+    public fun switch(value: String) {
+        switches.add(Switch(value))
     }
 
     /**

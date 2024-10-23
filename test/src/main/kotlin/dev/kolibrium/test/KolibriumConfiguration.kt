@@ -29,7 +29,7 @@ class KolibriumConfiguration : AbstractProjectConfiguration() {
         chromeDriver {
             options {
                 arguments {
-                    argument(disable_search_engine_choice_screen)
+                    arg(disable_search_engine_choice_screen)
                 }
             }
         }

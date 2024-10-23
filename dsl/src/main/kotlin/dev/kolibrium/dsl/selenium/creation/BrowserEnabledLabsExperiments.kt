@@ -21,14 +21,26 @@ package dev.kolibrium.dsl.selenium.creation
  */
 @KolibriumDsl
 public class BrowserEnabledLabsExperiments {
-    internal val experimentalFlags = mutableSetOf<String>()
+    internal val experimentalFlags = mutableSetOf<ExperimentalFlag>()
 
     /**
-     * Adds an experimental flag to the configuration.
+     * Adds an [ExperimentalFlag] to the configuration.
+     *
+     * @param experimentalFlag The experimental flag instance to be added.
      */
     @KolibriumDsl
     public fun experimentalFlag(experimentalFlag: ExperimentalFlag) {
-        experimentalFlags.add(experimentalFlag.value)
+        experimentalFlags.add(experimentalFlag)
+    }
+
+    /**
+     * Adds an experimental flag to the configuration.
+     *
+     * @param value The string representation of the experimental flag to be added.
+     */
+    @KolibriumDsl
+    public fun experimentalFlag(value: String) {
+        experimentalFlags.add(ExperimentalFlag(value))
     }
 
     /**

@@ -22,7 +22,6 @@ package dev.kolibrium.dsl.selenium.creation
  * @param DS The type of DriverServiceScope for the specific browser.
  * @param O The type of OptionsScope for the specific browser.
  */
-@KolibriumDsl
 public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScope> {
     internal abstract val driverServiceScope: DS
     internal abstract val optionsScope: O
@@ -32,7 +31,6 @@ public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScop
      *
      * @param block The configuration block for driver service.
      */
-    @KolibriumDsl
     public abstract fun driverService(block: DS.() -> Unit)
 
     /**
@@ -40,6 +38,5 @@ public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScop
      *
      * @param block The configuration block for browser options.
      */
-    @KolibriumDsl
     public abstract fun options(block: O.() -> Unit)
 }
