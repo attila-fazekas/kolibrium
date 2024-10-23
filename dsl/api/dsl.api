@@ -74,13 +74,14 @@ public final class dev/kolibrium/dsl/selenium/creation/Arguments$Firefox {
 
 public final class dev/kolibrium/dsl/selenium/creation/BrowserEnabledLabsExperiments {
 	public fun <init> ()V
+	public final fun experimentalFlag (Ljava/lang/String;)V
 	public final fun experimentalFlag-FBl3WhA (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/ChromeArgument : dev/kolibrium/dsl/selenium/creation/Argument {
-	public static final field Companion Ldev/kolibrium/dsl/selenium/creation/ChromeArgument$Companion;
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/creation/ChromeArgument;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -92,13 +93,10 @@ public final class dev/kolibrium/dsl/selenium/creation/ChromeArgument : dev/koli
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/dsl/selenium/creation/ChromeArgument$Companion {
-	public final fun of-lEL6qmc (Ljava/lang/String;)Ljava/lang/String;
-}
-
 public final class dev/kolibrium/dsl/selenium/creation/ChromeArgumentsScope : dev/kolibrium/dsl/selenium/creation/ArgumentsScope {
 	public fun <init> ()V
-	public fun argument (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public fun arg (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
@@ -194,8 +192,8 @@ public abstract class dev/kolibrium/dsl/selenium/creation/DriverServiceScope {
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/EdgeArgument : dev/kolibrium/dsl/selenium/creation/Argument {
-	public static final field Companion Ldev/kolibrium/dsl/selenium/creation/EdgeArgument$Companion;
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/creation/EdgeArgument;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -207,13 +205,10 @@ public final class dev/kolibrium/dsl/selenium/creation/EdgeArgument : dev/kolibr
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/dsl/selenium/creation/EdgeArgument$Companion {
-	public final fun of-nwpW58A (Ljava/lang/String;)Ljava/lang/String;
-}
-
 public final class dev/kolibrium/dsl/selenium/creation/EdgeArgumentsScope : dev/kolibrium/dsl/selenium/creation/ArgumentsScope {
 	public fun <init> ()V
-	public fun argument (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public fun arg (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
@@ -251,6 +246,7 @@ public final class dev/kolibrium/dsl/selenium/creation/EnvironmentScope {
 
 public final class dev/kolibrium/dsl/selenium/creation/ExcludeSwitchesScope {
 	public fun <init> ()V
+	public final fun switch (Ljava/lang/String;)V
 	public final fun switch-Xw-ETNE (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -289,8 +285,8 @@ public final class dev/kolibrium/dsl/selenium/creation/ExtensionsScope {
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgument : dev/kolibrium/dsl/selenium/creation/Argument {
-	public static final field Companion Ldev/kolibrium/dsl/selenium/creation/FirefoxArgument$Companion;
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/creation/FirefoxArgument;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -302,13 +298,10 @@ public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgument : dev/kol
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgument$Companion {
-	public final fun of-z9jGOZc (Ljava/lang/String;)Ljava/lang/String;
-}
-
 public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgumentsScope : dev/kolibrium/dsl/selenium/creation/ArgumentsScope {
 	public fun <init> ()V
-	public fun argument (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public fun arg (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }

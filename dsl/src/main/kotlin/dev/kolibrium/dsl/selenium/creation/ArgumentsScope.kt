@@ -20,14 +20,11 @@ package dev.kolibrium.dsl.selenium.creation
  * Base interface for adding additional command line arguments to be used when starting the browser.
  */
 internal sealed interface ArgumentsScope {
-    /**
-     * Configures the browser window size.
-     *
-     * @param block The configuration block for window dimensions.
-     */
     fun windowSize(block: WindowSizeScope.() -> Unit)
 
-    fun argument(argument: Argument)
+    fun arg(argument: Argument)
+
+    fun arg(value: String)
 }
 
 /**
@@ -38,11 +35,25 @@ public class ChromeArgumentsScope : ArgumentsScope {
     internal val args: MutableSet<Argument> = mutableSetOf()
 
     /**
-     * Adds a Chrome-specific command line argument.
+     * Adds a Chrome-specific command line [Argument].
+     *
+     * @param argument The Chrome argument to be added.
      */
     @KolibriumDsl
-    override fun argument(argument: Argument) {
+    override fun arg(argument: Argument) {
         args.add(argument)
+    }
+
+    /**
+     * Adds a Chrome-specific command line argument from a string value.
+     * The string must start with "--".
+     *
+     * @param value The argument string value.
+     * @throws IllegalArgumentException if the value doesn't start with "--".
+     */
+    @KolibriumDsl
+    override fun arg(value: String) {
+        args.add(ChromeArgument(value))
     }
 
     /**
@@ -53,7 +64,7 @@ public class ChromeArgumentsScope : ArgumentsScope {
     @KolibriumDsl
     override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
-        args.add(ChromeArgument.of("--window-size=${windowSizeScope.width},${windowSizeScope.height}"))
+        args.add(ChromeArgument("--window-size=${windowSizeScope.width},${windowSizeScope.height}"))
     }
 
     /**
@@ -70,11 +81,25 @@ public class FirefoxArgumentsScope : ArgumentsScope {
     internal val args: MutableSet<Argument> = mutableSetOf()
 
     /**
-     * Adds a Firefox-specific command line argument.
+     * Adds a Firefox-specific command line [Argument].
+     *
+     * @param argument The Chrome argument to be added.
      */
     @KolibriumDsl
-    override fun argument(argument: Argument) {
+    override fun arg(argument: Argument) {
         args.add(argument)
+    }
+
+    /**
+     * Adds a Firefox-specific command line argument from a string value.
+     * The string must start with "--".
+     *
+     * @param value The argument string value.
+     * @throws IllegalArgumentException if the value doesn't start with "--".
+     */
+    @KolibriumDsl
+    override fun arg(value: String) {
+        args.add(FirefoxArgument(value))
     }
 
     /**
@@ -85,8 +110,8 @@ public class FirefoxArgumentsScope : ArgumentsScope {
     @KolibriumDsl
     override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
-        argument(FirefoxArgument.of("--width=${windowSizeScope.width}"))
-        argument(FirefoxArgument.of("--height=${windowSizeScope.height}"))
+        arg(FirefoxArgument("--width=${windowSizeScope.width}"))
+        arg(FirefoxArgument("--height=${windowSizeScope.height}"))
     }
 
     /**
@@ -103,11 +128,25 @@ public class EdgeArgumentsScope : ArgumentsScope {
     internal val args: MutableSet<Argument> = mutableSetOf()
 
     /**
-     * Adds an Edge-specific command line argument.
+     * Adds an Edge-specific command line [Argument].
+     *
+     * @param argument The Chrome argument to be added.
      */
     @KolibriumDsl
-    override fun argument(argument: Argument) {
+    override fun arg(argument: Argument) {
         args.add(argument)
+    }
+
+    /**
+     * Adds an Edge-specific command line argument from a string value.
+     * The string must start with "--".
+     *
+     * @param value The argument string value.
+     * @throws IllegalArgumentException if the value doesn't start with "--".
+     */
+    @KolibriumDsl
+    override fun arg(value: String) {
+        args.add(FirefoxArgument(value))
     }
 
     /**
@@ -118,7 +157,7 @@ public class EdgeArgumentsScope : ArgumentsScope {
     @KolibriumDsl
     override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
-        argument(EdgeArgument.of("--window-size=${windowSizeScope.width},${windowSizeScope.height}"))
+        arg(EdgeArgument("--window-size=${windowSizeScope.width},${windowSizeScope.height}"))
     }
 
     /**
