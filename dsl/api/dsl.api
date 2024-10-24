@@ -95,8 +95,9 @@ public final class dev/kolibrium/dsl/selenium/creation/ChromeArgument : dev/koli
 
 public final class dev/kolibrium/dsl/selenium/creation/ChromeArgumentsScope : dev/kolibrium/dsl/selenium/creation/ArgumentsScope {
 	public fun <init> ()V
-	public fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public synthetic fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
 	public fun arg (Ljava/lang/String;)V
+	public fun arg-0F9RWcM (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
@@ -207,8 +208,9 @@ public final class dev/kolibrium/dsl/selenium/creation/EdgeArgument : dev/kolibr
 
 public final class dev/kolibrium/dsl/selenium/creation/EdgeArgumentsScope : dev/kolibrium/dsl/selenium/creation/ArgumentsScope {
 	public fun <init> ()V
-	public fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public synthetic fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
 	public fun arg (Ljava/lang/String;)V
+	public fun arg-crIHIec (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
@@ -300,8 +302,9 @@ public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgument : dev/kol
 
 public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgumentsScope : dev/kolibrium/dsl/selenium/creation/ArgumentsScope {
 	public fun <init> ()V
-	public fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public synthetic fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
 	public fun arg (Ljava/lang/String;)V
+	public fun arg-r6n-66Q (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
