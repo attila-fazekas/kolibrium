@@ -26,21 +26,22 @@ public class ExcludeSwitchesScope {
     /**
      * Adds a [Switch] to the list of excluded switches.
      *
-     * @param switch The switch instance to be added to the excluded list.
+     * This operator function allows adding switches to the exclusion list using the unary plus operator (`+`).
      */
-    @KolibriumDsl
-    public fun switch(switch: Switch) {
-        switches.add(switch)
+    public operator fun Switch.unaryPlus() {
+        switches.add(this)
     }
 
     /**
-     * Adds a switch to the list of excluded switches using the provided string value.
+     * Adds a switch from a string value to the list of excluded switches.
      *
-     * @param value The string representation of the switch to be added to the excluded list.
+     * This operator function allows adding switches from string values to the exclusion list using the
+     * unary plus operator (`+`).
+     *
+     * @throws IllegalArgumentException if the string is blank.
      */
-    @KolibriumDsl
-    public fun switch(value: String) {
-        switches.add(Switch(value))
+    public operator fun String.unaryPlus() {
+        switches.add(Switch(this))
     }
 
     /**

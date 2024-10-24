@@ -155,8 +155,8 @@ class OptionsTest {
         val options =
             chromeOptions {
                 arguments {
-                    arg(Chrome.headless)
-                    arg(incognito)
+                    +Chrome.headless
+                    +incognito
                     windowSize {
                         width = 1800
                         height = 1000
@@ -183,17 +183,17 @@ class OptionsTest {
             chromeOptions {
                 experimentalOptions {
                     excludeSwitches {
-                        switch(enable_automation)
+                        +enable_automation
                     }
                     localState {
                         browserEnabledLabsExperiments {
-                            experimentalFlag(same_site_by_default_cookies)
-                            experimentalFlag(cookies_without_same_site_must_be_secure)
+                            +same_site_by_default_cookies
+                            +cookies_without_same_site_must_be_secure
                         }
                     }
                     preferences {
-                        preference(Preferences.Chromium.download_default_directory, "~/Downloads/TestAuto")
-                        preference(Preferences.Chromium.safebrowsing_enabled, false)
+                        pref(Preferences.Chromium.download_default_directory, "~/Downloads/TestAuto")
+                        pref(Preferences.Chromium.safebrowsing_enabled, false)
                     }
                 }
             }
@@ -224,7 +224,7 @@ class OptionsTest {
         val options =
             chromeOptions {
                 extensions {
-                    extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                    +"src/test/resources/extensions/webextensions-selenium-example.crx"
                 }
             }
 
@@ -326,8 +326,8 @@ class OptionsTest {
         val options =
             firefoxOptions {
                 arguments {
-                    arg(Arguments.Firefox.headless)
-                    arg(Arguments.Firefox.incognito)
+                    +Arguments.Firefox.headless
+                    +Arguments.Firefox.incognito
                 }
             }
 
@@ -341,13 +341,13 @@ class OptionsTest {
         val options =
             firefoxOptions {
                 preferences {
-                    preference(network_automatic_ntlm_auth_trusted_uris, "http://,https://")
-                    preference(network_automatic_ntlm_auth_allow_non_fqdn, false)
-                    preference(network_negotiate_auth_delegation_uris, "http://,https://")
-                    preference(network_negotiate_auth_trusted_uris, "http://,https://")
-                    preference(network_http_phishy_userpass_length, 255)
-                    preference(network_proxy_no_proxies_on, "")
-                    preference(security_csp_enable, false)
+                    pref(network_automatic_ntlm_auth_trusted_uris, "http://,https://")
+                    pref(network_automatic_ntlm_auth_allow_non_fqdn, false)
+                    pref(network_negotiate_auth_delegation_uris, "http://,https://")
+                    pref(network_negotiate_auth_trusted_uris, "http://,https://")
+                    pref(network_http_phishy_userpass_length, 255)
+                    pref(network_proxy_no_proxies_on, "")
+                    pref(security_csp_enable, false)
                 }
             }
 
@@ -386,16 +386,16 @@ class OptionsTest {
         val options =
             firefoxOptions {
                 profile {
-                    preference(browser_download_folderList, 1)
-                    preference(browser_download_manager_showWhenStarting, false)
-                    preference(browser_download_manager_focusWhenStarting, false)
-                    preference(browser_download_useDownloadDir, true)
-                    preference(browser_download_manager_alertOnEXEOpen, false)
-                    preference(browser_download_manager_closeWhenDone, true)
-                    preference(browser_download_manager_showAlertOnComplete, false)
-                    preference(browser_download_manager_useWindow, false)
-                    preference(browser_helperApps_alwaysAsk_force, false)
-                    preference(browser_helperApps_neverAsk_saveToDisk, "application/octet-stream")
+                    pref(browser_download_folderList, 1)
+                    pref(browser_download_manager_showWhenStarting, false)
+                    pref(browser_download_manager_focusWhenStarting, false)
+                    pref(browser_download_useDownloadDir, true)
+                    pref(browser_download_manager_alertOnEXEOpen, false)
+                    pref(browser_download_manager_closeWhenDone, true)
+                    pref(browser_download_manager_showAlertOnComplete, false)
+                    pref(browser_download_manager_useWindow, false)
+                    pref(browser_helperApps_alwaysAsk_force, false)
+                    pref(browser_helperApps_neverAsk_saveToDisk, "application/octet-stream")
                 }
             }
 
@@ -483,8 +483,8 @@ class OptionsTest {
         val options =
             edgeOptions {
                 arguments {
-                    arg(Arguments.Edge.headless)
-                    arg(Arguments.Edge.inPrivate)
+                    +Arguments.Edge.headless
+                    +Arguments.Edge.inPrivate
                     windowSize {
                         width = 1800
                         height = 1000
@@ -511,16 +511,16 @@ class OptionsTest {
             edgeOptions {
                 experimentalOptions {
                     preferences {
-                        preference(Preferences.Chromium.download_default_directory, "~/Downloads/TestAuto")
-                        preference(Preferences.Chromium.safebrowsing_enabled, false)
+                        pref(Preferences.Chromium.download_default_directory, "~/Downloads/TestAuto")
+                        pref(Preferences.Chromium.safebrowsing_enabled, false)
                     }
                     excludeSwitches {
-                        switch(enable_automation)
+                        +enable_automation
                     }
                     localState {
                         browserEnabledLabsExperiments {
-                            experimentalFlag(same_site_by_default_cookies)
-                            experimentalFlag(cookies_without_same_site_must_be_secure)
+                            +same_site_by_default_cookies
+                            +cookies_without_same_site_must_be_secure
                         }
                     }
                 }
@@ -552,7 +552,7 @@ class OptionsTest {
         val options =
             edgeOptions {
                 extensions {
-                    extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                    +"src/test/resources/extensions/webextensions-selenium-example.crx"
                 }
             }
 

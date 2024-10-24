@@ -24,6 +24,7 @@ plugins {
 dependencies {
     api(project(":core"))
     implementation("commons-validator:commons-validator:_")
+    testImplementation("com.titusfortner:selenium-logger:_")
 }
 
 tasks.withType<KotlinCompile> {

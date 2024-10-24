@@ -28,10 +28,11 @@ public class AllowedIpsScope {
 
     /**
      * Adds an allowed IP address.
+     *
+     * This operator function allows adding allowed IP addresses using the unary plus operator (+).
      */
-    @KolibriumDsl
-    public fun allowedIp(ip: String) {
-        allowedIps.add(ip)
+    public operator fun String.unaryPlus() {
+        allowedIps.add(this)
     }
 
     /**
