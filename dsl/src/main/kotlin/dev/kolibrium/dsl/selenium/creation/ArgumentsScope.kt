@@ -19,10 +19,10 @@ package dev.kolibrium.dsl.selenium.creation
 /**
  * Base interface for adding additional command line arguments to be used when starting the browser.
  */
-internal sealed interface ArgumentsScope {
+internal sealed interface ArgumentsScope<T : Argument> {
     fun windowSize(block: WindowSizeScope.() -> Unit)
 
-    fun arg(argument: Argument)
+    fun arg(argument: T)
 
     fun arg(value: String)
 }
@@ -31,7 +31,7 @@ internal sealed interface ArgumentsScope {
  * Scope class for adding additional Chrome-specific command line arguments.
  */
 @KolibriumDsl
-public class ChromeArgumentsScope : ArgumentsScope {
+public class ChromeArgumentsScope : ArgumentsScope<ChromeArgument> {
     internal val args: MutableSet<Argument> = mutableSetOf()
 
     /**
@@ -40,7 +40,7 @@ public class ChromeArgumentsScope : ArgumentsScope {
      * @param argument The Chrome argument to be added.
      */
     @KolibriumDsl
-    override fun arg(argument: Argument) {
+    override fun arg(argument: ChromeArgument) {
         args.add(argument)
     }
 
@@ -77,7 +77,7 @@ public class ChromeArgumentsScope : ArgumentsScope {
  * Scope class for adding additional Firefox-specific command line arguments.
  */
 @KolibriumDsl
-public class FirefoxArgumentsScope : ArgumentsScope {
+public class FirefoxArgumentsScope : ArgumentsScope<FirefoxArgument> {
     internal val args: MutableSet<Argument> = mutableSetOf()
 
     /**
@@ -86,7 +86,7 @@ public class FirefoxArgumentsScope : ArgumentsScope {
      * @param argument The Chrome argument to be added.
      */
     @KolibriumDsl
-    override fun arg(argument: Argument) {
+    override fun arg(argument: FirefoxArgument) {
         args.add(argument)
     }
 
@@ -124,7 +124,7 @@ public class FirefoxArgumentsScope : ArgumentsScope {
  * Scope class for adding additional Edge-specific command line arguments.
  */
 @KolibriumDsl
-public class EdgeArgumentsScope : ArgumentsScope {
+public class EdgeArgumentsScope : ArgumentsScope<EdgeArgument> {
     internal val args: MutableSet<Argument> = mutableSetOf()
 
     /**
@@ -133,7 +133,7 @@ public class EdgeArgumentsScope : ArgumentsScope {
      * @param argument The Chrome argument to be added.
      */
     @KolibriumDsl
-    override fun arg(argument: Argument) {
+    override fun arg(argument: EdgeArgument) {
         args.add(argument)
     }
 
