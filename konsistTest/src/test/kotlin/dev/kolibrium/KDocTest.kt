@@ -24,50 +24,43 @@ import com.lemonappdev.konsist.api.ext.provider.hasValidKDocParamTags
 import com.lemonappdev.konsist.api.ext.provider.hasValidKDocReceiverTag
 import com.lemonappdev.konsist.api.ext.provider.hasValidKDocReturnTag
 import com.lemonappdev.konsist.api.verify.assertTrue
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class KDocTest {
-    @Test
-    @Disabled
-    fun `every public function with parameter(s) has param tag(s)`() {
+    private val functions =
         Konsist
             .scopeFromProduction()
             .functions()
             .filter {
-                it.resideInModule("core") || it.resideInModule("dsl") || it.resideInModule("selenium")
+                it.resideInModule("core") ||
+                    it.resideInModule("dsl") ||
+                    it.resideInModule("junit") ||
+                    it.resideInModule("ksp") ||
+                    it.resideInModule("selenium")
             }.withoutOverrideModifier()
             .withPublicModifier()
-            .assertTrue {
+
+    @Test
+    fun `every public function with parameter(s) has param tag(s)`() {
+        functions
+            .filterNot {
+                it.name == "exception"
+            }.assertTrue {
                 it.hasValidKDocParamTags()
             }
     }
 
     @Test
-    @Disabled
     fun `every public function with return value has a return tag`() {
-        Konsist
-            .scopeFromProduction()
-            .functions()
-            .filter {
-                it.resideInModule("core") || it.resideInModule("dsl") || it.resideInModule("selenium")
-            }.withoutOverrideModifier()
-            .withPublicModifier()
+        functions
             .assertTrue {
                 it.hasValidKDocReturnTag()
             }
     }
 
     @Test
-    @Disabled
     fun `every public extension function has a receiver tag`() {
-        Konsist
-            .scopeFromProduction()
-            .functions()
-            .filter {
-                it.resideInModule("core") || it.resideInModule("dsl") || it.resideInModule("selenium")
-            }.withoutOverrideModifier()
-            .withPublicModifier()
+        functions
             .withoutOperatorModifier()
             .assertTrue {
                 it.hasValidKDocReceiverTag()
@@ -75,13 +68,16 @@ class KDocTest {
     }
 
     @Test
-    @Disabled
     fun `every public extension property has a receiver tag`() {
         Konsist
             .scopeFromProduction()
             .properties()
             .filter {
-                it.resideInModule("core") || it.resideInModule("dsl") || it.resideInModule("selenium")
+                it.resideInModule("core") ||
+                    it.resideInModule("dsl") ||
+                    it.resideInModule("junit") ||
+                    it.resideInModule("ksp") ||
+                    it.resideInModule("selenium")
             }.withoutOverrideModifier()
             .withPublicModifier()
             .assertTrue {

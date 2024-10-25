@@ -25,6 +25,7 @@ import java.util.Date
 /**
  * Function to manage cookies in the context of a [WebDriver] instance.
  *
+ * @receiver The WebDriver instance on which to perform cookie operations.
  * @param block The configuration block that defines cookie operations within the [CookiesScope].
  */
 @KolibriumDsl

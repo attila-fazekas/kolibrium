@@ -25,24 +25,26 @@ import org.openqa.selenium.support.ui.FluentWait
 import kotlin.time.toJavaDuration
 
 /**
- * Checks if the WebElement is both displayed and enabled, making it clickable on the UI.
+ * Checks if the [WebElement] is both displayed and enabled, making it clickable in the UI.
  *
  * This property combines Selenium's [isDisplayed][org.openqa.selenium.WebElement.isDisplayed] and
- * [isEnabled][org.openqa.selenium.WebElement.isEnabled] checks to determine if a user could interact
- * with the element through clicking.
+ * [isEnabled][org.openqa.selenium.WebElement.isEnabled] checks to determine if the element is ready
+ * for user interaction through clicking.
  *
- * @return true if the element is both displayed and enabled, false otherwise.
+ * @receiver The [WebElement] to check for clickability.
+ * @return `true` if the element is both displayed and enabled, `false` otherwise.
  */
 public val WebElement.clickable: Boolean
     get() = isDisplayed && isEnabled
 
 /**
- * Checks if all WebElements in the collection are displayed in the UI.
+ * Checks if all [WebElements] in this collection are displayed in the UI.
  *
- * This property extends [WebElements] to provide a convenient way to verify visibility of multiple
- * elements at once. Returns true only if every element in the collection is displayed.
+ * This extension property on a collection of [WebElement]s provides a convenient way to verify
+ * that all elements are visible. Returns `true` only if every element in the collection is displayed.
  *
- * @return true if all elements in the collection are displayed, false if any element is not displayed.
+ * @receiver Collection of [WebElement]s to check for visibility.
+ * @return `true` if all elements in the collection are displayed, `false` if any element is not displayed.
  */
 public val WebElements.isDisplayed: Boolean
     get() = all { it.isDisplayed }

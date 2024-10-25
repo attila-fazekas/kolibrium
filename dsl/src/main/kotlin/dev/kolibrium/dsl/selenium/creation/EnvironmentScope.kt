@@ -28,13 +28,16 @@ public class EnvironmentScope {
 
     /**
      * Adds an environment variable to the map of environment variables.
+     *
+     * @param name The name of the environment variable.
+     * @param value The value of the environment variable.
      */
     @KolibriumDsl
     public fun environment(
-        key: String,
+        name: String,
         value: String,
     ) {
-        environmentVariables[key] = value
+        environmentVariables[name] = value
     }
 
     /**
