@@ -52,6 +52,7 @@ public final class dev/kolibrium/dsl/selenium/creation/Arguments$Chrome {
 	public final fun getDisable_popup_blocking-KKi7q2I ()Ljava/lang/String;
 	public final fun getDisable_search_engine_choice_screen-KKi7q2I ()Ljava/lang/String;
 	public final fun getHeadless-KKi7q2I ()Ljava/lang/String;
+	public final fun getIgnore_certificate_errors-KKi7q2I ()Ljava/lang/String;
 	public final fun getIncognito-KKi7q2I ()Ljava/lang/String;
 	public final fun getNo_sandbox-KKi7q2I ()Ljava/lang/String;
 	public final fun getRemote_allow_origins-KKi7q2I ()Ljava/lang/String;
@@ -268,6 +269,7 @@ public final class dev/kolibrium/dsl/selenium/creation/ExperimentalFlags {
 	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/ExperimentalFlags;
 	public final fun getCookies_without_same_site_must_be_secure-GsNgzw4 ()Ljava/lang/String;
 	public final fun getSame_site_by_default_cookies-GsNgzw4 ()Ljava/lang/String;
+	public final fun getUse_automation_extension-GsNgzw4 ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/ExperimentalOptionsScope {
@@ -433,6 +435,7 @@ public final class dev/kolibrium/dsl/selenium/creation/Preferences {
 public final class dev/kolibrium/dsl/selenium/creation/Preferences$Chromium {
 	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Preferences$Chromium;
 	public final fun getDownload_default_directory-GWfikfo ()Ljava/lang/String;
+	public final fun getDownload_directory_upgrade-GWfikfo ()Ljava/lang/String;
 	public final fun getDownload_prompt_for_download-GWfikfo ()Ljava/lang/String;
 	public final fun getSafebrowsing_enabled-GWfikfo ()Ljava/lang/String;
 }

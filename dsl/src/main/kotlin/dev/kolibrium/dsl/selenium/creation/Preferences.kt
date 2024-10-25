@@ -61,6 +61,13 @@ public object Preferences {
         public val download_default_directory: ChromiumPreference = ChromiumPreference("download.default_directory")
 
         /**
+         * Controls whether to use the upgraded download directory dialog.
+         */
+        @KolibriumPropertyDsl
+        public val download_directory_upgrade: ChromiumPreference =
+            ChromiumPreference("download.directory_upgrade")
+
+        /**
          * Controls whether to show download prompt.
          */
         @KolibriumPropertyDsl

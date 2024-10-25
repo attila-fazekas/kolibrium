@@ -21,6 +21,7 @@ import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.ExperimentalFlags.cookies_without_same_site_must_be_secure
 import dev.kolibrium.dsl.selenium.creation.ExperimentalFlags.same_site_by_default_cookies
+import dev.kolibrium.dsl.selenium.creation.ExperimentalFlags.use_automation_extension
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.download_default_directory
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.safebrowsing_enabled
 import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_folderList
@@ -523,6 +524,7 @@ class OptionsTest {
                         browserEnabledLabsExperiments {
                             +same_site_by_default_cookies
                             +cookies_without_same_site_must_be_secure
+                            +use_automation_extension
                         }
                     }
                 }
@@ -543,6 +545,7 @@ class OptionsTest {
                     setOf(
                         "same-site-by-default-cookies@2",
                         "cookies-without-same-site-must-be-secure@2",
+                        "useAutomationExtension",
                     ),
             ),
         )
