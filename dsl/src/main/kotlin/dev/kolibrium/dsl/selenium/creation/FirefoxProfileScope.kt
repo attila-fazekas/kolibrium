@@ -24,14 +24,31 @@ public class FirefoxProfileScope {
     internal val preferences = mutableMapOf<String, Any>()
 
     /**
-     * Adds a preference key-value pair to the Firefox profile.
+     * Adds a preference key-value pair to the Firefox profile using a [FirefoxPreference] key.
+     *
+     * @param key The preference key represented by a [FirefoxPreference] instance.
+     * @param value The preference value to be associated with the key.
      */
     @KolibriumDsl
-    public fun preference(
+    public fun pref(
         key: FirefoxPreference,
         value: Any,
     ) {
         preferences[key.value] = value
+    }
+
+    /**
+     * Adds a preference key-value pair to the Firefox profile using a string key.
+     *
+     * @param key The preference key as a string.
+     * @param value The preference value to be associated with the key.
+     */
+    @KolibriumDsl
+    public fun pref(
+        key: String,
+        value: Any,
+    ) {
+        preferences[key] = value
     }
 
     /**

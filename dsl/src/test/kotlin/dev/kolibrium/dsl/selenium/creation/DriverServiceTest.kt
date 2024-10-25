@@ -101,8 +101,8 @@ class DriverServiceTest {
                 readableTimestamp = true
                 timeout = 5.seconds
                 allowedIps {
-                    allowedIp("192.168.0.50")
-                    allowedIp("192.168.0.51")
+                    +"192.168.0.50"
+                    +"192.168.0.51"
                 }
                 environments {
                     environment("key1", "value1")
@@ -149,7 +149,7 @@ class DriverServiceTest {
                 profileRoot = tempDir.toString()
                 truncatedLogs = false
                 allowedHosts {
-                    allowedHost("localhost")
+                    +"localhost"
                 }
                 environments {
                     environment("key1", "value1")
@@ -221,8 +221,8 @@ class DriverServiceTest {
                 readableTimestamp = true
                 timeout = 5.seconds
                 allowedIps {
-                    allowedIp("192.168.0.50")
-                    allowedIp("192.168.0.51")
+                    +"192.168.0.50"
+                    +"192.168.0.51"
                 }
                 environments {
                     environment("key1", "value1")

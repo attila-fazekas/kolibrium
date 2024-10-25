@@ -25,14 +25,14 @@ public final class dev/kolibrium/dsl/selenium/cookie/SameSite : java/lang/Enum {
 
 public final class dev/kolibrium/dsl/selenium/creation/AllowedHostsScope {
 	public fun <init> ()V
-	public final fun allowedHost (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
+	public final fun unaryPlus (Ljava/lang/String;)V
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/AllowedIpsScope {
 	public fun <init> ()V
-	public final fun allowedIp (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
+	public final fun unaryPlus (Ljava/lang/String;)V
 }
 
 public abstract interface class dev/kolibrium/dsl/selenium/creation/Argument {
@@ -74,9 +74,9 @@ public final class dev/kolibrium/dsl/selenium/creation/Arguments$Firefox {
 
 public final class dev/kolibrium/dsl/selenium/creation/BrowserEnabledLabsExperiments {
 	public fun <init> ()V
-	public final fun experimentalFlag (Ljava/lang/String;)V
-	public final fun experimentalFlag-FBl3WhA (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
+	public final fun unaryPlus (Ljava/lang/String;)V
+	public final fun unaryPlus-FBl3WhA (Ljava/lang/String;)V
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/ChromeArgument : dev/kolibrium/dsl/selenium/creation/Argument {
@@ -95,10 +95,10 @@ public final class dev/kolibrium/dsl/selenium/creation/ChromeArgument : dev/koli
 
 public final class dev/kolibrium/dsl/selenium/creation/ChromeArgumentsScope : dev/kolibrium/dsl/selenium/creation/ArgumentsScope {
 	public fun <init> ()V
-	public synthetic fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
-	public fun arg (Ljava/lang/String;)V
-	public fun arg-0F9RWcM (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
+	public synthetic fun unaryPlus (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public fun unaryPlus (Ljava/lang/String;)V
+	public fun unaryPlus-0F9RWcM (Ljava/lang/String;)V
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
 
@@ -152,13 +152,13 @@ public abstract class dev/kolibrium/dsl/selenium/creation/ChromiumOptionsScope :
 	public final fun setBinary (Ljava/lang/String;)V
 }
 
-public final class dev/kolibrium/dsl/selenium/creation/ChromiumPreference {
-	public static final field Companion Ldev/kolibrium/dsl/selenium/creation/ChromiumPreference$Companion;
+public final class dev/kolibrium/dsl/selenium/creation/ChromiumPreference : dev/kolibrium/dsl/selenium/creation/Preference {
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/creation/ChromiumPreference;
 	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static fun hashCode-impl (Ljava/lang/String;)I
 	public fun toString ()Ljava/lang/String;
@@ -166,13 +166,11 @@ public final class dev/kolibrium/dsl/selenium/creation/ChromiumPreference {
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/dsl/selenium/creation/ChromiumPreference$Companion {
-	public final fun of-N0xrGeI (Ljava/lang/String;)Ljava/lang/String;
-}
-
-public final class dev/kolibrium/dsl/selenium/creation/ChromiumPreferencesScope {
+public final class dev/kolibrium/dsl/selenium/creation/ChromiumPreferencesScope : dev/kolibrium/dsl/selenium/creation/PreferencesScope {
 	public fun <init> ()V
-	public final fun preference-CTxeszs (Ljava/lang/String;Ljava/lang/Object;)V
+	public synthetic fun pref (Ldev/kolibrium/dsl/selenium/creation/Preference;Ljava/lang/Object;)V
+	public fun pref (Ljava/lang/String;Ljava/lang/Object;)V
+	public fun pref-CTxeszs (Ljava/lang/String;Ljava/lang/Object;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -208,10 +206,10 @@ public final class dev/kolibrium/dsl/selenium/creation/EdgeArgument : dev/kolibr
 
 public final class dev/kolibrium/dsl/selenium/creation/EdgeArgumentsScope : dev/kolibrium/dsl/selenium/creation/ArgumentsScope {
 	public fun <init> ()V
-	public synthetic fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
-	public fun arg (Ljava/lang/String;)V
-	public fun arg-crIHIec (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
+	public synthetic fun unaryPlus (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public fun unaryPlus (Ljava/lang/String;)V
+	public fun unaryPlus-crIHIec (Ljava/lang/String;)V
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
 
@@ -248,9 +246,9 @@ public final class dev/kolibrium/dsl/selenium/creation/EnvironmentScope {
 
 public final class dev/kolibrium/dsl/selenium/creation/ExcludeSwitchesScope {
 	public fun <init> ()V
-	public final fun switch (Ljava/lang/String;)V
-	public final fun switch-Xw-ETNE (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
+	public final fun unaryPlus (Ljava/lang/String;)V
+	public final fun unaryPlus-Xw-ETNE (Ljava/lang/String;)V
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/ExperimentalFlag {
@@ -282,8 +280,8 @@ public final class dev/kolibrium/dsl/selenium/creation/ExperimentalOptionsScope 
 
 public final class dev/kolibrium/dsl/selenium/creation/ExtensionsScope {
 	public fun <init> ()V
-	public final fun extension (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
+	public final fun unaryPlus (Ljava/lang/String;)V
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgument : dev/kolibrium/dsl/selenium/creation/Argument {
@@ -302,10 +300,10 @@ public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgument : dev/kol
 
 public final class dev/kolibrium/dsl/selenium/creation/FirefoxArgumentsScope : dev/kolibrium/dsl/selenium/creation/ArgumentsScope {
 	public fun <init> ()V
-	public synthetic fun arg (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
-	public fun arg (Ljava/lang/String;)V
-	public fun arg-r6n-66Q (Ljava/lang/String;)V
 	public fun toString ()Ljava/lang/String;
+	public synthetic fun unaryPlus (Ldev/kolibrium/dsl/selenium/creation/Argument;)V
+	public fun unaryPlus (Ljava/lang/String;)V
+	public fun unaryPlus-r6n-66Q (Ljava/lang/String;)V
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
 
@@ -331,13 +329,13 @@ public final class dev/kolibrium/dsl/selenium/creation/FirefoxOptionsScope : dev
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/dsl/selenium/creation/FirefoxPreference {
-	public static final field Companion Ldev/kolibrium/dsl/selenium/creation/FirefoxPreference$Companion;
+public final class dev/kolibrium/dsl/selenium/creation/FirefoxPreference : dev/kolibrium/dsl/selenium/creation/Preference {
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/creation/FirefoxPreference;
 	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public fun getValue ()Ljava/lang/String;
 	public fun hashCode ()I
 	public static fun hashCode-impl (Ljava/lang/String;)I
 	public fun toString ()Ljava/lang/String;
@@ -345,19 +343,18 @@ public final class dev/kolibrium/dsl/selenium/creation/FirefoxPreference {
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/dsl/selenium/creation/FirefoxPreference$Companion {
-	public final fun of-2n_HuoI (Ljava/lang/String;)Ljava/lang/String;
-}
-
-public final class dev/kolibrium/dsl/selenium/creation/FirefoxPreferencesScope {
+public final class dev/kolibrium/dsl/selenium/creation/FirefoxPreferencesScope : dev/kolibrium/dsl/selenium/creation/PreferencesScope {
 	public fun <init> ()V
-	public final fun preference-STCoOdw (Ljava/lang/String;Ljava/lang/Object;)V
+	public synthetic fun pref (Ldev/kolibrium/dsl/selenium/creation/Preference;Ljava/lang/Object;)V
+	public fun pref (Ljava/lang/String;Ljava/lang/Object;)V
+	public fun pref-STCoOdw (Ljava/lang/String;Ljava/lang/Object;)V
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/FirefoxProfileScope {
 	public fun <init> ()V
-	public final fun preference-STCoOdw (Ljava/lang/String;Ljava/lang/Object;)V
+	public final fun pref (Ljava/lang/String;Ljava/lang/Object;)V
+	public final fun pref-STCoOdw (Ljava/lang/String;Ljava/lang/Object;)V
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -423,6 +420,10 @@ public abstract class dev/kolibrium/dsl/selenium/creation/OptionsScope {
 	public final fun setUnhandledPromptBehaviour (Lorg/openqa/selenium/UnexpectedAlertBehaviour;)V
 	public final fun timeouts (Lkotlin/jvm/functions/Function1;)V
 	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class dev/kolibrium/dsl/selenium/creation/Preference {
+	public abstract fun getValue ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/Preferences {

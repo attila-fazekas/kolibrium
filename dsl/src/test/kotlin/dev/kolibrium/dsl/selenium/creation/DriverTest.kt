@@ -113,8 +113,8 @@ class DriverTest {
                     readableTimestamp = true
                     timeout = 30.seconds
                     allowedIps {
-                        allowedIp("192.168.0.50")
-                        allowedIp("192.168.0.51")
+                        +"192.168.0.50"
+                        +"192.168.0.51"
                     }
                 }
                 options {
@@ -126,9 +126,9 @@ class DriverTest {
                     strictFileInteractability = true
                     unhandledPromptBehaviour = DISMISS
                     arguments {
-                        arg(headless)
-                        arg(incognito)
-                        arg(disable_search_engine_choice_screen)
+                        +headless
+                        +incognito
+                        +disable_search_engine_choice_screen
                         windowSize {
                             width = 1800
                             height = 1000
@@ -136,23 +136,23 @@ class DriverTest {
                     }
                     experimentalOptions {
                         preferences {
-                            preference(download_default_directory, downloadDir)
-                            preference(download_default_directory, downloadDir)
-                            preference(download_prompt_for_download, false)
-                            preference(safebrowsing_enabled, false)
+                            pref(download_default_directory, downloadDir)
+                            pref(download_prompt_for_download, false)
+                            pref(safebrowsing_enabled, false)
+                            pref("download.default_directory", downloadDir)
                         }
                         excludeSwitches {
-                            switch(enable_automation)
+                            +enable_automation
                         }
                         localState {
                             browserEnabledLabsExperiments {
-                                experimentalFlag(same_site_by_default_cookies)
-                                experimentalFlag(cookies_without_same_site_must_be_secure)
+                                +same_site_by_default_cookies
+                                +cookies_without_same_site_must_be_secure
                             }
                         }
                     }
                     extensions {
-                        extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                        +"src/test/resources/extensions/webextensions-selenium-example.crx"
                     }
                     proxy {
                         ftpProxy = "192.168.0.1"
@@ -212,39 +212,39 @@ class DriverTest {
                     truncatedLogs = false
                     timeout = 30.seconds
                     allowedHosts {
-                        allowedHost("localhost")
+                        +"localhost"
                     }
                 }
                 options {
                     acceptInsecureCerts = false
                     binary = "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
                     arguments {
-                        arg(Arguments.Firefox.headless)
+                        +Arguments.Firefox.headless
                         windowSize {
                             width = 1800
                             height = 1000
                         }
                     }
                     preferences {
-                        preference(network_automatic_ntlm_auth_trusted_uris, "http://,https://")
-                        preference(network_automatic_ntlm_auth_allow_non_fqdn, false)
-                        preference(network_negotiate_auth_delegation_uris, "http://,https://")
-                        preference(network_negotiate_auth_trusted_uris, "http://,https://")
-                        preference(network_http_phishy_userpass_length, 255)
-                        preference(network_proxy_no_proxies_on, "")
-                        preference(security_csp_enable, false)
+                        pref(network_automatic_ntlm_auth_trusted_uris, "http://,https://")
+                        pref(network_automatic_ntlm_auth_allow_non_fqdn, false)
+                        pref(network_negotiate_auth_delegation_uris, "http://,https://")
+                        pref(network_negotiate_auth_trusted_uris, "http://,https://")
+                        pref(network_http_phishy_userpass_length, 255)
+                        pref(network_proxy_no_proxies_on, "")
+                        pref(security_csp_enable, false)
                     }
                     profile {
-                        preference(browser_download_folderList, 1)
-                        preference(browser_download_manager_showWhenStarting, false)
-                        preference(browser_download_manager_focusWhenStarting, false)
-                        preference(browser_download_useDownloadDir, true)
-                        preference(browser_download_manager_alertOnEXEOpen, false)
-                        preference(browser_download_manager_closeWhenDone, true)
-                        preference(browser_download_manager_showAlertOnComplete, false)
-                        preference(browser_download_manager_useWindow, false)
-                        preference(browser_helperApps_alwaysAsk_force, false)
-                        preference(browser_helperApps_neverAsk_saveToDisk, "application/octet-stream")
+                        pref(browser_download_folderList, 1)
+                        pref(browser_download_manager_showWhenStarting, false)
+                        pref(browser_download_manager_focusWhenStarting, false)
+                        pref(browser_download_useDownloadDir, true)
+                        pref(browser_download_manager_alertOnEXEOpen, false)
+                        pref(browser_download_manager_closeWhenDone, true)
+                        pref(browser_download_manager_showAlertOnComplete, false)
+                        pref(browser_download_manager_useWindow, false)
+                        pref(browser_helperApps_alwaysAsk_force, false)
+                        pref(browser_helperApps_neverAsk_saveToDisk, "application/octet-stream")
                     }
                     timeouts {
                         implicitWait = 5.seconds
@@ -312,8 +312,8 @@ class DriverTest {
                     readableTimestamp = true
                     timeout = 30.seconds
                     allowedIps {
-                        allowedIp("192.168.0.50")
-                        allowedIp("192.168.0.51")
+                        +"192.168.0.50"
+                        +"192.168.0.51"
                     }
                 }
                 options {
@@ -325,8 +325,8 @@ class DriverTest {
                     strictFileInteractability = true
                     unhandledPromptBehaviour = DISMISS
                     arguments {
-                        arg(Arguments.Edge.headless)
-                        arg(Arguments.Edge.inPrivate)
+                        +Arguments.Edge.headless
+                        +Arguments.Edge.inPrivate
                         windowSize {
                             width = 1800
                             height = 1000
@@ -334,22 +334,22 @@ class DriverTest {
                     }
                     experimentalOptions {
                         preferences {
-                            preference(download_default_directory, downloadDir)
-                            preference(download_prompt_for_download, false)
-                            preference(safebrowsing_enabled, false)
+                            pref(download_default_directory, downloadDir)
+                            pref(download_prompt_for_download, false)
+                            pref(safebrowsing_enabled, false)
                         }
                         excludeSwitches {
                             enable_automation
                         }
                         localState {
                             browserEnabledLabsExperiments {
-                                experimentalFlag(same_site_by_default_cookies)
-                                experimentalFlag(cookies_without_same_site_must_be_secure)
+                                +same_site_by_default_cookies
+                                +cookies_without_same_site_must_be_secure
                             }
                         }
                     }
                     extensions {
-                        extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                        +"src/test/resources/extensions/webextensions-selenium-example.crx"
                     }
                     proxy {
                         ftpProxy = "192.168.0.1"

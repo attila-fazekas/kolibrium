@@ -27,10 +27,11 @@ public class ExtensionsScope {
 
     /**
      * Adds an extension to be loaded by the browser.
+     *
+     * This operator function allows adding extensions using the unary plus operator (+).
      */
-    @KolibriumDsl
-    public fun extension(path: String) {
-        extensions.add(File(path))
+    public operator fun String.unaryPlus() {
+        extensions.add(File(this))
     }
 
     /**
