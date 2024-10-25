@@ -124,6 +124,12 @@ public object Arguments {
         public val headless: ChromeArgument = ChromeArgument("--headless=new")
 
         /**
+         * Ignores SSL certificate errors.
+         */
+        @KolibriumPropertyDsl
+        public val ignore_certificate_errors: ChromeArgument = ChromeArgument("--ignore-certificate-errors")
+
+        /**
          * Launches the browser in incognito mode.
          */
         @KolibriumPropertyDsl
