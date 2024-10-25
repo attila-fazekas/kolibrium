@@ -17,9 +17,9 @@
 package dev.kolibrium.dsl.selenium.creation
 
 internal sealed interface ArgumentsScope<T : Argument> {
-    operator fun String.unaryPlus()
-
     operator fun T.unaryPlus()
+
+    operator fun String.unaryPlus()
 
     fun windowSize(block: WindowSizeScope.() -> Unit)
 }
