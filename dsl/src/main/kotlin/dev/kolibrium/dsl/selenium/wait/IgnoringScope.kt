@@ -39,7 +39,7 @@ public class IgnoringScope {
      * Adds an exception class to the set of ignored exceptions.
      *
      * @param T The type of the exception to be ignored.
-     * @param exception The [KClass] of the exception to be ignored.
+     * @param exception The [KClass] of the exception type to be ignored.
      */
     @KolibriumDsl
     public fun <T : Throwable> exception(exception: KClass<T>) {
