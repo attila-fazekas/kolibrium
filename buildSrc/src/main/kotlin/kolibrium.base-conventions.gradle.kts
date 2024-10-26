@@ -22,7 +22,7 @@ plugins {
 }
 
 group = "dev.kolibrium"
-version = "0.1.1-SNAPSHOT"
+version = "0.3.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
