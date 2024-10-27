@@ -22,104 +22,136 @@ package dev.kolibrium.ksp.annotations
  * Instructs kolibrium-codegen to generate source code that finds a single element using the
  * "className" locator strategy.
  *
- * @property locator The value of the "class" attribute to search for.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The value of the "class" attribute to search for. If empty, the enum entry name will be used
+ *                   as the property name in the generated source code.
+ * @property cacheLookup If true, the element will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class ClassName(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using the
  * "cssSelector" locator strategy.
  *
- * @property locator The value of the CSS expression to search for.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The value of the CSS expression to search for. If empty, the enum entry name will be used as
+ *                   the property name in the generated source code.
+ * @property cacheLookup If true, the element will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class CssSelector(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using the
  * "id" locator strategy.
  *
- * @property locator The value of the "id" attribute to search for.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The value of the "id" attribute to search for. If empty, the enum entry name will be used as
+ *                   the property name in the generated source code.
+ * @property cacheLookup If true, the element will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class Id(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using the
  * "linkText" locator strategy.
  *
- * @property locator The exact text to match against.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The exact text to match against. If empty, the enum entry name will be used as the property
+ *                   name in the generated source code.
+ * @property cacheLookup If true, the element will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class LinkText(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using the
  * "name" locator strategy.
  *
- * @property locator The value of the "name" attribute to search for.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The value of the "name" attribute to search for. If empty, the enum entry name will be used
+ *                   as the property name in the generated source code.
+ * @property cacheLookup If true, the element will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class Name(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using the
  * "partialLinkText" locator strategy.
  *
- * @property locator The partial text in the link to match against.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The partial text in the link to match against. If empty, the enum entry name will be used
+ *                   as the property name in the generated source code.
+ * @property cacheLookup If true, the element will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class PartialLinkText(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using the
  * "tagName" locator strategy.
  *
- * @property locator The element's tag name.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The element's tag name. If empty, the enum entry name will be used as the property name
+ *                   in the generated source code.
+ * @property cacheLookup If true, the element will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class TagName(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds a single element using the
  * "xpath" locator strategy.
  *
- * @property locator The XPath expression to use.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The XPath expression to use. If empty, the enum entry name will be used as the property
+ *                   name in the generated source code.
+ * @property cacheLookup If true, the element will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class XPath(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 // WebElements locator annotations
@@ -128,102 +160,134 @@ public annotation class XPath(
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
  * "className" locator strategy.
  *
- * @property locator The value of the "class" attribute to search for.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The value of the "class" attribute to search for. If empty, the enum entry name will be used
+ *                   as the property name in the generated source code.
+ * @property cacheLookup If true, the elements will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class ClassNames(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
  * "cssSelector" locator strategy.
  *
- * @property locator The CSS expression to search for.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The CSS expression to search for. If empty, the enum entry name will be used as the property
+ *                   name in the generated source code.
+ * @property cacheLookup If true, the elements will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class CssSelectors(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
  * "id" locator strategy.
  *
- * @property locator The value of the "id" attribute to search for.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The value of the "id" attribute to search for. If empty, the enum entry name will be used
+ *                   as the property name in the generated source code.
+ * @property cacheLookup If true, the elements will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class Ids(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
  * "linkText" locator strategy.
  *
- * @property locator The exact text to match against.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The exact text to match against. If empty, the enum entry name will be used as the property
+ *                   name in the generated source code.
+ * @property cacheLookup If true, the elements will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class LinkTexts(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
  * "name" locator strategy.
  *
- * @property locator The value of the "name" attribute to search for.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The value of the "name" attribute to search for. If empty, the enum entry name will be used
+ *                   as the property name in the generated source code.
+ * @property cacheLookup If true, the elements will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class Names(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
  * "partialLinkText" locator strategy.
  *
- * @property locator The partial text in the link to match against.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The partial text in the link to match against. If empty, the enum entry name will be used
+ *                   as the property name in the generated source code.
+ * @property cacheLookup If true, the elements will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class PartialLinkTexts(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
  * "tagName" locator strategy.
  *
- * @property locator The element's tag name.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The element's tag name. If empty, the enum entry name will be used as the property name
+ *                   in the generated source code.
+ * @property cacheLookup If true, the elements will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class TagNames(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
 
 /**
  * Instructs kolibrium-codegen to generate source code that finds multiple elements using the
  * "xpath" locator strategy.
  *
- * @property locator The XPath expression to use.
- * If empty, the enum entry name will be used as the property name in the generated source code.
+ * @property locator The XPath expression to use. If empty, the enum entry name will be used as the property
+ *                   name in the generated source code.
+ * @property cacheLookup If true, the elements will be looked up only once and cached for subsequent
+ *                       accesses, similarly to Page Factory's @CacheLookup annotation. If false,
+ *                       a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.FIELD)
 public annotation class XPaths(
     val locator: String = "",
+    val cacheLookup: Boolean = true,
 )
