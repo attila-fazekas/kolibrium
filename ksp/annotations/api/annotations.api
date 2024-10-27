@@ -1,32 +1,40 @@
 public abstract interface annotation class dev/kolibrium/ksp/annotations/ClassName : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/ClassNames : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/CssSelector : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/CssSelectors : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/Id : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/Ids : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/LinkText : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/LinkTexts : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
@@ -34,10 +42,12 @@ public abstract interface annotation class dev/kolibrium/ksp/annotations/Locator
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/Name : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/Names : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
@@ -46,26 +56,32 @@ public abstract interface annotation class dev/kolibrium/ksp/annotations/Page : 
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/PartialLinkText : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/PartialLinkTexts : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/TagName : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/TagNames : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/XPath : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 
 public abstract interface annotation class dev/kolibrium/ksp/annotations/XPaths : java/lang/annotation/Annotation {
+	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;
 }
 

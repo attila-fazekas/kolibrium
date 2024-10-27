@@ -174,21 +174,21 @@ public class LocatorsProcessor(
             classDeclaration: KSClassDeclaration,
             data: Unit,
         ) {
-            val annotationsPresent =
+            val locatorAnnotations =
                 (singleElementLocatorAnnotations + multipleElementLocatorAnnotations).filter {
                     classDeclaration.getAnnotation(it) != null
                 }
             val enumEntryName = classDeclaration.simpleName.asString()
 
-            if (annotationsPresent.size > 1) {
+            if (locatorAnnotations.size > 1) {
                 val message =
                     "More than one locator annotation found on \"$enumEntryName\": " +
-                        annotationsPresent.joinToString { "@" + it.simpleName }
+                        locatorAnnotations.joinToString { "@" + it.simpleName }
                 logger.error(message, classDeclaration)
             }
 
-            if (annotationsPresent.size == 1) {
-                val locatorAnnotation = classDeclaration.getAnnotation(annotationsPresent.first())!!
+            if (locatorAnnotations.size == 1) {
+                val locatorAnnotation = classDeclaration.getAnnotation(locatorAnnotations.first())!!
                 val locator =
                     (locatorAnnotation.getArgument("locator").value as String).ifEmpty { enumEntryName }
                 val locatorStrategyClassName =
@@ -196,12 +196,27 @@ public class LocatorsProcessor(
                         KOLIBRIUM_SELENIUM_PACKAGE_NAME,
                         getLocatorStrategy(locatorAnnotation),
                     )
-                val delegateReturnType = getDelegateReturnType(annotationsPresent.first())
+                val delegateReturnType = getDelegateReturnType(locatorAnnotations.first())
                 val mustacheTemplateParser = MustacheTemplateParser(locator)
 
                 if (mustacheTemplateParser.templateVariables.isEmpty()) {
                     generateProperty(enumEntryName, delegateReturnType) {
-                        add("%T(%S)", locatorStrategyClassName, locator)
+                        val cacheLookup = (locatorAnnotation.getArgument("cacheLookup").value as Boolean)
+
+                        if (cacheLookup) {
+                            add(
+                                "%T(%S)",
+                                locatorStrategyClassName,
+                                locator,
+                            )
+                        } else {
+                            add(
+                                "%T(locator = %S, cacheLookup = %L)",
+                                locatorStrategyClassName,
+                                locator,
+                                false,
+                            )
+                        }
                     }
                 } else {
                     generateDynamicLocatorFunction(
