@@ -552,11 +552,11 @@ JSpecify annotations (1.0.0) - The Apache License, Version 2.0
 An artifact of well-named and well-specified annotations to power static analysis checks
 http://jspecify.org/
 
-JUnit Jupiter API (5.11.2) - Eclipse Public License v2.0
+JUnit Jupiter API (5.11.3) - Eclipse Public License v2.0
 Module "junit-jupiter-api" of JUnit 5.
 https://junit.org/junit5/
 
-JUnit Platform Commons (1.11.2) - Eclipse Public License v2.0
+JUnit Platform Commons (1.11.3) - Eclipse Public License v2.0
 Module "junit-platform-commons" of JUnit 5.
 https://junit.org/junit5/
 
@@ -762,7 +762,7 @@ AutoService (1.1.1) - Apache 2.0
 Provider-configuration files for ServiceLoader.
 https://github.com/google/auto/tree/main/service
 
-com.google.devtools.ksp:symbol-processing-api (2.0.21-1.0.25) - The Apache License, Version 2.0
+com.google.devtools.ksp:symbol-processing-api (2.0.21-1.0.26) - The Apache License, Version 2.0
 Symbol processing for Kotlin
 https://goo.gle/ksp
 
@@ -780,7 +780,7 @@ jmustache (1.16) - The (New) BSD License
 A Java implementation of the Mustache templating language.
 http://github.com/samskivert/jmustache
 
-Kotlin Reflect (2.0.0) - The Apache License, Version 2.0
+Kotlin Reflect (2.0.10) - The Apache License, Version 2.0
 Kotlin Full Reflection Library
 https://kotlinlang.org/
 
@@ -792,11 +792,11 @@ kotlin-logging (7.0.0) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.0 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-KotlinPoet (1.18.1) - The Apache Software License, Version 2.0
+KotlinPoet (2.0.0) - The Apache Software License, Version 2.0
 Use beautiful Kotlin code to generate beautiful Kotlin code.
 https://github.com/square/kotlinpoet
 
-KotlinPoet (KSP Interop) (1.18.1) - The Apache Software License, Version 2.0
+KotlinPoet (KSP Interop) (2.0.0) - The Apache Software License, Version 2.0
 Extensions for interop with KSP (Kotlin Symbol Processing).
 https://github.com/square/kotlinpoet
 
