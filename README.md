@@ -12,6 +12,7 @@
 Build simple and maintainable automation faster with Kolibrium.
 
 Kolibrium is a declarative Kotlin library designed to reduce boilerplate code and find better abstractions to express Selenium tests in a compact way.  
+
 Quickly bring your test automation efforts to life with less code and easy-to-read APIs.  
 
 # Table of content
@@ -28,8 +29,8 @@ Quickly bring your test automation efforts to life with less code and easy-to-re
 Kolibrium is divided into several subprojects (modules), each of which can be used either independently or in conjunction with others.
 
 - `selenium`: offers a range of delegate functions for locating elements
-- `ksp`: offers code generation for part of the Page Object classes
-- `dsl`: offers DSL functions for creating, configuring, and interacting with driver instances
+- `ksp`: offers code generation with [Kotlin Symbol Processing (KSP)](https://kotlinlang.org/docs/ksp-overview.html) for part of the Page Object classes
+- `dsl`: offers [Domain-Specific Languages (DSLs)](https://kotlinlang.org/docs/type-safe-builders.html) functions for creating, configuring, and interacting with driver instances
 - `junit`: offers an extension to write JUnit tests without boilerplate
 
 You can decide to go all-in on Kolibrium by opting for all four modules or choosing just one or two. For example, you could use the Selenium library in conjunction with DSL and JUnit, or you could use Selenium with KSP.  
@@ -44,9 +45,9 @@ We'll be writing tests for the login functionality on the Sauce Labs demo e-comm
 
 To get started, add the following dependency to your Gradle project build file (`build.gradle.kts`):
 ```kotlin  
-dependencies {    
-	implementation("dev.kolibrium:kolibrium-selenium:0.2.0")  
-	// other dependencies
+dependencies { 
+    implementation("dev.kolibrium:kolibrium-selenium:0.2.0") 
+    // other dependencies
 }  
 ```  
 
@@ -72,7 +73,7 @@ fun loginTest() {
 }
 ```  
 
-_Note: `shouldBe` is an assertion function from [kotest](https://kotest.io/), but you may use any assertion library you prefer._
+> **Note**: `shouldBe` is an assertion function from [kotest](https://kotest.io/), but you may use any assertion library you prefer.
 
 Kolibrium utilizes the [Delegation pattern](https://en.wikipedia.org/wiki/Delegation_pattern), natively supported in Kotlin, to locate elements lazily with locator strategies.    
 
@@ -104,10 +105,10 @@ class LoginPage(driver: WebDriver) {
 
 Similarly, for the inventory page:  
 ```kotlin  
-class InventoryPage(driver: WebDriver) {
-  private val shoppingCart by driver.className("shopping_cart_link")
-
-  fun isShoppingCartDisplayed() = shoppingCart.isDisplayed
+class InventoryPage(driver: WebDriver) { 
+    private val shoppingCart by driver.className("shopping_cart_link")
+  
+    fun isShoppingCartDisplayed() = shoppingCart.isDisplayed
 }
 ```
 
@@ -132,10 +133,10 @@ Context receivers offer a streamlined way to provide context (such as a `WebDriv
  
 To enable them, add the following configuration to your `build.gradle.kts` file:
 ```kotlin
-tasks.withType<KotlinCompile> {
-  compilerOptions.freeCompilerArgs = listOf(
-    "-Xcontext-receivers",
-  )
+tasks.withType<KotlinCompile> { 
+    compilerOptions.freeCompilerArgs = listOf(
+        "-Xcontext-receivers",
+    )
 }
 ```  
 
@@ -157,10 +158,10 @@ class LoginPage {
 }
 
 context(WebDriver)
-class InventoryPage {
-  private val shoppingCart by className("shopping_cart_link")
-
-  fun isShoppingCartDisplayed() = shoppingCart.isDisplayed
+class InventoryPage { 
+    private val shoppingCart by className("shopping_cart_link")
+  
+    fun isShoppingCartDisplayed() = shoppingCart.isDisplayed
 }
 ```
 
@@ -195,9 +196,9 @@ plugins {
 dependencies {  
     implementation("dev.kolibrium:kolibrium-annotations:0.2.0")  
     implementation("dev.kolibrium:kolibrium-selenium:0.2.0")  
-    ksp("dev.kolibrium:kolibrium-ksp:0.2.0")  
-	ksp("dev.zacsweers.autoservice:auto-service-ksp:1.2.0")
-	// other dependencies
+    ksp("dev.kolibrium:kolibrium-ksp:0.2.0")
+    ksp("dev.zacsweers.autoservice:auto-service-ksp:1.2.0") 
+    // other dependencies
 }
 ```
 
@@ -322,8 +323,8 @@ fun setUp() {
             arguments {  
                 +incognito  
                 windowSize {  
-                    height = 1920  
-                    width = 1080
+                    width = 1920
+                    height = 1080
                 }  
             }        
         }    
@@ -393,9 +394,9 @@ You can tailor the injected driver by creating a custom Kolibrium configuration.
 
 First, add the AutoService dependency:
 ```kotlin  
-dependencies {
-	ksp("dev.zacsweers.autoservice:auto-service-ksp:1.2.0")  
-	// other dependencies
+dependencies { 
+    ksp("dev.zacsweers.autoservice:auto-service-ksp:1.2.0") 
+    // other dependencies
 }
 ```  
 
@@ -424,8 +425,8 @@ class KolibriumConfiguration : AbstractProjectConfiguration() {
                     }                
                 }     
             }
-        }
-	}
+        } 
+    }
 }
 ```
 
