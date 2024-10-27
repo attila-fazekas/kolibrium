@@ -11,95 +11,88 @@
 
 Build simple and maintainable automation faster with Kolibrium.
 
-Kolibrium is a declarative Kotlin library designed to reduce boilerplate code and find better abstractions to express Selenium tests in a compact way.
-Quickly bring your test automation efforts to life with less code and easy-to-read APIs.
+Kolibrium is a declarative Kotlin library designed to reduce boilerplate code and find better abstractions to express Selenium tests in a compact way.  
+Quickly bring your test automation efforts to life with less code and easy-to-read APIs.  
 
 # Table of content
 
 - [Get started](#get-started)
-  - [Write your first test](#write-your-first-test)
-  - [Generate Page Object classes with kolibrium-codegen](#generate-page-object-classes-with-kolibrium-codegen)
-  - [Use DSL functions for creating driver instances](#use-dsl-functions-for-creating-driver-instances)
-  - [Inject driver instances to your tests with JUNit module](#inject-driver-instances-to-your-tests-with-junit-module)
+  - [Write your first test with locator delegates](#Write-your-first-test-with-locator-delegates)
+  - [Generate repository classes for locators with Kolibrium code generation](#Generate-repository-classes-for-locators-with-Kolibrium-code-generation)
+  - [Use DSL functions for creating and configuring `WebDriver` instances](#Use-DSL-functions-for-creating-and-configuring-WebDriver-instances)
+  - [Inject driver instances into your tests with the JUnit module](#Inject-driver-instances-into-your-tests-with-the-JUnit-module)
 - [Project status](#project-status)
 
 # Get Started
 
 Kolibrium is divided into several subprojects (modules), each of which can be used either independently or in conjunction with others.
 
-- `dsl`: offers DSL functions for creating driver instances
-- `ksp`: offers code generation for Page Object classes
+- `selenium`: offers a range of delegate functions for locating elements
+- `ksp`: offers code generation for part of the Page Object classes
+- `dsl`: offers DSL functions for creating, configuring, and interacting with driver instances
 - `junit`: offers an extension to write JUnit tests without boilerplate
-- `selenium`: offers a range of delegate functions for locating elements 
 
-You can decide to go all-in on Kolibrium by opting for all four modules or choosing just one or two. For example, you could use the Selenium library in conjunction with DSL and JUnit, or you could use Selenium with KSP.
+You can decide to go all-in on Kolibrium by opting for all four modules or choosing just one or two. For example, you could use the Selenium library in conjunction with DSL and JUnit, or you could use Selenium with KSP.  
 
-In this tutorial, we will cover the basics of Kolibrium and explore some project combinations to quickly get you started.
+## Write your first test with locator delegates
 
-## Write your first test
+In this tutorial, we’ll cover the basics of Kolibrium and explore several project configurations to help you get started quickly. 
 
-We will be writing tests for the login functionality on SauceLabs demo e-commerce website (https://www.saucedemo.com/)
+We'll be writing tests for the login functionality on the Sauce Labs demo e-commerce website: https://www.saucedemo.com.  
 
 ### 1. Add the Selenium module to your project
 
-First add the following configuration to your Gradle project build file:
-```kotlin
-dependencies {  
-    implementation("dev.kolibrium:kolibrium-selenium:0.1.0")  
-}
+To get started, add the following dependency to your Gradle project build file (`build.gradle.kts`):
+```kotlin  
+dependencies {    
+	implementation("dev.kolibrium:kolibrium-selenium:0.2.0")  
+	// other dependencies
+}  
+```  
 
-repositories {  
-	mavenCentral()  
-}
+### 2. Use locator delegate functions from the Selenium module
 
-tasks.withType<KotlinCompile> {
-    compilerOptions.freeCompilerArgs = listOf(  
-        "-Xcontext-receivers",  
-    )  
-}
-```
-
-_Note: the above configuration uses Kotlin DSL._
-
-See the full file [here](https://gist.github.com/attila-fazekas/3e8b3460b16f1005e954d5142246a10d)
-
-### 2. Use delegates from the Selenium module
-
-Create a test class, such as a JUnit class, and begin using the delegate functions from the `selenium`  module:
-```kotlin
+Create a test class, such as a JUnit test class, and use the locator delegate functions from the `selenium` module to locate elements:  
+```kotlin  
 @Test  
 fun loginTest() {  
     with(driver) {  
-        val username by name<WebElement>("user-name")  
-        val password by id<WebElement>("password")  
-        val button by name<WebElement>("login-button")  
+        val username by name("user-name")  
+        val password by id("password")  
+        val button by name("login-button")  
   
         username.sendKeys("standard_user")  
         password.sendKeys("secret_sauce")  
         button.click()  
   
-        val logo by className<WebElement>("app_logo")  
+        val shoppingCart by className("shopping_cart_link")  
   
-        logo.text shouldBe "Swag Labs"  
+        shoppingCart.isDisplayed shouldBe true  
     }  
 }
-```
+```  
 
-_Note: `shouldBe` is an assertion function from [kotest](https://kotest.io/) but you can use any assertion library you like._
+_Note: `shouldBe` is an assertion function from [kotest](https://kotest.io/), but you may use any assertion library you prefer._
 
-See the full file [here](https://gist.github.com/attila-fazekas/261ac3d6191cef1d6390527ccd05ce56)
+Kolibrium utilizes the [Delegation pattern](https://en.wikipedia.org/wiki/Delegation_pattern), natively supported in Kotlin, to locate elements lazily with locator strategies.    
 
-### 3. Introduce Page Objects
+For instance, the following code locates the `WebElement` with the `"user-name"` attribute when it’s accessed (in this case, when the `sendKeys` command is issued):    
 
-Now, let's introduce some abstraction by creating a Page Object class for the login page:
-```kotlin
-context(WebDriver)  
-class LoginPage {  
-    val username: WebElement by name<WebElement>("user-name")  
+```kotlin  
+val username by name("user-name")  
+username.sendKeys("standard_user")
+```  
+
+### 3. Implement Page Object models
+
+To introduce a layer of abstraction, let's create a Page Object class for the login page:
+```kotlin  
+class LoginPage(driver: WebDriver) {  
+    private val username: WebElement by driver.name("user-name")  
   
-    val password: WebElement by idOrName<WebElement>("password")  
+    private val password: WebElement by driver.idOrName("password")  
   
-    val button: WebElement by name<WebElement>("login-button")  
+    private val button: WebElement by driver.name("login-button")  
   
     fun login(username: String, password: String) {  
         this.username.sendKeys(username)  
@@ -109,277 +102,352 @@ class LoginPage {
 }
 ```
 
-and the for the landing page:
-```kotlin
-context(WebDriver)  
-class LandingPage { 
-    val logo: WebElement by className<WebElement>("app_logo")  
+Similarly, for the inventory page:  
+```kotlin  
+class InventoryPage(driver: WebDriver) {
+  private val shoppingCart by driver.className("shopping_cart_link")
+
+  fun isShoppingCartDisplayed() = shoppingCart.isDisplayed
 }
 ```
 
-Then let's use them in the test:
+Now, let's utilize these page objects in our test:  
 ```kotlin
+@Test  
+fun loginTest() {  
+    LoginPage(driver).login(  
+        username = "standard_user",  
+        password = "secret_sauce"  
+    )
+  
+    InventoryPage(driver).isShoppingCartDisplayed() shouldBe true 
+}
+```
+
+### 4. Use Context Receivers to inject the driver instance into the Page Objects
+
+Context receivers offer a streamlined way to provide context (such as a `WebDriver` instance) to functions without passing it explicitly as an argument. In this example, we'll use context receivers to simplify access to the `WebDriver` instance in our Page Objects.  
+
+> ⚠️ **Note**: Context receivers, also known as [context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md), are still an experimental feature in Kotlin and are not enabled by default. 
+ 
+To enable them, add the following configuration to your `build.gradle.kts` file:
+```kotlin
+tasks.withType<KotlinCompile> {
+  compilerOptions.freeCompilerArgs = listOf(
+    "-Xcontext-receivers",
+  )
+}
+```  
+
+After reloading the Gradle configuration, we can add `context(WebDriver)` to our Page Objects and remove the constructor and driver instance when calling the delegate functions:  
+```kotlin  
+context(WebDriver)  
+class LoginPage {  
+    private val username: WebElement by name("user-name")  
+  
+    private val password: WebElement by idOrName("password")  
+  
+    private val button: WebElement by name("login-button")  
+  
+    fun login(username: String, password: String) {  
+        this.username.sendKeys(username)  
+        this.password.sendKeys(password)  
+        button.click()  
+    }  
+}
+
+context(WebDriver)
+class InventoryPage {
+  private val shoppingCart by className("shopping_cart_link")
+
+  fun isShoppingCartDisplayed() = shoppingCart.isDisplayed
+}
+```
+
+To make the test compile after introducing context receivers, we need to provide a driver context by using the `with` scope function:  
+```kotlin  
 @Test  
 fun loginTest() {  
     with(driver) {  
         LoginPage().login(  
             username = "standard_user",  
             password = "secret_sauce"  
-        )  
-  
-        LandingPage().logo.text shouldBe "Swag Labs"  
+        )
+
+        InventoryPage().isShoppingCartDisplayed() shouldBe true 
     }  
 }
 ```
 
-See the full files [here](https://gist.github.com/attila-fazekas/fafc62a009bb267edd4473767afbe1ec)
+## Generate repository classes for locators with Kolibrium code generation
 
-## Generate Page Object classes with kolibrium-codegen
-
-In this section, we will start using the `ksp` module to generate part of our Page Objects.
+In this section, we will begin using the `ksp` module to generate part of our Page Objects.
 
 ### 1. Add KSP module to the build file
 
-First, modify your Gradle project build file by adding the following:
+First, update your Gradle project build file by adding the following configuration:
 ```kotlin
 plugins {  
-    kotlin("jvm") version "1.9.21"  
-    id("com.google.devtools.ksp") version "1.9.21-1.0.15"  
+    kotlin("jvm") version "2.0.21"  
+    id("com.google.devtools.ksp") version "2.0.21-1.0.26"  
 }
 
 dependencies {  
-    implementation("dev.kolibrium:kolibrium-annotations:0.1.0")
-    ksp("dev.kolibrium:kolibrium-ksp:0.1.0")
-    implementation("dev.kolibrium:kolibrium-selenium:0.1.0")
+    implementation("dev.kolibrium:kolibrium-annotations:0.2.0")  
+    implementation("dev.kolibrium:kolibrium-selenium:0.2.0")  
+    ksp("dev.kolibrium:kolibrium-ksp:0.2.0")  
+	ksp("dev.zacsweers.autoservice:auto-service-ksp:1.2.0")
+	// other dependencies
 }
 ```
 
-See the full file [here](https://gist.github.com/attila-fazekas/b89e08eaaba4ae0dc88952b22f345c37)
+### 2. Store locators in a single file
 
-### 2. Store locators in one file
-
-Create a file named `Locators.kt` and add the following enum classes in `com.saucedemo` package:
+Create a file named `Locators.kt` and add the following enum classes to the `dev.kolibrium.demo.ksp._01.locators` package:    
 ```kotlin
-@Page  
+package dev.kolibrium.demo.ksp._01.locators
+
+@Locators  
 enum class LoginPageLocators {  
-  
-    @Name("user-name")  
+    @Id("user-name")  
     username,  
-  
+      
     password,  
-  
+      
     @Name("login-button")  
-    button  
+    loginButton  
 }  
   
-@Page  
-enum class LandingPageLocators {  
-  
-    @ClassName("app_logo")  
-    logo  
+@Locators  
+enum class InventoryPageLocators {  
+    @ClassName("shopping_cart_link")  
+    shoppingCart  
 }
 ```
-
-See the full file [here](https://gist.github.com/attila-fazekas/f6c041ef46e8a11b6205210f5b32cc22)
 
 ### 3. Generate files
 
-Now, build the project and check the `/build/generated/ksp/main/kotlin/com/saucedemo/generated/` directory. You will see that two files have been created:
+Now, build the project and navigate to the `build/generated/ksp/main/kotlin/dev/kolibrium/demo/ksp/_01/locators/generated/` directory. You will notice that two files have been created:  
+
+`LoginPageLocators.kt`:
+```kotlin
+package dev.kolibrium.demo.ksp._01.locators.generated  
+  
+context(WebDriver)  
+public class LoginPageLocators {  
+  public val username: WebElement by id("user-name")  
+  
+  public val password: WebElement by idOrName("password")  
+  
+  public val loginButton: WebElement by name("login-button")  
+}
+```
+
+`InventoryPageLocators`:
+```kotlin
+package dev.kolibrium.demo.ksp._01.locators.generated  
+    
+context(WebDriver)  
+public class InventoryPageLocators {  
+  public val shoppingCart: WebElement by className("shopping_cart_link")  
+}
+```
+
+### 4. Create Page Objects and use locators from the generated files
+
+Now, let's create Page Object classes that incorporate a `locators` property.
 
 `LoginPage.kt`:
 ```kotlin
 context(WebDriver)  
-public class LoginPage {  
-  public val username: WebElement by name<WebElement>("user-name")  
+class LoginPage {  
+    private val locators = LoginPageLocators()  
   
-  public val password: WebElement by idOrName<WebElement>("password")  
-  
-  public val button: WebElement by name<WebElement>("login-button")  
-}
-```
-
-`LandingPage.kt`:
-```kotlin
-context(WebDriver)  
-public class LandingPage {  
-  public val logo: WebElement by className<WebElement>("app_logo")  
-}
-```
-
-### 4. Create an extension function for login
-
-Create a file e.g. `Pages.kt` in `com.saucedemo` package and write an extension function for the generated `com.saucedemo.generated.LoginPage`:
-```kotlin
-fun LoginPage.login(username: String, password: String) {
-    this.username.sendKeys(username)
-    this.password.sendKeys(password)
-    button.click()
-}
-```
-
-See the full file [here](https://gist.github.com/attila-fazekas/bafc4b9eb755d4a858d24feaa4058c3d)
-
-### 5. Use the login function in your test
-
-Import the generated Page Objects in your test and use the extension function to log in:
-```kotlin
-import com.saucedemo.generated.LandingPage  
-import com.saucedemo.generated.LoginPage
-
-@Test  
-fun loginTest() {  
-    with(driver) {  
-        LoginPage().login(  
-            username = "standard_user",  
-            password = "secret_sauce"  
-        )  
-  
-        LandingPage().logo.text shouldBe "Swag Labs"  
+    fun login(username: String = "standard_user", password: String = "secret_sauce") = with(locators) {  
+        this.username.sendKeys(username)  
+        this.password.sendKeys(password)  
+        loginButton.submit()  
     }  
 }
 ```
 
-See the full file [here](https://gist.github.com/attila-fazekas/7a7f4ec02f6a8ecc1e30f24a0104d523)
+`InventoryPage`:
+```kotlin
+context(WebDriver)  
+class InventoryPage {  
+    private val locators = InventoryPageLocators()  
+  
+    fun isShoppingCartDisplayed() = locators.shoppingCart.isDisplayed  
+}
+```
 
-## Use DSL functions for creating driver instances
+Next, update the test accordingly:
+```kotlin
+@Test  
+fun loginTest() {  
+    with(driver) {  
+        LoginPage().login()  
+  
+        InventoryPage().isShoppingCartDisplayed() shouldBe true  
+    }  
+}
+```
 
-Now, we will be creating WebDriver instances in our tests with the power of DSL:s.
+## Use DSL functions for creating and configuring `WebDriver` instances
+
+In this section, we will leverage DSLs to create WebDriver instances in our tests. 
 
 ### 1. Add the DSL module to the build file
 
-As usual, we will start with Gradle configurations:
-```kotlin
-dependencies {
-    implementation("dev.kolibrium:kolibrium-annotations:0.1.0")
-    implementation("dev.kolibrium:kolibrium-dsl:0.1.0")
-    implementation("dev.kolibrium:kolibrium-selenium:0.1.0")
-    ksp("dev.kolibrium:kolibrium-ksp:0.1.0")
-}
-```
-See the full file [here](https://gist.github.com/attila-fazekas/e79181ec33cb17ef29a3cfef6888f059)
-
-### 2. Create driver instance with help of the DSL module
-
-Let's create a driver instance with the following configuration:
-```kotlin
-@BeforeEach
-fun setUp() {
-    driver = chromeDriver {
-        driverService {
-            appendLog = true
-            readableTimestamp = true
-        }
-        options {
-            arguments {
-                +incognito
-                windowSize {
-                    height = 800
-                    width = 600
-                }
-            }
-        }
-    }
+As always, begin by updating your Gradle configuration:
+```kotlin  
+dependencies {  
+    implementation("dev.kolibrium:kolibrium-dsl:0.2.0")  
+	// other dependencies
 }
 ```
 
-It's easy to guess what the `chromeDriver` function call does, but let's dissect it: 
- - it creates a `DriverService` (a `ChromeDriverService` to be specific) with enabled `appendLog` and `readableTimestamp`.
- - it creates an `Options` (in this case a `ChromeOptions`) with enabled `incognito` mode and window size of 800 x 600 pixels.
- - then it uses both objects to create the actual driver.
+### 2. Create driver instance using the DSL module
 
-See the full file [here](https://gist.github.com/attila-fazekas/0bf7aafa985914d9b4929333e979bfc6)
+Let's create a Chrome driver instance with the following configuration:  
+```kotlin
+@BeforeEach  
+fun setUp() {  
+    driver = chromeDriver {  
+        driverService {  
+            appendLog = true  
+            readableTimestamp = true  
+        }  
+        options {  
+            arguments {  
+                +incognito  
+                windowSize {  
+                    height = 1920  
+                    width = 1080
+                }  
+            }        
+        }    
+    }    
+    
+    driver["https://www.saucedemo.com/"]  
+}
+```
 
-## Inject driver instances to your tests with JUnit module
+While it's intuitive to understand what the `chromeDriver` function call does, let's break it down further:  
+- It creates a `DriverService` (specifically, a `ChromeDriverService`) with `appendLog` and `readableTimestamp` enabled.  
+- It sets up an `Options` object (in this case, a `ChromeOptions`) with `incognito` mode enabled and a window size of 1920 x 1080 pixels.
+- Finally, it utilizes both objects to instantiate the actual driver.
 
-It's time to unlock the full potential of Kolibrium by letting it inject drivers into your JUnit 5 tests.
+## Inject driver instances into your tests with the JUnit module
+
+It's time to unlock the full potential of Kolibrium by enabling it to inject drivers into your JUnit 5 tests.  
 
 ### 1. Add the JUnit module to the build file
 
-I'm sure you know the drill by now: we start with Gradle configurations:
+As you may expect, we begin with the Gradle configurations:
 ```kotlin
-dependencies {
-    implementation("dev.kolibrium:kolibrium-annotations:0.1.0")
-    implementation("dev.kolibrium:kolibrium-dsl:0.1.0")
-    implementation("dev.kolibrium:kolibrium-junit:0.1.0")
-    implementation("dev.kolibrium:kolibrium-selenium:0.1.0")
-    ksp("dev.kolibrium:kolibrium-ksp:0.1.0")
+plugins {  
+    kotlin("jvm") version "2.0.21"  
+    id("com.google.devtools.ksp") version "2.0.21-1.0.26"  
+}
+
+dependencies {  
+    implementation("dev.kolibrium:kolibrium-annotations:0.2.0")  
+    implementation("dev.kolibrium:kolibrium-junit:0.2.0")  
+    implementation("dev.kolibrium:kolibrium-selenium:0.2.0")  
+    ksp("dev.kolibrium:kolibrium-ksp:0.2.0")  
+    ksp("dev.zacsweers.autoservice:auto-service-ksp:1.2.0")  
+    testImplementation("io.kotest:kotest-assertions-core-jvm:5.9.1")  
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.11.3")  
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.11.3")  
 }
 ```
 
-See the full file [here](https://gist.github.com/attila-fazekas/13930ba924035ad1b4eeef801925516d)
+### 2. Annotate your test with `@Kolibrium`
 
-### 2. Annotate your test with @Kolibrium
-
-Let's put `context(WebDriver)` and `@Kolibrium` at the top of the test class so that the test shrinks to a more concise form:
-```kotlin
-context(WebDriver)
-@Kolibrium
-class SauceDemoTest {
-
-    @Test
-    fun loginTest() {
-        LoginPage().login(
-            username = "standard_user",
-            password = "secret_sauce"
+Next, let's enhance the test class by adding `context(WebDriver)` and the `@Kolibrium` annotation at the top. This allows us to simplify the test code:  
+```kotlin  
+context(WebDriver)  
+@Kolibrium  
+class JUnitTest {  
+    @BeforeEach  
+    fun setUp() {  
+        this@WebDriver["https://www.saucedemo.com"]  
+    }  
+  
+    @Test  
+    fun loginTest() {  
+        LoginPage().login(  
+            username = "standard_user",  
+            password = "secret_sauce"  
         )
 
-        LandingPage().logo.text shouldBe "Swag Labs"
-    }
+        InventoryPage().isShoppingCartDisplayed() shouldBe true  
+    }  
 }
 ```
 
-At runtime a default `ChromeDriver` instance will be injected into the test.
+### 3. Customize the injected driver
 
-See the full file [here](https://gist.github.com/attila-fazekas/d6dbe02862279339f6c49388b4393adf)
+You can tailor the injected driver by creating a custom Kolibrium configuration.
 
-### 2. Customize the injected driver
+First, add the AutoService dependency:
+```kotlin  
+dependencies {
+	ksp("dev.zacsweers.autoservice:auto-service-ksp:1.2.0")  
+	// other dependencies
+}
+```  
 
-We can tailor the injected driver by creating a custom Kolibrium configuration.
-
-First, let's add the AutoService dependency:
+Next, create a project configuration by extending `AbstractProjectConfiguration` and overriding the `baseUrl` and `chromeDriver` properties:  
 ```kotlin
-ksp("dev.zacsweers.autoservice:auto-service-ksp:1.1.0")
-```
-
-Then let's create a project level configuration by extending `AbstractProjectConfiguration` with the following content:
-```kotlin
-@AutoService(AbstractProjectConfiguration::class)
-class KolibriumConfiguration : AbstractProjectConfiguration() {
-
-    override val chromeDriver = {
-        chromeDriver {
-            driverService {
-                logLevel = DEBUG
-                port = 7899
-                readableTimestamp = true
-            }
-            options {
-                arguments {
-                    +start_maximized
-                    +incognito
-                }
-                experimentalOptions {
-                    excludeSwitches {
-                        +Switches.enable_automation
-                    }
-                    localState {
-                        browserEnabledLabsExperiments {
-                            +ExperimentalFlags.same_site_by_default_cookies
-                            +ExperimentalFlags.cookies_without_same_site_must_be_secure
-                        }
-                    }
-                }
+@AutoService(AbstractProjectConfiguration::class)  
+class KolibriumConfiguration : AbstractProjectConfiguration() {  
+    override val baseUrl = "https://www.saucedemo.com"  
+  
+    override val chromeDriver = {  
+        chromeDriver {  
+            options {  
+                arguments {  
+                    +incognito  
+                    +start_maximized  
+                }  
+                experimentalOptions {  
+                    excludeSwitches {  
+                        +enable_automation  
+                    }  
+                    localState {  
+                        browserEnabledLabsExperiments {  
+                            +same_site_by_default_cookies  
+                            +cookies_without_same_site_must_be_secure  
+                        }  
+                    }                
+                }     
             }
         }
-    }
+	}
 }
 ```
 
-When initiating tests, a ChromeDriver with some experimental options will be injected into the tests.
+After that, remove the `@BeforeEach` block from the test:
+```kotlin  
+context(WebDriver)  
+@Kolibrium  
+class JUnitTest {  
+    @Test  
+    fun loginTest() {  
+        LoginPage().login(  
+            username = "standard_user",  
+            password = "secret_sauce"  
+        )
 
-See the full files [here](https://gist.github.com/attila-fazekas/edc6d919a75122d29d956b8119170c0c)
+        InventoryPage().isShoppingCartDisplayed() shouldBe true 
+    }  
+}
+```
 
+With this configuration, the `@Kolibrium` annotation will instruct JUnit to inject a `ChromeDriver` with the specified experimental options into the tests. It will also navigate to https://www.saucedemo.com before executing the tests.  
 
 # Project status
 
-The library is not yet ready for production but is expected to be released as version 1.0.0 once Kotlin's [context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md) are stabilized.
+The library is currently in development and not yet ready for production. It is expected to be released as version 1.0.0 once Kotlin's [context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md) are stabilized.  
