@@ -28,7 +28,7 @@ import org.openqa.selenium.safari.SafariDriver
 internal class ProjectConfiguration : AbstractProjectConfiguration() {
     @Suppress("UNUSED_PARAMETER")
     companion object {
-        internal var baseUrl = "https://www.google.com"
+        internal var baseUrl = "about:blank"
 
         internal var defaultBrowser: Browser = CHROME
 
