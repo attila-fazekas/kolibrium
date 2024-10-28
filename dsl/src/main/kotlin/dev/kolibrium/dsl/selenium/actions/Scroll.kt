@@ -25,6 +25,7 @@ import org.openqa.selenium.interactions.Actions
  * Creates a new Actions instance and executes the specified actions within the given [block].
  * This function provides a DSL for performing scrolling actions in a more readable and concise way.
  *
+ * @receiver The [WebDriver] instance on which to perform Actions API operations.
  * @param batchActions When true (default), all scroll actions in the block are collected and executed
  *                     together at the end.
  *                     When false, each scroll action is executed immediately after it's called,
