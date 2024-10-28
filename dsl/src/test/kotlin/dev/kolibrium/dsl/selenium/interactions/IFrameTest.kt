@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.actions
+package dev.kolibrium.dsl.selenium.interactions
 
 import com.titusfortner.logging.SeleniumLogger
+import dev.kolibrium.dsl.selenium.actions.actions
+import dev.kolibrium.dsl.selenium.actions.scrollTo
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
 import io.kotest.matchers.shouldBe
@@ -26,7 +28,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.By
 
-class ScrollTest {
+class IFrameTest {
     private val driver =
         chromeDriver {
             options {
@@ -58,7 +60,7 @@ class ScrollTest {
     }
 
     @Test
-    fun scrollTest(): Unit =
+    fun iframeTest(): Unit =
         with(driver) {
             val iframe = findElement(By.tagName("iframe"))
 
@@ -66,10 +68,10 @@ class ScrollTest {
                 scrollTo(iframe)
             }
 
-            switchTo().frame(iframe)
+            iframe(iframe) {
+                val h1 = findElement(By.tagName("h1"))
 
-            val h1 = findElement(By.tagName("h1"))
-
-            h1.text shouldBe "This is a scrolling frame test"
+                h1.text shouldBe "This is a scrolling frame test"
+            }
         }
 }
