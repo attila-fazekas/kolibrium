@@ -1,3 +1,17 @@
+public final class dev/kolibrium/dsl/selenium/actions/ActionsScope {
+	public fun <init> (Lorg/openqa/selenium/interactions/Actions;Z)V
+	public final fun scrollDown (I)V
+	public final fun scrollLeft (I)V
+	public final fun scrollRight (I)V
+	public final fun scrollTo (Lorg/openqa/selenium/WebElement;)V
+	public final fun scrollUp (I)V
+}
+
+public final class dev/kolibrium/dsl/selenium/actions/ScrollKt {
+	public static final fun actions (Lorg/openqa/selenium/WebDriver;ZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun actions$default (Lorg/openqa/selenium/WebDriver;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+}
+
 public final class dev/kolibrium/dsl/selenium/cookie/CookiesKt {
 	public static final fun cookies (Lorg/openqa/selenium/WebDriver;Lkotlin/jvm/functions/Function1;)V
 }
