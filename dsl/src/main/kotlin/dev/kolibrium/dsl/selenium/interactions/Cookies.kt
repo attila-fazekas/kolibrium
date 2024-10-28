@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.cookie
+package dev.kolibrium.dsl.selenium.interactions
 
 import dev.kolibrium.dsl.selenium.creation.KolibriumDsl
 import org.openqa.selenium.Cookie

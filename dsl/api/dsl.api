@@ -1,40 +1,18 @@
-public final class dev/kolibrium/dsl/selenium/actions/ActionsScope {
-	public fun <init> (Lorg/openqa/selenium/interactions/Actions;Z)V
-	public final fun scrollDown (I)V
-	public final fun scrollLeft (I)V
-	public final fun scrollRight (I)V
-	public final fun scrollTo (Lorg/openqa/selenium/WebElement;)V
-	public final fun scrollUp (I)V
-}
-
-public final class dev/kolibrium/dsl/selenium/actions/ScrollKt {
+public final class dev/kolibrium/dsl/selenium/actions/ActionsKt {
 	public static final fun actions (Lorg/openqa/selenium/WebDriver;ZLkotlin/jvm/functions/Function1;)V
 	public static synthetic fun actions$default (Lorg/openqa/selenium/WebDriver;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 }
 
-public final class dev/kolibrium/dsl/selenium/cookie/CookiesKt {
-	public static final fun cookies (Lorg/openqa/selenium/WebDriver;Lkotlin/jvm/functions/Function1;)V
+public final class dev/kolibrium/dsl/selenium/actions/ActionsScope {
+	public fun <init> (Lorg/openqa/selenium/interactions/Actions;Z)V
 }
 
-public final class dev/kolibrium/dsl/selenium/cookie/CookiesScope {
-	public fun <init> (Lorg/openqa/selenium/WebDriver$Options;)V
-	public final fun addCookie (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/cookie/SameSite;)Lorg/openqa/selenium/Cookie;
-	public static synthetic fun addCookie$default (Ldev/kolibrium/dsl/selenium/cookie/CookiesScope;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/cookie/SameSite;ILjava/lang/Object;)Lorg/openqa/selenium/Cookie;
-	public final fun deleteCookie (Ljava/lang/String;)V
-	public final fun deleteCookie (Lorg/openqa/selenium/Cookie;)V
-	public final fun deleteCookies ()V
-	public final fun getCookie (Ljava/lang/String;)Lorg/openqa/selenium/Cookie;
-	public final fun getCookies ()Ljava/util/Set;
-	public fun toString ()Ljava/lang/String;
-}
-
-public final class dev/kolibrium/dsl/selenium/cookie/SameSite : java/lang/Enum {
-	public static final field LAX Ldev/kolibrium/dsl/selenium/cookie/SameSite;
-	public static final field NONE Ldev/kolibrium/dsl/selenium/cookie/SameSite;
-	public static final field STRICT Ldev/kolibrium/dsl/selenium/cookie/SameSite;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/cookie/SameSite;
-	public static fun values ()[Ldev/kolibrium/dsl/selenium/cookie/SameSite;
+public final class dev/kolibrium/dsl/selenium/actions/ScrollKt {
+	public static final fun scrollDown (Ldev/kolibrium/dsl/selenium/actions/ActionsScope;I)V
+	public static final fun scrollLeft (Ldev/kolibrium/dsl/selenium/actions/ActionsScope;I)V
+	public static final fun scrollRight (Ldev/kolibrium/dsl/selenium/actions/ActionsScope;I)V
+	public static final fun scrollTo (Ldev/kolibrium/dsl/selenium/actions/ActionsScope;Lorg/openqa/selenium/WebElement;)V
+	public static final fun scrollUp (Ldev/kolibrium/dsl/selenium/actions/ActionsScope;I)V
 }
 
 public final class dev/kolibrium/dsl/selenium/creation/AllowedHostsScope {
@@ -573,6 +551,35 @@ public final class dev/kolibrium/dsl/selenium/creation/WindowSizeScope {
 	public final fun getWidth ()I
 	public final fun setHeight (I)V
 	public final fun setWidth (I)V
+}
+
+public final class dev/kolibrium/dsl/selenium/interactions/CookiesKt {
+	public static final fun cookies (Lorg/openqa/selenium/WebDriver;Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/kolibrium/dsl/selenium/interactions/CookiesScope {
+	public fun <init> (Lorg/openqa/selenium/WebDriver$Options;)V
+	public final fun addCookie (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/interactions/SameSite;)Lorg/openqa/selenium/Cookie;
+	public static synthetic fun addCookie$default (Ldev/kolibrium/dsl/selenium/interactions/CookiesScope;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/interactions/SameSite;ILjava/lang/Object;)Lorg/openqa/selenium/Cookie;
+	public final fun deleteCookie (Ljava/lang/String;)V
+	public final fun deleteCookie (Lorg/openqa/selenium/Cookie;)V
+	public final fun deleteCookies ()V
+	public final fun getCookie (Ljava/lang/String;)Lorg/openqa/selenium/Cookie;
+	public final fun getCookies ()Ljava/util/Set;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/kolibrium/dsl/selenium/interactions/IFrameKt {
+	public static final fun iframe (Lorg/openqa/selenium/WebDriver;Lorg/openqa/selenium/WebElement;Lkotlin/jvm/functions/Function0;)V
+}
+
+public final class dev/kolibrium/dsl/selenium/interactions/SameSite : java/lang/Enum {
+	public static final field LAX Ldev/kolibrium/dsl/selenium/interactions/SameSite;
+	public static final field NONE Ldev/kolibrium/dsl/selenium/interactions/SameSite;
+	public static final field STRICT Ldev/kolibrium/dsl/selenium/interactions/SameSite;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/interactions/SameSite;
+	public static fun values ()[Ldev/kolibrium/dsl/selenium/interactions/SameSite;
 }
 
 public final class dev/kolibrium/dsl/selenium/wait/IgnoringScope {
