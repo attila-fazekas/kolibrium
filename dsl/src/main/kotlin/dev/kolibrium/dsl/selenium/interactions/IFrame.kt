@@ -38,4 +38,5 @@ public fun WebDriver.iframe(
 ) {
     switchTo().frame(iframe)
     block()
+    switchTo().defaultContent()
 }

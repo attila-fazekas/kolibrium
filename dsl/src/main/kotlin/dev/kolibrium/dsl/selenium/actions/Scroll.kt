@@ -29,7 +29,7 @@ import org.openqa.selenium.WebElement
 @KolibriumDsl
 public fun ActionsScope.scrollTo(element: WebElement) {
     actions.scrollToElement(element)
-    if (!batchActions) {
+    if (batchActions) {
         actions.perform()
     }
 }

@@ -73,5 +73,9 @@ class IFrameTest {
 
                 h1.text shouldBe "This is a scrolling frame test"
             }
+
+            val footer = findElement(By.tagName("footer"))
+
+            footer.text shouldBe "IFrame Above"
         }
 }
