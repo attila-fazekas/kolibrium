@@ -38,14 +38,14 @@ private typealias WebElementsProperty = ReadOnlyProperty<Any?, WebElements>
  * with the specified class name. The element lookup behavior can be configured to either
  * cache the initially found element or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "class" attribute to search for. If multiple classes are
  *                specified, the element must have all of them to match.
- * @param cacheLookup If true, the element will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the element is accessed.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the element is accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the element.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see SyncConfig
@@ -64,14 +64,14 @@ public fun SearchContext.className(
  * with the specified class name. The elements lookup behavior can be configured to either
  * cache the initially found elements or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "class" attribute to search for. If multiple classes are
  *                specified, elements must have all of them to match.
- * @param cacheLookup If true, the elements will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the elements are accessed.
+ * @param cacheLookup If true (default), the elements will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the elements are accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the elements.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see SyncConfig
@@ -90,13 +90,13 @@ public fun SearchContext.classNames(
  * matching the specified CSS selector. The element lookup behavior can be configured to either
  * cache the initially found element or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The CSS selector to locate the element.
- * @param cacheLookup If true, the element will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the element is accessed.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the element is accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the element.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see SyncConfig
@@ -115,13 +115,13 @@ public fun SearchContext.cssSelector(
  * matching the specified CSS selector. The elements lookup behavior can be configured to either
  * cache the initially found elements or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The CSS selector to locate the elements.
- * @param cacheLookup If true, the elements will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the elements are accessed.
+ * @param cacheLookup If true (default), the elements will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the elements are accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the elements.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see SyncConfig
@@ -140,13 +140,13 @@ public fun SearchContext.cssSelectors(
  * with the specified id attribute. The element lookup behavior can be configured to either
  * cache the initially found element or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "id" attribute to search for.
- * @param cacheLookup If true, the element will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the element is accessed.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the element is accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the element.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see SyncConfig
@@ -165,13 +165,13 @@ public fun SearchContext.id(
  * with the specified id or name attribute. The element lookup behavior can be configured to either
  * cache the initially found element or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of either the "id" or "name" attribute to search for.
- * @param cacheLookup If true, the element will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the element is accessed.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the element is accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the element.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see SyncConfig
@@ -191,13 +191,13 @@ public fun SearchContext.idOrName(
  * with the specified link text. The element lookup behavior can be configured to either
  * cache the initially found element or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The exact text of the link to search for.
- * @param cacheLookup If true, the element will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the element is accessed.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the element is accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the element.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see SyncConfig
@@ -216,13 +216,13 @@ public fun SearchContext.linkText(
  * with the specified link text. The elements lookup behavior can be configured to either
  * cache the initially found elements or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The exact text of the links to search for.
- * @param cacheLookup If true, the elements will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the elements are accessed.
+ * @param cacheLookup If true (default), the elements will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the elements are accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the elements.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see SyncConfig
@@ -241,13 +241,13 @@ public fun SearchContext.linkTexts(
  * with the specified name attribute. The element lookup behavior can be configured to either
  * cache the initially found element or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "name" attribute to search for.
- * @param cacheLookup If true, the element will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the element is accessed.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the element is accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the element.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see SyncConfig
@@ -266,13 +266,13 @@ public fun SearchContext.name(
  * with the specified name attribute. The elements lookup behavior can be configured to either
  * cache the initially found elements or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "name" attribute to search for.
- * @param cacheLookup If true, the elements will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the elements are accessed.
+ * @param cacheLookup If true (default), the elements will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the elements are accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the elements.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see SyncConfig
@@ -291,13 +291,13 @@ public fun SearchContext.names(
  * containing the specified partial link text. The element lookup behavior can be configured to either
  * cache the initially found element or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The partial text of the link to search for.
- * @param cacheLookup If true, the element will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the element is accessed.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the element is accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the element.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see SyncConfig
@@ -316,12 +316,13 @@ public fun SearchContext.partialLinkText(
  * containing the specified partial link text. The elements lookup behavior can be configured to either
  * cache the initially found elements or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The partial text of the links to search for.
- * @param cacheLookup If true, the element will be found only once and cached. If false,
- *                     the element will be looked up every time it is requested.
+ * @param cacheLookup If true (default), the elements will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the elements are accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the elements.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see SyncConfig
@@ -340,13 +341,13 @@ public fun SearchContext.partialLinkTexts(
  * with the specified tag name. The element lookup behavior can be configured to either
  * cache the initially found element or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The name of the HTML tag to search for.
- * @param cacheLookup If true, the element will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the element is accessed.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the element is accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the element.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see SyncConfig
@@ -365,13 +366,13 @@ public fun SearchContext.tagName(
  * with the specified tag name. The elements lookup behavior can be configured to either
  * cache the initially found elements or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The name of the HTML tag to search for.
- * @param cacheLookup If true, the elements will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the elements are accessed.
+ * @param cacheLookup If true (default), the elements will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the elements are accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the elements.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see SyncConfig
@@ -390,13 +391,13 @@ public fun SearchContext.tagNames(
  * matching the specified XPath expression. The element lookup behavior can be configured to either
  * cache the initially found element or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The XPath expression to locate the element.
- * @param cacheLookup If true, the element will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the element is accessed.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the element is accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the element.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see SyncConfig
@@ -415,13 +416,13 @@ public fun SearchContext.xPath(
  * matching the specified XPath expression. The elements lookup behavior can be configured to either
  * cache the initially found elements or perform a fresh lookup each time.
  *
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The XPath expression to locate the elements.
- * @param cacheLookup If true, the elements will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the elements are accessed.
+ * @param cacheLookup If true (default), the elements will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the elements are accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
  *                   Default is an empty lambda, which uses the default synchronization settings.
- * @receiver The SearchContext instance used to search for the elements.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see SyncConfig
@@ -439,14 +440,14 @@ public fun SearchContext.xPaths(
  * This internal function is used by the public locator functions to create property delegates
  * for finding web elements. It supports both single element and multiple elements lookups.
  *
+ * @receiver The SearchContext instance used to search for the element(s).
  * @param T The type of the result, either [WebElement] or [WebElements].
  * @param locator The locator string used to find the element(s).
  * @param by A function that converts the locator string to a Selenium [By] object.
- * @param cacheLookup If true, the element(s) will be looked up only once and cached for subsequent
- *                    accesses, similarly to Page Factory's @CacheLookup annotation. If false,
- *                    a new lookup will be performed each time the element(s) are accessed.
+ * @param cacheLookup If true (default), the element(s) will be looked up only once and cached for
+ *                    subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                    If false, a new lookup will be performed each time the element(s) are accessed.
  * @param syncConfig A lambda with receiver to configure the synchronization behavior.
- * @receiver The SearchContext instance used to search for the element(s).
  * @return A [ReadOnlyProperty] delegate that provides either a [WebElement] or [WebElements] when accessed.
  *
  * @see SyncConfig

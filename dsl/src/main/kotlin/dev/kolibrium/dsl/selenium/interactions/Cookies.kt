@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.cookie
+package dev.kolibrium.dsl.selenium.interactions
 
 import dev.kolibrium.dsl.selenium.creation.KolibriumDsl
 import org.openqa.selenium.Cookie
@@ -25,7 +25,7 @@ import java.util.Date
 /**
  * Function to manage cookies in the context of a [WebDriver] instance.
  *
- * @receiver The WebDriver instance on which to perform cookie operations.
+ * @receiver The [WebDriver] instance on which to perform cookie operations.
  * @param block The configuration block that defines cookie operations within the [CookiesScope].
  */
 @KolibriumDsl

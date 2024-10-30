@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.creation
+package dev.kolibrium.dsl.selenium.interactions
 
-import dev.kolibrium.dsl.selenium.cookie.SameSite.STRICT
-import dev.kolibrium.dsl.selenium.cookie.cookies
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
+import dev.kolibrium.dsl.selenium.creation.chromeDriver
+import dev.kolibrium.dsl.selenium.interactions.SameSite.STRICT
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContain

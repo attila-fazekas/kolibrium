@@ -16,7 +16,7 @@
 
 package dev.kolibrium.test.swaglabs
 
-import dev.kolibrium.dsl.selenium.cookie.cookies
+import dev.kolibrium.dsl.selenium.interactions.cookies
 import dev.kolibrium.junit.Kolibrium
 import dev.kolibrium.test.Product.BACKPACK
 import dev.kolibrium.test.Product.BIKE_LIGHT
