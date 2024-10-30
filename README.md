@@ -37,9 +37,11 @@ You can decide to go all-in on Kolibrium by opting for all four modules or choos
 
 ## Write your first test with locator delegates
 
-In this tutorial, we’ll cover the basics of Kolibrium and explore several project configurations to help you get started quickly. 
+In this tutorial, we’ll cover the basics of Kolibrium and explore several project configurations to help you get started quickly.
 
 We'll be writing tests for the login functionality on the Sauce Labs demo e-commerce website: https://www.saucedemo.com.  
+
+All the examples can be found in the [kolibrium-demo](https://github.com/attila-fazekas/kolibrium-demo/tree/main) project.    
 
 ### 1. Add the Selenium module to your project
 
