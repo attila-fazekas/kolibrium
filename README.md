@@ -51,6 +51,8 @@ dependencies {
 }  
 ```  
 
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/selenium/build.gradle.kts)
+
 ### 2. Use locator delegate functions from the Selenium module
 
 Create a test class, such as a JUnit test class, and use the locator delegate functions from the `selenium` module to locate elements:  
@@ -73,6 +75,8 @@ fun loginTest() {
 }
 ```  
 
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/selenium/src/test/kotlin/dev/kolibrium/demo/selenium/_01/DelegatesTest.kt)
+
 > **Note**: `shouldBe` is an assertion function from [kotest](https://kotest.io/), but you may use any assertion library you prefer.
 
 Kolibrium utilizes the [Delegation pattern](https://en.wikipedia.org/wiki/Delegation_pattern), natively supported in Kotlin, to locate elements lazily with locator strategies.    
@@ -82,7 +86,7 @@ For instance, the following code locates the `WebElement` with the `"user-name"`
 ```kotlin  
 val username by name("user-name")  
 username.sendKeys("standard_user")
-```  
+```
 
 ### 3. Implement Page Object models
 
@@ -112,6 +116,8 @@ class InventoryPage(driver: WebDriver) {
 }
 ```
 
+View the full files [here](https://github.com/attila-fazekas/kolibrium-demo/tree/main/selenium/src/main/kotlin/dev/kolibrium/demo/selenium/_02)
+
 Now, let's utilize these page objects in our test:  
 ```kotlin
 @Test  
@@ -124,6 +130,8 @@ fun loginTest() {
     InventoryPage(driver).isShoppingCartDisplayed() shouldBe true 
 }
 ```
+
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/selenium/src/test/kotlin/dev/kolibrium/demo/selenium/_02/DelegatesWithPageObjectsTest.kt)
 
 ### 4. Use Context Receivers to inject the driver instance into the Page Objects
 
@@ -139,6 +147,8 @@ tasks.withType<KotlinCompile> {
     )
 }
 ```  
+
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/selenium/build.gradle.kts)
 
 After reloading the Gradle configuration, we can add `context(WebDriver)` to our Page Objects and remove the constructor and driver instance when calling the delegate functions:  
 ```kotlin  
@@ -165,6 +175,8 @@ class InventoryPage {
 }
 ```
 
+View the full files [here](https://github.com/attila-fazekas/kolibrium-demo/tree/main/selenium/src/main/kotlin/dev/kolibrium/demo/selenium/_03)
+
 To make the test compile after introducing context receivers, we need to provide a driver context by using the `with` scope function:  
 ```kotlin  
 @Test  
@@ -179,6 +191,8 @@ fun loginTest() {
     }  
 }
 ```
+
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/selenium/src/test/kotlin/dev/kolibrium/demo/selenium/_03/DelegatesWithPageObjectsAndContextReceiversTest.kt)
 
 ## Generate repository classes for locators with Kolibrium code generation
 
@@ -201,6 +215,8 @@ dependencies {
     // other dependencies
 }
 ```
+
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/ksp/build.gradle.kts)
 
 ### 2. Store locators in a single file
 
@@ -225,6 +241,8 @@ enum class InventoryPageLocators {
     shoppingCart  
 }
 ```
+
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/ksp/src/main/kotlin/dev/kolibrium/demo/ksp/_01/locators/Locators.kt)
 
 ### 3. Generate files
 
@@ -282,6 +300,8 @@ class InventoryPage {
 }
 ```
 
+View the full files [here](https://github.com/attila-fazekas/kolibrium-demo/tree/main/ksp/src/main/kotlin/dev/kolibrium/demo/ksp/_01/pages)
+
 Next, update the test accordingly:
 ```kotlin
 @Test  
@@ -293,6 +313,8 @@ fun loginTest() {
     }  
 }
 ```
+
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/ksp/src/test/kotlin/dev/kolibrium/demo/ksp/_01/KspTest.kt)
 
 ## Use DSL functions for creating and configuring `WebDriver` instances
 
@@ -307,6 +329,8 @@ dependencies {
 	// other dependencies
 }
 ```
+
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/dsl/build.gradle.kts)
 
 ### 2. Create driver instance using the DSL module
 
@@ -333,6 +357,8 @@ fun setUp() {
     driver["https://www.saucedemo.com/"]  
 }
 ```
+
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/dsl/src/test/kotlin/dev/kolibrium/demo/dsl/_01/DslTest.kt)
 
 While it's intuitive to understand what the `chromeDriver` function call does, let's break it down further:  
 - It creates a `DriverService` (specifically, a `ChromeDriverService`) with `appendLog` and `readableTimestamp` enabled.  
@@ -364,6 +390,8 @@ dependencies {
 }
 ```
 
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/junit/without-project-config/build.gradle.kts)
+
 ### 2. Annotate your test with `@Kolibrium`
 
 Next, let's enhance the test class by adding `context(WebDriver)` and the `@Kolibrium` annotation at the top. This allows us to simplify the test code:  
@@ -388,6 +416,8 @@ class JUnitTest {
 }
 ```
 
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/junit/without-project-config/src/test/kotlin/dev/kolibrium/demo/junit/_01/JUnitTest.kt)
+
 ### 3. Customize the injected driver
 
 You can tailor the injected driver by creating a custom Kolibrium configuration.
@@ -399,6 +429,8 @@ dependencies {
     // other dependencies
 }
 ```  
+
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/junit/with-project-config/build.gradle.kts)
 
 Next, create a project configuration by extending `AbstractProjectConfiguration` and overriding the `baseUrl` and `chromeDriver` properties:  
 ```kotlin
@@ -430,6 +462,8 @@ class KolibriumConfiguration : AbstractProjectConfiguration() {
 }
 ```
 
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/junit/with-project-config/src/main/kotlin/dev/kolibrium/demo/junit/_01/KolibriumConfiguration.kt)
+
 After that, remove the `@BeforeEach` block from the test:
 ```kotlin  
 context(WebDriver)  
@@ -446,6 +480,8 @@ class JUnitTest {
     }  
 }
 ```
+
+View the full file [here](https://github.com/attila-fazekas/kolibrium-demo/blob/main/junit/with-project-config/src/test/kotlin/dev/kolibrium/demo/junit/_01/JUnitTest.kt)
 
 With this configuration, the `@Kolibrium` annotation will instruct JUnit to inject a `ChromeDriver` with the specified experimental options into the tests. It will also navigate to https://www.saucedemo.com before executing the tests.  
 
