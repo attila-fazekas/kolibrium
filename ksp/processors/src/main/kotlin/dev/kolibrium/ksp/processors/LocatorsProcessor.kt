@@ -257,9 +257,8 @@ public class LocatorsProcessor(
                     ).delegate(
                         CodeBlock
                             .builder()
-                            .apply {
-                                block()
-                            }.build(),
+                            .apply(block)
+                            .build(),
                     ).build(),
             )
         }

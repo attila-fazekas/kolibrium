@@ -54,7 +54,7 @@ internal fun setUpWait(
     driver: SearchContext,
     waitScope: WaitScope,
 ) = FluentWait(driver).apply {
-    with(waitScope) {
+    waitScope.apply {
         timeout?.let { withTimeout(it.toJavaDuration()) }
         pollingInterval?.let { pollingEvery(it.toJavaDuration()) }
         message?.let { withMessage { it } }

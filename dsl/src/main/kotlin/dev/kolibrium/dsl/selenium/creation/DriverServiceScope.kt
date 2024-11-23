@@ -45,7 +45,7 @@ public sealed class DriverServiceScope {
     public var timeout: Duration? = null
 
     internal open fun configure() {
-        with(builder) {
+        builder.apply {
             port?.let {
                 checkPort(it)
                 usingPort(it)
