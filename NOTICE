@@ -86,10 +86,10 @@ kotlin-logging (7.0.0) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.0 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-Logback Classic Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
 OpenTelemetry Java (1.42.1-alpha) - The Apache License, Version 2.0
@@ -323,10 +323,10 @@ kotlin-logging (7.0.0) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.0 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-Logback Classic Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
 OpenTelemetry Java (1.42.1-alpha) - The Apache License, Version 2.0
@@ -568,10 +568,10 @@ kotlin-logging (7.0.0) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.0 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-Logback Classic Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
 OpenTelemetry Java (1.42.1-alpha) - The Apache License, Version 2.0
@@ -722,10 +722,10 @@ kotlin-logging (7.0.0) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.0 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-Logback Classic Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
 SLF4J API Module (2.0.15) - MIT License
@@ -762,7 +762,7 @@ AutoService (1.1.1) - Apache 2.0
 Provider-configuration files for ServiceLoader.
 https://github.com/google/auto/tree/main/service
 
-com.google.devtools.ksp:symbol-processing-api (2.0.21-1.0.26) - The Apache License, Version 2.0
+com.google.devtools.ksp:symbol-processing-api (2.0.21-1.0.28) - The Apache License, Version 2.0
 Symbol processing for Kotlin
 https://goo.gle/ksp
 
@@ -800,10 +800,10 @@ KotlinPoet (KSP Interop) (2.0.0) - The Apache Software License, Version 2.0
 Extensions for interop with KSP (Kotlin Symbol Processing).
 https://github.com/square/kotlinpoet
 
-Logback Classic Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
 SLF4J API Module (2.0.15) - MIT License
@@ -917,10 +917,10 @@ kotlin-logging (7.0.0) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.0 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-Logback Classic Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.11) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
 OpenTelemetry Java (1.42.1-alpha) - The Apache License, Version 2.0
