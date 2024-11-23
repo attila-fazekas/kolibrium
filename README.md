@@ -30,4 +30,4 @@ The documentation is available at [https://kolibrium.dev](https://kolibrium.dev)
 
 # Project status
 
-The library is currently in development and not yet ready for production. It is expected to be released as version 1.0.0 once Kotlin's [context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md) are stabilized.  
+This project serves as a playground to explore new ideas and push the boundaries of what can be done when Kotlin's language features and tools are combined with Selenium. Although it’s experimental, the goal is to make it production-ready under version 1.0.0 once the project's APIs and Kotlin's [context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md) are stabilized.  
