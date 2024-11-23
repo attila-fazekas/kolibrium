@@ -53,9 +53,9 @@ public abstract class ChromiumOptionsScope(
      */
     @KolibriumDsl
     public fun experimentalOptions(block: ExperimentalOptionsScope.() -> Unit) {
-        expOptionsScope.apply(block)
-        with(expOptionsScope) {
-            with(this@ChromiumOptionsScope.options) {
+        expOptionsScope.apply {
+            block()
+            this@ChromiumOptionsScope.options.apply {
                 if (preferencesScope.preferences.isNotEmpty()) {
                     setExperimentalOption("prefs", preferencesScope.preferences)
                 }

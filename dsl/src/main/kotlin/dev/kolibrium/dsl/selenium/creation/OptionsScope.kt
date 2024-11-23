@@ -74,7 +74,7 @@ public sealed class OptionsScope {
     public var unhandledPromptBehaviour: UnexpectedAlertBehaviour? = null
 
     internal open fun configure() {
-        with(options) {
+        options.apply {
             acceptInsecureCerts?.let { setAcceptInsecureCerts(it) }
             this@OptionsScope.browserVersion?.let { setBrowserVersion(it) }
             pageLoadStrategy?.let { setPageLoadStrategy(it) }
@@ -91,9 +91,9 @@ public sealed class OptionsScope {
      */
     @KolibriumDsl
     public fun timeouts(block: TimeoutsScope.() -> Unit) {
-        timeoutsScope.apply(block)
         options.apply {
-            with(timeoutsScope) {
+            timeoutsScope.apply {
+                block()
                 implicitWait?.let { setImplicitWaitTimeout(it.toJavaDuration()) }
                 pageLoad?.let { setPageLoadTimeout(it.toJavaDuration()) }
                 script?.let { setScriptTimeout(it.toJavaDuration()) }
@@ -108,9 +108,9 @@ public sealed class OptionsScope {
      */
     @KolibriumDsl
     public fun proxy(block: ProxyScope.() -> Unit) {
-        proxyScope.apply(block)
-        proxyScope.proxyMap.apply {
-            with(proxyScope) {
+        proxyScope.apply {
+            block()
+            proxyMap.apply {
                 proxyType?.let { proxyMap["proxyType"] = it.name }
                 autodetect?.let { proxyMap["autodetect"] = it }
                 ftpProxy?.let { proxyMap["ftpProxy"] = it }

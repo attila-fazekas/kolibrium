@@ -72,15 +72,13 @@ public abstract class ChromiumDriverServiceScope : DriverServiceScope() {
 
     internal open fun allowedIps(block: AllowedIpsScope.() -> Unit) {
         allowedIpsScope.apply(block)
-        validateIps()
+        allowedIpsScope.allowedIps.validateIps()
     }
 
-    private fun validateIps() {
-        with(allowedIpsScope.allowedIps) {
-            if (isNotEmpty()) {
-                val invalidIPAddresses = filter { !InetAddressValidator.getInstance().isValid(it) }
-                check(invalidIPAddresses.isEmpty()) { "Following IP addresses are invalid: $invalidIPAddresses" }
-            }
+    private fun MutableSet<String>.validateIps() {
+        if (isNotEmpty()) {
+            val invalidIPAddresses = filter { !InetAddressValidator.getInstance().isValid(it) }
+            check(invalidIPAddresses.isEmpty()) { "Following IP addresses are invalid: $invalidIPAddresses" }
         }
     }
 }

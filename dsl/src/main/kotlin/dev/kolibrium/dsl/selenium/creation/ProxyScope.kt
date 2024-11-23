@@ -77,8 +77,8 @@ public class ProxyScope {
      */
     @KolibriumDsl
     public fun socks(block: SocksScope.() -> Unit) {
-        socksScope.apply(block)
-        with(socksScope) {
+        socksScope.apply {
+            block()
             address?.let { this@ProxyScope.proxyMap["socksProxy"] = it }
             version?.let { this@ProxyScope.proxyMap["socksVersion"] = it }
             username?.let { this@ProxyScope.proxyMap["socksUsername"] = it }
