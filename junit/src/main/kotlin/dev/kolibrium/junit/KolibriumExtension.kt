@@ -21,9 +21,9 @@ import dev.kolibrium.core.Browser.CHROME
 import dev.kolibrium.core.Browser.EDGE
 import dev.kolibrium.core.Browser.FIREFOX
 import dev.kolibrium.core.Browser.SAFARI
-import dev.kolibrium.junit.config.AbstractProjectConfiguration
-import dev.kolibrium.junit.config.ProjectConfiguration
-import dev.kolibrium.junit.config.actualConfig
+import dev.kolibrium.junit.configuration.AbstractJUnitProjectConfiguration
+import dev.kolibrium.junit.configuration.DefaultJUnitProjectConfiguration
+import dev.kolibrium.junit.configuration.JUnitProjectConfiguration
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.junit.jupiter.api.extension.AfterEachCallback
 import org.junit.jupiter.api.extension.ExtendWith
@@ -99,7 +99,7 @@ public class KolibriumExtension(
     private val driver: (() -> WebDriver)? = null,
 ) : ParameterResolver,
     AfterEachCallback {
-    private val actualConfig: AbstractProjectConfiguration by lazy { actualConfig() }
+    private val actualConfig: AbstractJUnitProjectConfiguration by lazy { JUnitProjectConfiguration.actualConfig() }
 
     /**
      * Checks if the requested parameter type is supported for injection.
@@ -192,19 +192,19 @@ public class KolibriumExtension(
                 } ?: run {
                     // otherwise get the driver from default config
                     if (RemoteWebDriver::class.java.isAssignableFrom(constructorDriverClass) &&
-                        constructorDriverClass != ProjectConfiguration.defaultBrowser.driverClass()::class.java
+                        constructorDriverClass != DefaultJUnitProjectConfiguration.defaultBrowser.driverClass()::class.java
                     ) {
                         createDriver(
                             Browser.valueOf(constructorDriverClass.simpleName.substringBefore("Driver").uppercase()),
                         )
                     } else {
-                        createDriver(ProjectConfiguration.defaultBrowser)
+                        createDriver(DefaultJUnitProjectConfiguration.defaultBrowser)
                     }
                 }
             }
 
         extCtx.store().put(Thread.currentThread().threadId(), driver)
-        driver.get(actualConfig.baseUrl ?: ProjectConfiguration.baseUrl)
+        driver.get(actualConfig.baseUrl ?: DefaultJUnitProjectConfiguration.baseUrl)
         return driver
     }
 
@@ -225,17 +225,19 @@ public class KolibriumExtension(
      */
     override fun afterEach(extCtx: ExtensionContext) {
         val driver: WebDriver = extCtx.store().get(Thread.currentThread().threadId()) as WebDriver
-        if (!ProjectConfiguration.keepBrowserOpen) {
+        val keepBrowserOpen = actualConfig.keepBrowserOpen ?: DefaultJUnitProjectConfiguration.keepBrowserOpen
+
+        if (!keepBrowserOpen) {
             driver.quit()
         }
     }
 
     private fun createDriver(browser: Browser): WebDriver =
         when (browser) {
-            CHROME -> actualConfig.chromeDriver ?: ProjectConfiguration.chromeDriver
-            SAFARI -> actualConfig.safariDriver ?: ProjectConfiguration.safariDriver
-            EDGE -> actualConfig.edgeDriver ?: ProjectConfiguration.edgeDriver
-            FIREFOX -> actualConfig.firefoxDriver ?: ProjectConfiguration.firefoxDriver
+            CHROME -> actualConfig.chromeDriver ?: DefaultJUnitProjectConfiguration.chromeDriver
+            SAFARI -> actualConfig.safariDriver ?: DefaultJUnitProjectConfiguration.safariDriver
+            EDGE -> actualConfig.edgeDriver ?: DefaultJUnitProjectConfiguration.edgeDriver
+            FIREFOX -> actualConfig.firefoxDriver ?: DefaultJUnitProjectConfiguration.firefoxDriver
         }()
 
     private fun ExtensionContext.store() = getStore(ExtensionContext.Namespace.create(KOLIBRIUM_STORE))

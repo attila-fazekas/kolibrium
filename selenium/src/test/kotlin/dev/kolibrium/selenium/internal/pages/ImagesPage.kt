@@ -22,6 +22,6 @@ import org.openqa.selenium.WebDriver
 context(WebDriver)
 class ImagesPage {
     val images by names("kodee") {
-        until = { size == 9 }
+        size == 9
     }
 }

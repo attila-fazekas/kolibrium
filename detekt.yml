@@ -1,6 +1,6 @@
 comments:
   active: true
-  excludes: ["**/test/kotlin/**"]
+  excludes: ["**/core/src/main/kotlin/dev/kolibrium/core/config/**", "**/test/kotlin/**"]
   AbsentOrWrongFileLicense:
     active: true
     excludes: ['**/build/generated/**']

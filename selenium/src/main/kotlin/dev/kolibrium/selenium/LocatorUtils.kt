@@ -16,13 +16,10 @@
 
 package dev.kolibrium.selenium
 
-import dev.kolibrium.core.InternalKolibriumApi
 import dev.kolibrium.core.WebElements
-import dev.kolibrium.dsl.selenium.wait.WaitScope
-import org.openqa.selenium.SearchContext
+import dev.kolibrium.selenium.configuration.DefaultSeleniumProjectConfiguration
+import dev.kolibrium.selenium.configuration.SeleniumProjectConfiguration
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.support.ui.FluentWait
-import kotlin.time.toJavaDuration
 
 /**
  * Checks if the [WebElement] is both displayed and enabled, making it clickable in the UI.
@@ -49,17 +46,9 @@ public val WebElement.clickable: Boolean
 public val WebElements.isDisplayed: Boolean
     get() = all { it.isDisplayed }
 
-@OptIn(InternalKolibriumApi::class)
-internal fun setUpWait(
-    driver: SearchContext,
-    waitScope: WaitScope,
-) = FluentWait(driver).apply {
-    waitScope.apply {
-        timeout?.let { withTimeout(it.toJavaDuration()) }
-        pollingInterval?.let { pollingEvery(it.toJavaDuration()) }
-        message?.let { withMessage { it } }
-        if (ignoringScope.exceptions.isNotEmpty()) {
-            ignoreAll(ignoringScope.exceptions as Collection<Class<out Throwable>>)
-        }
-    }
+/**
+ * Default wait used for element lookup.
+ */
+public val defaultWait: Wait by lazy {
+    SeleniumProjectConfiguration.actualConfig().wait ?: DefaultSeleniumProjectConfiguration.wait
 }

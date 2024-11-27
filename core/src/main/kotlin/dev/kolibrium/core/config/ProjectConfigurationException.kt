@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.junit.config
+package dev.kolibrium.core.config
 
-import dev.kolibrium.core.ConfigurationException
+import dev.kolibrium.core.InternalKolibriumApi
 
-internal class ProjectConfigurationException(
-    exception: String,
-) : ConfigurationException(exception)
+@InternalKolibriumApi
+public open class ProjectConfigurationException(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause)

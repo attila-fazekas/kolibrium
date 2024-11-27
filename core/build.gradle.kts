@@ -20,4 +20,5 @@ plugins {
 
 dependencies {
     api("org.seleniumhq.selenium:selenium-java:_")
+    implementation(kotlin("reflect"))
 }

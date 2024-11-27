@@ -59,12 +59,16 @@ class ButtonsTest {
         with(driver) {
             val easyButton1 by cssSelector("#easy00")
             easyButton1.click()
+
             val easyButton2 by cssSelector("#easy01")
             easyButton2.click()
+
             val easyButton3 by cssSelector("#easy02")
             easyButton3.click()
+
             val easyButton4 by cssSelector("#easy03")
             easyButton4.click()
+
             val easyMessage by id("easybuttonmessage")
 
             easyMessage.text shouldBe "All Buttons Clicked"
@@ -89,22 +93,22 @@ class ButtonsTest {
     fun testHardButtons() {
         with(driver) {
             val hardButton1 by cssSelector("#button00") {
-                until = { isEnabled }
+                isEnabled
             }
             hardButton1.click()
 
             val hardButton2 by cssSelector("#button01") {
-                until = { isEnabled }
+                isEnabled
             }
             hardButton2.click()
 
             val hardButton3 by cssSelector("#button02") {
-                until = { isEnabled }
+                isEnabled
             }
             hardButton3.click()
 
             val hardButton4 by cssSelector("#button03") {
-                until = { isEnabled }
+                isEnabled
             }
             hardButton4.click()
 

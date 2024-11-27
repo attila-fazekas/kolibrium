@@ -17,7 +17,9 @@
 package dev.kolibrium.test
 
 import dev.kolibrium.core.WebElements
-import dev.kolibrium.dsl.selenium.wait.SyncConfig
+import dev.kolibrium.selenium.Wait
+import dev.kolibrium.selenium.defaultWait
+import dev.kolibrium.selenium.isDisplayed
 import dev.kolibrium.selenium.xPath
 import dev.kolibrium.selenium.xPaths
 import org.openqa.selenium.SearchContext
@@ -26,11 +28,13 @@ import org.openqa.selenium.WebElement
 fun SearchContext.dataTest(
     locator: String,
     cacheLookup: Boolean = true,
-    syncConfig: (SyncConfig<WebElement>.() -> Unit) = {},
-) = xPath("//*[@data-test='$locator']", cacheLookup, syncConfig)
+    wait: Wait = defaultWait,
+    syncConfig: WebElement.() -> Boolean = { isDisplayed },
+) = xPath("//*[@data-test='$locator']", cacheLookup, wait, syncConfig)
 
 fun SearchContext.dataTests(
     locator: String,
     cacheLookup: Boolean = true,
-    syncConfig: (SyncConfig<WebElements>.() -> Unit) = {},
-) = xPaths("//*[@data-test='$locator']", cacheLookup, syncConfig)
+    wait: Wait = defaultWait,
+    syncConfig: WebElements.() -> Boolean = { isDisplayed },
+) = xPaths("//*[@data-test='$locator']", cacheLookup, wait, syncConfig)
