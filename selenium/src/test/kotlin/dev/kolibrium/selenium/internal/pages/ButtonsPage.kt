@@ -23,19 +23,19 @@ import org.openqa.selenium.WebDriver
 context(WebDriver)
 class ButtonsPage {
     val button1 by id("button1") {
-        until = { clickable }
+        clickable
     }
 
     val button2 by id("button2") {
-        until = { clickable }
+        clickable
     }
 
     val button3 by id("button3") {
-        until = { clickable }
+        clickable
     }
 
     val button4 by id("button4") {
-        until = { clickable }
+        clickable
     }
 
     val result by id("result")

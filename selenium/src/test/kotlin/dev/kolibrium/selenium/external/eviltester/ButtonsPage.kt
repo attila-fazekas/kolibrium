@@ -33,19 +33,19 @@ class ButtonsPage {
     val easyMessage by id("easybuttonmessage")
 
     val hardButton1 by cssSelector("#button00") {
-        until = { isEnabled }
+        isEnabled
     }
 
     val hardButton2 by cssSelector("#button01") {
-        until = { isEnabled }
+        isEnabled
     }
 
     val hardButton3 by cssSelector("#button02") {
-        until = { isEnabled }
+        isEnabled
     }
 
     val hardButton4 by cssSelector("#button03") {
-        until = { isEnabled }
+        isEnabled
     }
 
     val hardMessage by id("buttonmessage")

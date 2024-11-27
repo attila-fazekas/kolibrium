@@ -23,7 +23,7 @@ import org.openqa.selenium.WebDriver
 context(WebDriver)
 class ButtonDelayedPage {
     val button by id("button") {
-        until = { clickable }
+        clickable
     }
 
     val message by id("message")

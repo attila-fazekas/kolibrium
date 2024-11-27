@@ -23,6 +23,6 @@ import org.openqa.selenium.WebDriver
 context(WebDriver)
 class ButtonElementClickInterceptedExceptionPage {
     val button by id("button") {
-        until = { clickable }
+        clickable
     }
 }

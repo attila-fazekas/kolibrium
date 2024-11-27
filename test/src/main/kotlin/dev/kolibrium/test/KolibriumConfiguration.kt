@@ -18,17 +18,19 @@ package dev.kolibrium.test
 
 import com.google.auto.service.AutoService
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
-import dev.kolibrium.junit.config.AbstractProjectConfiguration
+import dev.kolibrium.junit.configuration.AbstractJUnitProjectConfiguration
 
-@AutoService(AbstractProjectConfiguration::class)
-class KolibriumConfiguration : AbstractProjectConfiguration() {
+@AutoService(AbstractJUnitProjectConfiguration::class)
+object JUnitConfiguration : AbstractJUnitProjectConfiguration() {
     override val baseUrl = "https://www.saucedemo.com"
 
     override val chromeDriver = {
         chromeDriver {
             options {
                 arguments {
+                    +incognito
                     +disable_search_engine_choice_screen
                 }
             }
