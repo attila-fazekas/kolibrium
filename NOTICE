@@ -19,7 +19,7 @@ AutoService (1.1.1) - Apache 2.0
 Provider-configuration files for ServiceLoader.
 https://github.com/google/auto/tree/main/service
 
-  Byte Buddy (without dependencies) (1.15.1) - Apache License, Version 2.0
+  Byte Buddy (without dependencies) (1.15.10) - Apache License, Version 2.0
   Byte Buddy is a Java library for creating Java classes at run time.
 This artifact is a build of Byte Buddy with all ASM dependencies repackaged into its own name space.
 
@@ -64,7 +64,7 @@ may see class conflicts. If so, they can solve them by manually excluding
 the listenablefuture artifact or manually forcing their build systems to
 use 9999.0-....
 
-      Guava: Google Core Libraries for Java (33.3.0-jre) - Apache License, Version 2.0
+      Guava: Google Core Libraries for Java (33.3.1-jre) - Apache License, Version 2.0
       Guava is a suite of core and expanded libraries that include
 utility classes, Google's collections, I/O classes, and
 much more.
@@ -74,9 +74,18 @@ IntelliJ IDEA Annotations (13.0) - The Apache Software License, Version 2.0
 A set of annotations used for code inspection support and code documentation.
 http://www.jetbrains.org
 
+      J2ObjC Annotations (3.0.0) - Apache License, Version 2.0
+      A set of annotations that provide additional information to the J2ObjC
+translator to modify the result of translation.
+      https://github.com/google/j2objc/
+
 JSpecify annotations (1.0.0) - The Apache License, Version 2.0
 An artifact of well-named and well-specified annotations to power static analysis checks
 http://jspecify.org/
+
+Kotlin Reflect (2.0.21) - The Apache License, Version 2.0
+Kotlin Full Reflection Library
+https://kotlinlang.org/
 
 Kotlin Stdlib (2.0.21) - The Apache License, Version 2.0
 Kotlin Standard Library
@@ -92,47 +101,47 @@ logback-classic module
 Logback Core Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
-OpenTelemetry Java (1.42.1-alpha) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1-alpha) - The Apache License, Version 2.0
 OpenTelemetry API Incubator
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry API
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry Context (Incubator)
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry - Logging Exporter
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Common
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Auto-configuration SPI
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Auto-configuration
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry Log SDK
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Metrics
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK For Tracing
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK
 https://github.com/open-telemetry/opentelemetry-java
 
@@ -140,75 +149,75 @@ OpenTelemetry Semantic Conventions Java (1.25.0-alpha) - The Apache License, Ver
 OpenTelemetry Stable Semantic Conventions generated classes for Java
 https://github.com/open-telemetry/semantic-conventions-java
 
-org.seleniumhq.selenium:selenium-api (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-api (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-chrome-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-chrome-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-chromium-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-chromium-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v127 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v129 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v128 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v130 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v129 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v131 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v85 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v85 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-edge-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-edge-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-firefox-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-firefox-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-http (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-http (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-ie-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-ie-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-java (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-java (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-json (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-json (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-manager (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-manager (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-os (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-os (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-remote-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-remote-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-safari-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-safari-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-support (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-support (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
@@ -250,7 +259,7 @@ AutoService (1.1.1) - Apache 2.0
 Provider-configuration files for ServiceLoader.
 https://github.com/google/auto/tree/main/service
 
-  Byte Buddy (without dependencies) (1.15.1) - Apache License, Version 2.0
+  Byte Buddy (without dependencies) (1.15.10) - Apache License, Version 2.0
   Byte Buddy is a Java library for creating Java classes at run time.
 This artifact is a build of Byte Buddy with all ASM dependencies repackaged into its own name space.
 
@@ -301,7 +310,7 @@ may see class conflicts. If so, they can solve them by manually excluding
 the listenablefuture artifact or manually forcing their build systems to
 use 9999.0-....
 
-      Guava: Google Core Libraries for Java (33.3.0-jre) - Apache License, Version 2.0
+      Guava: Google Core Libraries for Java (33.3.1-jre) - Apache License, Version 2.0
       Guava is a suite of core and expanded libraries that include
 utility classes, Google's collections, I/O classes, and
 much more.
@@ -311,9 +320,18 @@ IntelliJ IDEA Annotations (13.0) - The Apache Software License, Version 2.0
 A set of annotations used for code inspection support and code documentation.
 http://www.jetbrains.org
 
+      J2ObjC Annotations (3.0.0) - Apache License, Version 2.0
+      A set of annotations that provide additional information to the J2ObjC
+translator to modify the result of translation.
+      https://github.com/google/j2objc/
+
 JSpecify annotations (1.0.0) - The Apache License, Version 2.0
 An artifact of well-named and well-specified annotations to power static analysis checks
 http://jspecify.org/
+
+Kotlin Reflect (2.0.21) - The Apache License, Version 2.0
+Kotlin Full Reflection Library
+https://kotlinlang.org/
 
 Kotlin Stdlib (2.0.21) - The Apache License, Version 2.0
 Kotlin Standard Library
@@ -329,47 +347,47 @@ logback-classic module
 Logback Core Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
-OpenTelemetry Java (1.42.1-alpha) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1-alpha) - The Apache License, Version 2.0
 OpenTelemetry API Incubator
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry API
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry Context (Incubator)
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry - Logging Exporter
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Common
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Auto-configuration SPI
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Auto-configuration
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry Log SDK
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Metrics
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK For Tracing
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK
 https://github.com/open-telemetry/opentelemetry-java
 
@@ -377,75 +395,75 @@ OpenTelemetry Semantic Conventions Java (1.25.0-alpha) - The Apache License, Ver
 OpenTelemetry Stable Semantic Conventions generated classes for Java
 https://github.com/open-telemetry/semantic-conventions-java
 
-org.seleniumhq.selenium:selenium-api (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-api (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-chrome-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-chrome-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-chromium-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-chromium-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v127 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v129 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v128 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v130 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v129 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v131 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v85 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v85 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-edge-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-edge-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-firefox-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-firefox-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-http (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-http (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-ie-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-ie-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-java (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-java (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-json (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-json (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-manager (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-manager (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-os (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-os (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-remote-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-remote-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-safari-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-safari-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-support (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-support (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
@@ -461,33 +479,15 @@ junit module
 Notice for packages
 
 
-Apache Commons BeanUtils (1.9.4) - Apache License, Version 2.0
-Apache Commons BeanUtils provides an easy-to-use but flexible wrapper around reflection and introspection.
-https://commons.apache.org/proper/commons-beanutils/
-
-Apache Commons Collections (3.2.2) - Apache License, Version 2.0
-Types that extend and augment the Java Collections Framework.
-http://commons.apache.org/collections/
-
 Apache Commons Exec (1.4.0) - Apache-2.0
 Apache Commons Exec is a library to reliably execute external processes from within the JVM.
 https://commons.apache.org/proper/commons-exec/
-
-      Apache Commons Logging (1.3.2) - Apache-2.0
-      Apache Commons Logging is a thin adapter allowing configurable bridging to other,
-well-known logging systems.
-      https://commons.apache.org/proper/commons-logging/
-
-      Apache Commons Validator (1.9.0) - Apache-2.0
-      Apache Commons Validator provides the building blocks for both client side validation and server side data validation.
-It may be used standalone or with a framework like Struts.
-      http://commons.apache.org/proper/commons-validator/
 
 AutoService (1.1.1) - Apache 2.0
 Provider-configuration files for ServiceLoader.
 https://github.com/google/auto/tree/main/service
 
-  Byte Buddy (without dependencies) (1.15.1) - Apache License, Version 2.0
+  Byte Buddy (without dependencies) (1.15.10) - Apache License, Version 2.0
   Byte Buddy is a Java library for creating Java classes at run time.
 This artifact is a build of Byte Buddy with all ASM dependencies repackaged into its own name space.
 
@@ -495,12 +495,6 @@ This artifact is a build of Byte Buddy with all ASM dependencies repackaged into
           checker-qual contains annotations (type qualifiers) that a programmer
 writes to specify Java code for type-checking by the Checker Framework.
           https://checkerframework.org/
-
-      Commons Digester (2.1) - The Apache Software License, Version 2.0
-      The Digester package lets you configure an XML to Java object mapping module
-which triggers certain actions called rules whenever a particular 
-pattern of nested XML elements is recognized.
-      http://commons.apache.org/digester/
 
 error-prone annotations (2.28.0) - Apache 2.0
 
@@ -538,7 +532,7 @@ may see class conflicts. If so, they can solve them by manually excluding
 the listenablefuture artifact or manually forcing their build systems to
 use 9999.0-....
 
-      Guava: Google Core Libraries for Java (33.3.0-jre) - Apache License, Version 2.0
+      Guava: Google Core Libraries for Java (33.3.1-jre) - Apache License, Version 2.0
       Guava is a suite of core and expanded libraries that include
 utility classes, Google's collections, I/O classes, and
 much more.
@@ -547,6 +541,11 @@ much more.
 IntelliJ IDEA Annotations (13.0) - The Apache Software License, Version 2.0
 A set of annotations used for code inspection support and code documentation.
 http://www.jetbrains.org
+
+      J2ObjC Annotations (3.0.0) - Apache License, Version 2.0
+      A set of annotations that provide additional information to the J2ObjC
+translator to modify the result of translation.
+      https://github.com/google/j2objc/
 
 JSpecify annotations (1.0.0) - The Apache License, Version 2.0
 An artifact of well-named and well-specified annotations to power static analysis checks
@@ -559,6 +558,10 @@ https://junit.org/junit5/
 JUnit Platform Commons (1.11.3) - Eclipse Public License v2.0
 Module "junit-platform-commons" of JUnit 5.
 https://junit.org/junit5/
+
+Kotlin Reflect (2.0.21) - The Apache License, Version 2.0
+Kotlin Full Reflection Library
+https://kotlinlang.org/
 
 Kotlin Stdlib (2.0.21) - The Apache License, Version 2.0
 Kotlin Standard Library
@@ -574,47 +577,47 @@ logback-classic module
 Logback Core Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
-OpenTelemetry Java (1.42.1-alpha) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1-alpha) - The Apache License, Version 2.0
 OpenTelemetry API Incubator
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry API
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry Context (Incubator)
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry - Logging Exporter
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Common
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Auto-configuration SPI
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Auto-configuration
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry Log SDK
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Metrics
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK For Tracing
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK
 https://github.com/open-telemetry/opentelemetry-java
 
@@ -626,75 +629,75 @@ org.opentest4j:opentest4j (1.3.0) - The Apache License, Version 2.0
 Open Test Alliance for the JVM
 https://github.com/ota4j-team/opentest4j
 
-org.seleniumhq.selenium:selenium-api (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-api (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-chrome-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-chrome-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-chromium-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-chromium-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v127 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v129 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v128 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v130 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v129 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v131 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v85 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v85 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-edge-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-edge-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-firefox-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-firefox-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-http (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-http (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-ie-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-ie-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-java (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-java (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-json (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-json (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-manager (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-manager (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-os (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-os (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-remote-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-remote-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-safari-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-safari-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-support (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-support (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
@@ -818,33 +821,15 @@ selenium module
 Notice for packages
 
 
-Apache Commons BeanUtils (1.9.4) - Apache License, Version 2.0
-Apache Commons BeanUtils provides an easy-to-use but flexible wrapper around reflection and introspection.
-https://commons.apache.org/proper/commons-beanutils/
-
-Apache Commons Collections (3.2.2) - Apache License, Version 2.0
-Types that extend and augment the Java Collections Framework.
-http://commons.apache.org/collections/
-
 Apache Commons Exec (1.4.0) - Apache-2.0
 Apache Commons Exec is a library to reliably execute external processes from within the JVM.
 https://commons.apache.org/proper/commons-exec/
-
-      Apache Commons Logging (1.3.2) - Apache-2.0
-      Apache Commons Logging is a thin adapter allowing configurable bridging to other,
-well-known logging systems.
-      https://commons.apache.org/proper/commons-logging/
-
-      Apache Commons Validator (1.9.0) - Apache-2.0
-      Apache Commons Validator provides the building blocks for both client side validation and server side data validation.
-It may be used standalone or with a framework like Struts.
-      http://commons.apache.org/proper/commons-validator/
 
 AutoService (1.1.1) - Apache 2.0
 Provider-configuration files for ServiceLoader.
 https://github.com/google/auto/tree/main/service
 
-  Byte Buddy (without dependencies) (1.15.1) - Apache License, Version 2.0
+  Byte Buddy (without dependencies) (1.15.10) - Apache License, Version 2.0
   Byte Buddy is a Java library for creating Java classes at run time.
 This artifact is a build of Byte Buddy with all ASM dependencies repackaged into its own name space.
 
@@ -852,12 +837,6 @@ This artifact is a build of Byte Buddy with all ASM dependencies repackaged into
           checker-qual contains annotations (type qualifiers) that a programmer
 writes to specify Java code for type-checking by the Checker Framework.
           https://checkerframework.org/
-
-      Commons Digester (2.1) - The Apache Software License, Version 2.0
-      The Digester package lets you configure an XML to Java object mapping module
-which triggers certain actions called rules whenever a particular 
-pattern of nested XML elements is recognized.
-      http://commons.apache.org/digester/
 
 error-prone annotations (2.28.0) - Apache 2.0
 
@@ -895,7 +874,7 @@ may see class conflicts. If so, they can solve them by manually excluding
 the listenablefuture artifact or manually forcing their build systems to
 use 9999.0-....
 
-      Guava: Google Core Libraries for Java (33.3.0-jre) - Apache License, Version 2.0
+      Guava: Google Core Libraries for Java (33.3.1-jre) - Apache License, Version 2.0
       Guava is a suite of core and expanded libraries that include
 utility classes, Google's collections, I/O classes, and
 much more.
@@ -905,9 +884,18 @@ IntelliJ IDEA Annotations (13.0) - The Apache Software License, Version 2.0
 A set of annotations used for code inspection support and code documentation.
 http://www.jetbrains.org
 
+      J2ObjC Annotations (3.0.0) - Apache License, Version 2.0
+      A set of annotations that provide additional information to the J2ObjC
+translator to modify the result of translation.
+      https://github.com/google/j2objc/
+
 JSpecify annotations (1.0.0) - The Apache License, Version 2.0
 An artifact of well-named and well-specified annotations to power static analysis checks
 http://jspecify.org/
+
+Kotlin Reflect (2.0.21) - The Apache License, Version 2.0
+Kotlin Full Reflection Library
+https://kotlinlang.org/
 
 Kotlin Stdlib (2.0.21) - The Apache License, Version 2.0
 Kotlin Standard Library
@@ -923,47 +911,47 @@ logback-classic module
 Logback Core Module (1.5.12) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
-OpenTelemetry Java (1.42.1-alpha) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1-alpha) - The Apache License, Version 2.0
 OpenTelemetry API Incubator
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry API
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry Context (Incubator)
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry - Logging Exporter
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Common
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Auto-configuration SPI
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Auto-configuration
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry Log SDK
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK Metrics
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK For Tracing
 https://github.com/open-telemetry/opentelemetry-java
 
-OpenTelemetry Java (1.42.1) - The Apache License, Version 2.0
+OpenTelemetry Java (1.44.1) - The Apache License, Version 2.0
 OpenTelemetry SDK
 https://github.com/open-telemetry/opentelemetry-java
 
@@ -971,75 +959,75 @@ OpenTelemetry Semantic Conventions Java (1.25.0-alpha) - The Apache License, Ver
 OpenTelemetry Stable Semantic Conventions generated classes for Java
 https://github.com/open-telemetry/semantic-conventions-java
 
-org.seleniumhq.selenium:selenium-api (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-api (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-chrome-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-chrome-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-chromium-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-chromium-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v127 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v129 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v128 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v130 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v129 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v131 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-devtools-v85 (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-devtools-v85 (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-edge-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-edge-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-firefox-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-firefox-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-http (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-http (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-ie-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-ie-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-java (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-java (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-json (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-json (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-manager (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-manager (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-os (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-os (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-remote-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-remote-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-safari-driver (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-safari-driver (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-org.seleniumhq.selenium:selenium-support (4.25.0) - The Apache Software License, Version 2.0
+org.seleniumhq.selenium:selenium-support (4.27.0) - The Apache Software License, Version 2.0
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
