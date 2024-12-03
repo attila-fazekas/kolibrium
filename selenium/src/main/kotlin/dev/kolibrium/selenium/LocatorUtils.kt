@@ -47,6 +47,16 @@ public val WebElements.isDisplayed: Boolean
     get() = all { it.isDisplayed }
 
 /**
+ * Default readyWhen used for single element lookup.
+ */
+public val defaultElementReadyWhen: WebElement.() -> Boolean = { isDisplayed }
+
+/**
+ * Default readyWhen used for multiple elements lookup.
+ */
+public val defaultElementsReadyWhen: WebElements.() -> Boolean = { isDisplayed }
+
+/**
  * Default wait used for element lookup.
  */
 public val defaultWait: Wait by lazy {
