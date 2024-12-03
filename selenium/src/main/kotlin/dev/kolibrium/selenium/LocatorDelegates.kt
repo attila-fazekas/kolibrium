@@ -65,7 +65,7 @@ public fun SearchContext.className(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = { isDisplayed },
+    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
 ): WebElementProperty = genericLocator(locator, By::className, cacheLookup, wait, readyWhen)
 
 /**
@@ -103,7 +103,7 @@ public fun SearchContext.classNames(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = { isDisplayed },
+    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
 ): WebElementsProperty = genericLocator(locator, By::className, cacheLookup, wait, readyWhen)
 
 /**
@@ -140,7 +140,7 @@ public fun SearchContext.cssSelector(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = { isDisplayed },
+    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
 ): WebElementProperty = genericLocator(locator, By::cssSelector, cacheLookup, wait, readyWhen)
 
 /**
@@ -177,7 +177,7 @@ public fun SearchContext.cssSelectors(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = { isDisplayed },
+    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
 ): WebElementsProperty = genericLocator(locator, By::cssSelector, cacheLookup, wait, readyWhen)
 
 /**
@@ -214,7 +214,7 @@ public fun SearchContext.id(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = { isDisplayed },
+    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
 ): WebElementProperty = genericLocator(locator, By::id, cacheLookup, wait, readyWhen)
 
 /**
@@ -252,7 +252,7 @@ public fun SearchContext.idOrName(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = { isDisplayed },
+    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
 ): WebElementProperty = genericLocator(locator, ::ByIdOrName, cacheLookup, wait, readyWhen)
 
 /**
@@ -289,7 +289,7 @@ public fun SearchContext.linkText(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = { isDisplayed },
+    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
 ): WebElementProperty = genericLocator(locator, By::linkText, cacheLookup, wait, readyWhen)
 
 /**
@@ -326,7 +326,7 @@ public fun SearchContext.linkTexts(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = { isDisplayed },
+    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
 ): WebElementsProperty = genericLocator(locator, By::linkText, cacheLookup, wait, readyWhen)
 
 /**
@@ -363,7 +363,7 @@ public fun SearchContext.name(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = { isDisplayed },
+    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
 ): WebElementProperty = genericLocator(locator, By::name, cacheLookup, wait, readyWhen)
 
 /**
@@ -400,7 +400,7 @@ public fun SearchContext.names(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = { isDisplayed },
+    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
 ): WebElementsProperty = genericLocator(locator, By::name, cacheLookup, wait, readyWhen)
 
 /**
@@ -437,7 +437,7 @@ public fun SearchContext.partialLinkText(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = { isDisplayed },
+    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
 ): WebElementProperty = genericLocator(locator, By::partialLinkText, cacheLookup, wait, readyWhen)
 
 /**
@@ -474,7 +474,7 @@ public fun SearchContext.partialLinkTexts(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = { isDisplayed },
+    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
 ): WebElementsProperty = genericLocator(locator, By::partialLinkText, cacheLookup, wait, readyWhen)
 
 /**
@@ -511,7 +511,7 @@ public fun SearchContext.tagName(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = { isDisplayed },
+    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
 ): WebElementProperty = genericLocator(locator, By::tagName, cacheLookup, wait, readyWhen)
 
 /**
@@ -548,7 +548,7 @@ public fun SearchContext.tagNames(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = { isDisplayed },
+    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
 ): WebElementsProperty = genericLocator(locator, By::tagName, cacheLookup, wait, readyWhen)
 
 /**
@@ -585,7 +585,7 @@ public fun SearchContext.xPath(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = { isDisplayed },
+    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
 ): WebElementProperty = genericLocator(locator, By::xpath, cacheLookup, wait, readyWhen)
 
 /**
@@ -622,7 +622,7 @@ public fun SearchContext.xPaths(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = { isDisplayed },
+    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
 ): WebElementsProperty = genericLocator(locator, By::xpath, cacheLookup, wait, readyWhen)
 
 /**
