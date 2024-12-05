@@ -18,21 +18,19 @@
 
 package dev.kolibrium.ksp.processors
 
-import com.tschuchort.compiletesting.KotlinCompilation
-import com.tschuchort.compiletesting.SourceFile
+import com.tschuchort.compiletesting.KotlinCompilation.ExitCode.COMPILATION_ERROR
+import com.tschuchort.compiletesting.KotlinCompilation.ExitCode.OK
+import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
+import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.io.TempDir
-import java.io.File
 
 class LocatorsProcessorTest : ProcessorBaseTest() {
     @Test
-    fun `enum class annotated with Locators and enum entries annotated with locators`(
-        @TempDir path: File,
-    ) {
+    fun `enum class annotated with Locators and enum entries annotated with locators`() {
         val sourceFile =
-            SourceFile.kotlin(
+            kotlin(
                 "KolibriumTestLocators.kt",
                 """
                 package dev.kolibrium.ksp.processors.test
@@ -71,29 +69,26 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                     @CssSelectors("css")
                     entries2,
 
-                    @Ids("id")
+                    @LinkTexts("linkText")
                     entries3,
 
-                    @LinkTexts("linkText")
+                    @Names("name")
                     entries4,
 
-                    @Names("name")
+                    @PartialLinkTexts("partialLinkText")
                     entries5,
 
-                    @PartialLinkTexts("partialLinkText")
+                    @TagNames("tagName")
                     entries6,
 
-                    @TagNames("tagName")
-                    entries7,
-
                     @XPaths("xPath")
-                    entries8
+                    entries7
                 }
                 """.trimIndent(),
             )
 
-        val compilation = getCompilation(path, sourceFile)
-        verifyExitCode(compilation.compile(), KotlinCompilation.ExitCode.OK)
+        val compilation = getCompilation(sourceFile)
+        compilation.compile().exitCode shouldBe OK
 
         assertSourceEquals(
             """
@@ -106,7 +101,6 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
             import dev.kolibrium.selenium.cssSelector
             import dev.kolibrium.selenium.cssSelectors
             import dev.kolibrium.selenium.id
-            import dev.kolibrium.selenium.ids
             import dev.kolibrium.selenium.linkText
             import dev.kolibrium.selenium.linkTexts
             import dev.kolibrium.selenium.name
@@ -142,17 +136,15 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
 
               public val entries2: WebElements by cssSelectors("css")
 
-              public val entries3: WebElements by ids("id")
+              public val entries3: WebElements by linkTexts("linkText")
 
-              public val entries4: WebElements by linkTexts("linkText")
+              public val entries4: WebElements by names("name")
 
-              public val entries5: WebElements by names("name")
+              public val entries5: WebElements by partialLinkTexts("partialLinkText")
 
-              public val entries6: WebElements by partialLinkTexts("partialLinkText")
+              public val entries6: WebElements by tagNames("tagName")
 
-              public val entries7: WebElements by tagNames("tagName")
-
-              public val entries8: WebElements by xPaths("xPath")
+              public val entries7: WebElements by xPaths("xPath")
             }
             """.trimIndent(),
             actualFileName = "KolibriumTestLocators.kt",
@@ -161,11 +153,9 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
     }
 
     @Test
-    fun `locator strategy annotation is missing`(
-        @TempDir path: File,
-    ) {
+    fun `locator strategy annotation is missing`() {
         val sourceFile =
-            SourceFile.kotlin(
+            kotlin(
                 "KolibriumTestLocators.kt",
                 """
                 package dev.kolibrium.ksp.processors.test
@@ -179,8 +169,8 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                 """.trimIndent(),
             )
 
-        val compilation = getCompilation(path, sourceFile)
-        verifyExitCode(compilation.compile(), KotlinCompilation.ExitCode.OK)
+        val compilation = getCompilation(sourceFile)
+        compilation.compile().exitCode shouldBe OK
 
         assertSourceEquals(
             """
@@ -202,11 +192,9 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
     }
 
     @Test
-    fun `locator strategy annotation has cacheLookup disabled`(
-        @TempDir path: File,
-    ) {
+    fun `locator strategy annotation has cacheLookup disabled`() {
         val sourceFile =
-            SourceFile.kotlin(
+            kotlin(
                 "KolibriumTestLocators.kt",
                 """
                 package dev.kolibrium.ksp.processors.test
@@ -224,8 +212,8 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                 """.trimIndent(),
             )
 
-        val compilation = getCompilation(path, sourceFile)
-        verifyExitCode(compilation.compile(), KotlinCompilation.ExitCode.OK)
+        val compilation = getCompilation(sourceFile)
+        compilation.compile().exitCode shouldBe OK
 
         assertSourceEquals(
             """
@@ -250,11 +238,9 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
     }
 
     @Test
-    fun `locator strategy annotation has Mustache template`(
-        @TempDir path: File,
-    ) {
+    fun `locator strategy annotation has Mustache template`() {
         val sourceFile =
-            SourceFile.kotlin(
+            kotlin(
                 "KolibriumTestLocators.kt",
                 """
                 package dev.kolibrium.ksp.processors.test
@@ -272,8 +258,8 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                 """.trimIndent(),
             )
 
-        val compilation = getCompilation(path, sourceFile)
-        verifyExitCode(compilation.compile(), KotlinCompilation.ExitCode.OK)
+        val compilation = getCompilation(sourceFile)
+        compilation.compile().exitCode shouldBe OK
 
         assertSourceEquals(
             """
@@ -291,8 +277,8 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
             public class KolibriumTestLocators {
               public fun colorTableCell(color: String): WebElements {
                 val locator = ${'"'}${'"'}${'"'}//a[@class='${'$'}color']${'"'}${'"'}${'"'}
-                val element: WebElement by cssSelectors(locator)
-                return element
+                val elements: WebElements by cssSelectors(locator)
+                return elements
               }
 
               public fun tableCell(color: String, shape: String): WebElement {
@@ -310,11 +296,9 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
     // Negative tests
 
     @Test
-    fun `class annotated with Locators`(
-        @TempDir path: File,
-    ) {
+    fun `class annotated with Locators`() {
         val sourceFile =
-            SourceFile.kotlin(
+            kotlin(
                 "KolibriumTestLocators.kt",
                 """
                 package dev.kolibrium.ksp.processors.test
@@ -327,8 +311,9 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                 """.trimIndent(),
             )
 
-        val result = getCompilation(path, sourceFile).compile()
-        verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        val result = getCompilation(sourceFile).compile()
+        result.exitCode shouldBe COMPILATION_ERROR
+
         result.messages shouldContain
             """
             Only enum classes can be annotated with @Locators. Please make sure "KolibriumTestLocators" is an enum class.
@@ -336,11 +321,9 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
     }
 
     @Test
-    fun `data class annotated with Locators`(
-        @TempDir path: File,
-    ) {
+    fun `data class annotated with Locators`() {
         val sourceFile =
-            SourceFile.kotlin(
+            kotlin(
                 "KolibriumTestLocators.kt",
                 """
                 package dev.kolibrium.ksp.processors.test
@@ -353,8 +336,8 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                 """.trimIndent(),
             )
 
-        val result = getCompilation(path, sourceFile).compile()
-        verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        val result = getCompilation(sourceFile).compile()
+        result.exitCode shouldBe COMPILATION_ERROR
         result.messages shouldContain
             """
             Only enum classes can be annotated with @Locators. Please make sure "KolibriumTestLocators" is an enum class.
@@ -362,11 +345,9 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
     }
 
     @Test
-    fun `object annotated with Locators`(
-        @TempDir path: File,
-    ) {
+    fun `object annotated with Locators`() {
         val sourceFile =
-            SourceFile.kotlin(
+            kotlin(
                 "KolibriumTestLocators.kt",
                 """
                 package dev.kolibrium.ksp.processors.test
@@ -379,8 +360,8 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                 """.trimIndent(),
             )
 
-        val result = getCompilation(path, sourceFile).compile()
-        verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        val result = getCompilation(sourceFile).compile()
+        result.exitCode shouldBe COMPILATION_ERROR
         result.messages shouldContain
             """
             Only enum classes can be annotated with @Locators. Please make sure "KolibriumTestLocators" is an enum class.
@@ -388,11 +369,9 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
     }
 
     @Test
-    fun `no enum entry defined`(
-        @TempDir path: File,
-    ) {
+    fun `no enum entry defined`() {
         val sourceFile =
-            SourceFile.kotlin(
+            kotlin(
                 "KolibriumTestLocators.kt",
                 """
                 package dev.kolibrium.ksp.processors.test
@@ -405,17 +384,15 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                 """.trimIndent(),
             )
 
-        val result = getCompilation(path, sourceFile).compile()
-        verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        val result = getCompilation(sourceFile).compile()
+        result.exitCode shouldBe COMPILATION_ERROR
         result.messages shouldContain "At least one enum shall be defined in \"KolibriumTestLocators\"."
     }
 
     @Test
-    fun `more than one locator annotation present`(
-        @TempDir path: File,
-    ) {
+    fun `more than one locator annotation present`() {
         val sourceFile =
-            SourceFile.kotlin(
+            kotlin(
                 "KolibriumTestLocators.kt",
                 """
                 package dev.kolibrium.ksp.processors.test
@@ -435,8 +412,8 @@ class LocatorsProcessorTest : ProcessorBaseTest() {
                 """.trimIndent(),
             )
 
-        val result = getCompilation(path, sourceFile).compile()
-        verifyExitCode(result, KotlinCompilation.ExitCode.COMPILATION_ERROR)
+        val result = getCompilation(sourceFile).compile()
+        result.exitCode shouldBe COMPILATION_ERROR
         result.messages shouldContain "More than one locator annotation found on \"username\": @Id, @Name"
     }
 }

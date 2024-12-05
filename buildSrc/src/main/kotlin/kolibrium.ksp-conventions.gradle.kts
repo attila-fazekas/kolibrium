@@ -25,6 +25,6 @@ dependencies {
     implementation("com.squareup:kotlinpoet:_")
     implementation("com.squareup:kotlinpoet-ksp:_")
     ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
-    testImplementation("com.github.tschuchortdev:kotlin-compile-testing:_")
-    testImplementation("com.github.tschuchortdev:kotlin-compile-testing-ksp:_")
+    testImplementation("dev.zacsweers.kctfork:core:_")
+    testImplementation("dev.zacsweers.kctfork:ksp:_")
 }

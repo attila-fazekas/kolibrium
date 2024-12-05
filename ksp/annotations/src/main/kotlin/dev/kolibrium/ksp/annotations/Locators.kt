@@ -122,27 +122,6 @@ public annotation class Id(
 )
 
 /**
- * Instructs kolibrium-codegen to generate source code for locating multiple elements
- * using the "id" locator strategy.
- *
- * This annotation allows you to specify an ID attribute for locating elements in the
- * generated code. If [locator] is empty, the name of the enum entry will automatically be used
- * as the property name in the generated code.
- *
- * @property locator The "id" attribute value to search for. If left empty, the enum entry
- *                   name will be used as the property name in the generated code.
- * @property cacheLookup If true (default), the elements will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
- *                       If false, a new lookup will be performed each time the elements are accessed.
- */
-@Retention(AnnotationRetention.SOURCE)
-@Target(AnnotationTarget.FIELD)
-public annotation class Ids(
-    val locator: String = "",
-    val cacheLookup: Boolean = true,
-)
-
-/**
  * Instructs kolibrium-codegen to generate source code for locating a single element
  * using the "linkText" locator strategy.
  *

@@ -23,11 +23,6 @@ public abstract interface annotation class dev/kolibrium/ksp/annotations/Id : ja
 	public abstract fun locator ()Ljava/lang/String;
 }
 
-public abstract interface annotation class dev/kolibrium/ksp/annotations/Ids : java/lang/annotation/Annotation {
-	public abstract fun cacheLookup ()Z
-	public abstract fun locator ()Ljava/lang/String;
-}
-
 public abstract interface annotation class dev/kolibrium/ksp/annotations/LinkText : java/lang/annotation/Annotation {
 	public abstract fun cacheLookup ()Z
 	public abstract fun locator ()Ljava/lang/String;

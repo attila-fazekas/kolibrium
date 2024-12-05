@@ -18,20 +18,17 @@
 
 package dev.kolibrium.ksp.processors
 
-import com.tschuchort.compiletesting.KotlinCompilation
-import com.tschuchort.compiletesting.SourceFile
+import com.tschuchort.compiletesting.KotlinCompilation.ExitCode.OK
+import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
+import io.kotest.matchers.shouldBe
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.io.TempDir
-import java.io.File
 
 class PageProcessorTest : ProcessorBaseTest() {
     @Test
-    fun `class annotated with Page`(
-        @TempDir path: File,
-    ) {
+    fun `class annotated with Page`() {
         val sourceFile =
-            SourceFile.kotlin(
+            kotlin(
                 "InventoryPage.kt",
                 """
                 package dev.kolibrium.ksp.processors.test
@@ -43,8 +40,8 @@ class PageProcessorTest : ProcessorBaseTest() {
                 """.trimIndent(),
             )
 
-        val compilation = getCompilation(path, sourceFile)
-        verifyExitCode(compilation.compile(), KotlinCompilation.ExitCode.OK)
+        val compilation = getCompilation(sourceFile)
+        compilation.compile().exitCode shouldBe OK
 
         assertSourceEquals(
             """
