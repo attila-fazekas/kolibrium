@@ -16,13 +16,20 @@
 
 package dev.kolibrium.selenium.configuration
 
+import dev.kolibrium.core.WebElements
 import dev.kolibrium.selenium.Wait
+import dev.kolibrium.selenium.isDisplayed
 import org.openqa.selenium.NoSuchElementException
 import org.openqa.selenium.StaleElementReferenceException
+import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 internal object DefaultSeleniumProjectConfiguration : AbstractSeleniumProjectConfiguration() {
+    override var elementReadyWhen: (WebElement.() -> Boolean) = { isDisplayed }
+
+    override var elementsReadyWhen: (WebElements.() -> Boolean) = { isDisplayed }
+
     override var wait: Wait =
         Wait(
             pollingInterval = 200.milliseconds,
