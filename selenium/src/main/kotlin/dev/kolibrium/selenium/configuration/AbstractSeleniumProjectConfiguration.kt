@@ -17,9 +17,11 @@
 package dev.kolibrium.selenium.configuration
 
 import dev.kolibrium.core.InternalKolibriumApi
+import dev.kolibrium.core.WebElements
 import dev.kolibrium.core.config.ProjectConfiguration
 import dev.kolibrium.core.config.ProjectConfigurationLoader
 import dev.kolibrium.selenium.Wait
+import org.openqa.selenium.WebElement
 
 /**
  * Abstract base class for configuring Kolibrium's Selenium module project level settings.
@@ -29,6 +31,16 @@ import dev.kolibrium.selenium.Wait
  */
 @OptIn(InternalKolibriumApi::class)
 public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguration {
+    /**
+     * A predicate that determines when the found element is considered ready for use.
+     */
+    public open val elementReadyWhen: (WebElement.() -> Boolean)? = null
+
+    /**
+     * A predicate that determines when the found elements are considered ready for use.
+     */
+    public open val elementsReadyWhen: (WebElements.() -> Boolean)? = null
+
     /**
      * The wait configuration to use in synchronization operations.
      */
