@@ -20,29 +20,147 @@ package dev.kolibrium.ksp.processors
 
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import com.tschuchort.compiletesting.kspSourcesDir
 import com.tschuchort.compiletesting.symbolProcessorProviders
+import com.tschuchort.compiletesting.useKsp2
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
-import java.io.File
 
 open class ProcessorBaseTest {
+    protected val pageAnnotation =
+        kotlin(
+            "Annotations.kt",
+            """
+              package dev.kolibrium.ksp.annotations
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.CLASS)
+              public annotation class Page(
+                  val value: String = "",
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.CLASS)
+              public annotation class Locators
+
+            @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class ClassName(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class ClassNames(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class CssSelector(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class CssSelectors(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class Id(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class LinkText(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class LinkTexts(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class Name(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class Names(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class PartialLinkText(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class PartialLinkTexts(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class TagName(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class TagNames(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class XPath(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+
+              @Retention(AnnotationRetention.SOURCE)
+              @Target(AnnotationTarget.FIELD)
+              public annotation class XPaths(
+                  val locator: String = "",
+                  val cacheLookup: Boolean = true,
+              )
+            """.trimIndent(),
+        )
+
     protected fun getCompilation(
-        path: File,
         vararg sourceFiles: SourceFile,
     ) = KotlinCompilation().apply {
-        workingDir = path.absoluteFile
+        sources = listOf(pageAnnotation, *sourceFiles)
+        useKsp2()
+        symbolProcessorProviders = mutableListOf(PageProcessorProvider(), LocatorsProcessorProvider())
         inheritClassPath = true
-        sources = sourceFiles.asList()
-        symbolProcessorProviders = listOf(LocatorsProcessorProvider(), PageProcessorProvider())
-        verbose = false
+        verbose = true
     }
-
-    protected fun verifyExitCode(
-        result: KotlinCompilation.Result,
-        exitCode: KotlinCompilation.ExitCode,
-    ) = result.exitCode shouldBe exitCode
 
     protected fun assertSourceEquals(
         @Language("kotlin") expected: String,
@@ -53,7 +171,9 @@ open class ProcessorBaseTest {
     private fun KotlinCompilation.getGeneratedSource(fileName: String) =
         kspSourcesDir
             .walkTopDown()
-            .first {
-                it.name == fileName
-            }.readText()
+            .firstOrNull { it.name == fileName }
+            ?.readText()
+            ?: throw IllegalArgumentException(
+                "Unable to find $fileName",
+            )
 }

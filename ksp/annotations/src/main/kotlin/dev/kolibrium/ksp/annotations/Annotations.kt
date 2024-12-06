@@ -39,7 +39,6 @@ package dev.kolibrium.ksp.annotations
  * For locating multiple `WebElements`, the following locator annotations can be used:
  * - [ClassNames]
  * - [CssSelectors]
- * - [Ids]
  * - [LinkTexts]
  * - [Names]
  * - [PartialLinkTexts]

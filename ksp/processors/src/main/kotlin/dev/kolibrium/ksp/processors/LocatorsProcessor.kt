@@ -41,7 +41,6 @@ import dev.kolibrium.ksp.annotations.ClassNames
 import dev.kolibrium.ksp.annotations.CssSelector
 import dev.kolibrium.ksp.annotations.CssSelectors
 import dev.kolibrium.ksp.annotations.Id
-import dev.kolibrium.ksp.annotations.Ids
 import dev.kolibrium.ksp.annotations.LinkText
 import dev.kolibrium.ksp.annotations.LinkTexts
 import dev.kolibrium.ksp.annotations.Locators
@@ -96,7 +95,6 @@ public class LocatorsProcessor(
         listOf(
             ClassNames::class,
             CssSelectors::class,
-            Ids::class,
             LinkTexts::class,
             Names::class,
             PartialLinkTexts::class,
@@ -241,7 +239,7 @@ public class LocatorsProcessor(
             if (annotation in singleElementLocatorAnnotations) {
                 ClassName(SELENIUM_PACKAGE_NAME, "WebElement")
             } else {
-                ClassName(KOLIBRIUM_SELENIUM_PACKAGE_NAME, "WebElements")
+                ClassName("dev.kolibrium.core", "WebElements")
             }
 
         private fun generateProperty(
@@ -269,6 +267,7 @@ public class LocatorsProcessor(
             locatorStrategyClassName: ClassName,
             delegateReturnType: ClassName,
         ) {
+            val variableName = if (delegateReturnType.simpleName == "WebElement") "element" else "elements"
             typeSpecBuilder.addFunction(
                 FunSpec
                     .builder(enumEntryName)
@@ -280,11 +279,14 @@ public class LocatorsProcessor(
                         CodeBlock.of(
                             """
                             val locator = %P
-                            val element: WebElement by %T(locator)
-                            return element
+                            val %N: %T by %T(locator)
+                            return %N
                             """.trimIndent(),
                             mustacheTemplateParser.visitedTexts.joinToString(separator = ""),
+                            variableName,
+                            delegateReturnType,
                             locatorStrategyClassName,
+                            variableName,
                         ),
                     ).returns(delegateReturnType)
                     .build(),
