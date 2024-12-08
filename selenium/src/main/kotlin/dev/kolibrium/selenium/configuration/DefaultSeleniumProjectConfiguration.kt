@@ -35,6 +35,6 @@ internal object DefaultSeleniumProjectConfiguration : AbstractSeleniumProjectCon
             pollingInterval = 200.milliseconds,
             timeout = 10.seconds,
             message = "Element could not be found",
-            ignoring = arrayOf(NoSuchElementException::class, StaleElementReferenceException::class),
+            ignoring = listOf(NoSuchElementException::class, StaleElementReferenceException::class),
         )
 }

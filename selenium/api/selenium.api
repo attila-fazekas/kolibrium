@@ -44,9 +44,9 @@ public final class dev/kolibrium/selenium/LocatorUtilsKt {
 }
 
 public final class dev/kolibrium/selenium/Wait {
-	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;[Lkotlin/reflect/KClass;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;[Lkotlin/reflect/KClass;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getIgnoring ()[Lkotlin/reflect/KClass;
+	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getIgnoring ()Ljava/util/List;
 	public final fun getMessage ()Ljava/lang/String;
 	public final fun getPollingInterval-FghU774 ()Lkotlin/time/Duration;
 	public final fun getTimeout-FghU774 ()Lkotlin/time/Duration;

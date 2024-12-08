@@ -38,5 +38,5 @@ public class Wait(
     /**
      * A variable-length argument of exception classes that should be ignored during synchronization processes.
      */
-    public vararg val ignoring: KClass<out Throwable>,
+    public val ignoring: List<KClass<out Throwable>> = emptyList(),
 )
