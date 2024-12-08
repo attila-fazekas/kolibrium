@@ -27,7 +27,7 @@ package dev.kolibrium.ksp.annotations
  * @property locator The "class" attribute value to search for. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the element will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -48,7 +48,7 @@ public annotation class ClassName(
  * @property locator The "class" attribute value to search for. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the elements will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -69,7 +69,7 @@ public annotation class ClassNames(
  * @property locator The CSS selector expression to search for. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the element will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -90,7 +90,7 @@ public annotation class CssSelector(
  * @property locator The CSS selector expression to search for. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the elements will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -111,7 +111,7 @@ public annotation class CssSelectors(
  * @property locator The "id" attribute value to search for. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the element will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -132,7 +132,7 @@ public annotation class Id(
  * @property locator The exact link text to match against. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the element will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -153,7 +153,7 @@ public annotation class LinkText(
  * @property locator The exact link text to match against. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the elements will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -174,7 +174,7 @@ public annotation class LinkTexts(
  * @property locator The "name" attribute value to search for. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the element will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -195,7 +195,7 @@ public annotation class Name(
  * @property locator The "name" attribute value to search for. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the elements will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -216,7 +216,7 @@ public annotation class Names(
  * @property locator The partial link text to match against. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the element will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -237,7 +237,7 @@ public annotation class PartialLinkText(
  * @property locator The partial link text to match against. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the elements will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -258,7 +258,7 @@ public annotation class PartialLinkTexts(
  * @property locator The element's tag name to search for. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the element will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -279,7 +279,7 @@ public annotation class TagName(
  * @property locator The element's tag name to search for. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the elements will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -300,7 +300,7 @@ public annotation class TagNames(
  * @property locator The XPath expression to use for locating the element. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the element will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the element is accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
@@ -321,7 +321,7 @@ public annotation class XPath(
  * @property locator The XPath expression to use for locating the elements. If left empty, the enum entry
  *                   name will be used as the property name in the generated code.
  * @property cacheLookup If true (default), the elements will be looked up only once and cached for
- *                       subsequent accesses, similarly to Page Factory's @CacheLookup annotation.
+ *                       subsequent accesses.
  *                       If false, a new lookup will be performed each time the elements are accessed.
  */
 @Retention(AnnotationRetention.SOURCE)
