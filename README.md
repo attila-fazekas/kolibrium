@@ -28,6 +28,10 @@ You can decide to go all-in on Kolibrium by opting for all four modules or choos
 
 The documentation is available at [https://kolibrium.dev](https://kolibrium.dev).
 
+# Contributing
+
+Please read [CONTRIBUTING](docs/CONTRIBUTING.md) before submitting your pull requests.
+
 # Project status
 
 This project serves as a playground to explore new ideas and push the boundaries of what can be done when Kotlin's language features and tools are combined with Selenium. Although it’s experimental, the goal is to make it production-ready under version 1.0.0 once the project's APIs and Kotlin's [context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md) are stabilized.  
