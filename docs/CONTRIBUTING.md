@@ -1,79 +1,105 @@
 # Contributing
 
-Are you considering helping out on Kolibrium? Awesome! 🎉
+Are you considering helping out with Kolibrium?? Awesome! 🎉
 
 Please take a moment to review this document **before submitting a Pull Request**.
 
-# Your First Contribution
+## Your first contribution
 
 There are numerous ways to make contributions to Kolibrium, but if you are just starting with contributions, we suggest focusing on the following areas:
 
-- Try out the [Get started](https://github.com/attila-fazekas/kolibrium#get-started) guide and provide feedback by [starting a new discussion](https://github.com/attila-fazekas/kolibrium/discussions/new?category=general). Your feedback helps us to iron out any confusion and is very much appreciated. ❤️
-- Review a [Pull Request](https://github.com/attila-fazekas/kolibrium/pulls?q=is%3Apr+is%3Aopen+label%3A%22good+first+issue%22)
-- Pick an [issue](https://github.com/attila-fazekas/kolibrium/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and fix it
-- Update the [documentation](https://github.com/attila-fazekas/kolibrium/blob/main/README.md)
+1. Follow our [Get Started](https://kolibrium.dev/docs/get-started) guide and provide feedback through a [new discussion](https://github.com/attila-fazekas/kolibrium/discussions/new?category=general). Your feedback helps us to iron out any confusion and is very much appreciated. ❤️
+2. Review a [Pull Request](https://github.com/attila-fazekas/kolibrium/pulls?q=is%3Apr+is%3Aopen+label%3A%22good+first+issue%22).
+3. Address an open [issue](https://github.com/attila-fazekas/kolibrium/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) labeled as "good first issue".
+4. Improve our [documentation](https://kolibrium.dev/docs/what-is-kolibrium).
 
-# Filing bug reports
+## Reporting issues
 
-Have you found a bug in code or a typo in documentation? Please [open a Bug Report](https://github.com/attila-fazekas/kolibrium/issues/new?assignees=attila-fazekas&labels=bug&projects=&template=%F0%9F%90%9B-bug-report.md&title=%5B%F0%9F%90%9B+Bug%5D%3A+).
+### Bug reports
+Have you found a bug in the code or a typo in the documentation? Please [open a Bug Report](https://github.com/attila-fazekas/kolibrium/issues/new?assignees=attila-fazekas&labels=bug&projects=&template=%F0%9F%90%9B-bug-report.md&title=%5B%F0%9F%90%9B+Bug%5D%3A+).
 
-# Proposing new features
+### Feature proposals
+Since Kolibrium is in its early stages, this is an ideal time to influence its APIs. If you have ideas about Domain-Specific Language (DSL) design, other modules, or wish to have a Selenium feature implemented in Kolibrium, please [start a new discussion](https://github.com/attila-fazekas/kolibrium/discussions/new?category=ideas).
 
-Since the project is still in the early stages, this is the perfect time to influence its APIs. If you happen to have a cool idea about DSL design or any other module, or wish to have a Selenium feature implemented in Kolibrium, please [start a new discussion](https://github.com/attila-fazekas/kolibrium/discussions/new?category=ideas).
+## Development setup
 
-# Setting up your environment
+### Prerequisites
+- Git
+- JDK (minimum version 17)
+- IntelliJ IDEA (recommended) or another Java IDE
+- Gradle (wrapper included in repository)
 
-## Step 1: Fork the repository
+### Step 1: Fork the repository
 
-1. Make a fork of the repository [on GitHub](https://github.com/attila-fazekas/kolibrium/fork)
-2. Open Terminal and clone your fork to create a local copy on your computer.
+1. Create a fork of the repository [on GitHub](https://github.com/attila-fazekas/kolibrium/fork).
+2. Open Terminal and clone your fork to create a local copy on your computer:
    ```shell
    git clone git@github.com:your_username/kolibrium.git
    ```
-3. Add the base repository as a remote "upstream," so you can pull new changes from the base repository into your fork.
+3. Add the base repository as a remote "upstream", so you can pull new changes from the base repository into your fork:
    ```shell
    cd kolibrium
    git remote add upstream git://github.com/attila-fazekas/kolibrium
    ```
 
-## Step 2: Building the project
+### Step 2: Building the project
 
-Open the project in IntelliJ and run `./gradlew testClasses` to compile both `main` and `test` source sets.
+1. Open the project in your IDE.
+2. Run `./gradlew testClasses` to compile both `main` and `test` source sets.
 
-# Implementing new features
+## Development guidelines
 
-## API development guidelines
+### API development
 
-Kolibrium is built with API development guidelines in mind, available at [Kotlin's website](https://kotlinlang.org/docs/jvm-api-guidelines-introduction.html), and it is recommended to get familiar with it before designing new APIs.
+Kolibrium follows API development guidelines, available at [Kotlin's website](https://kotlinlang.org/docs/jvm-api-guidelines-introduction.html), and we recommend getting familiar with it before designing new APIs.
 
-### API visibility and backward compatibility
+#### API compatibility
 
-We place great emphasis on [backward compatibility](https://kotlinlang.org/docs/jvm-api-guidelines-backward-compatibility.html) and, to achieve that, we run the [binary compatibility validator](https://kotlinlang.org/docs/jvm-api-guidelines-backward-compatibility.html#binary-compatibility-validator) with every build and have [Explicit API mode](https://kotlinlang.org/docs/jvm-api-guidelines-backward-compatibility.html#explicit-api-mode) enabled across the whole project.
+We place great emphasis on backward compatibility and, to achieve that, we run the [Binary Compatibility Validator](https://kotlinlang.org/docs/jvm-api-guidelines-backward-compatibility.html#binary-compatibility-validator) with every build and have [Explicit API Mode](https://kotlinlang.org/docs/jvm-api-guidelines-backward-compatibility.html#explicit-api-mode) enabled across all modules.
 
-If you don't feel like reading, you can watch [this](https://www.youtube.com/watch?v=6dN8qLvu_BQ&t=359s) awesome presentation from Márton Braun.
+For a comprehensive overview, watch Márton Braun's awesome [presentation on API design and compatibility](https://www.youtube.com/watch?v=6dN8qLvu_BQ&t=359s).
 
-### Static analysis
+### Code quality tools
 
-The project also heavily relies on static analysis tools, such as [konsist](https://github.com/LemonAppDev/konsist). The `konsistTest` module enforces project-wide consistency checks, and module-specific consistency checks are implemented within the `konsistTest` source sets under their respective modules.
+We employ several static analysis tools:
+- [Konsist](https://github.com/LemonAppDev/konsist): Enforces project-wide and module-specific consistency
+- [ktlint](https://github.com/pinterest/ktlint): Handles code formatting
+- [detekt](https://github.com/detekt/detekt): Performs code smell analysis
 
-For linting source code, [ktlint](https://github.com/pinterest/ktlint), for code smell analysis, [detekt](https://github.com/detekt/detekt) is used.
+### Testing guidelines
 
-## Testing you changes
+When applicable to the module, we write tests. Writing good tests is not always an easy task, especially when the library being developed is itself a testing tool.
+For instance, to test whether the DSL functions construct the requested driver, we check the driver logs. In other cases, such as KSP tests, it's more straightforward to cover functionalities with compile testing.
 
-When applicable to the module, we write tests, though writing good tests is not always an easy task, especially when the library being developed is itself a testing tool. For instance, to test if the DSL functions construct the requested driver, we check the driver logs. In other cases, such as KSP tests, it's more straightforward to cover functionalities with compile testing.
+As of now, writing tests for new features is optional but highly encouraged. If you decide to write tests, please use [kotest](https://kotest.io/docs/assertions/assertions.html) for assertions when implementing tests.
 
-As of now, writing tests for new features is optional but highly encouraged. If you decide to write tests, please use functions from [kotest](https://kotest.io/docs/assertions/assertions.html)'s rich APIs.
+### Build verification
 
-## Making sure your changes compile
+Once you are done with the implementation and have written tests, run `./gradlew clean build` to build the project and run the tests.
 
-Once you are done with the implementation and have written tests, run  `./gradlew clean build` to build the project and run the tests.
+#### Common build issues and solutions
 
-Depending on the scope of your change, you might see errors indicating that some static analysis checks were violated. But don't worry, it's easy to fix them.
+1. API check failures:
+   ```
+   API check failed for project $moduleName
+   ```
+   Meaning: This error occurs when a public API's signature has changed or a non-public API became public.  
+   Resolution: Run `./gradlew :$moduleName:apiDump` to update API declarations. This will generate a new `.api` file in the module and should be checked in as part of your Pull Request. We always carefully review changes in public APIs.
 
-- `API check failed for project $moduleName.`: This error occurs when a public API's signature has changed or a non-public API became public. To solve this issue, run the `apiDump` task in the module where the change is implemented, as suggested in the build report: `You can run :$moduleName:apiDump task to overwrite API declarations.` This will generate a new `.api` file in the module and should be checked in as part of your Pull Request. Changes in public APIs are always carefully reviewed.
-- `> Task :$moduleName:konsistTest FAILED`: Code consistency has broken and needs to be fixed after studying the failing konsist test(s).
-- `> Task :$moduleName:detekt FAILED`: Code smell found by detekt, and the detailed analysis points to the exact line that needs to be fixed.
+2. Consistency check failures:
+   ```
+   Task :$moduleName:konsistTest FAILED
+   ```
+   Meaning: Code consistency has broken and needs to be fixed.  
+   Resolution: Review and fix failing konsist test(s).
 
-# Get in touch
+3. Code quality issues:
+   ```
+   Task :$moduleName:detekt FAILED
+   ```
+   Meaning: Code smell found by detekt.  
+   Resolution: Address the specific code smell issues identified in the report.
+
+## Get in touch
 
 If you have a question or comment, please [start a new discussion](https://github.com/attila-fazekas/kolibrium/discussions/new?category=q-a).
