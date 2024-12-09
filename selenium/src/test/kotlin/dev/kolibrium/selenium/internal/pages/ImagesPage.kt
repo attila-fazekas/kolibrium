@@ -16,13 +16,12 @@
 
 package dev.kolibrium.selenium.internal.pages
 
-import dev.kolibrium.core.WebElements
-import dev.kolibrium.selenium.name
+import dev.kolibrium.selenium.names
 import org.openqa.selenium.WebDriver
 
 context(WebDriver)
 class ImagesPage {
-    val images by name<WebElements>("kodee") {
-        until = { size == 9 }
+    val images by names("kodee") {
+        size == 9
     }
 }

@@ -24,8 +24,15 @@ private const val HEIGHT = 720
 
 private val logger = KotlinLogging.logger { }
 
+/**
+ * Scope class for configuring browser window dimensions.
+ */
 @KolibriumDsl
 public class WindowSizeScope {
+    /**
+     * Sets the window width in pixels.
+     * Minimum value is 1280.
+     */
     @KolibriumPropertyDsl
     public var width: Int by Delegates.vetoable(WIDTH) { _, oldValue, newValue ->
         if (newValue < oldValue) {
@@ -36,6 +43,10 @@ public class WindowSizeScope {
         }
     }
 
+    /**
+     * Sets the window height in pixels.
+     * Minimum value is 720.
+     */
     @KolibriumPropertyDsl
     public var height: Int by Delegates.vetoable(HEIGHT) { _, oldValue, newValue ->
         if (newValue < oldValue) {

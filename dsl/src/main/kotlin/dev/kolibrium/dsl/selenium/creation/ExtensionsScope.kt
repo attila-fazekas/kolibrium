@@ -18,18 +18,24 @@ package dev.kolibrium.dsl.selenium.creation
 
 import java.io.File
 
-@JvmInline
-public value class Extension(internal val path: String)
-
+/**
+ * Scope class for configuring browser extensions.
+ */
 @KolibriumDsl
-public class ExtensionsScope : UnaryPlus<Extension> {
+public class ExtensionsScope {
     internal val extensions = mutableSetOf<File>()
 
-    override operator fun Extension.unaryPlus() {
-        extensions.add(File(path))
+    /**
+     * Adds an extension to be loaded by the browser.
+     *
+     * This operator function allows adding extensions using the unary plus operator (+).
+     */
+    public operator fun String.unaryPlus() {
+        extensions.add(File(this))
     }
 
-    override fun toString(): String {
-        return "ExtensionsScope(extensions=$extensions)"
-    }
+    /**
+     * Returns a string representation of the [ExtensionsScope], primarily for debugging purposes.
+     */
+    override fun toString(): String = "ExtensionsScope(extensions=$extensions)"
 }

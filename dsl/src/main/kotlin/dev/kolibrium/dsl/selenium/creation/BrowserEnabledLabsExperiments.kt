@@ -16,15 +16,33 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * Scope class for configuring browser experimental flags.
+ */
 @KolibriumDsl
-public class BrowserEnabledLabsExperiments : UnaryPlus<ExperimentalFlag> {
-    internal val experimentalFlags = mutableSetOf<String>()
+public class BrowserEnabledLabsExperiments {
+    internal val experimentalFlags = mutableSetOf<ExperimentalFlag>()
 
-    override fun ExperimentalFlag.unaryPlus() {
-        experimentalFlags.add(value)
+    /**
+     * Adds an [ExperimentalFlag] to the configuration.
+     *
+     * This operator function allows adding experimental flags using the unary plus operator (+).
+     */
+    public operator fun ExperimentalFlag.unaryPlus() {
+        experimentalFlags.add(this)
     }
 
-    override fun toString(): String {
-        return "BrowserEnabledLabsExperiments(experimentalFlags=$experimentalFlags)"
+    /**
+     * Adds an experimental flag a string value to the configuration.
+     *
+     * This operator function allows adding experimental flags from string values using the unary plus operator (+).
+     */
+    public operator fun String.unaryPlus() {
+        experimentalFlags.add(ExperimentalFlag(this))
     }
+
+    /**
+     * Returns a string representation of the [BrowserEnabledLabsExperiments], primarily for debugging purposes.
+     */
+    override fun toString(): String = "BrowserEnabledLabsExperiments(experimentalFlags=$experimentalFlags)"
 }

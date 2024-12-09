@@ -20,25 +20,46 @@ import org.apache.commons.validator.routines.InetAddressValidator
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
 import java.io.File
 
+/**
+ * Base scope class for configuring Chromium-based browser driver service settings.
+ */
 @KolibriumDsl
 public abstract class ChromiumDriverServiceScope : DriverServiceScope() {
     protected val allowedIpsScope: AllowedIpsScope by lazy { AllowedIpsScope() }
 
+    /**
+     * Controls whether the driver's log output should be appended to an existing log file.
+     */
     @KolibriumPropertyDsl
     public var appendLog: Boolean? = null
 
+    /**
+     * Controls whether the driver executable can be used with potentially incompatible versions of the browser.
+     */
     @KolibriumPropertyDsl
     public var buildCheckDisabled: Boolean? = null
 
+    /**
+     * The path to the driver executable.
+     */
     @KolibriumPropertyDsl
     public var executable: String? = null
 
+    /**
+     * The path to the log file where the driver's output will be written.
+     */
     @KolibriumPropertyDsl
     public var logFile: String? = null
 
+    /**
+     * The logging level for the driver.
+     */
     @KolibriumPropertyDsl
     public var logLevel: ChromiumDriverLogLevel? = null
 
+    /**
+     * Controls whether timestamps in the driver's log should be human-readable.
+     */
     @KolibriumPropertyDsl
     public var readableTimestamp: Boolean? = null
 
@@ -51,15 +72,13 @@ public abstract class ChromiumDriverServiceScope : DriverServiceScope() {
 
     internal open fun allowedIps(block: AllowedIpsScope.() -> Unit) {
         allowedIpsScope.apply(block)
-        validateIps()
+        allowedIpsScope.allowedIps.validateIps()
     }
 
-    private fun validateIps() {
-        with(allowedIpsScope.allowedIps) {
-            if (isNotEmpty()) {
-                val invalidIPAddresses = filter { !InetAddressValidator.getInstance().isValid(it) }
-                check(invalidIPAddresses.isEmpty()) { "Following IP addresses are invalid: $invalidIPAddresses" }
-            }
+    private fun MutableSet<String>.validateIps() {
+        if (isNotEmpty()) {
+            val invalidIPAddresses = filter { !InetAddressValidator.getInstance().isValid(it) }
+            check(invalidIPAddresses.isEmpty()) { "Following IP addresses are invalid: $invalidIPAddresses" }
         }
     }
 }

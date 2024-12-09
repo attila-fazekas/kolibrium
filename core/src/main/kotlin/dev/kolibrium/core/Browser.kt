@@ -16,9 +16,27 @@
 
 package dev.kolibrium.core
 
+/**
+ * Represents different web browsers.
+ */
 public enum class Browser {
+    /**
+     * Google Chrome browser.
+     */
     CHROME,
+
+    /**
+     * Apple Safari browser.
+     */
     SAFARI,
+
+    /**
+     * Microsoft Edge browser.
+     */
     EDGE,
+
+    /**
+     * Mozilla Firefox browser.
+     */
     FIREFOX,
 }

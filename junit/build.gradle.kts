@@ -22,12 +22,12 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":dsl"))
+    api(project(":core"))
     implementation(Testing.junit.jupiter.api)
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs =
+    compilerOptions.freeCompilerArgs =
         listOf(
             "-opt-in=dev.kolibrium.core.InternalKolibriumApi",
         )

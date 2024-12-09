@@ -16,54 +16,59 @@
 
 package dev.kolibrium.selenium.internal.pages
 
-import dev.kolibrium.core.WebElements
 import dev.kolibrium.selenium.className
-import dev.kolibrium.selenium.css
+import dev.kolibrium.selenium.classNames
+import dev.kolibrium.selenium.cssSelector
+import dev.kolibrium.selenium.cssSelectors
 import dev.kolibrium.selenium.id
 import dev.kolibrium.selenium.idOrName
 import dev.kolibrium.selenium.linkText
+import dev.kolibrium.selenium.linkTexts
 import dev.kolibrium.selenium.name
+import dev.kolibrium.selenium.names
 import dev.kolibrium.selenium.partialLinkText
+import dev.kolibrium.selenium.partialLinkTexts
 import dev.kolibrium.selenium.tagName
-import dev.kolibrium.selenium.xpath
+import dev.kolibrium.selenium.tagNames
+import dev.kolibrium.selenium.xPath
+import dev.kolibrium.selenium.xPaths
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 
 context(WebDriver)
 class HomePage {
-    val header by className<WebElement>("header")
+    val header by className("header")
 
-    val name by css<WebElement>("#name")
+    val name by cssSelector("#name")
 
-    val nameXpath by xpath<WebElement>("//*[@id='name']")
+    val nameXPath by xPath("//*[@id='name']")
 
-    val email by idOrName<WebElement>("email")
+    val email by idOrName("email")
 
-    val phone by id<WebElement>("phone")
+    val phone by id("phone")
 
-    val phoneName by name<WebElement>("phone")
+    val phoneName by name("phone")
 
-    val googleLink by xpath<WebElement>("//a[@class='link'][contains(text(),'Google')]")
+    val googleLink by xPath("//a[@class='link'][contains(text(),'Google')]")
 
-    val fbLink by linkText<WebElement>("Facebook")
+    val fbLink by linkText("Facebook")
 
-    val twitterLink by linkText<WebElement>("Twitter")
+    val twitterLink by linkText("Twitter")
 
-    val clickHereLink by partialLinkText<WebElement>("Click")
+    val clickHereLink by partialLinkText("Click")
 
-    val a1TagName by tagName<WebElement>("h1")
+    val a1TagName by tagName("h1")
 
-    val links by className<WebElements>("link")
+    val links by classNames("link")
 
-    val linksTagName by tagName<WebElements>("a")
+    val linksTagName by tagNames("a")
 
-    val linksCss by css<WebElements>("a")
+    val linksCss by cssSelectors("a")
 
-    val linksXpath by xpath<WebElements>("//a[@class='link']")
+    val linksXPath by xPaths("//a[@class='link']")
 
-    val fbLinks by linkText<WebElements>("Facebook")
+    val fbLinks by linkTexts("Facebook")
 
-    val fbPartialLinks by partialLinkText<WebElements>("Facebook")
+    val fbPartialLinks by partialLinkTexts("Facebook")
 
-    val selects by name<WebElements>("select")
+    val selects by names("select")
 }

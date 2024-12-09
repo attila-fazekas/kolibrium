@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.creation
+package dev.kolibrium.test
 
-public sealed interface Browser
+enum class Product(val productName: String) {
+    BACKPACK("Sauce Labs Backpack"),
+    BIKE_LIGHT("Sauce Labs Bike Light"),
+    BOLT_T_SHIRT("Sauce Labs Bolt T-Shirt"),
+    FLEECE_JACKET("Sauce Labs Fleece Jacket"),
+    T_SHIRT_RED("Test.allTheThings() T-Shirt (Red)"),
+    ONESIE("Sauce Labs Onesie");
 
-public sealed interface Chromium : Browser
-
-public object Chrome : Chromium
-
-public object Edge : Chromium
-
-public object Safari : Browser
-
-public object Firefox : Browser
+    val locatorName: String
+        get() = name.lowercase().replace("_", "-")
+}

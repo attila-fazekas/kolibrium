@@ -44,6 +44,7 @@ publishing {
                 name = "Kolibrium BOM (Bill of Materials)"
                 description = "Bill of materials to make sure a consistent set of versions is used for Kolibrium"
                 url = PROJECT_GIT_URL
+                inceptionYear = "2024"
                 licenses {
                     license {
                         name = "Apache-2.0"

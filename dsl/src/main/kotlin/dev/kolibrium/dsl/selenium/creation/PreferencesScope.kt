@@ -16,15 +16,96 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+internal sealed interface PreferencesScope<T : Preference> {
+    fun pref(
+        key: T,
+        value: Any,
+    )
+
+    fun pref(
+        key: String,
+        value: Any,
+    )
+}
+
+/**
+ * Scope class for configuring Chromium browser preferences.
+ */
 @KolibriumDsl
-public class PreferencesScope<T : Browser> : UnaryPlus<Pair<Preference<T>, Any>> {
+public class ChromiumPreferencesScope : PreferencesScope<ChromiumPreference> {
     internal val preferences = mutableMapOf<String, Any>()
 
-    override operator fun Pair<Preference<T>, Any>.unaryPlus() {
-        preferences[first.value] = second
+    /**
+     * Adds a preference key-value pair to the Chrome options using a [ChromiumPreference] key.
+     *
+     * @param key The preference key represented by a [ChromiumPreference] instance.
+     * @param value The preference value to be associated with the key.
+     */
+    @KolibriumDsl
+    override fun pref(
+        key: ChromiumPreference,
+        value: Any,
+    ) {
+        preferences[key.value] = value
     }
 
-    override fun toString(): String {
-        return "PreferencesScope(preferences=$preferences)"
+    /**
+     * Adds a preference key-value pair to the Chrome options using a string key.
+     *
+     * @param key The preference key as a string.
+     * @param value The preference value to be associated with the key.
+     */
+    @KolibriumDsl
+    override fun pref(
+        key: String,
+        value: Any,
+    ) {
+        preferences[key] = value
     }
+
+    /**
+     * Returns a string representation of the [ChromiumPreferencesScope], primarily for debugging purposes.
+     */
+    override fun toString(): String = "PreferencesScope(preferences=$preferences)"
+}
+
+/**
+ * Scope class for configuring Firefox preferences.
+ */
+@KolibriumDsl
+public class FirefoxPreferencesScope : PreferencesScope<FirefoxPreference> {
+    internal val preferences = mutableMapOf<String, Any>()
+
+    /**
+     * Adds a preference key-value pair to the Firefox options using a [FirefoxPreference] key.
+     *
+     * @param key The preference key represented by a [FirefoxPreference] instance.
+     * @param value The preference value to be associated with the key.
+     */
+    @KolibriumDsl
+    override fun pref(
+        key: FirefoxPreference,
+        value: Any,
+    ) {
+        preferences[key.value] = value
+    }
+
+    /**
+     * Adds a preference key-value pair to the Firefox options using a string key.
+     *
+     * @param key The preference key as a string.
+     * @param value The preference value to be associated with the key.
+     */
+    @KolibriumDsl
+    override fun pref(
+        key: String,
+        value: Any,
+    ) {
+        preferences[key] = value
+    }
+
+    /**
+     * Returns a string representation of the [FirefoxPreferencesScope], primarily for debugging purposes.
+     */
+    override fun toString(): String = "PreferencesScope(preferences=$preferences)"
 }

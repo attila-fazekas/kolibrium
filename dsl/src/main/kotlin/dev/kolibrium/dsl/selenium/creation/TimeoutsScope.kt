@@ -18,18 +18,31 @@ package dev.kolibrium.dsl.selenium.creation
 
 import kotlin.time.Duration
 
+/**
+ * Scope class for configuring timeout settings.
+ */
 @KolibriumDsl
 public class TimeoutsScope {
+    /**
+     * Sets the time to wait for the implicit element location strategy when locating elements.
+     */
     @KolibriumPropertyDsl
     public var implicitWait: Duration? = null
 
+    /**
+     * Sets the time interval within which a web page must be loaded in the current browsing context.
+     */
     @KolibriumPropertyDsl
     public var pageLoad: Duration? = null
 
+    /**
+     * Sets the timeout for interrupting an executing script in the current browsing context.
+     */
     @KolibriumPropertyDsl
     public var script: Duration? = null
 
-    override fun toString(): String {
-        return "TimeoutsScope(implicitWait=$implicitWait, pageLoad=$pageLoad, script=$script)"
-    }
+    /**
+     * Returns a string representation of the [TimeoutsScope], primarily for debugging purposes.
+     */
+    override fun toString(): String = "TimeoutsScope(implicitWait=$implicitWait, pageLoad=$pageLoad, script=$script)"
 }

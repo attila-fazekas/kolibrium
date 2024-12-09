@@ -19,9 +19,18 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.edge.EdgeDriverService
 import java.io.File
 
+/**
+ * Scope class for configuring Edge-specific driver service settings.
+ *
+ * This class provides Edge-specific configurations while inheriting driver service settings
+ * from [ChromiumDriverServiceScope].
+ *
+ * @property builder The underlying EdgeDriver service builder.
+ */
 @KolibriumDsl
-public class EdgeDriverServiceScope(override val builder: EdgeDriverService.Builder) :
-    ChromiumDriverServiceScope() {
+public class EdgeDriverServiceScope(
+    override val builder: EdgeDriverService.Builder,
+) : ChromiumDriverServiceScope() {
     override fun configure() {
         super.configure()
         builder.apply {
@@ -37,16 +46,23 @@ public class EdgeDriverServiceScope(override val builder: EdgeDriverService.Buil
         }
     }
 
+    /**
+     * Configures the allowed host header values for incoming requests to EdgeDriver service.
+     *
+     * @param block The configuration block for specifying allowed hosts.
+     */
     @KolibriumDsl
-    public override fun allowedIps(block: dev.kolibrium.dsl.selenium.creation.AllowedIpsScope.() -> Unit) {
+    override fun allowedIps(block: AllowedIpsScope.() -> Unit) {
         super.allowedIps(block)
         builder.withAllowedListIps(allowedIpsScope.allowedIps.joinToString(separator = ", "))
     }
 
-    override fun toString(): String {
-        return "EdgeDriverServiceScope(allowedIpsScope=$allowedIpsScope, appendLog=$appendLog, " +
+    /**
+     * Returns a string representation of the [EdgeDriverServiceScope], primarily for debugging purposes.
+     */
+    override fun toString(): String =
+        "EdgeDriverServiceScope(allowedIpsScope=$allowedIpsScope, appendLog=$appendLog, " +
             "buildCheckDisabled=$buildCheckDisabled, environmentScope=$environmentScope, executable=$executable, " +
             "logFile=$logFile, logLevel=$logLevel, port=$port, readableTimestamp=$readableTimestamp, " +
             "timeout=$timeout)"
-    }
 }

@@ -14,23 +14,12 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.wait
+package dev.kolibrium.core.config
 
 import dev.kolibrium.core.InternalKolibriumApi
-import dev.kolibrium.dsl.selenium.creation.KolibriumDsl
-import kotlin.reflect.KClass
 
-@KolibriumDsl
-public class IgnoringScope {
-    @InternalKolibriumApi
-    public var exceptions: MutableSet<Class<out Throwable>> = mutableSetOf()
-        private set
-
-    public operator fun <T : Throwable> KClass<T>.unaryPlus() {
-        exceptions.add(this.java)
-    }
-
-    override fun toString(): String {
-        return "IgnoringScope(exceptions=$exceptions)"
-    }
-}
+@InternalKolibriumApi
+public open class ProjectConfigurationException(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause)

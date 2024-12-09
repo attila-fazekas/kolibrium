@@ -20,7 +20,33 @@ import dev.kolibrium.core.Browser
 import dev.kolibrium.core.Browser.CHROME
 import dev.kolibrium.core.Browser.EDGE
 import dev.kolibrium.core.Browser.FIREFOX
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.headless
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.Channel.BETA
+import dev.kolibrium.dsl.selenium.creation.ExperimentalFlags.cookies_without_same_site_must_be_secure
+import dev.kolibrium.dsl.selenium.creation.ExperimentalFlags.same_site_by_default_cookies
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.download_default_directory
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.download_prompt_for_download
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.safebrowsing_enabled
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_folderList
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_alertOnEXEOpen
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_closeWhenDone
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_focusWhenStarting
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_showAlertOnComplete
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_showWhenStarting
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_useWindow
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_useDownloadDir
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_helperApps_alwaysAsk_force
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_http_phishy_userpass_length
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_negotiate_auth_delegation_uris
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_negotiate_auth_trusted_uris
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_proxy_no_proxies_on
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.security_csp_enable
+import dev.kolibrium.dsl.selenium.creation.Switches.enable_automation
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.AfterEach
@@ -93,15 +119,16 @@ class DriverTest {
                 }
                 options {
                     acceptInsecureCerts = true
-                    binary = "/Applications/Google Chrome Beta 2.app/Contents/MacOS/Google Chrome Beta"
+                    binary = "/Applications/Google Chrome Beta.app/Contents/MacOS/Google Chrome Beta"
                     browserVersion = "116.0.5845.110"
                     pageLoadStrategy = NORMAL
                     platform = MAC
                     strictFileInteractability = true
                     unhandledPromptBehaviour = DISMISS
                     arguments {
-                        +Arguments.Chrome.headless
-                        +Arguments.Chrome.incognito
+                        +headless
+                        +incognito
+                        +disable_search_engine_choice_screen
                         windowSize {
                             width = 1800
                             height = 1000
@@ -109,22 +136,23 @@ class DriverTest {
                     }
                     experimentalOptions {
                         preferences {
-                            +(Preferences.Chromium.download_default_directory to downloadDir)
-                            +(Preferences.Chromium.download_prompt_for_download to false)
-                            +(Preferences.Chromium.safebrowsing_enabled to false)
+                            pref(download_default_directory, downloadDir)
+                            pref(download_prompt_for_download, false)
+                            pref(safebrowsing_enabled, false)
+                            pref("download.default_directory", downloadDir)
                         }
                         excludeSwitches {
-                            +Switches.enable_automation
+                            +enable_automation
                         }
                         localState {
                             browserEnabledLabsExperiments {
-                                +ExperimentalFlags.same_site_by_default_cookies
-                                +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                                +same_site_by_default_cookies
+                                +cookies_without_same_site_must_be_secure
                             }
                         }
                     }
                     extensions {
-                        +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                        +"src/test/resources/extensions/webextensions-selenium-example.crx"
                     }
                     proxy {
                         ftpProxy = "192.168.0.1"
@@ -145,13 +173,13 @@ class DriverTest {
         fileContent shouldContain "[DEBUG]:"
         fileContent shouldContain "on port 7899"
         fileContent shouldContain """"acceptInsecureCerts": true"""
-        fileContent shouldContain """"binary": "/Applications/Google Chrome Beta 2.app/Contents/MacOS/Google Chrome Beta""""
+        fileContent shouldContain """"binary": "/Applications/Google Chrome Beta.app/Contents/MacOS/Google Chrome Beta""""
         fileContent shouldContain """"browserVersion": "116.0.5845.110""""
         fileContent shouldContain """"pageLoadStrategy": "normal""""
         fileContent shouldContain """"platformName": "mac""""
         fileContent shouldContain """"strictFileInteractability": true"""
         fileContent shouldContain """"unhandledPromptBehavior": "dismiss""""
-        fileContent shouldContain """"args": [ "--headless=new", "--incognito", "--window-size=1800,1000" ]"""
+        fileContent shouldContain """"args": [ "--headless=new", "--incognito", "--disable-search-engine-choice-screen", "--window-size=1800,1000" ]"""
         fileContent shouldContain """"download.default_directory": "$tempDir""""
         fileContent shouldContain """"download.prompt_for_download": false"""
         fileContent shouldContain """"safebrowsing.enabled": false"""
@@ -198,25 +226,25 @@ class DriverTest {
                         }
                     }
                     preferences {
-                        +(Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris to "http://,https://")
-                        +(Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn to false)
-                        +(Preferences.Firefox.network_negotiate_auth_delegation_uris to "http://,https://")
-                        +(Preferences.Firefox.network_negotiate_auth_trusted_uris to "http://,https://")
-                        +(Preferences.Firefox.network_http_phishy_userpass_length to 255)
-                        +(Preferences.Firefox.network_proxy_no_proxies_on to "")
-                        +(Preferences.Firefox.security_csp_enable to false)
+                        pref(network_automatic_ntlm_auth_trusted_uris, "http://,https://")
+                        pref(network_automatic_ntlm_auth_allow_non_fqdn, false)
+                        pref(network_negotiate_auth_delegation_uris, "http://,https://")
+                        pref(network_negotiate_auth_trusted_uris, "http://,https://")
+                        pref(network_http_phishy_userpass_length, 255)
+                        pref(network_proxy_no_proxies_on, "")
+                        pref(security_csp_enable, false)
                     }
                     profile {
-                        +(Preferences.Firefox.browser_download_folderList to 1)
-                        +(Preferences.Firefox.browser_download_manager_showWhenStarting to false)
-                        +(Preferences.Firefox.browser_download_manager_focusWhenStarting to false)
-                        +(Preferences.Firefox.browser_download_useDownloadDir to true)
-                        +(Preferences.Firefox.browser_helperApps_alwaysAsk_force to false)
-                        +(Preferences.Firefox.browser_download_manager_alertOnEXEOpen to false)
-                        +(Preferences.Firefox.browser_download_manager_closeWhenDone to true)
-                        +(Preferences.Firefox.browser_download_manager_showAlertOnComplete to false)
-                        +(Preferences.Firefox.browser_download_manager_useWindow to false)
-                        +(Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk to "application/octet-stream")
+                        pref(browser_download_folderList, 1)
+                        pref(browser_download_manager_showWhenStarting, false)
+                        pref(browser_download_manager_focusWhenStarting, false)
+                        pref(browser_download_useDownloadDir, true)
+                        pref(browser_download_manager_alertOnEXEOpen, false)
+                        pref(browser_download_manager_closeWhenDone, true)
+                        pref(browser_download_manager_showAlertOnComplete, false)
+                        pref(browser_download_manager_useWindow, false)
+                        pref(browser_helperApps_alwaysAsk_force, false)
+                        pref(browser_helperApps_neverAsk_saveToDisk, "application/octet-stream")
                     }
                     timeouts {
                         implicitWait = 5.seconds
@@ -230,16 +258,20 @@ class DriverTest {
 
         fileContent shouldContain "geckodriver\tINFO\tListening on 127.0.0.1:7900"
         fileContent shouldContain """"moz:geckodriverVersion":"0.33.0""""
+        fileContent shouldContain """"--remote-allow-hosts" "localhost""""
         fileContent shouldContain """"acceptInsecureCerts": false"""
         fileContent shouldContain """"binary": "\u002fApplications\u002fFirefox Developer Edition.app\u002fContents\u002fMacOS\u002ffirefox""""
-        fileContent shouldContain """"--height=1800""""
-        fileContent shouldContain """"--width=1000""""
+        fileContent shouldContain """"--headless""""
+        fileContent shouldContain """"--width=1800""""
+        fileContent shouldContain """"--height=1000""""
         fileContent shouldContain """"network.automatic-ntlm-auth.trusted-uris": "http:\u002f\u002f,https:\u002f\u002f""""
+        fileContent shouldContain """"network.automatic-ntlm-auth.allow-non-fqdn": false"""
         fileContent shouldContain """"network.negotiate-auth.delegation-uris": "http:\u002f\u002f,https:\u002f\u002f""""
         fileContent shouldContain """"network.negotiate-auth.trusted-uris": "http:\u002f\u002f,https:\u002f\u002f""""
         fileContent shouldContain """"network.http.phishy-userpass-length": 255"""
         fileContent shouldContain """"network.proxy.no_proxies_on": """""
         fileContent shouldContain """"security.csp.enable": false"""
+        fileContent shouldContain """"-profile""""
         fileContent shouldContain """"implicit": 5000"""
         fileContent shouldContain """"pageLoad": 3000"""
         fileContent shouldContain """"script": 2000"""
@@ -302,22 +334,22 @@ class DriverTest {
                     }
                     experimentalOptions {
                         preferences {
-                            +(Preferences.Chromium.download_default_directory to downloadDir)
-                            +(Preferences.Chromium.download_prompt_for_download to false)
-                            +(Preferences.Chromium.safebrowsing_enabled to false)
+                            pref(download_default_directory, downloadDir)
+                            pref(download_prompt_for_download, false)
+                            pref(safebrowsing_enabled, false)
                         }
                         excludeSwitches {
-                            +Switches.enable_automation
+                            enable_automation
                         }
                         localState {
                             browserEnabledLabsExperiments {
-                                +ExperimentalFlags.same_site_by_default_cookies
-                                +ExperimentalFlags.cookies_without_same_site_must_be_secure
+                                +same_site_by_default_cookies
+                                +cookies_without_same_site_must_be_secure
                             }
                         }
                     }
                     extensions {
-                        +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                        +"src/test/resources/extensions/webextensions-selenium-example.crx"
                     }
                     proxy {
                         ftpProxy = "192.168.0.1"

@@ -37,8 +37,13 @@ import java.nio.file.Paths
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 private fun getPage(pageName: String) =
-    Paths.get("").toAbsolutePath()
-        .parent.resolve("pages/$pageName.html").toUri().toString()
+    Paths
+        .get("")
+        .toAbsolutePath()
+        .parent
+        .resolve("pages/$pageName.html")
+        .toUri()
+        .toString()
 
 private val buttonPage1 = getPage("button_delayed")
 private val buttonPage2 = getPage("button_exception1")
@@ -117,7 +122,7 @@ class LocatorDelegatesTest {
     companion object {
         @JvmStatic
         @BeforeAll
-        fun printExecutionPath() {
+        fun enableLogging() {
 //            SeleniumLogger.enable("RemoteWebDriver")
         }
     }
@@ -126,7 +131,7 @@ class LocatorDelegatesTest {
     fun setUp() {
         driver =
             ChromeDriver(
-                ChromeOptions().addArguments("--headless=new"),
+                ChromeOptions().addArguments("--headless=new", "--disable-search-engine-choice-screen"),
             )
     }
 
@@ -184,9 +189,9 @@ class LocatorDelegatesTest {
         }
 
     @Test
-    fun `xpath - WebElement`() =
+    fun `xPath - WebElement`() =
         homePage {
-            nameXpath.getAttribute("value") shouldBe "Enter your name"
+            nameXPath.getAttribute("value") shouldBe "Enter your name"
         }
 
     @Test
@@ -280,9 +285,9 @@ class LocatorDelegatesTest {
         }
 
     @Test
-    fun `xpath - WebElements`() =
+    fun `xPath - WebElements`() =
         homePage {
-            linksXpath.size shouldBe 6
+            linksXPath.size shouldBe 6
         }
 
 // WebElements with size

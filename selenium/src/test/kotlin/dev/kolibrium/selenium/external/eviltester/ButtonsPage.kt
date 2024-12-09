@@ -14,40 +14,39 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.external
+package dev.kolibrium.selenium.external.eviltester
 
-import dev.kolibrium.selenium.css
+import dev.kolibrium.selenium.cssSelector
 import dev.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 
 context(WebDriver)
 class ButtonsPage {
-    val easyButton1 by css<WebElement>("#easy00")
+    val easyButton1 by cssSelector("#easy00")
 
-    val easyButton2 by css<WebElement>("#easy01")
+    val easyButton2 by cssSelector("#easy01")
 
-    val easyButton3 by css<WebElement>("#easy02")
+    val easyButton3 by cssSelector("#easy02")
 
-    val easyButton4 by css<WebElement>("#easy03")
+    val easyButton4 by cssSelector("#easy03")
 
-    val easyMessage by id<WebElement>("easybuttonmessage")
+    val easyMessage by id("easybuttonmessage")
 
-    val hardButton1 by css<WebElement>("#button00") {
-        until = { isEnabled }
+    val hardButton1 by cssSelector("#button00") {
+        isEnabled
     }
 
-    val hardButton2 by css<WebElement>("#button01") {
-        until = { isEnabled }
+    val hardButton2 by cssSelector("#button01") {
+        isEnabled
     }
 
-    val hardButton3 by css<WebElement>("#button02") {
-        until = { isEnabled }
+    val hardButton3 by cssSelector("#button02") {
+        isEnabled
     }
 
-    val hardButton4 by css<WebElement>("#button03") {
-        until = { isEnabled }
+    val hardButton4 by cssSelector("#button03") {
+        isEnabled
     }
 
-    val hardMessage by id<WebElement>("buttonmessage")
+    val hardMessage by id("buttonmessage")
 }

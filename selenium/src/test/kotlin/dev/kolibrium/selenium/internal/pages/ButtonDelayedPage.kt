@@ -19,13 +19,12 @@ package dev.kolibrium.selenium.internal.pages
 import dev.kolibrium.selenium.clickable
 import dev.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 
 context(WebDriver)
 class ButtonDelayedPage {
-    val button by id<WebElement>("button") {
-        until = { clickable }
+    val button by id("button") {
+        clickable
     }
 
-    val message by id<WebElement>("message")
+    val message by id("message")
 }

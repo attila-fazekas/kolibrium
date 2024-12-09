@@ -19,25 +19,24 @@ package dev.kolibrium.selenium.internal.pages
 import dev.kolibrium.selenium.clickable
 import dev.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 
 context(WebDriver)
 class ButtonsPage {
-    val button1 by id<WebElement>("button1") {
-        until = { clickable }
+    val button1 by id("button1") {
+        clickable
     }
 
-    val button2 by id<WebElement>("button2") {
-        until = { clickable }
+    val button2 by id("button2") {
+        clickable
     }
 
-    val button3 by id<WebElement>("button3") {
-        until = { clickable }
+    val button3 by id("button3") {
+        clickable
     }
 
-    val button4 by id<WebElement>("button4") {
-        until = { clickable }
+    val button4 by id("button4") {
+        clickable
     }
 
-    val result by id<WebElement>("result")
+    val result by id("result")
 }

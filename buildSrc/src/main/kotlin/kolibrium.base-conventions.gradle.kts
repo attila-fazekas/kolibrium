@@ -22,14 +22,14 @@ plugins {
 }
 
 group = "dev.kolibrium"
-version = "0.1.1-SNAPSHOT"
+version = "0.5.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs = listOf(
+    compilerOptions.freeCompilerArgs = listOf(
         "-Xcontext-receivers",
     )
 }

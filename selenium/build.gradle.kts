@@ -20,7 +20,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":dsl"))
+    api(project(":core"))
     api("org.seleniumhq.selenium:selenium-java:_")
     testImplementation("com.titusfortner:selenium-logger:_")
 }

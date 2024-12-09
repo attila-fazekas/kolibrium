@@ -29,7 +29,7 @@ jreleaser {
     dryrun = true
     project {
         author("Attila Fazekas")
-        copyright = "Copyright © 2023 Attila Fazekas. All rights reserved."
+        copyright = "Copyright © 2023-2024 Attila Fazekas. All rights reserved."
         description = "Kotlin library for Selenium tests"
         gitRootSearch = true
         inceptionYear = "2023"
@@ -44,7 +44,8 @@ jreleaser {
         github {
             changelog {
                 contributors {
-                    enabled = false
+                    enabled = true
+                    format = "- {{contributorName}}{{#contributorUsernameAsLink}} ({{.}}){{/contributorUsernameAsLink}}"
                 }
                 format = "{{commitShortHash}} {{commitTitle}}"
                 formatted = Active.ALWAYS
@@ -70,6 +71,8 @@ jreleaser {
                     snapshotUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
                     url = "https://s01.oss.sonatype.org/service/local"
                     stagingRepository(stagingDir.get().toString())
+                    username.set(findProperty("ossrhUsername") as String? ?: System.getenv("OSSRH_USERNAME"))
+                    password.set(findProperty("ossrhPassword") as String? ?: System.getenv("OSSRH_PASSWORD"))
                 }
             }
         }

@@ -19,11 +19,10 @@ package dev.kolibrium.selenium.internal.pages
 import dev.kolibrium.selenium.clickable
 import dev.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
 
 context(WebDriver)
 class ButtonElementClickInterceptedExceptionPage {
-    val button by id<WebElement>("button") {
-        until = { clickable }
+    val button by id("button") {
+        clickable
     }
 }

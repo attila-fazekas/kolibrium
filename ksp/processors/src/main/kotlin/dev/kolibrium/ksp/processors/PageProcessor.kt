@@ -16,45 +16,43 @@
 
 package dev.kolibrium.ksp.processors
 
-import com.google.devtools.ksp.closestClassDeclaration
 import com.google.devtools.ksp.processing.CodeGenerator
-import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
-import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotated
-import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.symbol.KSDeclaration
 import com.google.devtools.ksp.symbol.KSVisitorVoid
-import com.samskivert.mustache.Mustache
-import com.samskivert.mustache.Template
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
-import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.ParameterSpec
-import com.squareup.kotlinpoet.PropertySpec
-import com.squareup.kotlinpoet.TypeSpec
-import dev.kolibrium.ksp.annotations.Css
-import dev.kolibrium.ksp.annotations.Id
-import dev.kolibrium.ksp.annotations.LinkText
-import dev.kolibrium.ksp.annotations.Name
+import com.squareup.kotlinpoet.LambdaTypeName
+import com.squareup.kotlinpoet.asTypeName
 import dev.kolibrium.ksp.annotations.Page
-import dev.kolibrium.ksp.annotations.PartialLinkText
-import dev.kolibrium.ksp.annotations.TagName
-import dev.kolibrium.ksp.annotations.Url
-import dev.kolibrium.ksp.annotations.Xpath
-import org.apache.commons.validator.routines.UrlValidator
-import kotlin.reflect.KClass
+import java.util.Locale
 
-private const val KOLIBRIUM_SELENIUM_PACKAGE_NAME = "dev.kolibrium.selenium"
-private const val SELENIUM_PACKAGE_NAME = "org.openqa.selenium"
-
-public class PageProcessor(private val codeGen: CodeGenerator, private val logger: KSPLogger) :
-    SymbolProcessor {
+/**
+ * Symbol processor that generates a navigation function for Page Object classes.
+ *
+ * This processor scans for classes annotated with [Page] and generates an extension function
+ * for `WebDriver` that enable type-safe navigation and interaction with the annotated page.
+ *
+ * ### How It Works
+ * The processor looks for all classes annotated with the `@Page` annotation, extracts the
+ * page's URL (if specified), and generates an extension function for `WebDriver` named after
+ * the annotated class. This function allows developers to navigate to the page and interact
+ * with it using a block of code applied to the page object.
+ *
+ * ### Generated Output
+ * For each annotated class, a corresponding function is generated in the `generated` package.
+ * If a URL path is provided in the annotation, the generated function includes that path in
+ * the navigation logic; otherwise, it navigates to the current URL.
+ */
+public class PageProcessor(
+    private val codeGen: CodeGenerator,
+    private val logger: KSPLogger,
+) : SymbolProcessor {
     // process function returns a list of KSAnnotated objects, which represent symbols that
     // the processor can't currently process and need to be deferred to another round
     override fun process(resolver: Resolver): List<KSAnnotated> {
@@ -74,258 +72,41 @@ public class PageProcessor(private val codeGen: CodeGenerator, private val logge
     }
 
     private inner class PageVisitor : KSVisitorVoid() {
-        @OptIn(ExperimentalKotlinPoetApi::class)
         override fun visitClassDeclaration(
             classDeclaration: KSClassDeclaration,
             data: Unit,
         ) {
-            validate(classDeclaration)
+            val className = classDeclaration.simpleName.asString()
+            val page = classDeclaration.getAnnotation(Page::class)?.getArgument("value")?.value as? String
 
-            val className = getClassName(classDeclaration)
-
-            val typeBuilder =
-                TypeSpec.classBuilder(className)
-                    .contextReceivers(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
-
-            val baseUrl = classDeclaration.getAnnotation(Url::class)?.getArgument("baseUrl")?.value as? String
-
-            baseUrl?.let {
-                if (baseUrl.isNotEmpty()) {
-                    if (!UrlValidator.getInstance().isValid(baseUrl)) {
-                        logger.error("Provided URL in \"$classDeclaration\" is invalid: $baseUrl")
-                    }
-
-                    typeBuilder.addInitializerBlock(
-                        CodeBlock.builder()
-                            .addStatement("get(%S)", baseUrl)
-                            .build(),
-                    )
-                }
-            }
-
-            classDeclaration.getEnumEntries().forEach {
-                it.accept(EnumEntryVisitor(typeBuilder), Unit)
-            }
-
-            val pckName = classDeclaration.packageName.asString() + ".generated"
-            val fileSpec =
-                FileSpec.builder(pckName, className)
-                    .addType(typeBuilder.build())
-                    .addFileComment("Code generated by kolibrium-codegen. Do not edit.")
-                    .build()
-
-            codeGen.createNewFile(
-                Dependencies(false, classDeclaration.containingFile!!),
-                fileSpec.packageName,
-                fileSpec.name,
-            ).writer().use { writer -> fileSpec.writeTo(writer) }
-        }
-
-        private fun validate(classDeclaration: KSClassDeclaration) {
-            if (classDeclaration.classKind != ClassKind.ENUM_CLASS) {
-                logger.error(
-                    """
-                    Only enum classes can be annotated with @Page. Please make sure "$classDeclaration" is an enum class.
-                    """.trimIndent(),
-                )
-            }
-
-            if (classDeclaration.getEnumEntries().count() == 0) {
-                logger.error("At least one enum shall be defined in \"$classDeclaration\".")
-            }
-        }
-
-        private fun getClassName(classDeclaration: KSClassDeclaration): String {
-            val originalClassName = classDeclaration.simpleName.asString()
-            val generatedClassName =
-                classDeclaration.getAnnotation(Page::class)!!.getArgument("generatedClassName").value as String
-
-            return if (generatedClassName.isNotEmpty()) {
-                generatedClassName
-            } else if (originalClassName.endsWith("Locators")) {
-                originalClassName.removeSuffix("Locators")
-            } else {
-                originalClassName
-            }
-        }
-
-        private fun KSClassDeclaration.getEnumEntries(): Sequence<KSDeclaration> =
-            declarations.filter { it.closestClassDeclaration()?.classKind == ClassKind.ENUM_ENTRY }
-    }
-
-    private inner class EnumEntryVisitor(private val typeSpecBuilder: TypeSpec.Builder) : KSVisitorVoid() {
-        override fun visitClassDeclaration(
-            classDeclaration: KSClassDeclaration,
-            data: Unit,
-        ) {
-            val locatorAnnotations =
-                listOf(
-                    dev.kolibrium.ksp.annotations.ClassName::class,
-                    Css::class,
-                    Id::class,
-                    LinkText::class,
-                    Name::class,
-                    PartialLinkText::class,
-                    TagName::class,
-                    Xpath::class,
-                )
-
-            val annotationsPresent =
-                locatorAnnotations.filter {
-                    classDeclaration.getAnnotation(it) != null
-                }
-            val enumEntryName = classDeclaration.simpleName.asString()
-
-            if (annotationsPresent.size > 1) {
-                val message =
-                    "More than one locator annotation found on \"$enumEntryName\": " +
-                        annotationsPresent.joinToString { "@" + it.simpleName }
-                logger.error(message, classDeclaration)
-            }
-
-            if (annotationsPresent.size == 1) {
-                val locatorAnnotation = classDeclaration.getAnnotation(annotationsPresent[0])!!
-                val collectToListValue = locatorAnnotation.getArgument("collectToList").value as Boolean
-                val delegateTypeClassName = getDelegateTypeClassName(collectToListValue)
-                val locator =
-                    (locatorAnnotation.getArgument("locator").value as String).ifEmpty { enumEntryName }
-                val locatorStrategyClassName =
-                    ClassName(
-                        KOLIBRIUM_SELENIUM_PACKAGE_NAME,
-                        getLocatorStrategy(locatorAnnotation),
-                    )
-                val mustacheTemplateParser = MustacheTemplateParser(locator)
-
-                if (mustacheTemplateParser.templateVariables.isEmpty()) {
-                    generateProperty(enumEntryName, delegateTypeClassName) {
-                        add("%T<%T>(%S)", locatorStrategyClassName, delegateTypeClassName, locator)
-                    }
-                } else {
-                    generateDynamicLocatorFunction(
-                        enumEntryName,
-                        mustacheTemplateParser,
-                        locatorStrategyClassName,
-                        delegateTypeClassName,
-                    )
-                }
-            } else { // fallback to idOrName
-                val delegateTypeClassName = getDelegateTypeClassName()
-                generateProperty(enumEntryName, delegateTypeClassName) {
-                    add(
-                        "%T<%T>(%S)",
-                        ClassName(KOLIBRIUM_SELENIUM_PACKAGE_NAME, "idOrName"),
-                        delegateTypeClassName,
-                        enumEntryName,
-                    )
-                }
-            }
-        }
-
-        private fun generateProperty(
-            enumEntryName: String,
-            delegateTypeClassName: ClassName,
-            block: CodeBlock.Builder.() -> Unit,
-        ) {
-            typeSpecBuilder.addProperty(
-                PropertySpec.builder(
-                    enumEntryName,
-                    delegateTypeClassName,
-                ).delegate(
-                    CodeBlock.builder().apply {
-                        block()
-                    }.build(),
-                ).build(),
-            )
-        }
-
-        private fun generateDynamicLocatorFunction(
-            enumEntryName: String,
-            mustacheTemplateParser: MustacheTemplateParser,
-            locatorStrategyClassName: ClassName,
-            delegateTypeClassName: ClassName,
-        ) {
-            typeSpecBuilder.addFunction(
-                FunSpec.builder(enumEntryName)
-                    .addParameters(
-                        mustacheTemplateParser.templateVariables.map { templateVariable ->
-                            ParameterSpec.builder(templateVariable, String::class).build()
-                        },
-                    )
-                    .addCode(
-                        CodeBlock.of(
-                            """
-                            val locator = %P
-                            val element: WebElement by %T<WebElement>(locator)
-                            return element
-                            """.trimIndent(),
-                            mustacheTemplateParser.visitedTexts.joinToString(separator = ""),
-                            locatorStrategyClassName,
+            val function =
+                FunSpec
+                    .builder(
+                        className.replaceFirstChar { it.lowercase(Locale.getDefault()) },
+                    ).receiver(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
+                    .addParameter(
+                        "block",
+                        LambdaTypeName.get(
+                            receiver = ClassName(classDeclaration.packageName.asString(), className),
+                            returnType = Unit::class.asTypeName(),
                         ),
-                    )
-                    .returns(delegateTypeClassName)
-                    .build(),
-            )
+                    ).addCode(
+                        CodeBlock
+                            .builder()
+                            .addStatement("get(%P)", "\${currentUrl}$page")
+                            .add(
+                                """
+                                $className().apply(block)
+                                """.trimIndent(),
+                            ).build(),
+                    ).build()
+
+            val fileSpec =
+                FileSpec
+                    .builder(classDeclaration.generatedPackageName, className)
+                    .addFunction(function)
+
+            codeGen.writeToFile(classDeclaration, fileSpec)
         }
-    }
-}
-
-private fun KSDeclaration.getAnnotation(klass: KClass<*>): KSAnnotation? =
-    this.annotations.firstOrNull {
-        it.shortName.asString() == klass.simpleName
-    }
-
-private fun KSAnnotation.getArgument(arg: String) = arguments.first { it.name!!.asString() == arg }
-
-private fun getDelegateTypeClassName(collectToListValue: Boolean = false) =
-    if (collectToListValue) {
-        ClassName(KOLIBRIUM_SELENIUM_PACKAGE_NAME, "WebElements")
-    } else {
-        ClassName(SELENIUM_PACKAGE_NAME, "WebElement")
-    }
-
-private fun getLocatorStrategy(annotation: KSAnnotation) =
-    annotation.toString()
-        .removePrefix("@")
-        .replaceFirstChar {
-            it.lowercaseChar()
-        }
-
-private class MustacheTemplateParser(locator: String) {
-    private val template: Template = Mustache.compiler().compile(locator)
-    val templateVariables = mutableListOf<String>()
-    val visitedTexts = mutableListOf<String>()
-
-    init {
-        template.visit(
-            object : Mustache.Visitor {
-                override fun visitText(text: String) {
-                    visitedTexts.add(text)
-                }
-
-                override fun visitVariable(name: String) {
-                    addToCollections(name)
-                }
-
-                override fun visitInclude(name: String): Boolean {
-                    addToCollections(name)
-                    return true
-                }
-
-                override fun visitSection(name: String): Boolean {
-                    addToCollections(name)
-                    return true
-                }
-
-                override fun visitInvertedSection(name: String): Boolean {
-                    addToCollections(name)
-                    return true
-                }
-
-                private fun addToCollections(name: String) {
-                    visitedTexts.add("$" + name)
-                    templateVariables.add(name)
-                }
-            },
-        )
     }
 }

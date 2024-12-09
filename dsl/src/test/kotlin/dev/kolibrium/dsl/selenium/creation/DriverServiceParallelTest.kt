@@ -44,8 +44,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = DEBUG
-                environment {
-                    +("key1" to "value1")
+                environments {
+                    environment("key1", "value1")
                 }
             }
         ds.start()
@@ -63,8 +63,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = INFO
-                environment {
-                    +("key2" to "value2")
+                environments {
+                    environment("key2", "value2")
                 }
             }
         ds.start()
@@ -82,8 +82,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = WARNING
-                environment {
-                    +("key3" to "value3")
+                environments {
+                    environment("key3", "value3")
                 }
             }
         ds.start()
@@ -101,8 +101,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = ALL
-                environment {
-                    +("key4" to "value4")
+                environments {
+                    environment("key4", "value4")
                 }
             }
         ds.start()
@@ -120,8 +120,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = SEVERE
-                environment {
-                    +("key5" to "value5")
+                environments {
+                    environment("key5", "value5")
                 }
             }
         ds.start()
@@ -139,8 +139,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = DEBUG
-                environment {
-                    +("key6" to "value6")
+                environments {
+                    environment("key6", "value6")
                 }
             }
         ds.start()
@@ -158,8 +158,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = INFO
-                environment {
-                    +("key7" to "value7")
+                environments {
+                    environment("key7", "value7")
                 }
             }
         ds.start()
@@ -177,8 +177,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = WARNING
-                environment {
-                    +("key8" to "value8")
+                environments {
+                    environment("key8", "value8")
                 }
             }
         ds.start()
@@ -196,8 +196,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = DEBUG
-                environment {
-                    +("key9" to "value9")
+                environments {
+                    environment("key9", "value9")
                 }
             }
         ds.start()
@@ -215,8 +215,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = ALL
-                environment {
-                    +("key10" to "value10")
+                environments {
+                    environment("key10", "value10")
                 }
             }
         ds.start()
@@ -234,8 +234,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = SEVERE
-                environment {
-                    +("key11" to "value11")
+                environments {
+                    environment("key11", "value11")
                 }
             }
         ds.start()
@@ -253,8 +253,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = DEBUG
-                environment {
-                    +("key12" to "value12")
+                environments {
+                    environment("key12", "value12")
                 }
             }
         ds.start()
@@ -272,8 +272,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = INFO
-                environment {
-                    +("key13" to "value13")
+                environments {
+                    environment("key13", "value13")
                 }
             }
         ds.start()
@@ -291,8 +291,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = WARNING
-                environment {
-                    +("key14" to "value14")
+                environments {
+                    environment("key14", "value14")
                 }
             }
         ds.start()
@@ -310,8 +310,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = ALL
-                environment {
-                    +("key15" to "value15")
+                environments {
+                    environment("key15", "value15")
                 }
             }
         ds.start()
@@ -329,8 +329,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = SEVERE
-                environment {
-                    +("key16" to "value16")
+                environments {
+                    environment("key16", "value16")
                 }
             }
         ds.start()
@@ -348,8 +348,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = INFO
-                environment {
-                    +("key17" to "value17")
+                environments {
+                    environment("key17", "value17")
                 }
             }
         ds.start()
@@ -367,8 +367,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = WARNING
-                environment {
-                    +("key18" to "value18")
+                environments {
+                    environment("key18", "value18")
                 }
             }
         ds.start()
@@ -386,8 +386,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = ALL
-                environment {
-                    +("key19" to "value19")
+                environments {
+                    environment("key19", "value19")
                 }
             }
         ds.start()
@@ -405,8 +405,8 @@ class DriverServiceParallelTest {
         ds =
             chromeDriverService {
                 logLevel = SEVERE
-                environment {
-                    +("key20" to "value20")
+                environments {
+                    environment("key20", "value20")
                 }
             }
         ds.start()

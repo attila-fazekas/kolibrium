@@ -14,8 +14,18 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.junit.config
+plugins {
+    id("kolibrium.test-conventions")
+    id("com.google.devtools.ksp")
+}
 
-import dev.kolibrium.core.ConfigurationException
-
-internal class ProjectConfigurationException(exception: String) : ConfigurationException(exception)
+dependencies {
+    implementation(project(":dsl"))
+    implementation(project(":junit"))
+    implementation(project(":ksp:annotations"))
+    implementation(project(":selenium"))
+    implementation(Testing.kotest.assertions.core)
+    ksp(project(":ksp:processors"))
+    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
+    testImplementation("com.titusfortner:selenium-logger:_")
+}

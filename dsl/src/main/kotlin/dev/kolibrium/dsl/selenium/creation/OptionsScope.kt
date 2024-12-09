@@ -23,6 +23,10 @@ import org.openqa.selenium.UnexpectedAlertBehaviour
 import org.openqa.selenium.remote.AbstractDriverOptions
 import kotlin.time.toJavaDuration
 
+/**
+ * Base scope class for configuring browser-specific WebDriver options.
+ * Provides common configuration options supported across different browsers.
+ */
 @KolibriumDsl
 public sealed class OptionsScope {
     internal abstract val options: AbstractDriverOptions<*>
@@ -30,26 +34,47 @@ public sealed class OptionsScope {
     protected val proxyScope: ProxyScope by lazy { ProxyScope() }
     protected val timeoutsScope: TimeoutsScope by lazy { TimeoutsScope() }
 
+    /**
+     * Configures whether to accept insecure certificates.
+     */
     @KolibriumPropertyDsl
     public var acceptInsecureCerts: Boolean? = null
 
+    /**
+     * Sets the desired browser version.
+     */
     @KolibriumPropertyDsl
     public var browserVersion: String? = null
 
+    /**
+     * Sets the page load strategy for the WebDriver.
+     * @see PageLoadStrategy
+     */
     @KolibriumPropertyDsl
     public var pageLoadStrategy: PageLoadStrategy? = null
 
+    /**
+     * Sets the desired platform where the WebDriver should run.
+     * @see Platform
+     */
     @KolibriumPropertyDsl
     public var platform: Platform? = null
 
+    /**
+     * Configures whether to enable strict interactability checks to input type=file elements.
+     */
     @KolibriumPropertyDsl
     public var strictFileInteractability: Boolean? = null
 
+    /**
+     * Sets the behavior for handling unexpected alerts.
+     * @see UnexpectedAlertBehaviour
+     */
     @KolibriumPropertyDsl
     public var unhandledPromptBehaviour: UnexpectedAlertBehaviour? = null
 
     internal open fun configure() {
-        with(options) {
+        options.apply {
             acceptInsecureCerts?.let { setAcceptInsecureCerts(it) }
             this@OptionsScope.browserVersion?.let { setBrowserVersion(it) }
             pageLoadStrategy?.let { setPageLoadStrategy(it) }
@@ -59,11 +84,16 @@ public sealed class OptionsScope {
         }
     }
 
+    /**
+     * Configures various timeout settings for the WebDriver instance.
+     *
+     * @param block The configuration block for timeout settings.
+     */
     @KolibriumDsl
     public fun timeouts(block: TimeoutsScope.() -> Unit) {
-        timeoutsScope.apply(block)
         options.apply {
-            with(timeoutsScope) {
+            timeoutsScope.apply {
+                block()
                 implicitWait?.let { setImplicitWaitTimeout(it.toJavaDuration()) }
                 pageLoad?.let { setPageLoadTimeout(it.toJavaDuration()) }
                 script?.let { setScriptTimeout(it.toJavaDuration()) }
@@ -71,11 +101,16 @@ public sealed class OptionsScope {
         }
     }
 
+    /**
+     * Configures proxy settings for the WebDriver instance.
+     *
+     * @param block The configuration block for proxy settings.
+     */
     @KolibriumDsl
     public fun proxy(block: ProxyScope.() -> Unit) {
-        proxyScope.apply(block)
-        proxyScope.proxyMap.apply {
-            with(proxyScope) {
+        proxyScope.apply {
+            block()
+            proxyMap.apply {
                 proxyType?.let { proxyMap["proxyType"] = it.name }
                 autodetect?.let { proxyMap["autodetect"] = it }
                 ftpProxy?.let { proxyMap["ftpProxy"] = it }
@@ -91,10 +126,12 @@ public sealed class OptionsScope {
         }
     }
 
-    override fun toString(): String {
-        return "OptionsScope(acceptInsecureCerts=$acceptInsecureCerts, browserVersion=$browserVersion, " +
+    /**
+     * Returns a string representation of the [OptionsScope], primarily for debugging purposes.
+     */
+    override fun toString(): String =
+        "OptionsScope(acceptInsecureCerts=$acceptInsecureCerts, browserVersion=$browserVersion, " +
             "pageLoadStrategy=$pageLoadStrategy, platform=$platform, proxyScope=$proxyScope, " +
             "strictFileInteractability=$strictFileInteractability, timeoutsScope=$timeoutsScope, " +
             "unhandledPromptBehaviour=$unhandledPromptBehaviour)"
-    }
 }

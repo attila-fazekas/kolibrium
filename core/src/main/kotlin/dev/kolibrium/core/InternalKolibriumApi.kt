@@ -16,6 +16,15 @@
 
 package dev.kolibrium.core
 
+/**
+ * Marks the Kolibrium internal API, which is not intended for public use.
+ *
+ * This annotation is used to signal that the annotated element is part of the internal API of Kolibrium
+ * and should not be used by external consumers. Any usage of this API will result in a compilation error
+ * due to the opt-in requirement.
+ *
+ * @see RequiresOptIn.Level.ERROR
+ */
 @RequiresOptIn(
     level = RequiresOptIn.Level.ERROR,
     message = "This is an internal API of Kolibrium, please do not use it.",

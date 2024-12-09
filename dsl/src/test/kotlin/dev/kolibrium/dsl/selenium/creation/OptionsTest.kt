@@ -17,10 +17,13 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.core.Browser
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
-import dev.kolibrium.dsl.selenium.creation.Arguments.Firefox.headless
 import dev.kolibrium.dsl.selenium.creation.ExperimentalFlags.cookies_without_same_site_must_be_secure
 import dev.kolibrium.dsl.selenium.creation.ExperimentalFlags.same_site_by_default_cookies
+import dev.kolibrium.dsl.selenium.creation.ExperimentalFlags.use_automation_extension
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.download_default_directory
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.safebrowsing_enabled
 import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_folderList
 import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_alertOnEXEOpen
 import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_manager_closeWhenDone
@@ -31,6 +34,14 @@ import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_
 import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_download_useDownloadDir
 import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_helperApps_alwaysAsk_force
 import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.browser_helperApps_neverAsk_saveToDisk
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_http_phishy_userpass_length
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_negotiate_auth_delegation_uris
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_negotiate_auth_trusted_uris
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.network_proxy_no_proxies_on
+import dev.kolibrium.dsl.selenium.creation.Preferences.Firefox.security_csp_enable
+import dev.kolibrium.dsl.selenium.creation.Switches.enable_automation
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
@@ -147,7 +158,7 @@ class OptionsTest {
         val options =
             chromeOptions {
                 arguments {
-                    +Arguments.Chrome.headless
+                    +Chrome.headless
                     +incognito
                     windowSize {
                         width = 1800
@@ -175,7 +186,7 @@ class OptionsTest {
             chromeOptions {
                 experimentalOptions {
                     excludeSwitches {
-                        +Switches.enable_automation
+                        +enable_automation
                     }
                     localState {
                         browserEnabledLabsExperiments {
@@ -184,8 +195,8 @@ class OptionsTest {
                         }
                     }
                     preferences {
-                        +(Preferences.Chromium.download_default_directory to "~/Downloads/TestAuto")
-                        +(Preferences.Chromium.safebrowsing_enabled to false)
+                        pref(download_default_directory, "~/Downloads/TestAuto")
+                        pref(safebrowsing_enabled, false)
                     }
                 }
             }
@@ -216,7 +227,7 @@ class OptionsTest {
         val options =
             chromeOptions {
                 extensions {
-                    +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                    +"src/test/resources/extensions/webextensions-selenium-example.crx"
                 }
             }
 
@@ -318,7 +329,7 @@ class OptionsTest {
         val options =
             firefoxOptions {
                 arguments {
-                    +headless
+                    +Arguments.Firefox.headless
                     +Arguments.Firefox.incognito
                 }
             }
@@ -333,13 +344,13 @@ class OptionsTest {
         val options =
             firefoxOptions {
                 preferences {
-                    +(Preferences.Firefox.network_automatic_ntlm_auth_trusted_uris to "http://,https://")
-                    +(Preferences.Firefox.network_automatic_ntlm_auth_allow_non_fqdn to false)
-                    +(Preferences.Firefox.network_negotiate_auth_delegation_uris to "http://,https://")
-                    +(Preferences.Firefox.network_negotiate_auth_trusted_uris to "http://,https://")
-                    +(Preferences.Firefox.network_http_phishy_userpass_length to 255)
-                    +(Preferences.Firefox.network_proxy_no_proxies_on to "")
-                    +(Preferences.Firefox.security_csp_enable to false)
+                    pref(network_automatic_ntlm_auth_trusted_uris, "http://,https://")
+                    pref(network_automatic_ntlm_auth_allow_non_fqdn, false)
+                    pref(network_negotiate_auth_delegation_uris, "http://,https://")
+                    pref(network_negotiate_auth_trusted_uris, "http://,https://")
+                    pref(network_http_phishy_userpass_length, 255)
+                    pref(network_proxy_no_proxies_on, "")
+                    pref(security_csp_enable, false)
                 }
             }
 
@@ -347,6 +358,7 @@ class OptionsTest {
         val mozfirefoxOptions: Map<String, String> = mappedOptions["moz:firefoxOptions"] as Map<String, String>
         (mozfirefoxOptions["prefs"] as Map<String, Any>).shouldContainExactly(
             mapOf(
+                "remote.active-protocols" to 3,
                 "network.automatic-ntlm-auth.allow-non-fqdn" to false,
                 "network.automatic-ntlm-auth.trusted-uris" to "http://,https://",
                 "network.http.phishy-userpass-length" to 255,
@@ -377,16 +389,16 @@ class OptionsTest {
         val options =
             firefoxOptions {
                 profile {
-                    +(browser_download_folderList to 1)
-                    +(browser_download_manager_showWhenStarting to false)
-                    +(browser_download_manager_focusWhenStarting to false)
-                    +(browser_download_useDownloadDir to true)
-                    +(browser_helperApps_alwaysAsk_force to false)
-                    +(browser_download_manager_alertOnEXEOpen to false)
-                    +(browser_download_manager_closeWhenDone to true)
-                    +(browser_download_manager_showAlertOnComplete to false)
-                    +(browser_download_manager_useWindow to false)
-                    +(browser_helperApps_neverAsk_saveToDisk to "application/octet-stream")
+                    pref(browser_download_folderList, 1)
+                    pref(browser_download_manager_showWhenStarting, false)
+                    pref(browser_download_manager_focusWhenStarting, false)
+                    pref(browser_download_useDownloadDir, true)
+                    pref(browser_download_manager_alertOnEXEOpen, false)
+                    pref(browser_download_manager_closeWhenDone, true)
+                    pref(browser_download_manager_showAlertOnComplete, false)
+                    pref(browser_download_manager_useWindow, false)
+                    pref(browser_helperApps_alwaysAsk_force, false)
+                    pref(browser_helperApps_neverAsk_saveToDisk, "application/octet-stream")
                 }
             }
 
@@ -410,8 +422,8 @@ class OptionsTest {
         val mappedOptions = options.asMap()
         val mozfirefoxOptions: Map<String, String> = mappedOptions["moz:firefoxOptions"] as Map<String, String>
         (mozfirefoxOptions["args"] as List<String>).shouldContainExactly(
-            "--height=1800",
-            "--width=1000",
+            "--width=1800",
+            "--height=1000",
         )
     }
 
@@ -502,16 +514,17 @@ class OptionsTest {
             edgeOptions {
                 experimentalOptions {
                     preferences {
-                        +(Preferences.Chromium.download_default_directory to "~/Downloads/TestAuto")
-                        +(Preferences.Chromium.safebrowsing_enabled to false)
+                        pref(download_default_directory, "~/Downloads/TestAuto")
+                        pref(safebrowsing_enabled, false)
                     }
                     excludeSwitches {
-                        +Switches.enable_automation
+                        +enable_automation
                     }
                     localState {
                         browserEnabledLabsExperiments {
                             +same_site_by_default_cookies
                             +cookies_without_same_site_must_be_secure
+                            +use_automation_extension
                         }
                     }
                 }
@@ -532,6 +545,7 @@ class OptionsTest {
                     setOf(
                         "same-site-by-default-cookies@2",
                         "cookies-without-same-site-must-be-secure@2",
+                        "useAutomationExtension",
                     ),
             ),
         )
@@ -543,7 +557,7 @@ class OptionsTest {
         val options =
             edgeOptions {
                 extensions {
-                    +Extension("src/test/resources/extensions/webextensions-selenium-example.crx")
+                    +"src/test/resources/extensions/webextensions-selenium-example.crx"
                 }
             }
 

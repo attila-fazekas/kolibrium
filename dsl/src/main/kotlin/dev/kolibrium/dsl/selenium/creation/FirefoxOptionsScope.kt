@@ -20,15 +20,35 @@ import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.firefox.FirefoxProfile
 import java.io.File
 
+/**
+ * Scope class for configuring Firefox browser-specific options.
+ *
+ * This class provides Firefox-specific configurations while inheriting common browser options
+ * from [OptionsScope].
+ *
+ * @property options The underlying [FirefoxOptions] instance being configured.
+ */
 @KolibriumDsl
-public class FirefoxOptionsScope(override val options: FirefoxOptions) : OptionsScope() {
-    private val argsScope by lazy { ArgumentsScope<Firefox>() }
-    private val preferencesScope by lazy { PreferencesScope<Firefox>() }
+public class FirefoxOptionsScope(
+    override val options: FirefoxOptions,
+) : OptionsScope() {
+    private val argsScope by lazy { FirefoxArgumentsScope() }
+    private val preferencesScope by lazy { FirefoxPreferencesScope() }
     private val ffProfileScope by lazy { FirefoxProfileScope() }
 
+    /**
+     * Path to the Firefox binary executable.
+     *
+     * When set, Firefox will be launched using this specific binary instead of the system default.
+     */
     @KolibriumPropertyDsl
     public var binary: String? = null
 
+    /**
+     * Path to a custom Firefox profile directory.
+     *
+     * When set, Firefox will use this profile instead of creating a new temporary profile.
+     */
     @KolibriumPropertyDsl
     public var profileDir: String? = null
 
@@ -40,20 +60,40 @@ public class FirefoxOptionsScope(override val options: FirefoxOptions) : Options
         }
     }
 
+    /**
+     * Configures command-line arguments for Firefox browser.
+     *
+     * @param block The configuration block for Firefox-specific arguments.
+     */
     @KolibriumDsl
-    public fun arguments(block: ArgumentsScope<Firefox>.() -> Unit) {
+    public fun arguments(block: FirefoxArgumentsScope.() -> Unit) {
         argsScope.apply(block)
         options.addArguments(argsScope.args.map { it.value })
     }
 
+    /**
+     * Configures Firefox preferences through FirefoxOptions.
+     *
+     * These preferences are applied directly to the Firefox options and take precedence
+     * over preferences set in the Firefox profile.
+     *
+     * @param block The configuration block for Firefox preferences.
+     */
     @KolibriumDsl
-    public fun preferences(block: PreferencesScope<Firefox>.() -> Unit) {
+    public fun preferences(block: FirefoxPreferencesScope.() -> Unit) {
         preferencesScope.apply(block)
         if (preferencesScope.preferences.isNotEmpty()) {
             preferencesScope.preferences.forEach(options::addPreference)
         }
     }
 
+    /**
+     * Configures a custom Firefox profile with specific preferences.
+     *
+     * Creates a new Firefox profile and applies the specified preferences to it.
+     *
+     * @param block The configuration block for Firefox profile preferences.
+     */
     @KolibriumDsl
     public fun profile(block: FirefoxProfileScope.() -> Unit) {
         ffProfileScope.apply(block)
@@ -64,11 +104,13 @@ public class FirefoxOptionsScope(override val options: FirefoxOptions) : Options
         }
     }
 
-    override fun toString(): String {
-        return "FirefoxOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
+    /**
+     * Returns a string representation of the [FirefoxOptionsScope], primarily for debugging purposes.
+     */
+    override fun toString(): String =
+        "FirefoxOptionsScope(acceptInsecureCerts=$acceptInsecureCerts, argumentsScope=$argsScope, " +
             "binary=$binary, browserVersion=$browserVersion, firefoxProfileScope=$ffProfileScope, " +
             "pageLoadStrategy=$pageLoadStrategy, platform=$platform, preferencesScope=$preferencesScope, " +
             "profileDir=$profileDir, proxyScope=$proxyScope, strictFileInteractability=$strictFileInteractability, " +
             "timeoutsScope=$timeoutsScope, unhandledPromptBehaviour=$unhandledPromptBehaviour)"
-    }
 }

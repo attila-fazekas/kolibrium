@@ -19,11 +19,19 @@ package dev.kolibrium.dsl.selenium.creation
 import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chrome.ChromeOptions
 
+/**
+ * Scope class for configuring Chrome-specific settings for Chrome WebDriver.
+ */
 @KolibriumDsl
 public class ChromeDriverScope : DriverScope<ChromeDriverServiceScope, ChromeOptionsScope>() {
     override val driverServiceScope = ChromeDriverServiceScope(ChromeDriverService.Builder())
     override val optionsScope = ChromeOptionsScope(ChromeOptions())
 
+    /**
+     * Configures the Chrome driver service.
+     *
+     * @param block The configuration block for Chrome driver service.
+     */
     @KolibriumDsl
     override fun driverService(block: ChromeDriverServiceScope.() -> Unit) {
         driverServiceScope.apply {
@@ -32,6 +40,11 @@ public class ChromeDriverScope : DriverScope<ChromeDriverServiceScope, ChromeOpt
         }
     }
 
+    /**
+     * Configures the Chrome-specific options.
+     *
+     * @param block The configuration block for Chrome browser options.
+     */
     @KolibriumDsl
     override fun options(block: ChromeOptionsScope.() -> Unit) {
         optionsScope.apply {
@@ -40,7 +53,8 @@ public class ChromeDriverScope : DriverScope<ChromeDriverServiceScope, ChromeOpt
         }
     }
 
-    override fun toString(): String {
-        return "ChromeDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
-    }
+    /**
+     * Returns a string representation of the [ChromeDriverScope], primarily for debugging purposes.
+     */
+    override fun toString(): String = "ChromeDriverScope(driverServiceScope=$driverServiceScope, optionsScope=$optionsScope)"
 }

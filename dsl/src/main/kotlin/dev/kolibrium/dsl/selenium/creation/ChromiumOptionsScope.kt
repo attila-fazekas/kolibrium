@@ -20,11 +20,22 @@ import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.chromium.ChromiumOptions
 import org.openqa.selenium.edge.EdgeOptions
 
+/**
+ * Base scope class for configuring Chromium browser options.
+ * Provides configuration options common to Chrome and Edge browsers.
+ *
+ * @property options The underlying [ChromiumOptions] instance being configured.
+ */
 @KolibriumDsl
-public abstract class ChromiumOptionsScope(override val options: ChromiumOptions<*>) : OptionsScope() {
-    protected val expOptionsScope: ExperimentalOptionsScope<Chromium> by lazy { ExperimentalOptionsScope() }
+public abstract class ChromiumOptionsScope(
+    override val options: ChromiumOptions<*>,
+) : OptionsScope() {
+    protected val expOptionsScope: ExperimentalOptionsScope by lazy { ExperimentalOptionsScope() }
     protected val extensionsScope: ExtensionsScope by lazy { ExtensionsScope() }
 
+    /**
+     * Sets the path to the browser binary.
+     */
     @KolibriumPropertyDsl
     public var binary: String? = null
 
@@ -35,29 +46,42 @@ public abstract class ChromiumOptionsScope(override val options: ChromiumOptions
         }
     }
 
+    /**
+     * Configures experimental browser options.
+     *
+     * @param block The configuration block for experimental options.
+     */
     @KolibriumDsl
-    public fun experimentalOptions(block: ExperimentalOptionsScope<Chromium>.() -> Unit) {
-        expOptionsScope.apply(block)
-        with(expOptionsScope) {
-            with(this@ChromiumOptionsScope.options) {
+    public fun experimentalOptions(block: ExperimentalOptionsScope.() -> Unit) {
+        expOptionsScope.apply {
+            block()
+            this@ChromiumOptionsScope.options.apply {
                 if (preferencesScope.preferences.isNotEmpty()) {
                     setExperimentalOption("prefs", preferencesScope.preferences)
                 }
                 if (excludeSwitchesScope.switches.isNotEmpty()) {
-                    setExperimentalOption("excludeSwitches", excludeSwitchesScope.switches)
+                    setExperimentalOption("excludeSwitches", excludeSwitchesScope.switches.map { it.value }.toSet())
                 }
                 if (localStateScope.experiments.experimentalFlags.isNotEmpty()) {
-//                    val x = localStatePrefs["browser.enabled_labs_experiments"] = experiments.experimentalFlags
-
                     setExperimentalOption(
                         "localState",
-                        mapOf("browser.enabled_labs_experiments" to localStateScope.experiments.experimentalFlags),
+                        mapOf(
+                            "browser.enabled_labs_experiments" to
+                                localStateScope.experiments.experimentalFlags
+                                    .map { it.value }
+                                    .toSet(),
+                        ),
                     )
                 }
             }
         }
     }
 
+    /**
+     * Configures browser extensions.
+     *
+     * @param block The configuration block for extension settings.
+     */
     @KolibriumDsl
     public fun extensions(block: ExtensionsScope.() -> Unit) {
         extensionsScope.apply(block)

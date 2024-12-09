@@ -23,20 +23,29 @@ import java.net.ServerSocket
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
 
+/**
+ * Base scope class for configuring Selenium driver service settings.
+ */
 @KolibriumDsl
 public sealed class DriverServiceScope {
     internal abstract val builder: DriverService.Builder<*, *>
 
     protected val environmentScope: EnvironmentScope by lazy { EnvironmentScope() }
 
+    /**
+     * The port on which the driver service should listen for incoming connections.
+     */
     @KolibriumPropertyDsl
     public var port: Int? = null
 
+    /**
+     * The maximum time to wait for the driver service to start.
+     */
     @KolibriumPropertyDsl
     public var timeout: Duration? = null
 
     internal open fun configure() {
-        with(builder) {
+        builder.apply {
             port?.let {
                 checkPort(it)
                 usingPort(it)
@@ -58,8 +67,13 @@ public sealed class DriverServiceScope {
         }
     }
 
+    /**
+     * Configures environment variables for the driver service.
+     *
+     * @param block The configuration block for environment variables.
+     */
     @KolibriumDsl
-    public fun environment(block: EnvironmentScope.() -> Unit) {
+    public fun environments(block: EnvironmentScope.() -> Unit) {
         environmentScope.apply(block)
         if (environmentScope.environmentVariables.isNotEmpty()) {
             builder.withEnvironment(environmentScope.environmentVariables)
@@ -68,7 +82,7 @@ public sealed class DriverServiceScope {
 
     protected fun ifExists(file: String?): Boolean {
         file?.let {
-            require(File(it).exists()) {
+            check(File(it).exists()) {
                 """
                 |DriverService is not set up properly:
                 |The following file does not exist at the specified path: $file
@@ -78,7 +92,8 @@ public sealed class DriverServiceScope {
         return true
     }
 
-    override fun toString(): String {
-        return "DriverServiceScope(environmentScope=$environmentScope, port=$port, timeout=$timeout)"
-    }
+    /**
+     * Returns a string representation of the [DriverServiceScope], primarily for debugging purposes.
+     */
+    override fun toString(): String = "DriverServiceScope(environmentScope=$environmentScope, port=$port, timeout=$timeout)"
 }

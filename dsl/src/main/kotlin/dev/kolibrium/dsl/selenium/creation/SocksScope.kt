@@ -16,21 +16,37 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+/**
+ * Scope class for configuring SOCKS proxy settings.
+ */
 @KolibriumDsl
 public class SocksScope {
+    /**
+     * The SOCKS proxy server address.
+     */
     @KolibriumPropertyDsl
     public var address: String? = null
 
+    /**
+     * The SOCKS protocol version.
+     */
     @KolibriumPropertyDsl
     public var version: Int? = null
 
+    /**
+     * Username for SOCKS proxy authentication.
+     */
     @KolibriumPropertyDsl
     public var username: String? = null
 
+    /**
+     * Password for SOCKS proxy authentication.
+     */
     @KolibriumPropertyDsl
     public var password: String? = null
 
-    override fun toString(): String {
-        return "SocksScope(address=$address, version=$version, username=$username, password=$password)"
-    }
+    /**
+     * Returns a string representation of the [SocksScope], primarily for debugging purposes.
+     */
+    override fun toString(): String = "SocksScope(address=$address, version=$version, username=$username, password=$password)"
 }
