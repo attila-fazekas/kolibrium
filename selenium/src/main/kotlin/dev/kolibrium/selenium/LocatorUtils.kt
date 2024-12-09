@@ -31,7 +31,7 @@ import org.openqa.selenium.WebElement
  * @receiver The [WebElement] to check for clickability.
  * @return `true` if the element is both displayed and enabled, `false` otherwise.
  */
-public val WebElement.clickable: Boolean
+public val WebElement.isClickable: Boolean
     get() = isDisplayed && isEnabled
 
 /**
@@ -44,7 +44,7 @@ public val WebElement.clickable: Boolean
  * @receiver The [WebElement]s to check for clickability.
  * @return `true` if the elements are both displayed and enabled, `false` otherwise.
  */
-public val WebElements.clickable: Boolean
+public val WebElements.isClickable: Boolean
     get() = all { isDisplayed && isEnabled }
 
 /**

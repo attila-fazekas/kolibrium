@@ -16,26 +16,26 @@
 
 package dev.kolibrium.selenium.internal.pages
 
-import dev.kolibrium.selenium.clickable
 import dev.kolibrium.selenium.id
+import dev.kolibrium.selenium.isClickable
 import org.openqa.selenium.WebDriver
 
 context(WebDriver)
 class ButtonsPage {
     val button1 by id("button1") {
-        clickable
+        isClickable
     }
 
     val button2 by id("button2") {
-        clickable
+        isClickable
     }
 
     val button3 by id("button3") {
-        clickable
+        isClickable
     }
 
     val button4 by id("button4") {
-        clickable
+        isClickable
     }
 
     val result by id("result")
