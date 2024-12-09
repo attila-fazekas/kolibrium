@@ -55,7 +55,7 @@ Kolibrium follows API development guidelines, available at [Kotlin's website](ht
 
 #### API compatibility
 
-We place great emphasis on backward compatibility and, to achieve that, we run the [Binary Compatibility Validator](https://kotlinlang.org/docs/jvm-api-guidelines-backward-compatibility.html#binary-compatibility-validator) with every build and have [Explicit API Mode](https://kotlinlang.org/docs/jvm-api-guidelines-backward-compatibility.html#explicit-api-mode) enabled across all modules.
+We place great emphasis on backward compatibility and, to achieve that, we run the [Binary Compatibility Validator](https://kotlinlang.org/docs/api-guidelines-backward-compatibility.html#use-the-binary-compatibility-validator) with every build and have [Explicit API Mode](https://kotlinlang.org/docs/api-guidelines-backward-compatibility.html#specify-return-types-explicitly) enabled across all modules.
 
 For a comprehensive overview, watch Márton Braun's awesome [presentation on API design and compatibility](https://www.youtube.com/watch?v=6dN8qLvu_BQ&t=359s).
 
