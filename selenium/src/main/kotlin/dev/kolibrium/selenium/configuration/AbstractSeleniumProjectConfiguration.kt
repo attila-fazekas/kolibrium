@@ -49,7 +49,10 @@ public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguratio
 
 internal object SeleniumProjectConfiguration {
     @OptIn(InternalKolibriumApi::class)
-    internal fun actualConfig(): AbstractSeleniumProjectConfiguration =
+    private val config by lazy {
         ProjectConfigurationLoader.loadConfiguration(AbstractSeleniumProjectConfiguration::class)
             ?: DefaultSeleniumProjectConfiguration
+    }
+
+    internal fun actualConfig(): AbstractSeleniumProjectConfiguration = config
 }
