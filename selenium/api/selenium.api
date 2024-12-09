@@ -34,11 +34,11 @@ public final class dev/kolibrium/selenium/LocatorDelegatesKt {
 }
 
 public final class dev/kolibrium/selenium/LocatorUtilsKt {
-	public static final fun getClickable (Ljava/util/List;)Z
-	public static final fun getClickable (Lorg/openqa/selenium/WebElement;)Z
 	public static final fun getDefaultElementReadyWhen ()Lkotlin/jvm/functions/Function1;
 	public static final fun getDefaultElementsReadyWhen ()Lkotlin/jvm/functions/Function1;
 	public static final fun getDefaultWait ()Ldev/kolibrium/selenium/Wait;
+	public static final fun isClickable (Ljava/util/List;)Z
+	public static final fun isClickable (Lorg/openqa/selenium/WebElement;)Z
 	public static final fun isDisplayed (Ljava/util/List;)Z
 	public static final fun isEnabled (Ljava/util/List;)Z
 }
