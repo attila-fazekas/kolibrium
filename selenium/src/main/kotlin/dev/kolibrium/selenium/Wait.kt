@@ -18,6 +18,7 @@ package dev.kolibrium.selenium
 
 import kotlin.reflect.KClass
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
 /**
  * Class for configuring wait parameters in synchronization operations.
@@ -39,4 +40,24 @@ public class Wait(
      * A list of exception classes that should be ignored during synchronization processes.
      */
     public val ignoring: List<KClass<out Throwable>> = emptyList(),
-)
+) {
+    init {
+        pollingInterval?.let {
+            require(!it.isNegative()) { "pollingInterval must not be negative." }
+            require(it >= 10.milliseconds) { "pollingInterval must be at least 10ms." }
+        }
+
+        timeout?.let {
+            require(!it.isNegative()) { "timeout must not be negative." }
+            require(it >= 100.milliseconds) { "timeout must be at least 100ms." }
+        }
+
+        pollingInterval?.let { polling ->
+            timeout?.let { total ->
+                require(polling <= total) {
+                    "pollingInterval ($polling) must not be greater than timeout ($total)."
+                }
+            }
+        }
+    }
+}
