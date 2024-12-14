@@ -20,6 +20,7 @@ import dev.kolibrium.core.WebElements
 import dev.kolibrium.selenium.Wait
 import dev.kolibrium.selenium.isDisplayed
 import org.openqa.selenium.NoSuchElementException
+import org.openqa.selenium.SearchContext
 import org.openqa.selenium.StaleElementReferenceException
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
@@ -37,4 +38,6 @@ internal object DefaultSeleniumProjectConfiguration : AbstractSeleniumProjectCon
             message = "Element could not be found",
             ignoring = listOf(NoSuchElementException::class, StaleElementReferenceException::class),
         )
+
+    override var decorators: List<(SearchContext) -> SearchContext> = emptyList()
 }

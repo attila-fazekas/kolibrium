@@ -17,6 +17,8 @@
 package dev.kolibrium.selenium
 
 import dev.kolibrium.core.WebElements
+import dev.kolibrium.selenium.configuration.SeleniumProjectConfiguration
+import dev.kolibrium.selenium.decorators.WebDriverDecorators
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
@@ -671,12 +673,21 @@ internal class KWebElement(
     wait: Wait,
     private val readyWhen: WebElement.() -> Boolean,
 ) : WebElementProperty {
+    private val searchContext by lazy {
+        val config = SeleniumProjectConfiguration.actualConfig()
+        if (config.decorators.isEmpty()) {
+            this@SearchContext
+        } else {
+            WebDriverDecorators.combine(config.decorators)(this@SearchContext)
+        }
+    }
+
     private val cachedWebElement: WebElement by lazy {
-        findElement(by(locator))
+        searchContext.findElement(by(locator))
     }
 
     private val webElement: WebElement
-        get() = if (cacheLookup) cachedWebElement else findElement(by(locator))
+        get() = if (cacheLookup) cachedWebElement else searchContext.findElement(by(locator))
 
     private val wait: FluentWait<KWebElement> by lazy {
         FluentWait(this).apply {
@@ -711,10 +722,21 @@ internal class KWebElements(
     wait: Wait,
     private val readyWhen: WebElements.() -> Boolean,
 ) : WebElementsProperty {
-    private val cachedWebElements: WebElements by lazy { findElements(by(locator)) }
+    private val searchContext by lazy {
+        val config = SeleniumProjectConfiguration.actualConfig()
+        if (config.decorators.isEmpty()) {
+            this@SearchContext
+        } else {
+            WebDriverDecorators.combine(config.decorators)(this@SearchContext)
+        }
+    }
+
+    private val cachedWebElements: WebElements by lazy {
+        searchContext.findElements(by(locator))
+    }
 
     private val webElements: WebElements
-        get() = if (cacheLookup) cachedWebElements else findElements(by(locator))
+        get() = if (cacheLookup) cachedWebElements else searchContext.findElements(by(locator))
 
     private val wait: FluentWait<KWebElements> by lazy {
         FluentWait(this).apply {
@@ -735,7 +757,7 @@ internal class KWebElements(
     ): WebElements =
         execute(property.name, by(locator)) {
             wait.until {
-                val elements = findElements(by(locator))
+                val elements = searchContext.findElements(by(locator))
                 elements.readyWhen()
             }
             webElements

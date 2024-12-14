@@ -21,6 +21,15 @@ import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engin
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
 import dev.kolibrium.junit.configuration.AbstractJUnitProjectConfiguration
+import dev.kolibrium.selenium.configuration.AbstractSeleniumProjectConfiguration
+import dev.kolibrium.selenium.decorators.BorderStyle.DOTTED
+import dev.kolibrium.selenium.decorators.Color.BLUE
+import dev.kolibrium.selenium.decorators.HighlighterDecorator
+import dev.kolibrium.selenium.decorators.SlowMotionDecorator
+import dev.kolibrium.selenium.isClickable
+import kotlin.time.Duration.Companion.milliseconds
+import org.openqa.selenium.SearchContext
+import org.openqa.selenium.WebElement
 
 @AutoService(AbstractJUnitProjectConfiguration::class)
 object JUnitConfiguration : AbstractJUnitProjectConfiguration() {
@@ -36,4 +45,22 @@ object JUnitConfiguration : AbstractJUnitProjectConfiguration() {
             }
         }
     }
+}
+
+@AutoService(AbstractSeleniumProjectConfiguration::class)
+object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
+    override val elementReadyWhen: (WebElement.() -> Boolean) = { isClickable }
+
+    override val decorators = listOf(
+        { ctx: SearchContext ->
+            HighlighterDecorator
+                .configure(style = DOTTED, color = BLUE, width = 10)
+                .decorate(ctx)
+        },
+        { ctx: SearchContext ->
+            SlowMotionDecorator
+                .configure(wait = 500.milliseconds)
+                .decorate(ctx)
+        }
+    )
 }

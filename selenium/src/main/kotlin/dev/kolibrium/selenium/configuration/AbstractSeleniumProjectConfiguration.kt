@@ -21,13 +21,13 @@ import dev.kolibrium.core.WebElements
 import dev.kolibrium.core.config.ProjectConfiguration
 import dev.kolibrium.core.config.ProjectConfigurationLoader
 import dev.kolibrium.selenium.Wait
+import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 
 /**
  * Abstract base class for configuring Kolibrium's Selenium module project level settings.
- *
- * Provides customization points for wait strategies.
- * To customize the configuration, create a class that extends this class and override the [wait] property.
+ * Provides customization points for wait strategies and element readiness checks.
+ * To customize the configuration, create a class that extends this class and override the desired property.
  */
 @OptIn(InternalKolibriumApi::class)
 public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguration {
@@ -45,6 +45,12 @@ public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguratio
      * The wait configuration to use in synchronization operations.
      */
     public open val wait: Wait? = null
+
+    /**
+     * List of decorators to be applied to SearchContext objects (WebDriver or WebElement).
+     * Decorators can add behavior like highlighting or slow motion to Selenium operations.
+     */
+    public open val decorators: List<(SearchContext) -> SearchContext> = emptyList()
 }
 
 internal object SeleniumProjectConfiguration {
