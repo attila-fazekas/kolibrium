@@ -57,8 +57,8 @@ class LocatorDelegatesTest {
     private lateinit var driver: WebDriver
 
     private fun buttonDelayedPage(block: ButtonDelayedPage.() -> Unit) {
-        driver.get(buttonPage1)
         with(driver) {
+            get(buttonPage1)
             with(ButtonDelayedPage()) {
                 block()
             }
@@ -66,8 +66,8 @@ class LocatorDelegatesTest {
     }
 
     private fun buttonStaleElementReferenceExceptionPage(block: ButtonStaleElementReferenceExceptionPage.() -> Unit) {
-        driver.get(buttonPage2)
         with(driver) {
+            get(buttonPage2)
             with(ButtonStaleElementReferenceExceptionPage()) {
                 block()
             }
@@ -75,8 +75,8 @@ class LocatorDelegatesTest {
     }
 
     private fun buttonElementClickInterceptedExceptionPage(block: ButtonElementClickInterceptedExceptionPage.() -> Unit) {
-        driver.get(buttonPage3)
         with(driver) {
+            get(buttonPage3)
             with(ButtonElementClickInterceptedExceptionPage()) {
                 block()
             }
@@ -84,8 +84,8 @@ class LocatorDelegatesTest {
     }
 
     private fun inputElementNotInteractableExceptionPage(block: ElementNotInteractableExceptionPage.() -> Unit) {
-        driver.get(buttonPage4)
         with(driver) {
+            get(buttonPage4)
             with(ElementNotInteractableExceptionPage()) {
                 block()
             }
@@ -93,8 +93,8 @@ class LocatorDelegatesTest {
     }
 
     private fun buttonsPage(block: ButtonsPage.() -> Unit) {
-        driver.get(buttonsPage)
         with(driver) {
+            get(buttonsPage)
             with(ButtonsPage()) {
                 block()
             }
@@ -102,8 +102,8 @@ class LocatorDelegatesTest {
     }
 
     private fun homePage(block: HomePage.() -> Unit) {
-        driver.get(homePage)
         with(driver) {
+            get(homePage)
             with(HomePage()) {
                 block()
             }
@@ -111,8 +111,8 @@ class LocatorDelegatesTest {
     }
 
     private fun imagesPage(block: ImagesPage.() -> Unit) {
-        driver.get(imagesPage)
         with(driver) {
+            get(imagesPage)
             with(ImagesPage()) {
                 block()
             }

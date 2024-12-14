@@ -42,19 +42,21 @@ class InventoryPage {
     }
 
     fun Product.addToCart() {
-        products.forEach {
-            val item = Item(it, this)
+        for (product in products) {
+            val item = Item(product, this)
             if (item.name.text.contains(this.productName)) {
                 item.addToCartButton.click()
+                break
             }
         }
     }
 
     fun Product.removeFromCart() {
-        products.forEach {
-            val item = Item(it, this)
+        for (product in products) {
+            val item = Item(product, this)
             if (item.name.text.contains(this.productName)) {
                 item.removeFromCartButton.click()
+                break
             }
         }
     }

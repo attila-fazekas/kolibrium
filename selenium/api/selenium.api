@@ -57,8 +57,47 @@ public final class dev/kolibrium/selenium/Wait {
 
 public abstract class dev/kolibrium/selenium/configuration/AbstractSeleniumProjectConfiguration : dev/kolibrium/core/config/ProjectConfiguration {
 	public fun <init> ()V
+	public fun getDecorators ()Ljava/util/List;
 	public fun getElementReadyWhen ()Lkotlin/jvm/functions/Function1;
 	public fun getElementsReadyWhen ()Lkotlin/jvm/functions/Function1;
 	public fun getWait ()Ldev/kolibrium/selenium/Wait;
+}
+
+public final class dev/kolibrium/selenium/decorators/BorderStyle : java/lang/Enum {
+	public static final field DASHED Ldev/kolibrium/selenium/decorators/BorderStyle;
+	public static final field DOTTED Ldev/kolibrium/selenium/decorators/BorderStyle;
+	public static final field SOLID Ldev/kolibrium/selenium/decorators/BorderStyle;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/selenium/decorators/BorderStyle;
+	public static fun values ()[Ldev/kolibrium/selenium/decorators/BorderStyle;
+}
+
+public final class dev/kolibrium/selenium/decorators/Color : java/lang/Enum {
+	public static final field BLACK Ldev/kolibrium/selenium/decorators/Color;
+	public static final field BLUE Ldev/kolibrium/selenium/decorators/Color;
+	public static final field GRAY Ldev/kolibrium/selenium/decorators/Color;
+	public static final field GREEN Ldev/kolibrium/selenium/decorators/Color;
+	public static final field ORANGE Ldev/kolibrium/selenium/decorators/Color;
+	public static final field PINK Ldev/kolibrium/selenium/decorators/Color;
+	public static final field PURPLE Ldev/kolibrium/selenium/decorators/Color;
+	public static final field RED Ldev/kolibrium/selenium/decorators/Color;
+	public static final field WHITE Ldev/kolibrium/selenium/decorators/Color;
+	public static final field YELLOW Ldev/kolibrium/selenium/decorators/Color;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/selenium/decorators/Color;
+	public static fun values ()[Ldev/kolibrium/selenium/decorators/Color;
+}
+
+public final class dev/kolibrium/selenium/decorators/HighlighterDecorator {
+	public static final field INSTANCE Ldev/kolibrium/selenium/decorators/HighlighterDecorator;
+	public final fun configure (Ldev/kolibrium/selenium/decorators/BorderStyle;Ldev/kolibrium/selenium/decorators/Color;I)Ldev/kolibrium/selenium/decorators/HighlighterDecorator;
+	public static synthetic fun configure$default (Ldev/kolibrium/selenium/decorators/HighlighterDecorator;Ldev/kolibrium/selenium/decorators/BorderStyle;Ldev/kolibrium/selenium/decorators/Color;IILjava/lang/Object;)Ldev/kolibrium/selenium/decorators/HighlighterDecorator;
+	public final fun decorate (Lorg/openqa/selenium/SearchContext;)Lorg/openqa/selenium/SearchContext;
+}
+
+public final class dev/kolibrium/selenium/decorators/SlowMotionDecorator {
+	public static final field INSTANCE Ldev/kolibrium/selenium/decorators/SlowMotionDecorator;
+	public final fun configure-LRDsOJo (J)Ldev/kolibrium/selenium/decorators/SlowMotionDecorator;
+	public final fun decorate (Lorg/openqa/selenium/SearchContext;)Lorg/openqa/selenium/SearchContext;
 }
 
