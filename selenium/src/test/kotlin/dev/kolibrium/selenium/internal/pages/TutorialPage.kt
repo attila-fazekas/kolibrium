@@ -35,40 +35,32 @@ import dev.kolibrium.selenium.xPaths
 import org.openqa.selenium.WebDriver
 
 context(WebDriver)
-class HomePage {
-    val header by className("header")
+class TutorialPage {
+    val className by className("by-class-name")
+    val classNames by classNames("multiple")
 
-    val name by cssSelector("#name")
+    val cssSelector by cssSelector("[data-test='css-selector']")
+    val cssSelectors by cssSelectors("[data-test='multiple']")
 
-    val nameXPath by xPath("//*[@id='name']")
+    val id by id("by-id")
 
-    val email by idOrName("email")
+    val idOrName by idOrName("by-name")
 
-    val phone by id("phone")
+    val linkText by linkText("Locate by Link Text")
+    val linkTexts by linkTexts("Multiple Locate by Link Text")
 
-    val phoneName by name("phone")
+    val name by name("by-name")
+    val names by names("multiple-by-name")
 
-    val googleLink by xPath("//a[@class='link'][contains(text(),'Google')]")
+    val partialLinkText by partialLinkText("Partial Link Text Example")
+    val partialLinkTexts by partialLinkTexts("Partial Link Example")
 
-    val fbLink by linkText("Facebook")
+    val tagName by tagName("p")
+    val tagNames by tagNames("span")
 
-    val twitterLink by linkText("Twitter")
+    val xPath by xPath("//div[@id='by-xpath']")
+    val xPaths by xPaths("//div[@class='multiple-by-xpath']")
 
-    val clickHereLink by partialLinkText("Click")
-
-    val a1TagName by tagName("h1")
-
-    val links by classNames("link")
-
-    val linksTagName by tagNames("a")
-
-    val linksCss by cssSelectors("a")
-
-    val linksXPath by xPaths("//a[@class='link']")
-
-    val fbLinks by linkTexts("Facebook")
-
-    val fbPartialLinks by partialLinkTexts("Facebook")
-
-    val selects by names("select")
+    val singleLocators by id("single-locators")
+    val multipleLocators by id("multiple-locators")
 }

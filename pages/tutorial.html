@@ -2,9 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Selenium Locators Test Page</title>
 </head>
 <body>
-$END$
+<h1>Selenium Locators Test Page</h1>
+
+<div class="locator" id="single-locators">
+  <h2>Single Element Locators</h2>
+  <div class="by-class-name">Locate by Class Name</div><br>
+  <div data-test="css-selector">Locate by CSS Selector</div><br>
+  <div id="by-id">Locate by ID</div><br>
+  <a href="#" id="by-link-text">Locate by Link Text</a><br><br>
+  <button name="by-name">Locate by Name</button><br><br>
+  <a href="#" id="by-partial-link">Locate by Partial Link Text Example</a><br>
+  <p>Locate by Tag Name</p>
+  <div id="by-xpath">Locate by XPath</div>
+</div>
+
+<div class="locator" id="multiple-locators">
+  <h2>Multiple Element Locators</h2>
+  <div class="multiple">Multiple Locate by Class Name</div><br>
+  <div class="multiple">Multiple Locate by Class Name</div><br>
+  <div data-test="multiple">Multiple Locate by CSS Selector</div><br>
+  <div data-test="multiple">Multiple Locate by CSS Selector</div><br>
+  <a href="#">Multiple Locate by Link Text</a><br><br>
+  <a href="#">Multiple Locate by Link Text</a><br><br>
+  <button name="multiple-by-name">Multiple Locate by Name</button><br><br>
+  <button name="multiple-by-name">Multiple Locate by Name</button><br><br>
+  <a href="#">Locate by Partial Link Example</a><br><br>
+  <a href="#">Locate by Partial Link Example</a><br><br>
+  <span>Multiple Locate by Tag Name</span><br><br>
+  <span>Multiple Locate by Tag Name</span><br><br>
+  <div class="multiple-by-xpath">Multiple Locate by XPath</div><br>
+  <div class="multiple-by-xpath">Multiple Locate by XPath</div>
+</div>
 </body>
 </html>
