@@ -658,12 +658,15 @@ internal inline fun <reified T> SearchContext.genericLocator(
     cacheLookup: Boolean,
     wait: Wait,
     noinline readyWhen: T.() -> Boolean,
-): ReadOnlyProperty<Any?, T> =
-    when (T::class) {
+): ReadOnlyProperty<Any?, T> {
+    require(locator.isNotBlank()) { "\"locator\" must not be blank" }
+
+    return when (T::class) {
         WebElement::class -> KWebElement(locator, by, cacheLookup, wait, readyWhen as WebElement.() -> Boolean)
         List::class -> KWebElements(locator, by, cacheLookup, wait, readyWhen as WebElements.() -> Boolean)
         else -> throw IllegalArgumentException("Unsupported type: ${T::class.simpleName}")
     } as ReadOnlyProperty<Any?, T>
+}
 
 context(SearchContext)
 internal class KWebElement(
