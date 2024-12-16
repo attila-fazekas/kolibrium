@@ -16,6 +16,7 @@
 
 package dev.kolibrium.selenium.internal
 
+import dev.kolibrium.selenium.className
 import dev.kolibrium.selenium.internal.pages.ButtonDelayedPage
 import dev.kolibrium.selenium.internal.pages.ButtonElementClickInterceptedExceptionPage
 import dev.kolibrium.selenium.internal.pages.ButtonStaleElementReferenceExceptionPage
@@ -23,6 +24,7 @@ import dev.kolibrium.selenium.internal.pages.ButtonsPage
 import dev.kolibrium.selenium.internal.pages.ElementNotInteractableExceptionPage
 import dev.kolibrium.selenium.internal.pages.HomePage
 import dev.kolibrium.selenium.internal.pages.ImagesPage
+import dev.kolibrium.selenium.internal.pages.TutorialPage
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
@@ -52,6 +54,7 @@ private val buttonPage4 = getPage("input_exception")
 private val buttonsPage = getPage("buttons")
 private val homePage = getPage("home")
 private val imagesPage = getPage("images")
+private val tutorial = getPage("tutorial")
 
 class LocatorDelegatesTest {
     private lateinit var driver: WebDriver
@@ -114,6 +117,15 @@ class LocatorDelegatesTest {
         with(driver) {
             get(imagesPage)
             with(ImagesPage()) {
+                block()
+            }
+        }
+    }
+
+    private fun tutorial(block: TutorialPage.() -> Unit) {
+        with(driver) {
+            get(tutorial)
+            with(TutorialPage()) {
                 block()
             }
         }
@@ -288,6 +300,12 @@ class LocatorDelegatesTest {
     fun `xPath - WebElements`() =
         homePage {
             linksXPath.size shouldBe 6
+        }
+
+    @Test
+    fun `tutorial page`() =
+        tutorial {
+            val byClassName by singleLocators.className("by-class-name")
         }
 
 // WebElements with size
