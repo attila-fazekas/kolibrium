@@ -18,26 +18,17 @@ package dev.kolibrium.selenium.configuration
 
 import dev.kolibrium.core.WebElements
 import dev.kolibrium.selenium.Wait
+import dev.kolibrium.selenium.Wait.Companion.DEFAULT
 import dev.kolibrium.selenium.isDisplayed
-import org.openqa.selenium.NoSuchElementException
 import org.openqa.selenium.SearchContext
-import org.openqa.selenium.StaleElementReferenceException
 import org.openqa.selenium.WebElement
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 internal object DefaultSeleniumProjectConfiguration : AbstractSeleniumProjectConfiguration() {
     override var elementReadyWhen: (WebElement.() -> Boolean) = { isDisplayed }
 
     override var elementsReadyWhen: (WebElements.() -> Boolean) = { isDisplayed }
 
-    override var wait: Wait =
-        Wait(
-            pollingInterval = 200.milliseconds,
-            timeout = 10.seconds,
-            message = "Element could not be found",
-            ignoring = listOf(NoSuchElementException::class, StaleElementReferenceException::class),
-        )
+    override var wait: Wait = DEFAULT
 
     override var decorators: List<(SearchContext) -> SearchContext> = emptyList()
 }
