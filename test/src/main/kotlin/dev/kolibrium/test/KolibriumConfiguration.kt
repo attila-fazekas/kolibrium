@@ -21,6 +21,8 @@ import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engin
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
 import dev.kolibrium.junit.configuration.AbstractJUnitProjectConfiguration
+import dev.kolibrium.selenium.Wait
+import dev.kolibrium.selenium.Wait.Companion.DEFAULT
 import dev.kolibrium.selenium.configuration.AbstractSeleniumProjectConfiguration
 import dev.kolibrium.selenium.decorators.BorderStyle.DOTTED
 import dev.kolibrium.selenium.decorators.Color.BLUE
@@ -28,6 +30,7 @@ import dev.kolibrium.selenium.decorators.HighlighterDecorator
 import dev.kolibrium.selenium.decorators.SlowMotionDecorator
 import dev.kolibrium.selenium.isClickable
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 
@@ -63,4 +66,6 @@ object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
                 .decorate(ctx)
         }
     )
+
+    override val wait: Wait = DEFAULT.copy(timeout = 1.seconds)
 }

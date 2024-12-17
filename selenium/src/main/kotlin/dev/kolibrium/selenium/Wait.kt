@@ -16,9 +16,12 @@
 
 package dev.kolibrium.selenium
 
+import org.openqa.selenium.NoSuchElementException
+import org.openqa.selenium.StaleElementReferenceException
 import kotlin.reflect.KClass
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Class for configuring wait parameters in synchronization operations.
@@ -60,4 +63,50 @@ public class Wait(
             }
         }
     }
+
+    /**
+     * Provides predefined wait configurations for common use cases.
+     */
+    public companion object {
+        /**
+         * Default wait configuration suitable for most web automation scenarios.
+         */
+        public val DEFAULT: Wait =
+            Wait(
+                pollingInterval = 200.milliseconds,
+                timeout = 10.seconds,
+                message = "Element could not be found",
+                ignoring = listOf(NoSuchElementException::class, StaleElementReferenceException::class),
+            )
+
+        /**
+         * Fast wait configuration for responsive applications or when quick feedback is needed.
+         * Inherits error handling from [DEFAULT] configuration with shorter intervals.
+         */
+        public val QUICK: Wait =
+            DEFAULT.copy(
+                pollingInterval = 100.milliseconds,
+                timeout = 2.seconds,
+            )
+
+        /**
+         * Extended wait configuration for slower applications or operations that might take longer to complete.
+         * Inherits error handling from [DEFAULT] configuration with longer intervals.
+         */
+        public val PATIENT: Wait =
+            DEFAULT.copy(
+                pollingInterval = 500.milliseconds,
+                timeout = 30.seconds,
+            )
+    }
+
+    /**
+     * Creates a copy of this Wait configuration with modified parameters.
+     */
+    public fun copy(
+        pollingInterval: Duration? = this.pollingInterval,
+        timeout: Duration? = this.timeout,
+        message: String? = this.message,
+        ignoring: List<KClass<out Throwable>> = this.ignoring,
+    ): Wait = Wait(pollingInterval, timeout, message, ignoring)
 }
