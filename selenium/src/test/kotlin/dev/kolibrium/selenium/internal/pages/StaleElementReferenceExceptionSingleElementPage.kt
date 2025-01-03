@@ -21,7 +21,7 @@ import dev.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
 
 context(WebDriver)
-class ButtonStaleElementReferenceExceptionPage {
+class StaleElementReferenceExceptionSingleElementPage {
     val button by id("myButton") {
         isEnabled
     }
