@@ -42,7 +42,7 @@ import org.openqa.selenium.WebElement
  * @see WebElement.isEnabled
  * @see WebElement.isSelected
  */
-public class ElementStateCacheDecorator : AbstractDecorator() {
+public object ElementStateCacheDecorator : AbstractDecorator() {
     private class Config(
         val isDisplayed: Boolean = true,
         val isEnabled: Boolean = false,

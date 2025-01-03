@@ -31,7 +31,6 @@ import dev.kolibrium.selenium.decorators.SlowMotionDecorator
 import dev.kolibrium.selenium.isClickable
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
-import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 
 @AutoService(AbstractJUnitProjectConfiguration::class)
@@ -55,16 +54,8 @@ object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
     override val elementReadyWhen: (WebElement.() -> Boolean) = { isClickable }
 
     override val decorators = listOf(
-        { ctx: SearchContext ->
-            HighlighterDecorator
-                .configure(style = DOTTED, color = BLUE, width = 10)
-                .decorate(ctx)
-        },
-        { ctx: SearchContext ->
-            SlowMotionDecorator
-                .configure(wait = 500.milliseconds)
-                .decorate(ctx)
-        }
+        HighlighterDecorator.configure(style = DOTTED, color = BLUE, width = 10),
+        SlowMotionDecorator.configure(wait = 500.milliseconds)
     )
 
     override val wait: Wait = DEFAULT.copy(timeout = 1.seconds)

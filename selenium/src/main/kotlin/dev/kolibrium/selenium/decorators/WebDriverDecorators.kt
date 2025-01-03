@@ -19,10 +19,10 @@ package dev.kolibrium.selenium.decorators
 import org.openqa.selenium.SearchContext
 
 internal object WebDriverDecorators {
-    internal fun combine(decorators: List<(SearchContext) -> SearchContext>): (SearchContext) -> SearchContext =
+    internal fun combine(decorators: List<AbstractDecorator>): (SearchContext) -> SearchContext =
         { context ->
             decorators.fold(context) { acc, decorator ->
-                decorator(acc)
+                decorator.decorate(acc)
             }
         }
 }
