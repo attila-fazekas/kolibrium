@@ -17,7 +17,6 @@
 package dev.kolibrium.selenium.decorators
 
 import org.openqa.selenium.By
-import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import java.lang.Thread.sleep
@@ -29,34 +28,21 @@ import kotlin.time.toJavaDuration
  * Decorator that adds configurable delays to Selenium WebDriver operations.
  * Useful for debugging, demonstrations, or slowing down test execution for visualization purposes.
  */
-public object SlowMotionDecorator {
+public object SlowMotionDecorator : AbstractDecorator() {
     private val waitDuration = ThreadLocal.withInitial { 1.seconds }
 
     /**
      * Configures the wait duration for the decorator.
      *
-     * @param wait The duration to wait after each decorated operation
-     * @return The decorator instance for method chaining
+     * @param wait The duration to wait after each decorated operation.
+     * @return The decorator instance for method chaining.
      */
     public fun configure(wait: Duration): SlowMotionDecorator {
         waitDuration.set(wait)
         return this
     }
 
-    /**
-     * Decorates a SearchContext (WebDriver or WebElement) with slow motion capabilities.
-     *
-     * @param context The SearchContext to decorate
-     * @return The decorated SearchContext with added delays
-     */
-    public fun decorate(context: SearchContext): SearchContext =
-        when (context) {
-            is WebDriver -> decorateDriver(context)
-            is WebElement -> decorateElement(context)
-            else -> context
-        }
-
-    private fun decorateDriver(driver: WebDriver): WebDriver {
+    override fun decorateDriver(driver: WebDriver): WebDriver {
         return object : WebDriver by driver {
             override fun findElement(by: By): WebElement {
                 val element = driver.findElement(by)
@@ -74,7 +60,7 @@ public object SlowMotionDecorator {
         }
     }
 
-    private fun decorateElement(element: WebElement): WebElement {
+    override fun decorateElement(element: WebElement): WebElement {
         return object : WebElement by element {
             override fun findElement(by: By): WebElement {
                 val foundElement = element.findElement(by)

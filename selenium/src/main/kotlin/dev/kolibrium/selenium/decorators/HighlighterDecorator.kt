@@ -21,7 +21,6 @@ import dev.kolibrium.selenium.decorators.Color.RED
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
-import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.remote.RemoteWebElement
@@ -35,7 +34,7 @@ private const val MAX = 20
  * Decorator that adds visual highlighting to web elements during Selenium operations.
  * Highlights elements by adding a configurable border around them when they are found or interacted with.
  */
-public object HighlighterDecorator {
+public object HighlighterDecorator : AbstractDecorator() {
     private class Config(
         val style: BorderStyle = SOLID,
         val color: Color = RED,
@@ -66,20 +65,7 @@ public object HighlighterDecorator {
         return this
     }
 
-    /**
-     * Decorates a SearchContext (WebDriver or WebElement) with highlighting capabilities.
-     *
-     * @param context The SearchContext to decorate
-     * @return The decorated SearchContext with added highlighting
-     */
-    public fun decorate(context: SearchContext): SearchContext =
-        when (context) {
-            is WebDriver -> decorateDriver(context)
-            is WebElement -> decorateElement(context)
-            else -> context
-        }
-
-    private fun decorateDriver(driver: WebDriver): WebDriver {
+    override fun decorateDriver(driver: WebDriver): WebDriver {
         return object : WebDriver by driver {
             override fun findElement(by: By): WebElement {
                 val element = driver.findElement(by)
@@ -95,7 +81,7 @@ public object HighlighterDecorator {
         }
     }
 
-    private fun decorateElement(element: WebElement): WebElement {
+    override fun decorateElement(element: WebElement): WebElement {
         return object : WebElement by element {
             override fun findElement(by: By): WebElement {
                 val foundElement = element.findElement(by)
