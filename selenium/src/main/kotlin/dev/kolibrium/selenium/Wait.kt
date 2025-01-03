@@ -65,6 +65,26 @@ public class Wait(
     }
 
     /**
+     * Creates a copy of this Wait configuration with modified parameters.
+     *
+     * @param pollingInterval The duration between consecutive condition checks.
+     *        If null, uses the current configuration's polling interval.
+     * @param timeout The maximum time to wait for the condition to be true.
+     *        If null, uses the current configuration's timeout.
+     * @param message The message to be included in the timeout exception if the condition is not met.
+     *        If null, uses the current configuration's message.
+     * @param ignoring A list of exception types to ignore during condition checks.
+     *        Defaults to the current configuration's ignored exceptions.
+     * @return A new Wait instance with the specified parameters, using current values for any unspecified parameters.
+     */
+    public fun copy(
+        pollingInterval: Duration? = this.pollingInterval,
+        timeout: Duration? = this.timeout,
+        message: String? = this.message,
+        ignoring: List<KClass<out Throwable>> = this.ignoring,
+    ): Wait = Wait(pollingInterval, timeout, message, ignoring)
+
+    /**
      * Provides predefined wait configurations for common use cases.
      */
     public companion object {
@@ -99,14 +119,4 @@ public class Wait(
                 timeout = 30.seconds,
             )
     }
-
-    /**
-     * Creates a copy of this Wait configuration with modified parameters.
-     */
-    public fun copy(
-        pollingInterval: Duration? = this.pollingInterval,
-        timeout: Duration? = this.timeout,
-        message: String? = this.message,
-        ignoring: List<KClass<out Throwable>> = this.ignoring,
-    ): Wait = Wait(pollingInterval, timeout, message, ignoring)
 }
