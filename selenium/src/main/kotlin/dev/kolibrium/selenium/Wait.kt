@@ -17,7 +17,6 @@
 package dev.kolibrium.selenium
 
 import org.openqa.selenium.NoSuchElementException
-import org.openqa.selenium.StaleElementReferenceException
 import kotlin.reflect.KClass
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -96,7 +95,7 @@ public class Wait(
                 pollingInterval = 200.milliseconds,
                 timeout = 10.seconds,
                 message = "Element could not be found",
-                ignoring = listOf(NoSuchElementException::class, StaleElementReferenceException::class),
+                ignoring = listOf(NoSuchElementException::class),
             )
 
         /**

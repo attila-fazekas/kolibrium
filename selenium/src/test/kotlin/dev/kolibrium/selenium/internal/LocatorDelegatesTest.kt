@@ -19,11 +19,12 @@ package dev.kolibrium.selenium.internal
 import dev.kolibrium.selenium.className
 import dev.kolibrium.selenium.internal.pages.ButtonDelayedPage
 import dev.kolibrium.selenium.internal.pages.ButtonElementClickInterceptedExceptionPage
-import dev.kolibrium.selenium.internal.pages.ButtonStaleElementReferenceExceptionPage
 import dev.kolibrium.selenium.internal.pages.ButtonsPage
 import dev.kolibrium.selenium.internal.pages.ElementNotInteractableExceptionPage
 import dev.kolibrium.selenium.internal.pages.HomePage
 import dev.kolibrium.selenium.internal.pages.ImagesPage
+import dev.kolibrium.selenium.internal.pages.StaleElementReferenceExceptionMultipleElementsPage
+import dev.kolibrium.selenium.internal.pages.StaleElementReferenceExceptionSingleElementPage
 import dev.kolibrium.selenium.internal.pages.TutorialPage
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
@@ -48,12 +49,13 @@ private fun getPage(pageName: String) =
         .toString()
 
 private val buttonPage1 = getPage("button_delayed")
-private val buttonPage2 = getPage("button_exception1")
 private val buttonPage3 = getPage("button_exception2")
 private val buttonPage4 = getPage("input_exception")
 private val buttonsPage = getPage("buttons")
 private val homePage = getPage("home")
 private val imagesPage = getPage("images")
+private val staleElementReferenceException_singleElement = getPage("StaleElementReferenceException_SingleElement")
+private val staleElementReferenceException_multipleElements = getPage("StaleElementReferenceException_MultipleElements")
 private val tutorial = getPage("tutorial")
 
 class LocatorDelegatesTest {
@@ -68,10 +70,19 @@ class LocatorDelegatesTest {
         }
     }
 
-    private fun buttonStaleElementReferenceExceptionPage(block: ButtonStaleElementReferenceExceptionPage.() -> Unit) {
+    private fun staleElementReferenceExceptionSingleElementPage(block: StaleElementReferenceExceptionSingleElementPage.() -> Unit) {
         with(driver) {
-            get(buttonPage2)
-            with(ButtonStaleElementReferenceExceptionPage()) {
+            get(staleElementReferenceException_singleElement)
+            with(StaleElementReferenceExceptionSingleElementPage()) {
+                block()
+            }
+        }
+    }
+
+    private fun staleElementReferenceExceptionMultipleElementsPage(block: StaleElementReferenceExceptionMultipleElementsPage.() -> Unit) {
+        with(driver) {
+            get(staleElementReferenceException_multipleElements)
+            with(StaleElementReferenceExceptionMultipleElementsPage()) {
                 block()
             }
         }
@@ -229,10 +240,19 @@ class LocatorDelegatesTest {
         }
 
     @Test
-    @Disabled
-    fun `throws StaleElementReferenceException`() =
-        buttonStaleElementReferenceExceptionPage {
+    fun `throws StaleElementReferenceException - single element`() =
+        staleElementReferenceExceptionSingleElementPage {
             button.click()
+            firework.size.width shouldBe 10
+            firework.size.height shouldBe 10
+        }
+
+    @Test
+    fun `throws StaleElementReferenceException - multiple elements`() =
+        staleElementReferenceExceptionMultipleElementsPage {
+            buttons.forEach {
+                it.click()
+            }
             firework.size.width shouldBe 10
             firework.size.height shouldBe 10
         }

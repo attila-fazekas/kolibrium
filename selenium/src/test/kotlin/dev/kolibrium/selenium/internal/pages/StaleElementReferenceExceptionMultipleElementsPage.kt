@@ -16,12 +16,16 @@
 
 package dev.kolibrium.selenium.internal.pages
 
-import dev.kolibrium.selenium.names
+import dev.kolibrium.selenium.className
+import dev.kolibrium.selenium.classNames
+import dev.kolibrium.selenium.isEnabled
 import org.openqa.selenium.WebDriver
 
 context(WebDriver)
-class ImagesPage {
-    val images by names("kodee", cacheLookup = false) {
-        size == 9
+class StaleElementReferenceExceptionMultipleElementsPage {
+    val buttons by classNames("grid-button") {
+        isEnabled
     }
+
+    val firework by className("firework")
 }

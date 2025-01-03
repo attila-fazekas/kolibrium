@@ -22,6 +22,7 @@ import dev.kolibrium.selenium.decorators.WebDriverDecorators
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
+import org.openqa.selenium.StaleElementReferenceException
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ByIdOrName
 import org.openqa.selenium.support.ui.FluentWait
@@ -685,12 +686,7 @@ internal class KWebElement(
         }
     }
 
-    private val cachedWebElement: WebElement by lazy {
-        searchContext.findElement(by(locator))
-    }
-
-    private val webElement: WebElement
-        get() = if (cacheLookup) cachedWebElement else searchContext.findElement(by(locator))
+    private var cachedWebElement: WebElement? = null
 
     private val wait: FluentWait<KWebElement> by lazy {
         FluentWait(this).apply {
@@ -711,9 +707,24 @@ internal class KWebElement(
     ): WebElement =
         execute(property.name, by(locator)) {
             wait.until {
-                webElement.readyWhen()
+                try {
+                    val element = getWebElement()
+                    element.readyWhen()
+                } catch (e: StaleElementReferenceException) {
+                    logger.warn { "\"${property.name}\" element with locator strategy of ${by(locator)} became stale. Relocating it." }
+                    // Clear cached element and try to relocate
+                    cachedWebElement = null
+                    false // Return false to continue waiting
+                }
             }
-            webElement
+            getWebElement()
+        }
+
+    private fun getWebElement(): WebElement =
+        if (cacheLookup) {
+            cachedWebElement ?: searchContext.findElement(by(locator)).also { cachedWebElement = it }
+        } else {
+            searchContext.findElement(by(locator))
         }
 }
 
@@ -734,12 +745,7 @@ internal class KWebElements(
         }
     }
 
-    private val cachedWebElements: WebElements by lazy {
-        searchContext.findElements(by(locator))
-    }
-
-    private val webElements: WebElements
-        get() = if (cacheLookup) cachedWebElements else searchContext.findElements(by(locator))
+    private var cachedWebElements: WebElements? = null
 
     private val wait: FluentWait<KWebElements> by lazy {
         FluentWait(this).apply {
@@ -760,10 +766,24 @@ internal class KWebElements(
     ): WebElements =
         execute(property.name, by(locator)) {
             wait.until {
-                val elements = searchContext.findElements(by(locator))
-                elements.readyWhen()
+                try {
+                    val elements = getWebElements()
+                    elements.readyWhen()
+                } catch (e: StaleElementReferenceException) {
+                    logger.warn { "\"${property.name}\" elements with locator strategy of ${by(locator)} became stale. Relocating them." }
+                    // Clear cached elements and try to relocate
+                    cachedWebElements = null
+                    false // Return false to continue waiting
+                }
             }
-            webElements
+            getWebElements()
+        }
+
+    private fun getWebElements(): WebElements =
+        if (cacheLookup) {
+            cachedWebElements ?: searchContext.findElements(by(locator)).also { cachedWebElements = it }
+        } else {
+            searchContext.findElements(by(locator))
         }
 }
 
