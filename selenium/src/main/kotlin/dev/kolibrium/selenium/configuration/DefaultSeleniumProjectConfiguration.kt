@@ -19,8 +19,8 @@ package dev.kolibrium.selenium.configuration
 import dev.kolibrium.core.WebElements
 import dev.kolibrium.selenium.Wait
 import dev.kolibrium.selenium.Wait.Companion.DEFAULT
+import dev.kolibrium.selenium.decorators.AbstractDecorator
 import dev.kolibrium.selenium.isDisplayed
-import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 
 internal object DefaultSeleniumProjectConfiguration : AbstractSeleniumProjectConfiguration() {
@@ -30,5 +30,5 @@ internal object DefaultSeleniumProjectConfiguration : AbstractSeleniumProjectCon
 
     override var wait: Wait = DEFAULT
 
-    override var decorators: List<(SearchContext) -> SearchContext> = emptyList()
+    override var decorators: List<AbstractDecorator> = emptyList()
 }

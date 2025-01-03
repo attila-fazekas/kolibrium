@@ -21,7 +21,7 @@ import dev.kolibrium.core.WebElements
 import dev.kolibrium.core.config.ProjectConfiguration
 import dev.kolibrium.core.config.ProjectConfigurationLoader
 import dev.kolibrium.selenium.Wait
-import org.openqa.selenium.SearchContext
+import dev.kolibrium.selenium.decorators.AbstractDecorator
 import org.openqa.selenium.WebElement
 
 /**
@@ -50,7 +50,7 @@ public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguratio
      * List of decorators to be applied to SearchContext objects (WebDriver or WebElement).
      * Decorators can add behavior like highlighting or slow motion to Selenium operations.
      */
-    public open val decorators: List<(SearchContext) -> SearchContext> = emptyList()
+    public open val decorators: List<AbstractDecorator> = emptyList()
 }
 
 internal object SeleniumProjectConfiguration {
