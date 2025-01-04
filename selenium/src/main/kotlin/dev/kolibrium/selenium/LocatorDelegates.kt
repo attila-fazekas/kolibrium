@@ -18,7 +18,7 @@ package dev.kolibrium.selenium
 
 import dev.kolibrium.core.WebElements
 import dev.kolibrium.selenium.configuration.SeleniumProjectConfiguration
-import dev.kolibrium.selenium.decorators.WebDriverDecorators
+import dev.kolibrium.selenium.decorators.DecoratorManager
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
@@ -678,11 +678,17 @@ internal class KWebElement(
     private val readyWhen: WebElement.() -> Boolean,
 ) : WebElementProperty {
     private val searchContext by lazy {
-        val config = SeleniumProjectConfiguration.actualConfig()
-        if (config.decorators.isEmpty()) {
-            this@SearchContext
+        val projectLevelDecorators = SeleniumProjectConfiguration.actualConfig().decorators
+        val testLevelDecorators = DecoratorManager.getAllDecorators()
+
+        if (testLevelDecorators.isEmpty()) {
+            if (projectLevelDecorators.isEmpty()) {
+                this@SearchContext
+            } else {
+                DecoratorManager.combine(projectLevelDecorators)(this@SearchContext)
+            }
         } else {
-            WebDriverDecorators.combine(config.decorators)(this@SearchContext)
+            DecoratorManager.combine(testLevelDecorators)(this@SearchContext)
         }
     }
 
@@ -741,7 +747,7 @@ internal class KWebElements(
         if (config.decorators.isEmpty()) {
             this@SearchContext
         } else {
-            WebDriverDecorators.combine(config.decorators)(this@SearchContext)
+            DecoratorManager.combine(config.decorators)(this@SearchContext)
         }
     }
 

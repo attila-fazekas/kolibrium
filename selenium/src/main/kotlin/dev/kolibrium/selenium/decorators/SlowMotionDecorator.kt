@@ -27,19 +27,14 @@ import kotlin.time.toJavaDuration
 /**
  * Decorator that adds configurable delays to Selenium WebDriver operations.
  * Useful for debugging, demonstrations, or slowing down test execution for visualization purposes.
+ *
+ * @param wait The duration to wait after each decorated operation.
  */
-public object SlowMotionDecorator : AbstractDecorator() {
-    private val waitDuration = ThreadLocal.withInitial { 1.seconds }
-
-    /**
-     * Configures the wait duration for the decorator.
-     *
-     * @param wait The duration to wait after each decorated operation.
-     * @return The decorator instance for method chaining.
-     */
-    public fun configure(wait: Duration): SlowMotionDecorator {
-        waitDuration.set(wait)
-        return this
+public class SlowMotionDecorator(
+    private val wait: Duration = 1.seconds,
+) : AbstractDecorator() {
+    init {
+        require(!wait.isNegative()) { "wait must not be negative." }
     }
 
     override fun decorateDriver(driver: WebDriver): WebDriver {
@@ -80,7 +75,7 @@ public object SlowMotionDecorator : AbstractDecorator() {
 
     private fun addDelay() {
         try {
-            sleep(waitDuration.get().toJavaDuration())
+            sleep(wait.toJavaDuration())
         } catch (e: InterruptedException) {
             Thread.currentThread().interrupt()
         }

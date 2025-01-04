@@ -38,44 +38,18 @@ import org.openqa.selenium.WebElement
  * in that state for the duration of the test. If your application can toggle these states dynamically,
  * consider not using this decorator or clearing the cache when state changes are possible.
  *
+ * @param cacheDisplayed Whether to cache positive results from [WebElement.isDisplayed] calls.
+ * @param cacheEnabled Whether to cache positive results from [WebElement.isEnabled] calls.
+ * @param cacheSelected Whether to cache positive results from [WebElement.isSelected] calls.
  * @see WebElement.isDisplayed
  * @see WebElement.isEnabled
  * @see WebElement.isSelected
  */
-public object ElementStateCacheDecorator : AbstractDecorator() {
-    private class Config(
-        val isDisplayed: Boolean = true,
-        val isEnabled: Boolean = false,
-        val isSelected: Boolean = false,
-    )
-
-    private val config = ThreadLocal.withInitial { Config() }
-
-    /**
-     * Configures which element states should be cached by the decorator.
-     *
-     * By default, only [WebElement.isDisplayed] results are cached. This method allows you to enable
-     * or disable caching for each state check method ([isDisplayed], [isEnabled], and [isSelected]).
-     * When caching is enabled for a state, positive (`true`) results will be cached and subsequent
-     * checks will return the cached value without querying the actual element.
-     *
-     * @param isDisplayed Whether to cache positive results from [WebElement.isDisplayed] calls.
-     * @param isEnabled Whether to cache positive results from [WebElement.isEnabled] calls.
-     * @param isSelected Whether to cache positive results from [WebElement.isSelected] calls.
-     * @return This decorator instance for method chaining.
-     * @see WebElement.isDisplayed
-     * @see WebElement.isEnabled
-     * @see WebElement.isSelected
-     */
-    public fun configure(
-        isDisplayed: Boolean = true,
-        isEnabled: Boolean = false,
-        isSelected: Boolean = false,
-    ): ElementStateCacheDecorator {
-        config.set(Config(isDisplayed, isEnabled, isSelected))
-        return this
-    }
-
+public class ElementStateCacheDecorator(
+    private val cacheDisplayed: Boolean = true,
+    private val cacheEnabled: Boolean = false,
+    private val cacheSelected: Boolean = false,
+) : AbstractDecorator() {
     override fun decorateDriver(driver: WebDriver): WebDriver {
         return object : WebDriver by driver {
             override fun findElement(by: By): WebElement {
@@ -92,39 +66,37 @@ public object ElementStateCacheDecorator : AbstractDecorator() {
 
     override fun decorateElement(element: WebElement): WebElement {
         return object : WebElement by element {
-            private val currentConfig = config.get()
-
             private var cachedIsDisplayed: Boolean? = null
             private var cachedIsEnabled: Boolean? = null
             private var cachedIsSelected: Boolean? = null
 
             override fun isDisplayed(): Boolean {
-                if (currentConfig.isDisplayed) {
+                if (cacheDisplayed) {
                     cachedIsDisplayed?.let { return it }
                 }
 
                 return element.isDisplayed.also {
-                    if (it && currentConfig.isDisplayed) cachedIsDisplayed = it
+                    if (it && cacheDisplayed) cachedIsDisplayed = it
                 }
             }
 
             override fun isEnabled(): Boolean {
-                if (currentConfig.isEnabled) {
+                if (cacheEnabled) {
                     cachedIsEnabled?.let { return it }
                 }
 
                 return element.isEnabled.also {
-                    if (it && currentConfig.isEnabled) cachedIsDisplayed = it
+                    if (it && cacheEnabled) cachedIsEnabled = it
                 }
             }
 
             override fun isSelected(): Boolean {
-                if (currentConfig.isSelected) {
+                if (cacheSelected) {
                     cachedIsSelected?.let { return it }
                 }
 
                 return element.isSelected.also {
-                    if (it && currentConfig.isSelected) cachedIsDisplayed = it
+                    if (it && cacheSelected) cachedIsSelected = it
                 }
             }
 

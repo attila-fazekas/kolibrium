@@ -33,36 +33,18 @@ private const val MAX = 20
 /**
  * Decorator that adds visual highlighting to web elements during Selenium operations.
  * Highlights elements by adding a configurable border around them when they are found or interacted with.
+ *
+ * @param style The border style to use for highlighting (default: SOLID).
+ * @param color The color to use for highlighting (default: RED).
+ * @param width The border width in pixels (default: 5).
  */
-public object HighlighterDecorator : AbstractDecorator() {
-    private class Config(
-        val style: BorderStyle = SOLID,
-        val color: Color = RED,
-        val width: Int = 5,
-    ) {
-        init {
-            require(width in MIN..MAX) { "width must be between $MIN and $MAX." }
-        }
-    }
-
-    private val config = ThreadLocal.withInitial { Config() }
-
-    /**
-     * Configures the visual highlighting style for the decorator.
-     *
-     * @param style The border style to use for highlighting (default: SOLID)
-     * @param color The color to use for highlighting (default: RED)
-     * @param width The border width in pixels (default: 5)
-     * @return The decorator instance for method chaining
-     * @throws IllegalArgumentException if width is not between 1 and 20
-     */
-    public fun configure(
-        style: BorderStyle = SOLID,
-        color: Color = RED,
-        width: Int = 5,
-    ): HighlighterDecorator {
-        config.set(Config(style, color, width))
-        return this
+public class HighlighterDecorator(
+    private val style: BorderStyle = SOLID,
+    private val color: Color = RED,
+    private val width: Int = 5,
+) : AbstractDecorator() {
+    init {
+        require(width in MIN..MAX) { "width must be between 1 and 20." }
     }
 
     override fun decorateDriver(driver: WebDriver): WebDriver {
@@ -98,7 +80,6 @@ public object HighlighterDecorator : AbstractDecorator() {
     }
 
     private fun WebElement.highlightElement() {
-        val currentConfig = config.get()
         try {
             // Get the WebDriver from the element itself
             val driver =
@@ -111,7 +92,7 @@ public object HighlighterDecorator : AbstractDecorator() {
                 """
                 const elements = document.querySelectorAll('[style*="border"]');
                 elements.forEach(el => el.style.removeProperty('border'));
-                arguments[0].style.border = '${currentConfig.style.name.lowercase()} ${currentConfig.color.name.lowercase()} ${currentConfig.width}px';
+                arguments[0].style.border = '${style.name.lowercase()} ${color.name.lowercase()} ${width}px';
                 """.trimIndent(),
                 this,
             )
