@@ -54,8 +54,8 @@ object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
     override val elementReadyWhen: (WebElement.() -> Boolean) = { isClickable }
 
     override val decorators = listOf(
-        HighlighterDecorator.configure(style = DOTTED, color = BLUE, width = 10),
-        SlowMotionDecorator.configure(wait = 500.milliseconds)
+        HighlighterDecorator(style = DOTTED, color = BLUE, width = 10),
+        SlowMotionDecorator(wait = 500.milliseconds)
     )
 
     override val wait: Wait = DEFAULT.copy(timeout = 1.seconds)

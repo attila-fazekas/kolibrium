@@ -40,6 +40,12 @@
       // Disable the current button
       currentButton.disabled = true;
 
+      // Show the result text immediately if it's the fourth button
+      if (buttonNumber === 4) {
+        resultText.classList.remove("hidden");
+        return; // Exit early since there are no more buttons to show
+      }
+
       // Show the next button after a delay
       setTimeout(() => {
         if (nextButton) {
@@ -49,13 +55,6 @@
           // Enable the next button after a delay
           setTimeout(() => {
             nextButton.disabled = false;
-
-            // Show and enable result text if it's the last button
-            if (buttonNumber === 3) {
-              setTimeout(() => {
-                resultText.classList.remove("hidden");
-              }, 1000);
-            }
           }, 2000);
         }
       }, buttonNumber * 1000); // Delay based on the button number
