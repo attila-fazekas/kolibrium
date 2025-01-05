@@ -19,24 +19,42 @@ package dev.kolibrium.selenium.decorators
 import org.openqa.selenium.SearchContext
 
 /**
- * A manager for handling test-level decorators in a thread-safe manner.
- * This object allows adding, managing, and clearing decorators that enhance
- * or modify the behavior of Selenium's `SearchContext`.
+ * Manages the test-level decorators that can be applied to WebDriver and WebElement instances.
+ * Decorators are applied at runtime and can modify the behavior of web element interactions.
+ *
+ * The manager maintains decorators on a per-thread basis, allowing for parallel test execution
+ * without decorator interference between different test threads.
+ *
+ * Example usage:
+ * ```kotlin
+ * // Add decorators for specific test cases
+ * DecoratorManager.addDecorators(
+ *     SlowMotionDecorator(1.seconds),
+ *     HighlighterDecorator(color = Color.BLUE)
+ * )
+ *
+ * // Clear decorators after test completion
+ * DecoratorManager.clearDecorators()
+ * ```
  */
 public object DecoratorManager {
     private val testLevelDecorators = ThreadLocal.withInitial { mutableListOf<AbstractDecorator>() }
 
     /**
-     * Adds one or multiple decorators to the current thread's list of test-level decorators.
+     * Adds one or more decorators to the current test thread's decorator list.
+     * Decorators are applied in the order they are provided.
      *
-     * @param decorators A vararg array of `AbstractDecorator` instances to be added.
+     * @param decorators The decorators to be added. Each decorator must extend [AbstractDecorator].
+     * Multiple decorators can be provided as varargs.
      */
     public fun addDecorators(vararg decorators: AbstractDecorator) {
         testLevelDecorators.get().addAll(decorators)
     }
 
     /**
-     * Clears all decorators from the current thread's list of test-level decorators.
+     * Removes all decorators from the current test thread's decorator list.
+     * This should typically be called in test cleanup/teardown to ensure
+     * decorators from one test don't affect subsequent tests.
      */
     public fun clearDecorators() {
         testLevelDecorators.get().clear()
