@@ -33,6 +33,8 @@ import kotlin.time.toJavaDuration
 private typealias WebElementProperty = ReadOnlyProperty<Any?, WebElement>
 private typealias WebElementsProperty = ReadOnlyProperty<Any?, WebElements>
 
+private val logger = KotlinLogging.logger {}
+
 /**
  * Creates a property delegate that lazily finds an element using the className locator strategy.
  *
@@ -670,14 +672,8 @@ internal inline fun <reified T> SearchContext.genericLocator(
 }
 
 context(SearchContext)
-internal class KWebElement(
-    private val locator: String,
-    private val by: (String) -> By,
-    private val cacheLookup: Boolean,
-    wait: Wait,
-    private val readyWhen: WebElement.() -> Boolean,
-) : WebElementProperty {
-    private val searchContext by lazy {
+internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R> {
+    protected val searchContext by lazy {
         val projectLevelDecorators = SeleniumProjectConfiguration.actualConfig().decorators
         val testLevelDecorators = DecoratorManager.getAllDecorators()
 
@@ -692,10 +688,15 @@ internal class KWebElement(
         }
     }
 
-    private var cachedWebElement: WebElement? = null
+    protected abstract fun findElement(): R
 
-    private val wait: FluentWait<KWebElement> by lazy {
-        FluentWait(this).apply {
+    protected abstract fun clearCache()
+
+    protected abstract fun isElementReady(element: R): Boolean
+
+    protected fun initializeWait(wait: Wait): FluentWait<T> =
+        @Suppress("UNCHECKED_CAST")
+        FluentWait(this as T).apply {
             wait.apply {
                 timeout?.let { withTimeout(it.toJavaDuration()) }
                 pollingInterval?.let { pollingEvery(it.toJavaDuration()) }
@@ -705,33 +706,57 @@ internal class KWebElement(
                 }
             }
         }
+
+    protected fun getValueInternal(
+        propertyName: String,
+        locator: String,
+        by: (String) -> By,
+        wait: FluentWait<T>,
+    ): R {
+        wait.until {
+            logger.trace { "Waiting for \"${propertyName}\" with locator strategy of { ${by(locator)} }" }
+            try {
+                val element = findElement()
+                isElementReady(element)
+            } catch (e: StaleElementReferenceException) {
+                logger.warn { "\"$propertyName\" element(s) with locator strategy of { ${by(locator)} } became stale. Relocating." }
+                clearCache()
+                false
+            }
+        }
+        return findElement()
     }
+}
+
+context(SearchContext)
+internal class KWebElement(
+    private val locator: String,
+    private val by: (String) -> By,
+    private val cacheLookup: Boolean,
+    wait: Wait,
+    private val readyWhen: WebElement.() -> Boolean,
+) : KWebElementBase<KWebElement, WebElement>(),
+    WebElementProperty {
+    private var cachedWebElement: WebElement? = null
+    private val wait: FluentWait<KWebElement> by lazy { initializeWait(wait) }
 
     override fun getValue(
         thisRef: Any?,
         property: KProperty<*>,
-    ): WebElement =
-        execute(property.name, by(locator)) {
-            wait.until {
-                try {
-                    val element = getWebElement()
-                    element.readyWhen()
-                } catch (e: StaleElementReferenceException) {
-                    logger.warn { "\"${property.name}\" element with locator strategy of ${by(locator)} became stale. Relocating it." }
-                    // Clear cached element and try to relocate
-                    cachedWebElement = null
-                    false // Return false to continue waiting
-                }
-            }
-            getWebElement()
-        }
+    ): WebElement = getValueInternal(property.name, locator, by, wait)
 
-    private fun getWebElement(): WebElement =
+    override fun findElement(): WebElement =
         if (cacheLookup) {
             cachedWebElement ?: searchContext.findElement(by(locator)).also { cachedWebElement = it }
         } else {
             searchContext.findElement(by(locator))
         }
+
+    override fun clearCache() {
+        cachedWebElement = null
+    }
+
+    override fun isElementReady(element: WebElement): Boolean = element.readyWhen()
 }
 
 context(SearchContext)
@@ -741,65 +766,26 @@ internal class KWebElements(
     private val cacheLookup: Boolean,
     wait: Wait,
     private val readyWhen: WebElements.() -> Boolean,
-) : WebElementsProperty {
-    private val searchContext by lazy {
-        val config = SeleniumProjectConfiguration.actualConfig()
-        if (config.decorators.isEmpty()) {
-            this@SearchContext
-        } else {
-            DecoratorManager.combine(config.decorators)(this@SearchContext)
-        }
-    }
-
+) : KWebElementBase<KWebElements, WebElements>(),
+    WebElementsProperty {
     private var cachedWebElements: WebElements? = null
-
-    private val wait: FluentWait<KWebElements> by lazy {
-        FluentWait(this).apply {
-            wait.apply {
-                timeout?.let { withTimeout(it.toJavaDuration()) }
-                pollingInterval?.let { pollingEvery(it.toJavaDuration()) }
-                message?.let { withMessage { it } }
-                if (ignoring.isNotEmpty()) {
-                    ignoreAll(ignoring.map { it.java })
-                }
-            }
-        }
-    }
+    private val wait: FluentWait<KWebElements> by lazy { initializeWait(wait) }
 
     override fun getValue(
         thisRef: Any?,
         property: KProperty<*>,
-    ): WebElements =
-        execute(property.name, by(locator)) {
-            wait.until {
-                try {
-                    val elements = getWebElements()
-                    elements.readyWhen()
-                } catch (e: StaleElementReferenceException) {
-                    logger.warn { "\"${property.name}\" elements with locator strategy of ${by(locator)} became stale. Relocating them." }
-                    // Clear cached elements and try to relocate
-                    cachedWebElements = null
-                    false // Return false to continue waiting
-                }
-            }
-            getWebElements()
-        }
+    ): WebElements = getValueInternal(property.name, locator, by, wait)
 
-    private fun getWebElements(): WebElements =
+    override fun findElement(): WebElements =
         if (cacheLookup) {
             cachedWebElements ?: searchContext.findElements(by(locator)).also { cachedWebElements = it }
         } else {
             searchContext.findElements(by(locator))
         }
-}
 
-private val logger = KotlinLogging.logger {}
+    override fun clearCache() {
+        cachedWebElements = null
+    }
 
-private fun <T> execute(
-    element: String,
-    by: By,
-    block: () -> T,
-): T {
-    logger.trace { "Waiting for \"$element\" with locator strategy of $by" }
-    return block()
+    override fun isElementReady(element: WebElements): Boolean = element.readyWhen()
 }
