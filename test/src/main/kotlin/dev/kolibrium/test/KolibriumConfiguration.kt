@@ -18,6 +18,7 @@ package dev.kolibrium.test
 
 import com.google.auto.service.AutoService
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.headless
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
 import dev.kolibrium.junit.configuration.AbstractJUnitProjectConfiguration
@@ -41,8 +42,9 @@ object JUnitConfiguration : AbstractJUnitProjectConfiguration() {
         chromeDriver {
             options {
                 arguments {
-                    +incognito
                     +disable_search_engine_choice_screen
+                    +headless
+                    +incognito
                 }
             }
         }
