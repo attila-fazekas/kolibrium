@@ -21,6 +21,7 @@ package dev.kolibrium.ksp.processors
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
+import com.tschuchort.compiletesting.kspProcessorOptions
 import com.tschuchort.compiletesting.kspSourcesDir
 import com.tschuchort.compiletesting.symbolProcessorProviders
 import com.tschuchort.compiletesting.useKsp2
@@ -29,7 +30,7 @@ import org.intellij.lang.annotations.Language
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 
 open class ProcessorBaseTest {
-    protected val pageAnnotation =
+    private val pageAnnotation =
         kotlin(
             "Annotations.kt",
             """
@@ -154,12 +155,14 @@ open class ProcessorBaseTest {
 
     protected fun getCompilation(
         vararg sourceFiles: SourceFile,
+        useDsl: Boolean = false,
     ) = KotlinCompilation().apply {
         sources = listOf(pageAnnotation, *sourceFiles)
         useKsp2()
         symbolProcessorProviders = mutableListOf(PageProcessorProvider(), LocatorsProcessorProvider())
         inheritClassPath = true
         verbose = true
+        kspProcessorOptions = mutableMapOf("kolibriumKsp.useDsl" to useDsl.toString())
     }
 
     protected fun assertSourceEquals(

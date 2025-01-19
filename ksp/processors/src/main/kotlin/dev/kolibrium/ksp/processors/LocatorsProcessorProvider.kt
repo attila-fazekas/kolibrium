@@ -29,6 +29,5 @@ import com.google.devtools.ksp.processing.SymbolProcessorProvider
  */
 @AutoService(SymbolProcessorProvider::class)
 public class LocatorsProcessorProvider : SymbolProcessorProvider {
-    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor =
-        LocatorsProcessor(environment.codeGenerator, environment.logger)
+    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor = LocatorsProcessor(environment)
 }
