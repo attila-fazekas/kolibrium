@@ -77,7 +77,14 @@ public class PageProcessor(
             data: Unit,
         ) {
             val className = classDeclaration.simpleName.asString()
-            val page = classDeclaration.getAnnotation(Page::class)?.getArgument("value")?.value as? String
+            val relativePath = classDeclaration.getAnnotation(Page::class)?.getArgument("value")?.value as String
+
+            val navigateStatement =
+                CodeBlock.builder().apply {
+                    if (relativePath.isNotBlank()) {
+                        addStatement("get(%P)", "\${currentUrl}$relativePath")
+                    }
+                }
 
             val function =
                 FunSpec
@@ -91,14 +98,9 @@ public class PageProcessor(
                             returnType = Unit::class.asTypeName(),
                         ),
                     ).addCode(
-                        CodeBlock
-                            .builder()
-                            .addStatement("get(%P)", "\${currentUrl}$page")
-                            .add(
-                                """
-                                $className().apply(block)
-                                """.trimIndent(),
-                            ).build(),
+                        navigateStatement
+                            .add("%N().apply(block)", className)
+                            .build(),
                     ).build()
 
             val fileSpec =

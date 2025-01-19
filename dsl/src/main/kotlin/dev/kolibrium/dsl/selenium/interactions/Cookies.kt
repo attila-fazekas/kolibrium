@@ -26,12 +26,19 @@ import java.util.Date
  * Function to manage cookies in the context of a [WebDriver] instance.
  *
  * @receiver The [WebDriver] instance on which to perform cookie operations.
+ * @param refreshPage Whether to refresh the page after performing cookie operations. Defaults to false.
  * @param block The configuration block that defines cookie operations within the [CookiesScope].
+ * @return The [WebDriver] instance for method chaining.
  */
 @KolibriumDsl
-public fun WebDriver.cookies(block: CookiesScope.() -> Unit) {
+public fun WebDriver.cookies(
+    refreshPage: Boolean = false,
+    block: CookiesScope.() -> Unit,
+): WebDriver {
     val options = manage()
     CookiesScope(options).apply(block)
+    if (refreshPage) navigate().refresh()
+    return this
 }
 
 /**
