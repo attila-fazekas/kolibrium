@@ -29,3 +29,7 @@ dependencies {
     ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
     testImplementation("com.titusfortner:selenium-logger:_")
 }
+
+ksp {
+    arg("kolibriumKsp.useDsl", "false")
+}

@@ -16,10 +16,9 @@
 
 package dev.kolibrium.ksp.processors
 
-import com.google.devtools.ksp.processing.CodeGenerator
-import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
+import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSVisitorVoid
@@ -31,6 +30,8 @@ import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.asTypeName
 import dev.kolibrium.ksp.annotations.Page
 import java.util.Locale
+
+private const val KOLIBRIUM_DSL_PACKAGE_NAME = "dev.kolibrium.dsl.selenium"
 
 /**
  * Symbol processor that generates a navigation function for Page Object classes.
@@ -50,9 +51,11 @@ import java.util.Locale
  * the navigation logic; otherwise, it navigates to the current URL.
  */
 public class PageProcessor(
-    private val codeGen: CodeGenerator,
-    private val logger: KSPLogger,
+    environment: SymbolProcessorEnvironment,
 ) : SymbolProcessor {
+    private val codeGen = environment.codeGenerator
+    private val useDsl = environment.options["kolibriumKsp.useDsl"]?.toBoolean() == true
+
     // process function returns a list of KSAnnotated objects, which represent symbols that
     // the processor can't currently process and need to be deferred to another round
     override fun process(resolver: Resolver): List<KSAnnotated> {
@@ -82,7 +85,14 @@ public class PageProcessor(
             val navigateStatement =
                 CodeBlock.builder().apply {
                     if (relativePath.isNotBlank()) {
-                        addStatement("get(%P)", "\${currentUrl}$relativePath")
+                        if (useDsl) {
+                            addStatement(
+                                "%T(\"$relativePath\")",
+                                ClassName("${KOLIBRIUM_DSL_PACKAGE_NAME}.interactions", "navigateTo"),
+                            )
+                        } else {
+                            addStatement("get(%P)", "\${currentUrl}$relativePath")
+                        }
                     }
                 }
 

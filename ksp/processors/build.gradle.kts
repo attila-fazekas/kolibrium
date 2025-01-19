@@ -24,5 +24,6 @@ dependencies {
     implementation(project(":ksp:annotations"))
     implementation("commons-validator:commons-validator:_")
     implementation("com.samskivert:jmustache:_")
+    testImplementation(project(":dsl"))
     testImplementation(project(":selenium"))
 }

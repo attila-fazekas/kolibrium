@@ -29,6 +29,5 @@ import com.google.devtools.ksp.processing.SymbolProcessorProvider
  */
 @AutoService(SymbolProcessorProvider::class)
 public class PageProcessorProvider : SymbolProcessorProvider {
-    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor =
-        PageProcessor(environment.codeGenerator, environment.logger)
+    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor = PageProcessor(environment)
 }

@@ -17,10 +17,9 @@
 package dev.kolibrium.ksp.processors
 
 import com.google.devtools.ksp.closestClassDeclaration
-import com.google.devtools.ksp.processing.CodeGenerator
-import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
+import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSAnnotation
@@ -76,9 +75,11 @@ private const val KOLIBRIUM_SELENIUM_PACKAGE_NAME = "dev.kolibrium.selenium"
  * ensuring type safety and ease of use.
  */
 public class LocatorsProcessor(
-    private val codeGen: CodeGenerator,
-    private val logger: KSPLogger,
+    environment: SymbolProcessorEnvironment,
 ) : SymbolProcessor {
+    private val codeGen = environment.codeGenerator
+    private val logger = environment.logger
+
     private val singleElementLocatorAnnotations =
         listOf(
             dev.kolibrium.ksp.annotations.ClassName::class,
