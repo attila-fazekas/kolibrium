@@ -16,6 +16,8 @@
 
 package dev.kolibrium.test.pages
 
+import dev.kolibrium.dsl.selenium.interactions.cookies
+import dev.kolibrium.dsl.selenium.interactions.navigateTo
 import dev.kolibrium.ksp.annotations.Page
 import dev.kolibrium.selenium.className
 import dev.kolibrium.selenium.id
@@ -28,14 +30,21 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 context(WebDriver)
-@Page("inventory.html")
+@Page
 class InventoryPage {
     private val shoppingCart by className("shopping_cart_link")
-    private val shoppingCartBadge by dataTests("shopping-cart-badge", cacheLookup = false)
+    private val shoppingCartBadge by dataTests(
+        "shopping-cart-badge", cacheLookup = false //to avoid StaleElementReferenceException
+    )
     private val sortMenu by dataTest("product-sort-container")
     private val products by dataTests("inventory-item")
 
     init {
+        cookies {
+            addCookie(name = "session-username", value = "standard_user")
+        }.apply {
+            navigateTo("inventory.html")
+        }
         check(sortMenu.isDisplayed) {
             "This is not the Inventory Page, current page is: " + this@WebDriver.currentUrl
         }
@@ -44,7 +53,7 @@ class InventoryPage {
     fun Product.addToCart() {
         for (product in products) {
             val item = Item(product, this)
-            if (item.name.text.contains(this.productName)) {
+            if (item.name.text.contains(productName)) {
                 item.addToCartButton.click()
                 break
             }
@@ -54,7 +63,7 @@ class InventoryPage {
     fun Product.removeFromCart() {
         for (product in products) {
             val item = Item(product, this)
-            if (item.name.text.contains(this.productName)) {
+            if (item.name.text.contains(productName)) {
                 item.removeFromCartButton.click()
                 break
             }
@@ -70,7 +79,7 @@ class InventoryPage {
     }
 }
 
-class Item(root: WebElement, product: Product) {
+private class Item(root: WebElement, product: Product) {
     val image by root.className("inventory_item_img")
     val name by root.className("inventory_item_name")
     val description by root.className("inventory_item_desc")

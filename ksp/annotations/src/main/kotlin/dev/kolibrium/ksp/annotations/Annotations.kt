@@ -148,7 +148,7 @@ public annotation class Locators
  * ```
  *
  * @property value The relative URL path to navigate to when this page is accessed. Defaults to an empty string,
- * which navigates to the `currentUrl`.
+ * which means no navigation will be performed.
  *
  * @constructor Marks a class as a "page" and optionally sets the navigation path for that page.
  */

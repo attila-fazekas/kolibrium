@@ -554,7 +554,8 @@ public final class dev/kolibrium/dsl/selenium/creation/WindowSizeScope {
 }
 
 public final class dev/kolibrium/dsl/selenium/interactions/CookiesKt {
-	public static final fun cookies (Lorg/openqa/selenium/WebDriver;Lkotlin/jvm/functions/Function1;)V
+	public static final fun cookies (Lorg/openqa/selenium/WebDriver;ZLkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/WebDriver;
+	public static synthetic fun cookies$default (Lorg/openqa/selenium/WebDriver;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lorg/openqa/selenium/WebDriver;
 }
 
 public final class dev/kolibrium/dsl/selenium/interactions/CookiesScope {
@@ -571,6 +572,10 @@ public final class dev/kolibrium/dsl/selenium/interactions/CookiesScope {
 
 public final class dev/kolibrium/dsl/selenium/interactions/IFrameKt {
 	public static final fun iframe (Lorg/openqa/selenium/WebDriver;Lorg/openqa/selenium/WebElement;Lkotlin/jvm/functions/Function0;)V
+}
+
+public final class dev/kolibrium/dsl/selenium/interactions/NavigationKt {
+	public static final fun navigateTo (Lorg/openqa/selenium/WebDriver;Ljava/lang/String;)V
 }
 
 public final class dev/kolibrium/dsl/selenium/interactions/SameSite : java/lang/Enum {

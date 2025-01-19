@@ -16,13 +16,12 @@
 
 package dev.kolibrium.test.swaglabs
 
-import dev.kolibrium.dsl.selenium.interactions.cookies
+import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.junit.Kolibrium
 import dev.kolibrium.test.Product.BACKPACK
 import dev.kolibrium.test.Product.BIKE_LIGHT
 import dev.kolibrium.test.pages.generated.inventoryPage
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.WebDriver
 
@@ -33,20 +32,13 @@ class ShoppingCartTest {
         @JvmStatic
         @BeforeAll
         fun enableLogging() {
-//            SeleniumLogger.enable("RemoteWebDriver")
-        }
-    }
-
-    @BeforeEach
-    fun setUp() {
-        cookies {
-            addCookie(name = "session-username", value = "standard_user")
+            SeleniumLogger.enable("RemoteWebDriver")
         }
     }
 
     @Test
     fun `shopping cart badge is updated when product added or removed`() = inventoryPage {
-        val products = setOf(BACKPACK, BIKE_LIGHT)
+        val products = listOf(BACKPACK, BIKE_LIGHT)
 
         products.forEach { product ->
             product.addToCart()

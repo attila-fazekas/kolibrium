@@ -21,7 +21,6 @@ import dev.kolibrium.dsl.selenium.creation.chromeDriver
 import dev.kolibrium.dsl.selenium.interactions.SameSite.STRICT
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldBeEmpty
-import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -41,8 +40,10 @@ class CookiesTest {
 
     @BeforeEach
     fun openUrl() {
-        driver["https://bonigarcia.dev/selenium-webdriver-java/cookies.html"]
-        driver.manage().deleteAllCookies()
+        driver.apply {
+            get("https://bonigarcia.dev/selenium-webdriver-java/cookies.html")
+            manage().deleteAllCookies()
+        }
     }
 
     @AfterEach
@@ -52,7 +53,7 @@ class CookiesTest {
 
     @Test
     fun `add cookie`() {
-        val now = Date.from(now().plusSeconds(60))
+        val expiresOn = Date.from(now().plusSeconds(60))
 
         driver.cookies {
             addCookie(
@@ -60,55 +61,56 @@ class CookiesTest {
                 value = "test",
                 domain = "bonigarcia.dev",
                 path = "/selenium-webdriver-java",
-                expiresOn = now,
+                expiresOn = expiresOn,
                 isSecure = true,
                 isHttpOnly = false,
                 sameSite = STRICT,
             )
         }
 
-        assertSoftly(driver.manage().cookies.first()) {
-            name shouldBe "username"
-            value shouldBe "test"
-            domain shouldBe ".bonigarcia.dev"
-            path shouldBe "/selenium-webdriver-java"
-            expiry.toString() shouldBe now.toString()
-            isSecure shouldBe true
-            isHttpOnly shouldBe false
-            sameSite shouldBe "Strict"
+        assertSoftly(driver.manage().cookies) {
+            size shouldBe 1
+            with(first()) {
+                name shouldBe "username"
+                value shouldBe "test"
+                domain shouldBe ".bonigarcia.dev"
+                path shouldBe "/selenium-webdriver-java"
+                expiry.toString() shouldBe expiresOn.toString()
+                isSecure shouldBe true
+                isHttpOnly shouldBe false
+                sameSite shouldBe "Strict"
+            }
         }
     }
 
     @Test
     fun `get cookie`() {
         driver.cookies {
-            val cookie = addCookie(name = "username", value = "test")
+            addCookie(name = "username", value = "test")
+        }
 
-            cookie.name shouldBe "username"
-            cookie.value shouldBe "test"
+        driver.cookies {
+            getCookie("username") shouldBe driver.manage().cookies.first()
         }
     }
 
     @Test
     fun `get all cookies`() {
         driver.cookies {
-            val cookie1 = addCookie(name = "username", value = "test")
-            val cookie2 = addCookie(name = "password", value = "secret")
+            addCookie(name = "username", value = "test")
+            addCookie(name = "password", value = "secret")
 
-            with(getCookies()) {
-                size shouldBe 2
-                shouldContain(cookie1)
-                shouldContain(cookie2)
-            }
+            getCookies() shouldBe driver.manage().cookies
         }
     }
 
     @Test
     fun `delete cookie`() {
         driver.cookies {
-            val cookie1 = addCookie(name = "username", value = "test")
+            val cookie = addCookie(name = "username", value = "test")
+            addCookie(name = "password", value = "secret")
 
-            deleteCookie(cookie1)
+            deleteCookie(cookie)
             deleteCookie(name = "password")
 
             getCookies().shouldBeEmpty()
