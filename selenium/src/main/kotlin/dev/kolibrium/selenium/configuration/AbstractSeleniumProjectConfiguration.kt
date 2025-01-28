@@ -34,12 +34,12 @@ public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguratio
     /**
      * A predicate that determines when the found element is considered ready for use.
      */
-    public open val elementReadyWhen: (WebElement.() -> Boolean)? = null
+    public open val elementReadinessCondition: (WebElement.() -> Boolean)? = null
 
     /**
      * A predicate that determines when the found elements are considered ready for use.
      */
-    public open val elementsReadyWhen: (WebElements.() -> Boolean)? = null
+    public open val elementsReadinessCondition: (WebElements.() -> Boolean)? = null
 
     /**
      * The wait configuration to use in synchronization operations.
