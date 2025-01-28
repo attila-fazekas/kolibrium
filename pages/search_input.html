@@ -1,19 +1,3 @@
-<!--
-  ~ Copyright 2023-2024 Attila Fazekas & contributors
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,9 +21,17 @@
             opacity: 0.5;
             background-color: #f0f0f0;
         }
+        .hidden {
+            display: none;
+        }
         #status {
             font-weight: bold;
             margin: 10px 0;
+            white-space: pre-wrap;
+            text-align: left;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
         }
         button {
             margin: 0 10px;
@@ -48,57 +40,70 @@
     </style>
 </head>
 <body>
-    <h1>Search Input Synchronization Demo</h1>
-    
-    <div id="status">Waiting for search input to be ready...</div>
-    
-    <input 
-        type="text" 
-        id="search-input" 
-        class="loading" 
-        placeholder="" 
-        disabled 
-    />
+<h1>Search Input Synchronization Demo</h1>
 
-    <div>
-        <button onclick="enableInput()">Enable Input</button>
-        <button onclick="addPlaceholder()">Add Placeholder</button>
-        <button onclick="makeVisible()">Make Visible</button>
-    </div>
+<div id="status">Waiting for search input to be ready...</div>
 
-    <script>
-        const searchInput = document.getElementById('search-input');
-        const statusDiv = document.getElementById('status');
+<input
+        type="text"
+        id="search-input"
+        class="loading hidden"
+        placeholder=""
+        disabled
+/>
 
-        function updateStatus() {
-            const isDisplayed = searchInput.offsetParent !== null;
-            const hasPlaceholder = searchInput.placeholder.trim() !== '';
-            const isEnabled = !searchInput.disabled;
+<div>
+    <button id="enable-input" onclick="enableInput()">Enable Input</button>
+    <button id="add-placeholder" onclick="addPlaceholder()">Add Placeholder</button>
+    <button id="make-visible" onclick="makeVisible()">Make Visible</button>
+    <button id="toggle-opacity" onclick="toggleOpacity()">Toggle Opacity</button>
+</div>
 
-            statusDiv.textContent = `
-                Is Displayed: ${isDisplayed}
-                | Has Placeholder: ${hasPlaceholder}
-                | Is Enabled: ${isEnabled}
-            `;
-        }
+<script>
+    const searchInput = document.getElementById('search-input');
+    const statusDiv = document.getElementById('status');
 
-        function enableInput() {
-            searchInput.disabled = false;
-            updateStatus();
-        }
+    function updateStatus() {
+        const isDisplayed = searchInput.offsetParent !== null;
+        const hasPlaceholder = searchInput.placeholder.trim() !== '';
+        const isEnabled = !searchInput.disabled;
 
-        function addPlaceholder() {
-            searchInput.placeholder = 'Enter search term';
-            updateStatus();
-        }
+        statusDiv.innerHTML = `
+Status Details:
+Is Displayed: ${isDisplayed}
+Has Placeholder: ${hasPlaceholder}
+Is Enabled: ${isEnabled}
 
-        function makeVisible() {
-            searchInput.classList.remove('loading');
-            updateStatus();
-        }
+Detailed Checks:
+offsetParent: ${searchInput.offsetParent}
+Computed Style (display): ${window.getComputedStyle(searchInput).display}
+Computed Style (visibility): ${window.getComputedStyle(searchInput).visibility}
+Computed Style (opacity): ${window.getComputedStyle(searchInput).opacity}
+        `;
+    }
 
-        // Initial status update
+    function enableInput() {
+        searchInput.disabled = false;
         updateStatus();
-    </script>
+    }
+
+    function addPlaceholder() {
+        searchInput.placeholder = 'Enter search term';
+        updateStatus();
+    }
+
+    function makeVisible() {
+        searchInput.classList.remove('hidden');
+        updateStatus();
+    }
+
+    function toggleOpacity() {
+        searchInput.style.opacity = searchInput.style.opacity === '0' ? '1' : '0';
+        updateStatus();
+    }
+
+    // Initial status update
+    updateStatus();
+</script>
 </body>
 </html>

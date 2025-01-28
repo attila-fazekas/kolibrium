@@ -20,25 +20,16 @@ import dev.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
 
 context(WebDriver)
-class SearchInputPage {
-    val enableInputButton by id("enable-input")
-
-    val addPlaceholderButton by id("add-placeholder")
-
+class DynamicElementPage {
     val makeVisibleButton by id("make-visible")
 
-    val toggleOpacityButton by id("toggle-opacity")
+    val removeLoadingButton by id("remove-loading")
 
-    val searchInput by id("search-input") {
-        isDisplayed &&
-        getAttribute("placeholder")?.isNotEmpty() == true &&
-        isEnabled
-    }
+    val updateTextButton by id("update-text")
 
     val dynamicElement by id("dynamic-content") {
         isDisplayed &&
-        text.contains("Ready") &&
-        getAttribute("class")?.contains("loading") == true
+            getAttribute("class")?.contains("loading") == false &&
+            text.contains("Ready")
     }
-
 }

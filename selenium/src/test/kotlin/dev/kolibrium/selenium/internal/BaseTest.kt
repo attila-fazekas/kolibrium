@@ -19,9 +19,11 @@ package dev.kolibrium.selenium.internal
 import dev.kolibrium.selenium.internal.pages.ButtonDelayedPage
 import dev.kolibrium.selenium.internal.pages.ButtonElementClickInterceptedExceptionPage
 import dev.kolibrium.selenium.internal.pages.ButtonsPage
+import dev.kolibrium.selenium.internal.pages.DynamicElementPage
 import dev.kolibrium.selenium.internal.pages.ElementNotInteractableExceptionPage
 import dev.kolibrium.selenium.internal.pages.HomePage
 import dev.kolibrium.selenium.internal.pages.ImagesPage
+import dev.kolibrium.selenium.internal.pages.SearchInputPage
 import dev.kolibrium.selenium.internal.pages.StaleElementReferenceExceptionMultipleElementsPage
 import dev.kolibrium.selenium.internal.pages.StaleElementReferenceExceptionSingleElementPage
 import dev.kolibrium.selenium.internal.pages.TutorialPage
@@ -48,6 +50,8 @@ private val buttonPage4 = getPage("input_exception")
 private val buttonsPage = getPage("buttons")
 private val homePage = getPage("home")
 private val imagesPage = getPage("images")
+private val search_input = getPage("search_input")
+private val dynamic_element = getPage("dynamic_element")
 private val staleElementReferenceException_singleElement = getPage("StaleElementReferenceException_SingleElement")
 private val staleElementReferenceException_multipleElements = getPage("StaleElementReferenceException_MultipleElements")
 private val tutorial = getPage("tutorial")
@@ -116,6 +120,24 @@ open class BaseTest {
         with(driver) {
             get(buttonPage4)
             with(ElementNotInteractableExceptionPage()) {
+                block()
+            }
+        }
+    }
+
+    protected fun searchInputPage(block: SearchInputPage.() -> Unit) {
+        with(driver) {
+            get(search_input)
+            with(SearchInputPage()) {
+                block()
+            }
+        }
+    }
+
+    protected fun dynamicElementPage(block: DynamicElementPage.() -> Unit) {
+        with(driver) {
+            get(dynamic_element)
+            with(DynamicElementPage()) {
                 block()
             }
         }
