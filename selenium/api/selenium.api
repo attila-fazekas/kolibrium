@@ -7,6 +7,10 @@ public final class dev/kolibrium/selenium/LocatorDelegatesKt {
 	public static synthetic fun cssSelector$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun cssSelectors (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
 	public static synthetic fun cssSelectors$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun dataTest (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun dataTest$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun dataTests (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun dataTests$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun id (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
 	public static synthetic fun id$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun idOrName (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;

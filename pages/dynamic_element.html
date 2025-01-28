@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Element Readiness Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+        }
+        #dynamic-content {
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #333;
+            transition: opacity 1s, background-color 1s;
+        }
+        .loading {
+            opacity: 0.5;
+            background-color: #f0f0f0;
+        }
+        .hidden {
+            display: none;
+        }
+        #status {
+            font-weight: bold;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            text-align: left;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        button {
+            margin: 0 10px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Element Readiness Demo</h1>
+    
+    <div id="status">Waiting for dynamic content to be ready...</div>
+    
+    <div 
+        id="dynamic-content" 
+        class="loading hidden"
+    >
+        Loading...
+    </div>
+
+    <div>
+        <button id="make-visible" onclick="makeVisible()">Make Visible</button>
+        <button id="remove-loading" onclick="removeLoadingClass()">Remove Loading</button>
+        <button id="update-text" onclick="updateText()">Update Text</button>
+    </div>
+
+    <script>
+        const dynamicContent = document.getElementById('dynamic-content');
+        const statusDiv = document.getElementById('status');
+
+        function updateStatus() {
+            const isDisplayed = dynamicContent.offsetParent !== null;
+            const hasReadyText = dynamicContent.textContent.includes('Ready');
+            const hasLoadingClass = dynamicContent.classList.contains('loading');
+
+            statusDiv.innerHTML = `
+Status Details:
+Is Displayed: ${isDisplayed}
+Contains 'Ready': ${hasReadyText}
+Has Loading Class: ${hasLoadingClass}
+
+Detailed Checks:
+Current Text: "${dynamicContent.textContent}"
+Classes: ${Array.from(dynamicContent.classList).join(', ')}
+            `;
+        }
+
+        function makeVisible() {
+            dynamicContent.classList.remove('hidden');
+            updateStatus();
+        }
+
+        function removeLoadingClass() {
+            dynamicContent.classList.remove('loading');
+            updateStatus();
+        }
+
+        function updateText() {
+            dynamicContent.textContent = 'Content is Ready';
+            updateStatus();
+        }
+
+        // Initial status update
+        updateStatus();
+    </script>
+</body>
+</html>

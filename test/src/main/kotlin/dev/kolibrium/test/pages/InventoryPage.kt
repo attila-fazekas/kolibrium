@@ -20,10 +20,10 @@ import dev.kolibrium.dsl.selenium.interactions.cookies
 import dev.kolibrium.dsl.selenium.interactions.navigateTo
 import dev.kolibrium.ksp.annotations.Page
 import dev.kolibrium.selenium.className
+import dev.kolibrium.selenium.dataTest
+import dev.kolibrium.selenium.dataTests
 import dev.kolibrium.selenium.id
 import dev.kolibrium.test.Product
-import dev.kolibrium.test.dataTest
-import dev.kolibrium.test.dataTests
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import org.openqa.selenium.WebDriver

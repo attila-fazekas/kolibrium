@@ -87,6 +87,44 @@ class LocatorDelegatesTest : BaseTest() {
         }
 
     @Test
+    fun `custom complex condition`() =
+        searchInputPage {
+            makeVisibleButton.click()
+
+            Thread.sleep(1000)
+
+            addPlaceholderButton.click()
+
+            Thread.sleep(1000)
+
+            enableInputButton.click()
+
+            Thread.sleep(1000)
+
+            searchInput.sendKeys("Kolibrium")
+
+            searchInput.getAttribute("value") shouldBe "Kolibrium"
+        }
+
+    @Test
+    fun `state-dependent conditions`() =
+        dynamicElementPage {
+            makeVisibleButton.click()
+
+            Thread.sleep(1000)
+
+            removeLoadingButton.click()
+
+            Thread.sleep(1000)
+
+            updateTextButton.click()
+
+            Thread.sleep(1000)
+
+            dynamicElement.text shouldBe "Content is Ready"
+        }
+
+    @Test
     fun `buttons delayed`() =
         buttonsPage {
             with(driver) {
