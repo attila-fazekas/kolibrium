@@ -186,6 +186,80 @@ public fun SearchContext.cssSelectors(
 ): WebElementsProperty = genericLocator(locator, By::cssSelector, cacheLookup, wait, readyWhen)
 
 /**
+ * Creates a property delegate that lazily finds an element using the data-test attribute.
+ *
+ * This function returns a property delegate that, when accessed, finds a web element
+ * matching the specified data-test attribute value. The element lookup and synchronization behavior can
+ * be configured through the parameters.
+ *
+ * Example usage:
+ * ```
+ * private val submitButton by dataTest("submit-btn")
+ * private val headerLink by dataTest("header-link", cacheLookup = false)
+ * private val actionButton by dataTest("action-btn", readyWhen = { isClickable })
+ * ```
+ *
+ * @receiver The SearchContext instance used to search for the elements.
+ * @param locator The value of the "data-test" attribute to search for.
+ * @param cacheLookup If true (default), the elements will be looked up only once and cached for
+ *                     subsequent accesses. If false, a new lookup will be performed each time
+ *                     the elements are accessed.
+ * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
+ *            timeout, error message, and which exceptions to ignore during the wait.
+ *            Defaults to a 10-second timeout with 200ms polling.
+ * @param readyWhen A predicate that determines when the found element is considered ready for use.
+ *                   It's called with [WebElement] as receiver. By default, checks if element is
+ *                   displayed using [isDisplayed].
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
+ *
+ * @see Wait
+ * @see WebElement
+ */
+public fun SearchContext.dataTest(
+    locator: String,
+    cacheLookup: Boolean = true,
+    wait: Wait = defaultWait,
+    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
+): WebElementProperty = xPath("//*[@data-test='$locator']", cacheLookup, wait, readyWhen)
+
+/**
+ * Creates a property delegate that lazily finds multiple elements using the data-test attribute.
+ *
+ * This function returns a property delegate that, when accessed, finds all web elements
+ * matching the specified data-test attribute value. The elements lookup and synchronization behavior can
+ * be configured through the parameters.
+ *
+ * Example usage:
+ * ```
+ * private val navButtons by dataTests("nav-btn")
+ * private val productLinks by dataTests("product-link", cacheLookup = false)
+ * private val formFields by dataTests("form-field", readyWhen = { all { isDisplayed && isEnabled } })
+ * ```
+ *
+ * @receiver The SearchContext instance used to search for the elements.
+ * @param locator The value of the "data-test" attribute to search for.
+ * @param cacheLookup If true (default), the elements will be looked up only once and cached for
+ *                     subsequent accesses. If false, a new lookup will be performed each time
+ *                     the elements are accessed.
+ * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
+ *            timeout, error message, and which exceptions to ignore during the wait.
+ *            Defaults to a 10-second timeout with 200ms polling.
+ * @param readyWhen A predicate that determines when the found elements are considered ready for use.
+ *                   It's called with [WebElements] as receiver. By default, checks if elements are
+ *                   displayed using [isDisplayed].
+ * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
+ *
+ * @see Wait
+ * @see WebElements
+ */
+public fun SearchContext.dataTests(
+    locator: String,
+    cacheLookup: Boolean = true,
+    wait: Wait = defaultWait,
+    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
+): WebElementsProperty = xPaths("//*[@data-test='$locator']", cacheLookup, wait, readyWhen)
+
+/**
  * Creates a property delegate that lazily finds an element using the id locator strategy.
  *
  * This function returns a property delegate that, when accessed, finds a web element with
