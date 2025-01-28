@@ -46,7 +46,7 @@ private val logger = KotlinLogging.logger {}
  * ```
  * private val submitButton by className("submit-btn")
  * private val badge by className("badge", cacheLookup = false))
- * private val menuButton by className("nav-menu", readinessCondition = { isDisplayed && isEnabled })
+ * private val menuButton by className("nav-menu", readinessCondition = { isClickable })
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
@@ -84,7 +84,7 @@ public fun SearchContext.className(
  * ```
  * private val items by classNames("item-class")
  * private val badges by classNames("badge", cacheLookup = false)
- * private val menus by classNames("menu-item", readinessCondition = { all { isDisplayed && isEnabled } })
+ * private val menus by classNames("menu-item", readinessCondition = { all { isClickable } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
@@ -122,7 +122,7 @@ public fun SearchContext.classNames(
  * ```
  * private val container by cssSelector(".container")
  * private val label by cssSelector(".label", cacheLookup = false)
- * private val inputField by cssSelector("#input-field", readinessCondition = { isDisplayed && isEnabled })
+ * private val inputField by cssSelector("#input-field", readinessCondition = { isClickable })
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
@@ -159,7 +159,7 @@ public fun SearchContext.cssSelector(
  * ```
  * private val cards by cssSelectors(".card")
  * private val labels by cssSelectors(".label", cacheLookup = false)
- * private val fields by cssSelectors(".form-field", readinessCondition = { all { isDisplayed && isEnabled } })
+ * private val fields by cssSelectors(".form-field", readinessCondition = { all { isClickable } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
@@ -233,7 +233,7 @@ public fun SearchContext.dataTest(
  * ```
  * private val navButtons by dataTests("nav-btn")
  * private val productLinks by dataTests("product-link", cacheLookup = false)
- * private val formFields by dataTests("form-field", readinessCondition = { all { isDisplayed && isEnabled } })
+ * private val formFields by dataTests("form-field", readinessCondition = { all { isClickable } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
@@ -270,7 +270,7 @@ public fun SearchContext.dataTests(
  * ```
  * private val submitButton by id("submit")
  * private val searchBox by id("search", cacheLookup = false)
- * private val loginButton by id("login", readinessCondition = { isDisplayed && isEnabled })
+ * private val loginButton by id("login", readinessCondition = { isClickable })
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
@@ -307,7 +307,7 @@ public fun SearchContext.id(
  * ```
  * private val userField by idOrName("user-input")
  * private val passwordField by idOrName("password", cacheLookup = false)
- * private val submitField by idOrName("submit", readinessCondition = { isDisplayed && isEnabled })
+ * private val submitField by idOrName("submit", readinessCondition = { isClickable })
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
@@ -345,7 +345,7 @@ public fun SearchContext.idOrName(
  * ```
  * private val homeLink by linkText("Home")
  * private val aboutLink by linkText("About", cacheLookup = false)
- * private val contactLink by linkText("Contact", readinessCondition = { isDisplayed && isEnabled })
+ * private val contactLink by linkText("Contact", readinessCondition = { isClickable })
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
@@ -382,7 +382,7 @@ public fun SearchContext.linkText(
  * ```
  * private val navLinks by linkTexts("NavItem")
  * private val footerLinks by linkTexts("FooterLink", cacheLookup = false)
- * private val sidebarLinks by linkTexts("SidebarLink", readinessCondition = { all { isDisplayed && isEnabled } })
+ * private val sidebarLinks by linkTexts("SidebarLink", readinessCondition = { all { isClickable } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
@@ -419,7 +419,7 @@ public fun SearchContext.linkTexts(
  * ```
  * private val userNameField by name("username")
  * private val emailField by name("email", cacheLookup = false)
- * private val submitButton by name("submit", readinessCondition = { isDisplayed && isEnabled })
+ * private val submitButton by name("submit", readinessCondition = { isClickable })
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
@@ -456,7 +456,7 @@ public fun SearchContext.name(
  * ```
  * private val inputFields by names("input")
  * private val dataFields by names("data", cacheLookup = false)
- * private val submitFields by names("submit", readinessCondition = { all { isDisplayed && isEnabled } })
+ * private val submitFields by names("submit", readinessCondition = { all { isClickable } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
@@ -493,7 +493,7 @@ public fun SearchContext.names(
  * ```
  * private val helpLink by partialLinkText("Help")
  * private val readMoreLink by partialLinkText("Read more", cacheLookup = false)
- * private val learnMoreLink by partialLinkText("Learn", readinessCondition = { isDisplayed && isEnabled })
+ * private val learnMoreLink by partialLinkText("Learn", readinessCondition = { isClickable })
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
@@ -530,7 +530,7 @@ public fun SearchContext.partialLinkText(
  * ```
  * private val infoLinks by partialLinkTexts("Info")
  * private val actionLinks by partialLinkTexts("Action", cacheLookup = false)
- * private val dynamicLinks by partialLinkTexts("Dynamic", readinessCondition = { all { isDisplayed && isEnabled } })
+ * private val dynamicLinks by partialLinkTexts("Dynamic", readinessCondition = { all { isClickable } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
@@ -567,7 +567,7 @@ public fun SearchContext.partialLinkTexts(
  * ```
  * private val header by tagName("header")
  * private val footer by tagName("footer", cacheLookup = false)
- * private val mainContent by tagName("main", readinessCondition = { isDisplayed && isEnabled })
+ * private val mainContent by tagName("main", readinessCondition = { isClickable })
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
@@ -604,7 +604,7 @@ public fun SearchContext.tagName(
  * ```
  * private val sections by tagNames("section")
  * private val paragraphs by tagNames("p", cacheLookup = false)
- * private val articles by tagNames("article", readinessCondition = { all { isDisplayed && isEnabled } })
+ * private val articles by tagNames("article", readinessCondition = { all { isClickable } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
@@ -641,7 +641,7 @@ public fun SearchContext.tagNames(
  * ```
  * private val submitButton by xPath("//button[@type='submit']")
  * private val headerLink by xPath("//a[contains(@class, 'header-link')]", cacheLookup = false)
- * private val actionButton by xPath("//button[text()='Click Me']", readinessCondition = { isDisplayed && isEnabled })
+ * private val actionButton by xPath("//button[text()='Click Me']", readinessCondition = { isClickable })
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
@@ -678,7 +678,7 @@ public fun SearchContext.xPath(
  * ```
  * private val navButtons by xPaths("//button[contains(@class, 'nav')]")
  * private val productLinks by xPaths("//a[contains(@href, '/product')]", cacheLookup = false)
- * private val formFields by xPaths("//input", readinessCondition = { all { isDisplayed && isEnabled } })
+ * private val formFields by xPaths("//input", readinessCondition = { all { isClickable } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
