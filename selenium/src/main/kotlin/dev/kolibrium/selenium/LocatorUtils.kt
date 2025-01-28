@@ -72,18 +72,18 @@ public val WebElements.isEnabled: Boolean
     get() = all { it.isEnabled }
 
 /**
- * Default readyWhen used for single element lookup.
+ * Default readinessCondition used for single element lookup.
  */
-public val defaultElementReadyWhen: WebElement.() -> Boolean by lazy {
-    SeleniumProjectConfiguration.actualConfig().elementReadyWhen ?: DefaultSeleniumProjectConfiguration.elementReadyWhen
+public val defaultElementReadinessCondition: WebElement.() -> Boolean by lazy {
+    SeleniumProjectConfiguration.actualConfig().elementReadinessCondition ?: DefaultSeleniumProjectConfiguration.elementReadinessCondition
 }
 
 /**
- * Default readyWhen used for multiple elements lookup.
+ * Default readinessCondition used for multiple elements lookup.
  */
-public val defaultElementsReadyWhen: WebElements.() -> Boolean by lazy {
-    SeleniumProjectConfiguration.actualConfig().elementsReadyWhen
-        ?: DefaultSeleniumProjectConfiguration.elementsReadyWhen
+public val defaultElementsReadinessCondition: WebElements.() -> Boolean by lazy {
+    SeleniumProjectConfiguration.actualConfig().elementsReadinessCondition
+        ?: DefaultSeleniumProjectConfiguration.elementsReadinessCondition
 }
 
 /**

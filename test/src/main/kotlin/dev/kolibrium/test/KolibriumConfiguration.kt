@@ -53,7 +53,7 @@ object JUnitConfiguration : AbstractJUnitProjectConfiguration() {
 
 @AutoService(AbstractSeleniumProjectConfiguration::class)
 object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
-    override val elementReadyWhen: (WebElement.() -> Boolean) = { isClickable }
+    override val elementReadinessCondition: (WebElement.() -> Boolean) = { isClickable }
 
     override val decorators = listOf(
         HighlighterDecorator(style = DOTTED, color = BLUE, width = 10),

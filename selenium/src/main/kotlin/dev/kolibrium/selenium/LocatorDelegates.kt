@@ -46,21 +46,21 @@ private val logger = KotlinLogging.logger {}
  * ```
  * private val submitButton by className("submit-btn")
  * private val badge by className("badge", cacheLookup = false))
- * private val menuButton by className("nav-menu", readyWhen = { isDisplayed && isEnabled })
+ * private val menuButton by className("nav-menu", readinessCondition = { isDisplayed && isEnabled })
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "class" attribute to search for. If multiple classes are
  *                specified, the element must have all of them to match.
- * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element is considered ready for use.
- *                  It's called with [WebElement] as receiver. By default, checks if element is
- *                  displayed using [isDisplayed].
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param wait Configures the waiting behavior when looking up element. Specifies polling interval,
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found element is considered ready for use.
+ *                           It's called with [WebElement] as receiver. By default, checks if element is
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see Wait
@@ -70,8 +70,8 @@ public fun SearchContext.className(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
-): WebElementProperty = genericLocator(locator, By::className, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
+): WebElementProperty = genericLocator(locator, By::className, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds multiple elements using the className locator strategy.
@@ -84,21 +84,21 @@ public fun SearchContext.className(
  * ```
  * private val items by classNames("item-class")
  * private val badges by classNames("badge", cacheLookup = false)
- * private val menus by classNames("menu-item", readyWhen = { all { isDisplayed && isEnabled } })
+ * private val menus by classNames("menu-item", readinessCondition = { all { isDisplayed && isEnabled } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
  * @param locator The value of the "class" attribute to search for. If multiple classes are
  *                specified, elements must have all of them to match.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the elements are accessed.
  * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found elements are considered ready for use.
- *                  It's called with [WebElements] as receiver. By default, checks if elements are
- *                  displayed using [isDisplayed].
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found elements are considered ready for use.
+ *                           It's called with [WebElements] as receiver. By default, checks if elements are
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see Wait
@@ -108,8 +108,8 @@ public fun SearchContext.classNames(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
-): WebElementsProperty = genericLocator(locator, By::className, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
+): WebElementsProperty = genericLocator(locator, By::className, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element using the CSS selector locator strategy.
@@ -122,20 +122,20 @@ public fun SearchContext.classNames(
  * ```
  * private val container by cssSelector(".container")
  * private val label by cssSelector(".label", cacheLookup = false)
- * private val inputField by cssSelector("#input-field", readyWhen = { isDisplayed && isEnabled })
+ * private val inputField by cssSelector("#input-field", readinessCondition = { isDisplayed && isEnabled })
  * ```
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The CSS selector to locate the element.
- * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element is considered ready for use.
- *                  It's called with [WebElement] as receiver. By default, checks if element is
- *                  displayed using [isDisplayed].
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param wait Configures the waiting behavior when looking up element. Specifies polling interval,
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found element is considered ready for use.
+ *                           It's called with [WebElement] as receiver. By default, checks if element is
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see Wait
@@ -145,8 +145,8 @@ public fun SearchContext.cssSelector(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
-): WebElementProperty = genericLocator(locator, By::cssSelector, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
+): WebElementProperty = genericLocator(locator, By::cssSelector, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds multiple elements using the CSS selector locator strategy.
@@ -159,20 +159,20 @@ public fun SearchContext.cssSelector(
  * ```
  * private val cards by cssSelectors(".card")
  * private val labels by cssSelectors(".label", cacheLookup = false)
- * private val fields by cssSelectors(".form-field", readyWhen = { all { isDisplayed && isEnabled } })
+ * private val fields by cssSelectors(".form-field", readinessCondition = { all { isDisplayed && isEnabled } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
  * @param locator The CSS selector to locate the elements.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the elements are accessed.
  * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found elements are considered ready for use.
- *                  It's called with [WebElements] as receiver. By default, checks if elements are
- *                  displayed using [isDisplayed].
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found elements are considered ready for use.
+ *                           It's called with [WebElements] as receiver. By default, checks if elements are
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see Wait
@@ -182,8 +182,8 @@ public fun SearchContext.cssSelectors(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
-): WebElementsProperty = genericLocator(locator, By::cssSelector, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
+): WebElementsProperty = genericLocator(locator, By::cssSelector, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element using the data-test attribute.
@@ -196,20 +196,20 @@ public fun SearchContext.cssSelectors(
  * ```
  * private val submitButton by dataTest("submit-btn")
  * private val headerLink by dataTest("header-link", cacheLookup = false)
- * private val actionButton by dataTest("action-btn", readyWhen = { isClickable })
+ * private val actionButton by dataTest("action-btn", readinessCondition = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "data-test" attribute to search for.
- * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element is considered ready for use.
- *                   It's called with [WebElement] as receiver. By default, checks if element is
- *                   displayed using [isDisplayed].
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param wait Configures the waiting behavior when looking up element. Specifies polling interval,
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found element is considered ready for use.
+ *                           It's called with [WebElement] as receiver. By default, checks if element is
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see Wait
@@ -219,8 +219,8 @@ public fun SearchContext.dataTest(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
-): WebElementProperty = xPath("//*[@data-test='$locator']", cacheLookup, wait, readyWhen)
+    readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
+): WebElementProperty = xPath("//*[@data-test='$locator']", cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds multiple elements using the data-test attribute.
@@ -233,20 +233,20 @@ public fun SearchContext.dataTest(
  * ```
  * private val navButtons by dataTests("nav-btn")
  * private val productLinks by dataTests("product-link", cacheLookup = false)
- * private val formFields by dataTests("form-field", readyWhen = { all { isDisplayed && isEnabled } })
+ * private val formFields by dataTests("form-field", readinessCondition = { all { isDisplayed && isEnabled } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
  * @param locator The value of the "data-test" attribute to search for.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the elements are accessed.
  * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found elements are considered ready for use.
- *                   It's called with [WebElements] as receiver. By default, checks if elements are
- *                   displayed using [isDisplayed].
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found elements are considered ready for use.
+ *                           It's called with [WebElements] as receiver. By default, checks if elements are
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see Wait
@@ -256,8 +256,8 @@ public fun SearchContext.dataTests(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
-): WebElementsProperty = xPaths("//*[@data-test='$locator']", cacheLookup, wait, readyWhen)
+    readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
+): WebElementsProperty = xPaths("//*[@data-test='$locator']", cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element using the id locator strategy.
@@ -270,20 +270,20 @@ public fun SearchContext.dataTests(
  * ```
  * private val submitButton by id("submit")
  * private val searchBox by id("search", cacheLookup = false)
- * private val loginButton by id("login", readyWhen = { isDisplayed && isEnabled })
+ * private val loginButton by id("login", readinessCondition = { isDisplayed && isEnabled })
  * ```
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "id" attribute to search for.
- * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element is considered ready for use.
- *                  It's called with [WebElement] as receiver. By default, checks if element is
- *                  displayed using [isDisplayed].
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param wait Configures the waiting behavior when looking up element. Specifies polling interval,
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found element is considered ready for use.
+ *                           It's called with [WebElement] as receiver. By default, checks if element is
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see Wait
@@ -293,8 +293,8 @@ public fun SearchContext.id(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
-): WebElementProperty = genericLocator(locator, By::id, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
+): WebElementProperty = genericLocator(locator, By::id, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element using either the id or name locator strategy.
@@ -307,20 +307,20 @@ public fun SearchContext.id(
  * ```
  * private val userField by idOrName("user-input")
  * private val passwordField by idOrName("password", cacheLookup = false)
- * private val submitField by idOrName("submit", readyWhen = { isDisplayed && isEnabled })
+ * private val submitField by idOrName("submit", readinessCondition = { isDisplayed && isEnabled })
  * ```
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of either the "id" or "name" attribute to search for.
- * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element is considered ready for use.
- *                  It's called with [WebElement] as receiver. By default, checks if element is
- *                  displayed using [isDisplayed].
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param wait Configures the waiting behavior when looking up element. Specifies polling interval,
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found element is considered ready for use.
+ *                           It's called with [WebElement] as receiver. By default, checks if element is
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see Wait
@@ -331,8 +331,8 @@ public fun SearchContext.idOrName(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
-): WebElementProperty = genericLocator(locator, ::ByIdOrName, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
+): WebElementProperty = genericLocator(locator, ::ByIdOrName, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element using the link text locator strategy.
@@ -345,18 +345,18 @@ public fun SearchContext.idOrName(
  * ```
  * private val homeLink by linkText("Home")
  * private val aboutLink by linkText("About", cacheLookup = false)
- * private val contactLink by linkText("Contact", readyWhen = { isDisplayed && isEnabled })
+ * private val contactLink by linkText("Contact", readinessCondition = { isDisplayed && isEnabled })
  * ```
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The exact text of the link to search for.
- * @param cacheLookup If true (default), the elements will be looked up only once and cached for
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
+ *                     the element is accessed.
+ * @param wait Configures the waiting behavior when looking up element. Specifies polling interval,
  *            timeout, error message, and which exceptions to ignore during the wait.
  *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element is considered ready for use.
+ * @param readinessCondition A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
@@ -368,8 +368,8 @@ public fun SearchContext.linkText(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
-): WebElementProperty = genericLocator(locator, By::linkText, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
+): WebElementProperty = genericLocator(locator, By::linkText, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds multiple elements using the link text locator strategy.
@@ -382,20 +382,20 @@ public fun SearchContext.linkText(
  * ```
  * private val navLinks by linkTexts("NavItem")
  * private val footerLinks by linkTexts("FooterLink", cacheLookup = false)
- * private val sidebarLinks by linkTexts("SidebarLink", readyWhen = { all { isDisplayed && isEnabled } })
+ * private val sidebarLinks by linkTexts("SidebarLink", readinessCondition = { all { isDisplayed && isEnabled } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
  * @param locator The exact text of the links to search for.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the elements are accessed.
  * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found elements are considered ready for use.
- *                  It's called with [WebElements] as receiver. By default, checks if elements are
- *                  displayed using [isDisplayed].
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found elements are considered ready for use.
+ *                           It's called with [WebElements] as receiver. By default, checks if elements are
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see Wait
@@ -405,8 +405,8 @@ public fun SearchContext.linkTexts(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
-): WebElementsProperty = genericLocator(locator, By::linkText, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
+): WebElementsProperty = genericLocator(locator, By::linkText, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element using the name locator strategy.
@@ -419,20 +419,20 @@ public fun SearchContext.linkTexts(
  * ```
  * private val userNameField by name("username")
  * private val emailField by name("email", cacheLookup = false)
- * private val submitButton by name("submit", readyWhen = { isDisplayed && isEnabled })
+ * private val submitButton by name("submit", readinessCondition = { isDisplayed && isEnabled })
  * ```
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "name" attribute to search for.
- * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element is considered ready for use.
- *                  It's called with [WebElement] as receiver. By default, checks if element is
- *                  displayed using [isDisplayed].
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param wait Configures the waiting behavior when looking up element. Specifies polling interval,
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found element is considered ready for use.
+ *                           It's called with [WebElement] as receiver. By default, checks if element is
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see Wait
@@ -442,8 +442,8 @@ public fun SearchContext.name(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
-): WebElementProperty = genericLocator(locator, By::name, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
+): WebElementProperty = genericLocator(locator, By::name, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds multiple elements using the name locator strategy.
@@ -456,20 +456,20 @@ public fun SearchContext.name(
  * ```
  * private val inputFields by names("input")
  * private val dataFields by names("data", cacheLookup = false)
- * private val submitFields by names("submit", readyWhen = { all { isDisplayed && isEnabled } })
+ * private val submitFields by names("submit", readinessCondition = { all { isDisplayed && isEnabled } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
  * @param locator The value of the "name" attribute to search for.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the elements are accessed.
  * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found elements are considered ready for use.
- *                  It's called with [WebElements] as receiver. By default, checks if elements are
- *                  displayed using [isDisplayed].
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found elements are considered ready for use.
+ *                           It's called with [WebElements] as receiver. By default, checks if elements are
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see Wait
@@ -479,8 +479,8 @@ public fun SearchContext.names(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
-): WebElementsProperty = genericLocator(locator, By::name, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
+): WebElementsProperty = genericLocator(locator, By::name, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element using the partial link text locator strategy.
@@ -493,20 +493,20 @@ public fun SearchContext.names(
  * ```
  * private val helpLink by partialLinkText("Help")
  * private val readMoreLink by partialLinkText("Read more", cacheLookup = false)
- * private val learnMoreLink by partialLinkText("Learn", readyWhen = { isDisplayed && isEnabled })
+ * private val learnMoreLink by partialLinkText("Learn", readinessCondition = { isDisplayed && isEnabled })
  * ```
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "name" attribute to search for.
- * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element is considered ready for use.
- *                  It's called with [WebElement] as receiver. By default, checks if element is
- *                  displayed using [isDisplayed].
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param wait Configures the waiting behavior when looking up element. Specifies polling interval,
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found element is considered ready for use.
+ *                           It's called with [WebElement] as receiver. By default, checks if element is
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see Wait
@@ -516,8 +516,8 @@ public fun SearchContext.partialLinkText(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
-): WebElementProperty = genericLocator(locator, By::partialLinkText, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
+): WebElementProperty = genericLocator(locator, By::partialLinkText, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds multiple elements using the partial link text locator strategy.
@@ -530,20 +530,20 @@ public fun SearchContext.partialLinkText(
  * ```
  * private val infoLinks by partialLinkTexts("Info")
  * private val actionLinks by partialLinkTexts("Action", cacheLookup = false)
- * private val dynamicLinks by partialLinkTexts("Dynamic", readyWhen = { all { isDisplayed && isEnabled } })
+ * private val dynamicLinks by partialLinkTexts("Dynamic", readinessCondition = { all { isDisplayed && isEnabled } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
  * @param locator The value of the "name" attribute to search for.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the elements are accessed.
  * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found elements are considered ready for use.
- *                  It's called with [WebElements] as receiver. By default, checks if elements are
- *                  displayed using [isDisplayed].
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found elements are considered ready for use.
+ *                           It's called with [WebElements] as receiver. By default, checks if elements are
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see Wait
@@ -553,8 +553,8 @@ public fun SearchContext.partialLinkTexts(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
-): WebElementsProperty = genericLocator(locator, By::partialLinkText, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
+): WebElementsProperty = genericLocator(locator, By::partialLinkText, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element using the tag name locator strategy.
@@ -567,20 +567,20 @@ public fun SearchContext.partialLinkTexts(
  * ```
  * private val header by tagName("header")
  * private val footer by tagName("footer", cacheLookup = false)
- * private val mainContent by tagName("main", readyWhen = { isDisplayed && isEnabled })
+ * private val mainContent by tagName("main", readinessCondition = { isDisplayed && isEnabled })
  * ```
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "name" attribute to search for.
- * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element is considered ready for use.
- *                  It's called with [WebElement] as receiver. By default, checks if element is
- *                  displayed using [isDisplayed].
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param wait Configures the waiting behavior when looking up element. Specifies polling interval,
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found element is considered ready for use.
+ *                           It's called with [WebElement] as receiver. By default, checks if element is
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see Wait
@@ -590,8 +590,8 @@ public fun SearchContext.tagName(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
-): WebElementProperty = genericLocator(locator, By::tagName, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
+): WebElementProperty = genericLocator(locator, By::tagName, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds multiple elements using the tag name locator strategy.
@@ -604,20 +604,20 @@ public fun SearchContext.tagName(
  * ```
  * private val sections by tagNames("section")
  * private val paragraphs by tagNames("p", cacheLookup = false)
- * private val articles by tagNames("article", readyWhen = { all { isDisplayed && isEnabled } })
+ * private val articles by tagNames("article", readinessCondition = { all { isDisplayed && isEnabled } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
  * @param locator The value of the "name" attribute to search for.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the elements are accessed.
  * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found elements are considered ready for use.
- *                  It's called with [WebElements] as receiver. By default, checks if elements are
- *                  displayed using [isDisplayed].
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found elements are considered ready for use.
+ *                           It's called with [WebElements] as receiver. By default, checks if elements are
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see Wait
@@ -627,8 +627,8 @@ public fun SearchContext.tagNames(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
-): WebElementsProperty = genericLocator(locator, By::tagName, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
+): WebElementsProperty = genericLocator(locator, By::tagName, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element using the XPath locator strategy.
@@ -641,20 +641,20 @@ public fun SearchContext.tagNames(
  * ```
  * private val submitButton by xPath("//button[@type='submit']")
  * private val headerLink by xPath("//a[contains(@class, 'header-link')]", cacheLookup = false)
- * private val actionButton by xPath("//button[text()='Click Me']", readyWhen = { isDisplayed && isEnabled })
+ * private val actionButton by xPath("//button[text()='Click Me']", readinessCondition = { isDisplayed && isEnabled })
  * ```
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The SearchContext instance used to search for the element.
  * @param locator The value of the "name" attribute to search for.
- * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element is considered ready for use.
- *                  It's called with [WebElement] as receiver. By default, checks if element is
- *                  displayed using [isDisplayed].
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param wait Configures the waiting behavior when looking up element. Specifies polling interval,
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found element is considered ready for use.
+ *                           It's called with [WebElement] as receiver. By default, checks if element is
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
  * @see Wait
@@ -664,8 +664,8 @@ public fun SearchContext.xPath(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElement.() -> Boolean = defaultElementReadyWhen,
-): WebElementProperty = genericLocator(locator, By::xpath, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
+): WebElementProperty = genericLocator(locator, By::xpath, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds multiple elements using the XPath locator strategy.
@@ -678,20 +678,20 @@ public fun SearchContext.xPath(
  * ```
  * private val navButtons by xPaths("//button[contains(@class, 'nav')]")
  * private val productLinks by xPaths("//a[contains(@href, '/product')]", cacheLookup = false)
- * private val formFields by xPaths("//input", readyWhen = { all { isDisplayed && isEnabled } })
+ * private val formFields by xPaths("//input", readinessCondition = { all { isDisplayed && isEnabled } })
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
  * @param locator The value of the "name" attribute to search for.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
- *                     subsequent accesses. If false, a new lookup will be performed each time
- *                     the elements are accessed.
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the elements are accessed.
  * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *            timeout, error message, and which exceptions to ignore during the wait.
- *            Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found elements are considered ready for use.
- *                  It's called with [WebElements] as receiver. By default, checks if elements are
- *                  displayed using [isDisplayed].
+ *             timeout, error message, and which exceptions to ignore during the wait.
+ *             Defaults to a 10-second timeout with 200ms polling.
+ * @param readinessCondition A predicate that determines when the found elements are considered ready for use.
+ *                           It's called with [WebElements] as receiver. By default, checks if elements are
+ *                           displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
  * @see Wait
@@ -701,8 +701,8 @@ public fun SearchContext.xPaths(
     locator: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
-    readyWhen: WebElements.() -> Boolean = defaultElementsReadyWhen,
-): WebElementsProperty = genericLocator(locator, By::xpath, cacheLookup, wait, readyWhen)
+    readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
+): WebElementsProperty = genericLocator(locator, By::xpath, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element or elements using a generic locator strategy.
@@ -720,7 +720,7 @@ public fun SearchContext.xPaths(
  * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
  *             timeout, error message, and which exceptions to ignore during the wait.
  *             Defaults to a 10-second timeout with 200ms polling.
- * @param readyWhen A predicate that determines when the found element(s) are considered ready for use.
+ * @param readinessCondition A predicate that determines when the found element(s) are considered ready for use.
  *                  It's called with either [WebElement] or [WebElements] as receiver. By default,
  *                  checks if the element(s) are displayed.
  * @return A [ReadOnlyProperty] delegate that provides either a [WebElement] or [WebElements] when accessed.
@@ -734,13 +734,13 @@ internal inline fun <reified T> SearchContext.genericLocator(
     noinline by: (String) -> By,
     cacheLookup: Boolean,
     wait: Wait,
-    noinline readyWhen: T.() -> Boolean,
+    noinline readinessCondition: T.() -> Boolean,
 ): ReadOnlyProperty<Any?, T> {
     require(locator.isNotBlank()) { "\"locator\" must not be blank" }
 
     return when (T::class) {
-        WebElement::class -> KWebElement(locator, by, cacheLookup, wait, readyWhen as WebElement.() -> Boolean)
-        List::class -> KWebElements(locator, by, cacheLookup, wait, readyWhen as WebElements.() -> Boolean)
+        WebElement::class -> KWebElement(locator, by, cacheLookup, wait, readinessCondition as WebElement.() -> Boolean)
+        List::class -> KWebElements(locator, by, cacheLookup, wait, readinessCondition as WebElements.() -> Boolean)
         else -> throw IllegalArgumentException("Unsupported type: ${T::class.simpleName}")
     } as ReadOnlyProperty<Any?, T>
 }
@@ -808,7 +808,7 @@ internal class KWebElement(
     private val by: (String) -> By,
     private val cacheLookup: Boolean,
     wait: Wait,
-    private val readyWhen: WebElement.() -> Boolean,
+    private val readinessCondition: WebElement.() -> Boolean,
 ) : KWebElementBase<KWebElement, WebElement>(),
     WebElementProperty {
     private var cachedWebElement: WebElement? = null
@@ -830,7 +830,7 @@ internal class KWebElement(
         cachedWebElement = null
     }
 
-    override fun isElementReady(element: WebElement): Boolean = element.readyWhen()
+    override fun isElementReady(element: WebElement): Boolean = element.readinessCondition()
 }
 
 context(SearchContext)
@@ -839,7 +839,7 @@ internal class KWebElements(
     private val by: (String) -> By,
     private val cacheLookup: Boolean,
     wait: Wait,
-    private val readyWhen: WebElements.() -> Boolean,
+    private val readinessCondition: WebElements.() -> Boolean,
 ) : KWebElementBase<KWebElements, WebElements>(),
     WebElementsProperty {
     private var cachedWebElements: WebElements? = null
@@ -861,5 +861,5 @@ internal class KWebElements(
         cachedWebElements = null
     }
 
-    override fun isElementReady(element: WebElements): Boolean = element.readyWhen()
+    override fun isElementReady(element: WebElements): Boolean = element.readinessCondition()
 }

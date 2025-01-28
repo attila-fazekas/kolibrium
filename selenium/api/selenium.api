@@ -38,8 +38,8 @@ public final class dev/kolibrium/selenium/LocatorDelegatesKt {
 }
 
 public final class dev/kolibrium/selenium/LocatorUtilsKt {
-	public static final fun getDefaultElementReadyWhen ()Lkotlin/jvm/functions/Function1;
-	public static final fun getDefaultElementsReadyWhen ()Lkotlin/jvm/functions/Function1;
+	public static final fun getDefaultElementReadinessCondition ()Lkotlin/jvm/functions/Function1;
+	public static final fun getDefaultElementsReadinessCondition ()Lkotlin/jvm/functions/Function1;
 	public static final fun getDefaultWait ()Ldev/kolibrium/selenium/Wait;
 	public static final fun isClickable (Ljava/util/List;)Z
 	public static final fun isClickable (Lorg/openqa/selenium/WebElement;)Z
@@ -71,8 +71,8 @@ public final class dev/kolibrium/selenium/Wait$Companion {
 public abstract class dev/kolibrium/selenium/configuration/AbstractSeleniumProjectConfiguration : dev/kolibrium/core/config/ProjectConfiguration {
 	public fun <init> ()V
 	public fun getDecorators ()Ljava/util/List;
-	public fun getElementReadyWhen ()Lkotlin/jvm/functions/Function1;
-	public fun getElementsReadyWhen ()Lkotlin/jvm/functions/Function1;
+	public fun getElementReadinessCondition ()Lkotlin/jvm/functions/Function1;
+	public fun getElementsReadinessCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getWait ()Ldev/kolibrium/selenium/Wait;
 }
 
