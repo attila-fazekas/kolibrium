@@ -24,11 +24,11 @@ import dev.kolibrium.selenium.isDisplayed
 import org.openqa.selenium.WebElement
 
 internal object DefaultSeleniumProjectConfiguration : AbstractSeleniumProjectConfiguration() {
-    override var elementReadinessCondition: (WebElement.() -> Boolean) = { isDisplayed }
+    override var elementReadyCondition: (WebElement.() -> Boolean) = { isDisplayed }
 
-    override var elementsReadinessCondition: (WebElements.() -> Boolean) = { isDisplayed }
+    override var elementsReadyCondition: (WebElements.() -> Boolean) = { isDisplayed }
 
-    override var wait: Wait = DEFAULT
+    override var waitConfig: Wait = DEFAULT
 
     override var decorators: List<AbstractDecorator> = emptyList()
 }

@@ -53,12 +53,12 @@ object JUnitConfiguration : AbstractJUnitProjectConfiguration() {
 
 @AutoService(AbstractSeleniumProjectConfiguration::class)
 object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
-    override val elementReadinessCondition: (WebElement.() -> Boolean) = { isClickable }
+    override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
     override val decorators = listOf(
         HighlighterDecorator(style = DOTTED, color = BLUE, width = 10),
         SlowMotionDecorator(wait = 500.milliseconds)
     )
 
-    override val wait: Wait = DEFAULT.copy(timeout = 1.seconds)
+    override val waitConfig: Wait = DEFAULT.copy(timeout = 1.seconds)
 }
