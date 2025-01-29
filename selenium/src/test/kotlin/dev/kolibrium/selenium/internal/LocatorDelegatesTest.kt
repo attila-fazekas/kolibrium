@@ -140,6 +140,15 @@ class LocatorDelegatesTest : BaseTest() {
         }
 
     @Test
+    fun `dataTest should work with quotes`() =
+        dataTestPage {
+            element1.text shouldBe "Element 1 (no quotes)"
+            element2.text shouldBe "Element 2 (single quote)"
+            element3.text shouldBe "Element 3 (double quote)"
+            element4.text shouldBe "Element 4 (both quotes)"
+        }
+
+    @Test
     fun `throws StaleElementReferenceException - single element`() =
         staleElementReferenceExceptionSingleElementPage {
             button.click()

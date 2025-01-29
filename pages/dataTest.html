@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <!-- Test Elements -->
+  <div data-test="simple">Element 1 (no quotes)</div>
+  <div data-test="quote's">Element 2 (single quote)</div>
+  <div data-test='double"quote'>Element 3 (double quote)</div>
+  <div data-test="both'quotes&quot;">Element 4 (both quotes)</div>
+
+  <!-- Helper to Display Results -->
+  <script>
+    function showFoundElement(id) {
+      document.getElementById("result").innerText = `Found: ${id}`;
+    }
+  </script>
+
+  <div id="result"></div>
+</body>
+</html>
