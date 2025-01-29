@@ -36,7 +36,7 @@ private typealias WebElementsProperty = ReadOnlyProperty<Any?, WebElements>
 private val logger = KotlinLogging.logger {}
 
 /**
- * Creates a property delegate that lazily finds an element using the className locator strategy.
+ * Creates a property delegate that lazily finds a single element by its class name.
  *
  * This function returns a property delegate that, when accessed, finds a web element
  * with the specified class name. The element lookup and synchronization behavior can
@@ -50,8 +50,9 @@ private val logger = KotlinLogging.logger {}
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param locator The value of the "class" attribute to search for. If multiple classes are
- *                specified, the element must have all of them to match.
+ * @param value The exact value of the "class" attribute to search for.
+ *              Only one class name should be used. If an element has
+ *              multiple classes, please use cssSelector(String).
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -67,14 +68,14 @@ private val logger = KotlinLogging.logger {}
  * @see WebElement
  */
 public fun SearchContext.className(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
-): WebElementProperty = genericLocator(locator, By::className, cacheLookup, wait, readinessCondition)
+): WebElementProperty = genericLocator(value, By::className, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds multiple elements using the className locator strategy.
+ * Creates a property delegate that lazily finds all elements by their class name.
  *
  * This function returns a property delegate that, when accessed, finds all web elements
  * with the specified class name. The elements lookup and synchronization behavior can be
@@ -88,8 +89,9 @@ public fun SearchContext.className(
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
- * @param locator The value of the "class" attribute to search for. If multiple classes are
- *                specified, elements must have all of them to match.
+ * @param value The exact value of the "class" attribute to search for.
+ *              Only one class name should be used. If an element has
+ *              multiple classes, please use cssSelector(String).
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the elements are accessed.
@@ -105,14 +107,14 @@ public fun SearchContext.className(
  * @see WebElements
  */
 public fun SearchContext.classNames(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
-): WebElementsProperty = genericLocator(locator, By::className, cacheLookup, wait, readinessCondition)
+): WebElementsProperty = genericLocator(value, By::className, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds an element using the CSS selector locator strategy.
+ * Creates a property delegate that lazily finds a single element using a CSS selector.
  *
  * This function returns a property delegate that, when accessed, finds a web element matching the
  * specified CSS selector. The element lookup and synchronization behavior can be configured
@@ -126,7 +128,7 @@ public fun SearchContext.classNames(
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param locator The CSS selector to locate the element.
+ * @param value The CSS selector to locate the element.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -142,14 +144,14 @@ public fun SearchContext.classNames(
  * @see WebElement
  */
 public fun SearchContext.cssSelector(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
-): WebElementProperty = genericLocator(locator, By::cssSelector, cacheLookup, wait, readinessCondition)
+): WebElementProperty = genericLocator(value, By::cssSelector, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds multiple elements using the CSS selector locator strategy.
+ * Creates a property delegate that lazily finds all elements matching a CSS selector.
  *
  * This function returns a property delegate that, when accessed, finds all web elements matching the
  * specified CSS selector. The elements lookup and synchronization behavior can be configured
@@ -163,7 +165,7 @@ public fun SearchContext.cssSelector(
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
- * @param locator The CSS selector to locate the elements.
+ * @param value The CSS selector to locate the elements.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the elements are accessed.
@@ -179,14 +181,14 @@ public fun SearchContext.cssSelector(
  * @see WebElements
  */
 public fun SearchContext.cssSelectors(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
-): WebElementsProperty = genericLocator(locator, By::cssSelector, cacheLookup, wait, readinessCondition)
+): WebElementsProperty = genericLocator(value, By::cssSelector, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds an element using the data-test attribute.
+ * Creates a property delegate that lazily finds a single element by its "data-test" attribute value.
  *
  * This function returns a property delegate that, when accessed, finds a web element
  * matching the specified data-test attribute value. The element lookup and synchronization behavior can
@@ -200,7 +202,7 @@ public fun SearchContext.cssSelectors(
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param locator The value of the "data-test" attribute to search for.
+ * @param value The exact value of the "data-test" attribute to search for.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -216,14 +218,16 @@ public fun SearchContext.cssSelectors(
  * @see WebElement
  */
 public fun SearchContext.dataTest(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
-): WebElementProperty = xPath("//*[@data-test='$locator']", cacheLookup, wait, readinessCondition)
+): WebElementProperty = xPath("//*[@data-test=${value.escapeQuotes()}]", cacheLookup, wait, readinessCondition)
+
+private fun String.escapeQuotes(): String = if (contains("'")) "concat('${replace("'", "',\"'\",'")}')" else "'$this'"
 
 /**
- * Creates a property delegate that lazily finds multiple elements using the data-test attribute.
+ * Creates a property delegate that lazily finds all elements with the specified "data-test" attribute value.
  *
  * This function returns a property delegate that, when accessed, finds all web elements
  * matching the specified data-test attribute value. The elements lookup and synchronization behavior can
@@ -237,7 +241,7 @@ public fun SearchContext.dataTest(
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
- * @param locator The value of the "data-test" attribute to search for.
+ * @param value The exact value of the "data-test" attribute to search for.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the elements are accessed.
@@ -253,14 +257,14 @@ public fun SearchContext.dataTest(
  * @see WebElements
  */
 public fun SearchContext.dataTests(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
-): WebElementsProperty = xPaths("//*[@data-test='$locator']", cacheLookup, wait, readinessCondition)
+): WebElementsProperty = xPaths("//*[@data-test='$value']", cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds an element using the id locator strategy.
+ * Creates a property delegate that lazily finds a single element by its "id" attribute.
  *
  * This function returns a property delegate that, when accessed, finds a web element with
  * the specified id attribute. The element lookup and synchronization behavior can be
@@ -274,7 +278,7 @@ public fun SearchContext.dataTests(
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param locator The value of the "id" attribute to search for.
+ * @param value The value of the "id" attribute to search for.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -290,14 +294,14 @@ public fun SearchContext.dataTests(
  * @see WebElement
  */
 public fun SearchContext.id(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
-): WebElementProperty = genericLocator(locator, By::id, cacheLookup, wait, readinessCondition)
+): WebElementProperty = genericLocator(value, By::id, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds an element using either the id or name locator strategy.
+ * Creates a property delegate that lazily finds a single element by its "id" or "name" attribute.
  *
  * This function returns a property delegate that, when accessed, finds a web element with the specified
  * id or name attribute. The element lookup and synchronization behavior can be configured through
@@ -311,7 +315,7 @@ public fun SearchContext.id(
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param locator The value of either the "id" or "name" attribute to search for.
+ * @param value The value of either the "id" or "name" attribute to search for.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -328,14 +332,14 @@ public fun SearchContext.id(
  * @see ByIdOrName
  */
 public fun SearchContext.idOrName(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
-): WebElementProperty = genericLocator(locator, ::ByIdOrName, cacheLookup, wait, readinessCondition)
+): WebElementProperty = genericLocator(value, ::ByIdOrName, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds an element using the link text locator strategy.
+ * Creates a property delegate that lazily finds a single element by its exact link text.
  *
  * This function returns a property delegate that, when accessed, finds a web element with
  * the specified link text. The element lookup and synchronization behavior can be
@@ -349,7 +353,7 @@ public fun SearchContext.idOrName(
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param locator The exact text of the link to search for.
+ * @param value The exact, case-sensitive link text to search for.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                     subsequent accesses. If false, a new lookup will be performed each time
  *                     the element is accessed.
@@ -365,14 +369,14 @@ public fun SearchContext.idOrName(
  * @see WebElement
  */
 public fun SearchContext.linkText(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
-): WebElementProperty = genericLocator(locator, By::linkText, cacheLookup, wait, readinessCondition)
+): WebElementProperty = genericLocator(value, By::linkText, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds multiple elements using the link text locator strategy.
+ * Creates a property delegate that lazily finds all elements by their exact link text.
  *
  * This function returns a property delegate that, when accessed, finds all web elements
  * with the specified link text. The elements lookup and synchronization behavior can be
@@ -386,7 +390,7 @@ public fun SearchContext.linkText(
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
- * @param locator The exact text of the links to search for.
+ * @param value The exact, case-sensitive link text to search for.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the elements are accessed.
@@ -402,14 +406,14 @@ public fun SearchContext.linkText(
  * @see WebElements
  */
 public fun SearchContext.linkTexts(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
-): WebElementsProperty = genericLocator(locator, By::linkText, cacheLookup, wait, readinessCondition)
+): WebElementsProperty = genericLocator(value, By::linkText, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds an element using the name locator strategy.
+ * Creates a property delegate that lazily finds a single element by its "name" attribute.`
  *
  * This function returns a property delegate that, when accessed, finds a web element with
  * the specified name attribute. The element lookup and synchronization behavior can be
@@ -423,7 +427,7 @@ public fun SearchContext.linkTexts(
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param locator The value of the "name" attribute to search for.
+ * @param value The value of the "name" attribute to search for.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -439,14 +443,14 @@ public fun SearchContext.linkTexts(
  * @see WebElement
  */
 public fun SearchContext.name(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
-): WebElementProperty = genericLocator(locator, By::name, cacheLookup, wait, readinessCondition)
+): WebElementProperty = genericLocator(value, By::name, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds multiple elements using the name locator strategy.
+ * Creates a property delegate that lazily finds all elements with the specified "name" attribute.
  *
  * This function returns a property delegate that, when accessed, finds all web elements with
  * the specified name attribute. The elements lookup and synchronization behavior can be
@@ -460,7 +464,7 @@ public fun SearchContext.name(
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
- * @param locator The value of the "name" attribute to search for.
+ * @param value The value of the "name" attribute to search for.
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the elements are accessed.
@@ -476,14 +480,14 @@ public fun SearchContext.name(
  * @see WebElements
  */
 public fun SearchContext.names(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
-): WebElementsProperty = genericLocator(locator, By::name, cacheLookup, wait, readinessCondition)
+): WebElementsProperty = genericLocator(value, By::name, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds an element using the partial link text locator strategy.
+ * Creates a property delegate that lazily finds a single element containing a substring of the link text.
  *
  * This function returns a property delegate that, when accessed, finds a web element
  * containing the specified partial link text. The element lookup and synchronization behavior can
@@ -497,7 +501,7 @@ public fun SearchContext.names(
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param locator The value of the "name" attribute to search for.
+ * @param value The partial text of the link to search for (case-sensitive substring).
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -513,14 +517,14 @@ public fun SearchContext.names(
  * @see WebElement
  */
 public fun SearchContext.partialLinkText(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
-): WebElementProperty = genericLocator(locator, By::partialLinkText, cacheLookup, wait, readinessCondition)
+): WebElementProperty = genericLocator(value, By::partialLinkText, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds multiple elements using the partial link text locator strategy.
+ * Creates a property delegate that lazily finds all elements containing a substring of the link text.
  *
  * This function returns a property delegate that, when accessed, finds all web elements
  * containing the specified partial link text. The elements lookup and synchronization behavior can
@@ -534,7 +538,7 @@ public fun SearchContext.partialLinkText(
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
- * @param locator The value of the "name" attribute to search for.
+ * @param value The partial text of the link to search for (case-sensitive substring).
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the elements are accessed.
@@ -550,14 +554,14 @@ public fun SearchContext.partialLinkText(
  * @see WebElements
  */
 public fun SearchContext.partialLinkTexts(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
-): WebElementsProperty = genericLocator(locator, By::partialLinkText, cacheLookup, wait, readinessCondition)
+): WebElementsProperty = genericLocator(value, By::partialLinkText, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds an element using the tag name locator strategy.
+ * Creates a property delegate that lazily finds a single element by its HTML tag name.
  *
  * This function returns a property delegate that, when accessed, finds a web element
  * with the specified tag name. The element lookup and synchronization behavior can
@@ -571,7 +575,7 @@ public fun SearchContext.partialLinkTexts(
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param locator The value of the "name" attribute to search for.
+ * @param value The HTML tag name to search for (e.g., "div", "a").
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -587,14 +591,14 @@ public fun SearchContext.partialLinkTexts(
  * @see WebElement
  */
 public fun SearchContext.tagName(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
-): WebElementProperty = genericLocator(locator, By::tagName, cacheLookup, wait, readinessCondition)
+): WebElementProperty = genericLocator(value, By::tagName, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds multiple elements using the tag name locator strategy.
+ * Creates a property delegate that lazily finds all elements by their HTML tag name.
  *
  * This function returns a property delegate that, when accessed, finds all web elements
  * with the specified tag name. The elements lookup and synchronization behavior can
@@ -608,7 +612,7 @@ public fun SearchContext.tagName(
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
- * @param locator The value of the "name" attribute to search for.
+ * @param value The HTML tag name to search for (e.g., "div", "a").
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the elements are accessed.
@@ -624,14 +628,14 @@ public fun SearchContext.tagName(
  * @see WebElements
  */
 public fun SearchContext.tagNames(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
-): WebElementsProperty = genericLocator(locator, By::tagName, cacheLookup, wait, readinessCondition)
+): WebElementsProperty = genericLocator(value, By::tagName, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds an element using the XPath locator strategy.
+ * Creates a property delegate that lazily finds a single element using an XPath expression.
  *
  * This function returns a property delegate that, when accessed, finds a web element
  * matching the specified XPath expression. The element lookup and synchronization behavior can
@@ -645,7 +649,7 @@ public fun SearchContext.tagNames(
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param locator The value of the "name" attribute to search for.
+ * @param value The XPath expression. Ensure values are properly escaped (using [escapeQuotes] for dynamic values).
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -661,14 +665,14 @@ public fun SearchContext.tagNames(
  * @see WebElement
  */
 public fun SearchContext.xPath(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElement.() -> Boolean = defaultElementReadinessCondition,
-): WebElementProperty = genericLocator(locator, By::xpath, cacheLookup, wait, readinessCondition)
+): WebElementProperty = genericLocator(value, By::xpath, cacheLookup, wait, readinessCondition)
 
 /**
- * Creates a property delegate that lazily finds multiple elements using the XPath locator strategy.
+ * Creates a property delegate that lazily finds all elements matching an XPath expression.
  *
  * This function returns a property delegate that, when accessed, finds all web elements
  * matching the specified XPath expression. The elements lookup and synchronization behavior can
@@ -682,7 +686,7 @@ public fun SearchContext.xPath(
  * ```
  *
  * @receiver The SearchContext instance used to search for the elements.
- * @param locator The value of the "name" attribute to search for.
+ * @param value The XPath expression. Ensure values are properly escaped (using [escapeQuotes] for dynamic values).
  * @param cacheLookup If true (default), the elements will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the elements are accessed.
@@ -698,11 +702,11 @@ public fun SearchContext.xPath(
  * @see WebElements
  */
 public fun SearchContext.xPaths(
-    locator: String,
+    value: String,
     cacheLookup: Boolean = true,
     wait: Wait = defaultWait,
     readinessCondition: WebElements.() -> Boolean = defaultElementsReadinessCondition,
-): WebElementsProperty = genericLocator(locator, By::xpath, cacheLookup, wait, readinessCondition)
+): WebElementsProperty = genericLocator(value, By::xpath, cacheLookup, wait, readinessCondition)
 
 /**
  * Creates a property delegate that lazily finds an element or elements using a generic locator strategy.
@@ -711,14 +715,13 @@ public fun SearchContext.xPaths(
  * for finding web elements. It supports both single element and multiple elements lookups.
  *
  * @receiver The SearchContext instance used to search for the element(s).
- * @param T The type of the result, either [WebElement] or [WebElements].
- * @param locator The locator string used to find the element(s).
- * @param by A function that converts the locator string to a Selenium [By] object.
+ * @param T The type of result: [WebElement] for single elements or [WebElements] for collections.
+ * @param value The locator value (e.g., CSS selector, class name, XPath) used to find the element(s).
+ * @param locatorStrategy A factory function that converts [value] into a Selenium [By] locator.
  * @param cacheLookup If true (default), the element(s) will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time the
  *                    element(s) are accessed.
- * @param wait Configures the waiting behavior when looking up elements. Specifies polling interval,
- *             timeout, error message, and which exceptions to ignore during the wait.
+ * @param wait Configuration for waiting (timeout, polling interval, ignored exceptions).
  *             Defaults to a 10-second timeout with 200ms polling.
  * @param readinessCondition A predicate that determines when the found element(s) are considered ready for use.
  *                  It's called with either [WebElement] or [WebElements] as receiver. By default,
@@ -727,20 +730,37 @@ public fun SearchContext.xPaths(
  *
  * @see WebElement
  * @see WebElements
+ * @suppress UNCHECKED_CAST Safely enforced by reified type checks at runtime.
  */
 @Suppress("UNCHECKED_CAST")
 internal inline fun <reified T> SearchContext.genericLocator(
-    locator: String,
-    noinline by: (String) -> By,
+    value: String,
+    noinline locatorStrategy: (String) -> By,
     cacheLookup: Boolean,
     wait: Wait,
     noinline readinessCondition: T.() -> Boolean,
 ): ReadOnlyProperty<Any?, T> {
-    require(locator.isNotBlank()) { "\"locator\" must not be blank" }
+    require(value.isNotBlank()) { "\"value\" must not be blank" }
 
     return when (T::class) {
-        WebElement::class -> KWebElement(locator, by, cacheLookup, wait, readinessCondition as WebElement.() -> Boolean)
-        List::class -> KWebElements(locator, by, cacheLookup, wait, readinessCondition as WebElements.() -> Boolean)
+        WebElement::class ->
+            KWebElement(
+                value,
+                locatorStrategy,
+                cacheLookup,
+                wait,
+                readinessCondition as WebElement.() -> Boolean,
+            )
+
+        List::class ->
+            KWebElements(
+                value,
+                locatorStrategy,
+                cacheLookup,
+                wait,
+                readinessCondition as WebElements.() -> Boolean,
+            )
+
         else -> throw IllegalArgumentException("Unsupported type: ${T::class.simpleName}")
     } as ReadOnlyProperty<Any?, T>
 }
@@ -783,17 +803,17 @@ internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R> {
 
     protected fun getValueInternal(
         propertyName: String,
-        locator: String,
+        value: String,
         by: (String) -> By,
         wait: FluentWait<T>,
     ): R {
         wait.until {
-            logger.trace { "Waiting for \"${propertyName}\" with locator strategy of { ${by(locator)} }" }
+            logger.trace { "Waiting for \"${propertyName}\" with locator strategy of { ${by(value)} }" }
             try {
                 val element = findElement()
                 isElementReady(element)
             } catch (e: StaleElementReferenceException) {
-                logger.warn { "\"$propertyName\" element(s) with locator strategy of { ${by(locator)} } became stale. Relocating." }
+                logger.warn { "\"$propertyName\" element(s) with locator strategy of { ${by(value)} } became stale. Relocating." }
                 clearCache()
                 false
             }
@@ -804,7 +824,7 @@ internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R> {
 
 context(SearchContext)
 internal class KWebElement(
-    private val locator: String,
+    private val value: String,
     private val by: (String) -> By,
     private val cacheLookup: Boolean,
     wait: Wait,
@@ -817,13 +837,13 @@ internal class KWebElement(
     override fun getValue(
         thisRef: Any?,
         property: KProperty<*>,
-    ): WebElement = getValueInternal(property.name, locator, by, wait)
+    ): WebElement = getValueInternal(property.name, value, by, wait)
 
     override fun findElement(): WebElement =
         if (cacheLookup) {
-            cachedWebElement ?: searchContext.findElement(by(locator)).also { cachedWebElement = it }
+            cachedWebElement ?: searchContext.findElement(by(value)).also { cachedWebElement = it }
         } else {
-            searchContext.findElement(by(locator))
+            searchContext.findElement(by(value))
         }
 
     override fun clearCache() {
@@ -835,7 +855,7 @@ internal class KWebElement(
 
 context(SearchContext)
 internal class KWebElements(
-    private val locator: String,
+    private val value: String,
     private val by: (String) -> By,
     private val cacheLookup: Boolean,
     wait: Wait,
@@ -848,13 +868,13 @@ internal class KWebElements(
     override fun getValue(
         thisRef: Any?,
         property: KProperty<*>,
-    ): WebElements = getValueInternal(property.name, locator, by, wait)
+    ): WebElements = getValueInternal(property.name, value, by, wait)
 
     override fun findElement(): WebElements =
         if (cacheLookup) {
-            cachedWebElements ?: searchContext.findElements(by(locator)).also { cachedWebElements = it }
+            cachedWebElements ?: searchContext.findElements(by(value)).also { cachedWebElements = it }
         } else {
-            searchContext.findElements(by(locator))
+            searchContext.findElements(by(value))
         }
 
     override fun clearCache() {

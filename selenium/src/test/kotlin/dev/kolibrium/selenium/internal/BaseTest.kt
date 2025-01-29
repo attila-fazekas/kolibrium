@@ -19,6 +19,7 @@ package dev.kolibrium.selenium.internal
 import dev.kolibrium.selenium.internal.pages.ButtonDelayedPage
 import dev.kolibrium.selenium.internal.pages.ButtonElementClickInterceptedExceptionPage
 import dev.kolibrium.selenium.internal.pages.ButtonsPage
+import dev.kolibrium.selenium.internal.pages.DataTestPage
 import dev.kolibrium.selenium.internal.pages.DynamicElementPage
 import dev.kolibrium.selenium.internal.pages.ElementNotInteractableExceptionPage
 import dev.kolibrium.selenium.internal.pages.HomePage
@@ -51,6 +52,7 @@ private val buttonsPage = getPage("buttons")
 private val homePage = getPage("home")
 private val imagesPage = getPage("images")
 private val search_input = getPage("search_input")
+private val dataTest = getPage("dataTest")
 private val dynamic_element = getPage("dynamic_element")
 private val staleElementReferenceException_singleElement = getPage("StaleElementReferenceException_SingleElement")
 private val staleElementReferenceException_multipleElements = getPage("StaleElementReferenceException_MultipleElements")
@@ -138,6 +140,15 @@ open class BaseTest {
         with(driver) {
             get(dynamic_element)
             with(DynamicElementPage()) {
+                block()
+            }
+        }
+    }
+
+    protected fun dataTestPage(block: DataTestPage.() -> Unit) {
+        with(driver) {
+            get(dataTest)
+            with(DataTestPage()) {
                 block()
             }
         }
