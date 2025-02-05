@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-plugins {
-    id("kolibrium.test-conventions")
-    id("com.google.devtools.ksp")
-}
+package dev.kolibrium.common
 
-dependencies {
-    implementation(project(":dsl"))
-    implementation(project(":junit"))
-    implementation(project(":ksp:annotations"))
-    implementation(project(":core:selenium"))
-    implementation(Testing.kotest.assertions.core)
-    ksp(project(":ksp:processors"))
-    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
-    testImplementation("com.titusfortner:selenium-logger:_")
-}
-
-ksp {
-    arg("kolibriumKsp.useDsl", "false")
-}
+/**
+ * Used to throw a [RuntimeException] when there is a configuration error within Kolibrium.
+ *
+ * **Note:** This class is part of the internal API and should not be used outside of Kolibrium.
+ *
+ * @param exception The detail message explaining the configuration error.
+ * @constructor Creates a [ConfigurationException] with the specified error message.
+ *
+ * @see RuntimeException
+ */
+@InternalKolibriumApi
+public open class ConfigurationException(
+    exception: String,
+) : RuntimeException(exception)

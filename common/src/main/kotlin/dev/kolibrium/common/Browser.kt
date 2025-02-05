@@ -14,22 +14,29 @@
  * limitations under the License.
  */
 
-plugins {
-    id("kolibrium.test-conventions")
-    id("com.google.devtools.ksp")
-}
+package dev.kolibrium.common
 
-dependencies {
-    implementation(project(":dsl"))
-    implementation(project(":junit"))
-    implementation(project(":ksp:annotations"))
-    implementation(project(":core:selenium"))
-    implementation(Testing.kotest.assertions.core)
-    ksp(project(":ksp:processors"))
-    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
-    testImplementation("com.titusfortner:selenium-logger:_")
-}
+/**
+ * Represents different web browsers.
+ */
+public enum class Browser {
+    /**
+     * Google Chrome browser.
+     */
+    CHROME,
 
-ksp {
-    arg("kolibriumKsp.useDsl", "false")
+    /**
+     * Apple Safari browser.
+     */
+    SAFARI,
+
+    /**
+     * Microsoft Edge browser.
+     */
+    EDGE,
+
+    /**
+     * Mozilla Firefox browser.
+     */
+    FIREFOX,
 }

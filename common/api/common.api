@@ -1,0 +1,30 @@
+public final class dev/kolibrium/common/Browser : java/lang/Enum {
+	public static final field CHROME Ldev/kolibrium/common/Browser;
+	public static final field EDGE Ldev/kolibrium/common/Browser;
+	public static final field FIREFOX Ldev/kolibrium/common/Browser;
+	public static final field SAFARI Ldev/kolibrium/common/Browser;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/common/Browser;
+	public static fun values ()[Ldev/kolibrium/common/Browser;
+}
+
+public class dev/kolibrium/common/ConfigurationException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;)V
+}
+
+public abstract interface annotation class dev/kolibrium/common/InternalKolibriumApi : java/lang/annotation/Annotation {
+}
+
+public abstract interface class dev/kolibrium/common/config/ProjectConfiguration {
+}
+
+public class dev/kolibrium/common/config/ProjectConfigurationException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class dev/kolibrium/common/config/ProjectConfigurationLoader {
+	public static final field INSTANCE Ldev/kolibrium/common/config/ProjectConfigurationLoader;
+	public final fun loadConfiguration (Lkotlin/reflect/KClass;)Ldev/kolibrium/common/config/ProjectConfiguration;
+}
+

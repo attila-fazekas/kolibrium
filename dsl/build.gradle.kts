@@ -22,7 +22,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":core"))
+    api(project(":common"))
     implementation("commons-validator:commons-validator:_")
     testImplementation("com.titusfortner:selenium-logger:_")
 }
@@ -31,6 +31,6 @@ tasks.withType<KotlinCompile> {
     compilerOptions.freeCompilerArgs =
         listOf(
             "-Xcontext-receivers",
-            "-opt-in=dev.kolibrium.core.InternalKolibriumApi",
+            "-opt-in=dev.kolibrium.common.InternalKolibriumApi",
         )
 }

@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-plugins {
-    id("kolibrium.test-conventions")
-    id("com.google.devtools.ksp")
-}
+package dev.kolibrium.common.config
 
-dependencies {
-    implementation(project(":dsl"))
-    implementation(project(":junit"))
-    implementation(project(":ksp:annotations"))
-    implementation(project(":core:selenium"))
-    implementation(Testing.kotest.assertions.core)
-    ksp(project(":ksp:processors"))
-    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
-    testImplementation("com.titusfortner:selenium-logger:_")
-}
+import dev.kolibrium.common.InternalKolibriumApi
 
-ksp {
-    arg("kolibriumKsp.useDsl", "false")
-}
+@InternalKolibriumApi
+public open class ProjectConfigurationException(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause)

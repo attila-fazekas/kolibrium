@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-plugins {
-    id("kolibrium.test-conventions")
-    id("com.google.devtools.ksp")
-}
+package dev.kolibrium.common
 
-dependencies {
-    implementation(project(":dsl"))
-    implementation(project(":junit"))
-    implementation(project(":ksp:annotations"))
-    implementation(project(":core:selenium"))
-    implementation(Testing.kotest.assertions.core)
-    ksp(project(":ksp:processors"))
-    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
-    testImplementation("com.titusfortner:selenium-logger:_")
-}
+import org.openqa.selenium.WebElement
 
-ksp {
-    arg("kolibriumKsp.useDsl", "false")
-}
+/**
+ * A typealias for a list of [WebElement]s.
+ *
+ * This provides a more readable and concise way to refer to a list of web elements in the code.
+ */
+public typealias WebElements = List<WebElement>

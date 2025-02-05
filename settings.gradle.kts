@@ -17,7 +17,10 @@
 rootProject.name = "kolibrium"
 
 include("bom")
+include("common")
 include("core")
+include("core:selenium")
+findProject(":core:selenium")?.name = "selenium"
 include("dsl")
 include("junit")
 include("konsistTest")
@@ -41,3 +44,4 @@ refreshVersions {
         candidate.stabilityLevel.isLessStableThan(current.stabilityLevel)
     }
 }
+

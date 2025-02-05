@@ -373,15 +373,15 @@ public final class dev/kolibrium/dsl/selenium/creation/KolibriumDslKt {
 	public static final fun chromeDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/chrome/ChromeDriver;
 	public static final fun chromeDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/chrome/ChromeDriverService;
 	public static final fun chromeOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/chrome/ChromeOptions;
-	public static final fun driver (Ldev/kolibrium/core/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/WebDriver;
-	public static final fun driverService (Ldev/kolibrium/core/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/service/DriverService;
+	public static final fun driver (Ldev/kolibrium/common/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/WebDriver;
+	public static final fun driverService (Ldev/kolibrium/common/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/service/DriverService;
 	public static final fun edgeDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/edge/EdgeDriver;
 	public static final fun edgeDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/edge/EdgeDriverService;
 	public static final fun edgeOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/edge/EdgeOptions;
 	public static final fun firefoxDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/firefox/FirefoxDriver;
 	public static final fun firefoxOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/firefox/FirefoxOptions;
 	public static final fun geckoDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/firefox/GeckoDriverService;
-	public static final fun options (Ldev/kolibrium/core/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/AbstractDriverOptions;
+	public static final fun options (Ldev/kolibrium/common/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/AbstractDriverOptions;
 	public static final fun safariDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/safari/SafariDriver;
 	public static final fun safariDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/safari/SafariDriverService;
 	public static final fun safariOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/safari/SafariOptions;

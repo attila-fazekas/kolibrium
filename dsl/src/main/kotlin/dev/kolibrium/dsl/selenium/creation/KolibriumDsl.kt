@@ -16,11 +16,11 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
-import dev.kolibrium.core.Browser
-import dev.kolibrium.core.Browser.CHROME
-import dev.kolibrium.core.Browser.EDGE
-import dev.kolibrium.core.Browser.FIREFOX
-import dev.kolibrium.core.Browser.SAFARI
+import dev.kolibrium.common.Browser
+import dev.kolibrium.common.Browser.CHROME
+import dev.kolibrium.common.Browser.EDGE
+import dev.kolibrium.common.Browser.FIREFOX
+import dev.kolibrium.common.Browser.SAFARI
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeDriverService

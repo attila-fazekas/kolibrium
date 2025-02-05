@@ -240,7 +240,7 @@ public class LocatorsProcessor(
             if (annotation in singleElementLocatorAnnotations) {
                 ClassName(SELENIUM_PACKAGE_NAME, "WebElement")
             } else {
-                ClassName("dev.kolibrium.core", "WebElements")
+                ClassName("dev.kolibrium.common", "WebElements")
             }
 
         private fun generateProperty(

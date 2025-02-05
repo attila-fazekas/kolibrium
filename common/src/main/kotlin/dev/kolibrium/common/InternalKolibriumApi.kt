@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-plugins {
-    id("kolibrium.test-conventions")
-    id("com.google.devtools.ksp")
-}
+package dev.kolibrium.common
 
-dependencies {
-    implementation(project(":dsl"))
-    implementation(project(":junit"))
-    implementation(project(":ksp:annotations"))
-    implementation(project(":core:selenium"))
-    implementation(Testing.kotest.assertions.core)
-    ksp(project(":ksp:processors"))
-    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
-    testImplementation("com.titusfortner:selenium-logger:_")
-}
-
-ksp {
-    arg("kolibriumKsp.useDsl", "false")
-}
+/**
+ * Marks the Kolibrium internal API, which is not intended for public use.
+ *
+ * This annotation is used to signal that the annotated element is part of the internal API of Kolibrium
+ * and should not be used by external consumers. Any usage of this API will result in a compilation error
+ * due to the opt-in requirement.
+ *
+ * @see RequiresOptIn.Level.ERROR
+ */
+@RequiresOptIn(
+    level = RequiresOptIn.Level.ERROR,
+    message = "This is an internal API of Kolibrium, please do not use it.",
+)
+public annotation class InternalKolibriumApi

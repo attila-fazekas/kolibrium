@@ -15,21 +15,12 @@
  */
 
 plugins {
+    id("kolibrium.library-conventions")
     id("kolibrium.test-conventions")
-    id("com.google.devtools.ksp")
 }
 
 dependencies {
-    implementation(project(":dsl"))
-    implementation(project(":junit"))
-    implementation(project(":ksp:annotations"))
-    implementation(project(":core:selenium"))
-    implementation(Testing.kotest.assertions.core)
-    ksp(project(":ksp:processors"))
-    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
+    api(project(":common"))
+    api("org.seleniumhq.selenium:selenium-java:_")
     testImplementation("com.titusfortner:selenium-logger:_")
-}
-
-ksp {
-    arg("kolibriumKsp.useDsl", "false")
 }
