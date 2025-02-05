@@ -16,8 +16,8 @@
 
 package dev.kolibrium.junit.configuration
 
-import dev.kolibrium.core.Browser
-import dev.kolibrium.core.Browser.CHROME
+import dev.kolibrium.common.Browser
+import dev.kolibrium.common.Browser.CHROME
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.firefox.FirefoxDriver

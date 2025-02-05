@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium
 
-import dev.kolibrium.core.WebElements
+import dev.kolibrium.common.WebElements
 import dev.kolibrium.selenium.configuration.SeleniumProjectConfiguration
 import dev.kolibrium.selenium.decorators.DecoratorManager
 import io.github.oshai.kotlinlogging.KotlinLogging

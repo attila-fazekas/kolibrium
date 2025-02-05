@@ -14,29 +14,13 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core
+package dev.kolibrium.common
+
+import org.openqa.selenium.WebElement
 
 /**
- * Represents different web browsers.
+ * A typealias for a list of [WebElement]s.
+ *
+ * This provides a more readable and concise way to refer to a list of web elements in the code.
  */
-public enum class Browser {
-    /**
-     * Google Chrome browser.
-     */
-    CHROME,
-
-    /**
-     * Apple Safari browser.
-     */
-    SAFARI,
-
-    /**
-     * Microsoft Edge browser.
-     */
-    EDGE,
-
-    /**
-     * Mozilla Firefox browser.
-     */
-    FIREFOX,
-}
+public typealias WebElements = List<WebElement>

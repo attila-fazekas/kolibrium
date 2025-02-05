@@ -32,7 +32,7 @@ class KDocTest {
             .scopeFromProduction()
             .functions()
             .filter {
-                it.resideInModule("core") ||
+                it.resideInModule("common") ||
                     it.resideInModule("dsl") ||
                     it.resideInModule("junit") ||
                     it.resideInModule("ksp") ||
@@ -73,7 +73,7 @@ class KDocTest {
             .scopeFromProduction()
             .properties()
             .filter {
-                it.resideInModule("core") ||
+                it.resideInModule("common") ||
                     it.resideInModule("dsl") ||
                     it.resideInModule("junit") ||
                     it.resideInModule("ksp") ||

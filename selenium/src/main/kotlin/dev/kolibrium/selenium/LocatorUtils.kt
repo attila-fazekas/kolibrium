@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium
 
-import dev.kolibrium.core.WebElements
+import dev.kolibrium.common.WebElements
 import dev.kolibrium.selenium.configuration.DefaultSeleniumProjectConfiguration
 import dev.kolibrium.selenium.configuration.SeleniumProjectConfiguration
 import org.openqa.selenium.WebElement

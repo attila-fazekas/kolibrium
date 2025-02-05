@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core
+package dev.kolibrium.common.config
 
-import org.openqa.selenium.WebElement
+import dev.kolibrium.common.InternalKolibriumApi
 
-/**
- * A typealias for a list of [WebElement]s.
- *
- * This provides a more readable and concise way to refer to a list of web elements in the code.
- */
-public typealias WebElements = List<WebElement>
+@InternalKolibriumApi
+public open class ProjectConfigurationException(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause)

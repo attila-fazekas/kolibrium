@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core.config
+package dev.kolibrium.common.config
 
-import dev.kolibrium.core.InternalKolibriumApi
+import dev.kolibrium.common.InternalKolibriumApi
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlin.reflect.KClass
 import kotlin.text.Typography.bullet

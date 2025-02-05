@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.configuration
 
-import dev.kolibrium.core.WebElements
+import dev.kolibrium.common.WebElements
 import dev.kolibrium.selenium.Wait
 import dev.kolibrium.selenium.Wait.Companion.DEFAULT
 import dev.kolibrium.selenium.decorators.AbstractDecorator

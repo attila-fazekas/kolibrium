@@ -26,7 +26,7 @@ plugins {
 dependencies {
     constraints {
         api(project(":ksp:annotations"))
-        api(project(":core"))
+        api(project(":common"))
         api(project(":dsl"))
         api(project(":junit"))
         api(project(":selenium"))

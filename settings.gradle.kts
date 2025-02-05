@@ -17,7 +17,7 @@
 rootProject.name = "kolibrium"
 
 include("bom")
-include("core")
+include("common")
 include("dsl")
 include("junit")
 include("konsistTest")

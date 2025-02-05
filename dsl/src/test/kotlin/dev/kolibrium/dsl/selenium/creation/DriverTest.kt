@@ -16,10 +16,10 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
-import dev.kolibrium.core.Browser
-import dev.kolibrium.core.Browser.CHROME
-import dev.kolibrium.core.Browser.EDGE
-import dev.kolibrium.core.Browser.FIREFOX
+import dev.kolibrium.common.Browser
+import dev.kolibrium.common.Browser.CHROME
+import dev.kolibrium.common.Browser.EDGE
+import dev.kolibrium.common.Browser.FIREFOX
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.headless
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito

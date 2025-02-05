@@ -11,11 +11,11 @@ public final class dev/kolibrium/junit/KolibriumExtension : org/junit/jupiter/ap
 	public fun supportsParameter (Lorg/junit/jupiter/api/extension/ParameterContext;Lorg/junit/jupiter/api/extension/ExtensionContext;)Z
 }
 
-public abstract class dev/kolibrium/junit/configuration/AbstractJUnitProjectConfiguration : dev/kolibrium/core/config/ProjectConfiguration {
+public abstract class dev/kolibrium/junit/configuration/AbstractJUnitProjectConfiguration : dev/kolibrium/common/config/ProjectConfiguration {
 	public fun <init> ()V
 	public fun getBaseUrl ()Ljava/lang/String;
 	public fun getChromeDriver ()Lkotlin/jvm/functions/Function0;
-	public fun getDefaultBrowser ()Ldev/kolibrium/core/Browser;
+	public fun getDefaultBrowser ()Ldev/kolibrium/common/Browser;
 	public fun getEdgeDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getFirefoxDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getKeepBrowserOpen ()Ljava/lang/Boolean;

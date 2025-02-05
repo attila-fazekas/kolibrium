@@ -68,7 +68,7 @@ public final class dev/kolibrium/selenium/Wait$Companion {
 	public final fun getQUICK ()Ldev/kolibrium/selenium/Wait;
 }
 
-public abstract class dev/kolibrium/selenium/configuration/AbstractSeleniumProjectConfiguration : dev/kolibrium/core/config/ProjectConfiguration {
+public abstract class dev/kolibrium/selenium/configuration/AbstractSeleniumProjectConfiguration : dev/kolibrium/common/config/ProjectConfiguration {
 	public fun <init> ()V
 	public fun getDecorators ()Ljava/util/List;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;

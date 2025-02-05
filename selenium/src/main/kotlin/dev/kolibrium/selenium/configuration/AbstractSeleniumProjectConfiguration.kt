@@ -16,10 +16,10 @@
 
 package dev.kolibrium.selenium.configuration
 
-import dev.kolibrium.core.InternalKolibriumApi
-import dev.kolibrium.core.WebElements
-import dev.kolibrium.core.config.ProjectConfiguration
-import dev.kolibrium.core.config.ProjectConfigurationLoader
+import dev.kolibrium.common.InternalKolibriumApi
+import dev.kolibrium.common.WebElements
+import dev.kolibrium.common.config.ProjectConfiguration
+import dev.kolibrium.common.config.ProjectConfigurationLoader
 import dev.kolibrium.selenium.Wait
 import dev.kolibrium.selenium.decorators.AbstractDecorator
 import org.openqa.selenium.WebElement

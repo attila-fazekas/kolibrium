@@ -16,10 +16,10 @@
 
 package dev.kolibrium.junit.configuration
 
-import dev.kolibrium.core.Browser
-import dev.kolibrium.core.InternalKolibriumApi
-import dev.kolibrium.core.config.ProjectConfiguration
-import dev.kolibrium.core.config.ProjectConfigurationLoader
+import dev.kolibrium.common.Browser
+import dev.kolibrium.common.InternalKolibriumApi
+import dev.kolibrium.common.config.ProjectConfiguration
+import dev.kolibrium.common.config.ProjectConfigurationLoader
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.firefox.FirefoxDriver

@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core.config
+package dev.kolibrium.common
 
-import dev.kolibrium.core.InternalKolibriumApi
-
+/**
+ * Used to throw a [RuntimeException] when there is a configuration error within Kolibrium.
+ *
+ * **Note:** This class is part of the internal API and should not be used outside of Kolibrium.
+ *
+ * @param exception The detail message explaining the configuration error.
+ * @constructor Creates a [ConfigurationException] with the specified error message.
+ *
+ * @see RuntimeException
+ */
 @InternalKolibriumApi
-public open class ProjectConfigurationException(
-    message: String,
-    cause: Throwable? = null,
-) : RuntimeException(message, cause)
+public open class ConfigurationException(
+    exception: String,
+) : RuntimeException(exception)

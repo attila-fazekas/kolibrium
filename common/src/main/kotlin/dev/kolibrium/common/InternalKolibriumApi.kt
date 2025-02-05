@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core
+package dev.kolibrium.common
 
 /**
  * Marks the Kolibrium internal API, which is not intended for public use.
