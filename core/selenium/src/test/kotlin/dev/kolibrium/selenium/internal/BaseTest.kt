@@ -41,6 +41,7 @@ private fun getPage(pageName: String) =
         .get("")
         .toAbsolutePath()
         .parent
+        .parent
         .resolve("pages/$pageName.html")
         .toUri()
         .toString()
