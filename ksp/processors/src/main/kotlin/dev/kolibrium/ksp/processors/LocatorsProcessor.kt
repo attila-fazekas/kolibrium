@@ -53,7 +53,7 @@ import dev.kolibrium.ksp.annotations.XPath
 import dev.kolibrium.ksp.annotations.XPaths
 import kotlin.reflect.KClass
 
-private const val KOLIBRIUM_SELENIUM_PACKAGE_NAME = "dev.kolibrium.selenium"
+private const val KOLIBRIUM_SELENIUM_PACKAGE_NAME = "dev.kolibrium.core.selenium"
 
 /**
  * A symbol processor that generates a repository class for locators.
