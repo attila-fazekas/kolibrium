@@ -16,8 +16,6 @@
 
 package dev.kolibrium.core.selenium.internal
 
-import dev.kolibrium.core.selenium.internal.pages.ButtonDelayedPage
-import dev.kolibrium.core.selenium.internal.pages.ButtonElementClickInterceptedExceptionPage
 import dev.kolibrium.core.selenium.internal.pages.ButtonsPage
 import dev.kolibrium.core.selenium.internal.pages.DataTestPage
 import dev.kolibrium.core.selenium.internal.pages.DynamicElementPage
@@ -25,9 +23,7 @@ import dev.kolibrium.core.selenium.internal.pages.ElementNotInteractableExceptio
 import dev.kolibrium.core.selenium.internal.pages.HomePage
 import dev.kolibrium.core.selenium.internal.pages.ImagesPage
 import dev.kolibrium.core.selenium.internal.pages.SearchInputPage
-import dev.kolibrium.core.selenium.internal.pages.StaleElementReferenceExceptionMultipleElementsPage
 import dev.kolibrium.core.selenium.internal.pages.StaleElementReferenceExceptionSingleElementPage
-import dev.kolibrium.core.selenium.internal.pages.TutorialPage
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
