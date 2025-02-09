@@ -5,7 +5,7 @@ This software bundles unchanged copies of third-party libraries, to which differ
 Please see below for the list of third-party libraries organized by modules, along with their respective licenses.
 
 ==========================
-core module
+common module
 ==========================
  
 Notice for packages
@@ -81,11 +81,231 @@ JSpecify annotations (1.0.0) - The Apache License, Version 2.0
 An artifact of well-named and well-specified annotations to power static analysis checks
 http://jspecify.org/
 
-Kotlin Reflect (2.1.0) - The Apache License, Version 2.0
+Kotlin Reflect (2.1.10) - The Apache License, Version 2.0
 Kotlin Full Reflection Library
 https://kotlinlang.org/
 
-Kotlin Stdlib (2.1.0) - The Apache License, Version 2.0
+Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
+Kotlin Standard Library
+https://kotlinlang.org/
+
+kotlin-logging (7.0.3) - The Apache Software License, Version 2.0
+kotlin-logging 7.0.3 - Lightweight logging framework for Kotlin
+https://github.com/oshai/kotlin-logging
+
+Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+logback-classic module
+
+Logback Core Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+logback-core module
+
+OpenTelemetry Java (1.46.0-alpha) - The Apache License, Version 2.0
+OpenTelemetry API Incubator
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
+OpenTelemetry API
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
+OpenTelemetry Context (Incubator)
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
+OpenTelemetry - Logging Exporter
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
+OpenTelemetry SDK Common
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
+OpenTelemetry SDK Auto-configuration SPI
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
+OpenTelemetry SDK Auto-configuration
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
+OpenTelemetry Log SDK
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
+OpenTelemetry SDK Metrics
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
+OpenTelemetry SDK For Tracing
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
+OpenTelemetry SDK
+https://github.com/open-telemetry/opentelemetry-java
+
+OpenTelemetry Semantic Conventions Java (1.28.0-alpha) - The Apache License, Version 2.0
+OpenTelemetry Stable Semantic Conventions generated classes for Java
+https://github.com/open-telemetry/semantic-conventions-java
+
+org.seleniumhq.selenium:selenium-api (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-chrome-driver (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-chromium-driver (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-devtools-v130 (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-devtools-v131 (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-devtools-v132 (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-devtools-v85 (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-edge-driver (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-firefox-driver (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-http (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-ie-driver (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-java (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-json (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-manager (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-os (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-remote-driver (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-safari-driver (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+org.seleniumhq.selenium:selenium-support (4.28.1) - The Apache Software License, Version 2.0
+Selenium automates browsers. That's it! What you do with that power is entirely up to you.
+https://selenium.dev/
+
+SLF4J API Module (2.0.16) - MIT License
+The slf4j API
+http://www.slf4j.org
+
+
+==========================
+selenium module
+==========================
+ 
+Notice for packages
+
+
+Apache Commons Exec (1.4.0) - Apache-2.0
+Apache Commons Exec is a library to reliably execute external processes from within the JVM.
+https://commons.apache.org/proper/commons-exec/
+
+AutoService (1.1.1) - Apache 2.0
+Provider-configuration files for ServiceLoader.
+https://github.com/google/auto/tree/main/service
+
+  Byte Buddy (without dependencies) (1.15.11) - Apache License, Version 2.0
+  Byte Buddy is a Java library for creating Java classes at run time.
+This artifact is a build of Byte Buddy with all ASM dependencies repackaged into its own name space.
+
+          Checker Qual (3.43.0) - The MIT License
+          checker-qual contains annotations (type qualifiers) that a programmer
+writes to specify Java code for type-checking by the Checker Framework.
+          https://checkerframework.org/
+
+error-prone annotations (2.36.0) - Apache 2.0
+
+FindBugs-jsr305 (3.0.2) - The Apache Software License, Version 2.0
+JSR305 Annotations for Findbugs
+http://findbugs.sourceforge.net/
+
+      Guava InternalFutureFailureAccess and InternalFutures (1.0.2) - The Apache Software License, Version 2.0
+      Contains
+com.google.common.util.concurrent.internal.InternalFutureFailureAccess and
+InternalFutures. Most users will never need to use this artifact. Its
+classes are conceptually a part of Guava, but they're in this separate
+artifact so that Android libraries can use them without pulling in all of
+Guava (just as they can use ListenableFuture by depending on the
+listenablefuture artifact).
+
+      Guava ListenableFuture only (9999.0-empty-to-avoid-conflict-with-guava) - The Apache Software License, Version 2.0
+      An empty artifact that Guava depends on to signal that it is providing
+ListenableFuture -- but is also available in a second "version" that
+contains com.google.common.util.concurrent.ListenableFuture class, without
+any other Guava classes. The idea is:
+
+- If users want only ListenableFuture, they depend on listenablefuture-1.0.
+
+- If users want all of Guava, they depend on guava, which, as of Guava
+27.0, depends on
+listenablefuture-9999.0-empty-to-avoid-conflict-with-guava. The 9999.0-...
+version number is enough for some build systems (notably, Gradle) to select
+that empty artifact over the "real" listenablefuture-1.0 -- avoiding a
+conflict with the copy of ListenableFuture in guava itself. If users are
+using an older version of Guava or a build system other than Gradle, they
+may see class conflicts. If so, they can solve them by manually excluding
+the listenablefuture artifact or manually forcing their build systems to
+use 9999.0-....
+
+      Guava: Google Core Libraries for Java (33.4.0-jre) - Apache License, Version 2.0
+      Guava is a suite of core and expanded libraries that include
+utility classes, Google's collections, I/O classes, and
+much more.
+      https://github.com/google/guava
+
+IntelliJ IDEA Annotations (13.0) - The Apache Software License, Version 2.0
+A set of annotations used for code inspection support and code documentation.
+http://www.jetbrains.org
+
+      J2ObjC Annotations (3.0.0) - Apache License, Version 2.0
+      A set of annotations that provide additional information to the J2ObjC
+translator to modify the result of translation.
+      https://github.com/google/j2objc/
+
+JSpecify annotations (1.0.0) - The Apache License, Version 2.0
+An artifact of well-named and well-specified annotations to power static analysis checks
+http://jspecify.org/
+
+Kotlin Reflect (2.1.10) - The Apache License, Version 2.0
+Kotlin Full Reflection Library
+https://kotlinlang.org/
+
+Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
@@ -325,11 +545,11 @@ JSpecify annotations (1.0.0) - The Apache License, Version 2.0
 An artifact of well-named and well-specified annotations to power static analysis checks
 http://jspecify.org/
 
-Kotlin Reflect (2.1.0) - The Apache License, Version 2.0
+Kotlin Reflect (2.1.10) - The Apache License, Version 2.0
 Kotlin Full Reflection Library
 https://kotlinlang.org/
 
-Kotlin Stdlib (2.1.0) - The Apache License, Version 2.0
+Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
@@ -553,11 +773,11 @@ JUnit Platform Commons (1.11.4) - Eclipse Public License v2.0
 Module "junit-platform-commons" of JUnit 5.
 https://junit.org/junit5/
 
-Kotlin Reflect (2.1.0) - The Apache License, Version 2.0
+Kotlin Reflect (2.1.10) - The Apache License, Version 2.0
 Kotlin Full Reflection Library
 https://kotlinlang.org/
 
-Kotlin Stdlib (2.1.0) - The Apache License, Version 2.0
+Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
@@ -711,7 +931,7 @@ IntelliJ IDEA Annotations (13.0) - The Apache Software License, Version 2.0
 A set of annotations used for code inspection support and code documentation.
 http://www.jetbrains.org
 
-Kotlin Stdlib (2.1.0) - The Apache License, Version 2.0
+Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
@@ -759,7 +979,7 @@ AutoService (1.1.1) - Apache 2.0
 Provider-configuration files for ServiceLoader.
 https://github.com/google/auto/tree/main/service
 
-com.google.devtools.ksp:symbol-processing-api (2.1.0-1.0.29) - The Apache License, Version 2.0
+com.google.devtools.ksp:symbol-processing-api (2.1.10-1.0.29) - The Apache License, Version 2.0
 Symbol processing for Kotlin
 https://goo.gle/ksp
 
@@ -781,7 +1001,7 @@ Kotlin Reflect (2.0.10) - The Apache License, Version 2.0
 Kotlin Full Reflection Library
 https://kotlinlang.org/
 
-Kotlin Stdlib (2.1.0) - The Apache License, Version 2.0
+Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
@@ -802,226 +1022,6 @@ logback-classic module
 
 Logback Core Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
-
-SLF4J API Module (2.0.16) - MIT License
-The slf4j API
-http://www.slf4j.org
-
-
-==========================
-selenium module
-==========================
- 
-Notice for packages
-
-
-Apache Commons Exec (1.4.0) - Apache-2.0
-Apache Commons Exec is a library to reliably execute external processes from within the JVM.
-https://commons.apache.org/proper/commons-exec/
-
-AutoService (1.1.1) - Apache 2.0
-Provider-configuration files for ServiceLoader.
-https://github.com/google/auto/tree/main/service
-
-  Byte Buddy (without dependencies) (1.15.11) - Apache License, Version 2.0
-  Byte Buddy is a Java library for creating Java classes at run time.
-This artifact is a build of Byte Buddy with all ASM dependencies repackaged into its own name space.
-
-          Checker Qual (3.43.0) - The MIT License
-          checker-qual contains annotations (type qualifiers) that a programmer
-writes to specify Java code for type-checking by the Checker Framework.
-          https://checkerframework.org/
-
-error-prone annotations (2.36.0) - Apache 2.0
-
-FindBugs-jsr305 (3.0.2) - The Apache Software License, Version 2.0
-JSR305 Annotations for Findbugs
-http://findbugs.sourceforge.net/
-
-      Guava InternalFutureFailureAccess and InternalFutures (1.0.2) - The Apache Software License, Version 2.0
-      Contains
-com.google.common.util.concurrent.internal.InternalFutureFailureAccess and
-InternalFutures. Most users will never need to use this artifact. Its
-classes are conceptually a part of Guava, but they're in this separate
-artifact so that Android libraries can use them without pulling in all of
-Guava (just as they can use ListenableFuture by depending on the
-listenablefuture artifact).
-
-      Guava ListenableFuture only (9999.0-empty-to-avoid-conflict-with-guava) - The Apache Software License, Version 2.0
-      An empty artifact that Guava depends on to signal that it is providing
-ListenableFuture -- but is also available in a second "version" that
-contains com.google.common.util.concurrent.ListenableFuture class, without
-any other Guava classes. The idea is:
-
-- If users want only ListenableFuture, they depend on listenablefuture-1.0.
-
-- If users want all of Guava, they depend on guava, which, as of Guava
-27.0, depends on
-listenablefuture-9999.0-empty-to-avoid-conflict-with-guava. The 9999.0-...
-version number is enough for some build systems (notably, Gradle) to select
-that empty artifact over the "real" listenablefuture-1.0 -- avoiding a
-conflict with the copy of ListenableFuture in guava itself. If users are
-using an older version of Guava or a build system other than Gradle, they
-may see class conflicts. If so, they can solve them by manually excluding
-the listenablefuture artifact or manually forcing their build systems to
-use 9999.0-....
-
-      Guava: Google Core Libraries for Java (33.4.0-jre) - Apache License, Version 2.0
-      Guava is a suite of core and expanded libraries that include
-utility classes, Google's collections, I/O classes, and
-much more.
-      https://github.com/google/guava
-
-IntelliJ IDEA Annotations (13.0) - The Apache Software License, Version 2.0
-A set of annotations used for code inspection support and code documentation.
-http://www.jetbrains.org
-
-      J2ObjC Annotations (3.0.0) - Apache License, Version 2.0
-      A set of annotations that provide additional information to the J2ObjC
-translator to modify the result of translation.
-      https://github.com/google/j2objc/
-
-JSpecify annotations (1.0.0) - The Apache License, Version 2.0
-An artifact of well-named and well-specified annotations to power static analysis checks
-http://jspecify.org/
-
-Kotlin Reflect (2.1.0) - The Apache License, Version 2.0
-Kotlin Full Reflection Library
-https://kotlinlang.org/
-
-Kotlin Stdlib (2.1.0) - The Apache License, Version 2.0
-Kotlin Standard Library
-https://kotlinlang.org/
-
-kotlin-logging (7.0.3) - The Apache Software License, Version 2.0
-kotlin-logging 7.0.3 - Lightweight logging framework for Kotlin
-https://github.com/oshai/kotlin-logging
-
-Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
-logback-classic module
-
-Logback Core Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
-logback-core module
-
-OpenTelemetry Java (1.46.0-alpha) - The Apache License, Version 2.0
-OpenTelemetry API Incubator
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
-OpenTelemetry API
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
-OpenTelemetry Context (Incubator)
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
-OpenTelemetry - Logging Exporter
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
-OpenTelemetry SDK Common
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
-OpenTelemetry SDK Auto-configuration SPI
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
-OpenTelemetry SDK Auto-configuration
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
-OpenTelemetry Log SDK
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
-OpenTelemetry SDK Metrics
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
-OpenTelemetry SDK For Tracing
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Java (1.46.0) - The Apache License, Version 2.0
-OpenTelemetry SDK
-https://github.com/open-telemetry/opentelemetry-java
-
-OpenTelemetry Semantic Conventions Java (1.28.0-alpha) - The Apache License, Version 2.0
-OpenTelemetry Stable Semantic Conventions generated classes for Java
-https://github.com/open-telemetry/semantic-conventions-java
-
-org.seleniumhq.selenium:selenium-api (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-chrome-driver (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-chromium-driver (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-devtools-v130 (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-devtools-v131 (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-devtools-v132 (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-devtools-v85 (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-edge-driver (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-firefox-driver (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-http (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-ie-driver (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-java (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-json (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-manager (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-os (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-remote-driver (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-safari-driver (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
-
-org.seleniumhq.selenium:selenium-support (4.28.1) - The Apache Software License, Version 2.0
-Selenium automates browsers. That's it! What you do with that power is entirely up to you.
-https://selenium.dev/
 
 SLF4J API Module (2.0.16) - MIT License
 The slf4j API
