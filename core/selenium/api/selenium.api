@@ -1,58 +1,58 @@
 public final class dev/kolibrium/core/selenium/LocatorDelegatesKt {
-	public static final fun className (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun className$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun classNames (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun classNames$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun cssSelector (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun cssSelector$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun cssSelectors (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun cssSelectors$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun dataTest (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun dataTest$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun dataTests (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun dataTests$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun id (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun id$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun idOrName (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun idOrName$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun linkText (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun linkText$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun linkTexts (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun linkTexts$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun name (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun name$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun names (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun names$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun partialLinkText (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun partialLinkText$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun partialLinkTexts (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun partialLinkTexts$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun tagName (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun tagName$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun tagNames (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun tagNames$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun xPath (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun xPath$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
-	public static final fun xPaths (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
-	public static synthetic fun xPaths$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/Wait;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun className (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun className$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun classNames (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun classNames$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun cssSelector (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun cssSelector$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun cssSelectors (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun cssSelectors$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun dataTest (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun dataTest$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun dataTests (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun dataTests$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun id (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun id$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun idOrName (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun idOrName$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun linkText (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun linkText$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun linkTexts (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun linkTexts$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun name (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun name$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun names (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun names$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun partialLinkText (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun partialLinkText$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun partialLinkTexts (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun partialLinkTexts$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun tagName (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun tagName$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun tagNames (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun tagNames$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun xPath (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun xPath$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun xPaths (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun xPaths$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 }
 
 public final class dev/kolibrium/core/selenium/LocatorUtilsKt {
 	public static final fun getDefaultElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public static final fun getDefaultElementsReadyCondition ()Lkotlin/jvm/functions/Function1;
-	public static final fun getDefaultWaitConfig ()Ldev/kolibrium/core/selenium/Wait;
+	public static final fun getDefaultWaitConfig ()Ldev/kolibrium/core/selenium/WaitConfig;
 	public static final fun isClickable (Ljava/util/List;)Z
 	public static final fun isClickable (Lorg/openqa/selenium/WebElement;)Z
 	public static final fun isDisplayed (Ljava/util/List;)Z
 	public static final fun isEnabled (Ljava/util/List;)Z
 }
 
-public final class dev/kolibrium/core/selenium/Wait {
-	public static final field Companion Ldev/kolibrium/core/selenium/Wait$Companion;
+public final class dev/kolibrium/core/selenium/WaitConfig {
+	public static final field Companion Ldev/kolibrium/core/selenium/WaitConfig$Companion;
 	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/List;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-uklvIs0 (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/List;)Ldev/kolibrium/core/selenium/Wait;
-	public static synthetic fun copy-uklvIs0$default (Ldev/kolibrium/core/selenium/Wait;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Ldev/kolibrium/core/selenium/Wait;
+	public final fun copy-uklvIs0 (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/List;)Ldev/kolibrium/core/selenium/WaitConfig;
+	public static synthetic fun copy-uklvIs0$default (Ldev/kolibrium/core/selenium/WaitConfig;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Ldev/kolibrium/core/selenium/WaitConfig;
 	public final fun getIgnoring ()Ljava/util/List;
 	public final fun getMessage ()Ljava/lang/String;
 	public final fun getPollingInterval-FghU774 ()Lkotlin/time/Duration;
@@ -62,10 +62,10 @@ public final class dev/kolibrium/core/selenium/Wait {
 	public final fun setTimeout-BwNAW2A (Lkotlin/time/Duration;)V
 }
 
-public final class dev/kolibrium/core/selenium/Wait$Companion {
-	public final fun getDEFAULT ()Ldev/kolibrium/core/selenium/Wait;
-	public final fun getPATIENT ()Ldev/kolibrium/core/selenium/Wait;
-	public final fun getQUICK ()Ldev/kolibrium/core/selenium/Wait;
+public final class dev/kolibrium/core/selenium/WaitConfig$Companion {
+	public final fun getDEFAULT ()Ldev/kolibrium/core/selenium/WaitConfig;
+	public final fun getPATIENT ()Ldev/kolibrium/core/selenium/WaitConfig;
+	public final fun getQUICK ()Ldev/kolibrium/core/selenium/WaitConfig;
 }
 
 public abstract class dev/kolibrium/core/selenium/configuration/AbstractSeleniumProjectConfiguration : dev/kolibrium/common/config/ProjectConfiguration {
@@ -73,7 +73,7 @@ public abstract class dev/kolibrium/core/selenium/configuration/AbstractSelenium
 	public fun getDecorators ()Ljava/util/List;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getElementsReadyCondition ()Lkotlin/jvm/functions/Function1;
-	public fun getWaitConfig ()Ldev/kolibrium/core/selenium/Wait;
+	public fun getWaitConfig ()Ldev/kolibrium/core/selenium/WaitConfig;
 }
 
 public abstract class dev/kolibrium/core/selenium/decorators/AbstractDecorator {
