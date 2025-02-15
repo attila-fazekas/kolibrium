@@ -17,11 +17,7 @@
 package dev.kolibrium.test
 
 import com.google.auto.service.AutoService
-import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
-import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.headless
-import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
-import dev.kolibrium.dsl.selenium.creation.chromeDriver
-import dev.kolibrium.junit.configuration.AbstractJUnitProjectConfiguration
+import dev.kolibrium.common.WebElements
 import dev.kolibrium.core.selenium.Wait
 import dev.kolibrium.core.selenium.Wait.Companion.DEFAULT
 import dev.kolibrium.core.selenium.configuration.AbstractSeleniumProjectConfiguration
@@ -30,6 +26,11 @@ import dev.kolibrium.core.selenium.decorators.Color.BLUE
 import dev.kolibrium.core.selenium.decorators.HighlighterDecorator
 import dev.kolibrium.core.selenium.decorators.SlowMotionDecorator
 import dev.kolibrium.core.selenium.isClickable
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.headless
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
+import dev.kolibrium.dsl.selenium.creation.chromeDriver
+import dev.kolibrium.junit.configuration.AbstractJUnitProjectConfiguration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import org.openqa.selenium.WebElement
@@ -54,6 +55,8 @@ object JUnitConfiguration : AbstractJUnitProjectConfiguration() {
 @AutoService(AbstractSeleniumProjectConfiguration::class)
 object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
+
+    override val elementsReadyCondition: (WebElements.() -> Boolean) = { isClickable }
 
     override val decorators = listOf(
         HighlighterDecorator(style = DOTTED, color = BLUE, width = 10),
