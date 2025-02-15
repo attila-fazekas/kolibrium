@@ -18,8 +18,8 @@ package dev.kolibrium.test
 
 import com.google.auto.service.AutoService
 import dev.kolibrium.common.WebElements
-import dev.kolibrium.core.selenium.Wait
-import dev.kolibrium.core.selenium.Wait.Companion.DEFAULT
+import dev.kolibrium.core.selenium.WaitConfig
+import dev.kolibrium.core.selenium.WaitConfig.Companion.DEFAULT
 import dev.kolibrium.core.selenium.configuration.AbstractSeleniumProjectConfiguration
 import dev.kolibrium.core.selenium.decorators.BorderStyle.DOTTED
 import dev.kolibrium.core.selenium.decorators.Color.BLUE
@@ -63,5 +63,5 @@ object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
         SlowMotionDecorator(wait = 500.milliseconds)
     )
 
-    override val waitConfig: Wait = DEFAULT.copy(timeout = 1.seconds)
+    override val waitConfig: WaitConfig = DEFAULT.copy(timeout = 1.seconds)
 }
