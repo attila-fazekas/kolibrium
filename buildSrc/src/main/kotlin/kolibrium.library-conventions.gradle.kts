@@ -66,10 +66,17 @@ publishing {
             from(components["kotlin"])
             artifact(javadocJar)
             artifact(sourcesJar)
-            artifactId = "$name-$artifactId"
+            val projectNameForDescription = if (project.name.contains("annotations")) {
+                "ksp-annotations"
+            } else if (project.name.contains("processors")) {
+                "ksp-processors"
+            } else {
+                project.name
+            }
+            artifactId = "$name-$projectNameForDescription"
             pom {
                 name = rootProject.name
-                description = "\"${project.name}\" module of Kolibrium"
+                description = "\"$projectNameForDescription\" module of Kolibrium"
                 inceptionYear = "2023"
                 url = PROJECT_GIT_URL
                 licenses {
