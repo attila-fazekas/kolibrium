@@ -89,8 +89,8 @@ Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
-kotlin-logging (7.0.3) - The Apache Software License, Version 2.0
-kotlin-logging 7.0.3 - Lightweight logging framework for Kotlin
+kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
+kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
 Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
@@ -309,8 +309,8 @@ Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
-kotlin-logging (7.0.3) - The Apache Software License, Version 2.0
-kotlin-logging 7.0.3 - Lightweight logging framework for Kotlin
+kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
+kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
 Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
@@ -553,8 +553,8 @@ Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
-kotlin-logging (7.0.3) - The Apache Software License, Version 2.0
-kotlin-logging 7.0.3 - Lightweight logging framework for Kotlin
+kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
+kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
 Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
@@ -781,8 +781,8 @@ Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
-kotlin-logging (7.0.3) - The Apache Software License, Version 2.0
-kotlin-logging 7.0.3 - Lightweight logging framework for Kotlin
+kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
+kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
 Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
@@ -935,8 +935,8 @@ Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
-kotlin-logging (7.0.3) - The Apache Software License, Version 2.0
-kotlin-logging 7.0.3 - Lightweight logging framework for Kotlin
+kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
+kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
 Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
@@ -979,7 +979,7 @@ AutoService (1.1.1) - Apache 2.0
 Provider-configuration files for ServiceLoader.
 https://github.com/google/auto/tree/main/service
 
-com.google.devtools.ksp:symbol-processing-api (2.1.10-1.0.29) - The Apache License, Version 2.0
+com.google.devtools.ksp:symbol-processing-api (2.1.10-1.0.30) - The Apache License, Version 2.0
 Symbol processing for Kotlin
 https://goo.gle/ksp
 
@@ -1005,8 +1005,8 @@ Kotlin Stdlib (2.1.10) - The Apache License, Version 2.0
 Kotlin Standard Library
 https://kotlinlang.org/
 
-kotlin-logging (7.0.3) - The Apache Software License, Version 2.0
-kotlin-logging 7.0.3 - Lightweight logging framework for Kotlin
+kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
+kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
 KotlinPoet (2.0.0) - The Apache Software License, Version 2.0
