@@ -56,7 +56,7 @@ class HomePage {
 
     val clickHereLink by partialLinkText("Click")
 
-    val a1TagName by tagName("h1")
+    val h1TagName by tagName("h1")
 
     val links by classNames("link")
 
