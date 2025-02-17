@@ -21,8 +21,8 @@ import dev.kolibrium.common.ConfigurationException
 /**
  * Exception thrown when there is an error in the DSL configuration.
  *
- * @param exception The detailed error message describing the configuration issue.
+ * @param message The detailed error message describing the configuration issue.
  */
 internal class DslConfigurationException(
-    exception: String,
-) : ConfigurationException(exception)
+    message: String,
+) : ConfigurationException(message)

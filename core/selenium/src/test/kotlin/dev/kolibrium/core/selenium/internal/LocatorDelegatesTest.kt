@@ -70,7 +70,7 @@ class LocatorDelegatesTest : dev.kolibrium.core.selenium.internal.BaseTest() {
     @Test
     fun `tagName - WebElement`() =
         homePage {
-            a1TagName.text shouldBe "Kolibrium"
+            h1TagName.text shouldBe "Kolibrium"
         }
 
     @Test
