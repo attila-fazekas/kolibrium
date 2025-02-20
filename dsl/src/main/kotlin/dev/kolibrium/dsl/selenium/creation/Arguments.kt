@@ -16,6 +16,8 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
+
 /**
  * Base interface for browser command-line arguments.
  */

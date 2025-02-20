@@ -16,6 +16,7 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+import dev.kolibrium.dsl.selenium.KolibriumDsl
 import org.openqa.selenium.edge.EdgeDriverService
 import org.openqa.selenium.edge.EdgeOptions
 

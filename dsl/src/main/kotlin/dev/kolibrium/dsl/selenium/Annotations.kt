@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.interactions
-
-import dev.kolibrium.dsl.selenium.KolibriumDsl
-import org.openqa.selenium.WebDriver
+package dev.kolibrium.dsl.selenium
 
 /**
- * Navigates to a relative path from the current URL.
- *
- * @receiver The [WebDriver] instance to perform navigation with.
- * @param relativePath The relative path to navigate to, which will be appended to the current URL.
+ * Marker annotation for Kolibrium DSL functions and classes.
  */
-@KolibriumDsl
-public fun WebDriver.navigateTo(relativePath: String): Unit = get("$currentUrl$relativePath")
+@DslMarker
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
+internal annotation class KolibriumDsl
+
+/**
+ * Marker annotation for Kolibrium DSL properties.
+ *
+ * Use this annotation to extend the Kolibrium DSL with your own properties, such as command-line arguments,
+ * experimental flags, browser preferences, or browser feature switches.
+ */
+@DslMarker
+@Target(AnnotationTarget.PROPERTY)
+public annotation class KolibriumPropertyDsl

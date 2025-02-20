@@ -16,6 +16,8 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
+
 /**
  * Value class representing an experimental feature flag.
  *

@@ -16,6 +16,8 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+import dev.kolibrium.dsl.selenium.KolibriumDsl
+
 /**
  * Scope class for configuring browser local state settings.
  */

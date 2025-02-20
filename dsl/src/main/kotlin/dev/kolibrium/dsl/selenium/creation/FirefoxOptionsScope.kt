@@ -16,6 +16,8 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+import dev.kolibrium.dsl.selenium.KolibriumDsl
+import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.firefox.FirefoxProfile
 import java.io.File
