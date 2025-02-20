@@ -25,7 +25,7 @@ import kotlin.time.Duration.Companion.seconds
 /**
  * Class for configuring wait parameters in synchronization operations.
  */
-public class Wait(
+public class WaitConfig(
     /**
      * The duration between polling attempts when waiting for a condition.
      */
@@ -64,7 +64,7 @@ public class Wait(
     }
 
     /**
-     * Creates a copy of this Wait configuration with modified parameters.
+     * Creates a copy of this WaitConfig with modified parameters.
      *
      * @param pollingInterval The duration between consecutive condition checks.
      *        If null, uses the current configuration's polling interval.
@@ -74,14 +74,14 @@ public class Wait(
      *        If null, uses the current configuration's message.
      * @param ignoring A list of exception types to ignore during condition checks.
      *        Defaults to the current configuration's ignored exceptions.
-     * @return A new Wait instance with the specified parameters, using current values for any unspecified parameters.
+     * @return A new WaitConfig instance with the specified parameters, using current values for any unspecified parameters.
      */
     public fun copy(
         pollingInterval: Duration? = this.pollingInterval,
         timeout: Duration? = this.timeout,
         message: String? = this.message,
         ignoring: List<KClass<out Throwable>> = this.ignoring,
-    ): Wait = Wait(pollingInterval, timeout, message, ignoring)
+    ): WaitConfig = WaitConfig(pollingInterval, timeout, message, ignoring)
 
     /**
      * Provides predefined wait configurations for common use cases.
@@ -90,8 +90,8 @@ public class Wait(
         /**
          * Default wait configuration suitable for most web automation scenarios.
          */
-        public val DEFAULT: Wait =
-            Wait(
+        public val DEFAULT: WaitConfig =
+            WaitConfig(
                 pollingInterval = 200.milliseconds,
                 timeout = 10.seconds,
                 message = "Element could not be found",
@@ -102,7 +102,7 @@ public class Wait(
          * Fast wait configuration for responsive applications or when quick feedback is needed.
          * Inherits error handling from [DEFAULT] configuration with shorter intervals.
          */
-        public val QUICK: Wait =
+        public val QUICK: WaitConfig =
             DEFAULT.copy(
                 pollingInterval = 100.milliseconds,
                 timeout = 2.seconds,
@@ -112,7 +112,7 @@ public class Wait(
          * Extended wait configuration for slower applications or operations that might take longer to complete.
          * Inherits error handling from [DEFAULT] configuration with longer intervals.
          */
-        public val PATIENT: Wait =
+        public val PATIENT: WaitConfig =
             DEFAULT.copy(
                 pollingInterval = 500.milliseconds,
                 timeout = 30.seconds,
