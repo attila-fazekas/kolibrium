@@ -16,6 +16,7 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+import dev.kolibrium.dsl.selenium.KolibriumDsl
 import org.openqa.selenium.safari.SafariDriverService
 import org.openqa.selenium.safari.SafariOptions
 

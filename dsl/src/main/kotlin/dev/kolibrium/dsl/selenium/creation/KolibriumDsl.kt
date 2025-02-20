@@ -21,6 +21,7 @@ import dev.kolibrium.common.Browser.CHROME
 import dev.kolibrium.common.Browser.EDGE
 import dev.kolibrium.common.Browser.FIREFOX
 import dev.kolibrium.common.Browser.SAFARI
+import dev.kolibrium.dsl.selenium.KolibriumDsl
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeDriverService
@@ -36,26 +37,6 @@ import org.openqa.selenium.remote.service.DriverService
 import org.openqa.selenium.safari.SafariDriver
 import org.openqa.selenium.safari.SafariDriverService
 import org.openqa.selenium.safari.SafariOptions
-import kotlin.annotation.AnnotationTarget.CLASS
-import kotlin.annotation.AnnotationTarget.FUNCTION
-import kotlin.annotation.AnnotationTarget.PROPERTY
-
-/**
- * Marker annotation for Kolibrium DSL functions and classes.
- */
-@DslMarker
-@Target(FUNCTION, CLASS)
-internal annotation class KolibriumDsl
-
-/**
- * Marker annotation for Kolibrium DSL properties.
- *
- * Use this annotation to extend the Kolibrium DSL with your own properties, such as command-line arguments,
- * experimental flags, browser preferences, or browser feature switches.
- */
-@DslMarker
-@Target(PROPERTY)
-public annotation class KolibriumPropertyDsl
 
 /**
  * Creates a [WebDriver] instance for the specified browser type with custom configuration.
