@@ -93,10 +93,10 @@ kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
 OpenTelemetry Java (1.46.0-alpha) - The Apache License, Version 2.0
@@ -219,7 +219,7 @@ org.seleniumhq.selenium:selenium-support (4.29.0) - The Apache Software License,
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-SLF4J API Module (2.0.16) - MIT License
+SLF4J API Module (2.0.17) - MIT
 The slf4j API
 http://www.slf4j.org
 
@@ -313,10 +313,10 @@ kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
 OpenTelemetry Java (1.46.0-alpha) - The Apache License, Version 2.0
@@ -439,7 +439,7 @@ org.seleniumhq.selenium:selenium-support (4.29.0) - The Apache Software License,
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-SLF4J API Module (2.0.16) - MIT License
+SLF4J API Module (2.0.17) - MIT
 The slf4j API
 http://www.slf4j.org
 
@@ -557,10 +557,10 @@ kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
 OpenTelemetry Java (1.46.0-alpha) - The Apache License, Version 2.0
@@ -683,7 +683,7 @@ org.seleniumhq.selenium:selenium-support (4.29.0) - The Apache Software License,
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-SLF4J API Module (2.0.16) - MIT License
+SLF4J API Module (2.0.17) - MIT
 The slf4j API
 http://www.slf4j.org
 
@@ -785,10 +785,10 @@ kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
 OpenTelemetry Java (1.46.0-alpha) - The Apache License, Version 2.0
@@ -915,7 +915,7 @@ org.seleniumhq.selenium:selenium-support (4.29.0) - The Apache Software License,
 Selenium automates browsers. That's it! What you do with that power is entirely up to you.
 https://selenium.dev/
 
-SLF4J API Module (2.0.16) - MIT License
+SLF4J API Module (2.0.17) - MIT
 The slf4j API
 http://www.slf4j.org
 
@@ -939,13 +939,13 @@ kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
-SLF4J API Module (2.0.16) - MIT License
+SLF4J API Module (2.0.17) - MIT
 The slf4j API
 http://www.slf4j.org
 
@@ -979,7 +979,7 @@ AutoService (1.1.1) - Apache 2.0
 Provider-configuration files for ServiceLoader.
 https://github.com/google/auto/tree/main/service
 
-com.google.devtools.ksp:symbol-processing-api (2.1.10-1.0.30) - The Apache License, Version 2.0
+com.google.devtools.ksp:symbol-processing-api (2.1.10-1.0.31) - The Apache License, Version 2.0
 Symbol processing for Kotlin
 https://goo.gle/ksp
 
@@ -997,7 +997,7 @@ jmustache (1.16) - The (New) BSD License
 A Java implementation of the Mustache templating language.
 http://github.com/samskivert/jmustache
 
-Kotlin Reflect (2.0.10) - The Apache License, Version 2.0
+Kotlin Reflect (2.1.10) - The Apache License, Version 2.0
 Kotlin Full Reflection Library
 https://kotlinlang.org/
 
@@ -1009,20 +1009,20 @@ kotlin-logging (7.0.4) - The Apache Software License, Version 2.0
 kotlin-logging 7.0.4 - Lightweight logging framework for Kotlin
 https://github.com/oshai/kotlin-logging
 
-KotlinPoet (2.0.0) - The Apache Software License, Version 2.0
+KotlinPoet (2.1.0) - The Apache Software License, Version 2.0
 Use beautiful Kotlin code to generate beautiful Kotlin code.
 https://github.com/square/kotlinpoet
 
-KotlinPoet (KSP Interop) (2.0.0) - The Apache Software License, Version 2.0
+KotlinPoet (KSP Interop) (2.1.0) - The Apache Software License, Version 2.0
 Extensions for interop with KSP (Kotlin Symbol Processing).
 https://github.com/square/kotlinpoet
 
-Logback Classic Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Classic Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-classic module
 
-Logback Core Module (1.5.16) - Eclipse Public License - v 1.0,GNU Lesser General Public License
+Logback Core Module (1.5.17) - Eclipse Public License - v 1.0,GNU Lesser General Public License
 logback-core module
 
-SLF4J API Module (2.0.16) - MIT License
+SLF4J API Module (2.0.17) - MIT
 The slf4j API
 http://www.slf4j.org
