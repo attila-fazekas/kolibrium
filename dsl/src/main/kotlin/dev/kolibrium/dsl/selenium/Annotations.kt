@@ -14,15 +14,21 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.creation
-
-import dev.kolibrium.common.ConfigurationException
+package dev.kolibrium.dsl.selenium
 
 /**
- * Exception thrown when there is an error in the DSL configuration.
- *
- * @param message The detailed error message describing the configuration issue.
+ * Marker annotation for Kolibrium DSL functions and classes.
  */
-internal class DslConfigurationException(
-    message: String,
-) : ConfigurationException(message)
+@DslMarker
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
+internal annotation class KolibriumDsl
+
+/**
+ * Marker annotation for Kolibrium DSL properties.
+ *
+ * Use this annotation to extend the Kolibrium DSL with your own properties, such as command-line arguments,
+ * experimental flags, browser preferences, or browser feature switches.
+ */
+@DslMarker
+@Target(AnnotationTarget.PROPERTY)
+public annotation class KolibriumPropertyDsl

@@ -16,6 +16,8 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+import dev.kolibrium.dsl.selenium.KolibriumDsl
+import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.apache.commons.validator.routines.InetAddressValidator
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel
 import java.io.File

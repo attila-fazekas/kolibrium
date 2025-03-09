@@ -16,6 +16,8 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
+import dev.kolibrium.dsl.selenium.KolibriumDsl
+
 internal sealed interface ArgumentsScope<T : Argument> {
     operator fun T.unaryPlus()
 
