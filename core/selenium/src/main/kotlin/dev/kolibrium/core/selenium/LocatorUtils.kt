@@ -89,6 +89,6 @@ public val defaultElementsReadyCondition: WebElements.() -> Boolean by lazy {
 /**
  * Default wait configuration used for element lookup.
  */
-public val defaultWaitConfig: Wait by lazy {
+public val defaultWaitConfig: WaitConfig by lazy {
     SeleniumProjectConfiguration.actualConfig().waitConfig ?: DefaultSeleniumProjectConfiguration.waitConfig
 }

@@ -20,7 +20,7 @@ import dev.kolibrium.common.InternalKolibriumApi
 import dev.kolibrium.common.WebElements
 import dev.kolibrium.common.config.ProjectConfiguration
 import dev.kolibrium.common.config.ProjectConfigurationLoader
-import dev.kolibrium.core.selenium.Wait
+import dev.kolibrium.core.selenium.WaitConfig
 import dev.kolibrium.core.selenium.decorators.AbstractDecorator
 import org.openqa.selenium.WebElement
 
@@ -44,7 +44,7 @@ public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguratio
     /**
      * The wait configuration to use in synchronization operations.
      */
-    public open val waitConfig: Wait? = null
+    public open val waitConfig: WaitConfig? = null
 
     /**
      * List of decorators to be applied to SearchContext objects (WebDriver or WebElement).

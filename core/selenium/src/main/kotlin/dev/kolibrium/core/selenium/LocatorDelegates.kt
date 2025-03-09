@@ -64,13 +64,13 @@ private val logger = KotlinLogging.logger {}
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.className(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty = genericLocator(value, By::className, cacheLookup, waitConfig, readyCondition)
 
@@ -103,13 +103,13 @@ public fun SearchContext.className(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.classNames(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
 ): WebElementsProperty = genericLocator(value, By::className, cacheLookup, waitConfig, readyCondition)
 
@@ -140,13 +140,13 @@ public fun SearchContext.classNames(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.cssSelector(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty = genericLocator(value, By::cssSelector, cacheLookup, waitConfig, readyCondition)
 
@@ -177,13 +177,13 @@ public fun SearchContext.cssSelector(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.cssSelectors(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
 ): WebElementsProperty = genericLocator(value, By::cssSelector, cacheLookup, waitConfig, readyCondition)
 
@@ -214,13 +214,13 @@ public fun SearchContext.cssSelectors(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.dataTest(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty = xPath("//*[@data-test=${value.escapeQuotes()}]", cacheLookup, waitConfig, readyCondition)
 
@@ -253,13 +253,13 @@ private fun String.escapeQuotes(): String = if (contains("'")) "concat('${replac
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.dataTests(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
 ): WebElementsProperty = xPaths("//*[@data-test='$value']", cacheLookup, waitConfig, readyCondition)
 
@@ -290,13 +290,13 @@ public fun SearchContext.dataTests(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.id(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty = genericLocator(value, By::id, cacheLookup, waitConfig, readyCondition)
 
@@ -327,14 +327,14 @@ public fun SearchContext.id(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElement
  * @see ByIdOrName
  */
 public fun SearchContext.idOrName(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty = genericLocator(value, ::ByIdOrName, cacheLookup, waitConfig, readyCondition)
 
@@ -365,13 +365,13 @@ public fun SearchContext.idOrName(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.linkText(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty = genericLocator(value, By::linkText, cacheLookup, waitConfig, readyCondition)
 
@@ -402,13 +402,13 @@ public fun SearchContext.linkText(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.linkTexts(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
 ): WebElementsProperty = genericLocator(value, By::linkText, cacheLookup, waitConfig, readyCondition)
 
@@ -439,13 +439,13 @@ public fun SearchContext.linkTexts(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.name(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty = genericLocator(value, By::name, cacheLookup, waitConfig, readyCondition)
 
@@ -476,13 +476,13 @@ public fun SearchContext.name(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.names(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
 ): WebElementsProperty = genericLocator(value, By::name, cacheLookup, waitConfig, readyCondition)
 
@@ -513,13 +513,13 @@ public fun SearchContext.names(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.partialLinkText(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty = genericLocator(value, By::partialLinkText, cacheLookup, waitConfig, readyCondition)
 
@@ -550,13 +550,13 @@ public fun SearchContext.partialLinkText(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.partialLinkTexts(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
 ): WebElementsProperty = genericLocator(value, By::partialLinkText, cacheLookup, waitConfig, readyCondition)
 
@@ -587,13 +587,13 @@ public fun SearchContext.partialLinkTexts(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.tagName(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty = genericLocator(value, By::tagName, cacheLookup, waitConfig, readyCondition)
 
@@ -624,13 +624,13 @@ public fun SearchContext.tagName(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.tagNames(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
 ): WebElementsProperty = genericLocator(value, By::tagName, cacheLookup, waitConfig, readyCondition)
 
@@ -661,13 +661,13 @@ public fun SearchContext.tagNames(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.xPath(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty = genericLocator(value, By::xpath, cacheLookup, waitConfig, readyCondition)
 
@@ -698,13 +698,13 @@ public fun SearchContext.xPath(
  *                       displayed using [isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see Wait
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.xPaths(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: Wait = defaultWaitConfig,
+    waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
 ): WebElementsProperty = genericLocator(value, By::xpath, cacheLookup, waitConfig, readyCondition)
 
@@ -737,7 +737,7 @@ internal inline fun <reified T> SearchContext.genericLocator(
     value: String,
     noinline locatorStrategy: (String) -> By,
     cacheLookup: Boolean,
-    waitConfig: Wait,
+    waitConfig: WaitConfig,
     noinline readyCondition: T.() -> Boolean,
 ): ReadOnlyProperty<Any?, T> {
     require(value.isNotBlank()) { "\"value\" must not be blank" }
@@ -788,10 +788,10 @@ internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R> {
 
     protected abstract fun isElementReady(element: R): Boolean
 
-    protected fun initializeWait(wait: Wait): FluentWait<T> =
+    protected fun initializeWait(waitConfig: WaitConfig): FluentWait<T> =
         @Suppress("UNCHECKED_CAST")
         FluentWait(this as T).apply {
-            wait.apply {
+            waitConfig.apply {
                 timeout?.let { withTimeout(it.toJavaDuration()) }
                 pollingInterval?.let { pollingEvery(it.toJavaDuration()) }
                 message?.let { withMessage { it } }
@@ -827,7 +827,7 @@ internal class KWebElement(
     private val value: String,
     private val locatorStrategy: (String) -> By,
     private val cacheLookup: Boolean,
-    waitConfig: Wait,
+    waitConfig: WaitConfig,
     private val readyCondition: WebElement.() -> Boolean,
 ) : KWebElementBase<KWebElement, WebElement>(),
     WebElementProperty {
@@ -858,7 +858,7 @@ internal class KWebElements(
     private val value: String,
     private val locatorStrategy: (String) -> By,
     private val cacheLookup: Boolean,
-    waitConfig: Wait,
+    waitConfig: WaitConfig,
     private val readyCondition: WebElements.() -> Boolean,
 ) : KWebElementBase<KWebElements, WebElements>(),
     WebElementsProperty {
