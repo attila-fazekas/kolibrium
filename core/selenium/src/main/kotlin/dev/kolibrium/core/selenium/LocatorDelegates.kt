@@ -20,15 +20,15 @@ import dev.kolibrium.common.WebElements
 import dev.kolibrium.core.selenium.configuration.SeleniumProjectConfiguration
 import dev.kolibrium.core.selenium.decorators.DecoratorManager
 import io.github.oshai.kotlinlogging.KotlinLogging
-import kotlin.properties.ReadOnlyProperty
-import kotlin.reflect.KProperty
-import kotlin.time.toJavaDuration
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.StaleElementReferenceException
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ByIdOrName
 import org.openqa.selenium.support.ui.FluentWait
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
+import kotlin.time.toJavaDuration
 
 private typealias WebElementProperty = ReadOnlyProperty<Any?, WebElement>
 private typealias WebElementsProperty = ReadOnlyProperty<Any?, WebElements>
