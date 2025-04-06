@@ -19,7 +19,7 @@ plugins {
 }
 
 ktlint {
-    version = "1.3.1"
+    version = "1.5.0"
     debug = true
     verbose = true
     outputToConsole = true

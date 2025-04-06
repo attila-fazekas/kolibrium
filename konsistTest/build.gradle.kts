@@ -23,7 +23,9 @@ plugins {
 dependencies {
     testImplementation("com.lemonappdev:konsist:_")
     testImplementation(Testing.junit.jupiter.api)
-    runtimeOnly(Testing.junit.jupiter.engine)
+    testRuntimeOnly(Testing.junit.jupiter.engine)
+    // due to https://github.com/junit-team/junit5/issues/4374#issuecomment-2704880447
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {

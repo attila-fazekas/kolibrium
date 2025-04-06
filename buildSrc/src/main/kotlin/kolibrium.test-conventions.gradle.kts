@@ -24,6 +24,8 @@ dependencies {
     testImplementation(Testing.junit.jupiter.params)
     testImplementation(Testing.kotest.assertions.core)
     testRuntimeOnly(Testing.junit.jupiter.engine)
+    // due to https://github.com/junit-team/junit5/issues/4374#issuecomment-2704880447
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test>().configureEach {
