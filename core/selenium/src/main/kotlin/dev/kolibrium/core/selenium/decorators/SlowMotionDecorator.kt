@@ -16,6 +16,7 @@
 
 package dev.kolibrium.core.selenium.decorators
 
+import dev.kolibrium.common.WebElements
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -25,7 +26,7 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
 /**
- * Decorator that adds configurable delays to Selenium WebDriver operations.
+ * Decorator that adds configurable delay to Selenium WebDriver operations.
  * Useful for debugging, demonstrations, or slowing down test execution for visualization purposes.
  *
  * @param wait The duration to wait after each decorated operation.
@@ -45,7 +46,7 @@ public class SlowMotionDecorator(
                 return decorateElement(element)
             }
 
-            override fun findElements(by: By): List<WebElement> {
+            override fun findElements(by: By): WebElements {
                 val elements = driver.findElements(by)
                 addDelay()
                 return elements.map { element ->
@@ -63,7 +64,7 @@ public class SlowMotionDecorator(
                 return decorateElement(foundElement)
             }
 
-            override fun findElements(by: By): List<WebElement> {
+            override fun findElements(by: By): WebElements {
                 val elements = element.findElements(by)
                 addDelay()
                 return elements.map { foundElement ->

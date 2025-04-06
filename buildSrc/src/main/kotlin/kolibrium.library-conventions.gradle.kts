@@ -16,12 +16,13 @@
 
 import dev.kolibrium.PublicationProperties.PROJECT_GIT_URL
 import dev.kolibrium.PublicationProperties.SCM
+import dev.kolibrium.SharedFunctions
 import java.io.FileOutputStream
 
 plugins {
     `java-library`
-    id("dev.adamko.dokkatoo-html")
     id("com.jaredsburrows.license")
+    id("kolibrium.dokka-conventions")
     id("kolibrium.kotlin-conventions")
     id("kolibrium.publication-conventions")
     id("kolibrium.static-analysis-conventions")
@@ -49,12 +50,12 @@ val sourcesJar by tasks.register<Jar>("sourcesJar") {
     from(sourceSets.main.get().allSource)
 }
 
-val javadocJar by tasks.register<Jar>("javadocJar") {
-    description = "Assembles a JAR containing the Javadoc documentation."
+val dokkaJar by tasks.register<Jar>("dokkaJar") {
+    description = "Assembles a JAR containing the Dokka HTML documentation."
     group = "documentation"
 
-    dependsOn(tasks.dokkatooGeneratePublicationHtml)
-    from(tasks.dokkatooGeneratePublicationHtml.flatMap { it.outputDirectory })
+    dependsOn(tasks.dokkaGenerate)
+    from(tasks.dokkaGeneratePublicationHtml.flatMap { it.outputDirectory })
     archiveClassifier = "javadoc"
 }
 
@@ -64,19 +65,13 @@ publishing {
     publications {
         create<MavenPublication>("kolibrium") {
             from(components["kotlin"])
-            artifact(javadocJar)
+            artifact(dokkaJar)
             artifact(sourcesJar)
-            val projectNameForDescription = if (project.name.contains("annotations")) {
-                "ksp-annotations"
-            } else if (project.name.contains("processors")) {
-                "ksp-processors"
-            } else {
-                project.name
-            }
-            artifactId = "$name-$projectNameForDescription"
+            val moduleName = SharedFunctions.getModuleName(project)
+            artifactId = "$name-$moduleName"
             pom {
                 name = rootProject.name
-                description = "\"$projectNameForDescription\" module of Kolibrium"
+                description = "\"$moduleName\" module of Kolibrium"
                 inceptionYear = "2023"
                 url = PROJECT_GIT_URL
                 licenses {
@@ -146,8 +141,4 @@ tasks.register("createNoticeFile") {
             output.write(buffer, 0, bytesRead)
         }
     }
-}
-
-dokkatoo.pluginsConfiguration.html {
-    footerMessage.set("Copyright 2024 Attila Fazekas & contributors")
 }

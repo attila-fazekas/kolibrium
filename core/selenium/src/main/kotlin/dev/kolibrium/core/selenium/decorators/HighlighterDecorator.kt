@@ -16,6 +16,7 @@
 
 package dev.kolibrium.core.selenium.decorators
 
+import dev.kolibrium.common.WebElements
 import dev.kolibrium.core.selenium.decorators.BorderStyle.SOLID
 import dev.kolibrium.core.selenium.decorators.Color.RED
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -55,7 +56,7 @@ public class HighlighterDecorator(
                 return decorateElement(element)
             }
 
-            override fun findElements(by: By): List<WebElement> =
+            override fun findElements(by: By): WebElements =
                 driver.findElements(by).map { element ->
                     element.highlightElement()
                     decorateElement(element)
@@ -71,7 +72,7 @@ public class HighlighterDecorator(
                 return decorateElement(foundElement)
             }
 
-            override fun findElements(by: By): List<WebElement> =
+            override fun findElements(by: By): WebElements =
                 element.findElements(by).map { foundElement ->
                     foundElement.highlightElement()
                     decorateElement(foundElement)

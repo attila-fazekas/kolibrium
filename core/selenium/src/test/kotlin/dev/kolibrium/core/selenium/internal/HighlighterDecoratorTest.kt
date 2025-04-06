@@ -21,13 +21,13 @@ import dev.kolibrium.core.selenium.decorators.SlowMotionDecorator
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 class HighlighterDecoratorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         DecoratorManager.addDecorators(
-            SlowMotionDecorator(wait = 1000.milliseconds),
+            SlowMotionDecorator(wait = 1.seconds),
         )
     }
 
