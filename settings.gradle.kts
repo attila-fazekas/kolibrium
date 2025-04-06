@@ -21,6 +21,7 @@ include("common")
 include("core")
 include("core:selenium")
 findProject(":core:selenium")?.name = "selenium"
+include("dokka")
 include("dsl")
 include("junit")
 include("konsistTest")
@@ -29,7 +30,6 @@ include("ksp:annotations")
 findProject(":ksp:annotations")?.name = "annotations"
 include("ksp:processors")
 findProject(":ksp:processors")?.name = "processors"
-include("selenium")
 include("test")
 
 gradle.startParameter.isContinueOnFailure = true
@@ -44,4 +44,3 @@ refreshVersions {
         candidate.stabilityLevel.isLessStableThan(current.stabilityLevel)
     }
 }
-

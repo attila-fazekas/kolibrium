@@ -16,6 +16,7 @@
 
 package dev.kolibrium.core.selenium.decorators
 
+import dev.kolibrium.common.WebElements
 import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -57,7 +58,7 @@ public class ElementStateCacheDecorator(
                 return decorateElement(element)
             }
 
-            override fun findElements(by: By): List<WebElement> =
+            override fun findElements(by: By): WebElements =
                 driver.findElements(by).map { element ->
                     decorateElement(element)
                 }
@@ -105,7 +106,7 @@ public class ElementStateCacheDecorator(
                 return decorateElement(foundElement)
             }
 
-            override fun findElements(by: By): List<WebElement> =
+            override fun findElements(by: By): WebElements =
                 element.findElements(by).map { foundElement ->
                     decorateElement(foundElement)
                 }

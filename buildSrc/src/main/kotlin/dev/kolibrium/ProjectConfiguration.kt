@@ -16,7 +16,19 @@
 
 package dev.kolibrium
 
+import org.gradle.api.Project
+
 object PublicationProperties {
     const val PROJECT_GIT_URL = "https://github.com/attila-fazekas/kolibrium"
     const val SCM = "scm:git:$PROJECT_GIT_URL.git"
+}
+
+object SharedFunctions {
+    fun getModuleName(project: Project) = if (project.name.contains("annotations")) {
+        "ksp-annotations"
+    } else if (project.name.contains("processors")) {
+        "ksp-processors"
+    } else {
+        project.name
+    }
 }

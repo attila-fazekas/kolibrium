@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test
 import org.openqa.selenium.support.ui.Select
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
-class LocatorDelegatesTest : dev.kolibrium.core.selenium.internal.BaseTest() {
+class LocatorDelegatesTest : BaseTest() {
     @Test
     fun `className - WebElement`() =
         homePage {
