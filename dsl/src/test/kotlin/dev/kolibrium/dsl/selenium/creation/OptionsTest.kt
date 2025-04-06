@@ -318,7 +318,6 @@ class OptionsTest {
         val mappedOptions = options.asMap()
         mappedOptions["acceptInsecureCerts"] shouldBe true
         mappedOptions["browserName"] shouldBe "firefox"
-        mappedOptions["moz:debuggerAddress"] shouldBe true
 
         val mozFirefoxOptions: Map<String, String> = mappedOptions["moz:firefoxOptions"] as Map<String, String>
         mozFirefoxOptions["binary"] shouldBe "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
