@@ -895,7 +895,7 @@ AutoService (1.1.1) - Apache 2.0
 Provider-configuration files for ServiceLoader.
 https://github.com/google/auto/tree/main/service
 
-com.google.devtools.ksp:symbol-processing-api (2.1.20-1.0.31) - The Apache License, Version 2.0
+com.google.devtools.ksp:symbol-processing-api (2.1.20-1.0.32) - The Apache License, Version 2.0
 Symbol processing for Kotlin
 https://goo.gle/ksp
 
