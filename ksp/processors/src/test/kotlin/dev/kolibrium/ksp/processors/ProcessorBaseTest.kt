@@ -32,124 +32,15 @@ import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 open class ProcessorBaseTest {
     private val pageAnnotation =
         kotlin(
-            "Annotations.kt",
+            "Page.kt",
             """
-              package dev.kolibrium.ksp.annotations
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.CLASS)
-              public annotation class Page(
-                  val value: String = "",
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.CLASS)
-              public annotation class Locators
+            package dev.kolibrium.ksp.annotations
 
             @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class ClassName(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class ClassNames(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class CssSelector(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class CssSelectors(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class Id(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class LinkText(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class LinkTexts(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class Name(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class Names(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class PartialLinkText(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class PartialLinkTexts(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class TagName(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class TagNames(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class XPath(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
-
-              @Retention(AnnotationRetention.SOURCE)
-              @Target(AnnotationTarget.FIELD)
-              public annotation class XPaths(
-                  val locator: String = "",
-                  val cacheLookup: Boolean = true,
-              )
+            @Target(AnnotationTarget.CLASS)
+            public annotation class Page(
+                val value: String = "",
+            )
             """.trimIndent(),
         )
 
