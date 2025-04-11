@@ -159,7 +159,7 @@ open class ProcessorBaseTest {
     ) = KotlinCompilation().apply {
         sources = listOf(pageAnnotation, *sourceFiles)
         useKsp2()
-        symbolProcessorProviders = mutableListOf(PageProcessorProvider(), LocatorsProcessorProvider())
+        symbolProcessorProviders = mutableListOf(PageProcessorProvider())
         inheritClassPath = true
         verbose = true
         kspProcessorOptions = mutableMapOf("kolibriumKsp.useDsl" to useDsl.toString())
