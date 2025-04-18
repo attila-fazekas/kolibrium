@@ -768,7 +768,7 @@ internal inline fun <reified T> SearchContext.genericLocator(
 context(SearchContext)
 internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R> {
     protected val searchContext by lazy {
-        val projectLevelDecorators = SeleniumProjectConfiguration.actualConfig().decorators
+        val projectLevelDecorators = SeleniumProjectConfiguration.actualConfig.decorators
         val testLevelDecorators = DecoratorManager.getAllDecorators()
 
         if (testLevelDecorators.isEmpty()) {
@@ -812,7 +812,7 @@ internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R> {
             try {
                 val element = findElement()
                 isElementReady(element)
-            } catch (e: StaleElementReferenceException) {
+            } catch (_: StaleElementReferenceException) {
                 logger.warn { "\"$propertyName\" element(s) with locator strategy of { ${by(value)} } became stale. Relocating." }
                 clearCache()
                 false

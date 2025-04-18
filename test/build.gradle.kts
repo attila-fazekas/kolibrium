@@ -20,10 +20,10 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":core:selenium"))
     implementation(project(":dsl"))
     implementation(project(":junit"))
     implementation(project(":ksp:annotations"))
-    implementation(project(":core:selenium"))
     implementation(Testing.kotest.assertions.core)
     ksp(project(":ksp:processors"))
     ksp("dev.zacsweers.autoservice:auto-service-ksp:_")

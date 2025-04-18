@@ -75,14 +75,14 @@ public val WebElements.isEnabled: Boolean
  * Default readinessCondition used for single element lookup.
  */
 public val defaultElementReadyCondition: WebElement.() -> Boolean by lazy {
-    SeleniumProjectConfiguration.actualConfig().elementReadyCondition ?: DefaultSeleniumProjectConfiguration.elementReadyCondition
+    SeleniumProjectConfiguration.actualConfig.elementReadyCondition ?: DefaultSeleniumProjectConfiguration.elementReadyCondition
 }
 
 /**
- * Default readinessCondition used for multiple elements lookup.
+ * Default readinessCondition used for multiple element lookup.
  */
 public val defaultElementsReadyCondition: WebElements.() -> Boolean by lazy {
-    SeleniumProjectConfiguration.actualConfig().elementsReadyCondition
+    SeleniumProjectConfiguration.actualConfig.elementsReadyCondition
         ?: DefaultSeleniumProjectConfiguration.elementsReadyCondition
 }
 
@@ -90,5 +90,5 @@ public val defaultElementsReadyCondition: WebElements.() -> Boolean by lazy {
  * Default wait configuration used for element lookup.
  */
 public val defaultWaitConfig: WaitConfig by lazy {
-    SeleniumProjectConfiguration.actualConfig().waitConfig ?: DefaultSeleniumProjectConfiguration.waitConfig
+    SeleniumProjectConfiguration.actualConfig.waitConfig ?: DefaultSeleniumProjectConfiguration.waitConfig
 }
