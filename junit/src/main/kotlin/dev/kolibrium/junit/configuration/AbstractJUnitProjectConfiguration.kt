@@ -71,7 +71,7 @@ public abstract class AbstractJUnitProjectConfiguration : ProjectConfiguration {
 
 internal object JUnitProjectConfiguration {
     @OptIn(InternalKolibriumApi::class)
-    internal fun actualConfig(): AbstractJUnitProjectConfiguration =
+    internal val actualConfig: AbstractJUnitProjectConfiguration =
         ProjectConfigurationLoader.loadConfiguration(AbstractJUnitProjectConfiguration::class)
             ?: DefaultJUnitProjectConfiguration
 }

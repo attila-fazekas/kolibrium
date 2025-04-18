@@ -60,5 +60,5 @@ internal object SeleniumProjectConfiguration {
             ?: DefaultSeleniumProjectConfiguration
     }
 
-    internal fun actualConfig(): AbstractSeleniumProjectConfiguration = config
+    internal val actualConfig: AbstractSeleniumProjectConfiguration = config
 }

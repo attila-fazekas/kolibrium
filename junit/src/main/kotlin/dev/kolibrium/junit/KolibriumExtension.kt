@@ -99,7 +99,7 @@ public class KolibriumExtension(
     private val driver: (() -> WebDriver)? = null,
 ) : ParameterResolver,
     AfterEachCallback {
-    private val actualConfig: AbstractJUnitProjectConfiguration by lazy { JUnitProjectConfiguration.actualConfig() }
+    private val actualConfig: AbstractJUnitProjectConfiguration by lazy { JUnitProjectConfiguration.actualConfig }
 
     /**
      * Checks if the requested parameter type is supported for injection.
