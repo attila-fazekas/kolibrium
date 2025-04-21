@@ -77,15 +77,13 @@ class ButtonsTest {
 
     @Test
     fun testEasyButtons_pageObject() {
-        with(driver) {
-            with(ButtonsPage()) {
-                easyButton1.click()
-                easyButton2.click()
-                easyButton3.click()
-                easyButton4.click()
+        with(ButtonsPage(driver)) {
+            easyButton1.click()
+            easyButton2.click()
+            easyButton3.click()
+            easyButton4.click()
 
-                easyMessage.text shouldBe "All Buttons Clicked"
-            }
+            easyMessage.text shouldBe "All Buttons Clicked"
         }
     }
 
@@ -120,15 +118,13 @@ class ButtonsTest {
 
     @Test
     fun testHardButtons_pageObject() {
-        with(driver) {
-            with(ButtonsPage()) {
-                hardButton1.click()
-                hardButton2.click()
-                hardButton3.click()
-                hardButton4.click()
+        with(ButtonsPage(driver)) {
+            hardButton1.click()
+            hardButton2.click()
+            hardButton3.click()
+            hardButton4.click()
 
-                hardMessage.text shouldBe "All Buttons Clicked"
-            }
+            hardMessage.text shouldBe "All Buttons Clicked"
         }
     }
 }

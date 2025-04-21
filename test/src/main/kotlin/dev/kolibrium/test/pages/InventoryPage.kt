@@ -16,22 +16,20 @@
 
 package dev.kolibrium.test.pages
 
-import dev.kolibrium.dsl.selenium.interactions.cookies
-import dev.kolibrium.dsl.selenium.interactions.navigateTo
-import dev.kolibrium.ksp.annotations.Page
+import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.className
 import dev.kolibrium.core.selenium.dataTest
 import dev.kolibrium.core.selenium.dataTests
 import dev.kolibrium.core.selenium.id
+import dev.kolibrium.dsl.selenium.interactions.cookies
+import dev.kolibrium.dsl.selenium.interactions.navigateTo
 import dev.kolibrium.test.Product
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
-context(WebDriver)
-@Page
-class InventoryPage {
+class InventoryPage(driver: WebDriver) : Page(driver) {
     private val shoppingCart by className("shopping_cart_link")
     private val shoppingCartBadge by dataTests(
         "shopping-cart-badge", cacheLookup = false //to avoid StaleElementReferenceException
@@ -40,13 +38,13 @@ class InventoryPage {
     private val products by dataTests("inventory-item")
 
     init {
-        cookies {
+        driver.cookies {
             addCookie(name = "session-username", value = "standard_user")
         }.apply {
             navigateTo("inventory.html")
         }
         check(sortMenu.isDisplayed) {
-            "This is not the Inventory Page, current page is: " + this@WebDriver.currentUrl
+            "This is not the Inventory Page, current page is: " + driver.currentUrl
         }
     }
 

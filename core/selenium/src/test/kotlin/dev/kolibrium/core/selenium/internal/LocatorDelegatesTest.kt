@@ -17,7 +17,6 @@
 package dev.kolibrium.core.selenium.internal
 
 import dev.kolibrium.core.selenium.className
-import dev.kolibrium.core.selenium.internal.pages.ButtonsPage
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -127,16 +126,12 @@ class LocatorDelegatesTest : BaseTest() {
     @Test
     fun `buttons delayed`() =
         buttonsPage {
-            with(driver) {
-                with(ButtonsPage()) {
-                    button1.click()
-                    button2.click()
-                    button3.click()
-                    button4.click()
+            button1.click()
+            button2.click()
+            button3.click()
+            button4.click()
 
-                    result.text shouldBe "All buttons clicked!"
-                }
-            }
+            result.text shouldBe "All buttons clicked!"
         }
 
     @Test

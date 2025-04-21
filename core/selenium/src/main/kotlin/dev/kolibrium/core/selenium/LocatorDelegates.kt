@@ -72,7 +72,15 @@ public fun SearchContext.className(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
-): WebElementProperty = genericLocator(value, By::className, cacheLookup, waitConfig, readyCondition)
+): WebElementProperty =
+    KWebElement(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::className,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds all elements by their class name.
@@ -111,7 +119,15 @@ public fun SearchContext.classNames(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
-): WebElementsProperty = genericLocator(value, By::className, cacheLookup, waitConfig, readyCondition)
+): WebElementsProperty =
+    KWebElements(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::className,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds a single element using a CSS selector.
@@ -148,7 +164,15 @@ public fun SearchContext.cssSelector(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
-): WebElementProperty = genericLocator(value, By::cssSelector, cacheLookup, waitConfig, readyCondition)
+): WebElementProperty =
+    KWebElement(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::cssSelector,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds all elements matching a CSS selector.
@@ -185,7 +209,15 @@ public fun SearchContext.cssSelectors(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
-): WebElementsProperty = genericLocator(value, By::cssSelector, cacheLookup, waitConfig, readyCondition)
+): WebElementsProperty =
+    KWebElements(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::cssSelector,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds a single element by its "data-test" attribute value.
@@ -222,7 +254,13 @@ public fun SearchContext.dataTest(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
-): WebElementProperty = xPath("//*[@data-test=${value.escapeQuotes()}]", cacheLookup, waitConfig, readyCondition)
+): WebElementProperty =
+    xPath(
+        value = "//*[@data-test=${value.escapeQuotes()}]",
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 private fun String.escapeQuotes(): String = if (contains("'")) "concat('${replace("'", "',\"'\",'")}')" else "'$this'"
 
@@ -261,7 +299,13 @@ public fun SearchContext.dataTests(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
-): WebElementsProperty = xPaths("//*[@data-test='$value']", cacheLookup, waitConfig, readyCondition)
+): WebElementsProperty =
+    xPaths(
+        value = "//*[@data-test='$value']",
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds a single element by its "id" attribute.
@@ -298,7 +342,15 @@ public fun SearchContext.id(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
-): WebElementProperty = genericLocator(value, By::id, cacheLookup, waitConfig, readyCondition)
+): WebElementProperty =
+    KWebElement(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::id,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds a single element by its "id" or "name" attribute.
@@ -336,7 +388,15 @@ public fun SearchContext.idOrName(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
-): WebElementProperty = genericLocator(value, ::ByIdOrName, cacheLookup, waitConfig, readyCondition)
+): WebElementProperty =
+    KWebElement(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = ::ByIdOrName,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds a single element by its exact link text.
@@ -373,7 +433,15 @@ public fun SearchContext.linkText(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
-): WebElementProperty = genericLocator(value, By::linkText, cacheLookup, waitConfig, readyCondition)
+): WebElementProperty =
+    KWebElement(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::linkText,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds all elements by their exact link text.
@@ -410,7 +478,15 @@ public fun SearchContext.linkTexts(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
-): WebElementsProperty = genericLocator(value, By::linkText, cacheLookup, waitConfig, readyCondition)
+): WebElementsProperty =
+    KWebElements(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::linkText,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds a single element by its "name" attribute.`
@@ -447,7 +523,15 @@ public fun SearchContext.name(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
-): WebElementProperty = genericLocator(value, By::name, cacheLookup, waitConfig, readyCondition)
+): WebElementProperty =
+    KWebElement(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::name,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds all elements with the specified "name" attribute.
@@ -484,7 +568,15 @@ public fun SearchContext.names(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
-): WebElementsProperty = genericLocator(value, By::name, cacheLookup, waitConfig, readyCondition)
+): WebElementsProperty =
+    KWebElements(
+        this,
+        value = value,
+        locatorStrategy = By::name,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds a single element containing a substring of the link text.
@@ -521,7 +613,15 @@ public fun SearchContext.partialLinkText(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
-): WebElementProperty = genericLocator(value, By::partialLinkText, cacheLookup, waitConfig, readyCondition)
+): WebElementProperty =
+    KWebElement(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::partialLinkText,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds all elements containing a substring of the link text.
@@ -558,7 +658,15 @@ public fun SearchContext.partialLinkTexts(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
-): WebElementsProperty = genericLocator(value, By::partialLinkText, cacheLookup, waitConfig, readyCondition)
+): WebElementsProperty =
+    KWebElements(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::partialLinkText,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds a single element by its HTML tag name.
@@ -595,7 +703,15 @@ public fun SearchContext.tagName(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
-): WebElementProperty = genericLocator(value, By::tagName, cacheLookup, waitConfig, readyCondition)
+): WebElementProperty =
+    KWebElement(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::tagName,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds all elements by their HTML tag name.
@@ -632,7 +748,15 @@ public fun SearchContext.tagNames(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
-): WebElementsProperty = genericLocator(value, By::tagName, cacheLookup, waitConfig, readyCondition)
+): WebElementsProperty =
+    KWebElements(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::tagName,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds a single element using an XPath expression.
@@ -669,7 +793,15 @@ public fun SearchContext.xPath(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
-): WebElementProperty = genericLocator(value, By::xpath, cacheLookup, waitConfig, readyCondition)
+): WebElementProperty =
+    KWebElement(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::xpath,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds all elements matching an XPath expression.
@@ -706,79 +838,31 @@ public fun SearchContext.xPaths(
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig = defaultWaitConfig,
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
-): WebElementsProperty = genericLocator(value, By::xpath, cacheLookup, waitConfig, readyCondition)
+): WebElementsProperty =
+    KWebElements(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = By::xpath,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
-/**
- * Creates a property delegate that lazily finds an element or elements using a generic locator strategy.
- *
- * This internal function is used by the public locator functions to create property delegates
- * for finding web elements. It supports both single element and multiple elements lookups.
- *
- * @receiver The SearchContext instance used to search for the element(s).
- * @param T The type of result: [WebElement] for single elements or [WebElements] for collections.
- * @param value The locator value (e.g., CSS selector, class name, XPath) used to find the element(s).
- * @param locatorStrategy A factory function that converts [value] into a Selenium [By] locator.
- * @param cacheLookup If true (default), the element(s) will be looked up only once and cached for
- *                    subsequent accesses. If false, a new lookup will be performed each time the
- *                    element(s) are accessed.
- * @param waitConfig Configuration for waiting (timeout, polling interval, ignored exceptions).
- *                   Defaults to a 10-second timeout with 200ms polling.
- * @param readyCondition A predicate that determines when the found element(s) are considered ready for use.
- *                       It's called with either [WebElement] or [WebElements] as receiver. By default,
- *                       checks if the element(s) are displayed.
- * @return A [ReadOnlyProperty] delegate that provides either a [WebElement] or [WebElements] when accessed.
- *
- * @see WebElement
- * @see WebElements
- * @suppress UNCHECKED_CAST Safely enforced by reified type checks at runtime.
- */
-@Suppress("UNCHECKED_CAST")
-internal inline fun <reified T> SearchContext.genericLocator(
-    value: String,
-    noinline locatorStrategy: (String) -> By,
-    cacheLookup: Boolean,
-    waitConfig: WaitConfig,
-    noinline readyCondition: T.() -> Boolean,
-): ReadOnlyProperty<Any?, T> {
-    require(value.isNotBlank()) { "\"value\" must not be blank" }
-
-    return when (T::class) {
-        WebElement::class ->
-            KWebElement(
-                value,
-                locatorStrategy,
-                cacheLookup,
-                waitConfig,
-                readyCondition as WebElement.() -> Boolean,
-            )
-
-        List::class ->
-            KWebElements(
-                value,
-                locatorStrategy,
-                cacheLookup,
-                waitConfig,
-                readyCondition as WebElements.() -> Boolean,
-            )
-
-        else -> throw IllegalArgumentException("Unsupported type: ${T::class.simpleName}")
-    } as ReadOnlyProperty<Any?, T>
-}
-
-context(SearchContext)
-internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R> {
+internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R>(
+    protected val searchCtx: SearchContext,
+) {
     protected val searchContext by lazy {
         val projectLevelDecorators = SeleniumProjectConfiguration.actualConfig.decorators
         val testLevelDecorators = DecoratorManager.getAllDecorators()
 
         if (testLevelDecorators.isEmpty()) {
             if (projectLevelDecorators.isEmpty()) {
-                this@SearchContext
+                searchCtx
             } else {
-                DecoratorManager.combine(projectLevelDecorators)(this@SearchContext)
+                DecoratorManager.combine(projectLevelDecorators)(searchCtx)
             }
         } else {
-            DecoratorManager.combine(testLevelDecorators)(this@SearchContext)
+            DecoratorManager.combine(testLevelDecorators)(searchCtx)
         }
     }
 
@@ -822,15 +906,19 @@ internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R> {
     }
 }
 
-context(SearchContext)
 internal class KWebElement(
+    searchCtx: SearchContext,
     private val value: String,
     private val locatorStrategy: (String) -> By,
     private val cacheLookup: Boolean,
     waitConfig: WaitConfig,
     private val readyCondition: WebElement.() -> Boolean,
-) : KWebElementBase<KWebElement, WebElement>(),
+) : KWebElementBase<KWebElement, WebElement>(searchCtx),
     WebElementProperty {
+    init {
+        require(value.isNotBlank()) { "\"value\" must not be blank" }
+    }
+
     private var cachedWebElement: WebElement? = null
     private val wait: FluentWait<KWebElement> by lazy { initializeWait(waitConfig) }
 
@@ -853,14 +941,14 @@ internal class KWebElement(
     override fun isElementReady(element: WebElement): Boolean = element.readyCondition()
 }
 
-context(SearchContext)
 internal class KWebElements(
+    searchCtx: SearchContext,
     private val value: String,
     private val locatorStrategy: (String) -> By,
     private val cacheLookup: Boolean,
     waitConfig: WaitConfig,
     private val readyCondition: WebElements.() -> Boolean,
-) : KWebElementBase<KWebElements, WebElements>(),
+) : KWebElementBase<KWebElements, WebElements>(searchCtx),
     WebElementsProperty {
     private var cachedWebElements: WebElements? = null
     private val wait: FluentWait<KWebElements> by lazy { initializeWait(waitConfig) }

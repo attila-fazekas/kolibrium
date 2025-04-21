@@ -16,12 +16,14 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
+import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.id
 import dev.kolibrium.core.selenium.isClickable
 import org.openqa.selenium.WebDriver
 
-context(WebDriver)
-class ButtonsPage {
+class ButtonsPage(
+    driver: WebDriver,
+) : Page(driver) {
     val button1 by id("button1") {
         isClickable
     }

@@ -16,6 +16,7 @@
 
 package dev.kolibrium.core.selenium.configuration
 
+import dev.kolibrium.common.Browser
 import dev.kolibrium.common.InternalKolibriumApi
 import dev.kolibrium.common.WebElements
 import dev.kolibrium.common.config.ProjectConfiguration
@@ -23,6 +24,10 @@ import dev.kolibrium.common.config.ProjectConfigurationLoader
 import dev.kolibrium.core.selenium.WaitConfig
 import dev.kolibrium.core.selenium.decorators.AbstractDecorator
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.edge.EdgeDriver
+import org.openqa.selenium.firefox.FirefoxDriver
+import org.openqa.selenium.safari.SafariDriver
 
 /**
  * Abstract base class for configuring Kolibrium's Selenium module project level settings.
@@ -31,6 +36,22 @@ import org.openqa.selenium.WebElement
  */
 @OptIn(InternalKolibriumApi::class)
 public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguration {
+    /**
+     * The base URL to navigate to when a WebDriver instance is created.
+     */
+    public open val baseUrl: String? = null
+
+    /**
+     * List of decorators to be applied to SearchContext objects (WebDriver or WebElement).
+     * Decorators can add behavior like highlighting or slow motion to Selenium operations.
+     */
+    public open val decorators: List<AbstractDecorator> = emptyList()
+
+    /**
+     * The preferred browser to use for tests when not explicitly specified.
+     */
+    public open val defaultBrowser: Browser? = null
+
     /**
      * A predicate that determines when the found element is considered ready for use.
      */
@@ -42,15 +63,34 @@ public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguratio
     public open val elementsReadyCondition: (WebElements.() -> Boolean)? = null
 
     /**
+     * Whether to keep the browser window open after test execution.
+     */
+    public open val keepBrowserOpen: Boolean? = null
+
+    /**
      * The wait configuration to use in synchronization operations.
      */
     public open val waitConfig: WaitConfig? = null
 
     /**
-     * List of decorators to be applied to SearchContext objects (WebDriver or WebElement).
-     * Decorators can add behavior like highlighting or slow motion to Selenium operations.
+     * Factory function for creating ChromeDriver instances.
      */
-    public open val decorators: List<AbstractDecorator> = emptyList()
+    public open val chromeDriver: (() -> ChromeDriver)? = null
+
+    /**
+     * Factory function for creating SafariDriver instances.
+     */
+    public open val safariDriver: (() -> SafariDriver)? = null
+
+    /**
+     * Factory function for creating EdgeDriver instances.
+     */
+    public open val edgeDriver: (() -> EdgeDriver)? = null
+
+    /**
+     * Factory function for creating FirefoxDriver instances.
+     */
+    public open val firefoxDriver: (() -> FirefoxDriver)? = null
 }
 
 internal object SeleniumProjectConfiguration {
