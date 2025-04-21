@@ -34,7 +34,6 @@ class KDocTest {
             .filter {
                 it.resideInModule("common") ||
                     it.resideInModule("dsl") ||
-                    it.resideInModule("junit") ||
                     it.resideInModule("ksp") ||
                     it.resideInModule("selenium")
             }.withoutOverrideModifier()
@@ -75,7 +74,6 @@ class KDocTest {
             .filter {
                 it.resideInModule("common") ||
                     it.resideInModule("dsl") ||
-                    it.resideInModule("junit") ||
                     it.resideInModule("ksp") ||
                     it.resideInModule("selenium")
             }.withoutOverrideModifier()
