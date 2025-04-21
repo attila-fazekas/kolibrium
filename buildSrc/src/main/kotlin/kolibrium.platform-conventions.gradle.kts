@@ -29,7 +29,6 @@ dependencies {
         api(project(":core:selenium"))
         api(project(":dsl"))
         api(project(":ksp:annotations"))
-        api(project(":junit"))
     }
 }
 

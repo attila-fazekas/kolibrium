@@ -22,7 +22,6 @@ dependencies {
     dokka(project(":common"))
     dokka(project(":core:selenium"))
     dokka(project(":dsl"))
-    dokka(project(":junit"))
     dokka(project(":ksp:annotations"))
     dokka(project(":ksp:processors"))
     dokkaHtmlPlugin("org.jetbrains.dokka:versioning-plugin")
