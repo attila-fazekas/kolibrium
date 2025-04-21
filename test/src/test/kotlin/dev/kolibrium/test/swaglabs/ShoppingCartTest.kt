@@ -16,40 +16,35 @@
 
 package dev.kolibrium.test.swaglabs
 
-import com.titusfortner.logging.SeleniumLogger
-import dev.kolibrium.junit.Kolibrium
+import dev.kolibrium.core.selenium.browserTest
 import dev.kolibrium.test.Product.BACKPACK
 import dev.kolibrium.test.Product.BIKE_LIGHT
-import dev.kolibrium.test.pages.generated.inventoryPage
-import org.junit.jupiter.api.BeforeAll
+import dev.kolibrium.test.pages.InventoryPage
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.WebDriver
 
-context(WebDriver)
-@Kolibrium
 class ShoppingCartTest {
-    companion object {
-        @JvmStatic
-        @BeforeAll
-        fun enableLogging() {
-            SeleniumLogger.enable("RemoteWebDriver")
-        }
-    }
-
     @Test
-    fun `shopping cart badge is updated when product added or removed`() = inventoryPage {
-        val products = listOf(BACKPACK, BIKE_LIGHT)
+    fun `shopping cart badge is updated when product added or removed`() = browserTest {
+        inventoryPage {
+            val products = listOf(BACKPACK, BIKE_LIGHT)
 
-        products.forEach { product ->
-            product.addToCart()
+            products.forEach { product ->
+                product.addToCart()
+            }
+
+            verifyShoppingCartCountIs(products.size)
+
+            products.forEach { product ->
+                product.removeFromCart()
+            }
+
+            verifyShoppingCartIsEmpty()
         }
-
-        verifyShoppingCartCountIs(products.size)
-
-        products.forEach { product ->
-            product.removeFromCart()
-        }
-
-        verifyShoppingCartIsEmpty()
     }
+}
+
+context(driver: WebDriver)
+public fun inventoryPage(block: InventoryPage.() -> Unit) {
+    InventoryPage(driver).block()
 }

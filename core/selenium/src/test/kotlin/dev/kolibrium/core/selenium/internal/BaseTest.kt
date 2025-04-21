@@ -16,6 +16,8 @@
 
 package dev.kolibrium.core.selenium.internal
 
+import dev.kolibrium.core.selenium.internal.pages.ButtonDelayedPage
+import dev.kolibrium.core.selenium.internal.pages.ButtonElementClickInterceptedExceptionPage
 import dev.kolibrium.core.selenium.internal.pages.ButtonsPage
 import dev.kolibrium.core.selenium.internal.pages.DataTestPage
 import dev.kolibrium.core.selenium.internal.pages.DynamicElementPage
@@ -23,7 +25,9 @@ import dev.kolibrium.core.selenium.internal.pages.ElementNotInteractableExceptio
 import dev.kolibrium.core.selenium.internal.pages.HomePage
 import dev.kolibrium.core.selenium.internal.pages.ImagesPage
 import dev.kolibrium.core.selenium.internal.pages.SearchInputPage
+import dev.kolibrium.core.selenium.internal.pages.StaleElementReferenceExceptionMultipleElementsPage
 import dev.kolibrium.core.selenium.internal.pages.StaleElementReferenceExceptionSingleElementPage
+import dev.kolibrium.core.selenium.internal.pages.TutorialPage
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -79,12 +83,11 @@ open class BaseTest {
         driver.quit()
     }
 
-    protected fun buttonDelayedPage(block: dev.kolibrium.core.selenium.internal.pages.ButtonDelayedPage.() -> Unit) {
+    protected fun buttonDelayedPage(block: ButtonDelayedPage.() -> Unit) {
         with(driver) {
             get(buttonPage1)
             with(
-                dev.kolibrium.core.selenium.internal.pages
-                    .ButtonDelayedPage(),
+                ButtonDelayedPage(this),
             ) {
                 block()
             }
@@ -94,30 +97,28 @@ open class BaseTest {
     protected fun staleElementReferenceExceptionSingleElementPage(block: StaleElementReferenceExceptionSingleElementPage.() -> Unit) {
         with(driver) {
             get(staleElementReferenceException_singleElement)
-            with(StaleElementReferenceExceptionSingleElementPage()) {
+            with(StaleElementReferenceExceptionSingleElementPage(this)) {
                 block()
             }
         }
     }
 
-    protected fun staleElementReferenceExceptionMultipleElementsPage(block: dev.kolibrium.core.selenium.internal.pages.StaleElementReferenceExceptionMultipleElementsPage.() -> Unit) {
+    protected fun staleElementReferenceExceptionMultipleElementsPage(block: StaleElementReferenceExceptionMultipleElementsPage.() -> Unit) {
         with(driver) {
             get(staleElementReferenceException_multipleElements)
             with(
-                dev.kolibrium.core.selenium.internal.pages
-                    .StaleElementReferenceExceptionMultipleElementsPage(),
+                StaleElementReferenceExceptionMultipleElementsPage(this),
             ) {
                 block()
             }
         }
     }
 
-    protected fun buttonElementClickInterceptedExceptionPage(block: dev.kolibrium.core.selenium.internal.pages.ButtonElementClickInterceptedExceptionPage.() -> Unit) {
+    protected fun buttonElementClickInterceptedExceptionPage(block: ButtonElementClickInterceptedExceptionPage.() -> Unit) {
         with(driver) {
             get(buttonPage3)
             with(
-                dev.kolibrium.core.selenium.internal.pages
-                    .ButtonElementClickInterceptedExceptionPage(),
+                ButtonElementClickInterceptedExceptionPage(this),
             ) {
                 block()
             }
@@ -127,7 +128,7 @@ open class BaseTest {
     protected fun inputElementNotInteractableExceptionPage(block: ElementNotInteractableExceptionPage.() -> Unit) {
         with(driver) {
             get(buttonPage4)
-            with(ElementNotInteractableExceptionPage()) {
+            with(ElementNotInteractableExceptionPage(this)) {
                 block()
             }
         }
@@ -136,7 +137,7 @@ open class BaseTest {
     protected fun searchInputPage(block: SearchInputPage.() -> Unit) {
         with(driver) {
             get(search_input)
-            with(SearchInputPage()) {
+            with(SearchInputPage(this)) {
                 block()
             }
         }
@@ -145,7 +146,7 @@ open class BaseTest {
     protected fun dynamicElementPage(block: DynamicElementPage.() -> Unit) {
         with(driver) {
             get(dynamic_element)
-            with(DynamicElementPage()) {
+            with(DynamicElementPage(this)) {
                 block()
             }
         }
@@ -154,7 +155,7 @@ open class BaseTest {
     protected fun dataTestPage(block: DataTestPage.() -> Unit) {
         with(driver) {
             get(dataTest)
-            with(DataTestPage()) {
+            with(DataTestPage(this)) {
                 block()
             }
         }
@@ -163,7 +164,7 @@ open class BaseTest {
     protected fun buttonsPage(block: ButtonsPage.() -> Unit) {
         with(driver) {
             get(buttonsPage)
-            with(ButtonsPage()) {
+            with(ButtonsPage(this)) {
                 block()
             }
         }
@@ -172,7 +173,7 @@ open class BaseTest {
     protected fun homePage(block: HomePage.() -> Unit) {
         with(driver) {
             get(homePage)
-            with(HomePage()) {
+            with(HomePage(this)) {
                 block()
             }
         }
@@ -181,18 +182,17 @@ open class BaseTest {
     protected fun imagesPage(block: ImagesPage.() -> Unit) {
         with(driver) {
             get(imagesPage)
-            with(ImagesPage()) {
+            with(ImagesPage(this)) {
                 block()
             }
         }
     }
 
-    protected fun tutorial(block: dev.kolibrium.core.selenium.internal.pages.TutorialPage.() -> Unit) {
+    protected fun tutorial(block: TutorialPage.() -> Unit) {
         with(driver) {
             get(tutorial)
             with(
-                dev.kolibrium.core.selenium.internal.pages
-                    .TutorialPage(),
+                TutorialPage(this),
             ) {
                 block()
             }

@@ -30,14 +30,24 @@ import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engin
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.headless
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
-import dev.kolibrium.junit.configuration.AbstractJUnitProjectConfiguration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import org.openqa.selenium.WebElement
 
-@AutoService(AbstractJUnitProjectConfiguration::class)
-object JUnitConfiguration : AbstractJUnitProjectConfiguration() {
+@AutoService(AbstractSeleniumProjectConfiguration::class)
+object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
     override val baseUrl = "https://www.saucedemo.com"
+
+    override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
+
+    override val elementsReadyCondition: (WebElements.() -> Boolean) = { isClickable }
+
+    override val decorators = listOf(
+        HighlighterDecorator(style = DOTTED, color = BLUE, width = 10),
+        SlowMotionDecorator(wait = 500.milliseconds)
+    )
+
+    override val waitConfig: WaitConfig = DEFAULT.copy(timeout = 1.seconds)
 
     override val chromeDriver = {
         chromeDriver {
@@ -50,18 +60,4 @@ object JUnitConfiguration : AbstractJUnitProjectConfiguration() {
             }
         }
     }
-}
-
-@AutoService(AbstractSeleniumProjectConfiguration::class)
-object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
-    override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
-
-    override val elementsReadyCondition: (WebElements.() -> Boolean) = { isClickable }
-
-    override val decorators = listOf(
-        HighlighterDecorator(style = DOTTED, color = BLUE, width = 10),
-        SlowMotionDecorator(wait = 500.milliseconds)
-    )
-
-    override val waitConfig: WaitConfig = DEFAULT.copy(timeout = 1.seconds)
 }

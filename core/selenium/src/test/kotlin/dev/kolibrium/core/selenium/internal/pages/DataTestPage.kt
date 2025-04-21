@@ -16,11 +16,13 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
+import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.dataTest
 import org.openqa.selenium.WebDriver
 
-context(WebDriver)
-class DataTestPage {
+class DataTestPage(
+    driver: WebDriver,
+) : Page(driver) {
     val element1 by dataTest(value = "simple")
 
     val element2 by dataTest(value = "quote's")

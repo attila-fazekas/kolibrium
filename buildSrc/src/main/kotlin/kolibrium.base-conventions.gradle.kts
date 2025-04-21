@@ -30,7 +30,7 @@ repositories {
 
 tasks.withType<KotlinCompile> {
     compilerOptions.freeCompilerArgs = listOf(
-        "-Xcontext-receivers",
+        "-Xcontext-parameters",
     )
 }
 

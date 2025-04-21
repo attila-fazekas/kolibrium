@@ -16,12 +16,14 @@
 
 package dev.kolibrium.core.selenium.external.eviltester
 
+import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.cssSelector
 import dev.kolibrium.core.selenium.id
 import org.openqa.selenium.WebDriver
 
-context(WebDriver)
-class ButtonsPage {
+class ButtonsPage(
+    driver: WebDriver,
+) : Page(driver) {
     val easyButton1 by cssSelector("#easy00")
 
     val easyButton2 by cssSelector("#easy01")
