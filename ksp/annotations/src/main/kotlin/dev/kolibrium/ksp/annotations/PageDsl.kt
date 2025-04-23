@@ -21,7 +21,7 @@ package dev.kolibrium.ksp.annotations
  *
  * The generated file will reside in the `generated` package and will have the same name as the annotated class.
  *
- * By annotating a class with `@Page`, you indicate that the class represents a web page and optionally specify
+ * By annotating a class with `@PageDsl`, you indicate that the class represents a web page and optionally specify
  * the relative URL to navigate to. The generated code will create a function that allows easy navigation
  * to the corresponding page using a `WebDriver`.
  *
@@ -38,7 +38,7 @@ package dev.kolibrium.ksp.annotations
  * import org.openqa.selenium.WebDriver
  *
  * context(WebDriver)
- * @Page
+ * @PageDsl
  * class LoginPage {
  *     // Implementation
  * }
@@ -61,7 +61,7 @@ package dev.kolibrium.ksp.annotations
  * ### Example 2: With `value` specified
  * ```kotlin
  * context(WebDriver)
- * @Page("inventory.html")
+ * @PageDsl("inventory.html")
  * class InventoryPage {
  *     // Implementation
  * }
@@ -81,6 +81,6 @@ package dev.kolibrium.ksp.annotations
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-public annotation class Page(
+public annotation class PageDsl(
     val value: String = "",
 )

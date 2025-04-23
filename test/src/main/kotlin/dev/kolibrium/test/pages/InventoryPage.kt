@@ -23,12 +23,14 @@ import dev.kolibrium.core.selenium.dataTests
 import dev.kolibrium.core.selenium.id
 import dev.kolibrium.dsl.selenium.interactions.cookies
 import dev.kolibrium.dsl.selenium.interactions.navigateTo
+import dev.kolibrium.ksp.annotations.PageDsl
 import dev.kolibrium.test.Product
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
+@PageDsl
 class InventoryPage(driver: WebDriver) : Page(driver) {
     private val shoppingCart by className("shopping_cart_link")
     private val shoppingCartBadge by dataTests(
@@ -38,13 +40,13 @@ class InventoryPage(driver: WebDriver) : Page(driver) {
     private val products by dataTests("inventory-item")
 
     init {
-        driver.cookies {
+        cookies {
             addCookie(name = "session-username", value = "standard_user")
         }.apply {
             navigateTo("inventory.html")
         }
         check(sortMenu.isDisplayed) {
-            "This is not the Inventory Page, current page is: " + driver.currentUrl
+            "This is not the Inventory Page, current page is: $currentUrl"
         }
     }
 

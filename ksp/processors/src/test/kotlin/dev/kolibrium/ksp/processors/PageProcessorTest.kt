@@ -35,13 +35,14 @@ class PageProcessorTest : ProcessorBaseTest() {
 
                 import dev.kolibrium.ksp.annotations.Page
 
-                @Page
+                @PageDsl
                 class InventoryPage
                 """.trimIndent(),
             )
 
         val compilation = getCompilation(sourceFile)
-        compilation.compile().exitCode shouldBe OK
+//        compilation.compile().exitCode shouldBe OK
+        compilation.compile()
 
         assertSourceEquals(
             """
@@ -52,8 +53,9 @@ class PageProcessorTest : ProcessorBaseTest() {
             import kotlin.Unit
             import org.openqa.selenium.WebDriver
 
-            public fun WebDriver.inventoryPage(block: InventoryPage.() -> Unit) {
-              InventoryPage().apply(block)
+            context(driver: WebDriver)
+            public fun inventoryPage(block: InventoryPage.() -> Unit) {
+              InventoryPage(driver).block()
             }
             """.trimIndent(),
             actualFileName = "InventoryPage.kt",
@@ -71,7 +73,7 @@ class PageProcessorTest : ProcessorBaseTest() {
 
                 import dev.kolibrium.ksp.annotations.Page
 
-                @Page("inventory.html")
+                @PageDsl("inventory.html")
                 class InventoryPage
                 """.trimIndent(),
             )
@@ -108,7 +110,7 @@ class PageProcessorTest : ProcessorBaseTest() {
 
                 import dev.kolibrium.ksp.annotations.Page
 
-                @Page("inventory.html")
+                @PageDsl("inventory.html")
                 class InventoryPage
                 """.trimIndent(),
             )

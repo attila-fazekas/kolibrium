@@ -22,11 +22,13 @@ package dev.kolibrium.common
  * **Note:** This class is part of the internal API and should not be used outside of Kolibrium.
  *
  * @param message The detail message explaining the configuration error.
- * @constructor Creates a [ConfigurationException] with the specified error message.
+ * @param cause The underlying cause of the exception, or `null` if none.
+ * @constructor Creates a [ConfigurationException] with the specified error message and optional cause.
  *
  * @see RuntimeException
  */
 @InternalKolibriumApi
 public open class ConfigurationException(
     message: String,
-) : RuntimeException(message)
+    cause: Throwable? = null,
+) : RuntimeException(message, cause)

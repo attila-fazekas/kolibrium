@@ -25,7 +25,7 @@ import com.google.devtools.ksp.processing.SymbolProcessorProvider
  * Processor provider for [PageProcessor].
  *
  * This provider is automatically discovered by KSP and creates instances
- * of [PageProcessor] for processing `@Page` annotations.
+ * of [PageProcessor] for processing `@PageDsl` annotations.
  */
 @AutoService(SymbolProcessorProvider::class)
 public class PageProcessorProvider : SymbolProcessorProvider {

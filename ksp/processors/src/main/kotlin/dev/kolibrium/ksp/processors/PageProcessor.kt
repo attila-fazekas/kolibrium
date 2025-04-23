@@ -24,11 +24,13 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSVisitorVoid
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.LambdaTypeName
 import com.squareup.kotlinpoet.asTypeName
-import dev.kolibrium.ksp.annotations.Page
+import dev.kolibrium.ksp.annotations.PageDsl
+import org.openqa.selenium.WebDriver
 import java.util.Locale
 
 private const val KOLIBRIUM_DSL_PACKAGE_NAME = "dev.kolibrium.dsl.selenium"
@@ -36,11 +38,11 @@ private const val KOLIBRIUM_DSL_PACKAGE_NAME = "dev.kolibrium.dsl.selenium"
 /**
  * Symbol processor that generates a navigation function for Page Object classes.
  *
- * This processor scans for classes annotated with [Page] and generates an extension function
+ * This processor scans for classes annotated with [PageDsl] and generates an extension function
  * for `WebDriver` that enable type-safe navigation and interaction with the annotated page.
  *
  * ### How It Works
- * The processor looks for all classes annotated with the `@Page` annotation, extracts the
+ * The processor looks for all classes annotated with the `@PageDsl` annotation, extracts the
  * page's URL (if specified), and generates an extension function for `WebDriver` named after
  * the annotated class. This function allows developers to navigate to the page and interact
  * with it using a block of code applied to the page object.
@@ -62,7 +64,7 @@ public class PageProcessor(
         // retrieve all class declarations annotated with Page
         val symbols =
             resolver
-                .getSymbolsWithAnnotation(Page::class.java.name)
+                .getSymbolsWithAnnotation(PageDsl::class.java.name)
                 .filterIsInstance<KSClassDeclaration>()
 
         // in case there are no symbols that can be processed — exit
@@ -75,12 +77,13 @@ public class PageProcessor(
     }
 
     private inner class PageVisitor : KSVisitorVoid() {
+        @OptIn(ExperimentalKotlinPoetApi::class)
         override fun visitClassDeclaration(
             classDeclaration: KSClassDeclaration,
             data: Unit,
         ) {
             val className = classDeclaration.simpleName.asString()
-            val relativePath = classDeclaration.getAnnotation(Page::class)?.getArgument("value")?.value as String
+            val relativePath = classDeclaration.getAnnotation(PageDsl::class)?.getArgument("value")?.value as String
 
             val navigateStatement =
                 CodeBlock.builder().apply {
@@ -100,7 +103,7 @@ public class PageProcessor(
                 FunSpec
                     .builder(
                         className.replaceFirstChar { it.lowercase(Locale.getDefault()) },
-                    ).receiver(ClassName(SELENIUM_PACKAGE_NAME, "WebDriver"))
+                    ).contextParameter("driver", WebDriver::class)
                     .addParameter(
                         "block",
                         LambdaTypeName.get(
@@ -109,7 +112,7 @@ public class PageProcessor(
                         ),
                     ).addCode(
                         navigateStatement
-                            .add("%N().apply(block)", className)
+                            .add("%N(driver).block()", className)
                             .build(),
                     ).build()
 

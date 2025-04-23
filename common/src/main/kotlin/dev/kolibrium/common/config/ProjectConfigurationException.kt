@@ -16,10 +16,11 @@
 
 package dev.kolibrium.common.config
 
+import dev.kolibrium.common.ConfigurationException
 import dev.kolibrium.common.InternalKolibriumApi
 
 @InternalKolibriumApi
 public open class ProjectConfigurationException(
     message: String,
     cause: Throwable? = null,
-) : RuntimeException(message, cause)
+) : ConfigurationException(message, cause)
