@@ -19,9 +19,8 @@ package dev.kolibrium.test.swaglabs
 import dev.kolibrium.core.selenium.browserTest
 import dev.kolibrium.test.Product.BACKPACK
 import dev.kolibrium.test.Product.BIKE_LIGHT
-import dev.kolibrium.test.pages.InventoryPage
+import dev.kolibrium.test.pages.generated.inventoryPage
 import org.junit.jupiter.api.Test
-import org.openqa.selenium.WebDriver
 
 class ShoppingCartTest {
     @Test
@@ -42,9 +41,4 @@ class ShoppingCartTest {
             verifyShoppingCartIsEmpty()
         }
     }
-}
-
-context(driver: WebDriver)
-public fun inventoryPage(block: InventoryPage.() -> Unit) {
-    InventoryPage(driver).block()
 }

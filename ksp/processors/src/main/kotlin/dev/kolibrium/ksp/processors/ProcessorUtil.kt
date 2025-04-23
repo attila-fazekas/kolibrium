@@ -25,8 +25,6 @@ import com.google.devtools.ksp.symbol.KSValueArgument
 import com.squareup.kotlinpoet.FileSpec
 import kotlin.reflect.KClass
 
-internal const val SELENIUM_PACKAGE_NAME = "org.openqa.selenium"
-
 internal val KSClassDeclaration.generatedPackageName: String
     get() = packageName.asString() + ".generated"
 

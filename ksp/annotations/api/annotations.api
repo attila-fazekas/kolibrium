@@ -1,4 +1,4 @@
-public abstract interface annotation class dev/kolibrium/ksp/annotations/Page : java/lang/annotation/Annotation {
+public abstract interface annotation class dev/kolibrium/ksp/annotations/PageDsl : java/lang/annotation/Annotation {
 	public abstract fun value ()Ljava/lang/String;
 }
 

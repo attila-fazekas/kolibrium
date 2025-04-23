@@ -52,11 +52,22 @@ public final class dev/kolibrium/core/selenium/LocatorUtilsKt {
 	public static final fun isEnabled (Ljava/util/List;)Z
 }
 
-public abstract class dev/kolibrium/core/selenium/Page : org/openqa/selenium/SearchContext {
+public abstract class dev/kolibrium/core/selenium/Page : org/openqa/selenium/WebDriver {
 	public fun <init> (Lorg/openqa/selenium/WebDriver;)V
+	public fun close ()V
 	public fun findElement (Lorg/openqa/selenium/By;)Lorg/openqa/selenium/WebElement;
 	public fun findElements (Lorg/openqa/selenium/By;)Ljava/util/List;
+	public fun get (Ljava/lang/String;)V
+	public fun getCurrentUrl ()Ljava/lang/String;
 	protected final fun getDriver ()Lorg/openqa/selenium/WebDriver;
+	public fun getPageSource ()Ljava/lang/String;
+	public fun getTitle ()Ljava/lang/String;
+	public fun getWindowHandle ()Ljava/lang/String;
+	public fun getWindowHandles ()Ljava/util/Set;
+	public fun manage ()Lorg/openqa/selenium/WebDriver$Options;
+	public fun navigate ()Lorg/openqa/selenium/WebDriver$Navigation;
+	public fun quit ()V
+	public fun switchTo ()Lorg/openqa/selenium/WebDriver$TargetLocator;
 }
 
 public final class dev/kolibrium/core/selenium/WaitConfig {
