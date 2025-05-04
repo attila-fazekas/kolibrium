@@ -32,13 +32,13 @@ import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 open class ProcessorBaseTest {
     private val pageAnnotation =
         kotlin(
-            "Page.kt",
+            "PageDsl.kt",
             """
             package dev.kolibrium.ksp.annotations
 
             @Retention(AnnotationRetention.SOURCE)
             @Target(AnnotationTarget.CLASS)
-            public annotation class Page(
+            public annotation class PageDsl(
                 val value: String = "",
             )
             """.trimIndent(),

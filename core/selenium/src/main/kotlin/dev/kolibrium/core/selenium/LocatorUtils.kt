@@ -18,7 +18,7 @@ package dev.kolibrium.core.selenium
 
 import dev.kolibrium.common.WebElements
 import dev.kolibrium.core.selenium.configuration.DefaultSeleniumProjectConfiguration
-import dev.kolibrium.core.selenium.configuration.SeleniumProjectConfiguration
+import dev.kolibrium.core.selenium.configuration.SeleniumProjectConfiguration.actualConfig
 import org.openqa.selenium.WebElement
 
 /**
@@ -75,20 +75,19 @@ public val WebElements.isEnabled: Boolean
  * Default readinessCondition used for single element lookup.
  */
 public val defaultElementReadyCondition: WebElement.() -> Boolean by lazy {
-    SeleniumProjectConfiguration.actualConfig.elementReadyCondition ?: DefaultSeleniumProjectConfiguration.elementReadyCondition
+    actualConfig.elementReadyCondition ?: DefaultSeleniumProjectConfiguration.elementReadyCondition
 }
 
 /**
  * Default readinessCondition used for multiple element lookup.
  */
 public val defaultElementsReadyCondition: WebElements.() -> Boolean by lazy {
-    SeleniumProjectConfiguration.actualConfig.elementsReadyCondition
-        ?: DefaultSeleniumProjectConfiguration.elementsReadyCondition
+    actualConfig.elementsReadyCondition ?: DefaultSeleniumProjectConfiguration.elementsReadyCondition
 }
 
 /**
  * Default wait configuration used for element lookup.
  */
 public val defaultWaitConfig: WaitConfig by lazy {
-    SeleniumProjectConfiguration.actualConfig.waitConfig ?: DefaultSeleniumProjectConfiguration.waitConfig
+    actualConfig.waitConfig ?: DefaultSeleniumProjectConfiguration.waitConfig
 }

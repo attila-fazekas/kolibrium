@@ -17,7 +17,7 @@
 package dev.kolibrium.core.selenium
 
 import dev.kolibrium.common.WebElements
-import dev.kolibrium.core.selenium.configuration.SeleniumProjectConfiguration
+import dev.kolibrium.core.selenium.configuration.SeleniumProjectConfiguration.actualConfig
 import dev.kolibrium.core.selenium.decorators.DecoratorManager
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
@@ -852,7 +852,7 @@ internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R>(
     protected val searchCtx: SearchContext,
 ) {
     protected val searchContext by lazy {
-        val projectLevelDecorators = SeleniumProjectConfiguration.actualConfig.decorators
+        val projectLevelDecorators = actualConfig.decorators
         val testLevelDecorators = DecoratorManager.getAllDecorators()
 
         if (testLevelDecorators.isEmpty()) {

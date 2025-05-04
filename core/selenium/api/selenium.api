@@ -55,6 +55,7 @@ public final class dev/kolibrium/core/selenium/LocatorUtilsKt {
 public abstract class dev/kolibrium/core/selenium/Page : org/openqa/selenium/WebDriver {
 	public fun <init> (Lorg/openqa/selenium/WebDriver;)V
 	public fun close ()V
+	public fun cookies ()Ljava/util/Set;
 	public fun findElement (Lorg/openqa/selenium/By;)Lorg/openqa/selenium/WebElement;
 	public fun findElements (Lorg/openqa/selenium/By;)Ljava/util/List;
 	public fun get (Ljava/lang/String;)V
@@ -68,6 +69,7 @@ public abstract class dev/kolibrium/core/selenium/Page : org/openqa/selenium/Web
 	public fun navigate ()Lorg/openqa/selenium/WebDriver$Navigation;
 	public fun quit ()V
 	public fun switchTo ()Lorg/openqa/selenium/WebDriver$TargetLocator;
+	public fun url ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/core/selenium/WaitConfig {
@@ -95,6 +97,7 @@ public abstract class dev/kolibrium/core/selenium/configuration/AbstractSelenium
 	public fun <init> ()V
 	public fun getBaseUrl ()Ljava/lang/String;
 	public fun getChromeDriver ()Lkotlin/jvm/functions/Function0;
+	public fun getCookies ()Ljava/util/Set;
 	public fun getDecorators ()Ljava/util/List;
 	public fun getDefaultBrowser ()Ldev/kolibrium/common/Browser;
 	public fun getEdgeDriver ()Lkotlin/jvm/functions/Function0;
