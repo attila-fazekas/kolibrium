@@ -17,6 +17,7 @@
 package dev.kolibrium.core.selenium.configuration
 
 import dev.kolibrium.common.Browser
+import dev.kolibrium.common.Cookies
 import dev.kolibrium.common.InternalKolibriumApi
 import dev.kolibrium.common.WebElements
 import dev.kolibrium.common.config.ProjectConfiguration
@@ -37,9 +38,14 @@ import org.openqa.selenium.safari.SafariDriver
 @OptIn(InternalKolibriumApi::class)
 public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguration {
     /**
-     * The base URL to navigate to when a WebDriver instance is created.
+     * Allows configuring the base URL that will be used for all [dev.kolibrium.core.selenium.Page] instances and [dev.kolibrium.core.selenium.browserTest] functions unless overridden.
      */
     public open val baseUrl: String? = null
+
+    /**
+     * Allows configuring cookies that will be applied to all browser sessions when a [dev.kolibrium.core.selenium.Page] is instantiated.
+     */
+    public open val cookies: Cookies? = null
 
     /**
      * List of decorators to be applied to SearchContext objects (WebDriver or WebElement).
@@ -48,7 +54,7 @@ public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguratio
     public open val decorators: List<AbstractDecorator> = emptyList()
 
     /**
-     * The preferred browser to use for tests when not explicitly specified.
+     * The preferred browser to use for tests when not explicitly specified in [dev.kolibrium.core.selenium.browserTest] functions.
      */
     public open val defaultBrowser: Browser? = null
 
@@ -63,7 +69,7 @@ public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguratio
     public open val elementsReadyCondition: (WebElements.() -> Boolean)? = null
 
     /**
-     * Whether to keep the browser window open after test execution.
+     * Controls whether browser sessions remain open after [dev.kolibrium.core.selenium.browserTest] functions complete.
      */
     public open val keepBrowserOpen: Boolean? = null
 
@@ -95,10 +101,8 @@ public abstract class AbstractSeleniumProjectConfiguration : ProjectConfiguratio
 
 internal object SeleniumProjectConfiguration {
     @OptIn(InternalKolibriumApi::class)
-    private val config by lazy {
+    internal val actualConfig by lazy {
         ProjectConfigurationLoader.loadConfiguration(AbstractSeleniumProjectConfiguration::class)
             ?: DefaultSeleniumProjectConfiguration
     }
-
-    internal val actualConfig: AbstractSeleniumProjectConfiguration = config
 }

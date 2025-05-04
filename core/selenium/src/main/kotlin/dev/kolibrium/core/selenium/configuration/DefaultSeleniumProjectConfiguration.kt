@@ -18,6 +18,7 @@ package dev.kolibrium.core.selenium.configuration
 
 import dev.kolibrium.common.Browser
 import dev.kolibrium.common.Browser.CHROME
+import dev.kolibrium.common.Cookies
 import dev.kolibrium.common.WebElements
 import dev.kolibrium.core.selenium.WaitConfig
 import dev.kolibrium.core.selenium.WaitConfig.Companion.DEFAULT
@@ -29,8 +30,12 @@ import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.safari.SafariDriver
 
+internal const val ABOUT_BLANK = "about:blank"
+
 internal object DefaultSeleniumProjectConfiguration : AbstractSeleniumProjectConfiguration() {
-    override var baseUrl = "about:blank"
+    override var baseUrl = ABOUT_BLANK
+
+    override var cookies: Cookies? = emptySet()
 
     override var decorators: List<AbstractDecorator> = emptyList()
 

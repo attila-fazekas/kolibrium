@@ -30,6 +30,8 @@ findProject(":ksp:annotations")?.name = "annotations"
 include("ksp:processors")
 findProject(":ksp:processors")?.name = "processors"
 include("test")
+include("test:with-config")
+include("test:without-config")
 
 gradle.startParameter.isContinueOnFailure = true
 

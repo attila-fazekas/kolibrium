@@ -74,7 +74,10 @@ open class BaseTest {
     fun setUp() {
         driver =
             ChromeDriver(
-                ChromeOptions().addArguments("--headless=new", "--disable-search-engine-choice-screen"),
+                ChromeOptions().addArguments(
+//                    "--headless=new",
+                    "--disable-search-engine-choice-screen",
+                ),
             )
     }
 

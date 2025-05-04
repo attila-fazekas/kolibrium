@@ -14,13 +14,23 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.common
+package dev.kolibrium.test.pages
 
-import org.openqa.selenium.WebElement
+import dev.kolibrium.core.selenium.Page
+import dev.kolibrium.ksp.annotations.PageDsl
+import org.openqa.selenium.WebDriver
 
-/**
- * A typealias for a list of [WebElement]s.
- *
- * This provides a more readable and concise way to refer to a list of web elements in the code.
- */
-public typealias WebElements = List<WebElement>
+@PageDsl
+class AbsoluteUrlKolibriumPage(driver: WebDriver) : Page(driver) {
+    override fun url() = "https://kolibrium.dev"
+}
+
+@PageDsl
+class RelativeUrlKolibriumPage(driver: WebDriver) : Page(driver) {
+    override fun url() = "hello.html"
+}
+
+@PageDsl
+class RootRelativeUrlKolibriumPage(driver: WebDriver) : Page(driver) {
+    override fun url() = "/hello"
+}
