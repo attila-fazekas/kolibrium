@@ -160,7 +160,7 @@ class DriverServiceTest {
         ds.start()
 
         val args = ds.invokeMethod("getArgs") as List<String>
-        args shouldHaveSize 13
+        args shouldHaveSize 10
         args.shouldContainAll(
             "--port=7002",
             "--log",

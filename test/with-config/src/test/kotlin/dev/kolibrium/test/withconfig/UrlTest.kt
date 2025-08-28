@@ -48,7 +48,7 @@ class UrlTest {
         browserTest(
             url = "https://kolibrium.dev"
         ) {
-            title shouldBe "Kotlin library for Selenium tests | Kolibrium"
+            title shouldBe "Kotlin library for Selenium tests | Write Better Selenium"
         }
     }
 
@@ -56,7 +56,7 @@ class UrlTest {
     fun `baseUrl is set in project-level - an absolute URL combined with the baseUrl`() {
         browserTest {
             absoluteUrlKolibriumPage {
-                title shouldBe "Kotlin library for Selenium tests | Kolibrium"
+                title shouldBe "Kotlin library for Selenium tests | Write Better Selenium"
             }
         }
     }

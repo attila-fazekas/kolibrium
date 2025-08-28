@@ -22,8 +22,8 @@ plugins {
 dependencies {
     implementation("com.google.auto.service:auto-service-annotations:_")
     implementation("com.google.devtools.ksp:symbol-processing-api:_")
-    implementation("com.squareup:kotlinpoet:2.2.0-SNAPSHOT")
-    implementation("com.squareup:kotlinpoet-ksp:2.2.0-SNAPSHOT")
+    implementation("com.squareup:kotlinpoet:_")
+    implementation("com.squareup:kotlinpoet-ksp:_")
     ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
     testImplementation("dev.zacsweers.kctfork:core:_")
     testImplementation("dev.zacsweers.kctfork:ksp:_")
