@@ -89,9 +89,10 @@ class PageProcessorTest : ProcessorBaseTest() {
             import kotlin.Unit
             import org.openqa.selenium.WebDriver
 
-            public fun WebDriver.inventoryPage(block: InventoryPage.() -> Unit) {
+            context(driver: WebDriver)
+            public fun inventoryPage(block: InventoryPage.() -> Unit) {
               get(${'"'}${'"'}${'"'}${'$'}{currentUrl}inventory.html${'"'}${'"'}${'"'})
-              InventoryPage().apply(block)
+              InventoryPage(driver).block()
             }
             """.trimIndent(),
             actualFileName = "InventoryPage.kt",
@@ -128,9 +129,10 @@ class PageProcessorTest : ProcessorBaseTest() {
             import kotlin.Unit
             import org.openqa.selenium.WebDriver
 
-            public fun WebDriver.inventoryPage(block: InventoryPage.() -> Unit) {
+            context(driver: WebDriver)
+            public fun inventoryPage(block: InventoryPage.() -> Unit) {
               navigateTo("inventory.html")
-              InventoryPage().apply(block)
+              InventoryPage(driver).block()
             }
             """.trimIndent(),
             actualFileName = "InventoryPage.kt",
