@@ -64,13 +64,10 @@ public fun browserTest(
         )
     }
 
-    val normalizedUrl = url.getNormalizedUrl()
-
-    if (normalizedUrl == null) {
-        throw ProjectConfigurationException(
+    val normalizedUrl =
+        url.getNormalizedUrl() ?: throw ProjectConfigurationException(
             "Provided $url URL is invalid!",
         )
-    }
 
     val driver = createDriver(browser)
 

@@ -34,30 +34,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
-import java.nio.file.Paths
-
-private fun getPage(pageName: String) =
-    Paths
-        .get("")
-        .toAbsolutePath()
-        .parent
-        .parent
-        .resolve("pages/$pageName.html")
-        .toUri()
-        .toString()
-
-private val buttonPage1 = getPage("button_delayed")
-private val buttonPage3 = getPage("button_exception2")
-private val buttonPage4 = getPage("input_exception")
-private val buttonsPage = getPage("buttons")
-private val homePage = getPage("home")
-private val imagesPage = getPage("images")
-private val search_input = getPage("search_input")
-private val dataTest = getPage("dataTest")
-private val dynamic_element = getPage("dynamic_element")
-private val staleElementReferenceException_singleElement = getPage("StaleElementReferenceException_SingleElement")
-private val staleElementReferenceException_multipleElements = getPage("StaleElementReferenceException_MultipleElements")
-private val tutorial = getPage("tutorial")
 
 open class BaseTest {
     protected lateinit var driver: WebDriver
@@ -75,7 +51,7 @@ open class BaseTest {
         driver =
             ChromeDriver(
                 ChromeOptions().addArguments(
-//                    "--headless=new",
+                    "--headless=new",
                     "--disable-search-engine-choice-screen",
                 ),
             )
@@ -88,7 +64,6 @@ open class BaseTest {
 
     protected fun buttonDelayedPage(block: ButtonDelayedPage.() -> Unit) {
         with(driver) {
-            get(buttonPage1)
             with(
                 ButtonDelayedPage(this),
             ) {
@@ -99,7 +74,6 @@ open class BaseTest {
 
     protected fun staleElementReferenceExceptionSingleElementPage(block: StaleElementReferenceExceptionSingleElementPage.() -> Unit) {
         with(driver) {
-            get(staleElementReferenceException_singleElement)
             with(StaleElementReferenceExceptionSingleElementPage(this)) {
                 block()
             }
@@ -108,7 +82,6 @@ open class BaseTest {
 
     protected fun staleElementReferenceExceptionMultipleElementsPage(block: StaleElementReferenceExceptionMultipleElementsPage.() -> Unit) {
         with(driver) {
-            get(staleElementReferenceException_multipleElements)
             with(
                 StaleElementReferenceExceptionMultipleElementsPage(this),
             ) {
@@ -119,7 +92,6 @@ open class BaseTest {
 
     protected fun buttonElementClickInterceptedExceptionPage(block: ButtonElementClickInterceptedExceptionPage.() -> Unit) {
         with(driver) {
-            get(buttonPage3)
             with(
                 ButtonElementClickInterceptedExceptionPage(this),
             ) {
@@ -130,7 +102,6 @@ open class BaseTest {
 
     protected fun inputElementNotInteractableExceptionPage(block: ElementNotInteractableExceptionPage.() -> Unit) {
         with(driver) {
-            get(buttonPage4)
             with(ElementNotInteractableExceptionPage(this)) {
                 block()
             }
@@ -139,7 +110,6 @@ open class BaseTest {
 
     protected fun searchInputPage(block: SearchInputPage.() -> Unit) {
         with(driver) {
-            get(search_input)
             with(SearchInputPage(this)) {
                 block()
             }
@@ -148,7 +118,6 @@ open class BaseTest {
 
     protected fun dynamicElementPage(block: DynamicElementPage.() -> Unit) {
         with(driver) {
-            get(dynamic_element)
             with(DynamicElementPage(this)) {
                 block()
             }
@@ -157,7 +126,6 @@ open class BaseTest {
 
     protected fun dataTestPage(block: DataTestPage.() -> Unit) {
         with(driver) {
-            get(dataTest)
             with(DataTestPage(this)) {
                 block()
             }
@@ -166,7 +134,6 @@ open class BaseTest {
 
     protected fun buttonsPage(block: ButtonsPage.() -> Unit) {
         with(driver) {
-            get(buttonsPage)
             with(ButtonsPage(this)) {
                 block()
             }
@@ -175,7 +142,6 @@ open class BaseTest {
 
     protected fun homePage(block: HomePage.() -> Unit) {
         with(driver) {
-            get(homePage)
             with(HomePage(this)) {
                 block()
             }
@@ -184,7 +150,6 @@ open class BaseTest {
 
     protected fun imagesPage(block: ImagesPage.() -> Unit) {
         with(driver) {
-            get(imagesPage)
             with(ImagesPage(this)) {
                 block()
             }
@@ -193,7 +158,6 @@ open class BaseTest {
 
     protected fun tutorial(block: TutorialPage.() -> Unit) {
         with(driver) {
-            get(tutorial)
             with(
                 TutorialPage(this),
             ) {

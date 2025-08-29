@@ -26,6 +26,7 @@ import dev.kolibrium.core.selenium.decorators.HighlighterDecorator
 import dev.kolibrium.core.selenium.decorators.SlowMotionDecorator
 import dev.kolibrium.core.selenium.isClickable
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.headless
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
 import kotlin.time.Duration.Companion.milliseconds
@@ -56,7 +57,7 @@ object SeleniumConfiguration : AbstractSeleniumProjectConfiguration() {
             options {
                 arguments {
                     +disable_search_engine_choice_screen
-//                    +headless
+                    +headless
                     +incognito
                 }
             }

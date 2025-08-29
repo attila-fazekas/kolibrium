@@ -14,20 +14,30 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core.selenium.internal.pages
+package dev.kolibrium.test.pages
 
+import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.className
-import dev.kolibrium.core.selenium.id
+import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 
-class StaleElementReferenceExceptionSingleElementPage(
-    driver: WebDriver,
-) : BasePage(driver) {
-    override fun url() = getPage("StaleElementReferenceException_SingleElement")
+class InventoryPage(driver: WebDriver) : Page(driver) {
+    private val title by className("title")
 
-    val button by id("myButton") {
-        isEnabled
+    override fun url() = "inventory.html"
+
+    override fun cookies() = setOf(Cookie("session-username", "standard_user"))
+
+    init {
+        check(title.text == "Products") {
+            "This is not the Inventory Page, current page is: $currentUrl"
+        }
     }
 
-    val firework by className("firework")
+    fun titleText(): String = title.text
+
+    companion object {
+        context(driver: WebDriver)
+        operator fun invoke(openPage: Boolean = false): InventoryPage = InventoryPage(driver)
+    }
 }

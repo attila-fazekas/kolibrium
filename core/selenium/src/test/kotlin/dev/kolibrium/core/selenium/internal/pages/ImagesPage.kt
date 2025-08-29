@@ -16,13 +16,14 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
-import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.names
 import org.openqa.selenium.WebDriver
 
 class ImagesPage(
     driver: WebDriver,
-) : Page(driver) {
+) : BasePage(driver) {
+    override fun url() = getPage("images")
+
     val images by names("kodee", cacheLookup = false) {
         size == 9
     }

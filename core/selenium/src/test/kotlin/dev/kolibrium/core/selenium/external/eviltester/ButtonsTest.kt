@@ -28,8 +28,6 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 
 class ButtonsTest {
-    private val url = "https://eviltester.github.io/synchole/buttons.html"
-
     private lateinit var driver: WebDriver
 
     companion object {
@@ -46,7 +44,6 @@ class ButtonsTest {
             ChromeDriver(
                 ChromeOptions().addArguments("--headless=new", "--disable-search-engine-choice-screen"),
             )
-        driver[url]
     }
 
     @AfterEach
@@ -57,6 +54,8 @@ class ButtonsTest {
     @Test
     fun testEasyButtons() {
         with(driver) {
+            this["https://eviltester.github.io/synchole/buttons.html"]
+
             val easyButton1 by cssSelector("#easy00")
             easyButton1.click()
 
@@ -90,6 +89,8 @@ class ButtonsTest {
     @Test
     fun testHardButtons() {
         with(driver) {
+            this["https://eviltester.github.io/synchole/buttons.html"]
+
             val hardButton1 by cssSelector("#button00") {
                 isEnabled
             }

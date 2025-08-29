@@ -16,7 +16,6 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
-import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.className
 import dev.kolibrium.core.selenium.classNames
 import dev.kolibrium.core.selenium.cssSelector
@@ -37,7 +36,9 @@ import org.openqa.selenium.WebDriver
 
 class TutorialPage(
     driver: WebDriver,
-) : Page(driver) {
+) : BasePage(driver) {
+    override fun url() = getPage("tutorial")
+
     val className by className("by-class-name")
     val classNames by classNames("multiple")
 

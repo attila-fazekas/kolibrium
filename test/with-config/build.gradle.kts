@@ -14,26 +14,14 @@
  * limitations under the License.
  */
 
-import java.net.URI
-
 plugins {
     id("kolibrium.test-conventions")
     id("com.google.devtools.ksp")
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        name = "sonatype-snapshots"
-        url = URI("https://s01.oss.sonatype.org/content/repositories/snapshots/")
-    }
-}
-
 dependencies {
-    implementation(project(":core:selenium"))
-    implementation(project(":dsl"))
+    implementation(project(":test:pages"))
     implementation(project(":ksp:annotations"))
-    implementation(Testing.kotest.assertions.core)
     ksp(project(":ksp:processors"))
     ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
     testImplementation("com.titusfortner:selenium-logger:_")
@@ -44,5 +32,5 @@ dependencies {
 }
 
 ksp {
-    arg("kolibriumKsp.useDsl", "false")
+    arg("kolibriumKsp.useDsl", "true")
 }

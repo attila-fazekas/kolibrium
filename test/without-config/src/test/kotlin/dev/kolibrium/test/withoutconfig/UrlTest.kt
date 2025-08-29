@@ -41,12 +41,6 @@ import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(InternalKolibriumApi::class)
 class UrlTest {
-
-    @BeforeEach
-    fun startServer() {
-
-    }
-
     @Test
     fun `baseUrl is not set`() {
         val exception = shouldThrow<ProjectConfigurationException> {
@@ -92,24 +86,6 @@ class UrlTest {
         }
     }
 
-    fun Application.module() {
-        routing {
-            get("/") {
-                val name = "Ktor"
-                call.respondHtml(OK) {
-                    head {
-
-                    }
-                    body {
-                        h1 {
-                            +"Hello from $name!"
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     @ParameterizedTest
     @ValueSource(
         strings = [
@@ -149,7 +125,6 @@ class UrlTest {
 
         server.stop()
     }
-
 
     @Test
     fun `baseUrl is set to file system URL`() {

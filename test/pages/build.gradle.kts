@@ -14,20 +14,11 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core.selenium.internal.pages
+plugins {
+    id("kolibrium.test-conventions")
+}
 
-import dev.kolibrium.core.selenium.className
-import dev.kolibrium.core.selenium.id
-import org.openqa.selenium.WebDriver
-
-class StaleElementReferenceExceptionSingleElementPage(
-    driver: WebDriver,
-) : BasePage(driver) {
-    override fun url() = getPage("StaleElementReferenceException_SingleElement")
-
-    val button by id("myButton") {
-        isEnabled
-    }
-
-    val firework by className("firework")
+dependencies {
+    api(project(":core:selenium"))
+    api(project(":dsl"))
 }

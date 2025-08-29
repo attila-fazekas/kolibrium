@@ -16,13 +16,14 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
-import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.id
 import org.openqa.selenium.WebDriver
 
 class DynamicElementPage(
     driver: WebDriver,
-) : Page(driver) {
+) : BasePage(driver) {
+    override fun url() = getPage("dynamic_element")
+
     val makeVisibleButton by id("make-visible")
 
     val removeLoadingButton by id("remove-loading")

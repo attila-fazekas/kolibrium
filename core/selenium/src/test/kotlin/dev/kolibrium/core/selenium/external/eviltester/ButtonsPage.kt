@@ -24,6 +24,8 @@ import org.openqa.selenium.WebDriver
 class ButtonsPage(
     driver: WebDriver,
 ) : Page(driver) {
+    override fun url() = "https://eviltester.github.io/synchole/buttons.html"
+
     val easyButton1 by cssSelector("#easy00")
 
     val easyButton2 by cssSelector("#easy01")
