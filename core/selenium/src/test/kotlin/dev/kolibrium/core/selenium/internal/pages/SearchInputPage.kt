@@ -16,13 +16,14 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
-import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.id
 import org.openqa.selenium.WebDriver
 
 class SearchInputPage(
     driver: WebDriver,
-) : Page(driver) {
+) : BasePage(driver) {
+    override fun url() = getPage("search_input")
+
     val enableInputButton by id("enable-input")
 
     val addPlaceholderButton by id("add-placeholder")

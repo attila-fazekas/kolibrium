@@ -16,13 +16,14 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
-import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.dataTest
 import org.openqa.selenium.WebDriver
 
 class DataTestPage(
     driver: WebDriver,
-) : Page(driver) {
+) : BasePage(driver) {
+    override fun url() = getPage("dataTest")
+
     val element1 by dataTest(value = "simple")
 
     val element2 by dataTest(value = "quote's")

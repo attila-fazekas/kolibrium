@@ -79,7 +79,7 @@ class UrlTest {
         }
     }
 
-    companion object {
+    private companion object {
         val server =
             embeddedServer(Netty, port = 3003) {
                 routing {

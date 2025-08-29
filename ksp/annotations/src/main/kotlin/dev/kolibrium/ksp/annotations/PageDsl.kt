@@ -37,7 +37,6 @@ package dev.kolibrium.ksp.annotations
  * import dev.kolibrium.ksp.annotations.Page
  * import org.openqa.selenium.WebDriver
  *
- * context(WebDriver)
  * @PageDsl
  * class LoginPage {
  *     // Implementation
@@ -60,7 +59,6 @@ package dev.kolibrium.ksp.annotations
  *
  * ### Example 2: With `value` specified
  * ```kotlin
- * context(WebDriver)
  * @PageDsl("inventory.html")
  * class InventoryPage {
  *     // Implementation

@@ -16,18 +16,20 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
-import dev.kolibrium.core.selenium.className
-import dev.kolibrium.core.selenium.id
+import dev.kolibrium.core.selenium.Page
 import org.openqa.selenium.WebDriver
+import java.nio.file.Paths
 
-class StaleElementReferenceExceptionSingleElementPage(
+abstract class BasePage(
     driver: WebDriver,
-) : BasePage(driver) {
-    override fun url() = getPage("StaleElementReferenceException_SingleElement")
-
-    val button by id("myButton") {
-        isEnabled
-    }
-
-    val firework by className("firework")
+) : Page(driver) {
+    protected fun getPage(pageName: String) =
+        Paths
+            .get("")
+            .toAbsolutePath()
+            .parent
+            .parent
+            .resolve("pages/$pageName.html")
+            .toUri()
+            .toString()
 }

@@ -16,7 +16,6 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
-import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.className
 import dev.kolibrium.core.selenium.classNames
 import dev.kolibrium.core.selenium.isEnabled
@@ -24,7 +23,9 @@ import org.openqa.selenium.WebDriver
 
 class StaleElementReferenceExceptionMultipleElementsPage(
     driver: WebDriver,
-) : Page(driver) {
+) : BasePage(driver) {
+    override fun url() = getPage("StaleElementReferenceException_MultipleElements")
+
     val buttons by classNames("grid-button") {
         isEnabled
     }
