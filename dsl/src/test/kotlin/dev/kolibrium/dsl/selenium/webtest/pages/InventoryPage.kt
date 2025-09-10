@@ -1,0 +1,50 @@
+/*
+ * Copyright 2023-2025 Attila Fazekas & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package dev.kolibrium.dsl.selenium.webtest.pages
+
+import dev.kolibrium.core.selenium.Page
+import dev.kolibrium.core.selenium.className
+import dev.kolibrium.core.selenium.dataTests
+import dev.kolibrium.dsl.selenium.webtest.Product
+import dev.kolibrium.dsl.selenium.webtest.SauceDemo
+import org.openqa.selenium.WebDriver
+
+class InventoryPage(
+    driver: WebDriver,
+) : Page<SauceDemo>(driver) {
+    override val path = "inventory.html"
+
+    private val title by className("title")
+    private val cartButton by className("shopping_cart_link")
+    private val products by dataTests("inventory-item")
+
+    fun titleText(): String = title.text
+
+    fun Product.addToCart() {
+        products.forEach { webElement ->
+            val item = Item(webElement, this)
+            if (item.name.text.contains(productName)) {
+                item.addToCartButton.click()
+            }
+        }
+    }
+
+    fun goToCart(): CartPage {
+        cartButton.click()
+        return CartPage(driver)
+    }
+}

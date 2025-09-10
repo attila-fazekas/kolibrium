@@ -23,8 +23,6 @@ import org.openqa.selenium.WebDriver
 class ButtonElementClickInterceptedExceptionPage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("button_exception2")
-
     val button by id("button") {
         isClickable
     }

@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core.selenium.internal.pages
+package dev.kolibrium.dsl.selenium.webtest.pages
 
 import dev.kolibrium.core.selenium.className
-import dev.kolibrium.core.selenium.classNames
-import dev.kolibrium.core.selenium.isEnabled
-import org.openqa.selenium.WebDriver
+import dev.kolibrium.core.selenium.id
+import dev.kolibrium.dsl.selenium.webtest.Product
+import org.openqa.selenium.WebElement
 
-class StaleElementReferenceExceptionMultipleElementsPage(
-    driver: WebDriver,
-) : BasePage(driver) {
-    val buttons by classNames("grid-button") {
-        isEnabled
-    }
-
-    val firework by className("firework")
+class Item(
+    root: WebElement,
+    product: Product,
+) {
+    val image by root.className("inventory_item_img")
+    val name by root.className("inventory_item_name")
+    val description by root.className("inventory_item_desc")
+    val price by root.className("inventory_item_price")
+    val addToCartButton by root.id("add-to-cart-sauce-labs-${product.locatorName}")
+    val removeFromCartButton by root.id("remove-sauce-labs-${product.locatorName}")
 }

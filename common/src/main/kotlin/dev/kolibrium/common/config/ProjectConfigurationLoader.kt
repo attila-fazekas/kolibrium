@@ -46,7 +46,10 @@ public object ProjectConfigurationLoader {
         val implementingObjects = findImplementingObjects(kClass)
 
         return when {
-            implementingObjects.isEmpty() -> null
+            implementingObjects.isEmpty() -> {
+                null
+            }
+
             implementingObjects.size == 1 -> {
                 val configObject = implementingObjects.first()
                 val configObjectName = configObject.qualifiedName
@@ -57,6 +60,7 @@ public object ProjectConfigurationLoader {
                     throw ProjectConfigurationException("Failed to instantiate configuration $configObjectName", e)
                 }
             }
+
             else -> {
                 val objectNames = implementingObjects.joinToString(separator = "\n") { " $bullet ${it.qualifiedName}" }
                 throw ProjectConfigurationException(

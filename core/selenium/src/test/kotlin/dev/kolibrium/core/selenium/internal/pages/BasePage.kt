@@ -16,13 +16,13 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
-import dev.kolibrium.core.selenium.Page
+import dev.kolibrium.core.selenium.KPage
 import org.openqa.selenium.WebDriver
 import java.nio.file.Paths
 
 abstract class BasePage(
     driver: WebDriver,
-) : Page(driver) {
+) : KPage(driver) {
     protected fun getPage(pageName: String) =
         Paths
             .get("")

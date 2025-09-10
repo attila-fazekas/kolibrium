@@ -16,16 +16,17 @@
 
 package dev.kolibrium.core.selenium.external.eviltester
 
-import dev.kolibrium.core.selenium.Page
+import dev.kolibrium.core.selenium.KPage
 import dev.kolibrium.core.selenium.cssSelector
 import dev.kolibrium.core.selenium.id
+import jdk.internal.misc.PreviewFeatures.isEnabled
+import org.openqa.selenium.By.cssSelector
+import org.openqa.selenium.By.id
 import org.openqa.selenium.WebDriver
 
 class ButtonsPage(
     driver: WebDriver,
-) : Page(driver) {
-    override fun url() = "https://eviltester.github.io/synchole/buttons.html"
-
+) : KPage(driver) {
     val easyButton1 by cssSelector("#easy00")
 
     val easyButton2 by cssSelector("#easy01")

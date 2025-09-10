@@ -14,23 +14,11 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.test.pages
+package dev.kolibrium.core.selenium
 
-import dev.kolibrium.core.selenium.Page
-import dev.kolibrium.ksp.annotations.PageDsl
+import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
 
-@PageDsl
-class AbsoluteUrlKolibriumPage(driver: WebDriver) : Page(driver) {
-    override fun url() = "https://kolibrium.dev"
-}
-
-@PageDsl
-class RelativeUrlKolibriumPage(driver: WebDriver) : Page(driver) {
-    override fun url() = "hello.html"
-}
-
-@PageDsl
-class RootRelativeUrlKolibriumPage(driver: WebDriver) : Page(driver) {
-    override fun url() = "/hello"
-}
+open class KPage(
+    driver: WebDriver,
+) : SearchContext by driver

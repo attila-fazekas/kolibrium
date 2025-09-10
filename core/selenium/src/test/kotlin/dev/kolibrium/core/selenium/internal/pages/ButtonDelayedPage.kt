@@ -23,8 +23,6 @@ import org.openqa.selenium.WebDriver
 class ButtonDelayedPage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("button_delayed")
-
     val button by id("button") {
         isClickable
     }

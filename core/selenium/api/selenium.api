@@ -1,6 +1,29 @@
-public final class dev/kolibrium/core/selenium/BrowserTestKt {
-	public static final fun browserTest (Ldev/kolibrium/common/Browser;Ljava/lang/String;ZLkotlin/jvm/functions/Function1;)V
-	public static synthetic fun browserTest$default (Ldev/kolibrium/common/Browser;Ljava/lang/String;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+public final class dev/kolibrium/core/selenium/DefaultChromeDriverProfile : dev/kolibrium/core/selenium/DriverProfile {
+	public static final field INSTANCE Ldev/kolibrium/core/selenium/DefaultChromeDriverProfile;
+	public synthetic fun getDriver ()Lorg/openqa/selenium/WebDriver;
+	public fun getDriver ()Lorg/openqa/selenium/chrome/ChromeDriver;
+}
+
+public final class dev/kolibrium/core/selenium/DefaultEdgeDriverProfile : dev/kolibrium/core/selenium/DriverProfile {
+	public static final field INSTANCE Ldev/kolibrium/core/selenium/DefaultEdgeDriverProfile;
+	public synthetic fun getDriver ()Lorg/openqa/selenium/WebDriver;
+	public fun getDriver ()Lorg/openqa/selenium/edge/EdgeDriver;
+}
+
+public final class dev/kolibrium/core/selenium/DefaultFirefoxDriverProfile : dev/kolibrium/core/selenium/DriverProfile {
+	public static final field INSTANCE Ldev/kolibrium/core/selenium/DefaultFirefoxDriverProfile;
+	public synthetic fun getDriver ()Lorg/openqa/selenium/WebDriver;
+	public fun getDriver ()Lorg/openqa/selenium/firefox/FirefoxDriver;
+}
+
+public final class dev/kolibrium/core/selenium/DefaultSafariDriverProfile : dev/kolibrium/core/selenium/DriverProfile {
+	public static final field INSTANCE Ldev/kolibrium/core/selenium/DefaultSafariDriverProfile;
+	public synthetic fun getDriver ()Lorg/openqa/selenium/WebDriver;
+	public fun getDriver ()Lorg/openqa/selenium/safari/SafariDriver;
+}
+
+public abstract interface class dev/kolibrium/core/selenium/DriverProfile {
+	public abstract fun getDriver ()Lorg/openqa/selenium/WebDriver;
 }
 
 public final class dev/kolibrium/core/selenium/LocatorDelegatesKt {
@@ -52,24 +75,33 @@ public final class dev/kolibrium/core/selenium/LocatorUtilsKt {
 	public static final fun isEnabled (Ljava/util/List;)Z
 }
 
-public abstract class dev/kolibrium/core/selenium/Page : org/openqa/selenium/WebDriver {
+public abstract class dev/kolibrium/core/selenium/Page : org/openqa/selenium/SearchContext {
 	public fun <init> (Lorg/openqa/selenium/WebDriver;)V
-	public fun close ()V
-	public fun cookies ()Ljava/util/Set;
+	protected final fun addCookie (Lorg/openqa/selenium/Cookie;)V
+	protected final fun addCookies (Ljava/util/Set;)V
+	protected final fun back ()V
+	protected final fun clearCookies ()V
+	protected final fun cookie (Ljava/lang/String;)Lorg/openqa/selenium/Cookie;
+	protected final fun deleteCookie (Ljava/lang/String;)V
 	public fun findElement (Lorg/openqa/selenium/By;)Lorg/openqa/selenium/WebElement;
 	public fun findElements (Lorg/openqa/selenium/By;)Ljava/util/List;
-	public fun get (Ljava/lang/String;)V
-	public fun getCurrentUrl ()Ljava/lang/String;
+	protected final fun forward ()V
+	protected final fun getCurrentUrl ()Ljava/lang/String;
 	protected final fun getDriver ()Lorg/openqa/selenium/WebDriver;
-	public fun getPageSource ()Ljava/lang/String;
-	public fun getTitle ()Ljava/lang/String;
-	public fun getWindowHandle ()Ljava/lang/String;
-	public fun getWindowHandles ()Ljava/util/Set;
-	public fun manage ()Lorg/openqa/selenium/WebDriver$Options;
-	public fun navigate ()Lorg/openqa/selenium/WebDriver$Navigation;
-	public fun quit ()V
-	public fun switchTo ()Lorg/openqa/selenium/WebDriver$TargetLocator;
-	public fun url ()Ljava/lang/String;
+	protected final fun getPageTitle ()Ljava/lang/String;
+	public fun getPath ()Ljava/lang/String;
+	protected final fun refresh ()V
+}
+
+public abstract class dev/kolibrium/core/selenium/Site {
+	public fun <init> (Ljava/lang/String;)V
+	public fun configureDriver (Lorg/openqa/selenium/WebDriver;)V
+	public final fun getBaseUrl ()Ljava/lang/String;
+	public fun getCookies ()Ljava/util/Set;
+	public fun getDecorators ()Ljava/util/List;
+	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
+	public fun getElementsReadyCondition ()Lkotlin/jvm/functions/Function1;
+	public fun getWaitConfig ()Ldev/kolibrium/core/selenium/WaitConfig;
 }
 
 public final class dev/kolibrium/core/selenium/WaitConfig {
@@ -95,17 +127,9 @@ public final class dev/kolibrium/core/selenium/WaitConfig$Companion {
 
 public abstract class dev/kolibrium/core/selenium/configuration/AbstractSeleniumProjectConfiguration : dev/kolibrium/common/config/ProjectConfiguration {
 	public fun <init> ()V
-	public fun getBaseUrl ()Ljava/lang/String;
-	public fun getChromeDriver ()Lkotlin/jvm/functions/Function0;
-	public fun getCookies ()Ljava/util/Set;
 	public fun getDecorators ()Ljava/util/List;
-	public fun getDefaultBrowser ()Ldev/kolibrium/common/Browser;
-	public fun getEdgeDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getElementsReadyCondition ()Lkotlin/jvm/functions/Function1;
-	public fun getFirefoxDriver ()Lkotlin/jvm/functions/Function0;
-	public fun getKeepBrowserOpen ()Ljava/lang/Boolean;
-	public fun getSafariDriver ()Lkotlin/jvm/functions/Function0;
 	public fun getWaitConfig ()Ldev/kolibrium/core/selenium/WaitConfig;
 }
 

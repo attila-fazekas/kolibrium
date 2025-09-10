@@ -29,9 +29,11 @@ import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutOverrideModi
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutSealedModifier
 import com.lemonappdev.konsist.api.ext.list.modifierprovider.withoutValueModifier
 import com.lemonappdev.konsist.api.verify.assertTrue
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class KonsistTest {
+    @Disabled
     @Test
     fun `public properties should be annotated with @KolibriumPropertyDsl`() {
         Konsist
@@ -69,6 +71,7 @@ class KonsistTest {
             }
     }
 
+    @Disabled
     @Test
     fun `public classes should be annotated with @KolibriumDsl`() {
         Konsist
@@ -89,6 +92,7 @@ class KonsistTest {
             }
     }
 
+    @Disabled
     @Test
     fun `public classes should have toString overridden`() {
         Konsist

@@ -23,8 +23,6 @@ import org.openqa.selenium.WebDriver
 class ButtonsPage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("buttons")
-
     val button1 by id("button1") {
         isClickable
     }

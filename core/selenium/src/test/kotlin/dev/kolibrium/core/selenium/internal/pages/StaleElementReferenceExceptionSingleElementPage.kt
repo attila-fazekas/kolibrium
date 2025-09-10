@@ -23,8 +23,6 @@ import org.openqa.selenium.WebDriver
 class StaleElementReferenceExceptionSingleElementPage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("StaleElementReferenceException_SingleElement")
-
     val button by id("myButton") {
         isEnabled
     }

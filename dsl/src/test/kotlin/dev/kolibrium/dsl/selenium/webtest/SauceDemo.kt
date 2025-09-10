@@ -14,23 +14,16 @@
  * limitations under the License.
  */
 
-plugins {
-    id("kolibrium.test-conventions")
-    id("com.google.devtools.ksp")
-}
+package dev.kolibrium.dsl.selenium.webtest
 
-dependencies {
-    implementation(project(":test:pages"))
-    implementation(project(":ksp:annotations"))
-    ksp(project(":ksp:processors"))
-    ksp("dev.zacsweers.autoservice:auto-service-ksp:_")
-    testImplementation("com.titusfortner:selenium-logger:_")
-    testImplementation("io.ktor:ktor-server-core:_")
-    testImplementation("io.ktor:ktor-server-html-builder:_")
-    testImplementation("io.ktor:ktor-server-netty:_")
-    testImplementation("io.ktor:ktor-server-test-host:_")
-}
+import dev.kolibrium.core.selenium.Site
+import dev.kolibrium.core.selenium.WaitConfig
+import dev.kolibrium.core.selenium.WaitConfig.Companion.QUICK
+import dev.kolibrium.core.selenium.isClickable
+import org.openqa.selenium.WebElement
 
-ksp {
-    arg("kolibriumKsp.useDsl", "true")
+data object SauceDemo : Site(baseUrl = "https://www.saucedemo.com") {
+    override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
+
+    override val waitConfig: WaitConfig = QUICK
 }

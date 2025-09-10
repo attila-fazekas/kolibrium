@@ -14,11 +14,19 @@
  * limitations under the License.
  */
 
-plugins {
-    id("kolibrium.test-conventions")
-}
+package dev.kolibrium.dsl.selenium.webtest.pages
 
-dependencies {
-    api(project(":core:selenium"))
-    api(project(":dsl"))
+import dev.kolibrium.core.selenium.Page
+import dev.kolibrium.dsl.selenium.webtest.SauceDemo
+import org.openqa.selenium.WebDriver
+
+class CheckoutPage(
+    driver: WebDriver,
+) : Page<SauceDemo>(driver) {
+    fun fillShippingInfo(
+        firstName: String,
+        lastName: String,
+        zipCode: String,
+    ) {
+    }
 }

@@ -22,7 +22,5 @@ import org.openqa.selenium.WebDriver
 class ElementNotInteractableExceptionPage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("input_exception")
-
     val input by id("disabledInput")
 }

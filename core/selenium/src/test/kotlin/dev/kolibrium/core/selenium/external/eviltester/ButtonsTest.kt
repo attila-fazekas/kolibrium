@@ -43,7 +43,9 @@ class ButtonsTest {
         driver =
             ChromeDriver(
                 ChromeOptions().addArguments("--headless=new", "--disable-search-engine-choice-screen"),
-            )
+            ).apply {
+                this["https://eviltester.github.io/synchole/buttons.html"]
+            }
     }
 
     @AfterEach
@@ -54,8 +56,6 @@ class ButtonsTest {
     @Test
     fun testEasyButtons() {
         with(driver) {
-            this["https://eviltester.github.io/synchole/buttons.html"]
-
             val easyButton1 by cssSelector("#easy00")
             easyButton1.click()
 
@@ -89,8 +89,6 @@ class ButtonsTest {
     @Test
     fun testHardButtons() {
         with(driver) {
-            this["https://eviltester.github.io/synchole/buttons.html"]
-
             val hardButton1 by cssSelector("#button00") {
                 isEnabled
             }
