@@ -14,28 +14,24 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.test.pages
+package dev.kolibrium.dsl.selenium.webtest.pages
 
 import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.idOrName
-import dev.kolibrium.core.selenium.name
+import dev.kolibrium.dsl.selenium.webtest.SauceDemo
 import org.openqa.selenium.WebDriver
 
-class LoginPage(driver: WebDriver) : Page(driver) {
-    private val usernameInput by name("user-name")
-    private val passwordInput by idOrName("password")
-    private val loginButton by name("login-button")
+class CartPage(
+    driver: WebDriver,
+) : Page<SauceDemo>(driver) {
+    override val path = "/cart.html"
 
-    fun login(username: String = "standard_user", password: String = "secret_sauce"): InventoryPage {
-        usernameInput.sendKeys(username)
-        passwordInput.sendKeys(password)
-        loginButton.click()
+    private val checkoutButton by idOrName("checkout")
 
-        return InventoryPage()
+    fun checkout(): CheckoutPage {
+        checkoutButton.click()
+        return CheckoutPage(driver)
     }
 
-    companion object {
-        context(driver: WebDriver)
-        operator fun invoke(): LoginPage = LoginPage(driver)
-    }
+    fun getItemCount(): Int = 0
 }

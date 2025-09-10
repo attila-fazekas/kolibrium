@@ -37,8 +37,6 @@ import org.openqa.selenium.WebDriver
 class TutorialPage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("tutorial")
-
     val className by className("by-class-name")
     val classNames by classNames("multiple")
 

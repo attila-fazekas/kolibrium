@@ -22,8 +22,6 @@ import org.openqa.selenium.WebDriver
 class SearchInputPage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("search_input")
-
     val enableInputButton by id("enable-input")
 
     val addPlaceholderButton by id("add-placeholder")

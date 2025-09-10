@@ -22,8 +22,6 @@ import org.openqa.selenium.WebDriver
 class DataTestPage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("dataTest")
-
     val element1 by dataTest(value = "simple")
 
     val element2 by dataTest(value = "quote's")

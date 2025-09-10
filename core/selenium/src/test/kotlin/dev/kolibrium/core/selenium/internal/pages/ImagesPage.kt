@@ -22,8 +22,6 @@ import org.openqa.selenium.WebDriver
 class ImagesPage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("images")
-
     val images by names("kodee", cacheLookup = false) {
         size == 9
     }

@@ -37,8 +37,6 @@ import org.openqa.selenium.WebDriver
 class HomePage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("home")
-
     val header by className("header")
 
     val name by cssSelector("#name")

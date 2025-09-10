@@ -22,8 +22,6 @@ import org.openqa.selenium.WebDriver
 class DynamicElementPage(
     driver: WebDriver,
 ) : BasePage(driver) {
-    override fun url() = getPage("dynamic_element")
-
     val makeVisibleButton by id("make-visible")
 
     val removeLoadingButton by id("remove-loading")

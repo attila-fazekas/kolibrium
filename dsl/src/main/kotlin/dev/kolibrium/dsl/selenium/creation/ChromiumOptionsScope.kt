@@ -89,7 +89,6 @@ public abstract class ChromiumOptionsScope(
         extensionsScope.apply(block)
         when (options) {
             is ChromeOptions -> options.addExtensions(extensionsScope.extensions.toList())
-
             is EdgeOptions -> options.addExtensions(extensionsScope.extensions.toList())
         }
     }

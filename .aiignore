@@ -62,6 +62,3 @@ bin/
 .DS_Store
 
 .kotlin
-.junie
-
-context-parameters.md

@@ -29,16 +29,12 @@ include("ksp:annotations")
 findProject(":ksp:annotations")?.name = "annotations"
 include("ksp:processors")
 findProject(":ksp:processors")?.name = "processors"
-include("test")
-include("test:pages")
-include("test:with-config")
-include("test:without-config")
 
 gradle.startParameter.isContinueOnFailure = true
 
 plugins {
     id("de.fayard.refreshVersions") version "0.60.6"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.9.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
 refreshVersions {

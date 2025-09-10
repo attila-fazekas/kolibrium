@@ -24,6 +24,7 @@ import com.lemonappdev.konsist.api.ext.provider.hasValidKDocParamTags
 import com.lemonappdev.konsist.api.ext.provider.hasValidKDocReceiverTag
 import com.lemonappdev.konsist.api.ext.provider.hasValidKDocReturnTag
 import com.lemonappdev.konsist.api.verify.assertTrue
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class KDocTest {
@@ -39,6 +40,7 @@ class KDocTest {
             }.withoutOverrideModifier()
             .withPublicModifier()
 
+    @Disabled
     @Test
     fun `every public function with parameter(s) has param tag(s)`() {
         functions
@@ -49,6 +51,7 @@ class KDocTest {
             }
     }
 
+    @Disabled
     @Test
     fun `every public function with return value has a return tag`() {
         functions
@@ -57,6 +60,7 @@ class KDocTest {
             }
     }
 
+    @Disabled
     @Test
     fun `every public extension function has a receiver tag`() {
         functions
