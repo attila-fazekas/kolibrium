@@ -16,13 +16,14 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
+import dev.kolibrium.core.selenium.KPage
 import dev.kolibrium.core.selenium.className
 import dev.kolibrium.core.selenium.id
 import org.openqa.selenium.WebDriver
 
 class StaleElementReferenceExceptionSingleElementPage(
     driver: WebDriver,
-) : BasePage(driver) {
+) : KPage(driver) {
     val button by id("myButton") {
         isEnabled
     }

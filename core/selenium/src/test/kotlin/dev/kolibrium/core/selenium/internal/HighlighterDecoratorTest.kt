@@ -16,7 +16,10 @@
 
 package dev.kolibrium.core.selenium.internal
 
+import dev.kolibrium.core.selenium.decorators.BorderStyle
+import dev.kolibrium.core.selenium.decorators.Color
 import dev.kolibrium.core.selenium.decorators.DecoratorManager
+import dev.kolibrium.core.selenium.decorators.HighlighterDecorator
 import dev.kolibrium.core.selenium.decorators.SlowMotionDecorator
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
@@ -27,7 +30,8 @@ class HighlighterDecoratorTest : BaseTest() {
     @BeforeEach
     fun setup() {
         DecoratorManager.addDecorators(
-            SlowMotionDecorator(wait = 1.seconds),
+            HighlighterDecorator(style = BorderStyle.DASHED, color = Color.GREEN, width = 5),
+            SlowMotionDecorator(2.seconds),
         )
     }
 
