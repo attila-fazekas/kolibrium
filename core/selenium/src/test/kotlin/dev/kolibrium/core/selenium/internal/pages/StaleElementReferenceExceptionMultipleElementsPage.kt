@@ -16,14 +16,16 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
+import dev.kolibrium.core.selenium.KPage
 import dev.kolibrium.core.selenium.className
 import dev.kolibrium.core.selenium.classNames
 import dev.kolibrium.core.selenium.isEnabled
+import org.openqa.selenium.By.className
 import org.openqa.selenium.WebDriver
 
 class StaleElementReferenceExceptionMultipleElementsPage(
     driver: WebDriver,
-) : BasePage(driver) {
+) : KPage(driver) {
     val buttons by classNames("grid-button") {
         isEnabled
     }

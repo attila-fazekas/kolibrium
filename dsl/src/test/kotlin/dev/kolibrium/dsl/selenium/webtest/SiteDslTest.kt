@@ -38,6 +38,7 @@ import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.core.selenium.DefaultChromeDriverProfile
 import dev.kolibrium.core.selenium.DriverProfile
 import dev.kolibrium.dsl.PageEntry
+import dev.kolibrium.dsl.selenium.webtest.pages.LoginPage
 import dev.kolibrium.dsl.webTest
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

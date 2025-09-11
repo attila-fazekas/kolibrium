@@ -16,13 +16,15 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
+import dev.kolibrium.core.selenium.KPage
 import dev.kolibrium.core.selenium.id
 import dev.kolibrium.core.selenium.isClickable
+import org.openqa.selenium.By.id
 import org.openqa.selenium.WebDriver
 
 class ButtonDelayedPage(
     driver: WebDriver,
-) : BasePage(driver) {
+) : KPage(driver) {
     val button by id("button") {
         isClickable
     }

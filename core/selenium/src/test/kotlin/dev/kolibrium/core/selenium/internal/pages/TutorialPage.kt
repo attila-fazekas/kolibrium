@@ -16,6 +16,7 @@
 
 package dev.kolibrium.core.selenium.internal.pages
 
+import dev.kolibrium.core.selenium.KPage
 import dev.kolibrium.core.selenium.className
 import dev.kolibrium.core.selenium.classNames
 import dev.kolibrium.core.selenium.cssSelector
@@ -32,11 +33,17 @@ import dev.kolibrium.core.selenium.tagName
 import dev.kolibrium.core.selenium.tagNames
 import dev.kolibrium.core.selenium.xPath
 import dev.kolibrium.core.selenium.xPaths
+import org.openqa.selenium.By.className
+import org.openqa.selenium.By.cssSelector
+import org.openqa.selenium.By.id
+import org.openqa.selenium.By.linkText
+import org.openqa.selenium.By.partialLinkText
+import org.openqa.selenium.By.tagName
 import org.openqa.selenium.WebDriver
 
 class TutorialPage(
     driver: WebDriver,
-) : BasePage(driver) {
+) : KPage(driver) {
     val className by className("by-class-name")
     val classNames by classNames("multiple")
 
