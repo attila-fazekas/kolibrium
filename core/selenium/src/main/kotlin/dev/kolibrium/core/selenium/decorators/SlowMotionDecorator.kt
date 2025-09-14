@@ -18,6 +18,7 @@ package dev.kolibrium.core.selenium.decorators
 
 import dev.kolibrium.common.WebElements
 import org.openqa.selenium.By
+import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import java.lang.Thread.sleep
@@ -38,19 +39,19 @@ public class SlowMotionDecorator(
         require(!wait.isNegative()) { "wait must not be negative." }
     }
 
-    override fun decorateDriver(driver: WebDriver): WebDriver {
-        return object : WebDriver by driver {
+    override fun decorateSearchContext(context: SearchContext): SearchContext {
+        return object : SearchContext by context {
             override fun findElement(by: By): WebElement {
-                val element = driver.findElement(by)
+                val foundElement = context.findElement(by)
                 addDelay()
-                return decorateElement(element)
+                return decorateElement(foundElement)
             }
 
             override fun findElements(by: By): WebElements {
-                val elements = driver.findElements(by)
+                val elements = context.findElements(by)
                 addDelay()
-                return elements.map { element ->
-                    decorateElement(element)
+                return elements.map { foundElement ->
+                    decorateElement(foundElement)
                 }
             }
         }

@@ -22,6 +22,7 @@ import dev.kolibrium.core.selenium.decorators.Color.RED
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.remote.RemoteWebElement
@@ -48,18 +49,18 @@ public class HighlighterDecorator(
         require(width in MIN..MAX) { "width must be between 1 and 20." }
     }
 
-    override fun decorateDriver(driver: WebDriver): WebDriver {
-        return object : WebDriver by driver {
+    override fun decorateSearchContext(context: SearchContext): SearchContext {
+        return object : SearchContext by context {
             override fun findElement(by: By): WebElement {
-                val element = driver.findElement(by)
-                element.highlightElement()
-                return decorateElement(element)
+                val foundElement = context.findElement(by)
+                foundElement.highlightElement()
+                return decorateElement(foundElement)
             }
 
             override fun findElements(by: By): WebElements =
-                driver.findElements(by).map { element ->
-                    element.highlightElement()
-                    decorateElement(element)
+                context.findElements(by).map { foundElement ->
+                    foundElement.highlightElement()
+                    decorateElement(foundElement)
                 }
         }
     }

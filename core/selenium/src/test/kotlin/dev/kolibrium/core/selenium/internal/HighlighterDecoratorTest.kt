@@ -26,12 +26,12 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.seconds
 
-class HighlighterDecoratorTest : BaseTest() {
+class HighlighterDecoratorTest : BaseTest(isHeadless = false) {
     @BeforeEach
     fun setup() {
         DecoratorManager.addDecorators(
             HighlighterDecorator(style = BorderStyle.DASHED, color = Color.GREEN, width = 5),
-            SlowMotionDecorator(2.seconds),
+            SlowMotionDecorator(5.seconds),
         )
     }
 
