@@ -59,7 +59,9 @@ private val staleElementReferenceException_singleElement = getPage("StaleElement
 private val staleElementReferenceException_multipleElements = getPage("StaleElementReferenceException_MultipleElements")
 private val tutorial = getPage("tutorial")
 
-open class BaseTest {
+open class BaseTest(
+    val isHeadless: Boolean = true,
+) {
     protected lateinit var driver: WebDriver
 
     companion object {
@@ -74,10 +76,14 @@ open class BaseTest {
     fun setUp() {
         driver =
             ChromeDriver(
-                ChromeOptions().addArguments(
-                    "--headless=new",
-                    "--disable-search-engine-choice-screen",
-                ),
+                ChromeOptions()
+                    .addArguments(
+                        "--disable-search-engine-choice-screen",
+                    ).apply {
+                        if (isHeadless) {
+                            addArguments("--headless=new")
+                        }
+                    },
             )
     }
 

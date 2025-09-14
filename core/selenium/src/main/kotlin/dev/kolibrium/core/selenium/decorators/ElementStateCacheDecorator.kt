@@ -18,6 +18,7 @@ package dev.kolibrium.core.selenium.decorators
 
 import dev.kolibrium.common.WebElements
 import org.openqa.selenium.By
+import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
@@ -51,15 +52,15 @@ public class ElementStateCacheDecorator(
     private val cacheEnabled: Boolean = false,
     private val cacheSelected: Boolean = false,
 ) : AbstractDecorator() {
-    override fun decorateDriver(driver: WebDriver): WebDriver {
-        return object : WebDriver by driver {
+    override fun decorateSearchContext(context: SearchContext): SearchContext {
+        return object : SearchContext by context {
             override fun findElement(by: By): WebElement {
-                val element = driver.findElement(by)
+                val element = context.findElement(by)
                 return decorateElement(element)
             }
 
             override fun findElements(by: By): WebElements =
-                driver.findElements(by).map { element ->
+                context.findElements(by).map { element ->
                     decorateElement(element)
                 }
         }

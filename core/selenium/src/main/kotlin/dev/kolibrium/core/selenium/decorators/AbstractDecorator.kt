@@ -39,14 +39,9 @@ public abstract class AbstractDecorator {
      * @param context The SearchContext to decorate.
      * @return The decorated SearchContext with added capabilities.
      */
-    public fun decorate(context: SearchContext): SearchContext =
-        when (context) {
-            is WebDriver -> decorateDriver(context)
-            is WebElement -> decorateElement(context)
-            else -> context
-        }
+    public fun decorate(context: SearchContext): SearchContext = decorateSearchContext(context)
 
-    internal abstract fun decorateDriver(driver: WebDriver): WebDriver
+    internal abstract fun decorateSearchContext(context: SearchContext): SearchContext
 
     internal abstract fun decorateElement(element: WebElement): WebElement
 }
