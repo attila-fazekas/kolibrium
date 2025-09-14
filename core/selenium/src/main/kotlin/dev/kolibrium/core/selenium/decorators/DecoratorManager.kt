@@ -17,6 +17,8 @@
 package dev.kolibrium.core.selenium.decorators
 
 import org.openqa.selenium.SearchContext
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.support.events.EventFiringDecorator
 
 /**
  * Manages the test-level Kolibrium decorators.
@@ -89,7 +91,20 @@ public object DecoratorManager {
 
     internal fun combine(decorators: List<AbstractDecorator>): (SearchContext) -> SearchContext =
         { context ->
-            decorators.fold(context) { acc, decorator ->
+            val base: SearchContext =
+                if (context is WebDriver) {
+                    val listeners = decorators.mapNotNull { (it as? InteractionAware)?.interactionListener() }
+                    if (listeners.isNotEmpty()) {
+                        @Suppress("UNCHECKED_CAST")
+                        EventFiringDecorator<WebDriver>(ListenerMultiplexer(listeners)).decorate(context)
+                    } else {
+                        context
+                    }
+                } else {
+                    context
+                }
+
+            decorators.fold(base) { acc, decorator ->
                 decorator.decorate(acc)
             }
         }

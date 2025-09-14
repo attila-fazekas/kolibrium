@@ -19,7 +19,6 @@ package dev.kolibrium.core.selenium.decorators
 import dev.kolibrium.common.WebElements
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.events.WebDriverListener
 import java.lang.Thread.sleep
@@ -40,22 +39,22 @@ import kotlin.time.toJavaDuration
  */
 public class SlowMotionDecorator(
     private val wait: Duration = 1.seconds,
-) : AbstractDecorator() {
+) : AbstractDecorator(),
+    InteractionAware {
     init {
         require(!wait.isNegative()) { "wait must not be negative." }
     }
 
     override fun decorateSearchContext(context: SearchContext): SearchContext {
-        val base = wrapWithListenerIfDriver(context, SlowListener())
-        return object : SearchContext by base {
+        return object : SearchContext by context {
             override fun findElement(by: By): WebElement {
-                val foundElement = base.findElement(by)
+                val foundElement = context.findElement(by)
                 addDelay()
                 return decorateElement(foundElement)
             }
 
             override fun findElements(by: By): WebElements {
-                val elements = base.findElements(by)
+                val elements = context.findElements(by)
                 addDelay()
                 return elements.map { foundElement ->
                     decorateElement(foundElement)
@@ -82,6 +81,8 @@ public class SlowMotionDecorator(
         }
     }
 
+    override fun interactionListener(): WebDriverListener = SlowListener()
+
     internal inner class SlowListener : WebDriverListener {
         override fun beforeClick(element: WebElement) {
             addDelay()
@@ -98,7 +99,7 @@ public class SlowMotionDecorator(
     private fun addDelay() {
         try {
             sleep(wait.toJavaDuration())
-        } catch (e: InterruptedException) {
+        } catch (_: InterruptedException) {
             Thread.currentThread().interrupt()
         }
     }

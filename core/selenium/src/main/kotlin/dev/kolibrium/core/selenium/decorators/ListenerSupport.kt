@@ -17,26 +17,44 @@
 package dev.kolibrium.core.selenium.decorators
 
 import org.openqa.selenium.JavascriptExecutor
-import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.WrapsDriver
-import org.openqa.selenium.support.events.EventFiringDecorator
 import org.openqa.selenium.support.events.WebDriverListener
 
 /**
- * Wraps the provided [SearchContext] with an [EventFiringDecorator] using the given [listener]
- * if the context is a [WebDriver]. Otherwise, returns the original context unchanged.
+ * Interface for decorators that want to receive WebDriver interaction callbacks.
  */
-internal fun wrapWithListenerIfDriver(
-    context: SearchContext,
-    listener: WebDriverListener,
-): SearchContext =
-    if (context is WebDriver) {
-        EventFiringDecorator<WebDriver>(listener).decorate(context)
-    } else {
-        context
+public interface InteractionAware {
+    /**
+     * Supplies a Selenium [WebDriverListener] that will receive interaction callbacks
+     * (e.g., beforeClick, beforeSendKeys) for a decorated [org.openqa.selenium.WebDriver].
+     *
+     * Implementors may return `null` to indicate they do not need interaction callbacks.
+     * The listener, when present, will be registered once via Kolibrium's dispatcher so that
+     * multiple decorators can receive events without stacking multiple driver proxies.
+     */
+    public fun interactionListener(): WebDriverListener?
+}
+
+/**
+ * A simple multiplexer that dispatches WebDriverListener callbacks to multiple listeners in order.
+ * Exceptions from individual listeners are caught and ignored to avoid breaking the chain.
+ */
+internal class ListenerMultiplexer(
+    private val listeners: List<WebDriverListener>,
+) : WebDriverListener {
+    override fun beforeClick(element: WebElement) {
+        listeners.forEach { runCatching { it.beforeClick(element) } }
     }
+
+    override fun beforeSendKeys(
+        element: WebElement,
+        vararg keysToSend: CharSequence,
+    ) {
+        listeners.forEach { runCatching { it.beforeSendKeys(element, *keysToSend) } }
+    }
+}
 
 /**
  * Attempts to obtain a [JavascriptExecutor] from the provided [WebElement] by unwrapping

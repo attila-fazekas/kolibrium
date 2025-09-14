@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core.selenium.internal
+package dev.kolibrium.core.selenium.internal.decorators
 
 import dev.kolibrium.core.selenium.decorators.BorderStyle
 import dev.kolibrium.core.selenium.decorators.Color
 import dev.kolibrium.core.selenium.decorators.DecoratorManager
 import dev.kolibrium.core.selenium.decorators.HighlighterDecorator
+import dev.kolibrium.core.selenium.decorators.LoggerDecorator
 import dev.kolibrium.core.selenium.decorators.SlowMotionDecorator
+import dev.kolibrium.core.selenium.internal.BaseTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -31,7 +33,8 @@ class HighlighterDecoratorTest : BaseTest(isHeadless = false) {
     fun setup() {
         DecoratorManager.addDecorators(
             HighlighterDecorator(style = BorderStyle.DASHED, color = Color.GREEN, width = 5),
-            SlowMotionDecorator(5.seconds),
+            SlowMotionDecorator(2.seconds),
+            LoggerDecorator(),
         )
     }
 

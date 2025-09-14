@@ -19,7 +19,6 @@ package dev.kolibrium.core.selenium
 import dev.kolibrium.common.WebElements
 import dev.kolibrium.core.selenium.configuration.SeleniumProjectConfiguration.actualConfig
 import dev.kolibrium.core.selenium.decorators.DecoratorManager
-import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.StaleElementReferenceException
@@ -32,8 +31,6 @@ import kotlin.time.toJavaDuration
 
 private typealias WebElementProperty = ReadOnlyProperty<Any?, WebElement>
 private typealias WebElementsProperty = ReadOnlyProperty<Any?, WebElements>
-
-private val logger = KotlinLogging.logger {}
 
 /**
  * Creates a property delegate that lazily finds a single element by its class name.
@@ -885,19 +882,12 @@ internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R>(
             }
         }
 
-    protected fun getValueInternal(
-        propertyName: String,
-        value: String,
-        by: (String) -> By,
-        wait: FluentWait<T>,
-    ): R {
+    protected fun getValueInternal(wait: FluentWait<T>): R {
         wait.until {
-            logger.trace { "Waiting for \"${propertyName}\" with locator strategy of { ${by(value)} }" }
             try {
                 val element = findElement()
                 isElementReady(element)
             } catch (_: StaleElementReferenceException) {
-                logger.warn { "\"$propertyName\" element(s) with locator strategy of { ${by(value)} } became stale. Relocating." }
                 clearCache()
                 false
             }
@@ -925,7 +915,7 @@ internal class KWebElement(
     override fun getValue(
         thisRef: Any?,
         property: KProperty<*>,
-    ): WebElement = getValueInternal(property.name, value, locatorStrategy, wait)
+    ): WebElement = getValueInternal(wait)
 
     override fun findElement(): WebElement =
         if (cacheLookup) {
@@ -956,7 +946,7 @@ internal class KWebElements(
     override fun getValue(
         thisRef: Any?,
         property: KProperty<*>,
-    ): WebElements = getValueInternal(property.name, value, locatorStrategy, wait)
+    ): WebElements = getValueInternal(wait)
 
     override fun findElement(): WebElements =
         if (cacheLookup) {
