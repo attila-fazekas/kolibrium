@@ -21,9 +21,7 @@ import dev.kolibrium.core.selenium.decorators.BorderStyle.SOLID
 import dev.kolibrium.core.selenium.decorators.Color.RED
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
-import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.SearchContext
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.events.WebDriverListener
 
@@ -52,22 +50,22 @@ public class HighlighterDecorator(
     private val style: BorderStyle = SOLID,
     private val color: Color = RED,
     private val width: Int = 5,
-) : AbstractDecorator() {
+) : AbstractDecorator(),
+    InteractionAware {
     init {
         require(width in MIN..MAX) { "width must be between 1 and 20." }
     }
 
     override fun decorateSearchContext(context: SearchContext): SearchContext {
-        val base = wrapWithListenerIfDriver(context, HighlighterListener())
-        return object : SearchContext by base {
+        return object : SearchContext by context {
             override fun findElement(by: By): WebElement {
-                val foundElement = base.findElement(by)
+                val foundElement = context.findElement(by)
                 foundElement.highlightElement()
                 return decorateElement(foundElement)
             }
 
             override fun findElements(by: By): WebElements =
-                base.findElements(by).map { foundElement ->
+                context.findElements(by).map { foundElement ->
                     foundElement.highlightElement()
                     decorateElement(foundElement)
                 }
@@ -89,6 +87,8 @@ public class HighlighterDecorator(
                 }
         }
     }
+
+    override fun interactionListener(): WebDriverListener = HighlighterListener()
 
     internal inner class HighlighterListener : WebDriverListener {
         override fun beforeClick(element: WebElement) {

@@ -176,14 +176,25 @@ public final class dev/kolibrium/core/selenium/decorators/ElementStateCacheDecor
 	public synthetic fun <init> (ZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
-public final class dev/kolibrium/core/selenium/decorators/HighlighterDecorator : dev/kolibrium/core/selenium/decorators/AbstractDecorator {
+public final class dev/kolibrium/core/selenium/decorators/HighlighterDecorator : dev/kolibrium/core/selenium/decorators/AbstractDecorator, dev/kolibrium/core/selenium/decorators/InteractionAware {
 	public fun <init> ()V
 	public fun <init> (Ldev/kolibrium/core/selenium/decorators/BorderStyle;Ldev/kolibrium/core/selenium/decorators/Color;I)V
 	public synthetic fun <init> (Ldev/kolibrium/core/selenium/decorators/BorderStyle;Ldev/kolibrium/core/selenium/decorators/Color;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun interactionListener ()Lorg/openqa/selenium/support/events/WebDriverListener;
 }
 
-public final class dev/kolibrium/core/selenium/decorators/SlowMotionDecorator : dev/kolibrium/core/selenium/decorators/AbstractDecorator {
+public abstract interface class dev/kolibrium/core/selenium/decorators/InteractionAware {
+	public abstract fun interactionListener ()Lorg/openqa/selenium/support/events/WebDriverListener;
+}
+
+public final class dev/kolibrium/core/selenium/decorators/LoggerDecorator : dev/kolibrium/core/selenium/decorators/AbstractDecorator, dev/kolibrium/core/selenium/decorators/InteractionAware {
+	public fun <init> ()V
+	public fun interactionListener ()Lorg/openqa/selenium/support/events/WebDriverListener;
+}
+
+public final class dev/kolibrium/core/selenium/decorators/SlowMotionDecorator : dev/kolibrium/core/selenium/decorators/AbstractDecorator, dev/kolibrium/core/selenium/decorators/InteractionAware {
 	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun interactionListener ()Lorg/openqa/selenium/support/events/WebDriverListener;
 }
 

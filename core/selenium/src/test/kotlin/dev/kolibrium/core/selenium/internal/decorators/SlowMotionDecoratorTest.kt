@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core.selenium.internal
+package dev.kolibrium.core.selenium.internal.decorators
 
-import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.core.selenium.decorators.DecoratorManager
-import dev.kolibrium.core.selenium.decorators.ElementStateCacheDecorator
-import io.kotest.matchers.shouldBe
+import dev.kolibrium.core.selenium.decorators.SlowMotionDecorator
+import dev.kolibrium.core.selenium.internal.BaseTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.time.Duration.Companion.seconds
 
-class ElementStateCacheDecoratorTest : BaseTest() {
+class SlowMotionDecoratorTest : BaseTest(isHeadless = false) {
     @BeforeEach
     fun setup() {
-        SeleniumLogger.enable("RemoteWebDriver")
-        DecoratorManager.addDecorators(ElementStateCacheDecorator())
+        DecoratorManager.addDecorators(
+            SlowMotionDecorator(wait = 2.seconds),
+        )
     }
 
     @AfterEach
@@ -37,9 +38,8 @@ class ElementStateCacheDecoratorTest : BaseTest() {
     }
 
     @Test
-    fun `button delayed`() =
-        buttonDelayedPage {
-            button.click()
-            message.text shouldBe "Button clicked!"
+    fun `test with configured decorators`() =
+        tutorial {
+            idOrName.click()
         }
 }

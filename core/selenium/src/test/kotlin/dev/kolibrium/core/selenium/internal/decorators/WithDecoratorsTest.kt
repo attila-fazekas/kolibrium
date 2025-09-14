@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core.selenium.internal
+package dev.kolibrium.core.selenium.internal.decorators
 
 import dev.kolibrium.core.selenium.decorators.BorderStyle
 import dev.kolibrium.core.selenium.decorators.Color
-import dev.kolibrium.core.selenium.decorators.DecoratorManager.withDecorators
+import dev.kolibrium.core.selenium.decorators.DecoratorManager
 import dev.kolibrium.core.selenium.decorators.HighlighterDecorator
+import dev.kolibrium.core.selenium.decorators.LoggerDecorator
 import dev.kolibrium.core.selenium.decorators.SlowMotionDecorator
 import dev.kolibrium.core.selenium.idOrName
 import dev.kolibrium.core.selenium.name
@@ -31,12 +32,13 @@ class WithDecoratorsTest {
     @Test
     fun test() {
         ChromeDriver().apply {
-            withDecorators(
+            DecoratorManager.withDecorators(
+                SlowMotionDecorator(wait = 1.seconds),
                 HighlighterDecorator(
                     style = BorderStyle.DASHED,
                     color = Color.GREEN,
                 ),
-                SlowMotionDecorator(wait = 3.seconds),
+                LoggerDecorator(),
             ) {
                 this.get("https://www.saucedemo.com/")
                 val usernameInput by name("user-name")
@@ -47,6 +49,7 @@ class WithDecoratorsTest {
                 passwordInput.sendKeys("secret_sauce")
                 loginButton.click()
             }
+            quit()
         }
     }
 }
