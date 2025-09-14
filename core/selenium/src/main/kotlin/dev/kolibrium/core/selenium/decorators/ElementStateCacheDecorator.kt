@@ -23,26 +23,19 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 /**
- * A decorator that caches positive state check results (`true` values) for WebElement state methods:
- * [WebElement.isDisplayed], [WebElement.isEnabled] and [WebElement.isSelected].
+ * Caches positive results for element state checks to reduce WebDriver calls.
  *
- * This decorator optimizes performance by caching `true` results from state checks, eliminating
- * redundant WebDriver calls when an element is known to be in a positive state. Only `true` results
- * are cached - negative results (`false`) are always checked against the actual element state.
+ * The decorator wraps elements so that repeated calls to [WebElement.isDisplayed], [WebElement.isEnabled]
+ * and/or [WebElement.isSelected] can short‑circuit once a `true` value has been observed. Negative results
+ * are never cached. Each decorated element instance keeps its own independent cache.
  *
- * State caching behavior:
- * - When a state check returns `true`, the result is cached.
- * - When a state check returns `false`, the result is not cached.
- * - Subsequent checks for a cached `true` state return immediately without WebDriver interaction.
- * - Each decorated element maintains its own independent state cache.
+ * Caveats
+ * - Dynamic UIs that toggle state may make caches stale. Prefer leaving [cacheSelected] false unless you
+ *   clear caches after interactions. Consider using this decorator only for read‑mostly states.
  *
- * Note: This decorator assumes that once an element becomes displayed, enabled or selected, it remains
- * in that state for the duration of the test. If your application can toggle these states dynamically,
- * consider not using this decorator or clearing the cache when state changes are possible.
- *
- * @param cacheDisplayed Whether to cache positive results from [WebElement.isDisplayed] calls.
- * @param cacheEnabled Whether to cache positive results from [WebElement.isEnabled] calls.
- * @param cacheSelected Whether to cache positive results from [WebElement.isSelected] calls.
+ * @param cacheDisplayed Cache positive results from [WebElement.isDisplayed]. Default: true.
+ * @param cacheEnabled Cache positive results from [WebElement.isEnabled]. Default: false.
+ * @param cacheSelected Cache positive results from [WebElement.isSelected]. Default: false.
  * @see WebElement.isDisplayed
  * @see WebElement.isEnabled
  * @see WebElement.isSelected

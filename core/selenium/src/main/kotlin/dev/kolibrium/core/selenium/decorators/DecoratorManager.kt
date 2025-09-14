@@ -19,21 +19,21 @@ package dev.kolibrium.core.selenium.decorators
 import org.openqa.selenium.SearchContext
 
 /**
- * Manages the test-level decorators that can be applied to WebDriver and WebElement instances.
- * Decorators are applied at runtime and can modify the behavior of web element interactions.
+ * Manages the test-level Kolibrium decorators.
  *
- * The manager maintains decorators on a per-thread basis, allowing for parallel test execution
- * without decorator interference between different test threads.
+ * Decorators are stored in a thread-local list so parallel tests do not interfere with each other.
+ * They are applied in insertion order to the root [SearchContext] (driver) and to all nested
+ * elements discovered from it, preserving chaining across the object graph.
  *
- * Example usage:
+ * Example
  * ```kotlin
- * // Add decorators for specific test cases
+ * // Add decorators for the current test
  * DecoratorManager.addDecorators(
  *     SlowMotionDecorator(1.seconds),
  *     HighlighterDecorator(color = Color.BLUE)
  * )
  *
- * // Clear decorators after test completion
+ * // Clear after the test
  * DecoratorManager.clearDecorators()
  * ```
  */
@@ -58,6 +58,31 @@ public object DecoratorManager {
      */
     public fun clearDecorators() {
         testLevelDecorators.get().clear()
+    }
+
+    /**
+     * Runs the given [block] with the provided [decorators] installed for the current thread.
+     * Decorators are cleared in a `finally` block, guaranteeing no leakage across tests.
+     *
+     * Example
+     * ```kotlin
+     * val result = DecoratorManager.withDecorators(HighlighterDecorator()) {
+     *     // test body
+     *     page.button.click()
+     *     42
+     * }
+     * ```
+     */
+    public inline fun <T> withDecorators(
+        vararg decorators: AbstractDecorator,
+        block: () -> T,
+    ): T {
+        try {
+            addDecorators(*decorators)
+            return block()
+        } finally {
+            clearDecorators()
+        }
     }
 
     internal fun getAllDecorators(): List<AbstractDecorator> = testLevelDecorators.get().toList()

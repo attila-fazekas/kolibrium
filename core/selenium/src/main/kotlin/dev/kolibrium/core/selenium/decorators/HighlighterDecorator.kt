@@ -25,7 +25,7 @@ import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import org.openqa.selenium.remote.RemoteWebElement
+import org.openqa.selenium.support.events.WebDriverListener
 
 private val logger = KotlinLogging.logger {}
 
@@ -33,12 +33,20 @@ private const val MIN = 1
 private const val MAX = 20
 
 /**
- * Decorator that adds visual highlighting to web elements during Selenium operations.
- * Highlights elements by adding a configurable border around them when they are found or interacted with.
+ * Decorator that visually highlights elements.
  *
- * @param style The border style to use for highlighting (default: SOLID).
- * @param color The color to use for highlighting (default: RED).
- * @param width The border width in pixels (default: 5).
+ * The decorator uses a Selenium [org.openqa.selenium.support.events.WebDriverListener] under the hood
+ * to highlight elements before interactions (click, sendKeys). It also preserves chaining by decorating
+ * the elements returned from `findElement(s)` so that nested searches remain highlighted on interaction.
+ *
+ * Implementation notes
+ * - Uses CSS `outline` instead of `border` to avoid layout shifts.
+ * - Marks the currently highlighted element with `data-kolibrium-highlight="true"` and removes the
+ *   marker and outline from the previously highlighted element.
+ *
+ * @param style Border line style to use for highlighting. Default: [SOLID].
+ * @param color Border color to use for highlighting. Default: [RED].
+ * @param width Outline width in pixels. Must be between 1 and 20 (inclusive). Default: 5.
  */
 public class HighlighterDecorator(
     private val style: BorderStyle = SOLID,
@@ -50,15 +58,16 @@ public class HighlighterDecorator(
     }
 
     override fun decorateSearchContext(context: SearchContext): SearchContext {
-        return object : SearchContext by context {
+        val base = wrapWithListenerIfDriver(context, HighlighterListener())
+        return object : SearchContext by base {
             override fun findElement(by: By): WebElement {
-                val foundElement = context.findElement(by)
+                val foundElement = base.findElement(by)
                 foundElement.highlightElement()
                 return decorateElement(foundElement)
             }
 
             override fun findElements(by: By): WebElements =
-                context.findElements(by).map { foundElement ->
+                base.findElements(by).map { foundElement ->
                     foundElement.highlightElement()
                     decorateElement(foundElement)
                 }
@@ -81,21 +90,34 @@ public class HighlighterDecorator(
         }
     }
 
+    internal inner class HighlighterListener : WebDriverListener {
+        override fun beforeClick(element: WebElement) {
+            element.highlightElement()
+        }
+
+        override fun beforeSendKeys(
+            element: WebElement,
+            vararg keysToSend: CharSequence,
+        ) {
+            element.highlightElement()
+        }
+    }
+
     private fun WebElement.highlightElement() {
         try {
-            // Get the WebDriver from the element itself
-            val driver =
-                when (this) {
-                    is RemoteWebElement -> wrappedDriver
-                    else -> null
-                } ?: return // Skip highlighting if we can't get the driver
-
-            (driver as JavascriptExecutor).executeScript(
-                """
-                const elements = document.querySelectorAll('[style*="border"]');
-                elements.forEach(el => el.style.removeProperty('border'));
-                arguments[0].style.border = '${style.name.lowercase()} ${color.name.lowercase()} ${width}px';
-                """.trimIndent(),
+            val js = tryGetJsExecutor() ?: return
+            js.executeScript(
+                (
+                    """
+                    const prev = document.querySelector('[data-kolibrium-highlight="true"]');
+                    if (prev && prev !== arguments[0]) {
+                        prev.style.removeProperty('outline');
+                        prev.removeAttribute('data-kolibrium-highlight');
+                    }
+                    arguments[0].setAttribute('data-kolibrium-highlight','true');
+                    arguments[0].style.outline = '${width}px ${style.name.lowercase()} ${color.name.lowercase()}';
+                    """
+                ).trimIndent(),
                 this,
             )
         } catch (e: Exception) {
