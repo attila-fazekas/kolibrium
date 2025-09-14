@@ -21,12 +21,20 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 /**
- * Base abstract class for implementing WebDriver decorators following the decorator pattern.
- * Provides a structured way to add behaviors to both WebDriver and WebElement instances.
+ * Base type for Kolibrium decorators.
  *
- * This class handles the initial [SearchContext] type checking and routing to appropriate
- * decoration methods, while concrete implementations define specific behaviors by overriding
- * [decorateDriver] and [decorateElement].
+ * A decorator augments Selenium objects while keeping the original API untouched. In Kolibrium
+ * we decorate the [SearchContext] contract itself (both [WebDriver] and [WebElement] implement it)
+ * so that returned elements are also decorated, enabling safe chaining across nested component trees.
+ *
+ * Implementors usually override [decorateSearchContext] to intercept `findElement(s)` and return
+ * elements wrapped via [decorateElement]. If you need to alter element behaviour (e.g. cache state
+ * or add side‑effects), provide those overrides in [decorateElement].
+ *
+ * Notes
+ * - This mechanism is independent of Selenium’s EventFiringDecorator. Some decorators may still use
+ *   a [org.openqa.selenium.support.events.WebDriverListener] internally for interaction callbacks,
+ *   but chaining is always preserved through the Kolibrium wrappers.
  *
  * @see SearchContext
  * @see WebDriver

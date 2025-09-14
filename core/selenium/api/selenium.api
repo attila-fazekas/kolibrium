@@ -167,6 +167,7 @@ public final class dev/kolibrium/core/selenium/decorators/DecoratorManager {
 	public static final field INSTANCE Ldev/kolibrium/core/selenium/decorators/DecoratorManager;
 	public final fun addDecorators ([Ldev/kolibrium/core/selenium/decorators/AbstractDecorator;)V
 	public final fun clearDecorators ()V
+	public final fun withDecorators ([Ldev/kolibrium/core/selenium/decorators/AbstractDecorator;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
 public final class dev/kolibrium/core/selenium/decorators/ElementStateCacheDecorator : dev/kolibrium/core/selenium/decorators/AbstractDecorator {

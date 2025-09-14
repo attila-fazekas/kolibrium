@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.seconds
 
-class SlowMotionDecoratorTest : BaseTest() {
+class SlowMotionDecoratorTest : BaseTest(isHeadless = false) {
     @BeforeEach
     fun setup() {
         DecoratorManager.addDecorators(
