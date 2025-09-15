@@ -74,6 +74,11 @@ public object DecoratorManager {
      *     42
      * }
      * ```
+     *
+     * @param T The result type produced by [block].
+     * @param decorators The decorators to install while running [block].
+     * @param block The code to execute while the [decorators] are active.
+     * @return The result returned by [block].
      */
     public inline fun <T> withDecorators(
         vararg decorators: AbstractDecorator,

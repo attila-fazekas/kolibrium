@@ -19,11 +19,28 @@ package dev.kolibrium.dsl.selenium.webtest
 import dev.kolibrium.core.selenium.Site
 import dev.kolibrium.core.selenium.WaitConfig
 import dev.kolibrium.core.selenium.WaitConfig.Companion.QUICK
+import dev.kolibrium.core.selenium.decorators.AbstractDecorator
+import dev.kolibrium.core.selenium.decorators.BorderStyle
+import dev.kolibrium.core.selenium.decorators.Color
+import dev.kolibrium.core.selenium.decorators.HighlighterDecorator
+import dev.kolibrium.core.selenium.decorators.LoggerDecorator
+import dev.kolibrium.core.selenium.decorators.SlowMotionDecorator
 import dev.kolibrium.core.selenium.isClickable
 import org.openqa.selenium.WebElement
+import kotlin.time.Duration.Companion.seconds
 
 data object SauceDemo : Site(baseUrl = "https://www.saucedemo.com") {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
     override val waitConfig: WaitConfig = QUICK
+
+    override val decorators: List<AbstractDecorator> =
+        listOf(
+            HighlighterDecorator(
+                style = BorderStyle.DASHED,
+                color = Color.GREEN,
+            ),
+            SlowMotionDecorator(wait = 1.seconds),
+            LoggerDecorator(),
+        )
 }

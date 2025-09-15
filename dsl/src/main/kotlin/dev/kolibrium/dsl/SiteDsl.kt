@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:OptIn(dev.kolibrium.common.InternalKolibriumApi::class)
+
 package dev.kolibrium.dsl
 
 import dev.kolibrium.common.Cookies
@@ -21,6 +23,7 @@ import dev.kolibrium.core.selenium.DefaultChromeDriverProfile
 import dev.kolibrium.core.selenium.DriverProfile
 import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.Site
+import dev.kolibrium.core.selenium.SiteContext
 import org.openqa.selenium.WebDriver
 
 /**
@@ -118,6 +121,7 @@ public class PageEntry<S : Site>(
         navigateToBase: Boolean = true,
         cookies: Cookies? = null,
     ): PageEntry<S2> {
+        SiteContext.set(site)
         site.configureDriver(driver)
         if (cookies != null && cookies.isNotEmpty()) {
             val options = driver.manage()
@@ -172,22 +176,24 @@ public inline fun <S : Site> webTest(
     crossinline block: context(S) PageEntry<S>.() -> Unit,
 ) {
     val driver = driverProfile.getDriver()
-    site.configureDriver(driver)
-    driver.get(site.baseUrl)
-    if (site.cookies.isNotEmpty()) {
-        val options = driver.manage()
-        site.cookies.forEach(options::addCookie)
+    SiteContext.withSite(site) {
+        site.configureDriver(driver)
         driver.get(site.baseUrl)
-    }
-
-    try {
-        val pageEntry = PageEntry<S>(driver)
-        context(site) {
-            pageEntry.block()
+        if (site.cookies.isNotEmpty()) {
+            val options = driver.manage()
+            site.cookies.forEach(options::addCookie)
+            driver.get(site.baseUrl)
         }
-    } finally {
-        if (!keepBrowserOpen) {
-            driver.quit()
+
+        try {
+            val pageEntry = PageEntry<S>(driver)
+            context(site) {
+                pageEntry.block()
+            }
+        } finally {
+            if (!keepBrowserOpen) {
+                driver.quit()
+            }
         }
     }
 }
@@ -209,6 +215,8 @@ public inline fun <S : Site, S2 : Site> PageEntry<S>.withSite(
     navigateToBase: Boolean = true,
     crossinline block: context(S2) PageEntry<S2>.() -> Unit,
 ) {
-    val entry = switchTo(site, navigateToBase)
-    context(site) { entry.block() }
+    SiteContext.withSite(site) {
+        val entry = switchTo(site, navigateToBase)
+        context(site) { entry.block() }
+    }
 }

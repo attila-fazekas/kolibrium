@@ -104,6 +104,13 @@ public abstract class dev/kolibrium/core/selenium/Site {
 	public fun getWaitConfig ()Ldev/kolibrium/core/selenium/WaitConfig;
 }
 
+public final class dev/kolibrium/core/selenium/SiteContext {
+	public static final field INSTANCE Ldev/kolibrium/core/selenium/SiteContext;
+	public final fun get ()Ldev/kolibrium/core/selenium/Site;
+	public final fun set (Ldev/kolibrium/core/selenium/Site;)V
+	public final fun withSite (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+}
+
 public final class dev/kolibrium/core/selenium/WaitConfig {
 	public static final field Companion Ldev/kolibrium/core/selenium/WaitConfig$Companion;
 	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -123,14 +130,6 @@ public final class dev/kolibrium/core/selenium/WaitConfig$Companion {
 	public final fun getDEFAULT ()Ldev/kolibrium/core/selenium/WaitConfig;
 	public final fun getPATIENT ()Ldev/kolibrium/core/selenium/WaitConfig;
 	public final fun getQUICK ()Ldev/kolibrium/core/selenium/WaitConfig;
-}
-
-public abstract class dev/kolibrium/core/selenium/configuration/AbstractSeleniumProjectConfiguration : dev/kolibrium/common/config/ProjectConfiguration {
-	public fun <init> ()V
-	public fun getDecorators ()Ljava/util/List;
-	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
-	public fun getElementsReadyCondition ()Lkotlin/jvm/functions/Function1;
-	public fun getWaitConfig ()Ldev/kolibrium/core/selenium/WaitConfig;
 }
 
 public abstract class dev/kolibrium/core/selenium/decorators/AbstractDecorator {
