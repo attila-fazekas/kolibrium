@@ -68,12 +68,12 @@ public abstract class Site(
     /**
      * A predicate that determines when the found element is considered ready for use.
      */
-    public open val elementReadyCondition: (WebElement.() -> Boolean) = { isDisplayed }
+    public open val elementReadyCondition: WebElement.() -> Boolean = { isDisplayed }
 
     /**
      * A predicate that determines when the found elements are considered ready for use.
      */
-    public open val elementsReadyCondition: (WebElements.() -> Boolean) = { isDisplayed }
+    public open val elementsReadyCondition: WebElements.() -> Boolean = { isDisplayed }
 
     /**
      * The wait configuration to use in synchronization operations.

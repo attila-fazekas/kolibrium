@@ -21,7 +21,9 @@ public final class dev/kolibrium/dsl/PageScope {
 
 public final class dev/kolibrium/dsl/SiteDslKt {
 	public static final fun webTest (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/core/selenium/DriverProfile;ZLkotlin/jvm/functions/Function2;)V
+	public static final fun webTest (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function2;)V
 	public static synthetic fun webTest$default (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/core/selenium/DriverProfile;ZLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun webTest$default (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 	public static final fun withSite (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/dsl/PageEntry;Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function2;)V
 	public static synthetic fun withSite$default (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/dsl/PageEntry;Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 }
@@ -460,9 +462,12 @@ public final class dev/kolibrium/dsl/selenium/creation/Preferences {
 
 public final class dev/kolibrium/dsl/selenium/creation/Preferences$Chromium {
 	public static final field INSTANCE Ldev/kolibrium/dsl/selenium/creation/Preferences$Chromium;
+	public final fun getCredentials_enable_service-GWfikfo ()Ljava/lang/String;
 	public final fun getDownload_default_directory-GWfikfo ()Ljava/lang/String;
 	public final fun getDownload_directory_upgrade-GWfikfo ()Ljava/lang/String;
 	public final fun getDownload_prompt_for_download-GWfikfo ()Ljava/lang/String;
+	public final fun getPassword_manager_enabled-GWfikfo ()Ljava/lang/String;
+	public final fun getPassword_manager_leak_detection-GWfikfo ()Ljava/lang/String;
 	public final fun getSafebrowsing_enabled-GWfikfo ()Ljava/lang/String;
 }
 

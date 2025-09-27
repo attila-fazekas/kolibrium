@@ -15,16 +15,4 @@ public class dev/kolibrium/core/ConfigurationException : java/lang/RuntimeExcept
 public abstract interface annotation class dev/kolibrium/core/InternalKolibriumApi : java/lang/annotation/Annotation {
 }
 
-public abstract interface class dev/kolibrium/core/config/ProjectConfiguration {
-}
-
-public class dev/kolibrium/core/config/ProjectConfigurationException : java/lang/RuntimeException {
-	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-}
-
-public final class dev/kolibrium/core/config/ProjectConfigurationLoader {
-	public static final field INSTANCE Ldev/kolibrium/core/config/ProjectConfigurationLoader;
-	public final fun loadConfiguration (Lkotlin/reflect/KClass;)Ldev/kolibrium/core/config/ProjectConfiguration;
-}
 

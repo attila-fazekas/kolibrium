@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
+@file:OptIn(InternalKolibriumApi::class)
+
 package dev.kolibrium.dsl
 
 import dev.kolibrium.common.Cookies
+import dev.kolibrium.common.InternalKolibriumApi
 import dev.kolibrium.core.selenium.DefaultChromeDriverProfile
 import dev.kolibrium.core.selenium.DriverProfile
 import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.Site
+import dev.kolibrium.core.selenium.SiteContext
 import org.openqa.selenium.WebDriver
 
 /**
@@ -118,6 +122,7 @@ public class PageEntry<S : Site>(
         navigateToBase: Boolean = true,
         cookies: Cookies? = null,
     ): PageEntry<S2> {
+        SiteContext.set(site)
         site.configureDriver(driver)
         if (cookies != null && cookies.isNotEmpty()) {
             val options = driver.manage()
@@ -172,25 +177,46 @@ public inline fun <S : Site> webTest(
     crossinline block: context(S) PageEntry<S>.() -> Unit,
 ) {
     val driver = driverProfile.getDriver()
-    site.configureDriver(driver)
-    driver.get(site.baseUrl)
-    if (site.cookies.isNotEmpty()) {
-        val options = driver.manage()
-        site.cookies.forEach(options::addCookie)
+    SiteContext.withSite(site) {
+        site.configureDriver(driver)
         driver.get(site.baseUrl)
-    }
-
-    try {
-        val pageEntry = PageEntry<S>(driver)
-        context(site) {
-            pageEntry.block()
+        if (site.cookies.isNotEmpty()) {
+            val options = driver.manage()
+            site.cookies.forEach(options::addCookie)
+            driver.get(site.baseUrl)
         }
-    } finally {
-        if (!keepBrowserOpen) {
-            driver.quit()
+
+        try {
+            val pageEntry = PageEntry<S>(driver)
+            context(site) {
+                pageEntry.block()
+            }
+        } finally {
+            if (!keepBrowserOpen) {
+                driver.quit()
+            }
         }
     }
 }
+
+/**
+ * Convenience overload of [webTest] that accepts a plain [WebDriver] factory.
+ *
+ * Wraps the provided [driverProfile] function into a [DriverProfile] and delegates to the primary overload.
+ *
+ * @param S the site type used for the test
+ * @param site The site configuration to use throughout the test.
+ * @param driverProfile A factory function that returns a configured [WebDriver] instance.
+ * @param keepBrowserOpen If `true`, leaves the browser open after the block for debugging.
+ * @param block Test body executed with a [PageEntry] and the [site] as a context receiver.
+ * @see webTest
+ */
+public inline fun <S : Site> webTest(
+    site: S,
+    crossinline driverProfile: () -> WebDriver,
+    keepBrowserOpen: Boolean = false,
+    crossinline block: context(S) PageEntry<S>.() -> Unit,
+): Unit = webTest(site, DriverProfile { driverProfile() }, keepBrowserOpen, block)
 
 context(current: S)
 /**
@@ -209,6 +235,8 @@ public inline fun <S : Site, S2 : Site> PageEntry<S>.withSite(
     navigateToBase: Boolean = true,
     crossinline block: context(S2) PageEntry<S2>.() -> Unit,
 ) {
-    val entry = switchTo(site, navigateToBase)
-    context(site) { entry.block() }
+    SiteContext.withSite(site) {
+        val entry = switchTo(site, navigateToBase)
+        context(site) { entry.block() }
+    }
 }

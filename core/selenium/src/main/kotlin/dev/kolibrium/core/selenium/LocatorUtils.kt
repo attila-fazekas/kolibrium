@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
+@file:OptIn(dev.kolibrium.common.InternalKolibriumApi::class)
+
 package dev.kolibrium.core.selenium
 
 import dev.kolibrium.common.WebElements
-import dev.kolibrium.core.selenium.configuration.DefaultSeleniumProjectConfiguration
-import dev.kolibrium.core.selenium.configuration.SeleniumProjectConfiguration.actualConfig
 import org.openqa.selenium.WebElement
 
 /**
@@ -74,20 +74,17 @@ public val WebElements.isEnabled: Boolean
 /**
  * Default readinessCondition used for single element lookup.
  */
-public val defaultElementReadyCondition: WebElement.() -> Boolean by lazy {
-    actualConfig.elementReadyCondition ?: DefaultSeleniumProjectConfiguration.elementReadyCondition
-}
+public val defaultElementReadyCondition: WebElement.() -> Boolean
+    get() = SiteContext.get()?.elementReadyCondition ?: { isDisplayed }
 
 /**
  * Default readinessCondition used for multiple element lookup.
  */
-public val defaultElementsReadyCondition: WebElements.() -> Boolean by lazy {
-    actualConfig.elementsReadyCondition ?: DefaultSeleniumProjectConfiguration.elementsReadyCondition
-}
+public val defaultElementsReadyCondition: WebElements.() -> Boolean
+    get() = SiteContext.get()?.elementsReadyCondition ?: { isDisplayed }
 
 /**
  * Default wait configuration used for element lookup.
  */
-public val defaultWaitConfig: WaitConfig by lazy {
-    actualConfig.waitConfig ?: DefaultSeleniumProjectConfiguration.waitConfig
-}
+public val defaultWaitConfig: WaitConfig
+    get() = SiteContext.get()?.waitConfig ?: WaitConfig.DEFAULT

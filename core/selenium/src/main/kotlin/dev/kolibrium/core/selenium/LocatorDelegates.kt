@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
+@file:OptIn(dev.kolibrium.common.InternalKolibriumApi::class)
+
 package dev.kolibrium.core.selenium
 
 import dev.kolibrium.common.WebElements
-import dev.kolibrium.core.selenium.configuration.SeleniumProjectConfiguration.actualConfig
 import dev.kolibrium.core.selenium.decorators.DecoratorManager
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
@@ -849,14 +850,14 @@ internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R>(
     protected val searchCtx: SearchContext,
 ) {
     protected val searchContext by lazy {
-        val projectLevelDecorators = actualConfig.decorators
+        val siteLevelDecorators = SiteContext.get()?.decorators ?: emptyList()
         val testLevelDecorators = DecoratorManager.getAllDecorators()
 
         if (testLevelDecorators.isEmpty()) {
-            if (projectLevelDecorators.isEmpty()) {
+            if (siteLevelDecorators.isEmpty()) {
                 searchCtx
             } else {
-                DecoratorManager.combine(projectLevelDecorators)(searchCtx)
+                DecoratorManager.combine(siteLevelDecorators)(searchCtx)
             }
         } else {
             DecoratorManager.combine(testLevelDecorators)(searchCtx)

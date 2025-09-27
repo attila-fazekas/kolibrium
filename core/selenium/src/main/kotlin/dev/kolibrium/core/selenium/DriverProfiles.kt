@@ -28,7 +28,7 @@ import org.openqa.selenium.safari.SafariDriver
  * Implementations encapsulate how a concrete browser driver is created and configured
  * (e.g. capabilities, or options) while keeping call sites simple.
  */
-public sealed interface DriverProfile {
+public fun interface DriverProfile {
     /**
      * Create and return a new [WebDriver] instance.
      *

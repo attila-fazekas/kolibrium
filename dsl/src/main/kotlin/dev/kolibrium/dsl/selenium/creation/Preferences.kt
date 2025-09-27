@@ -57,6 +57,14 @@ public object Preferences {
      */
     public object Chromium {
         /**
+         * Enables or disables the built‑in credentials (password) service integration.
+         *
+         * When set to false, Chrome will not offer to save or automatically fill in passwords.
+         */
+        @KolibriumPropertyDsl
+        public val credentials_enable_service: ChromiumPreference = ChromiumPreference("credentials_enable_service")
+
+        /**
          * Sets the default download directory.
          */
         @KolibriumPropertyDsl
@@ -75,6 +83,24 @@ public object Preferences {
         @KolibriumPropertyDsl
         public val download_prompt_for_download: ChromiumPreference =
             ChromiumPreference("download.prompt_for_download")
+
+        /**
+         * Enables or disables the password manager UI for the current profile.
+         *
+         * When set to false, Chrome will not prompt to save passwords and autofill suggestions are suppressed.
+         */
+        @KolibriumPropertyDsl
+        public val password_manager_enabled: ChromiumPreference =
+            ChromiumPreference("profile.password_manager_enabled")
+
+        /**
+         * Enables real‑time password leak detection checks for saved credentials.
+         *
+         * When enabled, Chrome compares saved passwords against known data breaches and warns the user if a compromise is detected.
+         */
+        @KolibriumPropertyDsl
+        public val password_manager_leak_detection: ChromiumPreference =
+            ChromiumPreference("profile.password_manager_leak_detection")
 
         /**
          * Enables or disables SafeBrowsing feature.
