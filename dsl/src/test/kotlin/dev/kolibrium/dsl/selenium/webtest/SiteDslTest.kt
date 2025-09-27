@@ -34,14 +34,19 @@
 
 package dev.kolibrium.dsl.selenium.webtest
 
-import com.titusfortner.logging.SeleniumLogger
-import dev.kolibrium.core.selenium.DefaultChromeDriverProfile
 import dev.kolibrium.core.selenium.DriverProfile
 import dev.kolibrium.dsl.PageEntry
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
+import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.credentials_enable_service
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.password_manager_enabled
+import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.password_manager_leak_detection
+import dev.kolibrium.dsl.selenium.creation.chromeDriver
 import dev.kolibrium.dsl.selenium.webtest.pages.LoginPage
 import dev.kolibrium.dsl.webTest
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 
 class SiteDslTest() {
@@ -103,7 +108,23 @@ class SiteDslTest() {
     }
 
     private fun sauceDemoTest(
-        driverProfile: DriverProfile = DefaultChromeDriverProfile,
+        driverProfile: () -> WebDriver = {
+            chromeDriver {
+                options {
+                    arguments {
+                        +disable_search_engine_choice_screen
+                        +incognito
+                    }
+                    experimentalOptions {
+                        preferences {
+                            pref(credentials_enable_service, false)
+                            pref(password_manager_enabled, false)
+                            pref(password_manager_leak_detection, false)
+                        }
+                    }
+                }
+            }
+        },
         keepBrowserOpen: Boolean = false,
         block: context(SauceDemo) PageEntry<SauceDemo>.() -> Unit,
     ) = webTest(

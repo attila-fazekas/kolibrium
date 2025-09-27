@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-@file:OptIn(dev.kolibrium.common.InternalKolibriumApi::class)
+@file:OptIn(InternalKolibriumApi::class)
 
 package dev.kolibrium.dsl
 
 import dev.kolibrium.common.Cookies
+import dev.kolibrium.common.InternalKolibriumApi
 import dev.kolibrium.core.selenium.DefaultChromeDriverProfile
 import dev.kolibrium.core.selenium.DriverProfile
 import dev.kolibrium.core.selenium.Page
@@ -197,6 +198,25 @@ public inline fun <S : Site> webTest(
         }
     }
 }
+
+/**
+ * Convenience overload of [webTest] that accepts a plain [WebDriver] factory.
+ *
+ * Wraps the provided [driverProfile] function into a [DriverProfile] and delegates to the primary overload.
+ *
+ * @param S the site type used for the test
+ * @param site The site configuration to use throughout the test.
+ * @param driverProfile A factory function that returns a configured [WebDriver] instance.
+ * @param keepBrowserOpen If `true`, leaves the browser open after the block for debugging.
+ * @param block Test body executed with a [PageEntry] and the [site] as a context receiver.
+ * @see webTest
+ */
+public inline fun <S : Site> webTest(
+    site: S,
+    crossinline driverProfile: () -> WebDriver,
+    keepBrowserOpen: Boolean = false,
+    crossinline block: context(S) PageEntry<S>.() -> Unit,
+): Unit = webTest(site, DriverProfile { driverProfile() }, keepBrowserOpen, block)
 
 context(current: S)
 /**
