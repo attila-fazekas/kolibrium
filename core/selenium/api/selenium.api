@@ -1,31 +1,3 @@
-public final class dev/kolibrium/core/selenium/DefaultChromeDriverProfile : dev/kolibrium/core/selenium/DriverProfile {
-	public static final field INSTANCE Ldev/kolibrium/core/selenium/DefaultChromeDriverProfile;
-	public synthetic fun getDriver ()Lorg/openqa/selenium/WebDriver;
-	public fun getDriver ()Lorg/openqa/selenium/chrome/ChromeDriver;
-}
-
-public final class dev/kolibrium/core/selenium/DefaultEdgeDriverProfile : dev/kolibrium/core/selenium/DriverProfile {
-	public static final field INSTANCE Ldev/kolibrium/core/selenium/DefaultEdgeDriverProfile;
-	public synthetic fun getDriver ()Lorg/openqa/selenium/WebDriver;
-	public fun getDriver ()Lorg/openqa/selenium/edge/EdgeDriver;
-}
-
-public final class dev/kolibrium/core/selenium/DefaultFirefoxDriverProfile : dev/kolibrium/core/selenium/DriverProfile {
-	public static final field INSTANCE Ldev/kolibrium/core/selenium/DefaultFirefoxDriverProfile;
-	public synthetic fun getDriver ()Lorg/openqa/selenium/WebDriver;
-	public fun getDriver ()Lorg/openqa/selenium/firefox/FirefoxDriver;
-}
-
-public final class dev/kolibrium/core/selenium/DefaultSafariDriverProfile : dev/kolibrium/core/selenium/DriverProfile {
-	public static final field INSTANCE Ldev/kolibrium/core/selenium/DefaultSafariDriverProfile;
-	public synthetic fun getDriver ()Lorg/openqa/selenium/WebDriver;
-	public fun getDriver ()Lorg/openqa/selenium/safari/SafariDriver;
-}
-
-public abstract interface class dev/kolibrium/core/selenium/DriverProfile {
-	public abstract fun getDriver ()Lorg/openqa/selenium/WebDriver;
-}
-
 public final class dev/kolibrium/core/selenium/LocatorDelegatesKt {
 	public static final fun className (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
 	public static synthetic fun className$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.webtest
+package dev.kolibrium.dsl.selenium.webtest.bstackdemo
 
 import dev.kolibrium.core.selenium.Site
 import dev.kolibrium.core.selenium.WaitConfig
@@ -29,7 +29,7 @@ import dev.kolibrium.core.selenium.isClickable
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.seconds
 
-data object SauceDemo : Site(baseUrl = "https://www.saucedemo.com") {
+data object BrowserStackDemo : Site(baseUrl = "https://bstackdemo.com") {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
     override val waitConfig: WaitConfig = QUICK

@@ -254,7 +254,7 @@ public fun SearchContext.dataTest(
     readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
 ): WebElementProperty =
     xPath(
-        value = "//*[@data-test=${value.escapeQuotes()}]",
+        value = ".//*[@data-test=${value.escapeQuotes()}]",
         cacheLookup = cacheLookup,
         waitConfig = waitConfig,
         readyCondition = readyCondition,
@@ -299,7 +299,7 @@ public fun SearchContext.dataTests(
     readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
 ): WebElementsProperty =
     xPaths(
-        value = "//*[@data-test='$value']",
+        value = ".//*[@data-test=${value.escapeQuotes()}]",
         cacheLookup = cacheLookup,
         waitConfig = waitConfig,
         readyCondition = readyCondition,

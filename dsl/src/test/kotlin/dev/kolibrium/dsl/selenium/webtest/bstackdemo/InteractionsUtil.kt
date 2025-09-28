@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.webtest
+package dev.kolibrium.dsl.selenium.webtest.bstackdemo
 
-enum class Product(
-    val productName: String,
-) {
-    BACKPACK("Sauce Labs Backpack"),
-    BIKE_LIGHT("Sauce Labs Bike Light"),
-    BOLT_T_SHIRT("Sauce Labs Bolt T-Shirt"),
-    FLEECE_JACKET("Sauce Labs Fleece Jacket"),
-    T_SHIRT_RED("Test.allTheThings() T-Shirt (Red)"),
-    ONESIE("Sauce Labs Onesie"),
-    ;
+import org.openqa.selenium.WebElement
 
-    val locatorName: String
-        get() = name.lowercase().replace("_", "-")
+fun type(
+    block: TypeScope.() -> Unit,
+) = TypeScope().apply(block)
+
+class TypeScope {
+    infix fun String.into(element: WebElement) {
+        element.sendKeys(this)
+    }
+}
+
+object Click
+
+infix fun Click.on(element: WebElement) {
+    element.click()
 }

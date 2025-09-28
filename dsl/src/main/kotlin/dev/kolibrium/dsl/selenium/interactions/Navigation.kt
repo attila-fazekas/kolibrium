@@ -26,4 +26,18 @@ import org.openqa.selenium.WebDriver
  * @param relativePath The relative path to navigate to, which will be appended to the current URL.
  */
 @KolibriumDsl
-public fun WebDriver.navigateTo(relativePath: String): Unit = get("$currentUrl$relativePath")
+public fun WebDriver.navigateTo(relativePath: String) {
+    val path = relativePath.trim()
+    if (path.startsWith("http://") || path.startsWith("https://")) {
+        get(path)
+        return
+    }
+
+    val current = java.net.URI(currentUrl)
+    val origin = java.net.URI("${current.scheme}://${current.authority}/")
+
+    val normalizedPath = if (path.startsWith('/')) path else "/$path"
+
+    val resolved = origin.resolve(normalizedPath)
+    get(resolved.toString())
+}

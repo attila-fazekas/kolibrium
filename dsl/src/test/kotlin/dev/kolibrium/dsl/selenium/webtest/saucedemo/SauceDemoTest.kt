@@ -32,29 +32,33 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.webtest
+package dev.kolibrium.dsl.selenium.webtest.saucedemo
 
-import dev.kolibrium.core.selenium.DriverProfile
-import dev.kolibrium.dsl.PageEntry
+import com.titusfortner.logging.SeleniumLogger
+import dev.kolibrium.dsl.selenium.DriverFactory
+import dev.kolibrium.dsl.selenium.PageEntry
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.credentials_enable_service
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.password_manager_enabled
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.password_manager_leak_detection
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
-import dev.kolibrium.dsl.selenium.webtest.pages.LoginPage
-import dev.kolibrium.dsl.webTest
+import dev.kolibrium.dsl.selenium.verify
+import dev.kolibrium.dsl.selenium.webTest
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.BACKPACK
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.BIKE_LIGHT
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.LoginPage
+import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 
-class SiteDslTest() {
+class SauceDemoTest() {
     companion object {
         @JvmStatic
         @BeforeAll
         fun enableLogging() {
-//            SeleniumLogger.enable("RemoteWebDriver")
+            SeleniumLogger.enable("RemoteWebDriver")
         }
     }
 
@@ -62,7 +66,7 @@ class SiteDslTest() {
     fun `no use of webTest`() {
         with(ChromeDriver()) {
             this.get("https://www.saucedemo.com")
-            LoginPage().login()
+            LoginPage.Companion().login()
             quit()
         }
     }
@@ -71,7 +75,8 @@ class SiteDslTest() {
     fun `webTest used with page creation through constructor`() = webTest(
         site = SauceDemo,
         keepBrowserOpen = false,
-    ) {
+        prepare = { },
+    ) { _: Unit ->
         LoginPage(driver).login()
     }
 
@@ -79,7 +84,8 @@ class SiteDslTest() {
     fun `webTest used with PageEntry's open() function`() = webTest(
         site = SauceDemo,
         keepBrowserOpen = false,
-    ) {
+        prepare = { },
+    ) { _: Unit ->
         open(::LoginPage) {
             login()
         }
@@ -98,40 +104,81 @@ class SiteDslTest() {
     fun `sauceDemoTest used with PageEntry's open() function and chained() `() = sauceDemoTest(
         keepBrowserOpen = false,
     ) {
+        val products = listOf(BACKPACK, BIKE_LIGHT)
+
         open(::LoginPage) {
             login()
         }.on {
+            verify { titleText() == "Swag Labs" }
+
+            products.addToCart()
+
             goToCart()
+        }.verify {
+            val items = getItemsOnShoppingCart()
+            items.size shouldBe products.size
+            items.zip(products).forEach { (item, product) ->
+                item.quantity() shouldBe 1
+                item.name() shouldBe product.productName
+                item.price() shouldBe product.price
+            }
         }.on {
             checkout()
         }
     }
 
+    @Test
+    fun `authorized user sees inventory`() = authorizedSauceDemoTest(
+        keepBrowserOpen = false,
+    ) {
+
+    }
+
     private fun sauceDemoTest(
-        driverProfile: () -> WebDriver = {
-            chromeDriver {
-                options {
-                    arguments {
-                        +disable_search_engine_choice_screen
-                        +incognito
-                    }
-                    experimentalOptions {
-                        preferences {
-                            pref(credentials_enable_service, false)
-                            pref(password_manager_enabled, false)
-                            pref(password_manager_leak_detection, false)
-                        }
-                    }
-                }
-            }
-        },
+        driverFactory: DriverFactory = sauceDemoDriver,
         keepBrowserOpen: Boolean = false,
         block: context(SauceDemo) PageEntry<SauceDemo>.() -> Unit,
     ) = webTest(
         site = SauceDemo,
-        driverProfile = driverProfile,
+        driver = driverFactory,
         keepBrowserOpen = keepBrowserOpen,
-    ) {
+        prepare = { },
+    ) { _: Unit ->
         block()
+    }
+
+    private fun authorizedSauceDemoTest(
+        driverFactory: DriverFactory = sauceDemoDriver,
+        keepBrowserOpen: Boolean = false,
+        block: context(SauceDemo) PageEntry<SauceDemo>.() -> Unit,
+    ) = webTest(
+        site = SauceDemo,
+        driver = driverFactory,
+        keepBrowserOpen = keepBrowserOpen,
+        startup = {
+            withCookies {
+                addCookie("session-username", "standard_user")
+            }.navigateTo("/inventory.html")
+        },
+    ) { _: Unit ->
+        block()
+    }
+
+    private val sauceDemoDriver = {
+        chromeDriver {
+            options {
+                arguments {
+                    +disable_search_engine_choice_screen
+                    +incognito
+                }
+                experimentalOptions {
+                    preferences {
+                        pref(credentials_enable_service, false)
+                        pref(password_manager_enabled, false)
+                        pref(password_manager_leak_detection, false)
+                    }
+                }
+            }
+        }
     }
 }

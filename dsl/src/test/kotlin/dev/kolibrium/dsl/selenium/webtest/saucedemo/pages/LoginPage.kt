@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.webtest.pages
+package dev.kolibrium.dsl.selenium.webtest.saucedemo.pages
 
 import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.idOrName
 import dev.kolibrium.core.selenium.name
-import dev.kolibrium.dsl.selenium.creation.driver
-import dev.kolibrium.dsl.selenium.webtest.SauceDemo
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.SauceDemo
 import org.openqa.selenium.WebDriver
 
 class LoginPage(

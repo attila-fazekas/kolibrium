@@ -36,6 +36,7 @@ formatting:
 libraries:
   ForbiddenPublicDataClass:
     active: true
+    excludes: ["**/test/kotlin/**"]
 style:
   MagicNumber:
     active: true

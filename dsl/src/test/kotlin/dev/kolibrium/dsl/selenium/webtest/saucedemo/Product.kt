@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.webtest.pages
+package dev.kolibrium.dsl.selenium.webtest.saucedemo
 
-import dev.kolibrium.core.selenium.Page
-import dev.kolibrium.core.selenium.idOrName
-import dev.kolibrium.dsl.selenium.webtest.SauceDemo
-import org.openqa.selenium.WebDriver
+enum class Product(
+    val productName: String,
+    val price: String,
+) {
+    BACKPACK("Sauce Labs Backpack", "$29.99"),
+    BIKE_LIGHT("Sauce Labs Bike Light", "$9.99"),
+    BOLT_T_SHIRT("Sauce Labs Bolt T-Shirt", "$15.99"),
+    FLEECE_JACKET("Sauce Labs Fleece Jacket", "$49.99"),
+    T_SHIRT_RED("Test.allTheThings() T-Shirt (Red)", "$7.99"),
+    ONESIE("Sauce Labs Onesie", "$15.99"),
+    ;
 
-class CartPage(
-    driver: WebDriver,
-) : Page<SauceDemo>(driver) {
-    override val path = "/cart.html"
-
-    private val checkoutButton by idOrName("checkout")
-
-    fun checkout(): CheckoutPage {
-        checkoutButton.click()
-        return CheckoutPage(driver)
-    }
-
-    fun getItemCount(): Int = 0
+    val locatorName: String
+        get() = name.lowercase().replace("_", "-")
 }
+
+typealias Products = List<Product>
