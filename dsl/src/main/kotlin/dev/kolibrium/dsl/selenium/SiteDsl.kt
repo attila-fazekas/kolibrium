@@ -199,7 +199,7 @@ public class PageEntry<S : Site>(
 /**
  * Run a browser test within a managed driver session and a given [Site] context.
  *
- * The driver is created from [driver], configured via [Site.configureDriver], and navigated to [Site.baseUrl].
+ * The driver is created from [driverFactory], configured via [Site.configureDriver], and navigated to [Site.baseUrl].
  * If site‑level cookies are present, they are applied and the base URL is reloaded to take effect.
  * The driver is quit automatically unless [keepBrowserOpen] is `true`.
  *
@@ -209,16 +209,16 @@ public class PageEntry<S : Site>(
  * @param S the site type used for the test
  * @param T the data type produced by [prepare] and passed to [startup] and [block]
  * @param site The site configuration to use throughout the test.
- * @param driver Factory that returns a configured [WebDriver]. Defaults to a new [org.openqa.selenium.chrome.ChromeDriver].
  * @param keepBrowserOpen If `true`, leaves the browser open after the block for debugging.
+ * @param driverFactory Factory that returns a configured [WebDriver]. Defaults to a new [org.openqa.selenium.chrome.ChromeDriver].
  * @param prepare A function executed with the [site] as context before the driver is created; its result is passed to [startup] and [block].
  * @param startup A hook that runs after driver creation and initial navigation but before [block].
  * @param block Test body executed with a [PageEntry] and the [site] as a context receiver; receives the value from [prepare].
  */
 public inline fun <S : Site, T> webTest(
     site: S,
-    crossinline driver: DriverFactory = { ChromeDriver() },
     keepBrowserOpen: Boolean = false,
+    crossinline driverFactory: DriverFactory = { ChromeDriver() },
     crossinline prepare: context(S) () -> T,
     crossinline startup: context(S) PageEntry<S>.(T) -> Unit = { _ -> },
     crossinline block: context(S) PageEntry<S>.(T) -> Unit,
@@ -226,7 +226,7 @@ public inline fun <S : Site, T> webTest(
     SiteContext.withSite(site) {
         val prepared: T = context(site) { prepare() }
 
-        val driver = driver()
+        val driver = driverFactory()
         try {
             site.configureDriver(driver)
             driver.get(site.baseUrl)
@@ -251,15 +251,15 @@ public inline fun <S : Site, T> webTest(
  */
 public inline fun <S : Site> webTest(
     site: S,
-    crossinline driver: DriverFactory = { ChromeDriver() },
     keepBrowserOpen: Boolean = false,
+    crossinline driverFactory: DriverFactory = { ChromeDriver() },
     crossinline startup: context(S) PageEntry<S>.(Unit) -> Unit = { _ -> },
     crossinline block: context(S) PageEntry<S>.(Unit) -> Unit,
 ) {
     webTest(
         site = site,
-        driver = driver,
         keepBrowserOpen = keepBrowserOpen,
+        driverFactory = driverFactory,
         prepare = { },
         startup = startup,
         block = block,

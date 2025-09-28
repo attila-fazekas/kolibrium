@@ -129,7 +129,7 @@ class SauceDemoTest() {
 
     @Test
     fun `authorized user sees inventory`() = authorizedSauceDemoTest(
-        keepBrowserOpen = false,
+        keepBrowserOpen = true,
     ) {
 
     }
@@ -140,8 +140,8 @@ class SauceDemoTest() {
         block: context(SauceDemo) PageEntry<SauceDemo>.() -> Unit,
     ) = webTest(
         site = SauceDemo,
-        driver = driverFactory,
         keepBrowserOpen = keepBrowserOpen,
+        driverFactory = driverFactory,
         prepare = { },
     ) { _: Unit ->
         block()
@@ -153,15 +153,21 @@ class SauceDemoTest() {
         block: context(SauceDemo) PageEntry<SauceDemo>.() -> Unit,
     ) = webTest(
         site = SauceDemo,
-        driver = driverFactory,
         keepBrowserOpen = keepBrowserOpen,
-        startup = {
+        driverFactory = driverFactory,
+        prepare = { acquireToken() },
+        startup = { token: String ->
             withCookies {
-                addCookie("session-username", "standard_user")
+                addCookie("session-username", token)
             }.navigateTo("/inventory.html")
         },
-    ) { _: Unit ->
-        block()
+        block = {
+            block()
+        },
+    )
+
+    private fun acquireToken(): String {
+        return "standard_user"
     }
 
     private val sauceDemoDriver = {

@@ -27,7 +27,7 @@ import dev.kolibrium.core.selenium.decorators.LoggerDecorator
 import dev.kolibrium.core.selenium.decorators.SlowMotionDecorator
 import dev.kolibrium.core.selenium.isClickable
 import org.openqa.selenium.WebElement
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.milliseconds
 
 data object BrowserStackDemo : Site(baseUrl = "https://bstackdemo.com") {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
@@ -40,7 +40,7 @@ data object BrowserStackDemo : Site(baseUrl = "https://bstackdemo.com") {
                 style = BorderStyle.DASHED,
                 color = Color.GREEN,
             ),
-            SlowMotionDecorator(wait = 1.seconds),
+            SlowMotionDecorator(wait = 300.milliseconds),
             LoggerDecorator(),
         )
 }
