@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.webtest.pages
+package dev.kolibrium.dsl.selenium.webtest.saucedemo.pages
 
 import dev.kolibrium.core.selenium.className
 import dev.kolibrium.core.selenium.id
-import dev.kolibrium.dsl.selenium.webtest.Product
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product
 import org.openqa.selenium.WebElement
 
 class Item(

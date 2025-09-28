@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.webtest.pages
+package dev.kolibrium.dsl.selenium.webtest.saucedemo.pages
 
 import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.className
 import dev.kolibrium.core.selenium.dataTests
-import dev.kolibrium.dsl.selenium.webtest.Product
-import dev.kolibrium.dsl.selenium.webtest.SauceDemo
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.Products
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.SauceDemo
 import org.openqa.selenium.WebDriver
 
 class InventoryPage(
@@ -34,12 +34,14 @@ class InventoryPage(
 
     fun titleText(): String = title.text
 
-    fun Product.addToCart() {
-        products.forEach { webElement ->
-            val item = Item(webElement, this)
-            if (item.name.text.contains(productName)) {
-                item.addToCartButton.click()
-            }
+    fun Products.addToCart() {
+        forEach { product ->
+            products
+                .asSequence()
+                .map { webElement -> Item(webElement, product) }
+                .firstOrNull { item -> item.name.text.contains(product.productName) }
+                ?.addToCartButton
+                ?.click()
         }
     }
 

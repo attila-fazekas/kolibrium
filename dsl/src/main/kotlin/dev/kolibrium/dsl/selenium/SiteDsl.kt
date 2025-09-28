@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-@file:OptIn(InternalKolibriumApi::class)
-
-package dev.kolibrium.dsl
+package dev.kolibrium.dsl.selenium
 
 import dev.kolibrium.common.Cookies
-import dev.kolibrium.common.InternalKolibriumApi
-import dev.kolibrium.core.selenium.DefaultChromeDriverProfile
-import dev.kolibrium.core.selenium.DriverProfile
 import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.Site
 import dev.kolibrium.core.selenium.SiteContext
+import dev.kolibrium.dsl.selenium.interactions.CookiesScope
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
+
+/**
+ * Factory function that creates a new WebDriver instance for use by Kolibrium DSL helpers such as [webTest].
+ *
+ * Prefer the predefined factories in dev.kolibrium.dsl.selenium.DriverFactories for common setups
+ * (e.g., headlessChrome, incognitoFirefox).
+ */
+public typealias DriverFactory = () -> WebDriver
 
 /**
  * Marker annotation for the Kolibrium page DSL.
@@ -36,9 +41,9 @@ import org.openqa.selenium.WebDriver
 public annotation class PageDsl
 
 /**
- * Scoped wrapper around a [Page] that ensures interactions happen only after navigation.
+ * Scoped wrapper around a [dev.kolibrium.core.selenium.Page] that ensures interactions happen only after navigation.
  *
- * Use [on] to perform actions that either return another [Page] (continuing the flow) or a terminal value.
+ * Use [on] to perform actions that either return another [dev.kolibrium.core.selenium.Page] (continuing the flow) or a terminal value.
  * The DSL marker prevents mixing operations from different pages in a single scope.
  *
  * @param P The page type wrapped by this scope.
@@ -66,17 +71,29 @@ public class PageScope<P : Page<*>>(
      */
     public fun <T> on(action: P.() -> T): T = page.action()
 
+    /**
+     * Run assertions against the current page and return this scope for fluent chaining.
+     *
+     * Useful when you want to keep the test flow readable while verifying conditions.
+     *
+     * @return this [PageScope]
+     */
+    public fun <T> verify(assertions: P.() -> T): PageScope<P> {
+        page.assertions()
+        return this
+    }
+
     /** Expose the underlying page instance when needed (e.g., for advanced use cases). */
     public fun unwrap(): P = page
 }
 
 /**
- * Entry point for opening and interacting with pages bound to a specific [Site].
+ * Entry point for opening and interacting with pages bound to a specific [dev.kolibrium.core.selenium.Site].
  *
  * The DSL guarantees that a page is navigated to before interaction. Use [open] to instantiate a page,
  * navigate to its [Page.path] (or an overridden path), and continue the flow within a [PageScope].
  *
- * @param S The [Site] type driving navigation and configuration.
+ * @param S The [dev.kolibrium.core.selenium.Site] type driving navigation and configuration.
  * @property driver The active [WebDriver] of the session.
  */
 @PageDsl
@@ -132,91 +149,122 @@ public class PageEntry<S : Site>(
         return PageEntry(driver)
     }
 
-    context(_: S)
+    context(site: S)
     /**
-     * Navigate to an absolute URL, bypassing the current [Site.baseUrl].
+     * Navigate to the given target.
      *
-     * @param url Absolute URL to navigate to.
+     * If [target] is an absolute URL (starts with http:// or https://), the driver navigates to it as-is.
+     * Otherwise, the value is treated as a path relative to the current site's [Site.baseUrl]. A leading slash
+     * is added when missing to avoid accidental path concatenation issues.
+     *
+     * Examples:
+     * - navigateTo("/products/42")
+     * - navigateTo("products/42")
+     * - navigateTo("https://example.com/health")
      */
-    public fun navigateAbsolute(
-        url: String,
+    public fun PageEntry<S>.navigateTo(
+        target: String,
     ) {
-        driver.get(url)
+        val trimmed = target.trim()
+        if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+            driver.get(trimmed)
+        } else {
+            val normalized = if (trimmed.startsWith('/')) trimmed else "/$trimmed"
+            driver.get("${site.baseUrl}$normalized")
+        }
+    }
+
+    /**
+     * Add or manipulate cookies in the current browser session.
+     *
+     * The provided [builder] runs inside a [CookiesScope] and can add, remove or clear cookies via the
+     * standard Selenium cookie management APIs. If [refreshPage] is true, the current page is refreshed
+     * after the changes so that cookie effects take place immediately.
+     *
+     * @param refreshPage Whether to refresh the page after applying cookie changes. Default is false.
+     * @param builder The cookie modification DSL.
+     * @return This [PageEntry] for fluent chaining.
+     */
+    public fun PageEntry<S>.withCookies(
+        refreshPage: Boolean = false,
+        builder: CookiesScope.() -> Unit,
+    ): PageEntry<S> {
+        val options = driver.manage()
+        CookiesScope(options).apply(builder)
+        if (refreshPage) driver.navigate().refresh()
+        return this
     }
 }
 
 /**
  * Run a browser test within a managed driver session and a given [Site] context.
  *
- * The driver is created from [driverProfile], configured via [Site.configureDriver], and navigated to [Site.baseUrl].
+ * The driver is created from [driver], configured via [Site.configureDriver], and navigated to [Site.baseUrl].
  * If site‑level cookies are present, they are applied and the base URL is reloaded to take effect.
  * The driver is quit automatically unless [keepBrowserOpen] is `true`.
  *
- * Example:
- * ```kotlin
- * webTest(ShopSite()) {
- *     open(::LoginPage) {
- *         login()
- *     }.on {
- *         goToCart()
- *     }.on {
- *         checkout()
- *     }
- * }
- * ```
+ * This overload supports a prepare step that runs before the browser session is created. The value produced by
+ * [prepare] is then passed into [startup] and [block], which run inside the managed browser session.
+ *
  * @param S the site type used for the test
+ * @param T the data type produced by [prepare] and passed to [startup] and [block]
  * @param site The site configuration to use throughout the test.
- * @param driverProfile Strategy for creating the [WebDriver]. Defaults to [DefaultChromeDriverProfile].
+ * @param driver Factory that returns a configured [WebDriver]. Defaults to a new [org.openqa.selenium.chrome.ChromeDriver].
  * @param keepBrowserOpen If `true`, leaves the browser open after the block for debugging.
- * @param block Test body executed with a [PageEntry] and the [site] as a context receiver.
+ * @param prepare A function executed with the [site] as context before the driver is created; its result is passed to [startup] and [block].
+ * @param startup A hook that runs after driver creation and initial navigation but before [block].
+ * @param block Test body executed with a [PageEntry] and the [site] as a context receiver; receives the value from [prepare].
  */
-public inline fun <S : Site> webTest(
+public inline fun <S : Site, T> webTest(
     site: S,
-    driverProfile: DriverProfile = DefaultChromeDriverProfile,
+    crossinline driver: DriverFactory = { ChromeDriver() },
     keepBrowserOpen: Boolean = false,
-    crossinline block: context(S) PageEntry<S>.() -> Unit,
+    crossinline prepare: context(S) () -> T,
+    crossinline startup: context(S) PageEntry<S>.(T) -> Unit = { _ -> },
+    crossinline block: context(S) PageEntry<S>.(T) -> Unit,
 ) {
-    val driver = driverProfile.getDriver()
     SiteContext.withSite(site) {
-        site.configureDriver(driver)
-        driver.get(site.baseUrl)
-        if (site.cookies.isNotEmpty()) {
-            val options = driver.manage()
-            site.cookies.forEach(options::addCookie)
-            driver.get(site.baseUrl)
-        }
+        val prepared: T = context(site) { prepare() }
 
+        val driver = driver()
         try {
+            site.configureDriver(driver)
+            driver.get(site.baseUrl)
+            if (site.cookies.isNotEmpty()) {
+                val options = driver.manage()
+                site.cookies.forEach(options::addCookie)
+                driver.get(site.baseUrl)
+            }
+
             val pageEntry = PageEntry<S>(driver)
-            context(site) {
-                pageEntry.block()
-            }
+            context(site) { pageEntry.startup(prepared) }
+            context(site) { pageEntry.block(prepared) }
         } finally {
-            if (!keepBrowserOpen) {
-                driver.quit()
-            }
+            if (!keepBrowserOpen) driver.quit()
         }
     }
 }
 
 /**
- * Convenience overload of [webTest] that accepts a plain [WebDriver] factory.
- *
- * Wraps the provided [driverProfile] function into a [DriverProfile] and delegates to the primary overload.
- *
- * @param S the site type used for the test
- * @param site The site configuration to use throughout the test.
- * @param driverProfile A factory function that returns a configured [WebDriver] instance.
- * @param keepBrowserOpen If `true`, leaves the browser open after the block for debugging.
- * @param block Test body executed with a [PageEntry] and the [site] as a context receiver.
- * @see webTest
+ * Convenience overload of [webTest] for cases where no prepare data is needed.
+ * Uses [Unit] as the prepared value and runs the optional [startup] before [block].
  */
 public inline fun <S : Site> webTest(
     site: S,
-    crossinline driverProfile: () -> WebDriver,
+    crossinline driver: DriverFactory = { ChromeDriver() },
     keepBrowserOpen: Boolean = false,
-    crossinline block: context(S) PageEntry<S>.() -> Unit,
-): Unit = webTest(site, DriverProfile { driverProfile() }, keepBrowserOpen, block)
+    crossinline startup: context(S) PageEntry<S>.(Unit) -> Unit = { _ -> },
+    crossinline block: context(S) PageEntry<S>.(Unit) -> Unit,
+) {
+    webTest(
+        site = site,
+        driver = driver,
+        keepBrowserOpen = keepBrowserOpen,
+        prepare = { },
+        startup = startup,
+        block = block,
+    )
+}
 
 context(current: S)
 /**
@@ -240,3 +288,8 @@ public inline fun <S : Site, S2 : Site> PageEntry<S>.withSite(
         context(site) { entry.block() }
     }
 }
+
+/**
+ * Run assertions against this page instance and return it for fluent chaining.
+ */
+public fun <P : Page<*>, T> P.verify(assertions: P.() -> T): P = apply { assertions() }
