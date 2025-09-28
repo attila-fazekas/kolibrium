@@ -28,7 +28,7 @@ import dev.kolibrium.dsl.selenium.webtest.bstackdemo.Product.IPHONE_12_MINI
 import dev.kolibrium.dsl.selenium.webtest.bstackdemo.backend.getProducts
 import dev.kolibrium.dsl.selenium.webtest.bstackdemo.pages.ProductsPage
 import org.junit.jupiter.api.Test
-import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
 
 class BrowserStackDemoTest {
     private val products = listOf(IPHONE_12, IPHONE_12_MINI)
@@ -76,25 +76,52 @@ class BrowserStackDemoTest {
             }
         }
 
-    private fun <T> browserStackDemoTest(
-        driverFactory: DriverFactory = {
-            chromeDriver {
-                options {
-                    arguments {
-                        +disable_search_engine_choice_screen
-                        +incognito
-                    }
-                }
+    @Test
+    fun simple_navigation() =
+        browserStackDemoTest(
+            keepBrowserOpen = true,
+        ) {
+            open(::ProductsPage) {
+                verify { verifyShoppingCartBadgeIs(0) }
             }
-        },
+        }
+
+    inline fun browserStackDemoTest(
+        crossinline driverFactory: DriverFactory = { ChromeDriver() },
+        keepBrowserOpen: Boolean = false,
+        crossinline startup: context(BrowserStackDemo) PageEntry<BrowserStackDemo>.(Unit) -> Unit = { _ -> },
+        crossinline block: context(BrowserStackDemo) PageEntry<BrowserStackDemo>.(Unit) -> Unit,
+    ) = webTest(
+        site = BrowserStackDemo,
+        keepBrowserOpen = keepBrowserOpen,
+        driverFactory = driverFactory,
+        startup = startup,
+        block = block,
+    )
+
+    private fun <T> browserStackDemoTest(
+        driverFactory: DriverFactory = browserStackDemoDriver,
         keepBrowserOpen: Boolean = false,
         prepare: context(BrowserStackDemo) () -> T,
+        startup: context(BrowserStackDemo) PageEntry<BrowserStackDemo>.(T) -> Unit = { },
         block: context(BrowserStackDemo) PageEntry<BrowserStackDemo>.(T) -> Unit,
     ) = webTest(
         site = BrowserStackDemo,
-        driver = driverFactory,
         keepBrowserOpen = keepBrowserOpen,
+        driverFactory = driverFactory,
         prepare = prepare,
+        startup = startup,
         block = block,
     )
+
+    private val browserStackDemoDriver = {
+        chromeDriver {
+            options {
+                arguments {
+                    +disable_search_engine_choice_screen
+                    +incognito
+                }
+            }
+        }
+    }
 }

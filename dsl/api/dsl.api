@@ -40,10 +40,10 @@ public final class dev/kolibrium/dsl/selenium/PageScope {
 
 public final class dev/kolibrium/dsl/selenium/SiteDslKt {
 	public static final fun verify (Ldev/kolibrium/core/selenium/Page;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/core/selenium/Page;
-	public static final fun webTest (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V
-	public static final fun webTest (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V
-	public static synthetic fun webTest$default (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
-	public static synthetic fun webTest$default (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
+	public static final fun webTest (Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V
+	public static final fun webTest (Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V
+	public static synthetic fun webTest$default (Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
+	public static synthetic fun webTest$default (Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
 	public static final fun withSite (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function2;)V
 	public static synthetic fun withSite$default (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 }

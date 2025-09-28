@@ -26,11 +26,11 @@ dependencies {
     api(project(":common"))
     api(project(":core:selenium"))
     implementation("commons-validator:commons-validator:_")
-    implementation("io.ktor:ktor-client-core:_")
-    implementation("io.ktor:ktor-client-cio:_")
-    implementation("io.ktor:ktor-client-content-negotiation:_")
-    implementation("io.ktor:ktor-client-logging:_")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:_")
+    testImplementation("io.ktor:ktor-client-core:_")
+    testImplementation("io.ktor:ktor-client-cio:_")
+    testImplementation("io.ktor:ktor-client-content-negotiation:_")
+    testImplementation("io.ktor:ktor-client-logging:_")
+    testImplementation("io.ktor:ktor-serialization-kotlinx-json-jvm:_")
     testImplementation("com.titusfortner:selenium-logger:_")
 }
 
