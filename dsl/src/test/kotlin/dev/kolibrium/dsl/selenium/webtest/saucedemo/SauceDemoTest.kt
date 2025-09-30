@@ -47,7 +47,10 @@ import dev.kolibrium.dsl.selenium.verify
 import dev.kolibrium.dsl.selenium.webTest
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.BACKPACK
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.BIKE_LIGHT
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.InventoryPage
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.LoginPage
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.twitter.TwitterHomePage
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.visitTwitter
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -95,15 +98,6 @@ class SauceDemoTest() {
     fun `sauceDemoTest used with PageEntry's open() function`() = sauceDemoTest(
         keepBrowserOpen = false,
     ) {
-        open(::LoginPage) {
-            login()
-        }
-    }
-
-    @Test
-    fun `sauceDemoTest used with PageEntry's open() function and chained() `() = sauceDemoTest(
-        keepBrowserOpen = false,
-    ) {
         val products = listOf(BACKPACK, BIKE_LIGHT)
 
         open(::LoginPage) {
@@ -128,10 +122,46 @@ class SauceDemoTest() {
     }
 
     @Test
-    fun `authorized user sees inventory`() = authorizedSauceDemoTest(
+    fun `authenticatedSauceDemoTest used with PageEntry's open() function and chained() `() = authenticatedSauceDemoTest(
+        keepBrowserOpen = false,
+    ) {
+        val products = listOf(BACKPACK, BIKE_LIGHT)
+
+        open(::InventoryPage) {
+            verify { titleText() == "Swag Labs" }
+
+            products.addToCart()
+
+            goToCart()
+        }.verify {
+            val items = getItemsOnShoppingCart()
+            items.size shouldBe products.size
+            items.zip(products).forEach { (item, product) ->
+                item.quantity() shouldBe 1
+                item.name() shouldBe product.productName
+                item.price() shouldBe product.price
+            }
+        }.on {
+            checkout()
+        }
+    }
+
+    @Test
+    fun `crossing domains`() = authenticatedSauceDemoTest(
+        user = User.Visual,
         keepBrowserOpen = true,
     ) {
-
+        open(::InventoryPage) {
+            visitTwitter()
+        }.switchTo<Twitter>(navigateToBase = false) {
+            on(::TwitterHomePage) {
+                login()
+            }.then {
+                likeKolibrium()
+            }
+        }.switchBack {
+            goToCart()
+        }
     }
 
     private fun sauceDemoTest(
@@ -147,7 +177,8 @@ class SauceDemoTest() {
         block()
     }
 
-    private fun authorizedSauceDemoTest(
+    private fun authenticatedSauceDemoTest(
+        user: User = User.Standard,
         driverFactory: DriverFactory = sauceDemoDriver,
         keepBrowserOpen: Boolean = false,
         block: context(SauceDemo) PageEntry<SauceDemo>.() -> Unit,
@@ -155,19 +186,20 @@ class SauceDemoTest() {
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
-        prepare = { acquireToken() },
-        startup = { token: String ->
+        prepare = { user.acquireCredentials() },
+        startup = { username: String ->
             withCookies {
-                addCookie("session-username", token)
-            }.navigateTo("/inventory.html")
+                addCookie("session-username", username)
+            }
         },
         block = {
             block()
         },
     )
 
-    private fun acquireToken(): String {
-        return "standard_user"
+    //Imitating backend call to acquire credentials
+    private fun User.acquireCredentials(): String {
+        return username
     }
 
     private val sauceDemoDriver = {

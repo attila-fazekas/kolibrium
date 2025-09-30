@@ -21,6 +21,7 @@ import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.Site
 import dev.kolibrium.core.selenium.SiteContext
 import dev.kolibrium.dsl.selenium.interactions.CookiesScope
+import dev.kolibrium.dsl.selenium.internal.normalizePath
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 
@@ -41,17 +42,23 @@ public typealias DriverFactory = () -> WebDriver
 public annotation class PageDsl
 
 /**
- * Scoped wrapper around a [dev.kolibrium.core.selenium.Page] that ensures interactions happen only after navigation.
+ * Scoped wrapper around a [dev.kolibrium.core.selenium.Page] that keeps interactions within the
+ * navigated page flow.
  *
- * Use [on] to perform actions that either return another [dev.kolibrium.core.selenium.Page] (continuing the flow) or a terminal value.
- * The DSL marker prevents mixing operations from different pages in a single scope.
+ * Use [on] when an action transitions to another page and you want to continue chaining.
+ * Use [then] for Unit-returning interactions that stay on the same page, and [verify] for assertions.
+ * You can temporarily [switchTo] another [dev.kolibrium.core.selenium.Site] and return via
+ * [SwitchBackScope.switchBack]. The [PageDsl] marker prevents mixing operations from different pages
+ * in a single scope.
  *
- * @param P The page type wrapped by this scope.
- * @property page The underlying page instance.
+ * @param P the page type wrapped by this scope
+ * @property page the underlying page instance
+ * @property driver the WebDriver backing this scope; mainly for internal wiring and advanced use
  */
 @PageDsl
 public class PageScope<P : Page<*>>(
     public val page: P,
+    public val driver: WebDriver,
 ) {
     /**
      * Execute an action that transitions to the next page and returns a new [PageScope] for it.
@@ -60,16 +67,16 @@ public class PageScope<P : Page<*>>(
      * @param action A function executed on the current page that returns the next page.
      * @return A scope for the returned page.
      */
-    public fun <Next : Page<*>> on(action: P.() -> Next): PageScope<Next> = PageScope(page.action())
+    public fun <Next : Page<*>> on(action: P.() -> Next): PageScope<Next> = PageScope(page.action(), driver)
 
     /**
-     * Execute a terminal action that produces a value and does not change the current page.
-     *
-     * @param T the return type produced by [action]
-     * @param action A function executed on the current page.
-     * @return The result of [action].
+     * Execute a Unit-returning action and keep the current page scope for further fluent chaining.
+     * Use when the lambda performs interactions but does not transition to a new Page.
      */
-    public fun <T> on(action: P.() -> T): T = page.action()
+    public fun then(action: P.() -> Unit): PageScope<P> {
+        page.action()
+        return this
+    }
 
     /**
      * Run assertions against the current page and return this scope for fluent chaining.
@@ -78,13 +85,58 @@ public class PageScope<P : Page<*>>(
      *
      * @return this [PageScope]
      */
-    public fun <T> verify(assertions: P.() -> T): PageScope<P> {
+    public fun verify(assertions: P.() -> Unit): PageScope<P> {
         page.assertions()
         return this
     }
 
     /** Expose the underlying page instance when needed (e.g., for advanced use cases). */
     public fun unwrap(): P = page
+
+    /**
+     * Member version of switchTo so callers can write `.switchTo<Twitter> { … }` without specifying the page type.
+     * Captures the receiver's page type [P] for the returned [SwitchBackScope].
+     */
+    public inline fun <reified S2 : Site> switchTo(
+        navigateToBase: Boolean = true,
+        cookies: Cookies? = null,
+        crossinline block: context(S2) PageEntry<S2>.() -> Unit,
+    ): SwitchBackScope<P> {
+        val driver = this.driver
+        val originalEntry = PageEntry<S2>(driver)
+
+        // Remember the original environment
+        val originalWindow = driver.windowHandle
+        val originalSite: Site = SiteContext.get()!!
+
+        // Window selection heuristic: when a new tab likely opened, pick the last handle.
+        val handles = driver.windowHandles.toList()
+        if (handles.size > 1 && originalWindow != handles.last()) {
+            driver.switchTo().window(handles.last())
+        }
+
+        // Switch site context manually
+        val targetSite: S2 = siteOf()
+        SiteContext.set(targetSite)
+        targetSite.configureDriver(driver)
+        if (cookies != null && cookies.isNotEmpty()) {
+            val options = driver.manage()
+            cookies.forEach(options::addCookie)
+        }
+        if (navigateToBase) driver.get(targetSite.baseUrl)
+        val targetEntry: PageEntry<S2> = PageEntry(driver)
+
+        // Execute user block in target site context
+        context(targetSite) { targetEntry.block() }
+
+        // Return a scope that can restore the original page as receiver
+        return SwitchBackScope(
+            original = originalEntry,
+            originalSite = originalSite,
+            originalWindow = originalWindow,
+            originalPage = this.page,
+        )
+    }
 }
 
 /**
@@ -118,8 +170,37 @@ public class PageEntry<S : Site>(
     ): PageScope<R> {
         val page = pageFactory(driver)
         val targetPath = path ?: page.path
-        driver.get("${site.baseUrl}$targetPath")
-        return PageScope(page.action())
+        val normalizedPath = normalizePath(targetPath)
+        driver.get("${site.baseUrl}$normalizedPath")
+        return PageScope(page.action(), driver)
+    }
+
+    context(site: S)
+    /**
+     * Instantiate a page without navigation and execute [action] on it.
+     *
+     * This is useful when the target page is already open (e.g., after a tab switch)
+     * and you only want to bind a page object to the current tab.
+     * A guard ensures the current tab's origin matches the current [Site]'s origin.
+     */
+    public fun <P : Page<S>, R : Page<*>> on(
+        pageFactory: (WebDriver) -> P,
+        action: P.() -> R,
+    ): PageScope<R> {
+        val page = pageFactory(driver)
+
+        // Origin check: ensure we are on the same origin as the current site (allowing www. difference)
+        val currentUri = kotlin.runCatching { java.net.URI(driver.currentUrl) }.getOrNull()
+        val siteUri = kotlin.runCatching { java.net.URI(site.baseUrl) }.getOrNull()
+
+        fun normalizeHost(uri: java.net.URI?): String? = uri?.host?.lowercase()?.removePrefix("www.")
+        val currentHost = normalizeHost(currentUri)
+        val siteHost = normalizeHost(siteUri)
+        require(currentHost != null && siteHost != null && currentHost == siteHost) {
+            "Current tab origin (${currentUri?.authority ?: currentUri?.host}) does not match site origin (${siteUri?.authority ?: siteUri?.host}). Use switchTo(...) first or navigate explicitly."
+        }
+
+        return PageScope(page.action(), driver)
     }
 
     context(_: S)
@@ -169,7 +250,7 @@ public class PageEntry<S : Site>(
         if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
             driver.get(trimmed)
         } else {
-            val normalized = if (trimmed.startsWith('/')) trimmed else "/$trimmed"
+            val normalized = normalizePath(trimmed)
             driver.get("${site.baseUrl}$normalized")
         }
     }
@@ -292,4 +373,154 @@ public inline fun <S : Site, S2 : Site> PageEntry<S>.withSite(
 /**
  * Run assertions against this page instance and return it for fluent chaining.
  */
-public fun <P : Page<*>, T> P.verify(assertions: P.() -> T): P = apply { assertions() }
+public fun <P : Page<*>> P.verify(assertions: P.() -> Unit): P = apply { assertions() }
+
+/**
+ * Resolve a [Site] singleton instance by its type parameter.
+ *
+ * The target [S] must be declared as a Kotlin `object`.
+ */
+public inline fun <reified S : Site> siteOf(): S =
+    S::class.objectInstance
+        ?: error("${S::class.simpleName} must be declared as a Kotlin object to use siteOf()")
+
+/**
+ * Wrapper representing a switched site/window context, allowing the caller to switch back
+ * to the original site and window via [switchBack].
+ */
+public class SwitchBack<S1 : Site>(
+    private val original: PageEntry<S1>,
+    private val originalSite: S1,
+    private val originalWindow: String,
+) {
+    /**
+     * Switch back to the original browser window and site context, then run [block].
+     */
+    public fun switchBack(block: context(S1) PageEntry<S1>.() -> Unit): PageEntry<S1> {
+        val driver = original.driver
+        // Return to the original window
+        driver.switchTo().window(originalWindow)
+        // Restore site context and configuration
+        SiteContext.set(originalSite)
+        originalSite.configureDriver(driver)
+        // Execute caller's code in the restored site context
+        context(originalSite) { original.block() }
+        return original
+    }
+}
+
+/** A variant of [SwitchBack] that restores the original page as the receiver. */
+public class SwitchBackScope<P : Page<*>>(
+    private val original: PageEntry<out Site>,
+    private val originalSite: Site,
+    private val originalWindow: String,
+    private val originalPage: P,
+) {
+    /**
+     * Switch back to the original window and site, then execute [block] on the original page instance.
+     */
+    public fun switchBack(block: P.() -> Unit): PageScope<P> {
+        val driver = original.driver
+        driver.switchTo().window(originalWindow)
+        SiteContext.set(originalSite)
+        originalSite.configureDriver(driver)
+        originalPage.block()
+        return PageScope(originalPage, driver)
+    }
+}
+
+context(_: S1)
+/**
+ * Switch to another [Site] identified by type parameter [S2], run [block] in that site's context,
+ * and return a [SwitchBack] handle.
+ *
+ * Behavior:
+ * - Resolves the target site via [siteOf] so [S2] must be declared as a Kotlin `object`.
+ * - Calls [Site.configureDriver], applies optional [cookies] before navigation, and optionally navigates to
+ *   the target site's base URL when [navigateToBase] is true.
+ * - Window policy: if multiple windows exist and the current window is not the last handle, it switches to
+ *   the last handle (common when an external link opened a new tab).
+ *
+ * Receiver: a [PageEntry] of the current site (provided via a context receiver of type `S1`).
+ *
+ * @param S2 the target site type to switch to.
+ * @param S1 the current site type of this [PageEntry] (context receiver).
+ * @param navigateToBase Whether to navigate to the target site's base URL after switching (default true).
+ * @param cookies Optional cookies to apply right after switching.
+ * @param block Code to run in the target site context using a [PageEntry] bound to it.
+ * @return a [SwitchBack] handle that can restore the original site and window.
+ */
+public inline fun <reified S2 : Site, S1 : Site> PageEntry<S1>.switchTo(
+    navigateToBase: Boolean = true,
+    cookies: Cookies? = null,
+    crossinline block: context(S2) PageEntry<S2>.() -> Unit,
+): SwitchBack<S1> {
+    val driver = this.driver
+
+    // Remember the original environment
+    val originalWindow = driver.windowHandle
+
+    @Suppress("UNCHECKED_CAST")
+    val originalSite = SiteContext.get() as S1
+
+    // Window selection heuristic: when a new tab likely opened, pick the last handle.
+    val handles = driver.windowHandles.toList()
+    if (handles.size > 1 && originalWindow != handles.last()) {
+        driver.switchTo().window(handles.last())
+    }
+
+    // Switch site context
+    val targetSite: S2 = siteOf()
+    val targetEntry: PageEntry<S2> = this.switchTo(targetSite, navigateToBase, cookies)
+
+    // Run the block within the target site's context
+    context(targetSite) { targetEntry.block() }
+
+    // Provide a handle to switch back later
+    return SwitchBack(original = this, originalSite = originalSite, originalWindow = originalWindow)
+}
+
+/**
+ * Overload of [switchTo] that starts from a [PageScope] so you can fluently write
+ * open(::InventoryPage) { visitTwitter() }.switchTo<Twitter> { ... }.switchBack { goToCart() }
+ */
+public inline fun <reified S2 : Site, P : Page<*>> PageScope<P>.switchTo(
+    navigateToBase: Boolean = true,
+    cookies: Cookies? = null,
+    crossinline block: context(S2) PageEntry<S2>.() -> Unit,
+): SwitchBackScope<P> {
+    val driver = this.driver
+    val originalEntry = PageEntry<S2>(driver)
+
+    // Remember the original environment
+    val originalWindow = driver.windowHandle
+    val originalSite: Site = SiteContext.get()!!
+
+    // Window selection heuristic: when a new tab likely opened, pick the last handle.
+    val handles = driver.windowHandles.toList()
+    if (handles.size > 1 && originalWindow != handles.last()) {
+        driver.switchTo().window(handles.last())
+    }
+
+    // Switch site context manually (avoid requiring a context receiver here)
+    val targetSite: S2 = siteOf()
+    SiteContext.set(targetSite)
+    targetSite.configureDriver(driver)
+    if (cookies != null && cookies.isNotEmpty()) {
+        val options = driver.manage()
+        cookies.forEach(options::addCookie)
+    }
+    if (navigateToBase) driver.get(targetSite.baseUrl)
+    val targetEntry: PageEntry<S2> = PageEntry(driver)
+
+    // Execute user block in target site context
+    context(targetSite) { targetEntry.block() }
+
+    // Return a scope that can restore the original page as receiver
+    return SwitchBackScope(
+        original = originalEntry,
+        originalSite = originalSite,
+        originalWindow = originalWindow,
+        originalPage = this.page,
+    )
+}

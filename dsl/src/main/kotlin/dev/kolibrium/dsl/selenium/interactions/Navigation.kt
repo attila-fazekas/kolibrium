@@ -17,6 +17,7 @@
 package dev.kolibrium.dsl.selenium.interactions
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
+import dev.kolibrium.dsl.selenium.internal.normalizePath
 import org.openqa.selenium.WebDriver
 
 /**
@@ -36,7 +37,7 @@ public fun WebDriver.navigateTo(relativePath: String) {
     val current = java.net.URI(currentUrl)
     val origin = java.net.URI("${current.scheme}://${current.authority}/")
 
-    val normalizedPath = if (path.startsWith('/')) path else "/$path"
+    val normalizedPath = normalizePath(path)
 
     val resolved = origin.resolve(normalizedPath)
     get(resolved.toString())

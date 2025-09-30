@@ -21,6 +21,7 @@ public final class dev/kolibrium/dsl/selenium/PageEntry {
 	public fun <init> (Lorg/openqa/selenium/WebDriver;)V
 	public final fun getDriver ()Lorg/openqa/selenium/WebDriver;
 	public final fun navigateTo (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/dsl/selenium/PageEntry;Ljava/lang/String;)V
+	public final fun on (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public final fun open (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public static synthetic fun open$default (Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public final fun switchTo (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/core/selenium/Site;ZLjava/util/Set;)Ldev/kolibrium/dsl/selenium/PageEntry;
@@ -30,10 +31,11 @@ public final class dev/kolibrium/dsl/selenium/PageEntry {
 }
 
 public final class dev/kolibrium/dsl/selenium/PageScope {
-	public fun <init> (Ldev/kolibrium/core/selenium/Page;)V
+	public fun <init> (Ldev/kolibrium/core/selenium/Page;Lorg/openqa/selenium/WebDriver;)V
+	public final fun getDriver ()Lorg/openqa/selenium/WebDriver;
 	public final fun getPage ()Ldev/kolibrium/core/selenium/Page;
 	public final fun on (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
-	public final fun on (Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public final fun then (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public final fun unwrap ()Ldev/kolibrium/core/selenium/Page;
 	public final fun verify (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 }
@@ -46,6 +48,16 @@ public final class dev/kolibrium/dsl/selenium/SiteDslKt {
 	public static synthetic fun webTest$default (Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
 	public static final fun withSite (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function2;)V
 	public static synthetic fun withSite$default (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+}
+
+public final class dev/kolibrium/dsl/selenium/SwitchBack {
+	public fun <init> (Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;Ljava/lang/String;)V
+	public final fun switchBack (Lkotlin/jvm/functions/Function2;)Ldev/kolibrium/dsl/selenium/PageEntry;
+}
+
+public final class dev/kolibrium/dsl/selenium/SwitchBackScope {
+	public fun <init> (Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;Ljava/lang/String;Ldev/kolibrium/core/selenium/Page;)V
+	public final fun switchBack (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 }
 
 public final class dev/kolibrium/dsl/selenium/actions/ActionsKt {

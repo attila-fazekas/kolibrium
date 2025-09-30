@@ -44,3 +44,19 @@ data object SauceDemo : Site(baseUrl = "https://www.saucedemo.com") {
             LoggerDecorator(),
         )
 }
+
+data object Twitter : Site(baseUrl = "https://www.x.com") {
+    override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
+
+    override val waitConfig: WaitConfig = QUICK
+
+    override val decorators: List<AbstractDecorator> =
+        listOf(
+            HighlighterDecorator(
+                style = BorderStyle.DASHED,
+                color = Color.GREEN,
+            ),
+            SlowMotionDecorator(wait = 300.milliseconds),
+            LoggerDecorator(),
+        )
+}

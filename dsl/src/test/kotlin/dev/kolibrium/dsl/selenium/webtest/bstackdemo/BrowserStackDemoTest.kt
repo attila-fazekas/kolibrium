@@ -48,9 +48,7 @@ class BrowserStackDemoTest {
             },
         ) { productIds ->
             ProductsPage(driver).apply {
-                productIds.forEach { productId ->
-                    addToCart(productId)
-                }
+                productIds.forEach(::addToCart)
 
                 verifyShoppingCartBadgeIs(products.size)
             }
