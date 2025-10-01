@@ -21,7 +21,6 @@ import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.Site
 import dev.kolibrium.core.selenium.SiteContext
 import dev.kolibrium.dsl.selenium.interactions.CookiesScope
-import dev.kolibrium.dsl.selenium.interactions.cookies
 import dev.kolibrium.dsl.selenium.internal.normalizePath
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -54,12 +53,12 @@ public annotation class PageDsl
  *
  * @param P the page type wrapped by this scope
  * @property page the underlying page instance
- * @property driver the WebDriver backing this scope; mainly for internal wiring and advanced use
+ * @property entry the page entry backing this scope; holds session context and driver
  */
 @PageDsl
 public class PageScope<P : Page<*>>(
     public val page: P,
-    public val driver: WebDriver,
+    @PublishedApi internal val entry: PageEntry<out Site>,
 ) {
     /**
      * Execute an action that transitions to the next page and returns a new [PageScope] for it.
@@ -68,7 +67,7 @@ public class PageScope<P : Page<*>>(
      * @param action A function executed on the current page that returns the next page.
      * @return A scope for the returned page.
      */
-    public fun <Next : Page<*>> on(action: P.() -> Next): PageScope<Next> = PageScope(page.action(), driver)
+    public fun <Next : Page<*>> on(action: P.() -> Next): PageScope<Next> = PageScope(page.action(), entry)
 
     /**
      * Execute a Unit-returning action and keep the current page scope for further fluent chaining.
@@ -103,8 +102,8 @@ public class PageScope<P : Page<*>>(
         cookies: Cookies? = null,
         crossinline block: context(S2) PageEntry<S2>.() -> Unit,
     ): SwitchBackScope<P> {
-        val driver = this.driver
-        val originalEntry = PageEntry<S2>(driver)
+        val driver = entry.driver
+        val originalEntry = entry
 
         // Remember the original environment
         val originalWindow = driver.windowHandle
@@ -173,7 +172,7 @@ public class PageEntry<S : Site>(
         val targetPath = path ?: page.path
         val normalizedPath = normalizePath(targetPath)
         driver.get("${site.baseUrl}$normalizedPath")
-        return PageScope(page.action(), driver)
+        return PageScope(page.action(), this)
     }
 
     context(site: S)
@@ -201,7 +200,7 @@ public class PageEntry<S : Site>(
             "Current tab origin (${currentUri?.authority ?: currentUri?.host}) does not match site origin (${siteUri?.authority ?: siteUri?.host}). Use switchTo(...) first or navigate explicitly."
         }
 
-        return PageScope(page.action(), driver)
+        return PageScope(page.action(), this)
     }
 
     context(_: S)
@@ -271,7 +270,7 @@ public class PageEntry<S : Site>(
      * @param builder The cookie modification DSL.
      * @return This [PageEntry] for fluent chaining.
      */
-    public fun PageEntry<S>.cookies(
+    public fun cookies(
         refreshPage: Boolean = false,
         builder: CookiesScope.() -> Unit,
     ): PageEntry<S> {
@@ -280,6 +279,17 @@ public class PageEntry<S : Site>(
         if (refreshPage) driver.navigate().refresh()
         return this
     }
+}
+
+/**
+ * Add or manipulate cookies while staying on the same page scope.
+ */
+public fun <P : Page<*>> PageScope<P>.cookies(
+    refreshPage: Boolean = false,
+    builder: CookiesScope.() -> Unit,
+): PageScope<P> {
+    entry.cookies(refreshPage, builder)
+    return this
 }
 
 /**
@@ -430,7 +440,7 @@ public class SwitchBackScope<P : Page<*>>(
         SiteContext.set(originalSite)
         originalSite.configureDriver(driver)
         originalPage.block()
-        return PageScope(originalPage, driver)
+        return PageScope(originalPage, original)
     }
 }
 
@@ -494,8 +504,8 @@ public inline fun <reified S2 : Site, P : Page<*>> PageScope<P>.switchTo(
     cookies: Cookies? = null,
     crossinline block: context(S2) PageEntry<S2>.() -> Unit,
 ): SwitchBackScope<P> {
-    val driver = this.driver
-    val originalEntry = PageEntry<S2>(driver)
+    val driver = this.entry.driver
+    val originalEntry = this.entry
 
     // Remember the original environment
     val originalWindow = driver.windowHandle
@@ -528,15 +538,4 @@ public inline fun <reified S2 : Site, P : Page<*>> PageScope<P>.switchTo(
         originalWindow = originalWindow,
         originalPage = this.page,
     )
-}
-
-/**
- * Add or manipulate cookies while staying on the same page scope.
- */
-public fun <P : Page<*>> PageScope<P>.cookies(
-    refreshPage: Boolean = false,
-    builder: CookiesScope.() -> Unit,
-): PageScope<P> {
-    driver.cookies(refreshPage, builder)
-    return this
 }

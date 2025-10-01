@@ -149,7 +149,7 @@ class SauceDemoTest() {
     @Test
     fun `crossing domains`() = authenticatedSauceDemoTest(
         user = User.Visual,
-        keepBrowserOpen = true,
+        keepBrowserOpen = false,
     ) {
         open(::InventoryPage) {
             visitTwitter()
