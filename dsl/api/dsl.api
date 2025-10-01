@@ -19,6 +19,8 @@ public abstract interface annotation class dev/kolibrium/dsl/selenium/PageDsl : 
 
 public final class dev/kolibrium/dsl/selenium/PageEntry {
 	public fun <init> (Lorg/openqa/selenium/WebDriver;)V
+	public final fun cookies (Ldev/kolibrium/dsl/selenium/PageEntry;ZLkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageEntry;
+	public static synthetic fun cookies$default (Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/dsl/selenium/PageEntry;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageEntry;
 	public final fun getDriver ()Lorg/openqa/selenium/WebDriver;
 	public final fun navigateTo (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/dsl/selenium/PageEntry;Ljava/lang/String;)V
 	public final fun on (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
@@ -26,8 +28,6 @@ public final class dev/kolibrium/dsl/selenium/PageEntry {
 	public static synthetic fun open$default (Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public final fun switchTo (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/core/selenium/Site;ZLjava/util/Set;)Ldev/kolibrium/dsl/selenium/PageEntry;
 	public static synthetic fun switchTo$default (Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/core/selenium/Site;ZLjava/util/Set;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageEntry;
-	public final fun withCookies (Ldev/kolibrium/dsl/selenium/PageEntry;ZLkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageEntry;
-	public static synthetic fun withCookies$default (Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/dsl/selenium/PageEntry;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageEntry;
 }
 
 public final class dev/kolibrium/dsl/selenium/PageScope {
@@ -41,6 +41,8 @@ public final class dev/kolibrium/dsl/selenium/PageScope {
 }
 
 public final class dev/kolibrium/dsl/selenium/SiteDslKt {
+	public static final fun cookies (Ldev/kolibrium/dsl/selenium/PageScope;ZLkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
+	public static synthetic fun cookies$default (Ldev/kolibrium/dsl/selenium/PageScope;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public static final fun verify (Ldev/kolibrium/core/selenium/Page;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/core/selenium/Page;
 	public static final fun webTest (Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V
 	public static final fun webTest (Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V
@@ -628,6 +630,7 @@ public final class dev/kolibrium/dsl/selenium/interactions/CookiesKt {
 
 public final class dev/kolibrium/dsl/selenium/interactions/CookiesScope {
 	public fun <init> (Lorg/openqa/selenium/WebDriver$Options;)V
+	public final fun addAll ([Lorg/openqa/selenium/Cookie;)V
 	public final fun addCookie (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/interactions/SameSite;)Lorg/openqa/selenium/Cookie;
 	public static synthetic fun addCookie$default (Ldev/kolibrium/dsl/selenium/interactions/CookiesScope;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/dsl/selenium/interactions/SameSite;ILjava/lang/Object;)Lorg/openqa/selenium/Cookie;
 	public final fun deleteCookie (Ljava/lang/String;)V
@@ -635,6 +638,8 @@ public final class dev/kolibrium/dsl/selenium/interactions/CookiesScope {
 	public final fun deleteCookies ()V
 	public final fun getCookie (Ljava/lang/String;)Lorg/openqa/selenium/Cookie;
 	public final fun getCookies ()Ljava/util/Set;
+	public final fun put (Ljava/lang/String;Ljava/lang/String;)Lorg/openqa/selenium/Cookie;
+	public final fun putAll (Ljava/util/Map;)V
 	public fun toString ()Ljava/lang/String;
 }
 

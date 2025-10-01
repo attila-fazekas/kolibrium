@@ -58,10 +58,13 @@ public class CookiesScope(
      * You can optionally specify details such as domain, path, expiration date, security flags, HttpOnly flag,
      * and the SameSite policy.
      *
+     * Notes:
+     * - Selenium restricts adding cookies to the current origin. Ensure the driver is already on the target domain.
+     *
      * @param name The name of the cookie.
      * @param value The value of the cookie.
      * @param domain (Optional) The domain to which the cookie applies. Defaults to the current domain if not specified.
-     * @param path (Optional) The path to which the cookie applies. Defaults to "/" if not specified.
+     * @param path (Optional) The path to which the cookie applies. If `null`, the builder's default is used.
      * @param expiresOn (Optional) The expiration date of the cookie. If not provided, the cookie will be a session cookie.
      * @param isSecure (Optional) If `true`, the cookie is marked as secure, meaning it will only be sent over HTTPS.
      * @param isHttpOnly (Optional) If `true`, the cookie is marked as HttpOnly, preventing client-side JavaScript access.
@@ -84,7 +87,7 @@ public class CookiesScope(
         path?.let { cookieBuilder.path(it) }
         expiresOn?.let { cookieBuilder.expiresOn(it) }
         isSecure?.let { cookieBuilder.isSecure(it) }
-        isHttpOnly?.let { cookieBuilder.isSecure(it) }
+        isHttpOnly?.let { cookieBuilder.isHttpOnly(it) }
         sameSite?.let { cookieBuilder.sameSite(it.type) }
         val cookie = cookieBuilder.build()
         options.addCookie(cookie)
@@ -131,6 +134,31 @@ public class CookiesScope(
     public fun deleteCookies(): Unit = options.deleteAllCookies()
 
     /**
+     * Add all provided Selenium [Cookie] instances to the current session.
+     */
+    @KolibriumDsl
+    public fun addAll(vararg cookies: Cookie) {
+        cookies.forEach(options::addCookie)
+    }
+
+    /**
+     * Convenience for adding a simple session cookie with a name/value pair.
+     */
+    @KolibriumDsl
+    public fun put(
+        name: String,
+        value: String,
+    ): Cookie = addCookie(name, value)
+
+    /**
+     * Convenience for adding multiple name/value cookies.
+     */
+    @KolibriumDsl
+    public fun putAll(pairs: Map<String, String>) {
+        pairs.forEach { (k, v) -> addCookie(k, v) }
+    }
+
+    /**
      * Returns a string representation of the [CookiesScope], primarily for debugging purposes.
      */
     override fun toString(): String = "CookiesScope(options=${options.cookies})"
@@ -139,25 +167,18 @@ public class CookiesScope(
 /**
  * Specifies the SameSite attribute for cookies in the [CookiesScope] class.
  *
- * @property type The string representation of the SameSite policy ("Strict", "Lax", or "None") used in the cookie
- * configuration.
+ * @property type The string representation of the SameSite policy ("Strict", "Lax", or "None").
  */
 @KolibriumDsl
 public enum class SameSite(
     internal val type: String,
 ) {
-    /**
-     * Strict SameSite policy, which restricts the cookie to same-site requests only.
-     */
+    /** Strict SameSite policy: cookie is sent only for same-site requests. */
     STRICT("Strict"),
 
-    /**
-     * Lax SameSite policy, which allows the cookie to be sent with top-level navigations and some cross-site requests.
-     */
+    /** Lax SameSite policy: cookie is sent with top-level navigations and some cross-site GETs. */
     LAX("Lax"),
 
-    /**
-     * No SameSite restriction, allowing the cookie to be sent with any cross-site request.
-     */
+    /** No SameSite restriction: cookie may be sent with any cross-site request. */
     NONE("None"),
 }

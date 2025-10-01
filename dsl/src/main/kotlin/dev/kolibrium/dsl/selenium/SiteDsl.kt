@@ -21,6 +21,7 @@ import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.Site
 import dev.kolibrium.core.selenium.SiteContext
 import dev.kolibrium.dsl.selenium.interactions.CookiesScope
+import dev.kolibrium.dsl.selenium.interactions.cookies
 import dev.kolibrium.dsl.selenium.internal.normalizePath
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -262,11 +263,15 @@ public class PageEntry<S : Site>(
      * standard Selenium cookie management APIs. If [refreshPage] is true, the current page is refreshed
      * after the changes so that cookie effects take place immediately.
      *
+     * Notes:
+     * - Selenium only allows adding cookies for the current origin. Ensure the driver is already on the target site's origin.
+     * - This function does not auto-refresh unless [refreshPage] is true.
+     *
      * @param refreshPage Whether to refresh the page after applying cookie changes. Default is false.
      * @param builder The cookie modification DSL.
      * @return This [PageEntry] for fluent chaining.
      */
-    public fun PageEntry<S>.withCookies(
+    public fun PageEntry<S>.cookies(
         refreshPage: Boolean = false,
         builder: CookiesScope.() -> Unit,
     ): PageEntry<S> {
@@ -523,4 +528,15 @@ public inline fun <reified S2 : Site, P : Page<*>> PageScope<P>.switchTo(
         originalWindow = originalWindow,
         originalPage = this.page,
     )
+}
+
+/**
+ * Add or manipulate cookies while staying on the same page scope.
+ */
+public fun <P : Page<*>> PageScope<P>.cookies(
+    refreshPage: Boolean = false,
+    builder: CookiesScope.() -> Unit,
+): PageScope<P> {
+    driver.cookies(refreshPage, builder)
+    return this
 }

@@ -188,7 +188,7 @@ class SauceDemoTest() {
         driverFactory = driverFactory,
         prepare = { user.acquireCredentials() },
         startup = { username: String ->
-            withCookies {
+            cookies {
                 addCookie("session-username", username)
             }
         },
