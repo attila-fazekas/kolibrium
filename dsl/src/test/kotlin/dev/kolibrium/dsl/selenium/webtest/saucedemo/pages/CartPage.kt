@@ -21,6 +21,7 @@ import dev.kolibrium.core.selenium.dataTest
 import dev.kolibrium.core.selenium.dataTests
 import dev.kolibrium.core.selenium.idOrName
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.SauceDemo
+import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
@@ -28,6 +29,8 @@ class CartPage(
     driver: WebDriver,
 ) : Page<SauceDemo>(driver) {
     override val path = "/cart.html"
+
+    override val readyBy = By.className("title")
 
     private val inventoryItems by dataTests("inventory-item")
     private val continueShoppingButton by idOrName("continue-shopping")

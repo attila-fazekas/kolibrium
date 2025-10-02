@@ -19,8 +19,9 @@ public abstract interface annotation class dev/kolibrium/dsl/selenium/PageDsl : 
 
 public final class dev/kolibrium/dsl/selenium/PageEntry {
 	public fun <init> (Lorg/openqa/selenium/WebDriver;)V
-	public final fun cookies (Ldev/kolibrium/dsl/selenium/PageEntry;ZLkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageEntry;
-	public static synthetic fun cookies$default (Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/dsl/selenium/PageEntry;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageEntry;
+	public final fun cookies (ZLkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageEntry;
+	public static synthetic fun cookies$default (Ldev/kolibrium/dsl/selenium/PageEntry;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageEntry;
+	public final fun ensureReady (Ldev/kolibrium/core/selenium/Page;Lorg/openqa/selenium/WebDriver;Ldev/kolibrium/core/selenium/Site;)V
 	public final fun getDriver ()Lorg/openqa/selenium/WebDriver;
 	public final fun navigateTo (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/dsl/selenium/PageEntry;Ljava/lang/String;)V
 	public final fun on (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
@@ -31,8 +32,8 @@ public final class dev/kolibrium/dsl/selenium/PageEntry {
 }
 
 public final class dev/kolibrium/dsl/selenium/PageScope {
-	public fun <init> (Ldev/kolibrium/core/selenium/Page;Lorg/openqa/selenium/WebDriver;)V
-	public final fun getDriver ()Lorg/openqa/selenium/WebDriver;
+	public fun <init> (Ldev/kolibrium/core/selenium/Page;Ldev/kolibrium/dsl/selenium/PageEntry;)V
+	public final fun getEntry ()Ldev/kolibrium/dsl/selenium/PageEntry;
 	public final fun getPage ()Ldev/kolibrium/core/selenium/Page;
 	public final fun on (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public final fun then (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;

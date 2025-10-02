@@ -9,6 +9,10 @@ public final class dev/kolibrium/core/selenium/LocatorDelegatesKt {
 	public static synthetic fun cssSelectors$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun dataTest (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
 	public static synthetic fun dataTest$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun dataTestId (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun dataTestId$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
+	public static final fun dataTestIds (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
+	public static synthetic fun dataTestIds$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun dataTests (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
 	public static synthetic fun dataTests$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Lkotlin/properties/ReadOnlyProperty;
 	public static final fun id (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/selenium/WaitConfig;Lkotlin/jvm/functions/Function1;)Lkotlin/properties/ReadOnlyProperty;
@@ -51,6 +55,8 @@ public abstract class dev/kolibrium/core/selenium/Page : org/openqa/selenium/Sea
 	public fun <init> (Lorg/openqa/selenium/WebDriver;)V
 	protected final fun addCookie (Lorg/openqa/selenium/Cookie;)V
 	protected final fun addCookies (Ljava/util/Set;)V
+	public fun assertReady ()V
+	public fun awaitReady (Lorg/openqa/selenium/WebDriver;)V
 	protected final fun back ()V
 	protected final fun clearCookies ()V
 	protected final fun cookie (Ljava/lang/String;)Lorg/openqa/selenium/Cookie;
@@ -62,6 +68,7 @@ public abstract class dev/kolibrium/core/selenium/Page : org/openqa/selenium/Sea
 	protected final fun getDriver ()Lorg/openqa/selenium/WebDriver;
 	protected final fun getPageTitle ()Ljava/lang/String;
 	public fun getPath ()Ljava/lang/String;
+	public fun getReadyBy ()Lorg/openqa/selenium/By;
 	protected final fun refresh ()V
 }
 
@@ -102,6 +109,10 @@ public final class dev/kolibrium/core/selenium/WaitConfig$Companion {
 	public final fun getDEFAULT ()Ldev/kolibrium/core/selenium/WaitConfig;
 	public final fun getPATIENT ()Ldev/kolibrium/core/selenium/WaitConfig;
 	public final fun getQUICK ()Ldev/kolibrium/core/selenium/WaitConfig;
+}
+
+public final class dev/kolibrium/core/selenium/WaitConfigKt {
+	public static final fun configureWith (Lorg/openqa/selenium/support/ui/FluentWait;Ldev/kolibrium/core/selenium/WaitConfig;)Lorg/openqa/selenium/support/ui/FluentWait;
 }
 
 public abstract class dev/kolibrium/core/selenium/decorators/AbstractDecorator {

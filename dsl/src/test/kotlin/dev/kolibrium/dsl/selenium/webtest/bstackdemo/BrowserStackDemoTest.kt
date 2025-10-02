@@ -16,6 +16,7 @@
 
 package dev.kolibrium.dsl.selenium.webtest.bstackdemo
 
+import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.dsl.selenium.DriverFactory
 import dev.kolibrium.dsl.selenium.PageEntry
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
@@ -27,11 +28,20 @@ import dev.kolibrium.dsl.selenium.webtest.bstackdemo.Product.IPHONE_12
 import dev.kolibrium.dsl.selenium.webtest.bstackdemo.Product.IPHONE_12_MINI
 import dev.kolibrium.dsl.selenium.webtest.bstackdemo.backend.getProducts
 import dev.kolibrium.dsl.selenium.webtest.bstackdemo.pages.ProductsPage
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.chrome.ChromeDriver
 
 class BrowserStackDemoTest {
     private val products = listOf(IPHONE_12, IPHONE_12_MINI)
+
+    companion object {
+        @JvmStatic
+        @BeforeAll
+        fun enableLogging() {
+            SeleniumLogger.enable("RemoteWebDriver")
+        }
+    }
 
     @Test
     fun test() =

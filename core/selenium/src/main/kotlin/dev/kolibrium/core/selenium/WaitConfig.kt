@@ -17,6 +17,8 @@
 package dev.kolibrium.core.selenium
 
 import org.openqa.selenium.NoSuchElementException
+import org.openqa.selenium.support.ui.FluentWait
+import java.time.Duration.ofMillis
 import kotlin.reflect.KClass
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -119,3 +121,20 @@ public class WaitConfig(
             )
     }
 }
+
+/**
+ * Apply this WaitConfig to a Selenium FluentWait instance.
+ * Generic across receiver types so it can be reused for WebDriver, WebElement wrappers, etc.
+ */
+public fun <T> FluentWait<T>.configureWith(waitConfig: WaitConfig): FluentWait<T> =
+    apply {
+        waitConfig.timeout?.let {
+            val withTimeout = withTimeout(ofMillis(it.inWholeMilliseconds))
+            withTimeout
+        }
+        waitConfig.pollingInterval?.let { pollingEvery(ofMillis(it.inWholeMilliseconds)) }
+        waitConfig.message?.let { withMessage { it } }
+        if (waitConfig.ignoring.isNotEmpty()) {
+            ignoreAll(waitConfig.ignoring.map { it.java })
+        }
+    }

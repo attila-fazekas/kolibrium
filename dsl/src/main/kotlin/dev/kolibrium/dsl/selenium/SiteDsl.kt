@@ -20,10 +20,13 @@ import dev.kolibrium.common.Cookies
 import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.Site
 import dev.kolibrium.core.selenium.SiteContext
+import dev.kolibrium.core.selenium.configureWith
 import dev.kolibrium.dsl.selenium.interactions.CookiesScope
 import dev.kolibrium.dsl.selenium.internal.normalizePath
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.support.ui.FluentWait
+import java.net.URI
 
 /**
  * Factory function that creates a new WebDriver instance for use by Kolibrium DSL helpers such as [webTest].
@@ -67,7 +70,12 @@ public class PageScope<P : Page<*>>(
      * @param action A function executed on the current page that returns the next page.
      * @return A scope for the returned page.
      */
-    public fun <Next : Page<*>> on(action: P.() -> Next): PageScope<Next> = PageScope(page.action(), entry)
+    public fun <Next : Page<*>> on(action: P.() -> Next): PageScope<Next> {
+        val next = page.action()
+        // Ensure the returned page is ready as well
+        entry.ensureReady(next, entry.driver, SiteContext.get()!!)
+        return PageScope(next, entry)
+    }
 
     /**
      * Execute a Unit-returning action and keep the current page scope for further fluent chaining.
@@ -86,6 +94,8 @@ public class PageScope<P : Page<*>>(
      * @return this [PageScope]
      */
     public fun verify(assertions: P.() -> Unit): PageScope<P> {
+        // Lightweight identity guard; avoid re-waiting on every assertion
+        page.assertReady()
         page.assertions()
         return this
     }
@@ -152,6 +162,25 @@ public class PageScope<P : Page<*>>(
 public class PageEntry<S : Site>(
     public val driver: WebDriver,
 ) {
+    // --- Readiness utilities ---
+    @PublishedApi
+    internal fun ensureReady(
+        page: Page<*>,
+        driver: WebDriver,
+        site: Site,
+    ) {
+        val by = page.readyBy
+        if (by != null) {
+            val wait = FluentWait(driver).configureWith(site.waitConfig)
+            val elementReady = site.elementReadyCondition
+            wait.until {
+                driver.findElements(by).firstOrNull()?.let(elementReady) == true
+            }
+        }
+        page.awaitReady(driver)
+        page.assertReady()
+    }
+
     context(site: S)
     /**
      * Instantiate and open a page, then execute [action] on it.
@@ -172,6 +201,10 @@ public class PageEntry<S : Site>(
         val targetPath = path ?: page.path
         val normalizedPath = normalizePath(targetPath)
         driver.get("${site.baseUrl}$normalizedPath")
+
+        // Readiness pipeline
+        ensureReady(page, driver, site)
+
         return PageScope(page.action(), this)
     }
 
@@ -190,15 +223,18 @@ public class PageEntry<S : Site>(
         val page = pageFactory(driver)
 
         // Origin check: ensure we are on the same origin as the current site (allowing www. difference)
-        val currentUri = kotlin.runCatching { java.net.URI(driver.currentUrl) }.getOrNull()
-        val siteUri = kotlin.runCatching { java.net.URI(site.baseUrl) }.getOrNull()
+        val currentUri = kotlin.runCatching { URI(driver.currentUrl) }.getOrNull()
+        val siteUri = kotlin.runCatching { URI(site.baseUrl) }.getOrNull()
 
-        fun normalizeHost(uri: java.net.URI?): String? = uri?.host?.lowercase()?.removePrefix("www.")
+        fun normalizeHost(uri: URI?): String? = uri?.host?.lowercase()?.removePrefix("www.")
         val currentHost = normalizeHost(currentUri)
         val siteHost = normalizeHost(siteUri)
         require(currentHost != null && siteHost != null && currentHost == siteHost) {
             "Current tab origin (${currentUri?.authority ?: currentUri?.host}) does not match site origin (${siteUri?.authority ?: siteUri?.host}). Use switchTo(...) first or navigate explicitly."
         }
+
+        // Readiness pipeline for non-navigation binding
+        ensureReady(page, driver, site)
 
         return PageScope(page.action(), this)
     }
@@ -439,6 +475,8 @@ public class SwitchBackScope<P : Page<*>>(
         driver.switchTo().window(originalWindow)
         SiteContext.set(originalSite)
         originalSite.configureDriver(driver)
+        // Ensure the original page is ready before executing the block
+        original.ensureReady(originalPage, driver, originalSite)
         originalPage.block()
         return PageScope(originalPage, original)
     }

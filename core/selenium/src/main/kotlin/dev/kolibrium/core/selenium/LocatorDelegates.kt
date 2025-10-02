@@ -260,7 +260,23 @@ public fun SearchContext.dataTest(
         readyCondition = readyCondition,
     )
 
-private fun String.escapeQuotes(): String = if (contains("'")) "concat('${replace("'", "',\"'\",'")}')" else "'$this'"
+/**
+ * Creates a property delegate that lazily finds a single element by its "data-test-id" attribute value.
+ *
+ * Mirrors dataTest() but targets the data-test-id attribute, commonly used by some test harnesses.
+ */
+public fun SearchContext.dataTestId(
+    value: String,
+    cacheLookup: Boolean = true,
+    waitConfig: WaitConfig = defaultWaitConfig,
+    readyCondition: WebElement.() -> Boolean = defaultElementReadyCondition,
+): WebElementProperty =
+    xPath(
+        value = ".//*[@data-testid=${value.escapeQuotes()}]",
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
 
 /**
  * Creates a property delegate that lazily finds all elements with the specified "data-test" attribute value.
@@ -304,6 +320,26 @@ public fun SearchContext.dataTests(
         waitConfig = waitConfig,
         readyCondition = readyCondition,
     )
+
+/**
+ * Creates a property delegate that lazily finds all elements with the specified "data-test-id" attribute value.
+ *
+ * Mirrors dataTests() but targets the data-test-id attribute.
+ */
+public fun SearchContext.dataTestIds(
+    value: String,
+    cacheLookup: Boolean = true,
+    waitConfig: WaitConfig = defaultWaitConfig,
+    readyCondition: WebElements.() -> Boolean = defaultElementsReadyCondition,
+): WebElementsProperty =
+    xPaths(
+        value = ".//*[@data-testid=${value.escapeQuotes()}]",
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyCondition = readyCondition,
+    )
+
+private fun String.escapeQuotes(): String = if (contains("'")) "concat('${replace("'", "',\"'\",'")}')" else "'$this'"
 
 /**
  * Creates a property delegate that lazily finds a single element by its "id" attribute.
@@ -872,16 +908,7 @@ internal abstract class KWebElementBase<T : KWebElementBase<T, R>, R>(
 
     protected fun initializeWait(waitConfig: WaitConfig): FluentWait<T> =
         @Suppress("UNCHECKED_CAST")
-        FluentWait(this as T).apply {
-            waitConfig.apply {
-                timeout?.let { withTimeout(it.toJavaDuration()) }
-                pollingInterval?.let { pollingEvery(it.toJavaDuration()) }
-                message?.let { withMessage { it } }
-                if (ignoring.isNotEmpty()) {
-                    ignoreAll(ignoring.map { it.java })
-                }
-            }
-        }
+        FluentWait(this as T).configureWith(waitConfig)
 
     protected fun getValueInternal(wait: FluentWait<T>): R {
         wait.until {
