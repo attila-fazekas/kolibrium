@@ -17,14 +17,16 @@
 package dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.twitter
 
 import dev.kolibrium.core.selenium.Page
+import dev.kolibrium.core.selenium.dataTestId
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Twitter
-import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 
 class TwitterHomePage(
     driver: WebDriver,
 ) : Page<Twitter>(driver) {
-    override val readyBy = By.xpath(".//*[@data-testid='tweet']")
+    private val tweet = dataTestId("tweet")
+
+    override val ready = tweet
 
     fun login(): FeedPage = FeedPage(driver)
 }

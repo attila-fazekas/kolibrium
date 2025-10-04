@@ -31,14 +31,8 @@ import dev.kolibrium.core.selenium.partialLinkText
 import dev.kolibrium.core.selenium.partialLinkTexts
 import dev.kolibrium.core.selenium.tagName
 import dev.kolibrium.core.selenium.tagNames
-import dev.kolibrium.core.selenium.xPath
-import dev.kolibrium.core.selenium.xPaths
-import org.openqa.selenium.By.className
-import org.openqa.selenium.By.cssSelector
-import org.openqa.selenium.By.id
-import org.openqa.selenium.By.linkText
-import org.openqa.selenium.By.partialLinkText
-import org.openqa.selenium.By.tagName
+import dev.kolibrium.core.selenium.xpath
+import dev.kolibrium.core.selenium.xpaths
 import org.openqa.selenium.WebDriver
 
 class TutorialPage(
@@ -66,8 +60,8 @@ class TutorialPage(
     val tagName by tagName("p")
     val tagNames by tagNames("span")
 
-    val xPath by xPath("//div[@id='by-xpath']")
-    val xPaths by xPaths("//div[@class='multiple-by-xpath']")
+    val xpath by xpath("//div[@id='by-xpath']")
+    val xpaths by xpaths("//div[@class='multiple-by-xpath']")
 
     val singleLocators by id("single-locators")
     val multipleLocators by id("multiple-locators")

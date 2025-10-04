@@ -169,10 +169,12 @@ public class PageEntry<S : Site>(
         driver: WebDriver,
         site: Site,
     ) {
-        val by = page.readyBy
-        if (by != null) {
-            val wait = FluentWait(driver).configureWith(site.waitConfig)
-            val elementReady = site.elementReadyCondition
+        val descriptor = page.ready
+        if (descriptor != null) {
+            val waitCfg = descriptor.waitConfig ?: site.waitConfig
+            val elementReady = descriptor.readyWhen ?: site.elementReadyCondition
+            val wait = FluentWait(driver).configureWith(waitCfg)
+            val by = descriptor.by
             wait.until {
                 driver.findElements(by).firstOrNull()?.let(elementReady) == true
             }

@@ -41,9 +41,9 @@ public class WaitConfig(
      */
     public var message: String? = null,
     /**
-     * A list of exception classes that should be ignored during synchronization processes.
+     * A set of exception classes that should be ignored during synchronization processes.
      */
-    public val ignoring: List<KClass<out Throwable>> = emptyList(),
+    public val ignoring: Set<KClass<out Throwable>> = emptySet(),
 ) {
     init {
         pollingInterval?.let {
@@ -74,7 +74,7 @@ public class WaitConfig(
      *        If null, uses the current configuration's timeout.
      * @param message The message to be included in the timeout exception if the condition is not met.
      *        If null, uses the current configuration's message.
-     * @param ignoring A list of exception types to ignore during condition checks.
+     * @param ignoring A set of exception types to ignore during condition checks.
      *        Defaults to the current configuration's ignored exceptions.
      * @return A new WaitConfig instance with the specified parameters, using current values for any unspecified parameters.
      */
@@ -82,7 +82,7 @@ public class WaitConfig(
         pollingInterval: Duration? = this.pollingInterval,
         timeout: Duration? = this.timeout,
         message: String? = this.message,
-        ignoring: List<KClass<out Throwable>> = this.ignoring,
+        ignoring: Set<KClass<out Throwable>> = this.ignoring,
     ): WaitConfig = WaitConfig(pollingInterval, timeout, message, ignoring)
 
     /**
@@ -97,7 +97,7 @@ public class WaitConfig(
                 pollingInterval = 200.milliseconds,
                 timeout = 10.seconds,
                 message = "Element could not be found",
-                ignoring = listOf(NoSuchElementException::class),
+                ignoring = setOf(NoSuchElementException::class),
             )
 
         /**

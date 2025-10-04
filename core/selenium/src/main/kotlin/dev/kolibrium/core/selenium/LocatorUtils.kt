@@ -72,13 +72,13 @@ public val WebElements.isEnabled: Boolean
     get() = all { it.isEnabled }
 
 /**
- * Default readinessCondition used for single element lookup.
+ * Default readiness condition used for single element lookup.
  */
 public val defaultElementReadyCondition: WebElement.() -> Boolean
     get() = SiteContext.get()?.elementReadyCondition ?: { isDisplayed }
 
 /**
- * Default readinessCondition used for multiple element lookup.
+ * Default readiness condition used for multiple element lookup.
  */
 public val defaultElementsReadyCondition: WebElements.() -> Boolean
     get() = SiteContext.get()?.elementsReadyCondition ?: { isDisplayed }

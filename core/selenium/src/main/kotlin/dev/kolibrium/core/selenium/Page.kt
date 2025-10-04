@@ -49,10 +49,13 @@ public abstract class Page<S : Site>(
         get() = driver.title
 
     /**
-     * Optional canonical locator the DSL can wait for after navigation.
+     * Optional canonical element descriptor the DSL can wait for after navigation.
      * If null, no built-in locator wait is performed.
+     *
+     * When provided, the DSL will use the descriptor's waitConfig and readyWhen if set;
+     * otherwise it will fall back to the Site defaults.
      */
-    public open val readyBy: By? = null
+    public open val ready: WebElementDescriptor? = null
 
     /** Optional custom wait implementation (no-op by default). */
     public open fun awaitReady(driver: WebDriver): Unit = Unit
