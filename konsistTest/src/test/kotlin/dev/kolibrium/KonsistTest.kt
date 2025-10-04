@@ -67,7 +67,7 @@ class KonsistTest {
     @Test
     fun `properties are declared before functions`() {
         Konsist
-            .scopeFromProject()
+            .scopeFromProduction()
             .classes()
             .assertTrue {
                 val lastKoPropertyDeclarationIndex =

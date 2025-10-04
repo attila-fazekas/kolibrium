@@ -25,7 +25,7 @@ import org.openqa.selenium.WebDriver
 class LoginPage(
     driver: WebDriver,
 ) : Page<SauceDemo>(driver) {
-    private val usernameInput by name("user-name")
+    private val usernameInput = name("user-name")
     private val passwordInput by idOrName("password")
     private val loginButton by name("login-button")
 
@@ -33,7 +33,8 @@ class LoginPage(
         username: String = "standard_user",
         password: String = "secret_sauce",
     ): InventoryPage {
-        usernameInput.sendKeys(username)
+        println(usernameInput.toString())
+        usernameInput.get().sendKeys(username)
         passwordInput.sendKeys(password)
         loginButton.click()
         return InventoryPage(driver)

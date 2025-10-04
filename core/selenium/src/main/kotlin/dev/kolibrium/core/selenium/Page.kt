@@ -17,6 +17,7 @@
 package dev.kolibrium.core.selenium
 
 import dev.kolibrium.common.Cookies
+import org.openqa.selenium.By
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
@@ -46,6 +47,21 @@ public abstract class Page<S : Site>(
     /** The current page title as reported by the driver. */
     protected val pageTitle: String?
         get() = driver.title
+
+    /**
+     * Optional canonical element descriptor the DSL can wait for after navigation.
+     * If null, no built-in locator wait is performed.
+     *
+     * When provided, the DSL will use the descriptor's waitConfig and readyWhen if set;
+     * otherwise it will fall back to the Site defaults.
+     */
+    public open val ready: WebElementDescriptor? = null
+
+    /** Optional custom wait implementation (no-op by default). */
+    public open fun awaitReady(driver: WebDriver): Unit = Unit
+
+    /** Optional identity/readiness guard (no-op by default). */
+    public open fun assertReady(): Unit = Unit
 
     /** Reloads the current page. */
     protected fun refresh() {
