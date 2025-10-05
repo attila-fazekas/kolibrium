@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
+@file:OptIn(dev.kolibrium.common.InternalKolibriumApi::class)
+
 package dev.kolibrium.core.selenium
 
 import dev.kolibrium.common.Cookies
-import org.openqa.selenium.By
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.support.ui.FluentWait
 
 /**
  * Base class for typed page objects bound to a specific [Site].
@@ -49,16 +51,37 @@ public abstract class Page<S : Site>(
         get() = driver.title
 
     /**
-     * Optional canonical element descriptor the DSL can wait for after navigation.
+     * Optional readiness descriptor that core can wait for after navigation.
      * If null, no built-in locator wait is performed.
-     *
-     * When provided, the DSL will use the descriptor's waitConfig and readyWhen if set;
-     * otherwise it will fall back to the Site defaults.
      */
-    public open val ready: WebElementDescriptor? = null
+    public open val ready: ReadinessDescriptor? = null
 
-    /** Optional custom wait implementation (no-op by default). */
-    public open fun awaitReady(driver: WebDriver): Unit = Unit
+    /**
+     * Waits for the page to be ready according to [ready], then runs any additional checks.
+     * Uses [Site.waitConfig] as fallback when [ReadinessDescriptor.waitConfig] is not provided.
+     */
+    public fun awaitReady() {
+        val descriptor = ready ?: return
+        val waitCfg = descriptor.waitConfig ?: SiteContext.get()?.waitConfig ?: WaitConfig.Default
+        val wait =
+            FluentWait(driver)
+                .configureWith(waitCfg)
+        wait.until {
+            val element = driver.findElements(descriptor.by).firstOrNull() ?: return@until false
+            val builtInOk =
+                when (descriptor.condition) {
+                    ReadinessCondition.IsDisplayed -> element.isDisplayed
+                    ReadinessCondition.IsEnabled -> element.isEnabled
+                    ReadinessCondition.IsClickable -> element.isDisplayed && element.isEnabled
+                }
+            val customOk = descriptor.custom?.isReady(element) ?: true
+            builtInOk && customOk
+        }
+        extraReadinessChecks()
+    }
+
+    /** Hook for DSL or subclasses to perform extra checks after core readiness is met. */
+    protected open fun extraReadinessChecks(): Unit = Unit
 
     /** Optional identity/readiness guard (no-op by default). */
     public open fun assertReady(): Unit = Unit

@@ -18,6 +18,7 @@ package dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.twitter
 
 import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.dataTestId
+import dev.kolibrium.dsl.selenium.toReadinessDescriptor
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Twitter
 import org.openqa.selenium.WebDriver
 
@@ -26,7 +27,7 @@ class TwitterHomePage(
 ) : Page<Twitter>(driver) {
     private val tweet = dataTestId("tweet")
 
-    override val ready = tweet
+    override val ready = tweet.toReadinessDescriptor()
 
     fun login(): FeedPage = FeedPage(driver)
 }
