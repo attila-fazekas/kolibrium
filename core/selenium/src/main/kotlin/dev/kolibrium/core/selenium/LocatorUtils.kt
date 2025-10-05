@@ -87,4 +87,4 @@ public val defaultElementsReadyCondition: WebElements.() -> Boolean
  * Default wait configuration used for element lookup.
  */
 public val defaultWaitConfig: WaitConfig
-    get() = SiteContext.get()?.waitConfig ?: WaitConfig.DEFAULT
+    get() = SiteContext.get()?.waitConfig ?: WaitConfig.Default

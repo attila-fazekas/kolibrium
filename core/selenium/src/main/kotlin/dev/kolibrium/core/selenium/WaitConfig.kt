@@ -16,7 +16,6 @@
 
 package dev.kolibrium.core.selenium
 
-import org.openqa.selenium.NoSuchElementException
 import org.openqa.selenium.support.ui.FluentWait
 import java.time.Duration.ofMillis
 import kotlin.reflect.KClass
@@ -91,31 +90,37 @@ public class WaitConfig(
     public companion object {
         /**
          * Default wait configuration suitable for most web automation scenarios.
+         *
+         * Notes:
+         * - Kolibrium's locator delegates always ignore [org.openqa.selenium.NoSuchElementException] during waits,
+         *   even if a custom [WaitConfig] does not include it in [ignoring]. This prevents early failures while
+         *   elements are still appearing in the DOM.
+         * - You may add more exception types via [ignoring]; the baseline ignore of NoSuchElementException will
+         *   still be applied by the descriptors.
          */
-        public val DEFAULT: WaitConfig =
+        public val Default: WaitConfig =
             WaitConfig(
                 pollingInterval = 200.milliseconds,
                 timeout = 10.seconds,
                 message = "Element could not be found",
-                ignoring = setOf(NoSuchElementException::class),
             )
 
         /**
          * Fast wait configuration for responsive applications or when quick feedback is needed.
-         * Inherits error handling from [DEFAULT] configuration with shorter intervals.
+         * Inherits error handling from [Default] configuration with shorter intervals.
          */
-        public val QUICK: WaitConfig =
-            DEFAULT.copy(
+        public val Quick: WaitConfig =
+            Default.copy(
                 pollingInterval = 100.milliseconds,
                 timeout = 2.seconds,
             )
 
         /**
          * Extended wait configuration for slower applications or operations that might take longer to complete.
-         * Inherits error handling from [DEFAULT] configuration with longer intervals.
+         * Inherits error handling from [Default] configuration with longer intervals.
          */
-        public val PATIENT: WaitConfig =
-            DEFAULT.copy(
+        public val Patient: WaitConfig =
+            Default.copy(
                 pollingInterval = 500.milliseconds,
                 timeout = 30.seconds,
             )

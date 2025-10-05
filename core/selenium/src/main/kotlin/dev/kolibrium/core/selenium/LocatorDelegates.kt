@@ -54,6 +54,11 @@ public interface HasBy {
  * descriptor instance across threads. If you must access from multiple threads, create separate owning
  * page instances or disable caching via `cacheLookup = false`.
  *
+ * Waiting semantics
+ * - During waits, Kolibrium always ignores [org.openqa.selenium.NoSuchElementException] as a minimal baseline,
+ *   even if your [WaitConfig] does not include it in `ignoring`. This prevents failing fast while elements
+ *   are still appearing in the DOM. You can still add more ignored exceptions via [WaitConfig.ignoring].
+ *
  * toString() expectations
  * - Calling toString() on a descriptor yields a stable, human-friendly summary including:
  *   by, cacheLookup, ctx, and waitConfig=(timeout=..., polling=...), plus a decorators field.
@@ -87,6 +92,11 @@ public interface WebElementDescriptor :
  * They are intended for single-threaded test usage (typical for page objects). Avoid sharing the same
  * descriptor instance across threads. If concurrent access is unavoidable, create separate owning page
  * instances or disable caching via `cacheLookup = false`.
+ *
+ * Waiting semantics
+ * - During waits, Kolibrium always ignores [org.openqa.selenium.NoSuchElementException] as a minimal baseline,
+ *   even if your [WaitConfig] does not include it in `ignoring`. This prevents failing fast while elements
+ *   are still appearing in the DOM. You can still add more ignored exceptions via [WaitConfig.ignoring].
  *
  * toString() expectations
  * - Calling toString() on a descriptor yields a stable, human-friendly summary including:
@@ -1095,22 +1105,10 @@ public fun SearchContext.xpaths(
         readyWhen = readyWhen,
     )
 
-// Ensure a minimal baseline of ignored exceptions regardless of caller's WaitConfig
-// Specifically, always ignore NoSuchElementException so waits don't fail on the first miss
-private fun ensureNoSuchElementIgnored(wait: WaitConfig): WaitConfig =
-    if (NoSuchElementException::class in wait.ignoring) {
-        wait
-    } else {
-        wait.copy(ignoring = wait.ignoring + NoSuchElementException::class)
-    }
-
 internal abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<T, R>, R>(
     protected val searchCtx: SearchContext,
 ) {
     protected var appliedDecoratorClassNames: List<String> = emptyList()
-
-    // Class names of the merged decorators, used by toString() without forcing decoration
-    protected fun mergedDecoratorClassNames(): List<String> = mergedDecorators().map { it::class.java.simpleName }
 
     protected val searchContext by lazy {
         val merged = mergedDecorators()
@@ -1121,6 +1119,9 @@ internal abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<
             DecoratorManager.combine(merged)(searchCtx)
         }
     }
+
+    // Class names of the merged decorators, used by toString() without forcing decoration
+    protected fun mergedDecoratorClassNames(): List<String> = mergedDecorators().map { it::class.java.simpleName }
 
     protected abstract fun findElement(): R
 
@@ -1162,6 +1163,15 @@ internal abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<
             .substringBefore('$')
             .ifBlank { "UnknownContext" }
     }
+
+    // Ensure a minimal baseline of ignored exceptions regardless of caller's WaitConfig
+    // Specifically, always ignore NoSuchElementException so waits don't fail on the first miss
+    protected fun ensureNoSuchElementIgnored(wait: WaitConfig): WaitConfig =
+        if (NoSuchElementException::class in wait.ignoring) {
+            wait
+        } else {
+            wait.copy(ignoring = wait.ignoring + NoSuchElementException::class)
+        }
 
     // Merge decorators deterministically: site first, then test; de-duplicate by class with test-level winning on conflicts.
     private fun mergedDecorators(): List<AbstractDecorator> {

@@ -19,17 +19,14 @@ package dev.kolibrium.dsl.selenium.webtest.saucedemo
 enum class Product(
     val productName: String,
     val price: String,
+    val locatorName: String,
 ) {
-    BACKPACK("Sauce Labs Backpack", "$29.99"),
-    BIKE_LIGHT("Sauce Labs Bike Light", "$9.99"),
-    BOLT_T_SHIRT("Sauce Labs Bolt T-Shirt", "$15.99"),
-    FLEECE_JACKET("Sauce Labs Fleece Jacket", "$49.99"),
-    T_SHIRT_RED("Test.allTheThings() T-Shirt (Red)", "$7.99"),
-    ONESIE("Sauce Labs Onesie", "$15.99"),
-    ;
-
-    val locatorName: String
-        get() = name.lowercase().replace("_", "-")
+    Backpack("Sauce Labs Backpack", "$29.99", "backpack"),
+    BikeLight("Sauce Labs Bike Light", "$9.99", "bike-light"),
+    BoltTShirt("Sauce Labs Bolt T-Shirt", "$15.99", "bolt-t-shirt"),
+    FleeceJacket("Sauce Labs Fleece Jacket", "$49.99", "fleece-jacket"),
+    RedTShirt("Test.allTheThings() T-Shirt (Red)", "$7.99", "t-shirt-red"),
+    Onesie("Sauce Labs Onesie", "$15.99", "onesie"),
 }
 
 typealias Products = List<Product>

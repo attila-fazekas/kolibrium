@@ -32,7 +32,7 @@ class HighlighterDecoratorTest : BaseTest(isHeadless = false) {
     @BeforeEach
     fun setup() {
         DecoratorManager.addDecorators(
-            HighlighterDecorator(style = BorderStyle.DASHED, color = Color.GREEN, width = 5),
+            HighlighterDecorator(style = BorderStyle.Dashed, color = Color.Green, width = 5),
             SlowMotionDecorator(2.seconds),
             LoggerDecorator(),
         )

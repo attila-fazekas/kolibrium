@@ -114,9 +114,9 @@ public final class dev/kolibrium/core/selenium/WaitConfig {
 }
 
 public final class dev/kolibrium/core/selenium/WaitConfig$Companion {
-	public final fun getDEFAULT ()Ldev/kolibrium/core/selenium/WaitConfig;
-	public final fun getPATIENT ()Ldev/kolibrium/core/selenium/WaitConfig;
-	public final fun getQUICK ()Ldev/kolibrium/core/selenium/WaitConfig;
+	public final fun getDefault ()Ldev/kolibrium/core/selenium/WaitConfig;
+	public final fun getPatient ()Ldev/kolibrium/core/selenium/WaitConfig;
+	public final fun getQuick ()Ldev/kolibrium/core/selenium/WaitConfig;
 }
 
 public final class dev/kolibrium/core/selenium/WaitConfigKt {
@@ -141,25 +141,25 @@ public abstract class dev/kolibrium/core/selenium/decorators/AbstractDecorator {
 }
 
 public final class dev/kolibrium/core/selenium/decorators/BorderStyle : java/lang/Enum {
-	public static final field DASHED Ldev/kolibrium/core/selenium/decorators/BorderStyle;
-	public static final field DOTTED Ldev/kolibrium/core/selenium/decorators/BorderStyle;
-	public static final field SOLID Ldev/kolibrium/core/selenium/decorators/BorderStyle;
+	public static final field Dashed Ldev/kolibrium/core/selenium/decorators/BorderStyle;
+	public static final field Dotted Ldev/kolibrium/core/selenium/decorators/BorderStyle;
+	public static final field Solid Ldev/kolibrium/core/selenium/decorators/BorderStyle;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/core/selenium/decorators/BorderStyle;
 	public static fun values ()[Ldev/kolibrium/core/selenium/decorators/BorderStyle;
 }
 
 public final class dev/kolibrium/core/selenium/decorators/Color : java/lang/Enum {
-	public static final field BLACK Ldev/kolibrium/core/selenium/decorators/Color;
-	public static final field BLUE Ldev/kolibrium/core/selenium/decorators/Color;
-	public static final field GRAY Ldev/kolibrium/core/selenium/decorators/Color;
-	public static final field GREEN Ldev/kolibrium/core/selenium/decorators/Color;
-	public static final field ORANGE Ldev/kolibrium/core/selenium/decorators/Color;
-	public static final field PINK Ldev/kolibrium/core/selenium/decorators/Color;
-	public static final field PURPLE Ldev/kolibrium/core/selenium/decorators/Color;
-	public static final field RED Ldev/kolibrium/core/selenium/decorators/Color;
-	public static final field WHITE Ldev/kolibrium/core/selenium/decorators/Color;
-	public static final field YELLOW Ldev/kolibrium/core/selenium/decorators/Color;
+	public static final field Black Ldev/kolibrium/core/selenium/decorators/Color;
+	public static final field Blue Ldev/kolibrium/core/selenium/decorators/Color;
+	public static final field Gray Ldev/kolibrium/core/selenium/decorators/Color;
+	public static final field Green Ldev/kolibrium/core/selenium/decorators/Color;
+	public static final field Orange Ldev/kolibrium/core/selenium/decorators/Color;
+	public static final field Pink Ldev/kolibrium/core/selenium/decorators/Color;
+	public static final field Purple Ldev/kolibrium/core/selenium/decorators/Color;
+	public static final field Red Ldev/kolibrium/core/selenium/decorators/Color;
+	public static final field White Ldev/kolibrium/core/selenium/decorators/Color;
+	public static final field Yellow Ldev/kolibrium/core/selenium/decorators/Color;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/core/selenium/decorators/Color;
 	public static fun values ()[Ldev/kolibrium/core/selenium/decorators/Color;

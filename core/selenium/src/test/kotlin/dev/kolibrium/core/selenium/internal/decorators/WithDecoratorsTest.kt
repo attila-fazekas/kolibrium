@@ -35,8 +35,8 @@ class WithDecoratorsTest {
             DecoratorManager.withDecorators(
                 SlowMotionDecorator(wait = 1.seconds),
                 HighlighterDecorator(
-                    style = BorderStyle.DASHED,
-                    color = Color.GREEN,
+                    style = BorderStyle.Dashed,
+                    color = Color.Green,
                 ),
                 LoggerDecorator(),
             ) {

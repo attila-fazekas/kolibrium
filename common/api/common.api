@@ -1,8 +1,8 @@
 public final class dev/kolibrium/common/Browser : java/lang/Enum {
-	public static final field CHROME Ldev/kolibrium/common/Browser;
-	public static final field EDGE Ldev/kolibrium/common/Browser;
-	public static final field FIREFOX Ldev/kolibrium/common/Browser;
-	public static final field SAFARI Ldev/kolibrium/common/Browser;
+	public static final field Chrome Ldev/kolibrium/common/Browser;
+	public static final field Edge Ldev/kolibrium/common/Browser;
+	public static final field Firefox Ldev/kolibrium/common/Browser;
+	public static final field Safari Ldev/kolibrium/common/Browser;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/common/Browser;
 	public static fun values ()[Ldev/kolibrium/common/Browser;

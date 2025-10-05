@@ -84,10 +84,11 @@ class BrowserStackDemoTest {
             }
         }
 
+    // TODO this test fails, fix it
     @Test
     fun simple_navigation() =
         browserStackDemoTest(
-            keepBrowserOpen = true,
+            keepBrowserOpen = false,
         ) {
             open(::ProductsPage) {
                 verify { verifyShoppingCartBadgeIs(0) }

@@ -17,9 +17,9 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.common.Browser
-import dev.kolibrium.common.Browser.CHROME
-import dev.kolibrium.common.Browser.EDGE
-import dev.kolibrium.common.Browser.FIREFOX
+import dev.kolibrium.common.Browser.Chrome
+import dev.kolibrium.common.Browser.Edge
+import dev.kolibrium.common.Browser.Firefox
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.headless
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
@@ -100,7 +100,7 @@ class DriverTest {
     ) {
         val logFile = tempDir.resolve("chrome.log").toString()
         val downloadDir = tempDir.absolutePathString()
-        val executablePath = getExecutablePath(CHROME, BETA)
+        val executablePath = getExecutablePath(Chrome, BETA)
 
         driver =
             chromeDriver {
@@ -200,7 +200,7 @@ class DriverTest {
         @TempDir tempDir: Path,
     ) {
         val logFile = tempDir.resolve("firefox.log").toString()
-        val executablePath = getExecutablePath(FIREFOX)
+        val executablePath = getExecutablePath(Firefox)
 
         driver =
             firefoxDriver {
@@ -299,7 +299,7 @@ class DriverTest {
     ) {
         val logFile = tempDir.resolve("edge.log").toString()
         val downloadDir = tempDir.absolutePathString()
-        val executablePath = getExecutablePath(EDGE, BETA)
+        val executablePath = getExecutablePath(Edge, BETA)
 
         driver =
             edgeDriver {
