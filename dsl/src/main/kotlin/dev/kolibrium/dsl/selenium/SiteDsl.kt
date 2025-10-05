@@ -28,6 +28,10 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.support.ui.FluentWait
 import java.net.URI
 
+// Factory type that hides WebDriver from user code
+public typealias PageFactory<P> = context(WebDriver)
+() -> P
+
 /**
  * Factory function that creates a new WebDriver instance for use by Kolibrium DSL helpers such as [webTest].
  *
@@ -72,8 +76,7 @@ public class PageScope<P : Page<*>>(
      */
     public fun <Next : Page<*>> on(action: P.() -> Next): PageScope<Next> {
         val next = page.action()
-        // Ensure the returned page is ready as well
-        entry.ensureReady(next, entry.driver, SiteContext.get()!!)
+        entry.ensureReady(next)
         return PageScope(next, entry)
     }
 
@@ -94,9 +97,29 @@ public class PageScope<P : Page<*>>(
      * @return this [PageScope]
      */
     public fun verify(assertions: P.() -> Unit): PageScope<P> {
-        // Lightweight identity guard; avoid re-waiting on every assertion
         page.assertReady()
         page.assertions()
+        return this
+    }
+
+    /**
+     * Add or manipulate cookies while staying on the same page scope.
+     *
+     * Delegates to [PageEntry.cookies]. If [refreshPage] is `true`, the current page is refreshed
+     * after applying the changes so cookie effects take place immediately.
+     *
+     * Note: Selenium only allows adding cookies for the current origin. Make sure the driver is
+     * already on the target site's origin before calling this.
+     *
+     * @param refreshPage Whether to refresh the page after applying cookie changes. Default is `false`.
+     * @param builder The cookie modification DSL run inside a [CookiesScope].
+     * @return This [PageScope] for fluent chaining.
+     */
+    public fun cookies(
+        refreshPage: Boolean = false,
+        builder: CookiesScope.() -> Unit,
+    ): PageScope<P> {
+        entry.cookies(refreshPage, builder)
         return this
     }
 
@@ -109,29 +132,17 @@ public class PageScope<P : Page<*>>(
         cookies: Cookies? = null,
         crossinline block: context(S2) PageEntry<S2>.() -> Unit,
     ): SwitchBackScope<P> {
-        val driver = entry.driver
         val originalEntry = entry
 
         // Remember the original environment
-        val originalWindow = driver.windowHandle
+        val originalWindow = originalEntry.currentWindowHandle()
         val originalSite: Site = SiteContext.get()!!
 
         // Window selection heuristic: when a new tab likely opened, pick the last handle.
-        val handles = driver.windowHandles.toList()
-        if (handles.size > 1 && originalWindow != handles.last()) {
-            driver.switchTo().window(handles.last())
-        }
+        originalEntry.switchToNewestWindowIfOpenedSince(originalWindow)
 
-        // Switch site context manually
-        val targetSite: S2 = siteOf()
-        SiteContext.set(targetSite)
-        targetSite.configureDriver(driver)
-        if (cookies != null && cookies.isNotEmpty()) {
-            val options = driver.manage()
-            cookies.forEach(options::addCookie)
-        }
-        if (navigateToBase) driver.get(targetSite.baseUrl)
-        val targetEntry: PageEntry<S2> = PageEntry(driver)
+        // Switch site context using helper (no WebDriver leakage)
+        val (targetSite, targetEntry) = performSiteSwitch(originalEntry, navigateToBase, cookies) { siteOf<S2>() }
 
         // Execute user block in target site context
         context(targetSite) { targetEntry.block() }
@@ -146,6 +157,26 @@ public class PageScope<P : Page<*>>(
     }
 }
 
+@PublishedApi
+internal fun <S2 : Site> performSiteSwitch(
+    entry: PageEntry<out Site>,
+    navigateToBase: Boolean,
+    cookies: Cookies?,
+    siteProvider: () -> S2,
+): Pair<S2, PageEntry<S2>> {
+    val driver = entry.driver
+    val site: S2 = siteProvider()
+    SiteContext.set(site)
+    site.configureDriver(driver)
+    if (cookies != null && cookies.isNotEmpty()) {
+        val options = driver.manage()
+        cookies.forEach(options::addCookie)
+    }
+    if (navigateToBase) driver.get(site.baseUrl)
+    val targetEntry: PageEntry<S2> = PageEntry(driver)
+    return site to targetEntry
+}
+
 /**
  * Entry point for opening and interacting with pages bound to a specific [dev.kolibrium.core.selenium.Site].
  *
@@ -157,26 +188,24 @@ public class PageScope<P : Page<*>>(
  */
 @PageDsl
 public class PageEntry<S : Site>(
-    public val driver: WebDriver,
+    internal val driver: WebDriver,
 ) {
+    // Helpers used by public inline functions without exposing WebDriver
+    @PublishedApi
+    internal fun currentWindowHandle(): String = driver.windowHandle
+
+    @PublishedApi
+    internal fun switchToNewestWindowIfOpenedSince(originalWindow: String) {
+        val handles = driver.windowHandles.toList()
+        if (handles.size > 1 && originalWindow != handles.last()) {
+            driver.switchTo().window(handles.last())
+        }
+    }
+
     // --- Readiness utilities ---
     @PublishedApi
-    internal fun ensureReady(
-        page: Page<*>,
-        driver: WebDriver,
-        site: Site,
-    ) {
-        val descriptor = page.ready
-        if (descriptor != null) {
-            val waitCfg = descriptor.waitConfig ?: site.waitConfig
-            val elementReady = descriptor.readyWhen ?: site.elementReadyCondition
-            val wait = FluentWait(driver).configureWith(waitCfg)
-            val by = descriptor.by
-            wait.until {
-                driver.findElements(by).firstOrNull()?.let(elementReady) == true
-            }
-        }
-        page.awaitReady(driver)
+    internal fun ensureReady(page: Page<*>) {
+        page.awaitReady() // Use page's built-in method
         page.assertReady()
     }
 
@@ -192,18 +221,15 @@ public class PageEntry<S : Site>(
      * @return A [PageScope] for the page returned by [action].
      */
     public fun <P : Page<S>, R : Page<*>> open(
-        pageFactory: (WebDriver) -> P,
+        pageFactory: PageFactory<P>, // Use context-aware factory
         path: String? = null,
         action: P.() -> R,
     ): PageScope<R> {
-        val page = pageFactory(driver)
+        val page = context(driver) { pageFactory() }
         val targetPath = path ?: page.path
         val normalizedPath = normalizePath(targetPath)
         driver.get("${site.baseUrl}$normalizedPath")
-
-        // Readiness pipeline
-        ensureReady(page, driver, site)
-
+        ensureReady(page)
         return PageScope(page.action(), this)
     }
 
@@ -216,25 +242,24 @@ public class PageEntry<S : Site>(
      * A guard ensures the current tab's origin matches the current [Site]'s origin.
      */
     public fun <P : Page<S>, R : Page<*>> on(
-        pageFactory: (WebDriver) -> P,
+        pageFactory: PageFactory<P>,
         action: P.() -> R,
     ): PageScope<R> {
-        val page = pageFactory(driver)
+        val page = context(driver) { pageFactory() }
 
-        // Origin check: ensure we are on the same origin as the current site (allowing www. difference)
+        // Origin check code stays the same...
         val currentUri = kotlin.runCatching { URI(driver.currentUrl) }.getOrNull()
         val siteUri = kotlin.runCatching { URI(site.baseUrl) }.getOrNull()
 
         fun normalizeHost(uri: URI?): String? = uri?.host?.lowercase()?.removePrefix("www.")
+
         val currentHost = normalizeHost(currentUri)
         val siteHost = normalizeHost(siteUri)
         require(currentHost != null && siteHost != null && currentHost == siteHost) {
-            "Current tab origin (${currentUri?.authority ?: currentUri?.host}) does not match site origin (${siteUri?.authority ?: siteUri?.host}). Use switchTo(...) first or navigate explicitly."
+            "Current tab origin does not match site origin"
         }
 
-        // Readiness pipeline for non-navigation binding
-        ensureReady(page, driver, site)
-
+        ensureReady(page)
         return PageScope(page.action(), this)
     }
 
@@ -475,7 +500,7 @@ public class SwitchBackScope<P : Page<*>>(
         SiteContext.set(originalSite)
         originalSite.configureDriver(driver)
         // Ensure the original page is ready before executing the block
-        original.ensureReady(originalPage, driver, originalSite)
+        original.ensureReady(originalPage)
         originalPage.block()
         return PageScope(originalPage, original)
     }
@@ -507,23 +532,17 @@ public inline fun <reified S2 : Site, S1 : Site> PageEntry<S1>.switchTo(
     cookies: Cookies? = null,
     crossinline block: context(S2) PageEntry<S2>.() -> Unit,
 ): SwitchBack<S1> {
-    val driver = this.driver
-
     // Remember the original environment
-    val originalWindow = driver.windowHandle
+    val originalWindow = currentWindowHandle()
 
     @Suppress("UNCHECKED_CAST")
     val originalSite = SiteContext.get() as S1
 
     // Window selection heuristic: when a new tab likely opened, pick the last handle.
-    val handles = driver.windowHandles.toList()
-    if (handles.size > 1 && originalWindow != handles.last()) {
-        driver.switchTo().window(handles.last())
-    }
+    switchToNewestWindowIfOpenedSince(originalWindow)
 
-    // Switch site context
-    val targetSite: S2 = siteOf()
-    val targetEntry: PageEntry<S2> = this.switchTo(targetSite, navigateToBase, cookies)
+    // Switch site context without exposing WebDriver
+    val (targetSite, targetEntry) = performSiteSwitch(this, navigateToBase, cookies) { siteOf<S2>() }
 
     // Run the block within the target site's context
     context(targetSite) { targetEntry.block() }
@@ -541,29 +560,17 @@ public inline fun <reified S2 : Site, P : Page<*>> PageScope<P>.switchTo(
     cookies: Cookies? = null,
     crossinline block: context(S2) PageEntry<S2>.() -> Unit,
 ): SwitchBackScope<P> {
-    val driver = this.entry.driver
     val originalEntry = this.entry
 
     // Remember the original environment
-    val originalWindow = driver.windowHandle
+    val originalWindow = originalEntry.currentWindowHandle()
     val originalSite: Site = SiteContext.get()!!
 
     // Window selection heuristic: when a new tab likely opened, pick the last handle.
-    val handles = driver.windowHandles.toList()
-    if (handles.size > 1 && originalWindow != handles.last()) {
-        driver.switchTo().window(handles.last())
-    }
+    originalEntry.switchToNewestWindowIfOpenedSince(originalWindow)
 
-    // Switch site context manually (avoid requiring a context receiver here)
-    val targetSite: S2 = siteOf()
-    SiteContext.set(targetSite)
-    targetSite.configureDriver(driver)
-    if (cookies != null && cookies.isNotEmpty()) {
-        val options = driver.manage()
-        cookies.forEach(options::addCookie)
-    }
-    if (navigateToBase) driver.get(targetSite.baseUrl)
-    val targetEntry: PageEntry<S2> = PageEntry(driver)
+    // Switch site context without exposing WebDriver
+    val (targetSite, targetEntry) = performSiteSwitch(originalEntry, navigateToBase, cookies) { siteOf<S2>() }
 
     // Execute user block in target site context
     context(targetSite) { targetEntry.block() }

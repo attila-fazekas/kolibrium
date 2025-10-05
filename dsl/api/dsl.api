@@ -1,3 +1,10 @@
+public final class dev/kolibrium/dsl/selenium/DescriptorBridgeKt {
+	public static final fun toReadinessDescriptor (Ldev/kolibrium/core/selenium/WebElementDescriptor;Ldev/kolibrium/core/selenium/ReadinessCondition;Ldev/kolibrium/core/selenium/ElementReadyCheck;)Ldev/kolibrium/core/selenium/ReadinessDescriptor;
+	public static final fun toReadinessDescriptor (Ldev/kolibrium/core/selenium/WebElementsDescriptor;Ldev/kolibrium/core/selenium/ReadinessCondition;Ldev/kolibrium/core/selenium/ElementReadyCheck;)Ldev/kolibrium/core/selenium/ReadinessDescriptor;
+	public static synthetic fun toReadinessDescriptor$default (Ldev/kolibrium/core/selenium/WebElementDescriptor;Ldev/kolibrium/core/selenium/ReadinessCondition;Ldev/kolibrium/core/selenium/ElementReadyCheck;ILjava/lang/Object;)Ldev/kolibrium/core/selenium/ReadinessDescriptor;
+	public static synthetic fun toReadinessDescriptor$default (Ldev/kolibrium/core/selenium/WebElementsDescriptor;Ldev/kolibrium/core/selenium/ReadinessCondition;Ldev/kolibrium/core/selenium/ElementReadyCheck;ILjava/lang/Object;)Ldev/kolibrium/core/selenium/ReadinessDescriptor;
+}
+
 public final class dev/kolibrium/dsl/selenium/DriverFactoriesKt {
 	public static final fun getChrome ()Lkotlin/jvm/functions/Function0;
 	public static final fun getEdge ()Lkotlin/jvm/functions/Function0;
@@ -21,18 +28,21 @@ public final class dev/kolibrium/dsl/selenium/PageEntry {
 	public fun <init> (Lorg/openqa/selenium/WebDriver;)V
 	public final fun cookies (ZLkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageEntry;
 	public static synthetic fun cookies$default (Ldev/kolibrium/dsl/selenium/PageEntry;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageEntry;
-	public final fun ensureReady (Ldev/kolibrium/core/selenium/Page;Lorg/openqa/selenium/WebDriver;Ldev/kolibrium/core/selenium/Site;)V
-	public final fun getDriver ()Lorg/openqa/selenium/WebDriver;
+	public final fun currentWindowHandle ()Ljava/lang/String;
+	public final fun ensureReady (Ldev/kolibrium/core/selenium/Page;)V
 	public final fun navigateTo (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/dsl/selenium/PageEntry;Ljava/lang/String;)V
 	public final fun on (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public final fun open (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public static synthetic fun open$default (Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public final fun switchTo (Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/core/selenium/Site;ZLjava/util/Set;)Ldev/kolibrium/dsl/selenium/PageEntry;
 	public static synthetic fun switchTo$default (Ldev/kolibrium/dsl/selenium/PageEntry;Ldev/kolibrium/core/selenium/Site;Ldev/kolibrium/core/selenium/Site;ZLjava/util/Set;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageEntry;
+	public final fun switchToNewestWindowIfOpenedSince (Ljava/lang/String;)V
 }
 
 public final class dev/kolibrium/dsl/selenium/PageScope {
 	public fun <init> (Ldev/kolibrium/core/selenium/Page;Ldev/kolibrium/dsl/selenium/PageEntry;)V
+	public final fun cookies (ZLkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
+	public static synthetic fun cookies$default (Ldev/kolibrium/dsl/selenium/PageScope;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public final fun getEntry ()Ldev/kolibrium/dsl/selenium/PageEntry;
 	public final fun getPage ()Ldev/kolibrium/core/selenium/Page;
 	public final fun on (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
@@ -43,6 +53,7 @@ public final class dev/kolibrium/dsl/selenium/PageScope {
 public final class dev/kolibrium/dsl/selenium/SiteDslKt {
 	public static final fun cookies (Ldev/kolibrium/dsl/selenium/PageScope;ZLkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public static synthetic fun cookies$default (Ldev/kolibrium/dsl/selenium/PageScope;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/dsl/selenium/PageScope;
+	public static final fun performSiteSwitch (Ldev/kolibrium/dsl/selenium/PageEntry;ZLjava/util/Set;Lkotlin/jvm/functions/Function0;)Lkotlin/Pair;
 	public static final fun verify (Ldev/kolibrium/core/selenium/Page;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/core/selenium/Page;
 	public static final fun webTest (Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V
 	public static final fun webTest (Ldev/kolibrium/core/selenium/Site;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V

@@ -17,12 +17,11 @@
 package dev.kolibrium.dsl.selenium.webtest.saucedemo.pages
 
 import dev.kolibrium.core.selenium.Page
-import dev.kolibrium.core.selenium.cssSelector
 import dev.kolibrium.core.selenium.dataTest
 import dev.kolibrium.core.selenium.dataTests
 import dev.kolibrium.core.selenium.idOrName
+import dev.kolibrium.dsl.selenium.toReadinessDescriptor
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.SauceDemo
-import org.openqa.selenium.By
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
@@ -33,7 +32,7 @@ class CartPage(
 
     private val title = dataTest("title")
 
-    override val ready = title
+    override val ready = title.toReadinessDescriptor()
 
     private val inventoryItems by dataTests("inventory-item")
     private val continueShoppingButton by idOrName("continue-shopping")
