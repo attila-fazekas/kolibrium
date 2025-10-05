@@ -37,7 +37,6 @@ public final class dev/kolibrium/dsl/selenium/PageScope {
 	public final fun getPage ()Ldev/kolibrium/core/selenium/Page;
 	public final fun on (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 	public final fun then (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
-	public final fun unwrap ()Ldev/kolibrium/core/selenium/Page;
 	public final fun verify (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/dsl/selenium/PageScope;
 }
 
@@ -653,9 +652,9 @@ public final class dev/kolibrium/dsl/selenium/interactions/NavigationKt {
 }
 
 public final class dev/kolibrium/dsl/selenium/interactions/SameSite : java/lang/Enum {
-	public static final field LAX Ldev/kolibrium/dsl/selenium/interactions/SameSite;
-	public static final field NONE Ldev/kolibrium/dsl/selenium/interactions/SameSite;
-	public static final field STRICT Ldev/kolibrium/dsl/selenium/interactions/SameSite;
+	public static final field Lax Ldev/kolibrium/dsl/selenium/interactions/SameSite;
+	public static final field None Ldev/kolibrium/dsl/selenium/interactions/SameSite;
+	public static final field Strict Ldev/kolibrium/dsl/selenium/interactions/SameSite;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/dsl/selenium/interactions/SameSite;
 	public static fun values ()[Ldev/kolibrium/dsl/selenium/interactions/SameSite;

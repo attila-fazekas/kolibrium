@@ -18,7 +18,7 @@ package dev.kolibrium.dsl.selenium.webtest.saucedemo
 
 import dev.kolibrium.core.selenium.Site
 import dev.kolibrium.core.selenium.WaitConfig
-import dev.kolibrium.core.selenium.WaitConfig.Companion.QUICK
+import dev.kolibrium.core.selenium.WaitConfig.Companion.Quick
 import dev.kolibrium.core.selenium.decorators.AbstractDecorator
 import dev.kolibrium.core.selenium.decorators.BorderStyle
 import dev.kolibrium.core.selenium.decorators.Color
@@ -32,13 +32,13 @@ import kotlin.time.Duration.Companion.milliseconds
 data object SauceDemo : Site(baseUrl = "https://www.saucedemo.com") {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
-    override val waitConfig: WaitConfig = QUICK
+    override val waitConfig: WaitConfig = Quick
 
     override val decorators: List<AbstractDecorator> =
         listOf(
             HighlighterDecorator(
-                style = BorderStyle.DASHED,
-                color = Color.GREEN,
+                style = BorderStyle.Dashed,
+                color = Color.Green,
             ),
             SlowMotionDecorator(wait = 300.milliseconds),
             LoggerDecorator(),
@@ -48,13 +48,13 @@ data object SauceDemo : Site(baseUrl = "https://www.saucedemo.com") {
 data object Twitter : Site(baseUrl = "https://www.x.com") {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
-    override val waitConfig: WaitConfig = QUICK
+    override val waitConfig: WaitConfig = Quick
 
     override val decorators: List<AbstractDecorator> =
         listOf(
             HighlighterDecorator(
-                style = BorderStyle.DASHED,
-                color = Color.GREEN,
+                style = BorderStyle.Dashed,
+                color = Color.Green,
             ),
             SlowMotionDecorator(wait = 300.milliseconds),
             LoggerDecorator(),

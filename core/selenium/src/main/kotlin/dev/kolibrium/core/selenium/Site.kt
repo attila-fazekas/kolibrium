@@ -18,7 +18,7 @@ package dev.kolibrium.core.selenium
 
 import dev.kolibrium.common.Cookies
 import dev.kolibrium.common.WebElements
-import dev.kolibrium.core.selenium.WaitConfig.Companion.DEFAULT
+import dev.kolibrium.core.selenium.WaitConfig.Companion.Default
 import dev.kolibrium.core.selenium.decorators.AbstractDecorator
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -78,7 +78,7 @@ public abstract class Site(
     /**
      * The wait configuration to use in synchronization operations.
      */
-    public open val waitConfig: WaitConfig = DEFAULT
+    public open val waitConfig: WaitConfig = Default
 
     /**
      * Perform site‑specific driver configuration.

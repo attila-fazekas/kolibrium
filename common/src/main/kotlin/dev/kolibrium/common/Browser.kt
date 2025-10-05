@@ -23,20 +23,20 @@ public enum class Browser {
     /**
      * Google Chrome browser.
      */
-    CHROME,
-
-    /**
-     * Apple Safari browser.
-     */
-    SAFARI,
+    Chrome,
 
     /**
      * Microsoft Edge browser.
      */
-    EDGE,
+    Edge,
 
     /**
      * Mozilla Firefox browser.
      */
-    FIREFOX,
+    Firefox,
+
+    /**
+     * Apple Safari browser.
+     */
+    Safari,
 }

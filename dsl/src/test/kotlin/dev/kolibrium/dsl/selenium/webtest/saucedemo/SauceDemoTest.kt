@@ -45,8 +45,8 @@ import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.password_manager
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
 import dev.kolibrium.dsl.selenium.verify
 import dev.kolibrium.dsl.selenium.webTest
-import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.BACKPACK
-import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.BIKE_LIGHT
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.Backpack
+import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.BikeLight
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.InventoryPage
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.LoginPage
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.twitter.TwitterHomePage
@@ -98,7 +98,7 @@ class SauceDemoTest() {
     fun `sauceDemoTest used with PageEntry's open() function`() = sauceDemoTest(
         keepBrowserOpen = false,
     ) {
-        val products = listOf(BACKPACK, BIKE_LIGHT)
+        val products = listOf(Backpack, BikeLight)
 
         open(::LoginPage) {
             login()
@@ -125,7 +125,7 @@ class SauceDemoTest() {
     fun `authenticatedSauceDemoTest used with PageEntry's open() function and chained() `() = authenticatedSauceDemoTest(
         keepBrowserOpen = false,
     ) {
-        val products = listOf(BACKPACK, BIKE_LIGHT)
+        val products = listOf(Backpack, BikeLight)
 
         open(::InventoryPage) {
             verify { titleText() == "Swag Labs" }
@@ -179,8 +179,8 @@ class SauceDemoTest() {
 
     private fun authenticatedSauceDemoTest(
         user: User = User.Standard,
-        driverFactory: DriverFactory = sauceDemoDriver,
         keepBrowserOpen: Boolean = false,
+        driverFactory: DriverFactory = sauceDemoDriver,
         block: context(SauceDemo) PageEntry<SauceDemo>.() -> Unit,
     ) = webTest(
         site = SauceDemo,

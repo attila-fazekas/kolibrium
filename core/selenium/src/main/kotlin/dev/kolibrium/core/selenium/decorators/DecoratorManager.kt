@@ -32,7 +32,7 @@ import org.openqa.selenium.support.events.EventFiringDecorator
  * // Add decorators for the current test
  * DecoratorManager.addDecorators(
  *     SlowMotionDecorator(1.seconds),
- *     HighlighterDecorator(color = Color.BLUE)
+ *     HighlighterDecorator(color = Color.Blue)
  * )
  *
  * // Clear after the test

@@ -100,9 +100,6 @@ public class PageScope<P : Page<*>>(
         return this
     }
 
-    /** Expose the underlying page instance when needed (e.g., for advanced use cases). */
-    public fun unwrap(): P = page
-
     /**
      * Member version of switchTo so callers can write `.switchTo<Twitter> { … }` without specifying the page type.
      * Captures the receiver's page type [P] for the returned [SwitchBackScope].

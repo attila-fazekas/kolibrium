@@ -18,7 +18,7 @@ package dev.kolibrium.dsl.selenium.interactions
 
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
-import dev.kolibrium.dsl.selenium.interactions.SameSite.STRICT
+import dev.kolibrium.dsl.selenium.interactions.SameSite.Strict
 import io.kotest.assertions.assertSoftly
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
@@ -64,7 +64,7 @@ class CookiesTest {
                 expiresOn = expiresOn,
                 isSecure = true,
                 isHttpOnly = false,
-                sameSite = STRICT,
+                sameSite = Strict,
             )
         }
 

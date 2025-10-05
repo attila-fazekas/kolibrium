@@ -17,8 +17,8 @@
 package dev.kolibrium.core.selenium.decorators
 
 import dev.kolibrium.common.WebElements
-import dev.kolibrium.core.selenium.decorators.BorderStyle.SOLID
-import dev.kolibrium.core.selenium.decorators.Color.RED
+import dev.kolibrium.core.selenium.decorators.BorderStyle.Solid
+import dev.kolibrium.core.selenium.decorators.Color.Red
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
@@ -42,13 +42,13 @@ private const val MAX = 20
  * - Marks the currently highlighted element with `data-kolibrium-highlight="true"` and removes the
  *   marker and outline from the previously highlighted element.
  *
- * @param style Border line style to use for highlighting. Default: [SOLID].
- * @param color Border color to use for highlighting. Default: [RED].
+ * @param style Border line style to use for highlighting. Default: [Solid].
+ * @param color Border color to use for highlighting. Default: [Red].
  * @param width Outline width in pixels. Must be between 1 and 20 (inclusive). Default: 5.
  */
 public class HighlighterDecorator(
-    private val style: BorderStyle = SOLID,
-    private val color: Color = RED,
+    private val style: BorderStyle = Solid,
+    private val color: Color = Red,
     private val width: Int = 5,
 ) : AbstractDecorator(),
     InteractionAware {
@@ -131,13 +131,13 @@ public class HighlighterDecorator(
  */
 public enum class BorderStyle {
     /** Dashed border line style. */
-    DASHED,
+    Dashed,
 
     /** Dotted border line style. */
-    DOTTED,
+    Dotted,
 
     /** Solid border line style. */
-    SOLID,
+    Solid,
 }
 
 /**
@@ -145,32 +145,32 @@ public enum class BorderStyle {
  */
 public enum class Color {
     /** Black color. */
-    BLACK,
+    Black,
 
     /** Blue color. */
-    BLUE,
+    Blue,
 
     /** Gray color. */
-    GRAY,
+    Gray,
 
     /** Green color. */
-    GREEN,
+    Green,
 
     /** Orange color. */
-    ORANGE,
+    Orange,
 
     /** Pink color. */
-    PINK,
+    Pink,
 
     /** Purple color. */
-    PURPLE,
+    Purple,
 
     /** Red color. */
-    RED,
+    Red,
 
     /** Yellow color. */
-    YELLOW,
+    Yellow,
 
     /** White color. */
-    WHITE,
+    White,
 }

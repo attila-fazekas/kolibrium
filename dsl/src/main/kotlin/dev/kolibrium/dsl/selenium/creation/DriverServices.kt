@@ -17,10 +17,10 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.common.Browser
-import dev.kolibrium.common.Browser.CHROME
-import dev.kolibrium.common.Browser.EDGE
-import dev.kolibrium.common.Browser.FIREFOX
-import dev.kolibrium.common.Browser.SAFARI
+import dev.kolibrium.common.Browser.Chrome
+import dev.kolibrium.common.Browser.Edge
+import dev.kolibrium.common.Browser.Firefox
+import dev.kolibrium.common.Browser.Safari
 import dev.kolibrium.dsl.selenium.KolibriumDsl
 import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.edge.EdgeDriverService
@@ -44,10 +44,10 @@ public fun driverService(
     block: DriverServiceScope.() -> Unit,
 ): DriverService =
     when (browser) {
-        CHROME -> chromeDriverService(block as (ChromeDriverServiceScope.() -> Unit))
-        SAFARI -> safariDriverService(block as (SafariDriverServiceScope.() -> Unit))
-        FIREFOX -> geckoDriverService(block as (GeckoDriverServiceScope.() -> Unit))
-        EDGE -> edgeDriverService(block as (EdgeDriverServiceScope.() -> Unit))
+        Chrome -> chromeDriverService(block as (ChromeDriverServiceScope.() -> Unit))
+        Safari -> safariDriverService(block as (SafariDriverServiceScope.() -> Unit))
+        Firefox -> geckoDriverService(block as (GeckoDriverServiceScope.() -> Unit))
+        Edge -> edgeDriverService(block as (EdgeDriverServiceScope.() -> Unit))
     }
 
 /**

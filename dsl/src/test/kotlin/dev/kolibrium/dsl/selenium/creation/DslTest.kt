@@ -17,10 +17,10 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.common.Browser
-import dev.kolibrium.common.Browser.CHROME
-import dev.kolibrium.common.Browser.EDGE
-import dev.kolibrium.common.Browser.FIREFOX
-import dev.kolibrium.common.Browser.SAFARI
+import dev.kolibrium.common.Browser.Chrome
+import dev.kolibrium.common.Browser.Edge
+import dev.kolibrium.common.Browser.Firefox
+import dev.kolibrium.common.Browser.Safari
 import org.junit.jupiter.api.condition.OS
 import org.junit.jupiter.api.condition.OS.LINUX
 import org.junit.jupiter.api.condition.OS.MAC
@@ -53,10 +53,10 @@ fun getExecutablePath(
 
     val filename =
         when (browser) {
-            CHROME -> "chromedriver"
-            FIREFOX -> "geckodriver"
-            SAFARI -> throw DslConfigurationException("Safari doesn't need driver executable")
-            EDGE -> "msedgedriver"
+            Chrome -> "chromedriver"
+            Firefox -> "geckodriver"
+            Safari -> throw DslConfigurationException("Safari doesn't need driver executable")
+            Edge -> "msedgedriver"
         }
 
     val pathToDistribution = pathToExecutables + distributionType

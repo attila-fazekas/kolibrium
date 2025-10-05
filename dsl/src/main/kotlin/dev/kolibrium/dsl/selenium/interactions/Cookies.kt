@@ -88,7 +88,7 @@ public class CookiesScope(
         expiresOn?.let { cookieBuilder.expiresOn(it) }
         isSecure?.let { cookieBuilder.isSecure(it) }
         isHttpOnly?.let { cookieBuilder.isHttpOnly(it) }
-        sameSite?.let { cookieBuilder.sameSite(it.type) }
+        sameSite?.let { cookieBuilder.sameSite(it.toString()) }
         val cookie = cookieBuilder.build()
         options.addCookie(cookie)
         return cookie
@@ -167,18 +167,15 @@ public class CookiesScope(
 /**
  * Specifies the SameSite attribute for cookies in the [CookiesScope] class.
  *
- * @property type The string representation of the SameSite policy ("Strict", "Lax", or "None").
  */
 @KolibriumDsl
-public enum class SameSite(
-    internal val type: String,
-) {
+public enum class SameSite {
     /** Strict SameSite policy: cookie is sent only for same-site requests. */
-    STRICT("Strict"),
+    Strict,
 
     /** Lax SameSite policy: cookie is sent with top-level navigations and some cross-site GETs. */
-    LAX("Lax"),
+    Lax,
 
     /** No SameSite restriction: cookie may be sent with any cross-site request. */
-    NONE("None"),
+    None,
 }

@@ -17,9 +17,9 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.common.Browser
-import dev.kolibrium.common.Browser.CHROME
-import dev.kolibrium.common.Browser.EDGE
-import dev.kolibrium.common.Browser.FIREFOX
+import dev.kolibrium.common.Browser.Chrome
+import dev.kolibrium.common.Browser.Edge
+import dev.kolibrium.common.Browser.Firefox
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
@@ -88,7 +88,7 @@ class DriverServiceTest {
         @TempDir tempDir: Path,
     ) {
         val logFilePath = tempDir.resolve("chrome.log").toString()
-        val executablePath = getExecutablePath(CHROME)
+        val executablePath = getExecutablePath(Chrome)
 
         ds =
             chromeDriverService {
@@ -138,7 +138,7 @@ class DriverServiceTest {
         @TempDir tempDir: Path,
     ) {
         val logFilePath = tempDir.resolve("firefox.log").toString()
-        val executablePath = getExecutablePath(FIREFOX)
+        val executablePath = getExecutablePath(Firefox)
 
         ds =
             geckoDriverService {
@@ -208,7 +208,7 @@ class DriverServiceTest {
         @TempDir tempDir: Path,
     ) {
         val logFilePath = tempDir.resolve("edge.log").toString()
-        val executablePath = getExecutablePath(EDGE)
+        val executablePath = getExecutablePath(Edge)
 
         ds =
             edgeDriverService {

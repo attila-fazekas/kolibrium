@@ -17,10 +17,10 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.common.Browser
-import dev.kolibrium.common.Browser.CHROME
-import dev.kolibrium.common.Browser.EDGE
-import dev.kolibrium.common.Browser.FIREFOX
-import dev.kolibrium.common.Browser.SAFARI
+import dev.kolibrium.common.Browser.Chrome
+import dev.kolibrium.common.Browser.Edge
+import dev.kolibrium.common.Browser.Firefox
+import dev.kolibrium.common.Browser.Safari
 import dev.kolibrium.dsl.selenium.KolibriumDsl
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.edge.EdgeOptions
@@ -44,10 +44,10 @@ public fun options(
     block: OptionsScope.() -> Unit,
 ): AbstractDriverOptions<*> =
     when (browser) {
-        CHROME -> chromeOptions(block as (ChromeOptionsScope.() -> Unit))
-        SAFARI -> safariOptions(block as (SafariOptionsScope.() -> Unit))
-        FIREFOX -> firefoxOptions(block as (FirefoxOptionsScope.() -> Unit))
-        EDGE -> edgeOptions(block as (EdgeOptionsScope.() -> Unit))
+        Chrome -> chromeOptions(block as (ChromeOptionsScope.() -> Unit))
+        Safari -> safariOptions(block as (SafariOptionsScope.() -> Unit))
+        Firefox -> firefoxOptions(block as (FirefoxOptionsScope.() -> Unit))
+        Edge -> edgeOptions(block as (EdgeOptionsScope.() -> Unit))
     }
 
 /**
