@@ -62,7 +62,7 @@ class SauceDemoTest() {
         @JvmStatic
         @BeforeAll
         fun enableLogging() {
-            SeleniumLogger.enable("RemoteWebDriver")
+//            SeleniumLogger.enable("RemoteWebDriver")
         }
     }
 

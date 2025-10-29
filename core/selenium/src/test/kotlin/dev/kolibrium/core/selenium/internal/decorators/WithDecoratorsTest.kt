@@ -40,7 +40,7 @@ class WithDecoratorsTest {
                 ),
                 LoggerDecorator(),
             ) {
-                this.get("https://www.saucedemo.com/")
+                get("https://www.saucedemo.com")
                 val usernameInput by name("user-name")
                 val passwordInput by idOrName("password")
                 val loginButton by name("login-button")
