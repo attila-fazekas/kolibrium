@@ -16,9 +16,7 @@
 
 package dev.kolibrium.core.selenium.decorators
 
-import dev.kolibrium.common.WebElements
-import dev.kolibrium.core.selenium.decorators.BorderStyle.Solid
-import dev.kolibrium.core.selenium.decorators.Color.Red
+import dev.kolibrium.core.selenium.WebElements
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
@@ -33,7 +31,7 @@ private const val MAX = 20
 /**
  * Decorator that visually highlights elements.
  *
- * The decorator uses a Selenium [org.openqa.selenium.support.events.WebDriverListener] under the hood
+ * The decorator uses a Selenium [WebDriverListener] under the hood
  * to highlight elements before interactions (click, sendKeys). It also preserves chaining by decorating
  * the elements returned from `findElement(s)` so that nested searches remain highlighted on interaction.
  *
@@ -42,13 +40,13 @@ private const val MAX = 20
  * - Marks the currently highlighted element with `data-kolibrium-highlight="true"` and removes the
  *   marker and outline from the previously highlighted element.
  *
- * @param style Border line style to use for highlighting. Default: [Solid].
- * @param color Border color to use for highlighting. Default: [Red].
+ * @param style Border line style to use for highlighting. Default: [BorderStyle.Solid].
+ * @param color Border color to use for highlighting. Default: [Color.Red].
  * @param width Outline width in pixels. Must be between 1 and 20 (inclusive). Default: 5.
  */
 public class HighlighterDecorator(
-    private val style: BorderStyle = Solid,
-    private val color: Color = Red,
+    private val style: BorderStyle = BorderStyle.Solid,
+    private val color: Color = Color.Red,
     private val width: Int = 5,
 ) : AbstractDecorator(),
     InteractionAware {

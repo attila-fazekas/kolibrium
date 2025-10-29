@@ -23,9 +23,30 @@ import dev.kolibrium.dsl.selenium.creation.chromeDriver
 import dev.kolibrium.dsl.selenium.creation.edgeDriver
 import dev.kolibrium.dsl.selenium.creation.firefoxDriver
 import dev.kolibrium.dsl.selenium.creation.safariDriver
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.firefox.FirefoxDriver
 import dev.kolibrium.dsl.selenium.creation.Arguments.Edge.headless as edgeHeadless
 import dev.kolibrium.dsl.selenium.creation.Arguments.Firefox.headless as firefoxHeadless
 import dev.kolibrium.dsl.selenium.creation.Arguments.Firefox.incognito as firefoxIncognito
+
+/**
+ * Factory function that creates a new WebDriver instance for use by Kolibrium DSL helpers such as [dev.kolibrium.dsl.selenium.webTest].
+ *
+ * Prefer the predefined factories in dev.kolibrium.dsl.selenium.DriverFactories for common setups
+ * (e.g., headlessChrome, incognitoFirefox).
+ */
+public typealias DriverFactory = () -> WebDriver
+
+/**
+ * Create a [DriverFactory] that launches a Selenium-backed Chrome session using default options.
+ */
+public fun chrome(): DriverFactory = { ChromeDriver() }
+
+/**
+ * Create a [DriverFactory] that launches a Selenium-backed Firefox session using default options.
+ */
+public fun firefox(): DriverFactory = { FirefoxDriver() }
 
 /** A DriverFactory that creates a plain ChromeDriver with default Kolibrium options. */
 public val chrome: DriverFactory = { chromeDriver { } }

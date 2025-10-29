@@ -17,7 +17,6 @@
 rootProject.name = "kolibrium"
 
 include("bom")
-include("common")
 include("core")
 include("core:selenium")
 findProject(":core:selenium")?.name = "selenium"

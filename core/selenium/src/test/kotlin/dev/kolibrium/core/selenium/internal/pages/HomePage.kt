@@ -72,5 +72,5 @@ class HomePage(
 
     val fbPartialLinks by partialLinkTexts("Facebook")
 
-    val selects by names("select")
+    val selects by tagNames("select", readyWhen = { true })
 }

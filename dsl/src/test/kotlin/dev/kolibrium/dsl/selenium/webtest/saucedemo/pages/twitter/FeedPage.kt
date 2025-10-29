@@ -19,11 +19,8 @@ package dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.twitter
 import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Twitter
 import io.kotest.matchers.shouldBe
-import org.openqa.selenium.WebDriver
 
-class FeedPage(
-    driver: WebDriver,
-) : Page<Twitter>(driver) {
+class FeedPage : Page<Twitter>() {
     override fun assertReady() {
         pageTitle shouldBe "Sauce Labs (@saucelabs) / X"
     }

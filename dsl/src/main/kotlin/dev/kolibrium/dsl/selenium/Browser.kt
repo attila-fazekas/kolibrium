@@ -14,11 +14,29 @@
  * limitations under the License.
  */
 
-plugins {
-    id("kolibrium.library-conventions")
-}
+package dev.kolibrium.dsl.selenium
 
-dependencies {
-    api("org.seleniumhq.selenium:selenium-java:_")
-    implementation(kotlin("reflect"))
+/**
+ * Represents different web browsers.
+ */
+public enum class Browser {
+    /**
+     * Google Chrome browser.
+     */
+    Chrome,
+
+    /**
+     * Microsoft Edge browser.
+     */
+    Edge,
+
+    /**
+     * Mozilla Firefox browser.
+     */
+    Firefox,
+
+    /**
+     * Apple Safari browser.
+     */
+    Safari,
 }

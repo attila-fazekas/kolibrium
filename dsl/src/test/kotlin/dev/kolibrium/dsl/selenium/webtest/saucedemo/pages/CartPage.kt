@@ -20,19 +20,15 @@ import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.core.selenium.dataTest
 import dev.kolibrium.core.selenium.dataTests
 import dev.kolibrium.core.selenium.idOrName
-import dev.kolibrium.dsl.selenium.toReadinessDescriptor
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.SauceDemo
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
-class CartPage(
-    driver: WebDriver,
-) : Page<SauceDemo>(driver) {
+class CartPage : Page<SauceDemo>() {
     override val path = "/cart.html"
 
     private val title = dataTest("title")
 
-    override val ready = title.toReadinessDescriptor()
+//    override val ready = title.toReadinessDescriptor()
 
     private val inventoryItems by dataTests("inventory-item")
     private val continueShoppingButton by idOrName("continue-shopping")
@@ -40,12 +36,12 @@ class CartPage(
 
     fun checkout(): CheckoutPage {
         checkoutButton.click()
-        return CheckoutPage(driver)
+        return CheckoutPage()
     }
 
     fun continueShopping(): InventoryPage {
         continueShoppingButton.click()
-        return InventoryPage(driver)
+        return InventoryPage()
     }
 
     fun getItemsOnShoppingCart(): List<CartItem> {

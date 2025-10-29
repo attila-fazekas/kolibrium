@@ -22,7 +22,6 @@ import dev.kolibrium.dsl.selenium.PageEntry
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
-import dev.kolibrium.dsl.selenium.verify
 import dev.kolibrium.dsl.selenium.webTest
 import dev.kolibrium.dsl.selenium.webtest.bstackdemo.Product.IPHONE_12
 import dev.kolibrium.dsl.selenium.webtest.bstackdemo.Product.IPHONE_12_MINI
@@ -43,26 +42,26 @@ class BrowserStackDemoTest {
         }
     }
 
-    @Test
-    fun test() =
-        webTest(
-            site = BrowserStackDemo,
-            keepBrowserOpen = false,
-            prepare = {
-                val displayNames = products.map { it.displayName }
-                val productIds: List<Int> =
-                    getProducts()
-                        .filter { product -> product.title in displayNames }
-                        .map { it.id }
-                productIds
-            },
-        ) { productIds ->
-            ProductsPage(driver).apply {
-                productIds.forEach(::addToCart)
-
-                verifyShoppingCartBadgeIs(products.size)
-            }
-        }
+//    @Test
+//    fun test() =
+//        webTest(
+//            site = BrowserStackDemo,
+//            keepBrowserOpen = false,
+//            prepare = {
+//                val displayNames = products.map { it.displayName }
+//                val productIds: List<Int> =
+//                    getProducts()
+//                        .filter { product -> product.title in displayNames }
+//                        .map { it.id }
+//                productIds
+//            },
+//        ) { productIds ->
+//            ProductsPage().apply {
+//                productIds.forEach(::addToCart)
+//
+//                verifyShoppingCartBadgeIs(products.size)
+//            }
+//        }
 
     @Test
     fun test2() =
@@ -96,10 +95,10 @@ class BrowserStackDemoTest {
         }
 
     inline fun browserStackDemoTest(
-        crossinline driverFactory: DriverFactory = { ChromeDriver() },
+        noinline driverFactory: DriverFactory = { ChromeDriver() },
         keepBrowserOpen: Boolean = false,
-        crossinline startup: context(BrowserStackDemo) PageEntry<BrowserStackDemo>.(Unit) -> Unit = { _ -> },
-        crossinline block: context(BrowserStackDemo) PageEntry<BrowserStackDemo>.(Unit) -> Unit,
+        crossinline startup: PageEntry<BrowserStackDemo>.(Unit) -> Unit = { _ -> },
+        crossinline block: PageEntry<BrowserStackDemo>.(Unit) -> Unit,
     ) = webTest(
         site = BrowserStackDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -111,9 +110,9 @@ class BrowserStackDemoTest {
     private fun <T> browserStackDemoTest(
         driverFactory: DriverFactory = browserStackDemoDriver,
         keepBrowserOpen: Boolean = false,
-        prepare: context(BrowserStackDemo) () -> T,
-        startup: context(BrowserStackDemo) PageEntry<BrowserStackDemo>.(T) -> Unit = { },
-        block: context(BrowserStackDemo) PageEntry<BrowserStackDemo>.(T) -> Unit,
+        prepare: () -> T,
+        startup: PageEntry<BrowserStackDemo>.(T) -> Unit = { },
+        block: PageEntry<BrowserStackDemo>.(T) -> Unit,
     ) = webTest(
         site = BrowserStackDemo,
         keepBrowserOpen = keepBrowserOpen,

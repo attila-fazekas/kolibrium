@@ -100,7 +100,6 @@ public object DecoratorManager {
                 if (context is WebDriver) {
                     val listeners = decorators.mapNotNull { (it as? InteractionAware)?.interactionListener() }
                     if (listeners.isNotEmpty()) {
-                        @Suppress("UNCHECKED_CAST")
                         EventFiringDecorator<WebDriver>(ListenerMultiplexer(listeners)).decorate(context)
                     } else {
                         context

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.common
+package dev.kolibrium.core.selenium
 
 /**
  * Used to throw a [RuntimeException] when there is a configuration error within Kolibrium.

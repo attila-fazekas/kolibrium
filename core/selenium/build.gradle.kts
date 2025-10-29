@@ -20,7 +20,6 @@ plugins {
 }
 
 dependencies {
-    api(project(":common"))
     api("org.seleniumhq.selenium:selenium-java:_")
     testImplementation("com.titusfortner:selenium-logger:_")
 }

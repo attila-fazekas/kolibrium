@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.common
+package dev.kolibrium.examples.saucedemo.pages
 
-import org.openqa.selenium.Cookie
+import dev.kolibrium.core.selenium.className
+import dev.kolibrium.core.selenium.id
+import dev.kolibrium.examples.saucedemo.Product
 import org.openqa.selenium.WebElement
 
-/**
- * A typealias for a list of [WebElement]s.
- *
- * This provides a more readable and concise way to refer to a list of web elements in the code.
- */
-public typealias WebElements = List<WebElement>
-
-/**
- * A typealias for a set of [Cookie]s.
- *
- * This provides a more readable and concise way to refer to a set of cookies in the code.
- */
-public typealias Cookies = Set<Cookie>
+class Item(
+    root: WebElement,
+    product: Product,
+) {
+    val image by root.className("inventory_item_img")
+    val name by root.className("inventory_item_name")
+    val description by root.className("inventory_item_desc")
+    val price by root.className("inventory_item_price")
+    val addToCartButton by root.id("add-to-cart-sauce-labs-${product.locatorName}")
+    val removeFromCartButton by root.id("remove-sauce-labs-${product.locatorName}")
+}

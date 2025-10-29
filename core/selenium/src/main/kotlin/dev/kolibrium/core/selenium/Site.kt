@@ -16,48 +16,54 @@
 
 package dev.kolibrium.core.selenium
 
-import dev.kolibrium.common.Cookies
-import dev.kolibrium.common.WebElements
-import dev.kolibrium.core.selenium.WaitConfig.Companion.Default
 import dev.kolibrium.core.selenium.decorators.AbstractDecorator
+import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 /**
- * Base configuration for a web site under test.
+ * Base configuration for an application under test.
  *
- * A [Site] centralizes cross‑cutting configuration such as base URL, cookies that should be applied
- * to every session, element decorators, readiness conditions, and waiting behavior. Instances of [Page]
- * are parameterized by the specific [Site] type to keep navigation and interactions consistent.
+ * A [Site] centralizes cross-cutting defaults and policies for your tests:
+ * - Where your app lives ([baseUrl])
+ * - Which cookies should always be present for a new WebDriver session
+ * - Default waiting behavior used by pages and element interactions
+ * - An optional, session-aware configuration hook
  *
- * Example:
- * ```kotlin
- * class ShopSite : Site(baseUrl = "https://example.shop") {
- *     override val cookies = setOf(Cookie("ab", "test"))
- *     override fun configureDriver(driver: WebDriver) {
- *         driver.manage().window().maximize()
- *     }
- * }
- * ```
+ * Declarative vs. imperative configuration
+ * - Prefer declarative properties on the site ([cookies], [waitConfig]) for stable, site-wide policy that
+ *   the framework can apply deterministically before the first real navigation.
+ * - Use [configureBrowser] only for exceptional, dynamic, or environment-specific logic that truly
+ *   requires a live session.
  *
- * @property baseUrl Base URL used by [Page] instances and by [dev.kolibrium.dsl.webTest]. Must be non‑blank.
+ * Lifecycle and ordering
+ * - The test DSL binds the active site to the current thread, creates a [WebDriver] session, navigates to
+ *   [baseUrl] to establish origin, applies declarative [cookies] (if any), then re-navigates to [baseUrl]
+ *   so cookies take effect immediately. Finally, it calls [configure] with the driver, which runs
+ *   [configure] (no-arg) first and then [configureBrowser].
+ * - Never navigate in [configureBrowser]; keep it fast and idempotent.
+ *
+ * @property baseUrl Base URL used by pages and the test DSL to build absolute routes.
  */
 public abstract class Site(
-    /**
-     * Allows configuring the base URL that will be used for all [Page] instances and [dev.kolibrium.dsl.webTest] functions unless overridden.
-     */
     public val baseUrl: String,
 ) {
-    init {
-        require(baseUrl.isNotBlank()) {
-            "baseUrl is not set!"
-        }
-    }
-
     /**
-     * Allows configuring cookies that will be applied to all browser sessions when a [Page] is instantiated.
+     * Declarative cookies applied to every new [BrowserSession] for this site.
+     *
+     * - Applied by the framework at the correct time (typically before the first real navigation)
+     *   so the server sees them on the initial request.
+     * - Prefer this over mutating cookies from [configureBrowser] whenever values are static/stable.
+     *
+     * Example:
+     * ```kotlin
+     * override val cookies = setOf(
+     *     cookie(name = "ab", value = "test"),
+     *     cookie(name = "locale", value = "en-US"),
+     * )
+     * ```
      */
-    public open val cookies: Cookies = emptySet()
+    public open val cookies: Set<Cookie> = emptySet()
 
     /**
      * List of decorators to be applied to SearchContext objects (WebDriver or WebElement).
@@ -76,18 +82,71 @@ public abstract class Site(
     public open val elementsReadyCondition: WebElements.() -> Boolean = { isDisplayed }
 
     /**
-     * The wait configuration to use in synchronization operations.
+     * Default wait configuration used by pages and element interactions when no more specific
+     * configuration is provided.
      */
-    public open val waitConfig: WaitConfig = Default
+    public open val waitConfig: WaitConfig = WaitConfig.Default
 
     /**
-     * Perform site‑specific driver configuration.
+     * No-arg hook for per-site tweaks that do not require an active [WebDriver] session.
      *
-     * Called by the DSL when a driver is created and whenever a test switches to this [Site].
-     * Typical use cases include window sizing, timeouts, or adding browser‑specific options.
+     * Timing and order:
+     * - Invoked by [configure] just before [configureBrowser].
+     * - The DSL calls [configure] with the current driver after it has navigated to [baseUrl],
+     *   applied declarative [cookies] (if any), and re-navigated to [baseUrl].
      *
-     * @param driver The active [WebDriver] for the current test session.
+     * Recommended uses:
+     * - Read environment variables or feature flags to decide site-level policy (decorators, [waitConfig], etc.).
+     * - Compute declarative [cookies] when values are static for the test run.
+     *
+     * Do not:
+     * - Perform navigation or call session APIs here; no session is provided, and navigation is owned by the DSL.
      */
-    public open fun configureDriver(driver: WebDriver) {
+    public open fun configure() { /* no-op by default */ }
+
+    /**
+     * Imperative, session-aware hook invoked after a [WebDriver] session is created and whenever
+     * the active test switches to this [Site].
+     *
+     * Timing and order:
+     * - Called by [configure] (the overload that accepts [WebDriver]) after [configure()].
+     * - The DSL performs the initial navigation to [baseUrl], applies declarative [cookies], then re-navigates
+     *   to [baseUrl] before invoking this hook.
+     *
+     * Guidelines:
+     * - Do not perform navigation here; the DSL owns predictable navigation.
+     * - Keep it fast and idempotent; this may be called multiple times across a test run.
+     * - Prefer the declarative [cookies] property for stable defaults; use this hook for dynamic/session-specific work.
+     *
+     * Example:
+     * ```kotlin
+     * override fun configureBrowser(driver: WebDriver) {
+     *     // Example: add a run-specific token fetched at runtime
+     *     val token = System.getenv("RUN_TOKEN") ?: return
+     *     driver.manage().addCookie(Cookie("auth", token))
+     * }
+     * ```
+     */
+    public open fun configureBrowser(driver: WebDriver) { /* no-op by default */ }
+
+    /**
+     * Aggregates site configuration for the current [WebDriver] session.
+     *
+     * This convenience method is invoked by the DSL after it has:
+     * - navigated to [baseUrl] to establish origin,
+     * - applied declarative [cookies] (if any), and
+     * - re-navigated to [baseUrl] so cookies take effect immediately.
+     *
+     * It then runs [configure] (no‑arg) first and [configureBrowser] second.
+     *
+     * Notes:
+     * - This function is not intended to be overridden. Override [configure] or [configureBrowser]
+     *   to customize behavior.
+     * - Do not perform navigation in [configureBrowser]; the DSL owns initial, predictable navigation.
+     */
+    public fun configure(driver: WebDriver) {
+        configure()
+        // Then allow session-specific customization if desired
+        configureBrowser(driver)
     }
 }

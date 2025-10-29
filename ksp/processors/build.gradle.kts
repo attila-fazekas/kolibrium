@@ -47,7 +47,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(":core:selenium"))
     implementation(project(":ksp:annotations"))
     implementation("commons-validator:commons-validator:_")
     implementation("com.samskivert:jmustache:_")

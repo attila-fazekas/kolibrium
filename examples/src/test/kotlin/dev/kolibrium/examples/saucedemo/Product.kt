@@ -14,29 +14,19 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.common
+package dev.kolibrium.examples.saucedemo
 
-/**
- * Represents different web browsers.
- */
-public enum class Browser {
-    /**
-     * Google Chrome browser.
-     */
-    Chrome,
-
-    /**
-     * Microsoft Edge browser.
-     */
-    Edge,
-
-    /**
-     * Mozilla Firefox browser.
-     */
-    Firefox,
-
-    /**
-     * Apple Safari browser.
-     */
-    Safari,
+enum class Product(
+    val productName: String,
+    val price: String,
+    val locatorName: String,
+) {
+    Backpack("Sauce Labs Backpack", "$29.99", "backpack"),
+    BikeLight("Sauce Labs Bike Light", "$9.99", "bike-light"),
+    BoltTShirt("Sauce Labs Bolt T-Shirt", "$15.99", "bolt-t-shirt"),
+    FleeceJacket("Sauce Labs Fleece Jacket", "$49.99", "fleece-jacket"),
+    RedTShirt("Test.allTheThings() T-Shirt (Red)", "$7.99", "t-shirt-red"),
+    Onesie("Sauce Labs Onesie", "$15.99", "onesie"),
 }
+
+typealias Products = List<Product>

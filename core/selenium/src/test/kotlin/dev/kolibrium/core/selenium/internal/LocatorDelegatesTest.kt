@@ -239,6 +239,7 @@ class LocatorDelegatesTest : BaseTest() {
     @Test
     fun `name - WebElements with number`() =
         imagesPage {
+            println(images.toList())
             images.forEachIndexed { index, element ->
                 element.getAttribute("alt") shouldBe "kodee$index"
             }

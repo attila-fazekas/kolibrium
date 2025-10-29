@@ -21,11 +21,8 @@ import dev.kolibrium.core.selenium.className
 import dev.kolibrium.core.selenium.dataTests
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Products
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.SauceDemo
-import org.openqa.selenium.WebDriver
 
-class InventoryPage(
-    driver: WebDriver,
-) : Page<SauceDemo>(driver) {
+class InventoryPage : Page<SauceDemo>() {
     override val path = "inventory.html"
 
     private val title by className("title")
@@ -47,6 +44,6 @@ class InventoryPage(
 
     fun goToCart(): CartPage {
         cartButton.click()
-        return CartPage(driver)
+        return CartPage()
     }
 }

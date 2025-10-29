@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("kolibrium.library-conventions")
     id("kolibrium.test-conventions")
@@ -23,7 +21,6 @@ plugins {
 }
 
 dependencies {
-    api(project(":common"))
     api(project(":core:selenium"))
     implementation("commons-validator:commons-validator:_")
     testImplementation("io.ktor:ktor-client-core:_")
@@ -32,12 +29,4 @@ dependencies {
     testImplementation("io.ktor:ktor-client-logging:_")
     testImplementation("io.ktor:ktor-serialization-kotlinx-json-jvm:_")
     testImplementation("com.titusfortner:selenium-logger:_")
-}
-
-tasks.withType<KotlinCompile> {
-    compilerOptions.freeCompilerArgs =
-        listOf(
-            "-opt-in=dev.kolibrium.common.InternalKolibriumApi",
-            "-Xcontext-parameters",
-        )
 }

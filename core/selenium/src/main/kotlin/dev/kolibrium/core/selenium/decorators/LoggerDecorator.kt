@@ -16,7 +16,7 @@
 
 package dev.kolibrium.core.selenium.decorators
 
-import dev.kolibrium.common.WebElements
+import dev.kolibrium.core.selenium.WebElements
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext

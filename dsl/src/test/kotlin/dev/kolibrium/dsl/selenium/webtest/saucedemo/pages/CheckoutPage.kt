@@ -17,12 +17,11 @@
 package dev.kolibrium.dsl.selenium.webtest.saucedemo.pages
 
 import dev.kolibrium.core.selenium.Page
+import dev.kolibrium.dsl.selenium.creation.driver
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.SauceDemo
 import org.openqa.selenium.WebDriver
 
-class CheckoutPage(
-    driver: WebDriver,
-) : Page<SauceDemo>(driver) {
+class CheckoutPage : Page<SauceDemo>() {
     fun fillShippingInfo(
         firstName: String,
         lastName: String,
