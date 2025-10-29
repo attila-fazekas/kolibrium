@@ -20,6 +20,7 @@ import dev.kolibrium.core.selenium.WebElements
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
+import org.openqa.selenium.StaleElementReferenceException
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.events.WebDriverListener
 
@@ -91,11 +92,11 @@ public class LoggerDecorator :
             .onSuccess { tag ->
                 logger.trace { "found element <$tag>" }
             }.onFailure { e ->
-                val msg = e.message ?: ""
-                if (e::class.simpleName == "StaleElementReferenceException" || msg.contains("stale", ignoreCase = true)) {
-                    logger.warn { "stale element detected during logging; will require relocation" }
-                } else {
-                    logger.trace { "found element" }
+                when (e) {
+                    is StaleElementReferenceException ->
+                        logger.debug { "stale element reference while reading element’s HTML tag; element reference is no longer valid" }
+                    else ->
+                        logger.trace { "found element" }
                 }
             }
     }

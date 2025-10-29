@@ -70,8 +70,6 @@ public object DecoratorManager {
      * ```kotlin
      * val result = DecoratorManager.withDecorators(HighlighterDecorator()) {
      *     // test body
-     *     page.button.click()
-     *     42
      * }
      * ```
      *

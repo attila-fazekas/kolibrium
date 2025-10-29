@@ -70,7 +70,7 @@ public class ElementStateCacheDecorator(
                 }
 
                 return element.isDisplayed.also {
-                    if (it && cacheDisplayed) cachedIsDisplayed = it
+                    if (it && cacheDisplayed) cachedIsDisplayed = true
                 }
             }
 
@@ -80,7 +80,7 @@ public class ElementStateCacheDecorator(
                 }
 
                 return element.isEnabled.also {
-                    if (it && cacheEnabled) cachedIsEnabled = it
+                    if (it && cacheEnabled) cachedIsEnabled = true
                 }
             }
 
@@ -90,7 +90,7 @@ public class ElementStateCacheDecorator(
                 }
 
                 return element.isSelected.also {
-                    if (it && cacheSelected) cachedIsSelected = it
+                    if (it && cacheSelected) cachedIsSelected = true
                 }
             }
 

@@ -15,14 +15,11 @@
  */
 
 plugins {
-    id("kolibrium.library-conventions")
     id("kolibrium.test-conventions")
 }
 
 dependencies {
     implementation(project(":core:selenium"))
     implementation(project(":dsl"))
-    implementation(project(":playwright"))
-    implementation(project(":selenium"))
     testImplementation("com.titusfortner:selenium-logger:_")
 }

@@ -274,7 +274,7 @@ public class PageEntry<S : Site>
             return this
         }
 
-        context(driver: WebDriver)
+        context(_: WebDriver)
         private fun ensureReady(page: Page<*>) {
             page.awaitReady()
             page.assertReady()
