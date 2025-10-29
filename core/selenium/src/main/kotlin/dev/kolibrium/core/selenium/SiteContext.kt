@@ -16,32 +16,21 @@
 
 package dev.kolibrium.core.selenium
 
-import dev.kolibrium.common.InternalKolibriumApi
-
 /**
  * Runtime holder for the currently active [Site].
  *
  * This uses a thread-local to isolate site configuration per test thread.
  */
-@InternalKolibriumApi
 public object SiteContext {
     private val current: ThreadLocal<Site?> = ThreadLocal.withInitial { null }
 
     /**
-     * Returns the currently active Site for this thread, or null if none is set.
-     *
-     * Used by locator utilities and decorators to resolve defaults (waitConfig, readiness conditions, etc.).
-     *
-     * @return the Site bound to the current thread, or null when no site context is active
+     * Returns the currently active [Site] for this thread, or null if none is set.
      */
     public fun get(): Site? = current.get()
 
     /**
-     * Sets the current Site for this thread.
-     *
-     * Prefer using [withSite] to ensure the previous context is restored automatically.
-     *
-     * @param site the Site to bind to the current thread; pass null to clear
+     * Sets the current [Site] for this thread. Prefer using [withSite] when possible.
      */
     public fun set(site: Site?) {
         current.set(site)
@@ -49,17 +38,7 @@ public object SiteContext {
 
     /**
      * Executes [block] with [site] bound to the current thread's SiteContext.
-     *
-     * Restores the previously active Site (which may be null) after [block] completes,
-     * even if an exception is thrown.
-     *
-     * This is intended for scoped, temporary context changes. For a persistent switch that
-     * outlives a block, use [set].
-     *
-     * @param T The result type produced by [block].
-     * @param site The Site to bind while executing [block].
-     * @param block The code to run under the provided [site].
-     * @return The result produced by [block].
+     * Restores the previous value when finished (even on exception).
      */
     public fun <T> withSite(
         site: Site,

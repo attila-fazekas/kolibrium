@@ -14,19 +14,24 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.common
+package dev.kolibrium.examples.saucedemo.pages.twitter
 
-/**
- * Marks the Kolibrium internal API, which is not intended for public use.
- *
- * This annotation is used to signal that the annotated element is part of the internal API of Kolibrium
- * and should not be used by external consumers. Any usage of this API will result in a compilation error
- * due to the opt-in requirement.
- *
- * @see RequiresOptIn.Level.ERROR
- */
-@RequiresOptIn(
-    level = RequiresOptIn.Level.ERROR,
-    message = "This is an internal API of Kolibrium, please do not use it.",
-)
-public annotation class InternalKolibriumApi
+import dev.kolibrium.core.selenium.Page
+import dev.kolibrium.core.selenium.WaitConfig
+import dev.kolibrium.core.selenium.dataTestId
+import dev.kolibrium.examples.saucedemo.Twitter
+import kotlin.time.Duration.Companion.seconds
+
+class TwitterHomePage : Page<Twitter>() {
+    private val tweet =
+        dataTestId(
+            value = "tweet",
+            waitConfig = WaitConfig.Default.copy(timeout = 5.seconds),
+        )
+
+    override fun awaitReady() {
+        tweet.get()
+    }
+
+    fun login(): FeedPage = FeedPage()
+}

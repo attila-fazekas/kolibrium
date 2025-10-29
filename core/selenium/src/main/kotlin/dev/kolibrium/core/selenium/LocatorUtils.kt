@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-@file:OptIn(dev.kolibrium.common.InternalKolibriumApi::class)
-
 package dev.kolibrium.core.selenium
 
-import dev.kolibrium.common.WebElements
 import org.openqa.selenium.WebElement
 
 /**
  * Checks if the [WebElement] is both displayed and enabled, making it clickable in the UI.
  *
- * This property combines Selenium's [isDisplayed][org.openqa.selenium.WebElement.isDisplayed] and
- * [isEnabled][org.openqa.selenium.WebElement.isEnabled] checks to determine if the element is ready
+ * This property combines Selenium's [isDisplayed][WebElement.isDisplayed] and
+ * [isEnabled][WebElement.isEnabled] checks to determine if the element is ready
  * for user interaction through clicking.
  *
  * @receiver The [WebElement] to check for clickability.
@@ -37,8 +34,8 @@ public val WebElement.isClickable: Boolean
 /**
  * Checks if the [WebElement]s are both displayed and enabled, making them clickable in the UI.
  *
- * This property combines Selenium's [isDisplayed][org.openqa.selenium.WebElement.isDisplayed] and
- * [isEnabled][org.openqa.selenium.WebElement.isEnabled] checks to determine if the elements are ready
+ * This property combines Selenium's [isDisplayed][WebElement.isDisplayed] and
+ * [isEnabled][WebElement.isEnabled] checks to determine if the elements are ready
  * for user interaction through clicking.
  *
  * @receiver The [WebElement]s to check for clickability.
@@ -71,20 +68,14 @@ public val WebElements.isDisplayed: Boolean
 public val WebElements.isEnabled: Boolean
     get() = all { it.isEnabled }
 
-/**
- * Default readiness condition used for single element lookup.
- */
-public val defaultElementReadyCondition: WebElement.() -> Boolean
+/** Default readiness condition used for single element lookup. */
+internal val defaultElementReadyCondition: WebElement.() -> Boolean
     get() = SiteContext.get()?.elementReadyCondition ?: { isDisplayed }
 
-/**
- * Default readiness condition used for multiple element lookup.
- */
-public val defaultElementsReadyCondition: WebElements.() -> Boolean
-    get() = SiteContext.get()?.elementsReadyCondition ?: { isDisplayed }
+/** Default readiness condition used for multiple element lookup. */
+internal val defaultElementsReadyCondition: WebElements.() -> Boolean
+    get() = SiteContext.get()?.elementsReadyCondition ?: { isNotEmpty() && isDisplayed }
 
-/**
- * Default wait configuration used for element lookup.
- */
-public val defaultWaitConfig: WaitConfig
+/** Default wait configuration used for element lookup. */
+internal val defaultWaitConfig: WaitConfig
     get() = SiteContext.get()?.waitConfig ?: WaitConfig.Default

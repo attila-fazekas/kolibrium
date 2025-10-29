@@ -23,7 +23,7 @@ import org.openqa.selenium.WebDriver
 class ImagesPage(
     driver: WebDriver,
 ) : KPage(driver) {
-    val images by names("kodee", cacheLookup = false) {
+    val images by names("kodee") {
         size == 9
     }
 }

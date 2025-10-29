@@ -37,13 +37,13 @@ package dev.kolibrium.dsl.selenium.webtest.saucedemo
 import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.dsl.selenium.DriverFactory
 import dev.kolibrium.dsl.selenium.PageEntry
+import dev.kolibrium.dsl.selenium.chrome
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.credentials_enable_service
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.password_manager_enabled
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.password_manager_leak_detection
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
-import dev.kolibrium.dsl.selenium.verify
 import dev.kolibrium.dsl.selenium.webTest
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.Backpack
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.BikeLight
@@ -54,6 +54,7 @@ import dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.visitTwitter
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.Cookie
 import org.openqa.selenium.chrome.ChromeDriver
 
 class SauceDemoTest() {
@@ -66,27 +67,10 @@ class SauceDemoTest() {
     }
 
     @Test
-    fun `no use of webTest`() {
-        with(ChromeDriver()) {
-            this.get("https://www.saucedemo.com")
-            LoginPage.Companion().login()
-            quit()
-        }
-    }
-
-    @Test
-    fun `webTest used with page creation through constructor`() = webTest(
-        site = SauceDemo,
-        keepBrowserOpen = false,
-        prepare = { },
-    ) { _: Unit ->
-        LoginPage(driver).login()
-    }
-
-    @Test
     fun `webTest used with PageEntry's open() function`() = webTest(
         site = SauceDemo,
         keepBrowserOpen = false,
+        driverFactory = chrome(),
         prepare = { },
     ) { _: Unit ->
         open(::LoginPage) {
@@ -167,7 +151,7 @@ class SauceDemoTest() {
     private fun sauceDemoTest(
         driverFactory: DriverFactory = sauceDemoDriver,
         keepBrowserOpen: Boolean = false,
-        block: context(SauceDemo) PageEntry<SauceDemo>.() -> Unit,
+        block: PageEntry<SauceDemo>.() -> Unit,
     ) = webTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -181,17 +165,13 @@ class SauceDemoTest() {
         user: User = User.Standard,
         keepBrowserOpen: Boolean = false,
         driverFactory: DriverFactory = sauceDemoDriver,
-        block: context(SauceDemo) PageEntry<SauceDemo>.() -> Unit,
+        block: PageEntry<SauceDemo>.() -> Unit,
     ) = webTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
         prepare = { user.acquireCredentials() },
-        startup = { username: String ->
-            cookies {
-                addCookie("session-username", username)
-            }
-        },
+        startup = { username -> loginAs(username) },
         block = {
             block()
         },
@@ -200,6 +180,10 @@ class SauceDemoTest() {
     //Imitating backend call to acquire credentials
     private fun User.acquireCredentials(): String {
         return username
+    }
+
+    private fun PageEntry<SauceDemo>.loginAs(username: String) {
+        addCookie(Cookie("session-username", username))
     }
 
     private val sauceDemoDriver = {

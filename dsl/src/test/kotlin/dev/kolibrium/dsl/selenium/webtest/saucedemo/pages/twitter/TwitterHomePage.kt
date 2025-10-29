@@ -17,17 +17,21 @@
 package dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.twitter
 
 import dev.kolibrium.core.selenium.Page
+import dev.kolibrium.core.selenium.WaitConfig
 import dev.kolibrium.core.selenium.dataTestId
-import dev.kolibrium.dsl.selenium.toReadinessDescriptor
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Twitter
-import org.openqa.selenium.WebDriver
+import kotlin.time.Duration.Companion.seconds
 
-class TwitterHomePage(
-    driver: WebDriver,
-) : Page<Twitter>(driver) {
-    private val tweet = dataTestId("tweet")
+class TwitterHomePage : Page<Twitter>() {
+    private val tweet =
+        dataTestId(
+            value = "tweet",
+            waitConfig = WaitConfig.Default.copy(timeout = 5.seconds),
+        )
 
-    override val ready = tweet.toReadinessDescriptor()
+    override fun awaitReady() {
+        tweet.get()
+    }
 
-    fun login(): FeedPage = FeedPage(driver)
+    fun login(): FeedPage = FeedPage()
 }

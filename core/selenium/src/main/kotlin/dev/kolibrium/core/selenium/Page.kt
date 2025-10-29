@@ -14,118 +14,107 @@
  * limitations under the License.
  */
 
-@file:OptIn(dev.kolibrium.common.InternalKolibriumApi::class)
-
 package dev.kolibrium.core.selenium
 
-import dev.kolibrium.common.Cookies
-import org.openqa.selenium.Cookie
+import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.support.ui.FluentWait
+import org.openqa.selenium.WebElement
 
 /**
- * Base class for typed page objects bound to a specific [Site].
- *
- * Exposes common browser actions and cookie helpers while delegating [SearchContext] to the underlying [WebDriver].
- * Concrete pages typically declare locators and behavior and may override [path] to indicate their route.
- *
- * @param S The [Site] type this page belongs to. Keeps navigation and configuration consistent at compile time.
- * @property driver The active [WebDriver] for the session.
+ * Base type for page objects bound to a [Site].
+ * Library code may subclass this to add helpers and waiting primitives.
  */
-public abstract class Page<S : Site>(
-    protected val driver: WebDriver,
-) : SearchContext by driver {
+public abstract class Page<S : Site> : SearchContext {
     /**
-     * Relative path of this page, appended to [Site.baseUrl] by the DSL when opening.
-     * Defaults to the root path.
+     * Relative path of this page within the [Site]. Defaults to "/".
      */
     public open val path: String = "/"
 
     /** The current URL as reported by the driver. */
     protected val currentUrl: String?
-        get() = driver.currentUrl
+        get() = requireDriver().currentUrl
 
     /** The current page title as reported by the driver. */
     protected val pageTitle: String?
-        get() = driver.title
+        get() = requireDriver().title
 
     /**
-     * Optional readiness descriptor that core can wait for after navigation.
-     * If null, no built-in locator wait is performed.
+     * Wait until the page is considered ready for interaction.
+     * Default is a no-op; libraries may override.
      */
-    public open val ready: ReadinessDescriptor? = null
+    public open fun awaitReady() {}
 
     /**
-     * Waits for the page to be ready according to [ready], then runs any additional checks.
-     * Uses [Site.waitConfig] as fallback when [ReadinessDescriptor.waitConfig] is not provided.
+     * Optional post-ready assertions to verify invariants.
      */
-    public fun awaitReady() {
-        val descriptor = ready ?: return
-        val waitCfg = descriptor.waitConfig ?: SiteContext.get()?.waitConfig ?: WaitConfig.Default
-        val wait =
-            FluentWait(driver)
-                .configureWith(waitCfg)
-        wait.until {
-            val element = driver.findElements(descriptor.by).firstOrNull() ?: return@until false
-            val builtInOk =
-                when (descriptor.condition) {
-                    ReadinessCondition.IsDisplayed -> element.isDisplayed
-                    ReadinessCondition.IsEnabled -> element.isEnabled
-                    ReadinessCondition.IsClickable -> element.isDisplayed && element.isEnabled
-                }
-            val customOk = descriptor.custom?.isReady(element) ?: true
-            builtInOk && customOk
-        }
-        extraReadinessChecks()
-    }
-
-    /** Hook for DSL or subclasses to perform extra checks after core readiness is met. */
-    protected open fun extraReadinessChecks(): Unit = Unit
-
-    /** Optional identity/readiness guard (no-op by default). */
-    public open fun assertReady(): Unit = Unit
+    public open fun assertReady() {}
 
     /** Reloads the current page. */
     protected fun refresh() {
-        driver.navigate().refresh()
+        requireDriver().navigate().refresh()
     }
 
     /** Navigates back in the browser history. */
     protected fun back() {
-        driver.navigate().back()
+        requireDriver().navigate().back()
     }
 
     /** Navigates forward in the browser history. */
     protected fun forward() {
-        driver.navigate().forward()
+        requireDriver().navigate().forward()
     }
 
-    /** Adds a single cookie to the browser session. */
-    protected fun addCookie(cookie: Cookie) {
-        driver.manage().addCookie(cookie)
+    override fun findElement(by: By): WebElement = requireDriver().findElement(by)
+
+    override fun findElements(by: By): List<WebElement> = requireDriver().findElements(by)
+
+    private fun requireDriver(): WebDriver =
+        DriverContextHolder.get()
+            ?: error(sessionNotAttachedMessage())
+
+    private fun sessionNotAttachedMessage(): String {
+        val pageName = this::class.qualifiedName ?: this::class.simpleName ?: "<unknown page>"
+        return (
+            "Kolibrium runtime error: Page '$pageName' has no active WebDriver context.\n" +
+                "You likely constructed this page directly or are calling it outside Kolibrium DSL.\n\n" +
+                "How to fix:\n" +
+                "- Run page interactions inside Kolibrium DSL (e.g., webTest/open/on)\n" +
+                "- Or wrap code with withDriver(driver) { ... } so a contextual driver is available\n"
+        )
+    }
+}
+
+@PublishedApi
+internal object DriverContextHolder {
+    private val tl: ThreadLocal<WebDriver?> = ThreadLocal()
+
+    @PublishedApi
+    internal fun get(): WebDriver? = tl.get()
+
+    @PublishedApi
+    internal fun set(driver: WebDriver) {
+        tl.set(driver)
     }
 
-    /** Adds multiple cookies to the browser session. */
-    protected fun addCookies(cookies: Cookies) {
-        val options = driver.manage()
-        cookies.forEach { cookie ->
-            options.addCookie(cookie)
-        }
+    @PublishedApi
+    internal fun clear() {
+        tl.remove()
     }
+}
 
-    /**
-     * Returns the first cookie with the given [name], or `null` if it does not exist.
-     */
-    protected fun cookie(name: String): Cookie? = driver.manage().cookies.firstOrNull { it.name == name }
-
-    /** Deletes a cookie by [name]. */
-    protected fun deleteCookie(name: String) {
-        driver.manage().deleteCookieNamed(name)
-    }
-
-    /** Deletes all cookies in the current browser session. */
-    protected fun clearCookies() {
-        driver.manage().deleteAllCookies()
+/**
+ * Provide a contextual WebDriver for the duration of [block]. Also makes the driver available to
+ * Java-override-based APIs (SearchContext) via a thread-local bridge.
+ */
+public inline fun <T> withDriver(
+    driver: WebDriver,
+    block: context(WebDriver) () -> T,
+): T {
+    DriverContextHolder.set(driver)
+    return try {
+        context(driver) { block() }
+    } finally {
+        DriverContextHolder.clear()
     }
 }

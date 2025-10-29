@@ -33,8 +33,7 @@ class KDocTest {
             .scopeFromProduction()
             .functions()
             .filter {
-                it.resideInModule("common") ||
-                    it.resideInModule("dsl") ||
+                it.resideInModule("dsl") ||
                     it.resideInModule("ksp") ||
                     it.resideInModule("selenium")
             }.withoutOverrideModifier()
@@ -76,8 +75,7 @@ class KDocTest {
             .scopeFromProduction()
             .properties()
             .filter {
-                it.resideInModule("common") ||
-                    it.resideInModule("dsl") ||
+                it.resideInModule("dsl") ||
                     it.resideInModule("ksp") ||
                     it.resideInModule("selenium")
             }.withoutOverrideModifier()

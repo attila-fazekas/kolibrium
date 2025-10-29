@@ -28,7 +28,7 @@ import org.openqa.selenium.support.events.WebDriverListener
 public interface InteractionAware {
     /**
      * Supplies a Selenium [WebDriverListener] that will receive interaction callbacks
-     * (e.g., beforeClick, beforeSendKeys) for a decorated [org.openqa.selenium.WebDriver].
+     * (e.g., beforeClick, beforeSendKeys) for a decorated [WebDriver].
      *
      * Implementors may return `null` to indicate they do not need interaction callbacks.
      * The listener, when present, will be registered once via Kolibrium's dispatcher so that

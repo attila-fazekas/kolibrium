@@ -22,9 +22,7 @@ import dev.kolibrium.core.selenium.name
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.SauceDemo
 import org.openqa.selenium.WebDriver
 
-class LoginPage(
-    driver: WebDriver,
-) : Page<SauceDemo>(driver) {
+class LoginPage : Page<SauceDemo>() {
     private val usernameInput = name("user-name")
     private val passwordInput by idOrName("password")
     private val loginButton by name("login-button")
@@ -37,13 +35,13 @@ class LoginPage(
         usernameInput.get().sendKeys(username)
         passwordInput.sendKeys(password)
         loginButton.click()
-        return InventoryPage(driver)
+        return InventoryPage()
     }
 
     fun loginAsLockedUser(): InventoryPage = login("locked_out_user", "secret_sauce")
 
     companion object {
         context(driver: WebDriver)
-        operator fun invoke(): LoginPage = LoginPage(driver)
+        operator fun invoke(): LoginPage = LoginPage()
     }
 }

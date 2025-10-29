@@ -19,7 +19,6 @@ plugins {
 }
 
 dependencies {
-    dokka(project(":common"))
     dokka(project(":core:selenium"))
     dokka(project(":dsl"))
     dokka(project(":ksp:annotations"))

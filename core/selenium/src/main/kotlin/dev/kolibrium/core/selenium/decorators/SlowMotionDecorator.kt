@@ -16,7 +16,7 @@
 
 package dev.kolibrium.core.selenium.decorators
 
-import dev.kolibrium.common.WebElements
+import dev.kolibrium.core.selenium.WebElements
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
@@ -30,7 +30,7 @@ import kotlin.time.toJavaDuration
  * Decorator that inserts delays to make browser actions easier to observe.
  *
  * By default the delay is applied only before element interactions (click, sendKeys) using a
- * Selenium [org.openqa.selenium.support.events.WebDriverListener]. Chaining is preserved by
+ * Selenium [WebDriverListener]. Chaining is preserved by
  * wrapping elements returned from `findElement(s)`.
  *
  * Typical uses: demos, debugging flakiness visually, recordings.
