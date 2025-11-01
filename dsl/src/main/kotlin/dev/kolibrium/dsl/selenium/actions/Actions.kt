@@ -21,14 +21,14 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.interactions.Actions
 
 /**
- * Creates a new Actions instance and executes the specified actions within the given [block].
- * This function provides a DSL for performing scrolling actions in a more readable and concise way.
+ * Creates a new [Actions] instance and executes the specified actions within [block].
+ *
+ * Provides a DSL around Selenium's Actions API. When [batchActions] is true (default), actions defined
+ * in the block are queued and performed once after the block completes. When false, each action is
+ * performed immediately (useful for debugging).
  *
  * @receiver The [WebDriver] instance on which to perform Actions API operations.
- * @param batchActions When true (default), all scroll actions in the block are collected and executed
- *                     together at the end.
- *                     When false, each scroll action is executed immediately after it's called,
- *                     which can be useful for debugging.
+ * @param batchActions When true (default), actions are collected and executed together at the end; when false, each is performed immediately.
  * @param block The actions to be performed within the DSL scope.
  */
 @KolibriumDsl

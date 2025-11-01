@@ -35,6 +35,8 @@ private const val ELLIPSIS = "…"
  * The logger is intentionally lightweight and uses trace/debug levels by default so
  * it can be enabled in troubleshooting scenarios without cluttering normal output.
  *
+ * Returned elements are re-wrapped so child lookups also receive the decorator (preserves chaining).
+ *
  * Logging points:
  * - findElement(s) on any SearchContext (driver or element)
  * - before click and sendKeys via WebDriverListener (if context is a WebDriver)

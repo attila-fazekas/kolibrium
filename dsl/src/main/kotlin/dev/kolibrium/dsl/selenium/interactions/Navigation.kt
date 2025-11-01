@@ -21,10 +21,13 @@ import dev.kolibrium.dsl.selenium.internal.normalizePath
 import org.openqa.selenium.WebDriver
 
 /**
- * Navigates to a relative path from the current URL.
+ * Navigates to a path resolved against the current origin (scheme + authority).
+ *
+ * Relative paths are normalized and resolved from the origin, ignoring the current page path.
+ * Absolute URLs (http/https) are navigated to directly.
  *
  * @receiver The [WebDriver] instance to perform navigation with.
- * @param relativePath The relative path to navigate to, which will be appended to the current URL.
+ * @param relativePath The path to navigate to; may be a relative path or an absolute URL.
  */
 @KolibriumDsl
 public fun WebDriver.navigateTo(relativePath: String) {

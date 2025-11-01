@@ -34,10 +34,8 @@
 
 package dev.kolibrium.dsl.selenium.webtest.saucedemo
 
-import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.dsl.selenium.DriverFactory
 import dev.kolibrium.dsl.selenium.PageEntry
-import dev.kolibrium.dsl.selenium.chrome
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.credentials_enable_service
@@ -45,6 +43,7 @@ import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.password_manager
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.password_manager_leak_detection
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
 import dev.kolibrium.dsl.selenium.webTest
+import dev.kolibrium.dsl.selenium.chrome
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.Backpack
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.Product.BikeLight
 import dev.kolibrium.dsl.selenium.webtest.saucedemo.pages.InventoryPage
@@ -55,7 +54,6 @@ import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.Cookie
-import org.openqa.selenium.chrome.ChromeDriver
 
 class SauceDemoTest() {
     companion object {
@@ -70,7 +68,7 @@ class SauceDemoTest() {
     fun `webTest used with PageEntry's open() function`() = webTest(
         site = SauceDemo,
         keepBrowserOpen = false,
-        driverFactory = chrome(),
+        driverFactory = chrome,
         prepare = { },
     ) { _: Unit ->
         open(::LoginPage) {

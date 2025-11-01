@@ -44,7 +44,7 @@ import kotlin.time.TimeSource
  * @param T The type of the prepared input value passed to [startup] and [block].
  * @param site The site under test; establishes the base URL and defaults.
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
- * @param driverFactory Factory creating a WebDriver instance (e.g., `chrome()`, `chromium()`).
+ * @param driverFactory Factory creating a WebDriver instance (e.g., `chrome`, `firefox`, or predefined factories like `headlessChrome`).
  * @param prepare Computes the input [T] before the browser session is created; runs in the site's context.
  * @param startup Optional step executed before [block], receiving the prepared value.
  * @param block Main test body executed with a [PageEntry] receiver and the prepared value.
@@ -161,7 +161,7 @@ public class WebTestResult(
  * @param T The type of the prepared input value passed to [startup] and [block].
  * @param site The site under test; establishes the base URL and defaults.
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
- * @param driverFactory Factory creating a WebDriver instance (e.g., `chrome()`, `chromium()`).
+ * @param driverFactory Factory creating a WebDriver instance (e.g., `chrome`, `firefox`, or predefined factories like `headlessChrome`).
  * @param prepare Computes the input [T] before the browser session is created; runs in the site's context.
  * @param startup Optional step executed before [block], receiving the prepared value.
  * @param block Main test body executed with a [PageEntry] receiver and the prepared value.
