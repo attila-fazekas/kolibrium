@@ -68,6 +68,14 @@ public abstract class Site(
     /**
      * List of decorators to be applied to SearchContext objects (WebDriver or WebElement).
      * Decorators can add behavior like highlighting or slow motion to Selenium operations.
+     *
+     * Merging rules with test-level decorators:
+     * - Site-level decorators are merged with test-level decorators registered via [dev.kolibrium.core.selenium.decorators.DecoratorManager].
+     * - De-duplication is by decorator class; when both are present, the test-level instance wins.
+     * - Order is deterministic: site-level first, then test-level (after de-duplication).
+     * - If any decorator is [dev.kolibrium.core.selenium.decorators.InteractionAware], their WebDriver listeners are
+     *   multiplexed behind a single Selenium [org.openqa.selenium.support.events.EventFiringDecorator] proxy so only one
+     *   WebDriver wrapper is used per session.
      */
     public open val decorators: List<AbstractDecorator> = emptyList()
 

@@ -50,7 +50,7 @@ class SauceDemoTest {
     fun `webTest - only open used`() =
         webTest(
             site = SauceDemo,
-            driverFactory = chrome(),
+            driverFactory = chrome,
             keepBrowserOpen = false,
             prepare = { User.Standard.acquireCredentials() },
             startup = { username ->
@@ -136,7 +136,7 @@ class SauceDemoTest {
     fun `webTestResult - open used with verify`() =
         webTestResult(
             site = SauceDemo,
-            driverFactory = chrome(),
+            driverFactory = chrome,
             keepBrowserOpen = false,
             prepare = { User.Standard.acquireCredentials() },
             startup = { username -> loginAs(username) },
@@ -151,7 +151,7 @@ class SauceDemoTest {
             .discard()
 
     private fun <T> sauceDemoTest(
-        driverFactory: DriverFactory = chrome(),
+        driverFactory: DriverFactory = chrome,
         keepBrowserOpen: Boolean = false,
         prepare: () -> T,
         startup: PageEntry<SauceDemo>.(T) -> Unit = {},
@@ -168,7 +168,7 @@ class SauceDemoTest {
 
     private fun authenticatedSauceDemoTest(
         user: User = User.Standard,
-        driverFactory: DriverFactory = chrome(),
+        driverFactory: DriverFactory = chrome,
         keepBrowserOpen: Boolean = false,
         block: PageEntry<SauceDemo>.() -> Unit,
     ) = webTest(

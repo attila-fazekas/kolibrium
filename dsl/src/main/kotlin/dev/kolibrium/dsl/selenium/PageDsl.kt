@@ -139,8 +139,8 @@ public class PageScope<P : Page<*>>(
 /**
  * Lightweight entry point bound to a live [WebDriver] session for a specific [dev.kolibrium.core.selenium.Site].
  *
- * Instances are created by the test harness (see webTest) and handed into user code as the receiver
- * of startup and test blocks via the [dev.kolibrium.common.Entry] typealias.
+ * Instances are created by the test harness (see webTest) and passed into user code as the receiver
+ * of startup and test blocks.
  */
 public class PageEntry<S : Site>
     @PublishedApi

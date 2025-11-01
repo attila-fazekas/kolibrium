@@ -21,15 +21,15 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 /**
- * Executes actions within an iframe context and automatically handles the iframe switching.
- * After executing the [block], the driver context remains in the iframe.
+ * Executes actions within an iframe context and automatically restores the default content afterward.
+ * The driver is switched into the iframe before executing [block] and switched back to the top-level document after [block] completes.
  *
  * This function provides a more readable and concise way to work with iframes compared to
- * manually calling `switchTo().frame()`.
+ * manually calling `switchTo().frame()` and remembering to switch back.
  *
  * @receiver The [WebDriver] instance on which to perform the iframe switch.
- * @param iframe The iframe [WebElement] to switch into
- * @param block The code block to execute within the iframe context
+ * @param iframe The iframe [WebElement] to switch into.
+ * @param block The code block to execute within the iframe context.
  */
 @KolibriumDsl
 public fun WebDriver.iframe(

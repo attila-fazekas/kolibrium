@@ -24,6 +24,10 @@ import org.openqa.selenium.WebElement
 /**
  * Base type for page objects bound to a [Site].
  * Library code may subclass this to add helpers and waiting primitives.
+ *
+ * Page instances rely on a contextual [org.openqa.selenium.WebDriver] installed by Kolibrium’s DSL
+ * or via [withDriver]. Constructing and using pages outside those contexts will fail with a runtime
+ * error. Delegated findElement(s) calls route through the contextual driver.
  */
 public abstract class Page<S : Site> : SearchContext {
     /**

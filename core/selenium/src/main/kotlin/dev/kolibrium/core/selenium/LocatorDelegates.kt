@@ -988,7 +988,7 @@ public fun SearchContext.tagNames(
  * ```
  *
  * @receiver The SearchContext instance used to search for the element.
- * @param value The XPath expression. Ensure values are properly escaped (using [escapeQuotes] for dynamic values).
+ * @param value The XPath expression.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -1034,7 +1034,7 @@ public fun SearchContext.xpath(
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
  * @receiver The SearchContext instance used to search for the elements.
- * @param value The XPath expression. Ensure values are properly escaped (using [escapeQuotes] for dynamic values).
+ * @param value The XPath expression.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
  *                   Defaults come from defaultWaitConfig.

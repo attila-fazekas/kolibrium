@@ -13,8 +13,6 @@ public final class dev/kolibrium/dsl/selenium/DiscardKt {
 }
 
 public final class dev/kolibrium/dsl/selenium/DriverFactoriesKt {
-	public static final fun chrome ()Lkotlin/jvm/functions/Function0;
-	public static final fun firefox ()Lkotlin/jvm/functions/Function0;
 	public static final fun getChrome ()Lkotlin/jvm/functions/Function0;
 	public static final fun getEdge ()Lkotlin/jvm/functions/Function0;
 	public static final fun getFirefox ()Lkotlin/jvm/functions/Function0;

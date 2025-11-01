@@ -27,6 +27,12 @@ import org.openqa.selenium.support.events.EventFiringDecorator
  * They are applied in insertion order to the root [SearchContext] (driver) and to all nested
  * elements discovered from it, preserving chaining across the object graph.
  *
+ * Notes:
+ * - When decorating a [WebDriver], listeners from [InteractionAware] decorators are multiplexed
+ *   behind a single Selenium [EventFiringDecorator] proxy so only one driver proxy is created.
+ * - At use sites, site-level decorators and test-level decorators are merged deterministically
+ *   (site first, then test) with de-duplication by class; on conflicts the test-level instance wins.
+ *
  * Example
  * ```kotlin
  * // Add decorators for the current test
