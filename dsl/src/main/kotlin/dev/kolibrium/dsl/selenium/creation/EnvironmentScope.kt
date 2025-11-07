@@ -34,7 +34,6 @@ public class EnvironmentScope {
      * @param name The name of the environment variable.
      * @param value The value of the environment variable.
      */
-    @KolibriumDsl
     public fun environment(
         name: String,
         value: String,

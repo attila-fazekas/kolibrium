@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlin.properties.Delegates
 
@@ -35,7 +34,6 @@ public class WindowSizeScope {
      * Sets the window width in pixels.
      * Minimum value is 1280.
      */
-    @KolibriumPropertyDsl
     public var width: Int by Delegates.vetoable(WIDTH) { _, oldValue, newValue ->
         if (newValue < oldValue) {
             logger.debug { "Requested window width $newValue < the minimum of $oldValue. Setting width to $oldValue" }
@@ -49,7 +47,6 @@ public class WindowSizeScope {
      * Sets the window height in pixels.
      * Minimum value is 720.
      */
-    @KolibriumPropertyDsl
     public var height: Int by Delegates.vetoable(HEIGHT) { _, oldValue, newValue ->
         if (newValue < oldValue) {
             logger.debug { "Requested window height $newValue < the minimum of $oldValue. Setting height to $oldValue" }

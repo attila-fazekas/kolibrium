@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.firefox.FirefoxProfile
 import java.io.File
@@ -43,7 +42,6 @@ public class FirefoxOptionsScope(
      *
      * When set, Firefox will be launched using this specific binary instead of the system default.
      */
-    @KolibriumPropertyDsl
     public var binary: String? = null
 
     /**
@@ -51,7 +49,6 @@ public class FirefoxOptionsScope(
      *
      * When set, Firefox will use this profile instead of creating a new temporary profile.
      */
-    @KolibriumPropertyDsl
     public var profileDir: String? = null
 
     override fun configure() {

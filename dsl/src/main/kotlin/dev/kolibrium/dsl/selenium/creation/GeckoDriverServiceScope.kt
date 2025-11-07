@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel
 import org.openqa.selenium.firefox.GeckoDriverService
 import java.io.File
@@ -39,31 +38,26 @@ public class GeckoDriverServiceScope(
     /**
      * The path to the GeckoDriver executable.
      */
-    @KolibriumPropertyDsl
     public var executable: String? = null
 
     /**
      * The path to the log file where GeckoDriver's output will be written.
      */
-    @KolibriumPropertyDsl
     public var logFile: String? = null
 
     /**
      * The logging level for GeckoDriver.
      */
-    @KolibriumPropertyDsl
     public var logLevel: FirefoxDriverLogLevel? = null
 
     /**
      * The directory containing the Firefox profile to be used.
      */
-    @KolibriumPropertyDsl
     public var profileRoot: String? = null
 
     /**
      * Controls whether GeckoDriver's log output should be truncated.
      */
-    @KolibriumPropertyDsl
     public var truncatedLogs: Boolean? = null
 
     override fun configure() {

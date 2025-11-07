@@ -33,7 +33,6 @@ public class ExperimentalOptionsScope {
      * @param block The configuration block for excluded switches.
      * @return The configured [ExcludeSwitchesScope].
      */
-    @KolibriumDsl
     public fun excludeSwitches(block: ExcludeSwitchesScope.() -> Unit): ExcludeSwitchesScope = excludeSwitchesScope.apply(block)
 
     /**
@@ -42,7 +41,6 @@ public class ExperimentalOptionsScope {
      * @param block The configuration block for local state settings.
      * @return The configured [LocalStateScope].
      */
-    @KolibriumDsl
     public fun localState(block: LocalStateScope.() -> Unit): LocalStateScope = localStateScope.apply(block)
 
     /**
@@ -51,7 +49,6 @@ public class ExperimentalOptionsScope {
      * @param block The configuration block for browser preferences.
      * @return The configured [ChromiumPreferencesScope].
      */
-    @KolibriumDsl
     public fun preferences(block: ChromiumPreferencesScope.() -> Unit): ChromiumPreferencesScope = preferencesScope.apply(block)
 
     /**

@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.chromium.ChromiumOptions
 import org.openqa.selenium.edge.EdgeOptions
@@ -38,7 +37,6 @@ public abstract class ChromiumOptionsScope(
     /**
      * Sets the path to the browser binary.
      */
-    @KolibriumPropertyDsl
     public var binary: String? = null
 
     override fun configure() {
@@ -53,7 +51,6 @@ public abstract class ChromiumOptionsScope(
      *
      * @param block The configuration block for experimental options.
      */
-    @KolibriumDsl
     public fun experimentalOptions(block: ExperimentalOptionsScope.() -> Unit) {
         expOptionsScope.apply {
             block()
@@ -84,7 +81,6 @@ public abstract class ChromiumOptionsScope(
      *
      * @param block The configuration block for extension settings.
      */
-    @KolibriumDsl
     public fun extensions(block: ExtensionsScope.() -> Unit) {
         extensionsScope.apply(block)
         when (options) {

@@ -71,7 +71,6 @@ public class CookiesScope(
      * @param sameSite (Optional) Specifies the SameSite policy for the cookie, controlling cross-site request behavior.
      * @return The created [Cookie] object that was added to the browser session.
      */
-    @KolibriumDsl
     public fun addCookie(
         name: String,
         value: String,
@@ -100,7 +99,6 @@ public class CookiesScope(
      * @param name The name of the cookie to retrieve.
      * @return The [Cookie] object if found, or `null` if no cookie with the specified name exists.
      */
-    @KolibriumDsl
     public fun getCookie(name: String): Cookie? = options.getCookieNamed(name)
 
     /**
@@ -108,7 +106,6 @@ public class CookiesScope(
      *
      * @return A [Set] containing all cookies currently stored in the browser.
      */
-    @KolibriumDsl
     public fun getCookies(): Set<Cookie> = options.cookies
 
     /**
@@ -116,7 +113,6 @@ public class CookiesScope(
      *
      * @param cookie The [Cookie] object to remove from the browser.
      */
-    @KolibriumDsl
     public fun deleteCookie(cookie: Cookie): Unit = options.deleteCookie(cookie)
 
     /**
@@ -124,19 +120,16 @@ public class CookiesScope(
      *
      * @param name The name of the cookie to delete.
      */
-    @KolibriumDsl
     public fun deleteCookie(name: String): Unit = options.deleteCookieNamed(name)
 
     /**
      * Deletes all cookies from the current [WebDriver] session.
      */
-    @KolibriumDsl
     public fun deleteCookies(): Unit = options.deleteAllCookies()
 
     /**
      * Add all provided Selenium [Cookie] instances to the current session.
      */
-    @KolibriumDsl
     public fun addAll(vararg cookies: Cookie) {
         cookies.forEach(options::addCookie)
     }
@@ -144,7 +137,6 @@ public class CookiesScope(
     /**
      * Convenience for adding a simple session cookie with a name/value pair.
      */
-    @KolibriumDsl
     public fun put(
         name: String,
         value: String,
@@ -153,7 +145,6 @@ public class CookiesScope(
     /**
      * Convenience for adding multiple name/value cookies.
      */
-    @KolibriumDsl
     public fun putAll(pairs: Map<String, String>) {
         pairs.forEach { (k, v) -> addCookie(k, v) }
     }
@@ -168,7 +159,6 @@ public class CookiesScope(
  * Specifies the SameSite attribute for cookies in the [CookiesScope] class.
  *
  */
-@KolibriumDsl
 public enum class SameSite {
     /** Strict SameSite policy: cookie is sent only for same-site requests. */
     Strict,

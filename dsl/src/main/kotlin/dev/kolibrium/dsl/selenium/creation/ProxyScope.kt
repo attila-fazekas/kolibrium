@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.openqa.selenium.Proxy
 
 /**
@@ -33,43 +32,36 @@ public class ProxyScope {
      * Sets the proxy type to be used.
      * @see Proxy.ProxyType
      */
-    @KolibriumPropertyDsl
     public var proxyType: Proxy.ProxyType? = null
 
     /**
      * Enables or disables proxy autodetection.
      */
-    @KolibriumPropertyDsl
     public var autodetect: Boolean? = null
 
     /**
      * Sets the FTP proxy server address.
      */
-    @KolibriumPropertyDsl
     public var ftpProxy: String? = null
 
     /**
      * Sets the HTTP proxy server address.
      */
-    @KolibriumPropertyDsl
     public var httpProxy: String? = null
 
     /**
      * Specifies hosts that should bypass the proxy.
      */
-    @KolibriumPropertyDsl
     public var noProxy: String? = null
 
     /**
      * Sets the HTTPS proxy server address.
      */
-    @KolibriumPropertyDsl
     public var sslProxy: String? = null
 
     /**
      * Sets the URL for proxy autoconfiguration.
      */
-    @KolibriumPropertyDsl
     public var proxyAutoconfigUrl: String? = null
 
     /**
@@ -77,7 +69,6 @@ public class ProxyScope {
      *
      * @param block The configuration block for SOCKS proxy settings.
      */
-    @KolibriumDsl
     public fun socks(block: SocksScope.() -> Unit) {
         socksScope.apply {
             block()

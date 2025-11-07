@@ -22,6 +22,7 @@ include("core:selenium")
 findProject(":core:selenium")?.name = "selenium"
 include("dokka")
 include("dsl")
+include("examples")
 include("konsistTest")
 include("ksp")
 include("ksp:annotations")

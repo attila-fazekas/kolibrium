@@ -49,6 +49,7 @@ import kotlin.time.TimeSource
  * @param startup Optional step executed before [block], receiving the prepared value.
  * @param block Main test body executed with a [PageEntry] receiver and the prepared value.
  */
+@KolibriumDsl
 public inline fun <S : Site, T> webTest(
     site: S,
     keepBrowserOpen: Boolean = false,
@@ -90,6 +91,7 @@ public inline fun <S : Site, T> webTest(
  * @param startup Optional step executed before [block].
  * @param block Main test body executed with a [PageEntry] receiver.
  */
+@KolibriumDsl
 public inline fun <S : Site> webTest(
     site: S,
     keepBrowserOpen: Boolean = false,
@@ -167,6 +169,7 @@ public class WebTestResult(
  * @param block Main test body executed with a [PageEntry] receiver and the prepared value.
  * @return A [WebTestResult] for successful runs; on failure the exception is rethrown.
  */
+@KolibriumDsl
 public inline fun <S : Site, T> webTestResult(
     site: S,
     keepBrowserOpen: Boolean = false,
@@ -217,6 +220,7 @@ public inline fun <S : Site, T> webTestResult(
  * @param startup Optional step executed before [block].
  * @param block Main test body executed with a [PageEntry] receiver.
  */
+@KolibriumDsl
 public inline fun <S : Site> webTestResult(
     site: S,
     keepBrowserOpen: Boolean = false,

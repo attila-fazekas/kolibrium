@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.openqa.selenium.edge.EdgeOptions
 
 /**
@@ -38,7 +37,6 @@ public class EdgeOptionsScope(
      * Configures whether to change the browser name to 'webview2' to enable test automation
      * of WebView2 apps with Edge WebDriver.
      */
-    @KolibriumPropertyDsl
     public var useWebView: Boolean? = null
 
     override fun configure() {

@@ -17,18 +17,10 @@
 package dev.kolibrium.dsl.selenium
 
 /**
- * Marker annotation for Kolibrium DSL functions and classes.
- */
-@DslMarker
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
-internal annotation class KolibriumDsl
-
-/**
- * Marker annotation for Kolibrium DSL properties.
+ * Marker annotation for Kolibrium DSL.
  *
- * Use this annotation to extend the Kolibrium DSL with your own properties, such as command-line arguments,
- * experimental flags, browser preferences, or browser feature switches.
+ * Apply to DSL receivers (classes/objects), functions, and properties participating in the user-facing flow.
  */
 @DslMarker
-@Target(AnnotationTarget.PROPERTY)
-public annotation class KolibriumPropertyDsl
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
+public annotation class KolibriumDsl

@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import kotlin.time.Duration
 
 /**
@@ -28,19 +27,16 @@ public class TimeoutsScope {
     /**
      * Sets the time to wait for the implicit element location strategy when locating elements.
      */
-    @KolibriumPropertyDsl
     public var implicitWait: Duration? = null
 
     /**
      * Sets the time interval within which a web page must be loaded in the current browsing context.
      */
-    @KolibriumPropertyDsl
     public var pageLoad: Duration? = null
 
     /**
      * Sets the timeout for interrupting an executing script in the current browsing context.
      */
-    @KolibriumPropertyDsl
     public var script: Duration? = null
 
     /**
