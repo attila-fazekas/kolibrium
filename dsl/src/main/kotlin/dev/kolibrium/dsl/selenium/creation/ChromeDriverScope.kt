@@ -33,7 +33,6 @@ public class ChromeDriverScope : DriverScope<ChromeDriverServiceScope, ChromeOpt
      *
      * @param block The configuration block for Chrome driver service.
      */
-    @KolibriumDsl
     override fun driverService(block: ChromeDriverServiceScope.() -> Unit) {
         driverServiceScope.apply {
             block()
@@ -46,7 +45,6 @@ public class ChromeDriverScope : DriverScope<ChromeDriverServiceScope, ChromeOpt
      *
      * @param block The configuration block for Chrome browser options.
      */
-    @KolibriumDsl
     override fun options(block: ChromeOptionsScope.() -> Unit) {
         optionsScope.apply {
             block()

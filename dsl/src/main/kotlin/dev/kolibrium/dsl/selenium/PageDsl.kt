@@ -25,11 +25,6 @@ import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import java.net.URI
 
-@DslMarker
-/** DSL marker for the Selenium page-flow DSL used to avoid accidental receiver clashes when nesting page/site blocks. */
-public annotation class PageDsl
-
-@PageDsl
 /**
  * Scope used as the fluent receiver when working with a [Page] in the Selenium DSL.
  *
@@ -40,6 +35,7 @@ public annotation class PageDsl
  * @property page the current page instance bound to the active WebDriver session
  * @property entry internal wiring to the underlying browser session; not intended for direct use
  */
+@KolibriumDsl
 public class PageScope<P : Page<*>>(
     public val page: P,
     @PublishedApi internal val entry: PageEntry<out Site>,
@@ -53,6 +49,7 @@ public class PageScope<P : Page<*>>(
      * @param Next the type of the next page produced by [action]
      * @param action operation to perform on the current page that returns the next page
      */
+    @KolibriumDsl
     public fun <Next : Page<*>> on(action: P.() -> Next): PageScope<Next> =
         withDriver(entry.driver) {
             page.assertReady()
@@ -65,6 +62,7 @@ public class PageScope<P : Page<*>>(
      *
      * The page is ensured to be ready before assertions are executed.
      */
+    @KolibriumDsl
     public fun verify(assertions: P.() -> Unit): PageScope<P> =
         apply {
             withDriver(entry.driver) {
@@ -78,6 +76,7 @@ public class PageScope<P : Page<*>>(
      *
      * The page is ensured to be ready before the action runs.
      */
+    @KolibriumDsl
     public fun then(action: P.() -> Unit): PageScope<P> =
         apply {
             withDriver(entry.driver) {
@@ -142,6 +141,7 @@ public class PageScope<P : Page<*>>(
  * Instances are created by the test harness (see webTest) and passed into user code as the receiver
  * of startup and test blocks.
  */
+@KolibriumDsl
 public class PageEntry<S : Site>
     @PublishedApi
     internal constructor(
@@ -294,6 +294,7 @@ public class PageEntry<S : Site>
  *
  * Use [switchBack] to return to the original context and continue the flow on the original page.
  */
+@KolibriumDsl
 public class SwitchBackScope<P : Page<*>>(
     private val originalEntry: PageEntry<out Site>,
     private val originalSite: Site,
@@ -305,6 +306,7 @@ public class SwitchBackScope<P : Page<*>>(
      *
      * @return a [PageScope] bound to the original page to continue the flow
      */
+    @KolibriumDsl
     public fun switchBack(block: P.() -> Unit): PageScope<P> {
         // Restore original window
         originalEntry.switchToWindow(originalWindow)

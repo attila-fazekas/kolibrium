@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.openqa.selenium.safari.SafariOptions
 
 /**
@@ -35,19 +34,16 @@ public class SafariOptionsScope(
     /**
      * Enables automatic inspection of web pages.
      */
-    @KolibriumPropertyDsl
     public var automaticInspection: Boolean? = null
 
     /**
      * Enables automatic profiling of web pages.
      */
-    @KolibriumPropertyDsl
     public var automaticProfiling: Boolean? = null
 
     /**
      * Enables the use of Safari Technology Preview.
      */
-    @KolibriumPropertyDsl
     public var useTechnologyPreview: Boolean? = null
 
     override fun configure() {

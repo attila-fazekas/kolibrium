@@ -60,7 +60,6 @@ public class ChromeArgumentsScope : ArgumentsScope<ChromeArgument> {
      *
      * @param block The configuration block for window dimensions.
      */
-    @KolibriumDsl
     override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
         args.add(ChromeArgument("--window-size=${windowSizeScope.width},${windowSizeScope.height}"))
@@ -106,7 +105,6 @@ public class FirefoxArgumentsScope : ArgumentsScope<FirefoxArgument> {
      *
      * @param block The configuration block for window dimensions.
      */
-    @KolibriumDsl
     override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
         +(FirefoxArgument("--width=${windowSizeScope.width}"))
@@ -153,7 +151,6 @@ public class EdgeArgumentsScope : ArgumentsScope<EdgeArgument> {
      *
      * @param block The configuration block for window dimensions.
      */
-    @KolibriumDsl
     override fun windowSize(block: WindowSizeScope.() -> Unit) {
         val windowSizeScope = WindowSizeScope().apply(block)
         +(EdgeArgument("--window-size=${windowSizeScope.width},${windowSizeScope.height}"))

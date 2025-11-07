@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.openqa.selenium.PageLoadStrategy
 import org.openqa.selenium.Platform
 import org.openqa.selenium.Proxy
@@ -39,40 +38,34 @@ public sealed class OptionsScope {
     /**
      * Configures whether to accept insecure certificates.
      */
-    @KolibriumPropertyDsl
     public var acceptInsecureCerts: Boolean? = null
 
     /**
      * Sets the desired browser version.
      */
-    @KolibriumPropertyDsl
     public var browserVersion: String? = null
 
     /**
      * Sets the page load strategy for the WebDriver.
      * @see PageLoadStrategy
      */
-    @KolibriumPropertyDsl
     public var pageLoadStrategy: PageLoadStrategy? = null
 
     /**
      * Sets the desired platform where the WebDriver should run.
      * @see Platform
      */
-    @KolibriumPropertyDsl
     public var platform: Platform? = null
 
     /**
      * Configures whether to enable strict interactability checks to input type=file elements.
      */
-    @KolibriumPropertyDsl
     public var strictFileInteractability: Boolean? = null
 
     /**
      * Sets the behavior for handling unexpected alerts.
      * @see UnexpectedAlertBehaviour
      */
-    @KolibriumPropertyDsl
     public var unhandledPromptBehaviour: UnexpectedAlertBehaviour? = null
 
     internal open fun configure() {
@@ -91,7 +84,6 @@ public sealed class OptionsScope {
      *
      * @param block The configuration block for timeout settings.
      */
-    @KolibriumDsl
     public fun timeouts(block: TimeoutsScope.() -> Unit) {
         options.apply {
             timeoutsScope.apply {
@@ -108,7 +100,6 @@ public sealed class OptionsScope {
      *
      * @param block The configuration block for proxy settings.
      */
-    @KolibriumDsl
     public fun proxy(block: ProxyScope.() -> Unit) {
         proxyScope.apply {
             block()

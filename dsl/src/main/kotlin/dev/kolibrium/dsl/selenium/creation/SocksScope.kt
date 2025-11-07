@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 
 /**
  * Scope class for configuring SOCKS proxy settings.
@@ -27,25 +26,21 @@ public class SocksScope {
     /**
      * The SOCKS proxy server address.
      */
-    @KolibriumPropertyDsl
     public var address: String? = null
 
     /**
      * The SOCKS protocol version.
      */
-    @KolibriumPropertyDsl
     public var version: Int? = null
 
     /**
      * Username for SOCKS proxy authentication.
      */
-    @KolibriumPropertyDsl
     public var username: String? = null
 
     /**
      * Password for SOCKS proxy authentication.
      */
-    @KolibriumPropertyDsl
     public var password: String? = null
 
     /**

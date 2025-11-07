@@ -16,8 +16,6 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
-
 /**
  * Base interface for browser preferences.
  */
@@ -61,26 +59,22 @@ public object Preferences {
          *
          * When set to false, Chrome will not offer to save or automatically fill in passwords.
          */
-        @KolibriumPropertyDsl
         public val credentials_enable_service: ChromiumPreference = ChromiumPreference("credentials_enable_service")
 
         /**
          * Sets the default download directory.
          */
-        @KolibriumPropertyDsl
         public val download_default_directory: ChromiumPreference = ChromiumPreference("download.default_directory")
 
         /**
          * Controls whether to use the upgraded download directory dialog.
          */
-        @KolibriumPropertyDsl
         public val download_directory_upgrade: ChromiumPreference =
             ChromiumPreference("download.directory_upgrade")
 
         /**
          * Controls whether to show download prompt.
          */
-        @KolibriumPropertyDsl
         public val download_prompt_for_download: ChromiumPreference =
             ChromiumPreference("download.prompt_for_download")
 
@@ -89,7 +83,6 @@ public object Preferences {
          *
          * When set to false, Chrome will not prompt to save passwords and autofill suggestions are suppressed.
          */
-        @KolibriumPropertyDsl
         public val password_manager_enabled: ChromiumPreference =
             ChromiumPreference("profile.password_manager_enabled")
 
@@ -98,14 +91,12 @@ public object Preferences {
          *
          * When enabled, Chrome compares saved passwords against known data breaches and warns the user if a compromise is detected.
          */
-        @KolibriumPropertyDsl
         public val password_manager_leak_detection: ChromiumPreference =
             ChromiumPreference("profile.password_manager_leak_detection")
 
         /**
          * Enables or disables SafeBrowsing feature.
          */
-        @KolibriumPropertyDsl
         public val safebrowsing_enabled: ChromiumPreference = ChromiumPreference("safebrowsing.enabled")
     }
 
@@ -116,98 +107,84 @@ public object Preferences {
         /**
          * Configures trusted URIs for NTLM authentication.
          */
-        @KolibriumPropertyDsl
         public val network_automatic_ntlm_auth_trusted_uris: FirefoxPreference =
             FirefoxPreference("network.automatic-ntlm-auth.trusted-uris")
 
         /**
          * Allows non-FQDN for NTLM authentication.
          */
-        @KolibriumPropertyDsl
         public val network_automatic_ntlm_auth_allow_non_fqdn: FirefoxPreference =
             FirefoxPreference("network.automatic-ntlm-auth.allow-non-fqdn")
 
         /**
          * URI patterns to allow for Negotiate/Kerberos delegation.
          */
-        @KolibriumPropertyDsl
         public val network_negotiate_auth_delegation_uris: FirefoxPreference =
             FirefoxPreference("network.negotiate-auth.delegation-uris")
 
         /**
          * URI patterns to allow for NTLM/Kerberos authentication.
          */
-        @KolibriumPropertyDsl
         public val network_negotiate_auth_trusted_uris: FirefoxPreference =
             FirefoxPreference("network.negotiate-auth.trusted-uris")
 
         /**
          * Maximum length allowed for usernames/passwords in URLs.
          */
-        @KolibriumPropertyDsl
         public val network_http_phishy_userpass_length: FirefoxPreference =
             FirefoxPreference("network.http.phishy-userpass-length")
 
         /**
          * Enables/disables Content Security Policy.
          */
-        @KolibriumPropertyDsl
         public val security_csp_enable: FirefoxPreference =
             FirefoxPreference("security.csp.enable")
 
         /**
          * Domains to bypass proxy settings.
          */
-        @KolibriumPropertyDsl
         public val network_proxy_no_proxies_on: FirefoxPreference =
             FirefoxPreference("network.proxy.no_proxies_on")
 
         /**
          * Download directory setting (0=Desktop, 1=Downloads, 2=Custom).
          */
-        @KolibriumPropertyDsl
         public val browser_download_folderList: FirefoxPreference =
             FirefoxPreference("browser.download.folderList")
 
         /**
          * Show download manager window when starting download.
          */
-        @KolibriumPropertyDsl
         public val browser_download_manager_showWhenStarting: FirefoxPreference =
             FirefoxPreference("browser.download.manager.showWhenStarting")
 
         /**
          * Focus the download manager window when starting download.
          */
-        @KolibriumPropertyDsl
         public val browser_download_manager_focusWhenStarting: FirefoxPreference =
             FirefoxPreference("browser.download.manager.focusWhenStarting")
 
         /**
          * Use the default download directory.
          */
-        @KolibriumPropertyDsl
         public val browser_download_useDownloadDir: FirefoxPreference =
             FirefoxPreference("browser.download.useDownloadDir")
 
         /**
          * Show alert when opening executable files.
          */
-        @KolibriumPropertyDsl
         public val browser_download_manager_alertOnEXEOpen: FirefoxPreference =
             FirefoxPreference("browser.download.manager.alertOnEXEOpen")
 
         /**
          * Close download manager when downloads complete.
          */
-        @KolibriumPropertyDsl
         public val browser_download_manager_closeWhenDone: FirefoxPreference =
             FirefoxPreference("browser.download.manager.closeWhenDone")
 
         /**
          * Show alert when downloads complete.
          */
-        @KolibriumPropertyDsl
         public val browser_download_manager_showAlertOnComplete:
             FirefoxPreference =
             FirefoxPreference("browser.download.manager.showAlertOnComplete")
@@ -215,21 +192,18 @@ public object Preferences {
         /**
          * Use download manager window.
          */
-        @KolibriumPropertyDsl
         public val browser_download_manager_useWindow: FirefoxPreference =
             FirefoxPreference("browser.download.manager.useWindow")
 
         /**
          * Force "always ask" for file types.
          */
-        @KolibriumPropertyDsl
         public val browser_helperApps_alwaysAsk_force: FirefoxPreference =
             FirefoxPreference("browser.helperApps.alwaysAsk.force")
 
         /**
          * MIME types to save without asking.
          */
-        @KolibriumPropertyDsl
         public val browser_helperApps_neverAsk_saveToDisk: FirefoxPreference =
             FirefoxPreference("browser.helperApps.neverAsk.saveToDisk")
     }

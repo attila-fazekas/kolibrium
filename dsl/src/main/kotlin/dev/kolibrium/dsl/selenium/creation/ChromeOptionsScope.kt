@@ -38,7 +38,6 @@ public class ChromeOptionsScope(
      *
      * @param block The configuration block for Chrome-specific arguments.
      */
-    @KolibriumDsl
     public fun arguments(block: ChromeArgumentsScope.() -> Unit) {
         argsScope.apply(block)
         options.addArguments(argsScope.args.map { it.value })

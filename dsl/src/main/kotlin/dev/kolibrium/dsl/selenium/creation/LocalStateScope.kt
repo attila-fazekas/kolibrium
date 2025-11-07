@@ -31,7 +31,6 @@ public class LocalStateScope {
      * @param block The configuration block for lab experiments.
      * @return The configured [BrowserEnabledLabsExperiments].
      */
-    @KolibriumDsl
     public fun browserEnabledLabsExperiments(block: BrowserEnabledLabsExperiments.() -> Unit): BrowserEnabledLabsExperiments =
         experiments.apply(block)
 

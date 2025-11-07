@@ -25,10 +25,7 @@ public final class dev/kolibrium/dsl/selenium/DriverFactoriesKt {
 	public static final fun getSafari ()Lkotlin/jvm/functions/Function0;
 }
 
-public abstract interface annotation class dev/kolibrium/dsl/selenium/KolibriumPropertyDsl : java/lang/annotation/Annotation {
-}
-
-public abstract interface annotation class dev/kolibrium/dsl/selenium/PageDsl : java/lang/annotation/Annotation {
+public abstract interface annotation class dev/kolibrium/dsl/selenium/KolibriumDsl : java/lang/annotation/Annotation {
 }
 
 public final class dev/kolibrium/dsl/selenium/PageDslKt {

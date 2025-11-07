@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.openqa.selenium.safari.SafariDriverService
 
 /**
@@ -35,7 +34,6 @@ public class SafariDriverServiceScope(
     /**
      * Enables or disables logging for the SafariDriver service.
      */
-    @KolibriumPropertyDsl
     public var logging: Boolean? = null
 
     override fun configure() {

@@ -16,8 +16,6 @@
 
 package dev.kolibrium.dsl.selenium.creation
 
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
-
 /**
  * Base interface for browser command-line arguments.
  */
@@ -83,37 +81,31 @@ public object Arguments {
         /**
          * Disables the use of /dev/shm for browser memory.
          */
-        @KolibriumPropertyDsl
         public val disable_dev_shm_usage: ChromeArgument = ChromeArgument("--disable-dev-shm-usage")
 
         /**
          * Disables browser extensions.
          */
-        @KolibriumPropertyDsl
         public val disable_extensions: ChromeArgument = ChromeArgument("--disable-extensions")
 
         /**
          * Disables GPU hardware acceleration.
          */
-        @KolibriumPropertyDsl
         public val disable_gpu: ChromeArgument = ChromeArgument("--disable-gpu")
 
         /**
          * Disables the popup blocking feature.
          */
-        @KolibriumPropertyDsl
         public val disable_popup_blocking: ChromeArgument = ChromeArgument("--disable-popup-blocking")
 
         /**
          * Disables browser notifications.
          */
-        @KolibriumPropertyDsl
         public val disable_notifications: ChromeArgument = ChromeArgument("--disable-notifications")
 
         /**
          * Disables the search engine choice screen.
          */
-        @KolibriumPropertyDsl
         public val disable_search_engine_choice_screen: ChromeArgument =
             ChromeArgument(
                 "--disable-search-engine-choice-screen",
@@ -122,37 +114,31 @@ public object Arguments {
         /**
          * Enables headless mode using the new implementation.
          */
-        @KolibriumPropertyDsl
         public val headless: ChromeArgument = ChromeArgument("--headless=new")
 
         /**
          * Ignores SSL certificate errors.
          */
-        @KolibriumPropertyDsl
         public val ignore_certificate_errors: ChromeArgument = ChromeArgument("--ignore-certificate-errors")
 
         /**
          * Launches the browser in incognito mode.
          */
-        @KolibriumPropertyDsl
         public val incognito: ChromeArgument = ChromeArgument("--incognito")
 
         /**
          * Disables the sandbox security feature.
          */
-        @KolibriumPropertyDsl
         public val no_sandbox: ChromeArgument = ChromeArgument("--no-sandbox")
 
         /**
          * Allows remote connections from any origin.
          */
-        @KolibriumPropertyDsl
         public val remote_allow_origins: ChromeArgument = ChromeArgument("--remote-allow-origins=*")
 
         /**
          * Starts the browser maximized.
          */
-        @KolibriumPropertyDsl
         public val start_maximized: ChromeArgument = ChromeArgument("--start-maximized")
     }
 
@@ -163,25 +149,21 @@ public object Arguments {
         /**
          * Enables headless mode.
          */
-        @KolibriumPropertyDsl
         public val headless: FirefoxArgument = FirefoxArgument("--headless")
 
         /**
          * Launches browser in private browsing mode.
          */
-        @KolibriumPropertyDsl
         public val incognito: FirefoxArgument = FirefoxArgument("--incognito")
 
         /**
          * Sets the browser window height.
          */
-        @KolibriumPropertyDsl
         public val height: FirefoxArgument = FirefoxArgument("--height")
 
         /**
          * Sets the browser window width.
          */
-        @KolibriumPropertyDsl
         public val width: FirefoxArgument = FirefoxArgument("--width")
     }
 
@@ -192,13 +174,11 @@ public object Arguments {
         /**
          * Enables headless mode.
          */
-        @KolibriumPropertyDsl
         public val headless: EdgeArgument = EdgeArgument("--headless")
 
         /**
          * Launches browser in private mode.
          */
-        @KolibriumPropertyDsl
         public val inPrivate: EdgeArgument = EdgeArgument("--inprivate")
     }
 }

@@ -17,7 +17,6 @@
 package dev.kolibrium.dsl.selenium.creation
 
 import dev.kolibrium.dsl.selenium.KolibriumDsl
-import dev.kolibrium.dsl.selenium.KolibriumPropertyDsl
 import org.openqa.selenium.remote.service.DriverService
 import java.io.File
 import java.io.IOException
@@ -37,13 +36,11 @@ public sealed class DriverServiceScope {
     /**
      * The port on which the driver service should listen for incoming connections.
      */
-    @KolibriumPropertyDsl
     public var port: Int? = null
 
     /**
      * The maximum time to wait for the driver service to start.
      */
-    @KolibriumPropertyDsl
     public var timeout: Duration? = null
 
     internal open fun configure() {
@@ -74,7 +71,6 @@ public sealed class DriverServiceScope {
      *
      * @param block The configuration block for environment variables.
      */
-    @KolibriumDsl
     public fun environments(block: EnvironmentScope.() -> Unit) {
         environmentScope.apply(block)
         if (environmentScope.environmentVariables.isNotEmpty()) {

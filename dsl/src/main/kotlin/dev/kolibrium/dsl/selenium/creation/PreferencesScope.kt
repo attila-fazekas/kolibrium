@@ -43,7 +43,6 @@ public class ChromiumPreferencesScope : PreferencesScope<ChromiumPreference> {
      * @param key The preference key represented by a [ChromiumPreference] instance.
      * @param value The preference value to be associated with the key.
      */
-    @KolibriumDsl
     override fun pref(
         key: ChromiumPreference,
         value: Any,
@@ -57,7 +56,6 @@ public class ChromiumPreferencesScope : PreferencesScope<ChromiumPreference> {
      * @param key The preference key as a string.
      * @param value The preference value to be associated with the key.
      */
-    @KolibriumDsl
     override fun pref(
         key: String,
         value: Any,
