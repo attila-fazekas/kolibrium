@@ -256,7 +256,6 @@ public class PageEntry<S : Site>
             }
         }
 
-        context(driver: WebDriver)
         internal fun <R : Page<*>> scope(next: R): PageScope<R> {
             ensureReady(next)
             return PageScope(next, this)
@@ -274,7 +273,6 @@ public class PageEntry<S : Site>
             return this
         }
 
-        context(_: WebDriver)
         private fun ensureReady(page: Page<*>) {
             page.awaitReady()
             page.assertReady()
