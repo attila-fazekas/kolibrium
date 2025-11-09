@@ -1,0 +1,1075 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>dev.kolibrium.dsl.selenium.creation</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../index.html" tabindex="1">
+                    kolibrium
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;dev.kolibrium.dsl.selenium.creation/index.html&quot;}">0.7.0</dokka-template-command>        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":dsl/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":dsl/main" data-filter=":dsl/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    kolibrium
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="package" id="content" pageids="kolibrium-dsl::dev.kolibrium.dsl.selenium.creation////PointingToDeclaration//-1511728789">
+  <div class="breadcrumbs"><a href="../index.html">kolibrium-dsl</a><span class="delimiter">/</span><span class="current">dev.kolibrium.dsl.selenium.creation</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="1522185224%2FClasslikes%2F-1511728789" anchor-label="AllowedHostsScope" id="1522185224%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-allowed-hosts-scope/index.html"><span>Allowed</span><wbr><span>Hosts</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1522185224%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-allowed-hosts-scope/index.html">AllowedHostsScope</a></div><div class="brief "><p class="paragraph">Scope class for specifying allowed hosts.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-56873815%2FClasslikes%2F-1511728789" anchor-label="AllowedIpsScope" id="-56873815%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-allowed-ips-scope/index.html"><span>Allowed</span><wbr><span>Ips</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-56873815%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-allowed-ips-scope/index.html">AllowedIpsScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring allowed IP addresses for incoming connections to Chromium-based driver services.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1270015156%2FClasslikes%2F-1511728789" anchor-label="Argument" id="-1270015156%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-argument/index.html"><span><span>Argument</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1270015156%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">interface </span><a href="-argument/index.html">Argument</a></div><div class="brief "><p class="paragraph">Base interface for browser command-line arguments.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-796882077%2FClasslikes%2F-1511728789" anchor-label="Arguments" id="-796882077%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-arguments/index.html"><span><span>Arguments</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-796882077%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-arguments/index.html">Arguments</a></div><div class="brief "><p class="paragraph">Collection of predefined command line arguments.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="573165666%2FClasslikes%2F-1511728789" anchor-label="BrowserEnabledLabsExperiments" id="573165666%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-browser-enabled-labs-experiments/index.html"><span>Browser</span><wbr><span>Enabled</span><wbr><span>Labs</span><wbr><span><span>Experiments</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="573165666%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-browser-enabled-labs-experiments/index.html">BrowserEnabledLabsExperiments</a></div><div class="brief "><p class="paragraph">Scope class for configuring browser experimental flags.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="541177330%2FClasslikes%2F-1511728789" anchor-label="ChromeArgument" id="541177330%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chrome-argument/index.html"><span>Chrome</span><wbr><span><span>Argument</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="541177330%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-inline/index.html"><span class="token annotation builtin">JvmInline</span></a></div></div><span class="token keyword">value </span><span class="token keyword">class </span><a href="-chrome-argument/index.html">ChromeArgument</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <a href="-argument/index.html">Argument</a></div><div class="brief "><p class="paragraph">Value class representing a Chrome browser command-line argument.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-472159567%2FClasslikes%2F-1511728789" anchor-label="ChromeArgumentsScope" id="-472159567%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chrome-arguments-scope/index.html"><span>Chrome</span><wbr><span>Arguments</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-472159567%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-chrome-arguments-scope/index.html">ChromeArgumentsScope</a> : <a href="../../dsl/dev.kolibrium.dsl.selenium.creation/-arguments-scope/index.html">ArgumentsScope</a><span class="token operator">&lt;</span><a href="-chrome-argument/index.html">ChromeArgument</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Scope class for adding additional Chrome-specific command line arguments.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-952993785%2FClasslikes%2F-1511728789" anchor-label="ChromeDriverScope" id="-952993785%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chrome-driver-scope/index.html"><span>Chrome</span><wbr><span>Driver</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-952993785%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-chrome-driver-scope/index.html">ChromeDriverScope</a> : <a href="-driver-scope/index.html">DriverScope</a><span class="token operator">&lt;</span><a href="-chrome-driver-service-scope/index.html">ChromeDriverServiceScope</a><span class="token punctuation">, </span><a href="-chrome-options-scope/index.html">ChromeOptionsScope</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Scope class for configuring Chrome-specific settings for Chrome WebDriver.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1359272328%2FClasslikes%2F-1511728789" anchor-label="ChromeDriverServiceScope" id="1359272328%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chrome-driver-service-scope/index.html"><span>Chrome</span><wbr><span>Driver</span><wbr><span>Service</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1359272328%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-chrome-driver-service-scope/index.html">ChromeDriverServiceScope</a> : <a href="-chromium-driver-service-scope/index.html">ChromiumDriverServiceScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring Chrome-specific driver service settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="850774393%2FClasslikes%2F-1511728789" anchor-label="ChromeOptionsScope" id="850774393%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chrome-options-scope/index.html"><span>Chrome</span><wbr><span>Options</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="850774393%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-chrome-options-scope/index.html">ChromeOptionsScope</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">options<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.chrome/ChromeOptions///PointingToDeclaration/">ChromeOptions</span></span></span><span class="token punctuation">)</span> : <a href="-chromium-options-scope/index.html">ChromiumOptionsScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring Chrome-specific options.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1027593492%2FClasslikes%2F-1511728789" anchor-label="ChromiumDriverServiceScope" id="-1027593492%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chromium-driver-service-scope/index.html"><span>Chromium</span><wbr><span>Driver</span><wbr><span>Service</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1027593492%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-chromium-driver-service-scope/index.html">ChromiumDriverServiceScope</a> : <a href="-driver-service-scope/index.html">DriverServiceScope</a></div><div class="brief "><p class="paragraph">Base scope class for configuring Chromium-based browser driver service settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="571667933%2FClasslikes%2F-1511728789" anchor-label="ChromiumOptionsScope" id="571667933%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chromium-options-scope/index.html"><span>Chromium</span><wbr><span>Options</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="571667933%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-chromium-options-scope/index.html">ChromiumOptionsScope</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">options<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.chromium/ChromiumOptions///PointingToDeclaration/">ChromiumOptions</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span> : <a href="-options-scope/index.html">OptionsScope</a></div><div class="brief "><p class="paragraph">Base scope class for configuring Chromium browser options. Provides configuration options common to Chrome and Edge browsers.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="851331960%2FClasslikes%2F-1511728789" anchor-label="ChromiumPreference" id="851331960%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chromium-preference/index.html"><span>Chromium</span><wbr><span><span>Preference</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="851331960%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-inline/index.html"><span class="token annotation builtin">JvmInline</span></a></div></div><span class="token keyword">value </span><span class="token keyword">class </span><a href="-chromium-preference/index.html">ChromiumPreference</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <a href="-preference/index.html">Preference</a></div><div class="brief "><p class="paragraph">Value class representing a Chromium browser preference.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-631815241%2FClasslikes%2F-1511728789" anchor-label="ChromiumPreferencesScope" id="-631815241%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chromium-preferences-scope/index.html"><span>Chromium</span><wbr><span>Preferences</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-631815241%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-chromium-preferences-scope/index.html">ChromiumPreferencesScope</a> : <a href="../../dsl/dev.kolibrium.dsl.selenium.creation/-preferences-scope/index.html">PreferencesScope</a><span class="token operator">&lt;</span><a href="-chromium-preference/index.html">ChromiumPreference</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Scope class for configuring Chromium browser preferences.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-514204563%2FClasslikes%2F-1511728789" anchor-label="DriverScope" id="-514204563%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-driver-scope/index.html"><span>Driver</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-514204563%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="-driver-scope/index.html">DriverScope</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="-driver-scope/index.html">DS</a><span class="token operator"> : </span><a href="-driver-service-scope/index.html">DriverServiceScope</a><span class="token punctuation">, </span><span class="token keyword">out </span><a href="-driver-scope/index.html">O</a><span class="token operator"> : </span><a href="-options-scope/index.html">OptionsScope</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Base scope class for WebDriver configuration providing driver service and options customization.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="641521250%2FClasslikes%2F-1511728789" anchor-label="DriverServiceScope" id="641521250%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-driver-service-scope/index.html"><span>Driver</span><wbr><span>Service</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="641521250%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="-driver-service-scope/index.html">DriverServiceScope</a></div><div class="brief "><p class="paragraph">Base scope class for configuring Selenium driver service settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1988508943%2FClasslikes%2F-1511728789" anchor-label="EdgeArgument" id="1988508943%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-edge-argument/index.html"><span>Edge</span><wbr><span><span>Argument</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1988508943%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-inline/index.html"><span class="token annotation builtin">JvmInline</span></a></div></div><span class="token keyword">value </span><span class="token keyword">class </span><a href="-edge-argument/index.html">EdgeArgument</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <a href="-argument/index.html">Argument</a></div><div class="brief "><p class="paragraph">Value class representing an Edge browser command-line argument.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-562862066%2FClasslikes%2F-1511728789" anchor-label="EdgeArgumentsScope" id="-562862066%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-edge-arguments-scope/index.html"><span>Edge</span><wbr><span>Arguments</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-562862066%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-edge-arguments-scope/index.html">EdgeArgumentsScope</a> : <a href="../../dsl/dev.kolibrium.dsl.selenium.creation/-arguments-scope/index.html">ArgumentsScope</a><span class="token operator">&lt;</span><a href="-edge-argument/index.html">EdgeArgument</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Scope class for adding additional Edge-specific command line arguments.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-673595446%2FClasslikes%2F-1511728789" anchor-label="EdgeDriverScope" id="-673595446%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-edge-driver-scope/index.html"><span>Edge</span><wbr><span>Driver</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-673595446%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-edge-driver-scope/index.html">EdgeDriverScope</a> : <a href="-driver-scope/index.html">DriverScope</a><span class="token operator">&lt;</span><a href="-edge-driver-service-scope/index.html">EdgeDriverServiceScope</a><span class="token punctuation">, </span><a href="-edge-options-scope/index.html">EdgeOptionsScope</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Scope class for configuring Edge-specific settings for Edge WebDriver.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="443867237%2FClasslikes%2F-1511728789" anchor-label="EdgeDriverServiceScope" id="443867237%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-edge-driver-service-scope/index.html"><span>Edge</span><wbr><span>Driver</span><wbr><span>Service</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="443867237%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-edge-driver-service-scope/index.html">EdgeDriverServiceScope</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">builder<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.edge/EdgeDriverService.Builder///PointingToDeclaration/">EdgeDriverService.Builder</span></span></span><span class="token punctuation">)</span> : <a href="-chromium-driver-service-scope/index.html">ChromiumDriverServiceScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring Edge-specific driver service settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="922188310%2FClasslikes%2F-1511728789" anchor-label="EdgeOptionsScope" id="922188310%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-edge-options-scope/index.html"><span>Edge</span><wbr><span>Options</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="922188310%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-edge-options-scope/index.html">EdgeOptionsScope</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">options<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.edge/EdgeOptions///PointingToDeclaration/">EdgeOptions</span></span></span><span class="token punctuation">)</span> : <a href="-chromium-options-scope/index.html">ChromiumOptionsScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring Edge browser-specific options.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-602634616%2FClasslikes%2F-1511728789" anchor-label="EnvironmentScope" id="-602634616%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-environment-scope/index.html"><span>Environment</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-602634616%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-environment-scope/index.html">EnvironmentScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring environment variables for the driver service.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2067120529%2FClasslikes%2F-1511728789" anchor-label="ExcludeSwitchesScope" id="2067120529%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-exclude-switches-scope/index.html"><span>Exclude</span><wbr><span>Switches</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2067120529%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-exclude-switches-scope/index.html">ExcludeSwitchesScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring browser switches to be excluded.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1197289845%2FClasslikes%2F-1511728789" anchor-label="ExperimentalFlag" id="1197289845%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-experimental-flag/index.html"><span>Experimental</span><wbr><span><span>Flag</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1197289845%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-inline/index.html"><span class="token annotation builtin">JvmInline</span></a></div></div><span class="token keyword">value </span><span class="token keyword">class </span><a href="-experimental-flag/index.html">ExperimentalFlag</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Value class representing an experimental feature flag.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1619838374%2FClasslikes%2F-1511728789" anchor-label="ExperimentalFlags" id="-1619838374%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-experimental-flags/index.html"><span>Experimental</span><wbr><span><span>Flags</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1619838374%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-experimental-flags/index.html">ExperimentalFlags</a></div><div class="brief "><p class="paragraph">Object containing predefined experimental flags.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="625541579%2FClasslikes%2F-1511728789" anchor-label="ExperimentalOptionsScope" id="625541579%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-experimental-options-scope/index.html"><span>Experimental</span><wbr><span>Options</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="625541579%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-experimental-options-scope/index.html">ExperimentalOptionsScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring experimental browser options.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1678501721%2FClasslikes%2F-1511728789" anchor-label="ExtensionsScope" id="1678501721%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-extensions-scope/index.html"><span>Extensions</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1678501721%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-extensions-scope/index.html">ExtensionsScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring browser extensions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="117890563%2FClasslikes%2F-1511728789" anchor-label="FirefoxArgument" id="117890563%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-firefox-argument/index.html"><span>Firefox</span><wbr><span><span>Argument</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="117890563%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-inline/index.html"><span class="token annotation builtin">JvmInline</span></a></div></div><span class="token keyword">value </span><span class="token keyword">class </span><a href="-firefox-argument/index.html">FirefoxArgument</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <a href="-argument/index.html">Argument</a></div><div class="brief "><p class="paragraph">Value class representing a Firefox browser command-line argument.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1600946690%2FClasslikes%2F-1511728789" anchor-label="FirefoxArgumentsScope" id="1600946690%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-firefox-arguments-scope/index.html"><span>Firefox</span><wbr><span>Arguments</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1600946690%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-firefox-arguments-scope/index.html">FirefoxArgumentsScope</a> : <a href="../../dsl/dev.kolibrium.dsl.selenium.creation/-arguments-scope/index.html">ArgumentsScope</a><span class="token operator">&lt;</span><a href="-firefox-argument/index.html">FirefoxArgument</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Scope class for adding additional Firefox-specific command line arguments.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1065088426%2FClasslikes%2F-1511728789" anchor-label="FirefoxDriverScope" id="-1065088426%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-firefox-driver-scope/index.html"><span>Firefox</span><wbr><span>Driver</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1065088426%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-firefox-driver-scope/index.html">FirefoxDriverScope</a> : <a href="-driver-scope/index.html">DriverScope</a><span class="token operator">&lt;</span><a href="-gecko-driver-service-scope/index.html">GeckoDriverServiceScope</a><span class="token punctuation">, </span><a href="-firefox-options-scope/index.html">FirefoxOptionsScope</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Scope class for configuring Firefox-specific settings for Firefox WebDriver.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1670807818%2FClasslikes%2F-1511728789" anchor-label="FirefoxOptionsScope" id="1670807818%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-firefox-options-scope/index.html"><span>Firefox</span><wbr><span>Options</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1670807818%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-firefox-options-scope/index.html">FirefoxOptionsScope</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">options<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.firefox/FirefoxOptions///PointingToDeclaration/">FirefoxOptions</span></span></span><span class="token punctuation">)</span> : <a href="-options-scope/index.html">OptionsScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring Firefox browser-specific options.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1880407525%2FClasslikes%2F-1511728789" anchor-label="FirefoxPreference" id="1880407525%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-firefox-preference/index.html"><span>Firefox</span><wbr><span><span>Preference</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1880407525%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-inline/index.html"><span class="token annotation builtin">JvmInline</span></a></div></div><span class="token keyword">value </span><span class="token keyword">class </span><a href="-firefox-preference/index.html">FirefoxPreference</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <a href="-preference/index.html">Preference</a></div><div class="brief "><p class="paragraph">Value class representing a Firefox browser preference.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1268215908%2FClasslikes%2F-1511728789" anchor-label="FirefoxPreferencesScope" id="1268215908%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-firefox-preferences-scope/index.html"><span>Firefox</span><wbr><span>Preferences</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1268215908%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-firefox-preferences-scope/index.html">FirefoxPreferencesScope</a> : <a href="../../dsl/dev.kolibrium.dsl.selenium.creation/-preferences-scope/index.html">PreferencesScope</a><span class="token operator">&lt;</span><a href="-firefox-preference/index.html">FirefoxPreference</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Scope class for configuring Firefox preferences.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2113396437%2FClasslikes%2F-1511728789" anchor-label="FirefoxProfileScope" id="2113396437%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-firefox-profile-scope/index.html"><span>Firefox</span><wbr><span>Profile</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2113396437%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-firefox-profile-scope/index.html">FirefoxProfileScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring Firefox profile preferences.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-602211383%2FClasslikes%2F-1511728789" anchor-label="GeckoDriverServiceScope" id="-602211383%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-gecko-driver-service-scope/index.html"><span>Gecko</span><wbr><span>Driver</span><wbr><span>Service</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-602211383%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-gecko-driver-service-scope/index.html">GeckoDriverServiceScope</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">builder<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.firefox/GeckoDriverService.Builder///PointingToDeclaration/">GeckoDriverService.Builder</span></span></span><span class="token punctuation">)</span> : <a href="-driver-service-scope/index.html">DriverServiceScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring Firefox-specific driver service settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-149266517%2FClasslikes%2F-1511728789" anchor-label="LocalStateScope" id="-149266517%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-local-state-scope/index.html"><span>Local</span><wbr><span>State</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-149266517%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-local-state-scope/index.html">LocalStateScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring browser local state settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1568338387%2FClasslikes%2F-1511728789" anchor-label="OptionsScope" id="1568338387%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-options-scope/index.html"><span>Options</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1568338387%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="-options-scope/index.html">OptionsScope</a></div><div class="brief "><p class="paragraph">Base scope class for configuring browser-specific WebDriver options. Provides common configuration options supported across different browsers.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-457126674%2FClasslikes%2F-1511728789" anchor-label="Preference" id="-457126674%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-preference/index.html"><span><span>Preference</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-457126674%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">interface </span><a href="-preference/index.html">Preference</a></div><div class="brief "><p class="paragraph">Base interface for browser preferences.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1367142911%2FClasslikes%2F-1511728789" anchor-label="Preferences" id="-1367142911%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-preferences/index.html"><span><span>Preferences</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1367142911%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-preferences/index.html">Preferences</a></div><div class="brief "><p class="paragraph">Collection of predefined browser preferences.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1999148963%2FClasslikes%2F-1511728789" anchor-label="ProxyScope" id="1999148963%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-proxy-scope/index.html"><span>Proxy</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1999148963%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-proxy-scope/index.html">ProxyScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring proxy settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2031343091%2FClasslikes%2F-1511728789" anchor-label="SafariDriverScope" id="-2031343091%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-safari-driver-scope/index.html"><span>Safari</span><wbr><span>Driver</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2031343091%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-safari-driver-scope/index.html">SafariDriverScope</a> : <a href="-driver-scope/index.html">DriverScope</a><span class="token operator">&lt;</span><a href="-safari-driver-service-scope/index.html">SafariDriverServiceScope</a><span class="token punctuation">, </span><a href="-safari-options-scope/index.html">SafariOptionsScope</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Scope class for configuring Safari-specific settings for Safari WebDriver.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="530969794%2FClasslikes%2F-1511728789" anchor-label="SafariDriverServiceScope" id="530969794%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-safari-driver-service-scope/index.html"><span>Safari</span><wbr><span>Driver</span><wbr><span>Service</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="530969794%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-safari-driver-service-scope/index.html">SafariDriverServiceScope</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">builder<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.safari/SafariDriverService.Builder///PointingToDeclaration/">SafariDriverService.Builder</span></span></span><span class="token punctuation">)</span> : <a href="-driver-service-scope/index.html">DriverServiceScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring Safari-specific driver service settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1781684275%2FClasslikes%2F-1511728789" anchor-label="SafariOptionsScope" id="1781684275%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-safari-options-scope/index.html"><span>Safari</span><wbr><span>Options</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1781684275%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-safari-options-scope/index.html">SafariOptionsScope</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">options<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.safari/SafariOptions///PointingToDeclaration/">SafariOptions</span></span></span><span class="token punctuation">)</span> : <a href="-options-scope/index.html">OptionsScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring Safari-specific options.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1504785756%2FClasslikes%2F-1511728789" anchor-label="SocksScope" id="-1504785756%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-socks-scope/index.html"><span>Socks</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1504785756%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-socks-scope/index.html">SocksScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring SOCKS proxy settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1029264565%2FClasslikes%2F-1511728789" anchor-label="Switch" id="1029264565%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-switch/index.html"><span><span>Switch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1029264565%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-inline/index.html"><span class="token annotation builtin">JvmInline</span></a></div></div><span class="token keyword">value </span><span class="token keyword">class </span><a href="-switch/index.html">Switch</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Value class representing a browser feature switch to be excluded from the browser launch.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1892698425%2FClasslikes%2F-1511728789" anchor-label="Switches" id="-1892698425%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-switches/index.html"><span><span>Switches</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1892698425%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-switches/index.html">Switches</a></div><div class="brief "><p class="paragraph">Collection of predefined browser feature switches.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-396073993%2FClasslikes%2F-1511728789" anchor-label="TimeoutsScope" id="-396073993%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-timeouts-scope/index.html"><span>Timeouts</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-396073993%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-timeouts-scope/index.html">TimeoutsScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring timeout settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2061621910%2FClasslikes%2F-1511728789" anchor-label="WindowSizeScope" id="2061621910%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-window-size-scope/index.html"><span>Window</span><wbr><span>Size</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2061621910%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-window-size-scope/index.html">WindowSizeScope</a></div><div class="brief "><p class="paragraph">Scope class for configuring browser window dimensions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="719066578%2FFunctions%2F-1511728789" anchor-label="chromeDriver" id="719066578%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="chrome-driver.html"><span>chrome</span><wbr><span><span>Driver</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="719066578%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="chrome-driver.html"><span class="token function">chromeDriver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-chrome-driver-scope/index.html">ChromeDriverScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.chrome/ChromeDriver///PointingToDeclaration/">ChromeDriver</span></div><div class="brief "><p class="paragraph">Creates a ChromeDriver instance with custom configuration.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1540216080%2FFunctions%2F-1511728789" anchor-label="chromeDriverService" id="-1540216080%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="chrome-driver-service.html"><span>chrome</span><wbr><span>Driver</span><wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1540216080%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="chrome-driver-service.html"><span class="token function">chromeDriverService</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-chrome-driver-service-scope/index.html">ChromeDriverServiceScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.chrome/ChromeDriverService///PointingToDeclaration/">ChromeDriverService</span></div><div class="brief "><p class="paragraph">Creates a ChromeDriver service with custom configurations.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2144735246%2FFunctions%2F-1511728789" anchor-label="chromeOptions" id="2144735246%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="chrome-options.html"><span>chrome</span><wbr><span><span>Options</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2144735246%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="chrome-options.html"><span class="token function">chromeOptions</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-chrome-options-scope/index.html">ChromeOptionsScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.chrome/ChromeOptions///PointingToDeclaration/">ChromeOptions</span></div><div class="brief "><p class="paragraph">Creates an ChromeOptions with custom configurations.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="137273267%2FFunctions%2F-1511728789" anchor-label="driver" id="137273267%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="driver.html"><span><span>driver</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="137273267%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="driver.html"><span class="token function">driver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">browser<span class="token operator">: </span><a href="../dev.kolibrium.dsl.selenium/-browser/index.html">Browser</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-driver-scope/index.html">DriverScope</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token punctuation">, </span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span></div><div class="brief "><p class="paragraph">Creates a <span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span> instance for the specified browser type with custom configuration.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1531276051%2FFunctions%2F-1511728789" anchor-label="driverService" id="-1531276051%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="driver-service.html"><span>driver</span><wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1531276051%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="driver-service.html"><span class="token function">driverService</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">browser<span class="token operator">: </span><a href="../dev.kolibrium.dsl.selenium/-browser/index.html">Browser</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-driver-service-scope/index.html">DriverServiceScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.remote.service/DriverService///PointingToDeclaration/">DriverService</span></div><div class="brief "><p class="paragraph">Creates a <span data-unresolved-link="org.openqa.selenium.remote.service/DriverService///PointingToDeclaration/">DriverService</span> instance for the specified browser type with custom configuration.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1606546674%2FFunctions%2F-1511728789" anchor-label="edgeDriver" id="1606546674%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="edge-driver.html"><span>edge</span><wbr><span><span>Driver</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1606546674%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="edge-driver.html"><span class="token function">edgeDriver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-edge-driver-scope/index.html">EdgeDriverScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.edge/EdgeDriver///PointingToDeclaration/">EdgeDriver</span></div><div class="brief "><p class="paragraph">Creates an EdgeDriver instance with custom configuration.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1492125386%2FFunctions%2F-1511728789" anchor-label="edgeDriverService" id="-1492125386%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="edge-driver-service.html"><span>edge</span><wbr><span>Driver</span><wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1492125386%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="edge-driver-service.html"><span class="token function">edgeDriverService</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-edge-driver-service-scope/index.html">EdgeDriverServiceScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.edge/EdgeDriverService///PointingToDeclaration/">EdgeDriverService</span></div><div class="brief "><p class="paragraph">Creates an EdgeDriver service with custom configurations.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2025420588%2FFunctions%2F-1511728789" anchor-label="edgeOptions" id="-2025420588%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="edge-options.html"><span>edge</span><wbr><span><span>Options</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2025420588%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="edge-options.html"><span class="token function">edgeOptions</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-edge-options-scope/index.html">EdgeOptionsScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.edge/EdgeOptions///PointingToDeclaration/">EdgeOptions</span></div><div class="brief "><p class="paragraph">Creates an EdgeOptions with custom configurations.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="872694932%2FFunctions%2F-1511728789" anchor-label="firefoxDriver" id="872694932%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="firefox-driver.html"><span>firefox</span><wbr><span><span>Driver</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="872694932%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="firefox-driver.html"><span class="token function">firefoxDriver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-firefox-driver-scope/index.html">FirefoxDriverScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.firefox/FirefoxDriver///PointingToDeclaration/">FirefoxDriver</span></div><div class="brief "><p class="paragraph">Creates a FirefoxDriver instance with custom configuration.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="727759986%2FFunctions%2F-1511728789" anchor-label="firefoxOptions" id="727759986%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="firefox-options.html"><span>firefox</span><wbr><span><span>Options</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="727759986%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="firefox-options.html"><span class="token function">firefoxOptions</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-firefox-options-scope/index.html">FirefoxOptionsScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.firefox/FirefoxOptions///PointingToDeclaration/">FirefoxOptions</span></div><div class="brief "><p class="paragraph">Creates an FirefoxOptions with custom configurations.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1602568466%2FFunctions%2F-1511728789" anchor-label="geckoDriverService" id="1602568466%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="gecko-driver-service.html"><span>gecko</span><wbr><span>Driver</span><wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1602568466%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="gecko-driver-service.html"><span class="token function">geckoDriverService</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-gecko-driver-service-scope/index.html">GeckoDriverServiceScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.firefox/GeckoDriverService///PointingToDeclaration/">GeckoDriverService</span></div><div class="brief "><p class="paragraph">Creates a GeckoDriver service with custom configurations.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1248087219%2FFunctions%2F-1511728789" anchor-label="options" id="-1248087219%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="options.html"><span><span>options</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1248087219%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="options.html"><span class="token function">options</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">browser<span class="token operator">: </span><a href="../dev.kolibrium.dsl.selenium/-browser/index.html">Browser</a><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="-options-scope/index.html">OptionsScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.remote/AbstractDriverOptions///PointingToDeclaration/">AbstractDriverOptions</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Creates an options instance for the specified browser type with custom configuration.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-655850606%2FFunctions%2F-1511728789" anchor-label="safariDriver" id="-655850606%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="safari-driver.html"><span>safari</span><wbr><span><span>Driver</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-655850606%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="safari-driver.html"><span class="token function">safariDriver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-safari-driver-scope/index.html">SafariDriverScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.safari/SafariDriver///PointingToDeclaration/">SafariDriver</span></div><div class="brief "><p class="paragraph">Creates a SafariDriver instance with custom configuration.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="842040444%2FFunctions%2F-1511728789" anchor-label="safariDriverService" id="842040444%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="safari-driver-service.html"><span>safari</span><wbr><span>Driver</span><wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="842040444%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="safari-driver-service.html"><span class="token function">safariDriverService</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-safari-driver-service-scope/index.html">SafariDriverServiceScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.safari/SafariDriverService///PointingToDeclaration/">SafariDriverService</span></div><div class="brief "><p class="paragraph">Creates a SafariDriver service with custom configurations.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1442537702%2FFunctions%2F-1511728789" anchor-label="safariOptions" id="-1442537702%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="safari-options.html"><span>safari</span><wbr><span><span>Options</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1442537702%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="safari-options.html"><span class="token function">safariOptions</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="-safari-options-scope/index.html">SafariOptionsScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.safari/SafariOptions///PointingToDeclaration/">SafariOptions</span></div><div class="brief "><p class="paragraph">Creates an SafariOptions with custom configurations.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright 2025 Attila Fazekas &amp; contributors</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
