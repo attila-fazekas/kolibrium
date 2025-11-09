@@ -1,0 +1,449 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>dev.kolibrium.dsl.selenium</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../index.html" tabindex="1">
+                    kolibrium
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;dev.kolibrium.dsl.selenium/index.html&quot;}">0.7.0</dokka-template-command>        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":dsl/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":dsl/main" data-filter=":dsl/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    kolibrium
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="package" id="content" pageids="kolibrium-dsl::dev.kolibrium.dsl.selenium////PointingToDeclaration//-1511728789">
+  <div class="breadcrumbs"><a href="../index.html">kolibrium-dsl</a><span class="delimiter">/</span><span class="current">dev.kolibrium.dsl.selenium</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button><button class="section-tab" data-togglable="PROPERTY,EXTENSION_PROPERTY">Properties</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="1814191794%2FClasslikes%2F-1511728789" anchor-label="Browser" id="1814191794%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-browser/index.html"><span><span>Browser</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1814191794%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-browser/index.html">Browser</a> : <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-browser/index.html">Browser</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Represents different web browsers.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1176505192%2FClasslikes%2F-1511728789" anchor-label="DriverFactory" id="-1176505192%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-driver-factory/index.html"><span>Driver</span><wbr><span><span>Factory</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1176505192%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-driver-factory/index.html">DriverFactory</a><span class="token operator"> = </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span></div><div class="brief "><p class="paragraph">Factory function that creates a new WebDriver instance for use by Kolibrium DSL helpers such as <a href="web-test.html">dev.kolibrium.dsl.selenium.webTest</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="486097755%2FClasslikes%2F-1511728789" anchor-label="KolibriumDsl" id="486097755%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-kolibrium-dsl/index.html"><span>Kolibrium</span><wbr><span><span>Dsl</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="486097755%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-dsl-marker/index.html"><span class="token annotation builtin">DslMarker</span></a></div><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.annotation/-target/index.html"><span class="token annotation builtin">Target</span></a><span class="token punctuation">(</span><span>allowedTargets<span class="token operator"> = </span><span class="token punctuation">[</span><span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.annotation/-annotation-target/-c-l-a-s-s/index.html">AnnotationTarget.CLASS</a><span class="token punctuation">, </span></span><wbr><span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.annotation/-annotation-target/-f-u-n-c-t-i-o-n/index.html">AnnotationTarget.FUNCTION</a><span class="token punctuation">, </span></span><wbr><span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.annotation/-annotation-target/-p-r-o-p-e-r-t-y/index.html">AnnotationTarget.PROPERTY</a></span><wbr><span class="token punctuation">]</span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">annotation class </span><a href="-kolibrium-dsl/index.html">KolibriumDsl</a></div><div class="brief "><p class="paragraph">Marker annotation for Kolibrium DSL.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1660457769%2FClasslikes%2F-1511728789" anchor-label="PageEntry" id="-1660457769%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-entry/index.html"><span>Page</span><wbr><span><span>Entry</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1660457769%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><a href="-page-entry/index.html">S</a><span class="token operator"> : </span><a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">Site</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Lightweight entry point bound to a live <span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span> session for a specific <a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">dev.kolibrium.core.selenium.Site</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1806157515%2FClasslikes%2F-1511728789" anchor-label="PageScope" id="-1806157515%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page-scope/index.html"><span>Page</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1806157515%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-page-scope/index.html">PageScope</a><span class="token operator">&lt;</span><a href="-page-scope/index.html">P</a><span class="token operator"> : </span><a href="../../core/selenium/dev.kolibrium.core.selenium/-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>page<span class="token operator">: </span><a href="-page-scope/index.html">P</a><span class="token punctuation">, </span></span><span class="parameter ">entry<span class="token operator">: </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">Site</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Scope used as the fluent receiver when working with a <a href="../../core/selenium/dev.kolibrium.core.selenium/-page/index.html">Page</a> in the Selenium DSL.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1120017119%2FClasslikes%2F-1511728789" anchor-label="SwitchBackScope" id="-1120017119%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-switch-back-scope/index.html"><span>Switch</span><wbr><span>Back</span><wbr><span><span>Scope</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1120017119%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-switch-back-scope/index.html">SwitchBackScope</a><span class="token operator">&lt;</span><a href="-switch-back-scope/index.html">P</a><span class="token operator"> : </span><a href="../../core/selenium/dev.kolibrium.core.selenium/-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">originalEntry<span class="token operator">: </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">Site</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">originalSite<span class="token operator">: </span><a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">Site</a><span class="token punctuation">, </span></span><span class="parameter ">originalWindow<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">originalPage<span class="token operator">: </span><a href="-switch-back-scope/index.html">P</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Handle returned from <a href="-page-scope/switch-to.html">PageScope.switchTo</a> that can restore the original site/window/page context.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-173938249%2FClasslikes%2F-1511728789" anchor-label="WebTestResult" id="-173938249%2FClasslikes%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-web-test-result/index.html"><span>Web</span><wbr><span>Test</span><wbr><span><span>Result</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-173938249%2FClasslikes%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-web-test-result/index.html">WebTestResult</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>testDuration<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>status<span class="token operator">: </span><a href="-web-test-result/-test-status/index.html">WebTestResult.TestStatus</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>error<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Outcome of a web test run.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="1657420541%2FProperties%2F-1511728789" anchor-label="chrome" id="1657420541%2FProperties%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="chrome.html"><span><span>chrome</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1657420541%2FProperties%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="chrome.html">chrome</a><span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a></div><div class="brief "><p class="paragraph">A DriverFactory that creates a plain ChromeDriver.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1036281958%2FProperties%2F-1511728789" anchor-label="edge" id="-1036281958%2FProperties%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="edge.html"><span><span>edge</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1036281958%2FProperties%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="edge.html">edge</a><span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a></div><div class="brief "><p class="paragraph">A DriverFactory that creates a plain EdgeDriver.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="350550474%2FProperties%2F-1511728789" anchor-label="firefox" id="350550474%2FProperties%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="firefox.html"><span><span>firefox</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="350550474%2FProperties%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="firefox.html">firefox</a><span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a></div><div class="brief "><p class="paragraph">A DriverFactory that creates a plain FirefoxDriver.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1003940420%2FProperties%2F-1511728789" anchor-label="headlessChrome" id="1003940420%2FProperties%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="headless-chrome.html"><span>headless</span><wbr><span><span>Chrome</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1003940420%2FProperties%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="headless-chrome.html">headlessChrome</a><span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a></div><div class="brief "><p class="paragraph">Chrome in headless mode. Useful for CI environments.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="795438241%2FProperties%2F-1511728789" anchor-label="headlessEdge" id="795438241%2FProperties%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="headless-edge.html"><span>headless</span><wbr><span><span>Edge</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="795438241%2FProperties%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="headless-edge.html">headlessEdge</a><span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a></div><div class="brief "><p class="paragraph">Microsoft Edge in headless mode. Useful for CI environments.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1567503203%2FProperties%2F-1511728789" anchor-label="headlessFirefox" id="1567503203%2FProperties%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="headless-firefox.html"><span>headless</span><wbr><span><span>Firefox</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1567503203%2FProperties%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="headless-firefox.html">headlessFirefox</a><span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a></div><div class="brief "><p class="paragraph">Firefox in headless mode. Useful for CI environments.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2088712445%2FProperties%2F-1511728789" anchor-label="incognitoChrome" id="2088712445%2FProperties%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="incognito-chrome.html"><span>incognito</span><wbr><span><span>Chrome</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2088712445%2FProperties%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="incognito-chrome.html">incognitoChrome</a><span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a></div><div class="brief "><p class="paragraph">Chrome in incognito mode.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="835697610%2FProperties%2F-1511728789" anchor-label="incognitoFirefox" id="835697610%2FProperties%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="incognito-firefox.html"><span>incognito</span><wbr><span><span>Firefox</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="835697610%2FProperties%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="incognito-firefox.html">incognitoFirefox</a><span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a></div><div class="brief "><p class="paragraph">Firefox in private/incognito mode.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-710026520%2FProperties%2F-1511728789" anchor-label="inPrivateEdge" id="-710026520%2FProperties%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="in-private-edge.html"><span>in</span><wbr><span>Private</span><wbr><span><span>Edge</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-710026520%2FProperties%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="in-private-edge.html">inPrivateEdge</a><span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a></div><div class="brief "><p class="paragraph">Microsoft Edge in InPrivate mode.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1217687369%2FProperties%2F-1511728789" anchor-label="safari" id="-1217687369%2FProperties%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="safari.html"><span><span>safari</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1217687369%2FProperties%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="safari.html">safari</a><span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a></div><div class="brief "><p class="paragraph">A DriverFactory that creates a plain SafariDriver.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="1973365459%2FFunctions%2F-1511728789" anchor-label="alsoLogDuration" id="1973365459%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="also-log-duration.html"><span>also</span><wbr><span>Log</span><wbr><span><span>Duration</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1973365459%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="-web-test-result/index.html">WebTestResult</a><span class="token punctuation">.</span><a href="also-log-duration.html"><span class="token function">alsoLogDuration</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">logger<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>::println</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-web-test-result/index.html">WebTestResult</a></div><div class="brief "><p class="paragraph">Convenience helper that logs the test duration using the provided <a href="also-log-duration.html">logger</a> and returns this <a href="-web-test-result/index.html">WebTestResult</a>.</p></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><a href="-web-test-result/index.html">WebTestResult</a><span class="token punctuation">.</span><a href="also-log-duration.html"><span class="token function">alsoLogDuration</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">formatter<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">logger<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>::println</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-web-test-result/index.html">WebTestResult</a></div><div class="brief "><p class="paragraph">Logs the test duration using a custom <a href="also-log-duration.html">formatter</a> and <a href="also-log-duration.html">logger</a>, then returns this <a href="-web-test-result/index.html">WebTestResult</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1051492773%2FFunctions%2F-1511728789" anchor-label="discard" id="-1051492773%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="discard.html"><span><span>discard</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1051492773%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="discard.html">T</a><span class="token operator">&gt; </span><a href="discard.html">T</a><span class="token punctuation">.</span><a href="discard.html"><span class="token function">discard</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Discard the receiver value, returning Unit.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1716190030%2FFunctions%2F-1511728789" anchor-label="webTest" id="-1716190030%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="web-test.html"><span>web</span><wbr><span><span>Test</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1716190030%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="web-test.html">S</a><span class="token operator"> : </span><a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">Site</a><span class="token operator">&gt; </span><a href="web-test.html"><span class="token function">webTest</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">site<span class="token operator">: </span><a href="web-test.html">S</a><span class="token punctuation">, </span></span><span class="parameter ">keepBrowserOpen<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">noinline </span>driverFactory<span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>startup<span class="token operator">: </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><a href="web-test.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{ _ -&gt; }<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>block<span class="token operator">: </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><a href="web-test.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Convenience overload of <a href="web-test.html">webTest</a> when no prepare data is needed.</p></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="web-test.html">S</a><span class="token operator"> : </span><a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">Site</a><span class="token punctuation">, </span><a href="web-test.html">T</a><span class="token operator">&gt; </span><a href="web-test.html"><span class="token function">webTest</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">site<span class="token operator">: </span><a href="web-test.html">S</a><span class="token punctuation">, </span></span><span class="parameter ">keepBrowserOpen<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">noinline </span>driverFactory<span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>prepare<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="web-test.html">T</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>startup<span class="token operator">: </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><a href="web-test.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><a href="web-test.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{ _ -&gt; }<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>block<span class="token operator">: </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><a href="web-test.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><a href="web-test.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Unified test harness that creates a WebDriver session for the given <a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">dev.kolibrium.core.selenium.Site</a> and runs the test flow.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-489341550%2FFunctions%2F-1511728789" anchor-label="webTestResult" id="-489341550%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="web-test-result.html"><span>web</span><wbr><span>Test</span><wbr><span><span>Result</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-489341550%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="web-test-result.html">S</a><span class="token operator"> : </span><a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">Site</a><span class="token operator">&gt; </span><a href="web-test-result.html"><span class="token function">webTestResult</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">site<span class="token operator">: </span><a href="web-test-result.html">S</a><span class="token punctuation">, </span></span><span class="parameter ">keepBrowserOpen<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">noinline </span>driverFactory<span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>startup<span class="token operator">: </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><a href="web-test-result.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{ _ -&gt; }<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>block<span class="token operator">: </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><a href="web-test-result.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-web-test-result/index.html">WebTestResult</a></div><div class="brief "><p class="paragraph">Convenience overload of <a href="web-test-result.html">webTestResult</a> when no prepare data is needed.</p></div><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="web-test-result.html">S</a><span class="token operator"> : </span><a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">Site</a><span class="token punctuation">, </span><a href="web-test-result.html">T</a><span class="token operator">&gt; </span><a href="web-test-result.html"><span class="token function">webTestResult</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">site<span class="token operator">: </span><a href="web-test-result.html">S</a><span class="token punctuation">, </span></span><span class="parameter ">keepBrowserOpen<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">noinline </span>driverFactory<span class="token operator">: </span><a href="-driver-factory/index.html">DriverFactory</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>prepare<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="web-test-result.html">T</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>startup<span class="token operator">: </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><a href="web-test-result.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><a href="web-test-result.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{ _ -&gt; }<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">crossinline </span>block<span class="token operator">: </span><a href="-page-entry/index.html">PageEntry</a><span class="token operator">&lt;</span><a href="web-test-result.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><span class="token punctuation">(</span><a href="web-test-result.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="-web-test-result/index.html">WebTestResult</a></div><div class="brief "><p class="paragraph">Result-returning test harness that creates a WebDriver session for the given <a href="../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">dev.kolibrium.core.selenium.Site</a> and runs the test flow.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright 2025 Attila Fazekas &amp; contributors</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

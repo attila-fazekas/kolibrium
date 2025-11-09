@@ -1,0 +1,1 @@
+sourceset_dependencies = '{":core:selenium/main":[],":dsl/main":[],":ksp:annotations/main":[],":ksp:processors/main":[]}'

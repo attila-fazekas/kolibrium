@@ -60,3 +60,10 @@ spotless {
 tasks.spotlessCheck {
     dependsOn(tasks.spotlessApply)
 }
+
+configurations.all {
+    resolutionStrategy {
+        // workaround for https://github.com/jreleaser/jreleaser/issues/1643
+        force("org.eclipse.jgit:org.eclipse.jgit:5.13.0.202109080827-r")
+    }
+}
