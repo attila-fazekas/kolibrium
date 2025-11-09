@@ -1,0 +1,217 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>PageEntry</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
+                    kolibrium
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;dev.kolibrium.dsl.selenium/-page-entry/index.html&quot;}">0.7.0</dokka-template-command>        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":dsl/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":dsl/main" data-filter=":dsl/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    kolibrium
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="kolibrium-dsl::dev.kolibrium.dsl.selenium/PageEntry///PointingToDeclaration//-1511728789">
+  <div class="breadcrumbs"><a href="../../index.html">kolibrium-dsl</a><span class="delimiter">/</span><a href="../index.html">dev.kolibrium.dsl.selenium</a><span class="delimiter">/</span><span class="current">PageEntry</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Page</span><wbr><span><span>Entry</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">PageEntry</a><span class="token operator">&lt;</span><a href="index.html">S</a><span class="token operator"> : </span><a href="../../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">Site</a><span class="token operator">&gt;</span></div><p class="paragraph">Lightweight entry point bound to a live <span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span> session for a specific <a href="../../../core/selenium/dev.kolibrium.core.selenium/-site/index.html">dev.kolibrium.core.selenium.Site</a>.</p><p class="paragraph">Instances are created by the test harness (see webTest) and passed into user code as the receiver of startup and test blocks.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="1939931395%2FFunctions%2F-1511728789" anchor-label="addCookie" id="1939931395%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-cookie.html"><span>add</span><wbr><span><span>Cookie</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1939931395%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="add-cookie.html"><span class="token function">addCookie</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cookie<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/Cookie///PointingToDeclaration/">Cookie</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Add a cookie to the current browser session.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="233955055%2FFunctions%2F-1511728789" anchor-label="deleteAllCookies" id="233955055%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="delete-all-cookies.html"><span>delete</span><wbr><span>All</span><wbr><span><span>Cookies</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="233955055%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="delete-all-cookies.html"><span class="token function">deleteAllCookies</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Delete all cookies in the current browser session.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1447233877%2FFunctions%2F-1511728789" anchor-label="deleteCookie" id="-1447233877%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="delete-cookie.html"><span>delete</span><wbr><span><span>Cookie</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1447233877%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="delete-cookie.html"><span class="token function">deleteCookie</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Delete a cookie by name in the current browser session.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1738055732%2FFunctions%2F-1511728789" anchor-label="on" id="1738055732%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on.html"><span><span>on</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1738055732%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="on.html">P</a><span class="token operator"> : </span><a href="../../../core/selenium/dev.kolibrium.core.selenium/-page/index.html">Page</a><span class="token operator">&lt;</span><a href="index.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><a href="on.html">R</a><span class="token operator"> : </span><a href="../../../core/selenium/dev.kolibrium.core.selenium/-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="on.html"><span class="token function">on</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">factory<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="on.html">P</a><span class="token punctuation">, </span></span><span class="parameter ">action<span class="token operator">: </span><a href="on.html">P</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="on.html">R</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-page-scope/index.html">PageScope</a><span class="token operator">&lt;</span><a href="on.html">R</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Instantiate a page without navigation and execute <a href="on.html">action</a> on it.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1537650135%2FFunctions%2F-1511728789" anchor-label="open" id="1537650135%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="open.html"><span><span>open</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1537650135%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="open.html">P</a><span class="token operator"> : </span><a href="../../../core/selenium/dev.kolibrium.core.selenium/-page/index.html">Page</a><span class="token operator">&lt;</span><a href="index.html">S</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><a href="open.html">R</a><span class="token operator"> : </span><a href="../../../core/selenium/dev.kolibrium.core.selenium/-page/index.html">Page</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="open.html"><span class="token function">open</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">factory<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="open.html">P</a><span class="token punctuation">, </span></span><span class="parameter ">path<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">action<span class="token operator">: </span><a href="open.html">P</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="open.html">R</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-page-scope/index.html">PageScope</a><span class="token operator">&lt;</span><a href="open.html">R</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Open a page created by <a href="open.html">factory</a>, navigate to its route, wait for readiness, and run <a href="open.html">action</a> that returns the next page to continue the flow.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="644763802%2FFunctions%2F-1511728789" anchor-label="verify" id="644763802%2FFunctions%2F-1511728789" data-filterable-set=":dsl/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":dsl/main" data-filterable-set=":dsl/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="verify.html"><span><span>verify</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="644763802%2FFunctions%2F-1511728789"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dsl/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="verify.html">P</a><span class="token operator"> : </span><a href="../../../core/selenium/dev.kolibrium.core.selenium/-page/index.html">Page</a><span class="token operator">&lt;</span><a href="index.html">S</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="verify.html">P</a><span class="token punctuation">.</span><a href="verify.html"><span class="token function">verify</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">assertions<span class="token operator">: </span><a href="verify.html">P</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="verify.html">P</a></div><div class="brief "><p class="paragraph">Run assertions on the current page instance and return it for fluent chaining.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright 2025 Attila Fazekas &amp; contributors</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

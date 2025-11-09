@@ -1,0 +1,261 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>dev.kolibrium.core.selenium.decorators</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
+                    kolibrium
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;dev.kolibrium.core.selenium.decorators/index.html&quot;}">0.7.0</dokka-template-command>        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":core:selenium/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":core:selenium/main" data-filter=":core:selenium/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    kolibrium
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="package" id="content" pageids="kolibrium-selenium::dev.kolibrium.core.selenium.decorators////PointingToDeclaration//-1964991545">
+  <div class="breadcrumbs"><a href="../index.html">kolibrium-selenium</a><span class="delimiter">/</span><span class="current">dev.kolibrium.core.selenium.decorators</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="618467031%2FClasslikes%2F-1964991545" anchor-label="AbstractDecorator" id="618467031%2FClasslikes%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-abstract-decorator/index.html"><span>Abstract</span><wbr><span><span>Decorator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="618467031%2FClasslikes%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-abstract-decorator/index.html">AbstractDecorator</a></div><div class="brief "><p class="paragraph">Base type for Kolibrium decorators.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1451810027%2FClasslikes%2F-1964991545" anchor-label="BorderStyle" id="1451810027%2FClasslikes%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-border-style/index.html"><span>Border</span><wbr><span><span>Style</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1451810027%2FClasslikes%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-border-style/index.html">BorderStyle</a> : <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-border-style/index.html">BorderStyle</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Defines the available border styles for element highlighting.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="670234477%2FClasslikes%2F-1964991545" anchor-label="Color" id="670234477%2FClasslikes%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-color/index.html"><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="670234477%2FClasslikes%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-color/index.html">Color</a> : <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-color/index.html">Color</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Defines the available colors for element highlighting.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1694504224%2FClasslikes%2F-1964991545" anchor-label="DecoratorManager" id="-1694504224%2FClasslikes%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-decorator-manager/index.html"><span>Decorator</span><wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1694504224%2FClasslikes%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-decorator-manager/index.html">DecoratorManager</a></div><div class="brief "><p class="paragraph">Manages the test-level Kolibrium decorators.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1191199004%2FClasslikes%2F-1964991545" anchor-label="ElementStateCacheDecorator" id="-1191199004%2FClasslikes%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-element-state-cache-decorator/index.html"><span>Element</span><wbr><span>State</span><wbr><span>Cache</span><wbr><span><span>Decorator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1191199004%2FClasslikes%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-element-state-cache-decorator/index.html">ElementStateCacheDecorator</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cacheDisplayed<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">cacheEnabled<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">cacheSelected<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></span></span><span class="token punctuation">)</span> : <a href="-abstract-decorator/index.html">AbstractDecorator</a></div><div class="brief "><p class="paragraph">Caches positive results for element state checks to reduce WebDriver calls.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1827072648%2FClasslikes%2F-1964991545" anchor-label="HighlighterDecorator" id="-1827072648%2FClasslikes%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-highlighter-decorator/index.html"><span>Highlighter</span><wbr><span><span>Decorator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1827072648%2FClasslikes%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-highlighter-decorator/index.html">HighlighterDecorator</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">style<span class="token operator">: </span><a href="-border-style/index.html">BorderStyle</a><span class="token operator"> = </span>BorderStyle.Solid<span class="token punctuation">, </span></span><span class="parameter ">color<span class="token operator">: </span><a href="-color/index.html">Color</a><span class="token operator"> = </span>Color.Red<span class="token punctuation">, </span></span><span class="parameter ">width<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">5</span></span></span><span class="token punctuation">)</span> : <a href="-abstract-decorator/index.html">AbstractDecorator</a>, <a href="-interaction-aware/index.html">InteractionAware</a></div><div class="brief "><p class="paragraph">Decorator that visually highlights elements.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1483368538%2FClasslikes%2F-1964991545" anchor-label="InteractionAware" id="-1483368538%2FClasslikes%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-interaction-aware/index.html"><span>Interaction</span><wbr><span><span>Aware</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1483368538%2FClasslikes%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-interaction-aware/index.html">InteractionAware</a></div><div class="brief "><p class="paragraph">Interface for decorators that want to receive WebDriver interaction callbacks.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-949199739%2FClasslikes%2F-1964991545" anchor-label="LoggerDecorator" id="-949199739%2FClasslikes%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-logger-decorator/index.html"><span>Logger</span><wbr><span><span>Decorator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-949199739%2FClasslikes%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-logger-decorator/index.html">LoggerDecorator</a> : <a href="-abstract-decorator/index.html">AbstractDecorator</a>, <a href="-interaction-aware/index.html">InteractionAware</a></div><div class="brief "><p class="paragraph">Decorator that logs element discovery and basic interactions.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1321156916%2FClasslikes%2F-1964991545" anchor-label="SlowMotionDecorator" id="-1321156916%2FClasslikes%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-slow-motion-decorator/index.html"><span>Slow</span><wbr><span>Motion</span><wbr><span><span>Decorator</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1321156916%2FClasslikes%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-slow-motion-decorator/index.html">SlowMotionDecorator</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">wait<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.time/-duration/index.html">Duration</a><span class="token operator"> = </span>1.seconds</span></span><span class="token punctuation">)</span> : <a href="-abstract-decorator/index.html">AbstractDecorator</a>, <a href="-interaction-aware/index.html">InteractionAware</a></div><div class="brief "><p class="paragraph">Decorator that inserts delays to make browser actions easier to observe.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright 2025 Attila Fazekas &amp; contributors</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

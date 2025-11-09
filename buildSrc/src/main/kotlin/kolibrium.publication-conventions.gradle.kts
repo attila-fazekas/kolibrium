@@ -62,14 +62,11 @@ jreleaser {
     }
     deploy {
         maven {
-            nexus2 {
-                register("maven-central") {
+            mavenCentral {
+                register("sonatype") {
                     active = Active.ALWAYS
                     description = "\"${project.name}\" module of Kolibrium"
-                    closeRepository = false
-                    releaseRepository = false
-                    snapshotUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-                    url = "https://s01.oss.sonatype.org/service/local"
+                    url = "https://central.sonatype.com/api/v1/publisher"
                     stagingRepository(stagingDir.get().toString())
                     username.set(findProperty("ossrhUsername") as String? ?: System.getenv("OSSRH_USERNAME"))
                     password.set(findProperty("ossrhPassword") as String? ?: System.getenv("OSSRH_PASSWORD"))

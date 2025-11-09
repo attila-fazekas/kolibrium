@@ -1,0 +1,555 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Page</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../../index.html" tabindex="1">
+                    kolibrium
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;dev.kolibrium.core.selenium/-page/index.html&quot;}">0.7.0</dokka-template-command>        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":core:selenium/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":core:selenium/main" data-filter=":core:selenium/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    kolibrium
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="kolibrium-selenium::dev.kolibrium.core.selenium/Page///PointingToDeclaration//-1964991545">
+  <div class="breadcrumbs"><a href="../../index.html">kolibrium-selenium</a><span class="delimiter">/</span><a href="../index.html">dev.kolibrium.core.selenium</a><span class="delimiter">/</span><span class="current">Page</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Page</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">Page</a><span class="token operator">&lt;</span><a href="index.html">S</a><span class="token operator"> : </span><a href="../-site/index.html">Site</a><span class="token operator">&gt;</span> : <span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span></div><p class="paragraph">Base type for page objects bound to a <a href="../-site/index.html">Site</a>. Library code may subclass this to add helpers and waiting primitives.</p><p class="paragraph">Page instances rely on a contextual <span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">org.openqa.selenium.WebDriver</span> installed by Kolibrium’s DSL or via <a href="../with-driver.html">withDriver</a>. Constructing and using pages outside those contexts will fail with a runtime error. Delegated findElement(s) calls route through the contextual driver.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="tableheader">Constructors</h2>
+        <div class="table"><a data-name="-1225977977%2FConstructors%2F-1964991545" anchor-label="Page" id="-1225977977%2FConstructors%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-page.html"><span><span>Page</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1225977977%2FConstructors%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="-812420399%2FProperties%2F-1964991545" anchor-label="path" id="-812420399%2FProperties%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="path.html"><span><span>path</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-812420399%2FProperties%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="path.html">path</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Relative path of this page within the <a href="../-site/index.html">Site</a>. Defaults to "/".</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="652253863%2FFunctions%2F-1964991545" anchor-label="assertReady" id="652253863%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="assert-ready.html"><span>assert</span><wbr><span><span>Ready</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="652253863%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="assert-ready.html"><span class="token function">assertReady</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Optional post-ready assertions to verify invariants.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1907147959%2FFunctions%2F-1964991545" anchor-label="awaitReady" id="-1907147959%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="await-ready.html"><span>await</span><wbr><span><span>Ready</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1907147959%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="await-ready.html"><span class="token function">awaitReady</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Wait until the page is considered ready for interaction. Default is a no-op; libraries may override.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1181012627%2FFunctions%2F-1964991545" anchor-label="className" id="1181012627%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../class-name.html"><span>class</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1181012627%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../class-name.html"><span class="token function">className</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its class name.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="208171956%2FFunctions%2F-1964991545" anchor-label="classNames" id="208171956%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../class-names.html"><span>class</span><wbr><span><span>Names</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="208171956%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../class-names.html"><span class="token function">classNames</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements by their class name.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2039294548%2FFunctions%2F-1964991545" anchor-label="cssSelector" id="2039294548%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../css-selector.html"><span>css</span><wbr><span><span>Selector</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2039294548%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../css-selector.html"><span class="token function">cssSelector</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element using a CSS selector.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-60724909%2FFunctions%2F-1964991545" anchor-label="cssSelectors" id="-60724909%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../css-selectors.html"><span>css</span><wbr><span><span>Selectors</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-60724909%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../css-selectors.html"><span class="token function">cssSelectors</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements matching a CSS selector.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1762606064%2FFunctions%2F-1964991545" anchor-label="dataQa" id="-1762606064%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../data-qa.html"><span>data</span><wbr><span><span>Qa</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1762606064%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../data-qa.html"><span class="token function">dataQa</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its "data-qa" attribute value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2056674793%2FFunctions%2F-1964991545" anchor-label="dataQas" id="-2056674793%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../data-qas.html"><span>data</span><wbr><span><span>Qas</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2056674793%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../data-qas.html"><span class="token function">dataQas</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements with the specified "data-qa" attribute value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="629349710%2FFunctions%2F-1964991545" anchor-label="dataTest" id="629349710%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../data-test.html"><span>data</span><wbr><span><span>Test</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="629349710%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../data-test.html"><span class="token function">dataTest</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its "data-test" attribute value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-241291981%2FFunctions%2F-1964991545" anchor-label="dataTestId" id="-241291981%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../data-test-id.html"><span>data</span><wbr><span>Test</span><wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-241291981%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../data-test-id.html"><span class="token function">dataTestId</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its "data-testid" attribute value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1766181612%2FFunctions%2F-1964991545" anchor-label="dataTestIds" id="-1766181612%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../data-test-ids.html"><span>data</span><wbr><span>Test</span><wbr><span><span>Ids</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1766181612%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../data-test-ids.html"><span class="token function">dataTestIds</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements with the specified "data-testid" attribute value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="656127513%2FFunctions%2F-1964991545" anchor-label="dataTests" id="656127513%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../data-tests.html"><span>data</span><wbr><span><span>Tests</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="656127513%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../data-tests.html"><span class="token function">dataTests</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements with the specified "data-test" attribute value.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-114425468%2FFunctions%2F-1964991545" anchor-label="findElement" id="-114425468%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="find-element.html"><span>find</span><wbr><span><span>Element</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-114425468%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="find-element.html"><span class="token function">findElement</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">by<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/By///PointingToDeclaration/">By</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1095337495%2FFunctions%2F-1964991545" anchor-label="findElements" id="-1095337495%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="find-elements.html"><span>find</span><wbr><span><span>Elements</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1095337495%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="find-elements.html"><span class="token function">findElements</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">by<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/By///PointingToDeclaration/">By</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1389809873%2FFunctions%2F-1964991545" anchor-label="id" id="-1389809873%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../id.html"><span><span>id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1389809873%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../id.html"><span class="token function">id</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its "id" attribute.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1497465601%2FFunctions%2F-1964991545" anchor-label="idOrName" id="1497465601%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../id-or-name.html"><span>id</span><wbr><span>Or</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1497465601%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../id-or-name.html"><span class="token function">idOrName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its "id" or "name" attribute.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1219707651%2FFunctions%2F-1964991545" anchor-label="linkText" id="1219707651%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../link-text.html"><span>link</span><wbr><span><span>Text</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1219707651%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../link-text.html"><span class="token function">linkText</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its exact link text.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1131175236%2FFunctions%2F-1964991545" anchor-label="linkTexts" id="1131175236%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../link-texts.html"><span>link</span><wbr><span><span>Texts</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1131175236%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../link-texts.html"><span class="token function">linkTexts</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements by their exact link text.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="821842239%2FFunctions%2F-1964991545" anchor-label="name" id="821842239%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../name.html"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="821842239%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../name.html"><span class="token function">name</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its "name" attribute.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="137449864%2FFunctions%2F-1964991545" anchor-label="names" id="137449864%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../names.html"><span><span>names</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="137449864%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../names.html"><span class="token function">names</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements with the specified "name" attribute.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1334761646%2FFunctions%2F-1964991545" anchor-label="partialLinkText" id="1334761646%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../partial-link-text.html"><span>partial</span><wbr><span>Link</span><wbr><span><span>Text</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1334761646%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../partial-link-text.html"><span class="token function">partialLinkText</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element containing a substring of the link text.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2124095161%2FFunctions%2F-1964991545" anchor-label="partialLinkTexts" id="2124095161%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../partial-link-texts.html"><span>partial</span><wbr><span>Link</span><wbr><span><span>Texts</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2124095161%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../partial-link-texts.html"><span class="token function">partialLinkTexts</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements containing a substring of the link text.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="794930865%2FFunctions%2F-1964991545" anchor-label="tagName" id="794930865%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../tag-name.html"><span>tag</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="794930865%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../tag-name.html"><span class="token function">tagName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its HTML tag name.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2128312534%2FFunctions%2F-1964991545" anchor-label="tagNames" id="2128312534%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../tag-names.html"><span>tag</span><wbr><span><span>Names</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2128312534%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../tag-names.html"><span class="token function">tagNames</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements by their HTML tag name.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1059453401%2FFunctions%2F-1964991545" anchor-label="xpath" id="1059453401%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../xpath.html"><span><span>xpath</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1059453401%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../xpath.html"><span class="token function">xpath</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element using an XPath expression.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-338942802%2FFunctions%2F-1964991545" anchor-label="xpaths" id="-338942802%2FFunctions%2F-1964991545" data-filterable-set=":core:selenium/main"></a>
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":core:selenium/main" data-filterable-set=":core:selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../xpaths.html"><span><span>xpaths</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-338942802%2FFunctions%2F-1964991545"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:selenium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="../xpaths.html"><span class="token function">xpaths</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../-wait-config/index.html">WaitConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements matching an XPath expression.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright 2025 Attila Fazekas &amp; contributors</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
