@@ -86,20 +86,19 @@ public abstract class dev/kolibrium/core/selenium/Page : org/openqa/selenium/Sea
 }
 
 public final class dev/kolibrium/core/selenium/PageKt {
-	public static final fun withDriver (Lorg/openqa/selenium/WebDriver;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun withDriver (Lorg/openqa/selenium/WebDriver;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
 public abstract class dev/kolibrium/core/selenium/Site {
 	public fun <init> (Ljava/lang/String;)V
-	public fun configure ()V
-	public final fun configure (Lorg/openqa/selenium/WebDriver;)V
-	public fun configureBrowser (Lorg/openqa/selenium/WebDriver;)V
+	public fun configureSite ()V
 	public final fun getBaseUrl ()Ljava/lang/String;
 	public fun getCookies ()Ljava/util/Set;
 	public fun getDecorators ()Ljava/util/List;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getElementsReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getWaitConfig ()Ldev/kolibrium/core/selenium/WaitConfig;
+	public fun onSessionReady (Lorg/openqa/selenium/WebDriver;)V
 }
 
 public final class dev/kolibrium/core/selenium/SiteContext {

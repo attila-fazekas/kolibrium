@@ -38,8 +38,9 @@ private const val ELLIPSIS = "…"
  * Returned elements are re-wrapped so child lookups also receive the decorator (preserves chaining).
  *
  * Logging points:
- * - findElement(s) on any SearchContext (driver or element)
- * - before click and sendKeys via WebDriverListener (if context is a WebDriver)
+ * - `findElement(s)` on any [SearchContext] (driver or element)
+ * - before click and sendKeys via [org.openqa.selenium.support.events.WebDriverListener]
+ *   (if context is a [org.openqa.selenium.WebDriver])
  */
 public class LoggerDecorator :
     AbstractDecorator(),

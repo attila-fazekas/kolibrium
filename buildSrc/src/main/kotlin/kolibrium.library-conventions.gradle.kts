@@ -33,18 +33,6 @@ kotlin {
     explicitApi()
 }
 
-tasks.ktlintMainSourceSetCheck {
-    dependsOn(tasks.ktlintMainSourceSetFormat)
-}
-
-tasks.ktlintTestSourceSetCheck {
-    dependsOn(tasks.ktlintTestSourceSetFormat)
-}
-
-tasks.ktlintKotlinScriptCheck {
-    dependsOn(tasks.ktlintKotlinScriptFormat)
-}
-
 val sourcesJar by tasks.register<Jar>("sourcesJar") {
     archiveClassifier = "sources"
     from(sourceSets.main.get().allSource)

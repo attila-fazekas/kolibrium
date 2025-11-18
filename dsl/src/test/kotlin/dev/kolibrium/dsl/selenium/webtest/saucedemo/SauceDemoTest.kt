@@ -35,7 +35,7 @@
 package dev.kolibrium.dsl.selenium.webtest.saucedemo
 
 import dev.kolibrium.dsl.selenium.DriverFactory
-import dev.kolibrium.dsl.selenium.PageEntry
+import dev.kolibrium.dsl.selenium.SiteEntry
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.Preferences.Chromium.credentials_enable_service
@@ -149,7 +149,7 @@ class SauceDemoTest() {
     private fun sauceDemoTest(
         driverFactory: DriverFactory = sauceDemoDriver,
         keepBrowserOpen: Boolean = false,
-        block: PageEntry<SauceDemo>.() -> Unit,
+        block: SiteEntry<SauceDemo>.() -> Unit,
     ) = webTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -163,7 +163,7 @@ class SauceDemoTest() {
         user: User = User.Standard,
         keepBrowserOpen: Boolean = false,
         driverFactory: DriverFactory = sauceDemoDriver,
-        block: PageEntry<SauceDemo>.() -> Unit,
+        block: SiteEntry<SauceDemo>.() -> Unit,
     ) = webTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -180,7 +180,7 @@ class SauceDemoTest() {
         return username
     }
 
-    private fun PageEntry<SauceDemo>.loginAs(username: String) {
+    private fun SiteEntry<SauceDemo>.loginAs(username: String) {
         addCookie(Cookie("session-username", username))
     }
 

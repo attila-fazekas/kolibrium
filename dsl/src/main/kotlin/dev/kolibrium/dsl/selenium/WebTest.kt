@@ -30,14 +30,14 @@ import kotlin.time.TimeSource
  * - Executes [prepare] in the site's context to compute the input value [T].
  * - Creates a WebDriver via [driverFactory], navigates to [dev.kolibrium.core.selenium.Site.baseUrl] to establish origin,
  *   applies [dev.kolibrium.core.selenium.Site.cookies] (if any), and re-navigates to [dev.kolibrium.core.selenium.Site.baseUrl] so cookies take effect immediately.
- *   Then calls [dev.kolibrium.core.selenium.Site.configure] (which runs [dev.kolibrium.core.selenium.Site.configure] no-arg followed by [dev.kolibrium.core.selenium.Site.configureBrowser]).
+ *   Then calls [dev.kolibrium.core.selenium.Site.configureSite] (which runs [dev.kolibrium.core.selenium.Site.configureSite] no-arg followed by [dev.kolibrium.core.selenium.Site.onSessionReady]).
  * - Invokes [startup] and then [block] with a [PageEntry] receiver in the site's context.
  *
  * Cleanup:
  * - Unless [keepBrowserOpen] is true, the session is closed in a finally block for robustness.
  *
  * Notes:
- * - Do not navigate inside [dev.kolibrium.core.selenium.Site.configureBrowser]; this function performs the initial, predictable navigation.
+ * - Do not navigate inside [dev.kolibrium.core.selenium.Site.onSessionReady]; this function performs the initial, predictable navigation.
  * - [driverFactory] is marked `noinline` to avoid non-local return constraints; it's a zero-arg factory.
  *
  * @param S The concrete site type bound to this test.
@@ -54,28 +54,11 @@ public inline fun <S : Site, T> webTest(
     site: S,
     keepBrowserOpen: Boolean = false,
     noinline driverFactory: DriverFactory,
-    crossinline prepare: () -> T,
-    crossinline startup: PageEntry<S>.(T) -> Unit = { _ -> },
-    crossinline block: PageEntry<S>.(T) -> Unit,
+    noinline prepare: () -> T,
+    noinline startup: SiteEntry<S>.(T) -> Unit = { _ -> },
+    noinline block: SiteEntry<S>.(T) -> Unit,
 ) {
-    SiteContext.withSite(site) {
-        val prepared: T = context(site) { prepare() }
-        val driver: WebDriver = driverFactory()
-        try {
-            driver.get(site.baseUrl)
-            if (site.cookies.isNotEmpty()) {
-                val options = driver.manage()
-                site.cookies.forEach(options::addCookie)
-                driver.get(site.baseUrl)
-            }
-            site.configure(driver)
-            val pageEntry = PageEntry<S>(driver)
-            context(site) { pageEntry.startup(prepared) }
-            context(site) { pageEntry.block(prepared) }
-        } finally {
-            if (!keepBrowserOpen) runCatching { driver.quit() }
-        }
-    }
+    webTestImpl(site, keepBrowserOpen, driverFactory, prepare, startup, block)
 }
 
 /**
@@ -96,8 +79,8 @@ public inline fun <S : Site> webTest(
     site: S,
     keepBrowserOpen: Boolean = false,
     noinline driverFactory: DriverFactory,
-    crossinline startup: PageEntry<S>.(Unit) -> Unit = { _ -> },
-    crossinline block: PageEntry<S>.(Unit) -> Unit,
+    noinline startup: SiteEntry<S>.(Unit) -> Unit = { _ -> },
+    noinline block: SiteEntry<S>.(Unit) -> Unit,
 ) {
     webTest(
         site = site,
@@ -107,6 +90,36 @@ public inline fun <S : Site> webTest(
         startup = startup,
         block = block,
     )
+}
+
+@PublishedApi
+internal fun <S : Site, T> webTestImpl(
+    site: S,
+    keepBrowserOpen: Boolean,
+    driverFactory: DriverFactory,
+    prepare: () -> T,
+    startup: SiteEntry<S>.(T) -> Unit,
+    block: SiteEntry<S>.(T) -> Unit,
+) {
+    SiteContext.withSite(site) {
+        val prepared: T = context(site) { prepare() }
+        val driver: WebDriver = driverFactory()
+        try {
+            driver.get(site.baseUrl)
+            if (site.cookies.isNotEmpty()) {
+                val options = driver.manage()
+                site.cookies.forEach(options::addCookie)
+                driver.get(site.baseUrl)
+            }
+            site.configureSite()
+            site.onSessionReady(driver)
+            val entry: SiteEntry<S> = PageEntry<S>(driver)
+            context(site) { entry.startup(prepared) }
+            context(site) { entry.block(prepared) }
+        } finally {
+            if (!keepBrowserOpen) runCatching { driver.quit() }
+        }
+    }
 }
 
 // ----- Result & metrics -----
@@ -147,14 +160,14 @@ public class WebTestResult(
  * - Executes [prepare] in the site's context to compute the input value [T].
  * - Creates a WebDriver via [driverFactory], navigates to [dev.kolibrium.core.selenium.Site.baseUrl] to establish origin,
  *   applies [dev.kolibrium.core.selenium.Site.cookies] (if any), and re-navigates to [dev.kolibrium.core.selenium.Site.baseUrl] so cookies take effect immediately.
- *   Then calls [dev.kolibrium.core.selenium.Site.configure] (which runs [dev.kolibrium.core.selenium.Site.configure] no-arg followed by [dev.kolibrium.core.selenium.Site.configureBrowser]).
+ *   Then calls [dev.kolibrium.core.selenium.Site.configureSite] (which runs [dev.kolibrium.core.selenium.Site.configureSite] no-arg followed by [dev.kolibrium.core.selenium.Site.onSessionReady]).
  * - Invokes [startup] and then [block] with a [PageEntry] receiver in the site's context.
  *
  * Cleanup:
  * - Unless [keepBrowserOpen] is true, the session is closed in a finally block for robustness.
  *
  * Notes:
- * - Do not navigate inside [dev.kolibrium.core.selenium.Site.configureBrowser]; this function performs the initial, predictable navigation.
+ * - Do not navigate inside [dev.kolibrium.core.selenium.Site.onSessionReady]; this function performs the initial, predictable navigation.
  * - [driverFactory] is marked `noinline` to avoid non-local return constraints; it's a zero-arg factory.
  * - If [prepare] throws, it happens before the browser session is created and before failure status handling;
  *   the exception is propagated and no [WebTestResult] is produced.
@@ -174,35 +187,27 @@ public inline fun <S : Site, T> webTestResult(
     site: S,
     keepBrowserOpen: Boolean = false,
     noinline driverFactory: DriverFactory,
-    crossinline prepare: () -> T,
-    crossinline startup: PageEntry<S>.(T) -> Unit = { _ -> },
-    crossinline block: PageEntry<S>.(T) -> Unit,
+    noinline prepare: () -> T,
+    noinline startup: SiteEntry<S>.(T) -> Unit = { _ -> },
+    noinline block: SiteEntry<S>.(T) -> Unit,
 ): WebTestResult {
     val mark = TimeSource.Monotonic.markNow()
     var status = WebTestResult.TestStatus.Success
     var error: Throwable? = null
 
-    SiteContext.withSite(site) {
-        val prepared: T = context(site) { prepare() }
-        val driver: WebDriver = driverFactory()
-        try {
-            driver.get(site.baseUrl)
-            if (site.cookies.isNotEmpty()) {
-                val options = driver.manage()
-                site.cookies.forEach(options::addCookie)
-                driver.get(site.baseUrl)
-            }
-            site.configure(driver)
-            val pageEntry = PageEntry<S>(driver)
-            context(site) { pageEntry.startup(prepared) }
-            context(site) { pageEntry.block(prepared) }
-        } catch (t: Throwable) {
-            status = WebTestResult.TestStatus.Failure
-            error = t
-            throw t
-        } finally {
-            if (!keepBrowserOpen) runCatching { driver.quit() }
-        }
+    try {
+        webTestResultImpl(
+            site = site,
+            keepBrowserOpen = keepBrowserOpen,
+            driverFactory = driverFactory,
+            prepare = prepare,
+            startup = startup,
+            block = block,
+        )
+    } catch (t: Throwable) {
+        status = WebTestResult.TestStatus.Failure
+        error = t
+        throw t
     }
     return WebTestResult(testDuration = mark.elapsedNow(), status = status, error = error)
 }
@@ -225,8 +230,8 @@ public inline fun <S : Site> webTestResult(
     site: S,
     keepBrowserOpen: Boolean = false,
     noinline driverFactory: DriverFactory,
-    crossinline startup: PageEntry<S>.(Unit) -> Unit = { _ -> },
-    crossinline block: PageEntry<S>.(Unit) -> Unit,
+    noinline startup: SiteEntry<S>.(Unit) -> Unit = { _ -> },
+    noinline block: SiteEntry<S>.(Unit) -> Unit,
 ): WebTestResult =
     webTestResult(
         site = site,
@@ -236,6 +241,36 @@ public inline fun <S : Site> webTestResult(
         startup = startup,
         block = block,
     )
+
+@PublishedApi
+internal fun <S : Site, T> webTestResultImpl(
+    site: S,
+    keepBrowserOpen: Boolean,
+    driverFactory: DriverFactory,
+    prepare: () -> T,
+    startup: SiteEntry<S>.(T) -> Unit,
+    block: SiteEntry<S>.(T) -> Unit,
+) {
+    SiteContext.withSite(site) {
+        val prepared: T = context(site) { prepare() }
+        val driver: WebDriver = driverFactory()
+        try {
+            driver.get(site.baseUrl)
+            if (site.cookies.isNotEmpty()) {
+                val options = driver.manage()
+                site.cookies.forEach(options::addCookie)
+                driver.get(site.baseUrl)
+            }
+            site.configureSite()
+            site.onSessionReady(driver)
+            val entry: SiteEntry<S> = PageEntry<S>(driver)
+            context(site) { entry.startup(prepared) }
+            context(site) { entry.block(prepared) }
+        } finally {
+            if (!keepBrowserOpen) runCatching { driver.quit() }
+        }
+    }
+}
 
 /**
  * Convenience helper that logs the test duration using the provided [logger] and returns this [WebTestResult].

@@ -27,7 +27,7 @@ import kotlin.time.Duration.Companion.seconds
  * General wait configuration used by synchronization helpers.
  *
  * Notes:
- * - Kolibrium’s locator delegates always ignore NoSuchElementException during waits
+ * - Kolibrium’s locator delegates always ignore [org.openqa.selenium.NoSuchElementException] during waits
  *   (in addition to any classes you specify here) to avoid failing on the first miss.
  *
  * Examples:
@@ -112,7 +112,8 @@ public class WaitConfig(
 
 /**
  * Apply a common [WaitConfig] to a Selenium [FluentWait] instance.
- * Generic across receiver types so it can be reused for WebDriver, WebElement wrappers, etc.
+ * Generic across receiver types so it can be reused for [org.openqa.selenium.WebDriver],
+ * [org.openqa.selenium.WebElement] wrappers, etc.
  */
 public fun <T> FluentWait<T>.configureWith(waitConfig: WaitConfig): FluentWait<T> =
     apply {

@@ -36,12 +36,12 @@ public abstract class Page<S : Site> : SearchContext {
     public open val path: String = "/"
 
     /** The current URL as reported by the driver. */
-    protected val currentUrl: String?
-        get() = requireDriver().currentUrl
+    protected val currentUrl: String
+        get() = requireDriver().currentUrl!!
 
     /** The current page title as reported by the driver. */
-    protected val pageTitle: String?
-        get() = requireDriver().title
+    protected val pageTitle: String
+        get() = requireDriver().title!!
 
     /**
      * Wait until the page is considered ready for interaction.
@@ -113,11 +113,11 @@ internal object DriverContextHolder {
  */
 public inline fun <T> withDriver(
     driver: WebDriver,
-    block: context(WebDriver) () -> T,
+    block: () -> T,
 ): T {
     DriverContextHolder.set(driver)
     return try {
-        context(driver) { block() }
+        block()
     } finally {
         DriverContextHolder.clear()
     }

@@ -29,11 +29,11 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 /**
- * Marker interface exposing the Selenium By locator used to find element(s).
+ * Marker interface exposing the Selenium [By] locator used to find element(s).
  * Useful for debugging and to integrate with custom find/wait utilities.
  */
 public interface HasBy {
-    /** The Selenium By locator associated with this descriptor. */
+    /** The Selenium [By] locator associated with this descriptor. */
     public val by: By
 }
 
@@ -56,10 +56,10 @@ public interface HasBy {
  * toString() expectations
  * - Calling toString() on a descriptor yields a stable, human-friendly summary including:
  *   ctx, by, cacheLookup and waitConfig=(timeout=..., polling=...), plus a decorators field.
- *   Values not applicable are shown as "N/A". ctx shows the underlying, undecorated SearchContext type.
+ *   Values not applicable are shown as "N/A". ctx shows the underlying, undecorated [SearchContext] type.
  *   decorators is always present: it's a class list like [HighlighterDecorator, SlowMotionDecorator] when
  *   any decorators are applied, or "N/A" when none are applied.
- * - Important: Calling toString() on the delegated WebElement (e.g., val e by id("..."); e.toString())
+ * - Important: Calling toString() on the delegated [WebElement] (e.g., val e by id("..."); e.toString())
  *   will print Selenium's element string, not the descriptor summary. Keep a reference to the descriptor
  *   itself if you need its diagnostic string.
  */
@@ -95,10 +95,10 @@ public interface WebElementDescriptor :
  * toString() expectations
  * - Calling toString() on a descriptor yields a stable, human-friendly summary including:
  *   ctx, by and waitConfig=(timeout=..., polling=...), plus a decorators field.
- *   Values not applicable are shown as "N/A". ctx shows the underlying, undecorated SearchContext type.
+ *   Values not applicable are shown as "N/A". ctx shows the underlying, undecorated [SearchContext] type.
  *   decorators is always present: it's a class list like [HighlighterDecorator, SlowMotionDecorator] when
  *   any decorators are applied, or "N/A" when none are applied.
- * - Calling toString() on the delegated WebElements value prints Selenium's collection string, not
+ * - Calling toString() on the delegated [WebElements] value prints Selenium's collection string, not
  *   the descriptor's summary. Keep a reference to the descriptor if you need its diagnostics.
  */
 public interface WebElementsDescriptor :
@@ -128,7 +128,7 @@ public interface WebElementsDescriptor :
  * private val menuButton by className("nav-menu", readyWhen = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the element.
+ * @receiver The [SearchContext] instance used to search for the element.
  * @param value The exact value of the "class" attribute to search for.
  *              Only one class name should be used. If an element has
  *              multiple classes, please use cssSelector(String).
@@ -176,7 +176,7 @@ public fun SearchContext.className(
  *
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The [SearchContext] instance used to search for the elements.
  * @param value The exact value of the "class" attribute to search for.
  *              Only one class name should be used. If an element has
  *              multiple classes, please use cssSelector(String).
@@ -218,7 +218,7 @@ public fun SearchContext.classNames(
  * private val inputField by cssSelector("#input-field", readyWhen = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the element.
+ * @receiver The [SearchContext] instance used to search for the element.
  * @param value The CSS selector to locate the element.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
@@ -264,7 +264,7 @@ public fun SearchContext.cssSelector(
  *
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The [SearchContext] instance used to search for the elements.
  * @param value The CSS selector to locate the elements.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
@@ -304,7 +304,7 @@ public fun SearchContext.cssSelectors(
  * private val actionButton by dataQa("action-btn", readyWhen = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the element.
+ * @receiver The [SearchContext] instance used to search for the element.
  * @param value The exact value of the "data-qa" attribute to search for.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
@@ -348,7 +348,7 @@ public fun SearchContext.dataQa(
  *
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The [SearchContext] instance used to search for the elements.
  * @param value The exact value of the "data-qa" attribute to search for.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
@@ -386,7 +386,7 @@ public fun SearchContext.dataQas(
  * private val actionButton by dataTest("action-btn", readyWhen = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the element.
+ * @receiver The [SearchContext] instance used to search for the element.
  * @param value The exact value of the "data-test" attribute to search for.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
@@ -430,7 +430,7 @@ public fun SearchContext.dataTest(
  *
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The [SearchContext] instance used to search for the elements.
  * @param value The exact value of the "data-test" attribute to search for.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
@@ -468,7 +468,7 @@ public fun SearchContext.dataTests(
  * private val actionButton by dataTestId("action-btn", readyWhen = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the element.
+ * @receiver The [SearchContext] instance used to search for the element.
  * @param value The exact value of the "data-testid" attribute to search for.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
@@ -512,7 +512,7 @@ public fun SearchContext.dataTestId(
  *
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The [SearchContext] instance used to search for the elements.
  * @param value The exact value of the "data-testid" attribute to search for.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
@@ -552,7 +552,7 @@ private fun String.escapeCssAttr(): String = replace("\\", "\\\\").replace("\"",
  * private val loginButton by id("login", readyWhen = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the element.
+ * @receiver The [SearchContext] instance used to search for the element.
  * @param value The value of the "id" attribute to search for.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
@@ -689,7 +689,7 @@ public fun SearchContext.linkText(
  *
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The [SearchContext] instance used to search for the elements.
  * @param value The exact, case-sensitive link text to search for.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
@@ -729,7 +729,7 @@ public fun SearchContext.linkTexts(
  * private val submitButton by name("submit", readyWhen = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the element.
+ * @receiver The [SearchContext] instance used to search for the element.
  * @param value The value of the "name" attribute to search for.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
@@ -815,7 +815,7 @@ public fun SearchContext.names(
  * private val learnMoreLink by partialLinkText("Learn", readyWhen = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the element.
+ * @receiver The [SearchContext] instance used to search for the element.
  * @param value The partial text of the link to search for (case-sensitive substring).
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
@@ -861,7 +861,7 @@ public fun SearchContext.partialLinkText(
  *
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The [SearchContext] instance used to search for the elements.
  * @param value The partial text of the link to search for (case-sensitive substring).
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
@@ -901,7 +901,7 @@ public fun SearchContext.partialLinkTexts(
  * private val mainContent by tagName("main", readyWhen = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the element.
+ * @receiver The [SearchContext] instance used to search for the element.
  * @param value The HTML tag name to search for (e.g., "div", "a").
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
@@ -947,7 +947,7 @@ public fun SearchContext.tagName(
  *
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The [SearchContext] instance used to search for the elements.
  * @param value The HTML tag name to search for (e.g., "div", "a").
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
@@ -987,7 +987,7 @@ public fun SearchContext.tagNames(
  * private val actionButton by xpath("//button[text()='Click Me']", readyWhen = { isClickable })
  * ```
  *
- * @receiver The SearchContext instance used to search for the element.
+ * @receiver The [SearchContext] instance used to search for the element.
  * @param value The XPath expression.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
@@ -1033,7 +1033,7 @@ public fun SearchContext.xpath(
  *
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
- * @receiver The SearchContext instance used to search for the elements.
+ * @receiver The [SearchContext] instance used to search for the elements.
  * @param value The XPath expression.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.

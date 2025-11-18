@@ -47,7 +47,7 @@ object SauceDemo : Site(
         )
 }
 
-data object Twitter : Site(baseUrl = "https://www.x.com") {
+object Twitter : Site(baseUrl = "https://www.x.com") {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
     override val waitConfig: WaitConfig = Quick

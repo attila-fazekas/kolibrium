@@ -21,9 +21,8 @@ import org.openqa.selenium.WebElement
 /**
  * Checks if the [WebElement] is both displayed and enabled, making it clickable in the UI.
  *
- * This property combines Selenium's [isDisplayed][WebElement.isDisplayed] and
- * [isEnabled][WebElement.isEnabled] checks to determine if the element is ready
- * for user interaction through clicking.
+ * This property combines Selenium's [WebElement.isDisplayed] and [WebElement.isEnabled] checks to determine
+ * if the element is ready for user interaction through clicking.
  *
  * @receiver The [WebElement] to check for clickability.
  * @return `true` if the element is both displayed and enabled, `false` otherwise.
@@ -34,9 +33,8 @@ public val WebElement.isClickable: Boolean
 /**
  * Checks if the [WebElement]s are both displayed and enabled, making them clickable in the UI.
  *
- * This property combines Selenium's [isDisplayed][WebElement.isDisplayed] and
- * [isEnabled][WebElement.isEnabled] checks to determine if the elements are ready
- * for user interaction through clicking.
+ * This property combines Selenium's [WebElement.isDisplayed] and [WebElement.isEnabled] checks to determine
+ * if the elements are ready for user interaction through clicking.
  *
  * @receiver The [WebElement]s to check for clickability.
  * @return `true` if the elements are both displayed and enabled, `false` otherwise.

@@ -18,7 +18,7 @@ package dev.kolibrium.dsl.selenium.webtest.bstackdemo
 
 import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.dsl.selenium.DriverFactory
-import dev.kolibrium.dsl.selenium.PageEntry
+import dev.kolibrium.dsl.selenium.SiteEntry
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.selenium.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.selenium.creation.chromeDriver
@@ -97,8 +97,8 @@ class BrowserStackDemoTest {
     inline fun browserStackDemoTest(
         noinline driverFactory: DriverFactory = { ChromeDriver() },
         keepBrowserOpen: Boolean = false,
-        crossinline startup: PageEntry<BrowserStackDemo>.(Unit) -> Unit = { _ -> },
-        crossinline block: PageEntry<BrowserStackDemo>.(Unit) -> Unit,
+        noinline startup: SiteEntry<BrowserStackDemo>.(Unit) -> Unit = { _ -> },
+        noinline block: SiteEntry<BrowserStackDemo>.(Unit) -> Unit,
     ) = webTest(
         site = BrowserStackDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -111,8 +111,8 @@ class BrowserStackDemoTest {
         driverFactory: DriverFactory = browserStackDemoDriver,
         keepBrowserOpen: Boolean = false,
         prepare: () -> T,
-        startup: PageEntry<BrowserStackDemo>.(T) -> Unit = { },
-        block: PageEntry<BrowserStackDemo>.(T) -> Unit,
+        startup: SiteEntry<BrowserStackDemo>.(T) -> Unit = { },
+        block: SiteEntry<BrowserStackDemo>.(T) -> Unit,
     ) = webTest(
         site = BrowserStackDemo,
         keepBrowserOpen = keepBrowserOpen,
