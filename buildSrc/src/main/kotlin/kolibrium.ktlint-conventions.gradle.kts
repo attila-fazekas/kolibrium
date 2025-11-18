@@ -1,11 +1,3 @@
-import gradle.kotlin.dsl.accessors._4a33a12d8cb39904dd14f27ebecea85c.ktlintKotlinScriptCheck
-import gradle.kotlin.dsl.accessors._4a33a12d8cb39904dd14f27ebecea85c.ktlintKotlinScriptFormat
-import gradle.kotlin.dsl.accessors._4a33a12d8cb39904dd14f27ebecea85c.ktlintMainSourceSetCheck
-import gradle.kotlin.dsl.accessors._4a33a12d8cb39904dd14f27ebecea85c.ktlintMainSourceSetFormat
-import gradle.kotlin.dsl.accessors._4a33a12d8cb39904dd14f27ebecea85c.ktlintTestSourceSetCheck
-import gradle.kotlin.dsl.accessors._4a33a12d8cb39904dd14f27ebecea85c.ktlintTestSourceSetFormat
-import org.gradle.kotlin.dsl.invoke
-
 /*
  * Copyright 2023-2025 Attila Fazekas & contributors
  *
@@ -34,16 +26,4 @@ ktlint {
     outputColorName = "RED"
     ignoreFailures = false
     enableExperimentalRules = false
-}
-
-tasks.ktlintMainSourceSetCheck {
-    dependsOn(tasks.ktlintMainSourceSetFormat)
-}
-
-tasks.ktlintTestSourceSetCheck {
-    dependsOn(tasks.ktlintTestSourceSetFormat)
-}
-
-tasks.ktlintKotlinScriptCheck {
-    dependsOn(tasks.ktlintKotlinScriptFormat)
 }

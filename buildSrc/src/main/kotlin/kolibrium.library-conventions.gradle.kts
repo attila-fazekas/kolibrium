@@ -17,7 +17,6 @@
 import dev.kolibrium.PublicationProperties.PROJECT_GIT_URL
 import dev.kolibrium.PublicationProperties.SCM
 import dev.kolibrium.SharedFunctions
-import java.io.FileOutputStream
 
 plugins {
     `java-library`
@@ -31,6 +30,18 @@ plugins {
 
 kotlin {
     explicitApi()
+}
+
+tasks.ktlintMainSourceSetCheck {
+    dependsOn(tasks.ktlintMainSourceSetFormat)
+}
+
+tasks.ktlintTestSourceSetCheck {
+    dependsOn(tasks.ktlintTestSourceSetFormat)
+}
+
+tasks.ktlintKotlinScriptCheck {
+    dependsOn(tasks.ktlintKotlinScriptFormat)
 }
 
 val sourcesJar by tasks.register<Jar>("sourcesJar") {
