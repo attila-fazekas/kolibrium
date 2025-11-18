@@ -14,31 +14,24 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.core
+package dev.kolibrium.core.selenium
 
-import dev.kolibrium.core.selenium.Page
-import dev.kolibrium.core.selenium.Site
-import dev.kolibrium.core.selenium.SiteContext
-import dev.kolibrium.core.selenium.WaitConfig
 import dev.kolibrium.core.selenium.decorators.HighlighterDecorator
-import dev.kolibrium.core.selenium.idOrName
-import dev.kolibrium.core.selenium.name
-import dev.kolibrium.core.selenium.withDriver
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 
 // 1) Declare your Site
-data object MySite : Site(baseUrl = "https://www.saucedemo.com") {
+object MySite : Site(baseUrl = "https://www.saucedemo.com") {
     override val cookies: Set<Cookie> = setOf(Cookie("ab", "test"))
     override val decorators = listOf(HighlighterDecorator())
     override val waitConfig: WaitConfig = WaitConfig.Default
 
-    override fun configure() {
+    override fun configureSite() {
         // compute site‑level policy (no WebDriver access here)
     }
 
-    override fun configureBrowser(driver: WebDriver) {
+    override fun onSessionReady(driver: WebDriver) {
         // session‑aware tweaks; do not navigate here
     }
 }
@@ -75,7 +68,8 @@ fun main() {
                 driver.navigate().to(MySite.baseUrl) // re‑navigate so cookies take effect
             }
             // Let the site finalize configuration for this session
-            MySite.configure(driver)
+            MySite.configureSite()
+            MySite.onSessionReady(driver)
 
             // 5) Create a page and use it inside a WebDriver context
             val loginPage = LoginPage()

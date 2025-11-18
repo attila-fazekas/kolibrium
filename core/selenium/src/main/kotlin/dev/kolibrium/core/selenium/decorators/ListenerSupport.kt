@@ -23,7 +23,7 @@ import org.openqa.selenium.WrapsDriver
 import org.openqa.selenium.support.events.WebDriverListener
 
 /**
- * Interface for decorators that want to receive WebDriver interaction callbacks.
+ * Interface for decorators that want to receive [org.openqa.selenium.WebDriver] interaction callbacks.
  */
 public interface InteractionAware {
     /**

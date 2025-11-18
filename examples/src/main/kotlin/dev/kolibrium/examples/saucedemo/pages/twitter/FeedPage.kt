@@ -18,11 +18,10 @@ package dev.kolibrium.examples.saucedemo.pages.twitter
 
 import dev.kolibrium.core.selenium.Page
 import dev.kolibrium.examples.saucedemo.Twitter
-import io.kotest.matchers.shouldBe
 
 class FeedPage : Page<Twitter>() {
     override fun assertReady() {
-        pageTitle shouldBe "Sauce Labs (@saucelabs) / X"
+        assert(pageTitle == "Sauce Labs (@saucelabs) / X")
     }
 
     fun likeKolibrium() {

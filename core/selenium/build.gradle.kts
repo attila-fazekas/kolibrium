@@ -23,3 +23,21 @@ dependencies {
     api("org.seleniumhq.selenium:selenium-java:_")
     testImplementation("com.titusfortner:selenium-logger:_")
 }
+
+testing {
+    suites {
+        register("unitTest", JvmTestSuite::class) {
+            dependencies {
+                implementation("io.mockk:mockk:1.14.6")
+            }
+        }
+        register("integrationTest", JvmTestSuite::class)
+    }
+
+    suites.withType(JvmTestSuite::class).configureEach {
+        dependencies {
+            implementation(project())
+            implementation(Testing.kotest.assertions.core)
+        }
+    }
+}

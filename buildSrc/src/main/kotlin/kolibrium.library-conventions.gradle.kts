@@ -17,7 +17,6 @@
 import dev.kolibrium.PublicationProperties.PROJECT_GIT_URL
 import dev.kolibrium.PublicationProperties.SCM
 import dev.kolibrium.SharedFunctions
-import java.io.FileOutputStream
 
 plugins {
     `java-library`

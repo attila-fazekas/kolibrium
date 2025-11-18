@@ -24,6 +24,7 @@ import dev.kolibrium.core.selenium.withDriver
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import java.net.URI
+import kotlin.reflect.KClass
 
 /**
  * Scope used as the fluent receiver when working with a [Page] in the Selenium DSL.
@@ -36,7 +37,7 @@ import java.net.URI
  * @property entry internal wiring to the underlying browser session; not intended for direct use
  */
 @KolibriumDsl
-public class PageScope<P : Page<*>>(
+public class PageScope<P : Page<*>> internal constructor(
     public val page: P,
     @PublishedApi internal val entry: PageEntry<out Site>,
 ) {
@@ -100,39 +101,11 @@ public class PageScope<P : Page<*>>(
     public inline fun <reified S2 : Site> switchTo(
         navigateToBase: Boolean = true,
         cookies: Cookies? = null,
-        crossinline block: PageEntry<S2>.() -> Unit,
-    ): SwitchBackScope<P> {
-        val originalEntry = entry
+        crossinline block: SiteEntry<S2>.() -> Unit,
+    ): SwitchBackScope<P> = switchToImpl(S2::class, navigateToBase, cookies) { (it as SiteEntry<S2>).block() }
 
-        // Remember the original environment
-        val originalWindow = originalEntry.currentWindowHandle()
-        val originalSite: Site = SiteContext.get()!!
-
-        // Window selection heuristic: when a new tab likely opened, pick the last handle.
-        originalEntry.switchToNewestWindowIfOpenedSince(originalWindow)
-
-        // Switch site context using helper (no WebDriver leakage)
-        val (targetSite, targetEntry) =
-            performSiteSwitch(
-                originalEntry,
-                navigateToBase,
-                cookies,
-            ) { siteOf<S2>() }
-
-        // Execute user block in target site context
-        context(targetSite) { targetEntry.block() }
-
-        // Return a scope that can restore the original page as receiver
-        return SwitchBackScope(
-            originalEntry = originalEntry,
-            originalSite = originalSite,
-            originalWindow = originalWindow,
-            originalPage = this.page,
-        )
-    }
-
-    /** Inline gateway to the underlying entry without exposing it as a property. */
-    public inline fun <R> withEntry(block: (PageEntry<out Site>) -> R): R = block(entry)
+    /** Gateway to the underlying entry via the public [SiteEntry] interface. */
+    public fun <R> withEntry(block: (SiteEntry<out Site>) -> R): R = block(entry)
 }
 
 /**
@@ -142,11 +115,11 @@ public class PageScope<P : Page<*>>(
  * of startup and test blocks.
  */
 @KolibriumDsl
-public class PageEntry<S : Site>
+internal class PageEntry<S : Site>
     @PublishedApi
     internal constructor(
         internal val driver: WebDriver,
-    ) {
+    ) : SiteEntry<S> {
         /** Navigate the current tab to the given absolute URL. */
         internal fun navigateTo(url: String) {
             driver.get(url)
@@ -172,23 +145,24 @@ public class PageEntry<S : Site>
         }
 
         /** Add a cookie to the current browser session. */
-        public fun addCookie(cookie: Cookie) {
+        override fun addCookie(cookie: Cookie) {
             driver.manage().addCookie(cookie)
         }
 
         /** Delete a cookie by name in the current browser session. */
-        public fun deleteCookie(name: String) {
+        override fun deleteCookie(name: String) {
             driver.manage().deleteCookieNamed(name)
         }
 
         /** Delete all cookies in the current browser session. */
-        public fun deleteAllCookies() {
+        override fun deleteAllCookies() {
             driver.manage().deleteAllCookies()
         }
 
         /** Configure the given site against this entry's live session. */
         internal fun configureSite(site: Site) {
-            site.configure(driver)
+            site.configureSite()
+            site.onSessionReady(driver)
         }
 
         /**
@@ -198,9 +172,9 @@ public class PageEntry<S : Site>
          * The returned page will have the active browser session attached and will be synchronized via
          * await/assert before being returned.
          */
-        public fun <P : Page<S>, R : Page<*>> open(
+        override fun <P : Page<S>, R : Page<*>> open(
             factory: () -> P,
-            path: String? = null,
+            path: String?,
             action: P.() -> R,
         ): PageScope<R> {
             val page = factory()
@@ -227,7 +201,7 @@ public class PageEntry<S : Site>
          * and you only want to bind a page object to the current tab.
          * A guard ensures the current tab's origin matches the current [dev.kolibrium.core.selenium.Site]'s origin.
          */
-        public fun <P : Page<S>, R : Page<*>> on(
+        override fun <P : Page<S>, R : Page<*>> on(
             factory: () -> P,
             action: P.() -> R,
         ): PageScope<R> {
@@ -267,7 +241,7 @@ public class PageEntry<S : Site>
          * Usage:
          * open(::SomePage) { /* interactions */ }.verify { /* assertions with receiver = SomePage */ }
          */
-        public fun <P : Page<S>> P.verify(assertions: P.() -> Unit): P {
+        override fun <P : Page<S>> P.verify(assertions: P.() -> Unit): P {
             this.assertReady()
             this.assertions()
             return this
@@ -293,8 +267,8 @@ public class PageEntry<S : Site>
  * Use [switchBack] to return to the original context and continue the flow on the original page.
  */
 @KolibriumDsl
-public class SwitchBackScope<P : Page<*>>(
-    private val originalEntry: PageEntry<out Site>,
+public class SwitchBackScope<P : Page<*>> internal constructor(
+    private val driver: WebDriver,
     private val originalSite: Site,
     private val originalWindow: String,
     private val originalPage: P,
@@ -307,18 +281,55 @@ public class SwitchBackScope<P : Page<*>>(
     @KolibriumDsl
     public fun switchBack(block: P.() -> Unit): PageScope<P> {
         // Restore original window
-        originalEntry.switchToWindow(originalWindow)
+        driver.switchTo().window(originalWindow)
 
-        // Restore site context and run its configurator on the same session
+        // Restore site context and run its configurators on the same session
         SiteContext.set(originalSite)
-        originalEntry.configureSite(originalSite)
+        originalSite.configureSite()
+        originalSite.onSessionReady(driver)
 
         // Execute the caller's code back on the original page within the original driver context
-        return withDriver(originalEntry.driver) {
+        return withDriver(driver) {
             originalPage.block()
-            PageScope(originalPage, originalEntry)
+            PageScope(originalPage, PageEntry<Site>(driver))
         }
     }
+}
+
+@PublishedApi
+internal fun <P : Page<*>, S2 : Site> PageScope<P>.switchToImpl(
+    siteClass: KClass<S2>,
+    navigateToBase: Boolean,
+    cookies: Cookies?,
+    block: (SiteEntry<out Site>) -> Unit,
+): SwitchBackScope<P> {
+    val originalEntry = entry
+
+    // Remember the original environment
+    val originalWindow = originalEntry.currentWindowHandle()
+    val originalSite: Site = SiteContext.get()!!
+
+    // Window selection heuristic: when a new tab likely opened, pick the last handle.
+    originalEntry.switchToNewestWindowIfOpenedSince(originalWindow)
+
+    // Switch site context using helper (no WebDriver leakage)
+    val (targetSite, targetEntry) =
+        performSiteSwitch(
+            originalEntry,
+            navigateToBase,
+            cookies,
+        ) { siteOf(siteClass) }
+
+    // Execute user block in target site context
+    context(targetSite) { block(targetEntry) }
+
+    // Return a scope that can restore the original page as receiver
+    return SwitchBackScope(
+        driver = originalEntry.driver,
+        originalSite = originalSite,
+        originalWindow = originalWindow,
+        originalPage = this.page,
+    )
 }
 
 @PublishedApi
@@ -355,9 +366,9 @@ internal fun <S2 : Site> performSiteSwitch(
 // --- helpers ---
 
 @PublishedApi
-internal inline fun <reified S : Site> siteOf(): S =
-    S::class.objectInstance
-        ?: error("${S::class.simpleName} must be declared as a Kotlin object to use siteOf()")
+internal fun <S : Site> siteOf(klass: KClass<S>): S =
+    klass.objectInstance
+        ?: error("${klass.simpleName} must be declared as a Kotlin object to use siteOf()")
 
 private fun joinUrls(
     base: String,

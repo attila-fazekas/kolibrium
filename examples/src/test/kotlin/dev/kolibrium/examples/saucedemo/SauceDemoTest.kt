@@ -18,7 +18,7 @@ package dev.kolibrium.examples.saucedemo
 
 import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.dsl.selenium.DriverFactory
-import dev.kolibrium.dsl.selenium.PageEntry
+import dev.kolibrium.dsl.selenium.SiteEntry
 import dev.kolibrium.dsl.selenium.alsoLogDuration
 import dev.kolibrium.dsl.selenium.chrome
 import dev.kolibrium.dsl.selenium.discard
@@ -154,8 +154,8 @@ class SauceDemoTest {
         driverFactory: DriverFactory = chrome,
         keepBrowserOpen: Boolean = false,
         prepare: () -> T,
-        startup: PageEntry<SauceDemo>.(T) -> Unit = {},
-        block: PageEntry<SauceDemo>.() -> Unit,
+        startup: SiteEntry<SauceDemo>.(T) -> Unit = {},
+        block: SiteEntry<SauceDemo>.() -> Unit,
     ) = webTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -170,7 +170,7 @@ class SauceDemoTest {
         user: User = User.Standard,
         driverFactory: DriverFactory = chrome,
         keepBrowserOpen: Boolean = false,
-        block: PageEntry<SauceDemo>.() -> Unit,
+        block: SiteEntry<SauceDemo>.() -> Unit,
     ) = webTest(
         site = SauceDemo,
         driverFactory = driverFactory,
@@ -184,7 +184,7 @@ class SauceDemoTest {
     // Imitating backend call to acquire credentials
     private fun User.acquireCredentials(): String = username
 
-    private fun PageEntry<SauceDemo>.loginAs(username: String) {
+    private fun SiteEntry<SauceDemo>.loginAs(username: String) {
         addCookie(Cookie("session-username", username))
     }
 }

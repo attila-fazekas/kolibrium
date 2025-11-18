@@ -29,7 +29,7 @@ import dev.kolibrium.core.selenium.isClickable
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
 
-data object BrowserStackDemo : Site(baseUrl = "https://bstackdemo.com") {
+object BrowserStackDemo : Site(baseUrl = "https://bstackdemo.com") {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
     override val waitConfig: WaitConfig = Quick
