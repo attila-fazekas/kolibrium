@@ -85,7 +85,7 @@ class SauceDemoTest() {
         open(::LoginPage) {
             login()
         }.on {
-            verify { titleText() == "Swag Labs" }
+            titleText() shouldBe "Products"
 
             products.addToCart()
 
@@ -110,7 +110,7 @@ class SauceDemoTest() {
         val products = listOf(Backpack, BikeLight)
 
         open(::InventoryPage) {
-            verify { titleText() == "Swag Labs" }
+            titleText() shouldBe "Products"
 
             products.addToCart()
 

@@ -241,7 +241,7 @@ internal class PageEntry<S : Site>
          * Usage:
          * open(::SomePage) { /* interactions */ }.verify { /* assertions with receiver = SomePage */ }
          */
-        override fun <P : Page<S>> P.verify(assertions: P.() -> Unit): P {
+        fun <P : Page<S>> P.verify(assertions: P.() -> Unit): P {
             this.assertReady()
             this.assertions()
             return this
