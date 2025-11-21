@@ -99,7 +99,7 @@ class SauceDemoTest {
             open(::LoginPage) {
                 login()
             }.on {
-                verify { titleText() shouldBe "Products" }
+                titleText() shouldBe "Products"
                 products.addToCart()
                 goToCart()
             }.verify {

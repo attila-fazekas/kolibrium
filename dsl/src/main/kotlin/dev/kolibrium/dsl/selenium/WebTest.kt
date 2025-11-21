@@ -38,7 +38,6 @@ import kotlin.time.TimeSource
  *
  * Notes:
  * - Do not navigate inside [dev.kolibrium.core.selenium.Site.onSessionReady]; this function performs the initial, predictable navigation.
- * - [driverFactory] is marked `noinline` to avoid non-local return constraints; it's a zero-arg factory.
  *
  * @param S The concrete site type bound to this test.
  * @param T The type of the prepared input value passed to [startup] and [block].
@@ -50,13 +49,13 @@ import kotlin.time.TimeSource
  * @param block Main test body executed with a [PageEntry] receiver and the prepared value.
  */
 @KolibriumDsl
-public inline fun <S : Site, T> webTest(
+public fun <S : Site, T> webTest(
     site: S,
     keepBrowserOpen: Boolean = false,
-    noinline driverFactory: DriverFactory,
-    noinline prepare: () -> T,
-    noinline startup: SiteEntry<S>.(T) -> Unit = { _ -> },
-    noinline block: SiteEntry<S>.(T) -> Unit,
+    driverFactory: DriverFactory,
+    prepare: () -> T,
+    startup: SiteEntry<S>.(T) -> Unit = { _ -> },
+    block: SiteEntry<S>.(T) -> Unit,
 ) {
     webTestImpl(site, keepBrowserOpen, driverFactory, prepare, startup, block)
 }
@@ -75,12 +74,12 @@ public inline fun <S : Site, T> webTest(
  * @param block Main test body executed with a [PageEntry] receiver.
  */
 @KolibriumDsl
-public inline fun <S : Site> webTest(
+public fun <S : Site> webTest(
     site: S,
     keepBrowserOpen: Boolean = false,
-    noinline driverFactory: DriverFactory,
-    noinline startup: SiteEntry<S>.(Unit) -> Unit = { _ -> },
-    noinline block: SiteEntry<S>.(Unit) -> Unit,
+    driverFactory: DriverFactory,
+    startup: SiteEntry<S>.(Unit) -> Unit = { _ -> },
+    block: SiteEntry<S>.(Unit) -> Unit,
 ) {
     webTest(
         site = site,
@@ -113,7 +112,7 @@ internal fun <S : Site, T> webTestImpl(
             }
             site.configureSite()
             site.onSessionReady(driver)
-            val entry: SiteEntry<S> = PageEntry<S>(driver)
+            val entry: SiteEntry<S> = PageEntry(driver)
             context(site) { entry.startup(prepared) }
             context(site) { entry.block(prepared) }
         } finally {
@@ -149,11 +148,12 @@ public class WebTestResult(
 }
 
 /**
- * Result-returning test harness that creates a WebDriver session for the given [dev.kolibrium.core.selenium.Site] and runs the test flow.
+ * Result-returning test harness that creates a WebDriver session for the given [dev.kolibrium.core.selenium.Site]
+ * and runs the test flow.
  *
- * Returns a [WebTestResult] containing the measured duration and status for successful runs. If an exception
- * is thrown during [startup] or [block], the exception is rethrown after the status is set to
- * [WebTestResult.TestStatus.Failure] and cleanup is attempted; in such cases no [WebTestResult] is returned.
+ * Always returns a [WebTestResult] capturing the total duration and outcome:
+ * - On success: `status = Success`, `error = null`.
+ * - On failure (any exception thrown from [prepare], [startup] or [block]): `status = Failure`, `error = <cause>`.
  *
  * Flow:
  * - Binds [dev.kolibrium.core.selenium.SiteContext] to [site] for the duration of the test.
@@ -168,9 +168,62 @@ public class WebTestResult(
  *
  * Notes:
  * - Do not navigate inside [dev.kolibrium.core.selenium.Site.onSessionReady]; this function performs the initial, predictable navigation.
- * - [driverFactory] is marked `noinline` to avoid non-local return constraints; it's a zero-arg factory.
- * - If [prepare] throws, it happens before the browser session is created and before failure status handling;
- *   the exception is propagated and no [WebTestResult] is produced.
+ *
+ * Usage examples:
+ *
+ * Basic result handling and logging:
+ * ```kotlin
+ * val result = webTestResult(
+ *     site = MySite,
+ *     driverFactory = ::chrome,
+ *     prepare = { buildTestData() },
+ * ) { data ->
+ *     // test body
+ *     login(data.user)
+ *     assertHomeIsVisible()
+ * }.alsoLogDuration() // prints: "This test took: <duration>"
+ *
+ * if (result.status == WebTestResult.TestStatus.Failure) {
+ *     // decide how to handle the failure in your environment
+ *     println("Test failed: ${result.error}")
+ * }
+ * ```
+ *
+ * Make JUnit/TestNG fail by rethrowing explicitly (use this API when you still want a result object):
+ * ```kotlin
+ * val result = webTestResult(
+ *     site = MySite,
+ *     driverFactory = ::chrome,
+ *     prepare = { },
+ * ) { _ ->
+ *     // test body
+ * }
+ *
+ * if (result.status == WebTestResult.TestStatus.Failure) {
+ *     throw checkNotNull(result.error)
+ * }
+ * ```
+ *
+ * Using the convenience overload (no prepare value):
+ * ```kotlin
+ * val result = webTestResult(
+ *     site = MySite,
+ *     driverFactory = ::headlessChrome,
+ * ) {
+ *     // test body
+ * }
+ * ```
+ *
+ * Custom duration formatting and logger:
+ * ```kotlin
+ * webTestResult(site = MySite, driverFactory = ::chrome, prepare = { Unit }) { }
+ *     .alsoLogDuration(
+ *         formatter = { d -> "UI test took $d" },
+ *         logger = logger::info,
+ *     )
+ * ```
+ *
+ * If you prefer a throwing harness that lets exceptions escape to the test runner, use [webTest].
  *
  * @param S The concrete site type bound to this test.
  * @param T The type of the prepared input value passed to [startup] and [block].
@@ -180,22 +233,19 @@ public class WebTestResult(
  * @param prepare Computes the input [T] before the browser session is created; runs in the site's context.
  * @param startup Optional step executed before [block], receiving the prepared value.
  * @param block Main test body executed with a [PageEntry] receiver and the prepared value.
- * @return A [WebTestResult] for successful runs; on failure the exception is rethrown.
+ * @return A [WebTestResult] indicating success or failure. Never throws.
  */
 @KolibriumDsl
-public inline fun <S : Site, T> webTestResult(
+public fun <S : Site, T> webTestResult(
     site: S,
     keepBrowserOpen: Boolean = false,
-    noinline driverFactory: DriverFactory,
-    noinline prepare: () -> T,
-    noinline startup: SiteEntry<S>.(T) -> Unit = { _ -> },
-    noinline block: SiteEntry<S>.(T) -> Unit,
+    driverFactory: DriverFactory,
+    prepare: () -> T,
+    startup: SiteEntry<S>.(T) -> Unit = { _ -> },
+    block: SiteEntry<S>.(T) -> Unit,
 ): WebTestResult {
     val mark = TimeSource.Monotonic.markNow()
-    var status = WebTestResult.TestStatus.Success
-    var error: Throwable? = null
-
-    try {
+    return try {
         webTestResultImpl(
             site = site,
             keepBrowserOpen = keepBrowserOpen,
@@ -204,12 +254,18 @@ public inline fun <S : Site, T> webTestResult(
             startup = startup,
             block = block,
         )
+        WebTestResult(
+            testDuration = mark.elapsedNow(),
+            status = WebTestResult.TestStatus.Success,
+            error = null,
+        )
     } catch (t: Throwable) {
-        status = WebTestResult.TestStatus.Failure
-        error = t
-        throw t
+        WebTestResult(
+            testDuration = mark.elapsedNow(),
+            status = WebTestResult.TestStatus.Failure,
+            error = t,
+        )
     }
-    return WebTestResult(testDuration = mark.elapsedNow(), status = status, error = error)
 }
 
 /**
@@ -226,12 +282,12 @@ public inline fun <S : Site, T> webTestResult(
  * @param block Main test body executed with a [PageEntry] receiver.
  */
 @KolibriumDsl
-public inline fun <S : Site> webTestResult(
+public fun <S : Site> webTestResult(
     site: S,
     keepBrowserOpen: Boolean = false,
-    noinline driverFactory: DriverFactory,
-    noinline startup: SiteEntry<S>.(Unit) -> Unit = { _ -> },
-    noinline block: SiteEntry<S>.(Unit) -> Unit,
+    driverFactory: DriverFactory,
+    startup: SiteEntry<S>.(Unit) -> Unit = { _ -> },
+    block: SiteEntry<S>.(Unit) -> Unit,
 ): WebTestResult =
     webTestResult(
         site = site,
@@ -278,7 +334,7 @@ internal fun <S : Site, T> webTestResultImpl(
  * @param logger Function used to output the formatted message. Defaults to [println].
  * @return The same [WebTestResult] instance for fluent chaining.
  */
-public inline fun WebTestResult.alsoLogDuration(logger: (String) -> Unit = ::println): WebTestResult {
+public fun WebTestResult.alsoLogDuration(logger: (String) -> Unit = ::println): WebTestResult {
     logger("This test took: $testDuration")
     return this
 }
@@ -290,7 +346,7 @@ public inline fun WebTestResult.alsoLogDuration(logger: (String) -> Unit = ::pri
  * @param logger Function used to output the formatted message. Defaults to [println].
  * @return The same [WebTestResult] instance for fluent chaining.
  */
-public inline fun WebTestResult.alsoLogDuration(
+public fun WebTestResult.alsoLogDuration(
     formatter: (Duration) -> String,
     logger: (String) -> Unit = ::println,
 ): WebTestResult {

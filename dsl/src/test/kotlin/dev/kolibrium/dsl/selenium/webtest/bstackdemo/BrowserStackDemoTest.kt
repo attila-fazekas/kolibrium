@@ -77,9 +77,10 @@ class BrowserStackDemoTest {
             },
         ) { productIds ->
             open(::ProductsPage) {
-                productIds.forEach(::addToCart)
-
-                verify { verifyShoppingCartBadgeIs(products.size) }
+                apply {
+                    productIds.forEach(::addToCart)
+                    verifyShoppingCartBadgeIs(products.size)
+                }
             }
         }
 
@@ -90,15 +91,17 @@ class BrowserStackDemoTest {
             keepBrowserOpen = false,
         ) {
             open(::ProductsPage) {
-                verify { verifyShoppingCartBadgeIs(0) }
+                apply {
+                    verifyShoppingCartBadgeIs(0)
+                }
             }
         }
 
-    inline fun browserStackDemoTest(
-        noinline driverFactory: DriverFactory = { ChromeDriver() },
+    private fun browserStackDemoTest(
+        driverFactory: DriverFactory = { ChromeDriver() },
         keepBrowserOpen: Boolean = false,
-        noinline startup: SiteEntry<BrowserStackDemo>.(Unit) -> Unit = { _ -> },
-        noinline block: SiteEntry<BrowserStackDemo>.(Unit) -> Unit,
+        startup: SiteEntry<BrowserStackDemo>.(Unit) -> Unit = { _ -> },
+        block: SiteEntry<BrowserStackDemo>.(Unit) -> Unit,
     ) = webTest(
         site = BrowserStackDemo,
         keepBrowserOpen = keepBrowserOpen,

@@ -24,7 +24,7 @@ import org.openqa.selenium.Cookie
  * Site-scoped DSL receiver available inside `webTest { … }` blocks and within `switchTo<S>() { … }`.
  *
  * It represents the entry surface for flows on the active [Site], exposing operations like [open], [on],
- * page verification via [verify], cookie helpers, and site/window switching through higher-level DSL.
+ * cookie helpers, and site/window switching through higher-level DSL.
  *
  * Notes
  * - Implemented internally by Kolibrium; end users receive this as the receiver of [webTest] blocks.
@@ -57,7 +57,4 @@ public interface SiteEntry<S : Site> {
         factory: () -> P,
         action: P.() -> R,
     ): PageScope<R>
-
-    /** Assert on the current page and return it for chaining. */
-    public fun <P : Page<S>> P.verify(assertions: P.() -> Unit): P
 }
