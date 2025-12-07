@@ -89,6 +89,21 @@ public final class dev/kolibrium/core/selenium/PageKt {
 	public static final fun withDriver (Lorg/openqa/selenium/WebDriver;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
+public final class dev/kolibrium/core/selenium/Session {
+	public fun <init> (Lorg/openqa/selenium/WebDriver;Ldev/kolibrium/core/selenium/Site;)V
+	public final fun assertThreadOrFail (Ljava/lang/String;)V
+	public final fun getDriver ()Lorg/openqa/selenium/WebDriver;
+	public final fun getSite ()Ldev/kolibrium/core/selenium/Site;
+}
+
+public final class dev/kolibrium/core/selenium/SessionContext {
+	public static final field INSTANCE Ldev/kolibrium/core/selenium/SessionContext;
+	public static final fun clear ()V
+	public static final fun get ()Ldev/kolibrium/core/selenium/Session;
+	public static final fun set (Ldev/kolibrium/core/selenium/Session;)V
+	public static final fun withSession (Ldev/kolibrium/core/selenium/Session;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+}
+
 public abstract class dev/kolibrium/core/selenium/Site {
 	public fun <init> (Ljava/lang/String;)V
 	public fun configureSite ()V
@@ -99,13 +114,6 @@ public abstract class dev/kolibrium/core/selenium/Site {
 	public fun getElementsReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getWaitConfig ()Ldev/kolibrium/core/selenium/WaitConfig;
 	public fun onSessionReady (Lorg/openqa/selenium/WebDriver;)V
-}
-
-public final class dev/kolibrium/core/selenium/SiteContext {
-	public static final field INSTANCE Ldev/kolibrium/core/selenium/SiteContext;
-	public final fun get ()Ldev/kolibrium/core/selenium/Site;
-	public final fun set (Ldev/kolibrium/core/selenium/Site;)V
-	public final fun withSite (Ldev/kolibrium/core/selenium/Site;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
 public final class dev/kolibrium/core/selenium/WaitConfig {

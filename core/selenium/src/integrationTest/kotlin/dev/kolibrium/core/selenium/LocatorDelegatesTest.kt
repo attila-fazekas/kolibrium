@@ -318,8 +318,7 @@ class LocatorDelegatesTest {
         withPage {
             // Given
             val site = TestSite()
-
-            SiteContext.withSite(site) {
+            SessionContext.withSession(Session(driver, site)) {
                 val page = TestPageWithSite()
 
                 // When

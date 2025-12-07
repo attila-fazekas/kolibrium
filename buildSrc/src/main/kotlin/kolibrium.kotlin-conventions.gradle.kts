@@ -1,3 +1,7 @@
+import org.gradle.kotlin.dsl.assign
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 /*
  * Copyright 2023-2025 Attila Fazekas & contributors
  *
@@ -22,4 +26,10 @@ plugins {
 dependencies {
     implementation("ch.qos.logback:logback-classic:_")
     implementation("io.github.oshai:kotlin-logging-jvm:_")
+}
+
+tasks.withType<KotlinCompile> {
+    compilerOptions.freeCompilerArgs = listOf(
+        "-Xcontext-parameters",
+    )
 }

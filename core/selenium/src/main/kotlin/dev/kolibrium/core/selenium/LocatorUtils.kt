@@ -68,12 +68,12 @@ public val WebElements.isEnabled: Boolean
 
 /** Default readiness condition used for single element lookup. */
 internal val defaultElementReadyCondition: WebElement.() -> Boolean
-    get() = SiteContext.get()?.elementReadyCondition ?: { isDisplayed }
+    get() = SessionContext.get()?.site?.elementReadyCondition ?: { isDisplayed }
 
 /** Default readiness condition used for multiple element lookup. */
 internal val defaultElementsReadyCondition: WebElements.() -> Boolean
-    get() = SiteContext.get()?.elementsReadyCondition ?: { isNotEmpty() && isDisplayed }
+    get() = SessionContext.get()?.site?.elementsReadyCondition ?: { isNotEmpty() && isDisplayed }
 
 /** Default wait configuration used for element lookup. */
 internal val defaultWaitConfig: WaitConfig
-    get() = SiteContext.get()?.waitConfig ?: WaitConfig.Default
+    get() = SessionContext.get()?.site?.waitConfig ?: WaitConfig.Default

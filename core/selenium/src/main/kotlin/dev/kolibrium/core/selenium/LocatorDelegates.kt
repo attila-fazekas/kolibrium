@@ -1128,7 +1128,7 @@ internal abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<
 
     // Merge decorators deterministically: site first, then test; de-duplicate by class with test-level winning on conflicts.
     private fun mergedDecorators(): List<AbstractDecorator> {
-        val siteLevelDecorators = SiteContext.get()?.decorators ?: emptyList()
+        val siteLevelDecorators = SessionContext.get()?.site?.decorators ?: emptyList()
         val testLevelDecorators = DecoratorManager.getAllDecorators()
         val siteDedup = siteLevelDecorators.distinctBy { it::class }
         val testDedup = testLevelDecorators.distinctBy { it::class }
