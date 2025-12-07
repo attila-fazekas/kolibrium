@@ -34,6 +34,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.StaleElementReferenceException
 import org.openqa.selenium.TimeoutException
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
@@ -46,12 +47,12 @@ class SingleElementDescriptorTest {
     fun setup() {
         mockSearchContext = mockk()
         mockElement = mockk(relaxed = true)
-        SiteContext.set(null)
+        SessionContext.clear()
     }
 
     @AfterEach
     fun tearDown() {
-        SiteContext.set(null)
+        SessionContext.clear()
         clearAllMocks()
     }
 
@@ -263,23 +264,24 @@ class SingleElementDescriptorTest {
                 override val waitConfig = WaitConfig.Patient
             }
 
-        SiteContext.set(site)
+        val driver = mockk<WebDriver>(relaxed = true)
+        SessionContext.withSession(Session(driver, site)) {
+            val descriptor =
+                mockSearchContext.cssSelector(
+                    value = ".test",
+                    cacheLookup = false,
+                )
 
-        val descriptor =
-            mockSearchContext.cssSelector(
-                value = ".test",
-                cacheLookup = false,
-            )
+            every { mockSearchContext.findElement(By.cssSelector(".test")) } returns mockElement
+            every { mockElement.isDisplayed } returns true
 
-        every { mockSearchContext.findElement(By.cssSelector(".test")) } returns mockElement
-        every { mockElement.isDisplayed } returns true
+            // When
+            descriptor.get()
 
-        // When
-        descriptor.get()
-
-        // Then
-        descriptor.toString() shouldContain "timeout=30s"
-        descriptor.toString() shouldContain "polling=500ms"
+            // Then
+            descriptor.toString() shouldContain "timeout=30s"
+            descriptor.toString() shouldContain "polling=500ms"
+        }
     }
 
     @Test
@@ -379,24 +381,25 @@ class SingleElementDescriptorTest {
                 }
             }
 
-        SiteContext.set(site)
+        val driver = mockk<WebDriver>(relaxed = true)
+        SessionContext.withSession(Session(driver, site)) {
+            val descriptor =
+                mockSearchContext.id(
+                    value = "custom-ready",
+                    cacheLookup = false,
+                )
 
-        val descriptor =
-            mockSearchContext.id(
-                value = "custom-ready",
-                cacheLookup = false,
-            )
+            every { mockSearchContext.findElement(By.id("custom-ready")) } returns mockElement
+            every { mockElement.isDisplayed } returns true
+            every { mockElement.isEnabled } returnsMany listOf(false, true)
 
-        every { mockSearchContext.findElement(By.id("custom-ready")) } returns mockElement
-        every { mockElement.isDisplayed } returns true
-        every { mockElement.isEnabled } returnsMany listOf(false, true)
+            // When
+            val result = descriptor.get()
 
-        // When
-        val result = descriptor.get()
-
-        // Then
-        result shouldBe mockElement
-        verify(atLeast = 1) { mockElement.isEnabled }
+            // Then
+            result shouldBe mockElement
+            verify(atLeast = 1) { mockElement.isEnabled }
+        }
     }
 
     @Test
@@ -406,15 +409,16 @@ class SingleElementDescriptorTest {
                 override val decorators = listOf(LoggerDecorator())
             }
 
-        SiteContext.set(site)
+        val driver = mockk<WebDriver>(relaxed = true)
+        SessionContext.withSession(Session(driver, site)) {
+            every { mockSearchContext.findElement(By.id("x")) } returns mockElement
+            every { mockElement.isDisplayed } returns true
 
-        every { mockSearchContext.findElement(By.id("x")) } returns mockElement
-        every { mockElement.isDisplayed } returns true
-
-        withDecorators(SlowMotionDecorator(wait = 1.seconds), LoggerDecorator()) {
-            val descriptor = mockSearchContext.id("x", waitConfig = WaitConfig.Quick)
-            descriptor.get() // trigger lazy merge and decoration
-            descriptor.toString() shouldContain "decorators=[SlowMotionDecorator, LoggerDecorator]"
+            withDecorators(SlowMotionDecorator(wait = 1.seconds), LoggerDecorator()) {
+                val descriptor = mockSearchContext.id("x", waitConfig = WaitConfig.Quick)
+                descriptor.get() // trigger lazy merge and decoration
+                descriptor.toString() shouldContain "decorators=[SlowMotionDecorator, LoggerDecorator]"
+            }
         }
     }
 }

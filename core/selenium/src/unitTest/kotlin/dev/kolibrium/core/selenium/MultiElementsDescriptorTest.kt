@@ -16,14 +16,12 @@
 
 package dev.kolibrium.core.selenium
 
-import dev.kolibrium.core.selenium.decorators.AbstractDecorator
 import dev.kolibrium.core.selenium.decorators.DecoratorManager.withDecorators
 import dev.kolibrium.core.selenium.decorators.LoggerDecorator
 import dev.kolibrium.core.selenium.decorators.SlowMotionDecorator
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
-import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.mockk.clearAllMocks
 import io.mockk.every
@@ -35,9 +33,8 @@ import org.junit.jupiter.api.Test
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.StaleElementReferenceException
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
-import kotlin.collections.all
-import kotlin.collections.isNotEmpty
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
@@ -53,13 +50,13 @@ class MultiElementsDescriptorTest {
         mockElement1 = mockk(relaxed = true)
         mockElement2 = mockk(relaxed = true)
         mockElement3 = mockk(relaxed = true)
-        SiteContext.set(null)
+        SessionContext.clear()
         // If you have DecoratorManager.clear(), call it here
     }
 
     @AfterEach
     fun tearDown() {
-        SiteContext.set(null)
+        SessionContext.clear()
         clearAllMocks()
     }
 
@@ -319,20 +316,21 @@ class MultiElementsDescriptorTest {
                 override val waitConfig = WaitConfig.Patient
             }
 
-        SiteContext.set(site)
+        val driver = mockk<WebDriver>(relaxed = true)
+        SessionContext.withSession(Session(driver, site)) {
+            val descriptor = mockSearchContext.names("field")
 
-        val descriptor = mockSearchContext.names("field")
+            val elements = listOf(mockElement1)
+            every { mockSearchContext.findElements(By.name("field")) } returns elements
+            every { mockElement1.isDisplayed } returns true
 
-        val elements = listOf(mockElement1)
-        every { mockSearchContext.findElements(By.name("field")) } returns elements
-        every { mockElement1.isDisplayed } returns true
+            // When
+            descriptor.get()
 
-        // When
-        descriptor.get()
-
-        // Then
-        descriptor.toString() shouldContain "timeout=30s"
-        descriptor.toString() shouldContain "polling=500ms"
+            // Then
+            descriptor.toString() shouldContain "timeout=30s"
+            descriptor.toString() shouldContain "polling=500ms"
+        }
     }
 
     @Test
@@ -345,23 +343,24 @@ class MultiElementsDescriptorTest {
                 }
             }
 
-        SiteContext.set(site)
+        val driver = mockk<WebDriver>(relaxed = true)
+        SessionContext.withSession(Session(driver, site)) {
+            val descriptor = mockSearchContext.cssSelectors(".items")
 
-        val descriptor = mockSearchContext.cssSelectors(".items")
+            val elements = listOf(mockElement1, mockElement2)
+            every { mockSearchContext.findElements(By.cssSelector(".items")) } returns elements
+            every { mockElement1.isDisplayed } returns true
+            every { mockElement2.isDisplayed } returns true
+            every { mockElement1.isEnabled } returnsMany listOf(false, true)
+            every { mockElement2.isEnabled } returns true
 
-        val elements = listOf(mockElement1, mockElement2)
-        every { mockSearchContext.findElements(By.cssSelector(".items")) } returns elements
-        every { mockElement1.isDisplayed } returns true
-        every { mockElement2.isDisplayed } returns true
-        every { mockElement1.isEnabled } returnsMany listOf(false, true)
-        every { mockElement2.isEnabled } returns true
+            // When
+            val result = descriptor.get()
 
-        // When
-        val result = descriptor.get()
-
-        // Then
-        result shouldHaveSize 2
-        verify(atLeast = 1) { mockElement1.isEnabled }
+            // Then
+            result shouldHaveSize 2
+            verify(atLeast = 1) { mockElement1.isEnabled }
+        }
     }
 
     @Test
@@ -577,17 +576,18 @@ class MultiElementsDescriptorTest {
                 override val decorators = listOf(LoggerDecorator())
             }
 
-        SiteContext.set(site)
+        val driver = mockk<WebDriver>(relaxed = true)
+        SessionContext.withSession(Session(driver, site)) {
+            val elements = listOf(mockElement1, mockElement2)
+            every { mockSearchContext.findElements(By.className("items")) } returns elements
+            every { mockElement1.isDisplayed } returns true
+            every { mockElement2.isDisplayed } returns true
 
-        val elements = listOf(mockElement1, mockElement2)
-        every { mockSearchContext.findElements(By.className("items")) } returns elements
-        every { mockElement1.isDisplayed } returns true
-        every { mockElement2.isDisplayed } returns true
-
-        withDecorators(SlowMotionDecorator(wait = 1.seconds), LoggerDecorator()) {
-            val descriptor = mockSearchContext.classNames("items", waitConfig = WaitConfig.Quick)
-            descriptor.get()
-            descriptor.toString() shouldContain "decorators=[SlowMotionDecorator, LoggerDecorator]"
+            withDecorators(SlowMotionDecorator(wait = 1.seconds), LoggerDecorator()) {
+                val descriptor = mockSearchContext.classNames("items", waitConfig = WaitConfig.Quick)
+                descriptor.get()
+                descriptor.toString() shouldContain "decorators=[SlowMotionDecorator, LoggerDecorator]"
+            }
         }
     }
 }

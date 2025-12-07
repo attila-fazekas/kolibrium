@@ -16,8 +16,10 @@
 
 package dev.kolibrium.dsl.selenium
 
+import dev.kolibrium.core.selenium.Session
+import dev.kolibrium.core.selenium.SessionContext
 import dev.kolibrium.core.selenium.Site
-import dev.kolibrium.core.selenium.SiteContext
+import dev.kolibrium.core.selenium.withDriver
 import org.openqa.selenium.WebDriver
 import kotlin.time.Duration
 import kotlin.time.TimeSource
@@ -26,7 +28,7 @@ import kotlin.time.TimeSource
  * Unified test harness that creates a WebDriver session for the given [dev.kolibrium.core.selenium.Site] and runs the test flow.
  *
  * Flow:
- * - Binds [dev.kolibrium.core.selenium.SiteContext] to [site] for the duration of the test.
+ * - Binds a per-driver Session to [site] for the duration of the test thread.
  * - Executes [prepare] in the site's context to compute the input value [T].
  * - Creates a WebDriver via [driverFactory], navigates to [dev.kolibrium.core.selenium.Site.baseUrl] to establish origin,
  *   applies [dev.kolibrium.core.selenium.Site.cookies] (if any), and re-navigates to [dev.kolibrium.core.selenium.Site.baseUrl] so cookies take effect immediately.
@@ -100,24 +102,32 @@ internal fun <S : Site, T> webTestImpl(
     startup: SiteEntry<S>.(T) -> Unit,
     block: SiteEntry<S>.(T) -> Unit,
 ) {
-    SiteContext.withSite(site) {
-        val prepared: T = context(site) { prepare() }
-        val driver: WebDriver = driverFactory()
-        try {
+    val prepared: T = context(site) { prepare() }
+    val driver: WebDriver = driverFactory()
+    try {
+        // Establish origin, apply declarative cookies, and re-establish origin
+        driver.get(site.baseUrl)
+        if (site.cookies.isNotEmpty()) {
+            val options = driver.manage()
+            site.cookies.forEach(options::addCookie)
             driver.get(site.baseUrl)
-            if (site.cookies.isNotEmpty()) {
-                val options = driver.manage()
-                site.cookies.forEach(options::addCookie)
-                driver.get(site.baseUrl)
-            }
+        }
+
+        // Bind per-driver Session and driver context while running startup/block
+        val session = Session(driver = driver, site = site)
+        SessionContext.withSession(session) {
+            // Allow site to finalize session-specific bits; keep navigation out of this hook
             site.configureSite()
             site.onSessionReady(driver)
+
             val entry: SiteEntry<S> = PageEntry(driver)
-            context(site) { entry.startup(prepared) }
-            context(site) { entry.block(prepared) }
-        } finally {
-            if (!keepBrowserOpen) runCatching { driver.quit() }
+            withDriver(driver) {
+                context(site) { entry.startup(prepared) }
+                context(site) { entry.block(prepared) }
+            }
         }
+    } finally {
+        if (!keepBrowserOpen) runCatching { driver.quit() }
     }
 }
 
@@ -156,7 +166,7 @@ public class WebTestResult(
  * - On failure (any exception thrown from [prepare], [startup] or [block]): `status = Failure`, `error = <cause>`.
  *
  * Flow:
- * - Binds [dev.kolibrium.core.selenium.SiteContext] to [site] for the duration of the test.
+ * - Binds a per-driver Session to [site] for the duration of the test thread.
  * - Executes [prepare] in the site's context to compute the input value [T].
  * - Creates a WebDriver via [driverFactory], navigates to [dev.kolibrium.core.selenium.Site.baseUrl] to establish origin,
  *   applies [dev.kolibrium.core.selenium.Site.cookies] (if any), and re-navigates to [dev.kolibrium.core.selenium.Site.baseUrl] so cookies take effect immediately.
@@ -307,24 +317,27 @@ internal fun <S : Site, T> webTestResultImpl(
     startup: SiteEntry<S>.(T) -> Unit,
     block: SiteEntry<S>.(T) -> Unit,
 ) {
-    SiteContext.withSite(site) {
-        val prepared: T = context(site) { prepare() }
-        val driver: WebDriver = driverFactory()
-        try {
+    val prepared: T = context(site) { prepare() }
+    val driver: WebDriver = driverFactory()
+    try {
+        driver.get(site.baseUrl)
+        if (site.cookies.isNotEmpty()) {
+            val options = driver.manage()
+            site.cookies.forEach(options::addCookie)
             driver.get(site.baseUrl)
-            if (site.cookies.isNotEmpty()) {
-                val options = driver.manage()
-                site.cookies.forEach(options::addCookie)
-                driver.get(site.baseUrl)
-            }
+        }
+        val session = Session(driver = driver, site = site)
+        SessionContext.withSession(session) {
             site.configureSite()
             site.onSessionReady(driver)
             val entry: SiteEntry<S> = PageEntry<S>(driver)
-            context(site) { entry.startup(prepared) }
-            context(site) { entry.block(prepared) }
-        } finally {
-            if (!keepBrowserOpen) runCatching { driver.quit() }
+            withDriver(driver) {
+                context(site) { entry.startup(prepared) }
+                context(site) { entry.block(prepared) }
+            }
         }
+    } finally {
+        if (!keepBrowserOpen) runCatching { driver.quit() }
     }
 }
 

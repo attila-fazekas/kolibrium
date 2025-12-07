@@ -73,9 +73,10 @@ public abstract class Page<S : Site> : SearchContext {
 
     override fun findElements(by: By): List<WebElement> = requireDriver().findElements(by)
 
-    private fun requireDriver(): WebDriver =
-        DriverContextHolder.get()
-            ?: error(sessionNotAttachedMessage())
+    private fun requireDriver(): WebDriver {
+        SessionContext.get()?.assertThreadOrFail("Page operation")
+        return DriverContextHolder.get() ?: error(sessionNotAttachedMessage())
+    }
 
     private fun sessionNotAttachedMessage(): String {
         val pageName = this::class.qualifiedName ?: this::class.simpleName ?: "<unknown page>"
@@ -111,10 +112,17 @@ internal object DriverContextHolder {
  * Provide a contextual WebDriver for the duration of [block]. Also makes the driver available to
  * Java-override-based APIs (SearchContext) via a thread-local bridge.
  */
+@InternalKolibriumApi
 public inline fun <T> withDriver(
     driver: WebDriver,
     block: () -> T,
 ): T {
+    SessionContext.get()?.let { session ->
+        session.assertThreadOrFail("withDriver")
+        check(session.driver === driver) {
+            "Kolibrium runtime error: withDriver() received a WebDriver different from the active Session's driver."
+        }
+    }
     DriverContextHolder.set(driver)
     return try {
         block()

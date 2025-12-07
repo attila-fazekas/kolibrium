@@ -18,8 +18,9 @@ package dev.kolibrium.dsl.selenium
 
 import dev.kolibrium.core.selenium.Cookies
 import dev.kolibrium.core.selenium.Page
+import dev.kolibrium.core.selenium.Session
+import dev.kolibrium.core.selenium.SessionContext
 import dev.kolibrium.core.selenium.Site
-import dev.kolibrium.core.selenium.SiteContext
 import dev.kolibrium.core.selenium.withDriver
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
@@ -122,40 +123,52 @@ internal class PageEntry<S : Site>
     ) : SiteEntry<S> {
         /** Navigate the current tab to the given absolute URL. */
         internal fun navigateTo(url: String) {
+            requireSessionChecked("PageEntry.navigateTo")
             driver.get(url)
         }
 
         /** All known window handles in this session. */
-        internal fun windowHandles(): Set<String> = driver.windowHandles
+        internal fun windowHandles(): Set<String> {
+            requireSessionChecked("PageEntry.windowHandles")
+            return driver.windowHandles
+        }
 
         /** The handle of the currently active window or tab. */
         @PublishedApi
-        internal fun currentWindowHandle(): String = driver.windowHandle
+        internal fun currentWindowHandle(): String {
+            requireSessionChecked("PageEntry.currentWindowHandle")
+            return driver.windowHandle
+        }
 
         /** Switch to a different window or tab identified by its handle. */
         internal fun switchToWindow(handle: String) {
+            requireSessionChecked("PageEntry.switchToWindow")
             driver.switchTo().window(handle)
         }
 
         /** Apply a prebuilt collection of cookies to the current session. */
         internal fun applyCookies(cookies: Cookies) {
             if (cookies.isEmpty()) return
+            requireSessionChecked("PageEntry.applyCookies")
             val manager = driver.manage().cookies
             cookies.forEach(manager::add)
         }
 
         /** Add a cookie to the current browser session. */
         override fun addCookie(cookie: Cookie) {
+            requireSessionChecked("SiteEntry.addCookie")
             driver.manage().addCookie(cookie)
         }
 
         /** Delete a cookie by name in the current browser session. */
         override fun deleteCookie(name: String) {
+            requireSessionChecked("SiteEntry.deleteCookie")
             driver.manage().deleteCookieNamed(name)
         }
 
         /** Delete all cookies in the current browser session. */
         override fun deleteAllCookies() {
+            requireSessionChecked("SiteEntry.deleteAllCookies")
             driver.manage().deleteAllCookies()
         }
 
@@ -177,11 +190,12 @@ internal class PageEntry<S : Site>
             path: String?,
             action: P.() -> R,
         ): PageScope<R> {
+            requireSessionChecked("SiteEntry.open")
             val page = factory()
 
             val site =
-                SiteContext.get()
-                    ?: error("No active Site in SiteContext; open() must be called within webTest/site context.")
+                SessionContext.get()?.site
+                    ?: error("No active Session in SessionContext; open() must be called within webTest/site context.")
 
             val effectivePath = path ?: page.path
             val url = joinUrls(site.baseUrl, effectivePath)
@@ -205,11 +219,12 @@ internal class PageEntry<S : Site>
             factory: () -> P,
             action: P.() -> R,
         ): PageScope<R> {
+            requireSessionChecked("SiteEntry.on")
             val page = factory()
 
             val site =
-                SiteContext.get()
-                    ?: error("No active Site in SiteContext; on() must be called within webTest/site context.")
+                SessionContext.get()?.site
+                    ?: error("No active Session in SessionContext; on() must be called within webTest/site context.")
 
             // Ensure the current tab belongs to the active site origin
             val currentUri = runCatching { URI(driver.currentUrl) }.getOrNull()
@@ -254,11 +269,16 @@ internal class PageEntry<S : Site>
 
         @PublishedApi
         internal fun switchToNewestWindowIfOpenedSince(originalWindow: String) {
+            requireSessionChecked("PageEntry.switchToNewestWindowIfOpenedSince")
             val handles = driver.windowHandles.toList()
             if (handles.size > 1 && originalWindow != handles.last()) {
                 driver.switchTo().window(handles.last())
             }
         }
+
+        private fun requireSessionChecked(op: String): Session =
+            SessionContext.get()?.also { it.assertThreadOrFail(op) }
+                ?: error("No active Session in SessionContext; $op requires an active session.")
     }
 
 /**
@@ -280,11 +300,17 @@ public class SwitchBackScope<P : Page<*>> internal constructor(
      */
     @KolibriumDsl
     public fun switchBack(block: P.() -> Unit): PageScope<P> {
+        // Ensure thread confinement for this driver-bound operation
+        SessionContext.get()?.assertThreadOrFail("SwitchBackScope.switchBack")
+            ?: error("No active Session in SessionContext; switchBack requires an active session.")
         // Restore original window
         driver.switchTo().window(originalWindow)
 
-        // Restore site context and run its configurators on the same session
-        SiteContext.set(originalSite)
+        // Rebind session permanently to the original site on this driver
+        val session = Session(driver = driver, site = originalSite)
+        SessionContext.set(session)
+
+        // Allow site to adjust
         originalSite.configureSite()
         originalSite.onSessionReady(driver)
 
@@ -307,7 +333,9 @@ internal fun <P : Page<*>, S2 : Site> PageScope<P>.switchToImpl(
 
     // Remember the original environment
     val originalWindow = originalEntry.currentWindowHandle()
-    val originalSite: Site = SiteContext.get()!!
+    val originalSite: Site =
+        SessionContext.get()?.site
+            ?: error("No active Session in SessionContext; switchTo requires an active session.")
 
     // Window selection heuristic: when a new tab likely opened, pick the last handle.
     originalEntry.switchToNewestWindowIfOpenedSince(originalWindow)
@@ -341,11 +369,12 @@ internal fun <S2 : Site> performSiteSwitch(
 ): Pair<S2, PageEntry<S2>> {
     val targetSite: S2 = siteProvider()
 
-    // Bind target site in the thread‐local context
-    SiteContext.set(targetSite)
-
     @Suppress("UNCHECKED_CAST")
     val typedEntry = originalEntry as PageEntry<S2>
+
+    // Bind target site to a new session using the same driver
+    val session = Session(driver = typedEntry.driver, site = targetSite)
+    SessionContext.set(session)
 
     // Apply cookies (if any)
     if (cookies != null && cookies.isNotEmpty()) {

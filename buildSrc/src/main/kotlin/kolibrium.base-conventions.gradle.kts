@@ -28,12 +28,6 @@ repositories {
     mavenCentral()
 }
 
-tasks.withType<KotlinCompile> {
-    compilerOptions.freeCompilerArgs = listOf(
-        "-Xcontext-parameters",
-    )
-}
-
 spotless {
     kotlin {
         target("**/*.kt")

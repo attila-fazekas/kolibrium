@@ -16,6 +16,8 @@
 
 package dev.kolibrium.core.selenium
 
+import dev.kolibrium.core.selenium.Session
+import dev.kolibrium.core.selenium.SessionContext
 import dev.kolibrium.core.selenium.decorators.HighlighterDecorator
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
@@ -58,8 +60,8 @@ class LoginPage : Page<MySite>() {
 fun main() {
     val driver = ChromeDriver()
     try {
-        // 3) Bind a site to the thread (optional but recommended)
-        SiteContext.withSite(MySite) {
+        // 3) Bind a session (driver + site) to the thread (optional but recommended)
+        SessionContext.withSession(Session(driver, MySite)) {
             // 4) Perform the steps the DSL normally does for you
             driver.navigate().to(MySite.baseUrl)
             // Apply declarative cookies before first real navigation if you need them on initial request
