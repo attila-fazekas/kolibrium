@@ -96,10 +96,13 @@ public class LoggerDecorator :
                 logger.trace { "found element <$tag>" }
             }.onFailure { e ->
                 when (e) {
-                    is StaleElementReferenceException ->
+                    is StaleElementReferenceException -> {
                         logger.debug { "stale element reference while reading element’s HTML tag; element reference is no longer valid" }
-                    else ->
+                    }
+
+                    else -> {
                         logger.trace { "found element" }
+                    }
                 }
             }
     }

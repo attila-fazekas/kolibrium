@@ -20,17 +20,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("kolibrium.library-conventions")
     id("kolibrium.test-conventions")
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21"
+    id("kolibrium.ktor-conventions")
 }
 
 dependencies {
     api("org.seleniumhq.selenium:selenium-java:_")
     implementation("commons-validator:commons-validator:_")
-    testImplementation("io.ktor:ktor-client-core:_")
-    testImplementation("io.ktor:ktor-client-cio:_")
-    testImplementation("io.ktor:ktor-client-content-negotiation:_")
-    testImplementation("io.ktor:ktor-client-logging:_")
-    testImplementation("io.ktor:ktor-serialization-kotlinx-json-jvm:_")
     testImplementation("com.titusfortner:selenium-logger:_")
 }
 

@@ -32,6 +32,7 @@ dependencies {
     implementation("org.jetbrains.dokka:dokka-gradle-plugin:_")
     implementation("org.jetbrains.dokka:versioning-plugin:_")
     implementation("org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:_")
+    implementation("org.jetbrains.kotlin.plugin.serialization:org.jetbrains.kotlin.plugin.serialization.gradle.plugin:_")
     implementation("org.jetbrains.kotlinx.binary-compatibility-validator:org.jetbrains.kotlinx.binary-compatibility-validator.gradle.plugin:_")
     implementation("org.jlleitschuh.gradle:ktlint-gradle:_")
     implementation("org.jreleaser:jreleaser-gradle-plugin:_")

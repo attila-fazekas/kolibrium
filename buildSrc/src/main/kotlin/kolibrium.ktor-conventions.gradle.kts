@@ -14,29 +14,15 @@
  * limitations under the License.
  */
 
-rootProject.name = "kolibrium"
-
-include("api")
-include("bom")
-include("selenium")
-include("dokka")
-include("examples")
-include("konsistTest")
-include("ksp")
-include("ksp:annotations")
-findProject(":ksp:annotations")?.name = "annotations"
-include("ksp:processors")
-findProject(":ksp:processors")?.name = "processors"
-
-gradle.startParameter.isContinueOnFailure = true
-
 plugins {
-    id("de.fayard.refreshVersions") version "0.60.6"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+    id("kolibrium.kotlin-conventions")
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
-refreshVersions {
-    rejectVersionIf {
-        candidate.stabilityLevel.isLessStableThan(current.stabilityLevel)
-    }
+dependencies {
+    implementation("io.ktor:ktor-client-cio-jvm:_")
+    implementation("io.ktor:ktor-client-content-negotiation-jvm:_")
+    implementation("io.ktor:ktor-client-core:_")
+    implementation("io.ktor:ktor-client-logging:_")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:_")
 }
