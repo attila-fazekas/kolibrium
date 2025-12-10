@@ -19,6 +19,7 @@ plugins {
 }
 
 dependencies {
+    dokka(project(":api"))
     dokka(project(":selenium"))
     dokka(project(":ksp:annotations"))
     dokka(project(":ksp:processors"))
