@@ -16,10 +16,10 @@
 
 package dev.kolibrium.examples.saucedemo.pages
 
-import dev.kolibrium.core.selenium.Page
-import dev.kolibrium.core.selenium.className
-import dev.kolibrium.core.selenium.dataTest
-import dev.kolibrium.core.selenium.dataTests
+import dev.kolibrium.core.Page
+import dev.kolibrium.core.className
+import dev.kolibrium.core.dataTest
+import dev.kolibrium.core.dataTests
 import dev.kolibrium.examples.saucedemo.Products
 import dev.kolibrium.examples.saucedemo.SauceDemo
 

@@ -16,9 +16,9 @@
 
 package dev.kolibrium.examples.saucedemo.pages
 
-import dev.kolibrium.core.selenium.Page
-import dev.kolibrium.core.selenium.idOrName
-import dev.kolibrium.core.selenium.name
+import dev.kolibrium.core.Page
+import dev.kolibrium.core.idOrName
+import dev.kolibrium.core.name
 import dev.kolibrium.examples.saucedemo.SauceDemo
 import dev.kolibrium.examples.saucedemo.User
 

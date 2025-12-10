@@ -16,10 +16,10 @@
 
 package dev.kolibrium.examples.saucedemo.pages
 
-import dev.kolibrium.core.selenium.Page
-import dev.kolibrium.core.selenium.dataTest
-import dev.kolibrium.core.selenium.dataTests
-import dev.kolibrium.core.selenium.idOrName
+import dev.kolibrium.core.Page
+import dev.kolibrium.core.dataTest
+import dev.kolibrium.core.dataTests
+import dev.kolibrium.core.idOrName
 import dev.kolibrium.examples.saucedemo.SauceDemo
 import org.openqa.selenium.WebElement
 
@@ -52,8 +52,6 @@ class CartPage : Page<SauceDemo>() {
 
         return productsOnCart
     }
-
-    fun getItemCount(): Int = 0
 }
 
 class CartItem(

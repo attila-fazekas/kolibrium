@@ -63,6 +63,7 @@ bin/
 
 .kotlin
 .junie
+.aiassistant
 
 context-parameters.md
 documentation_tone.md
