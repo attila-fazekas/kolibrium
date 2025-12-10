@@ -19,7 +19,6 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":core:selenium"))
-    implementation(project(":dsl"))
+    implementation(project(":selenium"))
     testImplementation("com.titusfortner:selenium-logger:_")
 }

@@ -16,8 +16,8 @@
 
 package dev.kolibrium.examples.saucedemo.pages
 
-import dev.kolibrium.core.selenium.Page
-import dev.kolibrium.core.selenium.dataTest
+import dev.kolibrium.core.Page
+import dev.kolibrium.core.dataTest
 import dev.kolibrium.examples.saucedemo.SauceDemo
 
 /**

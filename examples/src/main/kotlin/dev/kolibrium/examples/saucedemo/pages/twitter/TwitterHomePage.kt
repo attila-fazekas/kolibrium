@@ -16,9 +16,9 @@
 
 package dev.kolibrium.examples.saucedemo.pages.twitter
 
-import dev.kolibrium.core.selenium.Page
-import dev.kolibrium.core.selenium.WaitConfig
-import dev.kolibrium.core.selenium.dataTestId
+import dev.kolibrium.core.Page
+import dev.kolibrium.core.WaitConfig
+import dev.kolibrium.core.dataTestId
 import dev.kolibrium.examples.saucedemo.Twitter
 import kotlin.time.Duration.Companion.seconds
 
