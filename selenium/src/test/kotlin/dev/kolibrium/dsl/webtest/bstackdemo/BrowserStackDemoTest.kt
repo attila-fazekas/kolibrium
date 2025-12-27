@@ -100,10 +100,10 @@ class BrowserstackDemoTest {
     private fun browserstackDemoTest(
         driverFactory: DriverFactory = { ChromeDriver() },
         keepBrowserOpen: Boolean = false,
-        startup: SiteEntry<BrowserstackDemo>.(Unit) -> Unit = { _ -> },
-        block: SiteEntry<BrowserstackDemo>.(Unit) -> Unit,
+        startup: SiteEntry<BstackDemo>.(Unit) -> Unit = { _ -> },
+        block: SiteEntry<BstackDemo>.(Unit) -> Unit,
     ) = webTest(
-        site = BrowserstackDemo,
+        site = BstackDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
         startup = startup,
@@ -114,10 +114,10 @@ class BrowserstackDemoTest {
         driverFactory: DriverFactory = browserstackDemoDriver,
         keepBrowserOpen: Boolean = false,
         prepare: () -> T,
-        startup: SiteEntry<BrowserstackDemo>.(T) -> Unit = { },
-        block: SiteEntry<BrowserstackDemo>.(T) -> Unit,
+        startup: SiteEntry<BstackDemo>.(T) -> Unit = { },
+        block: SiteEntry<BstackDemo>.(T) -> Unit,
     ) = webTest(
-        site = BrowserstackDemo,
+        site = BstackDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
         prepare = prepare,

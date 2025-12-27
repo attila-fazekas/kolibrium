@@ -16,7 +16,7 @@
 
 package dev.kolibrium.dsl.webtest.bstackdemo.backend
 
-import dev.kolibrium.dsl.webtest.bstackdemo.BrowserstackDemo
+import dev.kolibrium.dsl.webtest.bstackdemo.BstackDemo
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
@@ -48,7 +48,7 @@ val client =
 
 fun getProducts() =
     runBlocking {
-        client.get("${BrowserstackDemo.baseUrl}/api/products").body<Products>().products
+        client.get("${BstackDemo.baseUrl}/api/products").body<Products>().products
     }
 
 @Serializable
