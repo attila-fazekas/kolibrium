@@ -31,7 +31,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.chrome.ChromeDriver
 
-class BrowserstackDemoTest {
+class BstackDemoTest {
     private val products = listOf(IPHONE_12, IPHONE_12_MINI)
 
     companion object {
