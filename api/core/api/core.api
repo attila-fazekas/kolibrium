@@ -1,0 +1,33 @@
+public final class dev/kolibrium/api/core/ApiException : java/lang/Exception {
+	public fun <init> (Ldev/kolibrium/api/core/ApiResponse;)V
+}
+
+public final class dev/kolibrium/api/core/ApiResponse {
+	public fun <init> (Lio/ktor/http/HttpStatusCode;Lio/ktor/http/Headers;Lio/ktor/http/ContentType;Ljava/lang/Object;)V
+	public final fun getBody ()Ljava/lang/Object;
+	public final fun getContentType ()Lio/ktor/http/ContentType;
+	public final fun getHeaders ()Lio/ktor/http/Headers;
+	public final fun getStatus ()Lio/ktor/http/HttpStatusCode;
+	public final fun header (Ljava/lang/String;)Ljava/lang/String;
+	public final fun isClientError ()Z
+	public final fun isServerError ()Z
+	public final fun isSuccess ()Z
+	public final fun requireSuccess ()Ldev/kolibrium/api/core/ApiResponse;
+}
+
+public abstract class dev/kolibrium/api/core/ApiSpec {
+	public fun <init> (Ljava/lang/String;)V
+	public fun getBaseUrl ()Ljava/lang/String;
+}
+
+public final class dev/kolibrium/api/core/ClientsKt {
+	public static final fun getDefaultHttpClient ()Lio/ktor/client/HttpClient;
+}
+
+public final class dev/kolibrium/api/core/TestHarnessKt {
+	public static final fun apiTest (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;)V
+	public static final fun apiTest (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V
+	public static synthetic fun apiTest$default (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
+	public static final fun runWithApi (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
+}
+

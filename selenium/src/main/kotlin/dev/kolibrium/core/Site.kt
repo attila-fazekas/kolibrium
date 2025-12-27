@@ -92,7 +92,7 @@ public abstract class Site(
      * Default wait configuration used by pages and element interactions when no more specific
      * configuration is provided.
      */
-    public open val waitConfig: WaitConfig = WaitConfig.Companion.Default
+    public open val waitConfig: WaitConfig = WaitConfig.Default
 
     /**
      * No-arg hook for per-site tweaks that do not require an active [WebDriver] session.

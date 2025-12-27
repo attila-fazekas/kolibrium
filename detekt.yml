@@ -1,12 +1,13 @@
 comments:
   active: true
-  excludes: ["**/common/src/main/kotlin/dev/kolibrium/common/config/**", "**/test/kotlin/**"]
+  excludes: ["**/test/kotlin/**"]
   AbsentOrWrongFileLicense:
     active: true
-    excludes: ['**/build/generated/**']
+    excludes: ["**/build/generated/**"]
     licenseTemplateFile: 'license.template'
   CommentOverPrivateFunction:
     active: true
+    excludes: ["**/ksp/processors/src/main/kotlin/**"]
   CommentOverPrivateProperty:
     active: true
   DeprecatedBlockTag:
@@ -40,4 +41,4 @@ libraries:
 style:
   MagicNumber:
     active: true
-    excludes: ["**/test/kotlin/**"]
+    excludes: ["**/main/kotlin/**", "**/test/kotlin/**"]
