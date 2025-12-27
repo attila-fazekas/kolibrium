@@ -17,16 +17,21 @@
 rootProject.name = "kolibrium"
 
 include("api")
+include("api:core")
+include("api:ksp")
+include("api:ksp:annotations")
+include("api:ksp:processors")
 include("bom")
-include("selenium")
 include("dokka")
 include("examples")
+include("examples:api")
+include("examples:sel")
+include("examples:server")
 include("konsistTest")
 include("ksp")
 include("ksp:annotations")
-findProject(":ksp:annotations")?.name = "annotations"
 include("ksp:processors")
-findProject(":ksp:processors")?.name = "processors"
+include("selenium")
 
 gradle.startParameter.isContinueOnFailure = true
 

@@ -31,7 +31,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.chrome.ChromeDriver
 
-class BrowserStackDemoTest {
+class BrowserstackDemoTest {
     private val products = listOf(IPHONE_12, IPHONE_12_MINI)
 
     companion object {
@@ -45,7 +45,7 @@ class BrowserStackDemoTest {
 //    @Test
 //    fun test() =
 //        webTest(
-//            site = BrowserStackDemo,
+//            site = BrowserstackDemo,
 //            keepBrowserOpen = false,
 //            prepare = {
 //                val displayNames = products.map { it.displayName }
@@ -65,7 +65,7 @@ class BrowserStackDemoTest {
 
     @Test
     fun test2() =
-        browserStackDemoTest(
+        browserstackDemoTest(
             keepBrowserOpen = false,
             prepare = {
                 val displayNames = products.map { it.displayName }
@@ -87,7 +87,7 @@ class BrowserStackDemoTest {
     // TODO this test fails, fix it
     @Test
     fun simple_navigation() =
-        browserStackDemoTest(
+        browserstackDemoTest(
             keepBrowserOpen = false,
         ) {
             open(::ProductsPage) {
@@ -97,27 +97,27 @@ class BrowserStackDemoTest {
             }
         }
 
-    private fun browserStackDemoTest(
+    private fun browserstackDemoTest(
         driverFactory: DriverFactory = { ChromeDriver() },
         keepBrowserOpen: Boolean = false,
-        startup: SiteEntry<BrowserStackDemo>.(Unit) -> Unit = { _ -> },
-        block: SiteEntry<BrowserStackDemo>.(Unit) -> Unit,
+        startup: SiteEntry<BrowserstackDemo>.(Unit) -> Unit = { _ -> },
+        block: SiteEntry<BrowserstackDemo>.(Unit) -> Unit,
     ) = webTest(
-        site = BrowserStackDemo,
+        site = BrowserstackDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
         startup = startup,
         block = block,
     )
 
-    private fun <T> browserStackDemoTest(
-        driverFactory: DriverFactory = browserStackDemoDriver,
+    private fun <T> browserstackDemoTest(
+        driverFactory: DriverFactory = browserstackDemoDriver,
         keepBrowserOpen: Boolean = false,
         prepare: () -> T,
-        startup: SiteEntry<BrowserStackDemo>.(T) -> Unit = { },
-        block: SiteEntry<BrowserStackDemo>.(T) -> Unit,
+        startup: SiteEntry<BrowserstackDemo>.(T) -> Unit = { },
+        block: SiteEntry<BrowserstackDemo>.(T) -> Unit,
     ) = webTest(
-        site = BrowserStackDemo,
+        site = BrowserstackDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
         prepare = prepare,
@@ -125,7 +125,7 @@ class BrowserStackDemoTest {
         block = block,
     )
 
-    private val browserStackDemoDriver = {
+    private val browserstackDemoDriver = {
         chromeDriver {
             options {
                 arguments {

@@ -19,13 +19,13 @@ package dev.kolibrium.dsl.webtest.bstackdemo.pages
 import dev.kolibrium.core.Page
 import dev.kolibrium.core.cssSelector
 import dev.kolibrium.core.cssSelectors
-import dev.kolibrium.dsl.webtest.bstackdemo.BrowserStackDemo
+import dev.kolibrium.dsl.webtest.bstackdemo.BrowserstackDemo
 import dev.kolibrium.dsl.webtest.bstackdemo.Click
 import dev.kolibrium.dsl.webtest.bstackdemo.on
 import io.kotest.matchers.shouldBe
 import org.openqa.selenium.WebElement
 
-class ProductsPage : Page<BrowserStackDemo>() {
+class ProductsPage : Page<BrowserstackDemo>() {
     private val shoppingCartBadge by cssSelectors("span[class='bag__quantity']")
 
     fun addToCart(id: Int) {
