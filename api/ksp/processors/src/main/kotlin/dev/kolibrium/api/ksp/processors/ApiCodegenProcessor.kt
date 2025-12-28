@@ -582,11 +582,11 @@ public class ApiCodegenProcessor(
         queryProperties.forEach { property ->
             val propertyName = property.simpleName.asString()
 
-            // Query parameters must NOT be annotated with @Transient
-            if (property.hasAnnotation(Transient::class)) {
+            // Query parameters must be annotated with @Transient
+            if (!property.hasAnnotation(Transient::class)) {
                 errors +=
                     Diagnostic(
-                        "@Query parameter '$propertyName' must not be annotated with @Transient",
+                        "@Query parameter '$propertyName' must be annotated with @Transient",
                         property,
                     )
             }

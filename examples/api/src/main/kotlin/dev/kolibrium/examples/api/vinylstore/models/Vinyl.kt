@@ -49,8 +49,8 @@ data class GetVinylRequest(
 @Returns(VinylList::class)
 @Serializable
 data class ListVinylsRequest(
-    @Query val genre: String? = null,
-    @Query val artist: String? = null,
+    @Query @Transient val genre: String? = null,
+    @Query @Transient val artist: String? = null,
 )
 
 @PUT("/vinyls/{id}")

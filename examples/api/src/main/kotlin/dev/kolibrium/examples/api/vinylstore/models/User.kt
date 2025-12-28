@@ -16,27 +16,18 @@
 
 package dev.kolibrium.examples.api.vinylstore.models
 
-import dev.kolibrium.api.ksp.annotations.GET
 import dev.kolibrium.api.ksp.annotations.POST
 import dev.kolibrium.api.ksp.annotations.PUT
 import dev.kolibrium.api.ksp.annotations.Path
-import dev.kolibrium.api.ksp.annotations.Query
 import dev.kolibrium.api.ksp.annotations.Returns
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-
-@GET("/users")
-@Returns(User::class)
-@Serializable
-data class TestRequest(
-    @Query var name: String? = "",
-)
 
 @POST("/users")
 @Returns(User::class)
 @Serializable
 data class CreateUserRequest(
-    val username: String? = null,
+    var username: String? = null,
     var email: String? = null,
     var firstName: String? = null,
     var lastName: String? = null,
