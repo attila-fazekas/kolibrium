@@ -28,9 +28,6 @@ include("examples:api")
 include("examples:sel")
 include("examples:server")
 include("konsistTest")
-include("ksp")
-include("ksp:annotations")
-include("ksp:processors")
 include("selenium")
 
 gradle.startParameter.isContinueOnFailure = true
