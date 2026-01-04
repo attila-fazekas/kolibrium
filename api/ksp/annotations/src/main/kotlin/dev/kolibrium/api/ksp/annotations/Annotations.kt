@@ -149,6 +149,35 @@ public enum class ClientGrouping {
 }
 
 /**
+ * Configures authentication for an API request.
+ *
+ * This annotation specifies the authentication mechanism to be used when making
+ * API calls. It can be applied to request classes to indicate how credentials
+ * should be provided.
+ *
+ * @property type The type of authentication to use. Defaults to [AuthType.NONE].
+ * @property headerName The name of the header used for authentication credentials.
+ *   Only relevant for [AuthType.API_KEY]. Defaults to "X-API-Key".
+ *
+ * Example usage:
+ * ```kotlin
+ * @GET("/secure/data")
+ * @Auth(type = AuthType.BEARER)
+ * data class GetSecureData(...)
+ *
+ * @GET("/protected/resource")
+ * @Auth(type = AuthType.API_KEY, headerName = "X-Custom-API-Key")
+ * data class GetProtectedResource(...)
+ * ```
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.CLASS)
+public annotation class Auth(
+    val type: AuthType = AuthType.NONE,
+    val headerName: String = "X-API-Key",
+)
+
+/**
  * Marks a class or object as an API specification.
  *
  * Classes annotated with @GenerateApi serve as the entry point for API client generation.

@@ -16,6 +16,7 @@
 
 package dev.kolibrium.examples.api
 
+import dev.kolibrium.examples.api.vinylstore.generated.VinylStoreClient
 import dev.kolibrium.examples.api.vinylstore.generated.vinylStoreApiTest
 import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpStatusCode
@@ -41,18 +42,25 @@ class VinylStoreApiTest {
     @Test
     fun `list vinyls returns 200`() =
         vinylStoreApiTest {
-            val response =
-                vinyls.listVinyls(
-                    genre = "Rock",
-                )
+            val token = auth.login {
+                email = "admin@vinylstore.com"
+                password = "admin123"
+            }.body.token
 
-            response.status shouldBe HttpStatusCode.OK
-            response.body.vinyls.size shouldBe 2
+            context(token) {
+                val response =
+                    vinyls.listVinyls(
+                        genre = "Techno",
+                    )
+
+                response.status shouldBe HttpStatusCode.OK
+                response.body.vinyls.size shouldBe 5
+            }
         }
 
     @Test
     fun `update vinyls returns 200`() =
-        vinylStoreApiTest {
+        authenticatedVinylStoreApiTest {
             val vinyl =
                 vinyls.listVinyls().body.vinyls.first { vinyl ->
                     vinyl.album == "Nevermind"
@@ -92,4 +100,17 @@ class VinylStoreApiTest {
             val response = vinyls.getVinyl(vinylId)
             response.status shouldBe HttpStatusCode.OK
         }
+
+    private fun authenticatedVinylStoreApiTest(block: suspend context(String) VinylStoreClient.() -> Unit) {
+        vinylStoreApiTest {
+            val token = auth.login {
+                email = "admin@vinylstore.com"
+                password = "admin123"
+            }.body.token
+
+            context(token) {
+                block()
+            }
+        }
+    }
 }

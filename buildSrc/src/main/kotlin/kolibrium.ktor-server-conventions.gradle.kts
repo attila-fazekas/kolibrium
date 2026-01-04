@@ -20,10 +20,13 @@ plugins {
 }
 
 dependencies {
+    implementation("io.github.smiley4:ktor-openapi:_")
+    implementation("io.github.smiley4:ktor-swagger-ui:_")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:_")
+    implementation("io.ktor:ktor-server-auth-jwt-jvm:_")
     implementation("io.ktor:ktor-server-content-negotiation-jvm:_")
     implementation("io.ktor:ktor-server-core-jvm:_")
-    implementation("io.ktor:ktor-server-html-builder:_")
-    implementation("io.ktor:ktor-server-netty:_")
-    implementation("io.ktor:ktor-server-test-host:_")
+    implementation("io.ktor:ktor-server-html-builder-jvm:_")
+    implementation("io.ktor:ktor-server-netty-jvm:_")
+    implementation("io.ktor:ktor-server-test-host-jvm:_")
 }
