@@ -10,3 +10,34 @@ public final class dev/kolibrium/api/ksp/processors/ApiCodegenProcessorProvider 
 	public fun create (Lcom/google/devtools/ksp/processing/SymbolProcessorEnvironment;)Lcom/google/devtools/ksp/processing/SymbolProcessor;
 }
 
+public abstract interface class dev/kolibrium/api/ksp/processors/AuthContext {
+}
+
+public final class dev/kolibrium/api/ksp/processors/AuthContext$ApiKey : dev/kolibrium/api/ksp/processors/AuthContext {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getKey ()Ljava/lang/String;
+}
+
+public final class dev/kolibrium/api/ksp/processors/AuthContext$Basic : dev/kolibrium/api/ksp/processors/AuthContext {
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getPassword ()Ljava/lang/String;
+	public final fun getUsername ()Ljava/lang/String;
+}
+
+public final class dev/kolibrium/api/ksp/processors/AuthContext$Bearer : dev/kolibrium/api/ksp/processors/AuthContext {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getToken ()Ljava/lang/String;
+}
+
+public final class dev/kolibrium/api/ksp/processors/AuthContext$Custom : dev/kolibrium/api/ksp/processors/AuthContext {
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public final fun getConfigure ()Lkotlin/jvm/functions/Function1;
+}
+
+public final class dev/kolibrium/api/ksp/processors/AuthContext$None : dev/kolibrium/api/ksp/processors/AuthContext {
+	public static final field INSTANCE Ldev/kolibrium/api/ksp/processors/AuthContext$None;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+

@@ -16,6 +16,8 @@
 
 package dev.kolibrium.examples.api.vinylstore.models
 
+import dev.kolibrium.api.ksp.annotations.Auth
+import dev.kolibrium.api.ksp.annotations.AuthType
 import dev.kolibrium.api.ksp.annotations.DELETE
 import dev.kolibrium.api.ksp.annotations.GET
 import dev.kolibrium.api.ksp.annotations.POST
@@ -25,6 +27,29 @@ import dev.kolibrium.api.ksp.annotations.Query
 import dev.kolibrium.api.ksp.annotations.Returns
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import sun.security.util.Password
+
+@POST("/auth/login")
+@Returns(LoginResponse::class)
+@Serializable
+data class LoginRequest(
+    var email: String? = null,
+    var password: String? = null,
+)
+
+@Serializable
+data class LoginResponse(
+    val token: String,
+    val user: UserResponse,
+)
+
+@Serializable
+data class UserResponse(
+    val id: Int,
+    val email: String,
+    val role: String,
+    val isActive: Boolean,
+)
 
 @POST("/vinyls")
 @Returns(Vinyl::class)
@@ -46,6 +71,7 @@ data class GetVinylRequest(
 )
 
 @GET("/vinyls")
+@Auth(type = AuthType.BEARER)
 @Returns(VinylList::class)
 @Serializable
 data class ListVinylsRequest(

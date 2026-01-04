@@ -34,6 +34,7 @@ import com.google.devtools.ksp.symbol.Modifier
 import com.google.devtools.ksp.symbol.Nullability
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
+import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
@@ -46,6 +47,8 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
+import dev.kolibrium.api.ksp.annotations.Auth
+import dev.kolibrium.api.ksp.annotations.AuthType
 import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import dev.kolibrium.api.ksp.annotations.DELETE
 import dev.kolibrium.api.ksp.annotations.GET
@@ -63,7 +66,7 @@ import kotlin.reflect.KClass
 /**
  * Symbol processor that generates API client code from annotated request classes.
  *
- * This processor discovers classes annotated with [@GenerateApi][dev.kolibrium.api.ksp.annotations.GenerateApi]
+ * This processor discovers classes annotated with [@GenerateApi][GenerateApi]
  * and generates corresponding HTTP client implementations. It supports two client generation modes:
  * - **SingleClient**: All endpoints in one client class
  * - **ByPrefix**: Endpoints grouped by API path prefix into separate client classes
@@ -279,6 +282,34 @@ public class ApiCodegenProcessor(
         )
     }
 
+    private fun extractAuthType(requestClass: KSClassDeclaration): AuthType {
+        val annotation = requestClass.getAnnotation(Auth::class) ?: return AuthType.NONE
+
+        return when (val authArg = annotation.getArgumentValue("type")) {
+            is KSClassDeclaration -> {
+                val enumName = authArg.simpleName.asString()
+                AuthType.entries.find { it.name == enumName } ?: AuthType.NONE
+            }
+
+            else -> {
+                AuthType.NONE
+            }
+        }
+    }
+
+    private fun extractApiKeyHeader(requestClass: KSClassDeclaration): String {
+        val annotation = requestClass.getAnnotation(Auth::class) ?: return "X-API-Key"
+        return annotation.getArgumentValue("headerName") as? String ?: "X-API-Key"
+    }
+
+    private fun String.isValidHttpHeaderName(): Boolean {
+        // RFC 7230: token = 1*tchar
+        // tchar = "!" / "#" / "$" / "%" / "&" / "'" / "*" / "+" / "-" / "." /
+        //         "0"-"9" / "A"-"Z" / "^" / "_" / "`" / "a"-"z" / "|" / "~"
+        val regex = Regex("^[!#$%&'*+\\-.0-9A-Z^_`a-z|~]+$")
+        return isNotEmpty() && regex.matches(this)
+    }
+
     private fun determineScanPackages(
         apiSpec: KSClassDeclaration,
         apiPackage: String,
@@ -450,6 +481,31 @@ public class ApiCodegenProcessor(
             return null
         }
 
+        val authType = extractAuthType(requestClass)
+        val apiKeyHeader = extractApiKeyHeader(requestClass)
+
+        if (authType == AuthType.API_KEY && !apiKeyHeader.isValidHttpHeaderName()) {
+            errors +=
+                Diagnostic(
+                    "Invalid API key header name: '$apiKeyHeader' in request class $className",
+                    requestClass,
+                )
+        }
+
+        // Validate that headerName is only used with API_KEY auth type
+        val authAnnotation = requestClass.getAnnotation(Auth::class)
+        if (authAnnotation != null && authType != AuthType.API_KEY) {
+            val headerNameValue = authAnnotation.getArgumentValue("headerName") as? String
+            // Only error if headerName was explicitly provided (not the default)
+            if (headerNameValue != null && headerNameValue != "X-API-Key") {
+                errors +=
+                    Diagnostic(
+                        "headerName parameter can only be used with AuthType.API_KEY, but request uses AuthType.$authType",
+                        requestClass,
+                    )
+            }
+        }
+
         return RequestClassInfo(
             requestClass = requestClass,
             httpMethod = httpMethod,
@@ -462,6 +518,8 @@ public class ApiCodegenProcessor(
             bodyProperties = bodyProperties,
             ctorDefaults = ctorDefaults,
             apiPackage = apiInfo.packageName,
+            authType = authType,
+            apiKeyHeader = apiKeyHeader,
         )
     }
 
@@ -791,7 +849,7 @@ public class ApiCodegenProcessor(
 
         // Generate methods for each request
         requests.forEach { info ->
-            val funSpec = generateClientMethod(info)
+            val funSpec = generateClientMethod(apiInfo, info)
             classBuilder.addFunction(funSpec)
         }
 
@@ -807,6 +865,27 @@ public class ApiCodegenProcessor(
         // Add HTTP method imports
         httpMethodNames.forEach { methodName ->
             fileSpecBuilder.addImport("io.ktor.client.request", methodName)
+        }
+
+        // Add auth-related imports if any request uses auth
+        val usesAuth = requests.any { it.authType != AuthType.NONE }
+        if (usesAuth) {
+            // Determine which auth imports are needed
+            val authTypes = requests.map { it.authType }.toSet()
+
+            if (AuthType.BEARER in authTypes) {
+                fileSpecBuilder.addImport("io.ktor.client.request", "bearerAuth")
+            }
+            if (AuthType.BASIC in authTypes) {
+                fileSpecBuilder.addImport("io.ktor.client.request", "basicAuth")
+            }
+            if (AuthType.API_KEY in authTypes) {
+                fileSpecBuilder.addImport("io.ktor.client.request", "header")
+            }
+            // CUSTOM would need its AuthContext import
+            if (AuthType.CUSTOM in authTypes) {
+                fileSpecBuilder.addImport(apiInfo.packageName, "AuthContext")
+            }
         }
 
         val fileSpec = fileSpecBuilder.build()
@@ -848,6 +927,7 @@ public class ApiCodegenProcessor(
             generateGroupClientClass(
                 groupClientClassName = groupClientClassName,
                 clientPackage = clientPackage,
+                apiInfo = apiInfo,
                 requests = groupRequests,
                 sourceFiles = sourceFiles,
             )
@@ -865,6 +945,7 @@ public class ApiCodegenProcessor(
     private fun generateGroupClientClass(
         groupClientClassName: String,
         clientPackage: String,
+        apiInfo: ApiSpecInfo,
         requests: List<RequestClassInfo>,
         sourceFiles: List<KSFile>,
     ) {
@@ -893,7 +974,7 @@ public class ApiCodegenProcessor(
 
         // Generate methods for each request in this group
         requests.forEach { info ->
-            val funSpec = generateClientMethod(info)
+            val funSpec = generateClientMethod(apiInfo, info)
             classBuilder.addFunction(funSpec)
         }
 
@@ -909,6 +990,25 @@ public class ApiCodegenProcessor(
         // Add HTTP method imports
         httpMethodNames.forEach { methodName ->
             fileSpecBuilder.addImport("io.ktor.client.request", methodName)
+        }
+
+        // Add auth-related imports if any request uses auth
+        val usesAuth = requests.any { it.authType != AuthType.NONE }
+        if (usesAuth) {
+            val authTypes = requests.map { it.authType }.toSet()
+
+            if (AuthType.BEARER in authTypes) {
+                fileSpecBuilder.addImport("io.ktor.client.request", "bearerAuth")
+            }
+            if (AuthType.BASIC in authTypes) {
+                fileSpecBuilder.addImport("io.ktor.client.request", "basicAuth")
+            }
+            if (AuthType.API_KEY in authTypes) {
+                fileSpecBuilder.addImport("io.ktor.client.request", "header")
+            }
+            if (AuthType.CUSTOM in authTypes) {
+                fileSpecBuilder.addImport(apiInfo.packageName, "AuthContext")
+            }
         }
 
         val fileSpec = fileSpecBuilder.build()
@@ -1031,7 +1131,11 @@ public class ApiCodegenProcessor(
         }
     }
 
-    private fun generateClientMethod(info: RequestClassInfo): FunSpec {
+    @OptIn(ExperimentalKotlinPoetApi::class)
+    private fun generateClientMethod(
+        apiInfo: ApiSpecInfo,
+        info: RequestClassInfo,
+    ): FunSpec {
         val functionName = info.requestClass.toFunctionName()
         val modelsPackage = info.requestClass.packageName.asString()
         val requestClassName = ClassName(modelsPackage, info.requestClass.simpleName.asString())
@@ -1042,6 +1146,32 @@ public class ApiCodegenProcessor(
                 .builder(functionName)
                 .addModifiers(KModifier.SUSPEND)
                 .returns(returnTypeName)
+
+        // Add context parameters based on resolved auth type
+        when (info.authType) {
+            AuthType.BEARER -> {
+                funBuilder.contextParameter("token", String::class)
+            }
+
+            AuthType.BASIC -> {
+                funBuilder
+                    .contextParameter("username", String::class)
+                    .contextParameter("password", String::class)
+            }
+
+            AuthType.API_KEY -> {
+                funBuilder.contextParameter("apiKey", String::class)
+            }
+
+            AuthType.CUSTOM -> {
+                val authContextClass = ClassName(apiInfo.packageName, "AuthContext", "Custom")
+                funBuilder.contextParameter("auth", authContextClass)
+            }
+
+            AuthType.NONE -> {
+                // No context parameters
+            }
+        }
 
         // Add path parameters as function parameters
         info.pathProperties.forEach { property ->
@@ -1117,16 +1247,43 @@ public class ApiCodegenProcessor(
             }
 
         val hasQueryParams = info.queryProperties.isNotEmpty()
+        val needsAuth = info.authType != AuthType.NONE
 
-        if (hasBody || hasQueryParams) {
-            builder.addStatement($$"val httpResponse = client.%L(\"$baseUrl$$urlPath\") {", httpMethodName)
+        // Generate HTTP request
+        if (hasBody || hasQueryParams || needsAuth) {
+            builder.addStatement($$"val httpResponse = client.%L(\"$baseUrl%L\") {", httpMethodName, urlPath)
             builder.indent()
 
+            // Apply authentication based on resolved type
+            when (info.authType) {
+                AuthType.BEARER -> {
+                    builder.addStatement("%M(token)", BEARER_AUTH_MEMBER)
+                }
+
+                AuthType.BASIC -> {
+                    builder.addStatement("%M(username, password)", BASIC_AUTH_MEMBER)
+                }
+
+                AuthType.API_KEY -> {
+                    builder.addStatement("header(%S, apiKey)", info.apiKeyHeader)
+                }
+
+                AuthType.CUSTOM -> {
+                    builder.addStatement("auth.configure(this)")
+                }
+
+                AuthType.NONE -> {
+                    // No authentication
+                }
+            }
+
+            // Content type and body for non-GET/DELETE requests
             if (hasBody) {
                 builder.addStatement("%M(%T.Application.Json)", CONTENT_TYPE_MEMBER, CONTENT_TYPE_CLASS)
                 builder.addStatement("%M(request)", SET_BODY_MEMBER)
             }
 
+            // Query parameters
             if (hasQueryParams) {
                 info.queryProperties.forEach { property ->
                     val paramName = property.simpleName.asString()
@@ -1137,7 +1294,8 @@ public class ApiCodegenProcessor(
             builder.unindent()
             builder.addStatement("}")
         } else {
-            builder.addStatement($$"val httpResponse = client.%L(\"$baseUrl$$urlPath\")", httpMethodName)
+            // Simple request with no body, query params, or auth
+            builder.addStatement($$"val httpResponse = client.%L(\"$baseUrl%L\")", httpMethodName, urlPath)
         }
 
         builder.add("\n")
@@ -1489,6 +1647,8 @@ public class ApiCodegenProcessor(
         val bodyProperties: List<KSPropertyDeclaration>,
         val ctorDefaults: Map<String, Boolean>,
         val apiPackage: String,
+        val authType: AuthType,
+        val apiKeyHeader: String,
     )
 
     private data class PathVariables(
@@ -1529,5 +1689,7 @@ public class ApiCodegenProcessor(
 
         // Ktor HTTP functions
         private val CONTENT_TYPE_MEMBER = MemberName("io.ktor.http", "contentType")
+        private val BEARER_AUTH_MEMBER = MemberName("io.ktor.client.request", "bearerAuth")
+        private val BASIC_AUTH_MEMBER = MemberName("io.ktor.client.request", "basicAuth")
     }
 }
