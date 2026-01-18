@@ -26,7 +26,6 @@ include("dokka")
 include("examples")
 include("examples:api")
 include("examples:sel")
-include("examples:server")
 include("konsistTest")
 include("selenium")
 

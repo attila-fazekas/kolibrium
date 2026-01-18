@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 /*
  * Copyright 2023-2025 Attila Fazekas & contributors
  *
@@ -38,8 +40,18 @@ dependencies {
     implementation("org.jreleaser:jreleaser-gradle-plugin:_")
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 kotlin {
     jvmToolchain(21)
+
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_21
+    }
 }
 
 spotless {
