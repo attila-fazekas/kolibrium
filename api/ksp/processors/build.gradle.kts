@@ -18,7 +18,6 @@ plugins {
     id("kolibrium.library-conventions")
     id("kolibrium.ksp-conventions")
     id("kolibrium.ktor-client-conventions")
-    id("kolibrium.ktor-server-conventions")
     id("kolibrium.test-conventions")
 }
 
