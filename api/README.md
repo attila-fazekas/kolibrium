@@ -5,21 +5,20 @@
 2. [Setup](#setup)
 3. [Defining API specifications](#defining-api-specifications)
 4. [Defining request models](#defining-request-models)
+    - [Path parameters](#path-parameters)
+    - [Query parameters](#query-parameters)
+    - [Body parameters](#body-parameters)
 5. [Defining response models](#defining-response-models)
 6. [Generate code](#generate-code)
 7. [Customizing code generation](#customizing-code-generation)
     - [Client grouping](#client-grouping)
-8. [Request models](#request-models)
-    - [Path parameters](#path-parameters)
-    - [Query parameters](#query-parameters)
-    - [Body parameters](#body-parameters)
-9. [HTTP method annotations](#http-method-annotations)
-10. [Authentication](#authentication)
-11. [Return types](#return-types)
-12. [Validation rules](#validation-rules)
-13. [Complete examples](#complete-examples)
-14. [Best practices](#best-practices)
-15. [Troubleshooting](#troubleshooting)
+8. [HTTP method annotations](#http-method-annotations)
+9. [Authentication](#authentication)
+10. [Return types](#return-types)
+11. [Validation rules](#validation-rules)
+12. [Complete examples](#complete-examples)
+13. [Best practices](#best-practices)
+14. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -107,11 +106,19 @@ object MyApiSpec : ApiSpec(
 
 ## Defining request models
 
-Request models define API endpoints. Each request class must:
-1. Be annotated with `@Serializable` and, by default, placed under `<api-package>.models`. You can customize scan packages later
-2. Have exactly one HTTP method annotation (`@GET`, `@POST`, `@PUT`, `@PATCH`, `@DELETE`)
-3. Have a `@Returns` annotation specifying the response type
-4. End with the suffix `Request` (e.g., `GetUserRequest`, `CreateOrderRequest`)
+Request models define API endpoints and can have the following properties:
+- Path variable in the URL path
+- Query parameter in the URL query string
+- Body parameter
+
+**Requirements:**
+- Must be annotated with `@Serializable` and, by default, placed under `<api-package>.models` (scan packages can be customized on the API spec)
+- Must have exactly one HTTP method annotation (`@GET`, `@POST`, `@PUT`, `@PATCH`, `@DELETE`)
+- Must have a `@Returns` annotation specifying the response type
+- Class name must end with the `Request` suffix (e.g., `GetUserRequest`, `CreateOrderRequest`)
+- If the class has properties, it must be a `data class`
+- Classes without properties (marker classes) don't need to be data classes
+- Cannot be `abstract` or `sealed`
 
 ### Basic request model example
 
@@ -125,6 +132,69 @@ import kotlinx.serialization.Serializable
 @Serializable
 class ListUsersRequest
 ```
+
+### Path parameters
+
+Path variables are defined using curly braces `{variableName}` and substituted into the URL path.
+
+```kotlin
+@GET("/users/{id}/posts/{postId}")
+@Returns(Post::class)
+@Serializable
+data class GetUserPostRequest(
+    @Path @Transient val id: Int = 0,
+    @Path @Transient val postId: Int = 0
+)
+```
+
+**Requirements:**
+- Must be annotated with both `@Path` and `@Transient`
+- Must be one of: `String`, `Int`, `Long`, `Boolean`
+- Must have a matching path variable in the URL
+
+### Query parameters
+
+Query parameters are appended to the URL as query strings.
+
+```kotlin
+@GET("/users")
+@Returns(UserList::class)
+@Serializable
+data class ListUsersRequest(
+    @Query @Transient val page: Int? = null,
+    @Query @Transient val limit: Int? = null,
+    @Query @Transient val search: String? = null
+)
+```
+
+**Requirements:**
+- Must be annotated with both `@Query` and `@Transient`
+- Must be nullable (query parameters are optional)
+- Only allowed on `GET` and `DELETE` requests
+- Must be one of: `String?`, `Int?`, `Long?`, `Boolean?`, or `List<T>?` where T is one of these types
+
+### Body parameters
+
+Body parameters are serialized as the request body (JSON).
+
+```kotlin
+@POST("/users")
+@Returns(User::class)
+@Serializable
+data class CreateUserRequest(
+    var name: String? = null,
+    var email: String? = null,
+    var age: Int? = null
+)
+```
+
+**Requirements:**
+- Only allowed on `POST`, `PUT`, and `PATCH` requests
+- Should be `var` to support the DSL builder pattern
+- Must be nullable or have a default value
+- Not annotated with `@Path` or `@Query`
+
+---
 
 ## Defining response models
 
@@ -298,81 +368,6 @@ val client = MyClient(httpClient, "https://api.example.com")
 client.users.getUser(1)
 client.vinyls.createVinyl { artist = "Pink Floyd" }
 ```
-
----
-
-## Request models
-
-Request models can have the following properties:
-- Path variable in the URL path
-- Query parameter in the URL query string
-- Body parameter
-
-**Requirements:**
-- If the class has properties, it must be a `data class`
-- Classes without properties (marker classes) don't need to be data classes
-- Cannot be `abstract` or `sealed`
-
-### Path parameters
-
-Path variables are defined using curly braces `{variableName}` and substituted into the URL path.
-
-```kotlin
-@GET("/users/{id}/posts/{postId}")
-@Returns(Post::class)
-@Serializable
-data class GetUserPostRequest(
-    @Path @Transient val id: Int = 0,
-    @Path @Transient val postId: Int = 0
-)
-```
-
-**Requirements:**
-- Must be annotated with both `@Path` and `@Transient`
-- Must be one of: `String`, `Int`, `Long`, `Boolean`
-- Must have a matching path variable in the URL
-
-### Query parameters
-
-Query parameters are appended to the URL as query strings.
-
-```kotlin
-@GET("/users")
-@Returns(UserList::class)
-@Serializable
-data class ListUsersRequest(
-    @Query @Transient val page: Int? = null,
-    @Query @Transient val limit: Int? = null,
-    @Query @Transient val search: String? = null
-)
-```
-
-**Requirements:**
-- Must be annotated with both `@Query` and `@Transient`
-- Must be nullable (query parameters are optional)
-- Only allowed on `GET` and `DELETE` requests
-- Must be one of: `String?`, `Int?`, `Long?`, `Boolean?`, or `List<T>?` where T is one of these types
-
-### Body parameters
-
-Body parameters are serialized as the request body (JSON).
-
-```kotlin
-@POST("/users")
-@Returns(User::class)
-@Serializable
-data class CreateUserRequest(
-    var name: String? = null,
-    var email: String? = null,
-    var age: Int? = null
-)
-```
-
-**Requirements:**
-- Only allowed on `POST`, `PUT`, and `PATCH` requests
-- Should be `var` to support the DSL builder pattern
-- Must be nullable or have a default value
-- Not annotated with `@Path` or `@Query`
 
 ---
 
