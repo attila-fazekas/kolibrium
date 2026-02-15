@@ -327,7 +327,11 @@ class MyClient(client: HttpClient, baseUrl: String) {
 
 #### ByPrefix
 
-Useful for large APIs. It groups related endpoints by their first path segment:
+This feature automatically organizes API client methods into separate client classes based on the first path segment of their endpoints. 
+This helps with:
+- Code Organization: Large APIs with many endpoints get split into logical, resource-based client classes
+- Discoverability: Developers can navigate client.users.getUser() vs client.vinyls.createVinyl() more intuitively
+- Separation of Concerns: Each resource domain gets its own client class
 
 ```kotlin
 @GenerateApi(grouping = ClientGrouping.ByPrefix)
@@ -340,7 +344,7 @@ Given these requests:
 - `POST /vinyls` → `VinylsClient`
 - `GET /vinyls/{id}` → `VinylsClient`
 
-Generates:
+It groups related endpoints by their first path segment and generates:
 
 ```kotlin
 // Group clients
@@ -354,7 +358,7 @@ class VinylsClient(client: HttpClient, baseUrl: String) {
     suspend fun createVinyl(block: CreateVinylRequest.() -> Unit): ApiResponse<Vinyl>
 }
 
-// Root aggregator client
+// Root aggregator client that contains all group clients as properties
 class MyClient(client: HttpClient, baseUrl: String) {
     val users = UsersClient(client, baseUrl)
     val vinyls = VinylsClient(client, baseUrl)
@@ -368,6 +372,8 @@ val client = MyClient(httpClient, "https://api.example.com")
 client.users.getUser(1)
 client.vinyls.createVinyl { artist = "Pink Floyd" }
 ```
+
+> Note: If all paths start with `/api/...`, everything groups under a single ApiClient, defeating the purpose of grouping. The solution is to put `/api` in `baseUrl`.
 
 ---
 
