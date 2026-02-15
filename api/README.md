@@ -3,18 +3,21 @@
 ## Table of Contents
 1. [Overview](#overview)
 2. [Setup](#setup)
-3. [Defining API Specifications](#defining-api-specifications)
-4. [Request Models](#request-models)
-5. [HTTP Method Annotations](#http-method-annotations)
-6. [Parameter Types](#parameter-types)
-7. [Authentication](#authentication)
-8. [Client Grouping](#client-grouping)
-9. [Return Types](#return-types)
-10. [Generated Code](#generated-code)
-11. [Validation Rules](#validation-rules)
-12. [Complete Examples](#complete-examples)
-13. [Best Practices](#best-practices)
-14. [Troubleshooting](#troubleshooting)
+3. [Defining API specifications](#defining-api-specifications)
+4. [Request models](#request-models)
+    - [Path parameters](#path-parameters)
+    - [Query parameters](#query-parameters)
+    - [Body parameters](#body-parameters)
+5. [HTTP method annotations](#http-method-annotations)
+6. [Authentication](#authentication)
+7. [Customizing code generation](#customizing-code-generation)
+    - [Client grouping](#client-grouping)
+8. [Generate code](#generate-code)
+9. [Return types](#return-types)
+10. [Validation rules](#validation-rules)
+11. [Complete examples](#complete-examples)
+12. [Best practices](#best-practices)
+13. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -81,7 +84,7 @@ dependencies {
 
 ---
 
-## 1. Defining API specifications
+## Defining API specifications
 
 An API specification is the entry point for code generation. Create a class or object that:
 1. Extends `ApiSpec`. Class name should follow the pattern `<Name>ApiSpec` (e.g., `VinylStoreApiSpec`)
@@ -100,7 +103,7 @@ object MyApiSpec : ApiSpec(
 )
 ```
 
-## 2. Defining request models
+## Defining request models
 
 Request models define API endpoints. Each request class must:
 1. Be annotated with `@Serializable` and, by default, placed under `<api-package>.models`. You can customize scan packages later
@@ -121,7 +124,7 @@ import kotlinx.serialization.Serializable
 class ListUsersRequest
 ```
 
-## 3. Defining response models
+## Defining response models
 
 The response type must be annotated with `@Serializable`.
 
@@ -147,7 +150,7 @@ data class UserResponse(
 
 ---
 
-## 4. Generate code
+## Generate code
 
 After building the project, the following files are generated in `<api-package>.generated` package:
 
@@ -175,7 +178,7 @@ Usage:
 @Test
 fun `get users`() = myApiTest {
     val response = getUsers()
-    response.status shouldBe HttpStatusCode.OK
+    response.requireSuccess()
 }
 ```
 
@@ -348,7 +351,7 @@ data class ListUsersRequest(
 - Only allowed on `GET` and `DELETE` requests
 - Must be one of: `String?`, `Int?`, `Long?`, `Boolean?`, or `List<T>?` where T is one of these types
 
-### Body Parameters
+### Body parameters
 
 Body parameters are serialized as the request body (JSON).
 
@@ -371,7 +374,7 @@ data class CreateUserRequest(
 
 ---
 
-## HTTP Method Annotations
+## HTTP method annotations
 
 The following HTTP method annotations are available:
 
@@ -815,7 +818,7 @@ class VinylStoreTest {
 
 ## Best practices
 
-### 1. Organize request models
+### Organize request models
 
 Keep request and response models in the default `models` subpackage:
 
@@ -828,7 +831,7 @@ dev.kolibrium.api.example/
     └── Product.kt       # Product requests and response
 ```
 
-### 2. Use descriptive names
+### Use descriptive names
 
 ```kotlin
 // Good
@@ -841,7 +844,7 @@ data class UserRequest(...)      // Ambiguous
 data class GetRequest(...)       // Too generic
 ```
 
-### 3. Handle errors gracefully
+### Handle errors gracefully
 
 ```kotlin
 val response = client.getUser(id)
@@ -856,7 +859,7 @@ when {
 val user = client.getUser(id).requireSuccess().body
 ```
 
-### 4. Use test harness for integration tests
+### Use test harness for integration tests
 
 ```kotlin
 @Test
