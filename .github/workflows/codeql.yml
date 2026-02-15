@@ -2,10 +2,10 @@ name: CodeQL
 
 on:
   workflow_dispatch:
-   pull_request:
-     branches: [ "main" ]
-   push:
-     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
 
 jobs:
   call-change-detection:
@@ -32,10 +32,13 @@ jobs:
       - uses: ./.github/actions/setup-jdk
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
+        uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
           queries: security-and-quality
+          # Nightly is required for now to support Kotlin 2.3.10. Once CodeQL stable supports it, we
+          # can remove this.
+          tools: nightly
 
       - uses: ./.github/actions/run-gradle
         with:
@@ -43,6 +46,6 @@ jobs:
           arguments: build -x javadoc -x test
 
       - name: Perform CodeQL analysis
-        uses: github/codeql-action/analyze@v2
+        uses: github/codeql-action/analyze@v4
         with:
           category: "/language:${{matrix.language}}"

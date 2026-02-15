@@ -24,11 +24,18 @@ object PublicationProperties {
 }
 
 object SharedFunctions {
-    fun getModuleName(project: Project) = if (project.name.contains("annotations")) {
-        "ksp-annotations"
-    } else if (project.name.contains("processors")) {
-        "ksp-processors"
-    } else {
-        project.name
+    fun getModuleName(project: Project) = when {
+        project.name.contains("core") -> {
+            "api-core"
+        }
+        project.name.contains("annotations") -> {
+            "api-ksp-annotations"
+        }
+        project.name.contains("processors") -> {
+            "api-ksp-processors"
+        }
+        else -> {
+            project.name
+        }
     }
 }
