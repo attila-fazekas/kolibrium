@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Overview](#overview)
 2. [Setup](#setup)
-3. [Defining API specifications](#defining-api-specifications)
+3. [Defining API specification](#defining-api-specification)
 4. [Defining request models](#defining-request-models)
     - [Path parameters](#path-parameters)
     - [Query parameters](#query-parameters)
@@ -85,7 +85,7 @@ dependencies {
 
 ---
 
-## Defining API specifications
+## Defining API specification
 
 An API specification is the entry point for code generation. Create a class or object that:
 1. Extends `ApiSpec`. Class name should follow the pattern `<Name>ApiSpec` (e.g., `VinylStoreApiSpec`)
