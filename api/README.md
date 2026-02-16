@@ -148,7 +148,7 @@ data class GetUserPostRequest(
 
 **Requirements:**
 - Must be annotated with both `@Path` and `@Transient`
-- Must be one of: `String`, `Int`, `Long`, `Boolean`
+- Must be one of: `String`, `Int`, `Long`, `Short`, `Float`, `Double`, `Boolean`
 - Must have a matching path variable in the URL
 
 ### Query parameters
@@ -170,7 +170,7 @@ data class ListUsersRequest(
 - Must be annotated with both `@Query` and `@Transient`
 - Must be nullable (query parameters are optional)
 - Only allowed on `GET` and `DELETE` requests
-- Must be one of: `String?`, `Int?`, `Long?`, `Boolean?`, or `List<T>?` where T is one of these types
+- Must be one of: `String?`, `Int?`, `Long?`, `Boolean?`, `Short?`, `Float?`, `Double?`, or `List<T>?` where T is one of these types
 
 ### Body parameters
 
@@ -620,16 +620,16 @@ The processor validates your code at compile time and reports errors for:
 
 ### Parameter errors
 
-| Error                                           | Cause                                    |
-|-------------------------------------------------|------------------------------------------|
-| @Path must be annotated with @Transient         | Path parameter missing `@Transient`      |
-| @Path must be String, Int, Long, or Boolean     | Invalid path parameter type              |
-| Path variable has no matching @Path parameter   | URL has `{var}` but no matching property |
-| @Query must be annotated with @Transient        | Query parameter missing `@Transient`     |
-| @Query must be nullable                         | Non-nullable query parameter             |
-| @Query not allowed on POST/PUT/PATCH            | Query params on body requests            |
-| Body parameters not allowed on GET/DELETE       | Body params on non-body requests         |
-| Body parameter must be nullable or have default | Non-nullable body param without default  |
+| Error                                                             | Cause                                    |
+|-------------------------------------------------------------------|------------------------------------------|
+| @Path must be annotated with @Transient                           | Path parameter missing `@Transient`      |
+| @Path must be String, Int, Long, Short, Float, Double, or Boolean | Invalid path parameter type              |
+| Path variable has no matching @Path parameter                     | URL has `{var}` but no matching property |
+| @Query must be annotated with @Transient                          | Query parameter missing `@Transient`     |
+| @Query must be nullable                                           | Non-nullable query parameter             |
+| @Query not allowed on POST/PUT/PATCH                              | Query params on body requests            |
+| Body parameters not allowed on GET/DELETE                         | Body params on non-body requests         |
+| Body parameter must be nullable or have default                   | Non-nullable body param without default  |
 
 ### Return type errors
 
