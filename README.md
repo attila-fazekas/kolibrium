@@ -1,6 +1,6 @@
 <div align="center">
 <p><img src="https://raw.githubusercontent.com/attila-fazekas/kolibrium/main/assets/kolibrium_logo.png" alt="kolibrium_logo.png"></p>
-<h1>Kotlin library for Selenium tests</h1>
+<h1>Modern testing toolkit for Kotlin</h1>
 <p><a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
 <a href="https://github.com/attila-fazekas/kolibrium/actions/workflows/gradle.yml"><img src="https://github.com/attila-fazekas/kolibrium/actions/workflows/gradle.yml/badge.svg" alt="Build"></a>
 <a href="https://github.com/attila-fazekas/kolibrium/actions/workflows/codeql.yml"><img src="https://github.com/attila-fazekas/kolibrium/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
@@ -9,19 +9,14 @@
 <a href="https://img.shields.io/badge/Project%20status-Experimental-red.svg"><img src="https://img.shields.io/badge/Project%20status-Experimental-red.svg" alt="Project status"></a></p>
 </div>
 
-Build simple and maintainable automation faster with Kolibrium.
+Build simple and maintainable test automation faster with Kolibrium — a comprehensive, type-safe testing toolkit for modern Kotlin.
 
-Kolibrium is a declarative Kotlin library designed to reduce boilerplate code and find better abstractions to express Selenium tests in a compact way.  
-
-Quickly bring your test automation efforts to life with less code and easy-to-read APIs.  
+Kolibrium provides type-safe HTTP clients with integrated test harness generation for API testing, alongside declarative browser automation. Write idiomatic Kotlin tests with minimal boilerplate and compile-time safety.
 
 Kolibrium is divided into several subprojects (modules), each of which can be used either independently or in conjunction with others.
 
+- `api`: provides a code generation tool that uses [Kotlin Symbol Processing (KSP)](https://kotlinlang.org/docs/ksp-overview.html) to automatically generate type-safe HTTP client code and test harness functions from annotated request models. 
 - `selenium`: provides core WebDriver functionality including Page object base class, browserTest harness, element locator delegates, and extensible decorator framework
-- `ksp`: offers code generation with [Kotlin Symbol Processing (KSP)](https://kotlinlang.org/docs/ksp-overview.html) for part of the Page Object classes
-- `dsl`: offers [Domain-Specific Languages (DSLs)](https://kotlinlang.org/docs/type-safe-builders.html) functions for creating, configuring, and interacting with driver instances
-
-You can decide to go all-in on Kolibrium by opting for all three modules or choosing just one or two. For example, you could use the Selenium library in conjunction with DSL, or you could use Selenium with KSP.  
 
 # Documentation
 

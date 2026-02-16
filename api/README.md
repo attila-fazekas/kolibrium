@@ -24,7 +24,7 @@
 
 ## Overview
 
-The Kolibrium API module is a code generation tool that uses Kotlin Symbol Processing (KSP) to automatically generate type-safe HTTP client code from annotated request models. It provides a declarative way to define REST API endpoints and generates:
+The Kolibrium API module is a code generation tool that uses [Kotlin Symbol Processing (KSP)](https://kotlinlang.org/docs/ksp-overview.html) to automatically generate type-safe HTTP client code from annotated request models. It provides a declarative way to define REST API endpoints and generates:
 
 - **Type-safe client methods** - Compile-time safety for API calls
 - **Automatic serialization/deserialization** - Using kotlinx.serialization
@@ -33,7 +33,6 @@ The Kolibrium API module is a code generation tool that uses Kotlin Symbol Proce
 - **Path parameter substitution** - Automatic URL construction
 - **Query parameter handling** - Optional parameters with null safety
 - **Request body DSL builders** - Fluent API for building requests
-
 
 > Note: Context parameters require Kotlin’s context parameters feature to be enabled in your project.
 
