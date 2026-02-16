@@ -614,7 +614,7 @@ public class ApiCodegenProcessor(
             if (typeQualifiedName !in ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES) {
                 errors +=
                     Diagnostic(
-                        "@Path parameter '$propertyName' must be String, Int, Long, or Boolean",
+                        "@Path parameter '$propertyName' must be String, Int, Long, Short, Float, Double, or Boolean",
                         property,
                     )
             }
@@ -665,7 +665,7 @@ public class ApiCodegenProcessor(
             if (!isValidQueryParameterType(resolvedType)) {
                 errors +=
                     Diagnostic(
-                        "@Query parameter '$propertyName' must be String, Int, Long, Boolean, or List of these types",
+                        "@Query parameter '$propertyName' must be String, Int, Long, Short, Float, Double, Boolean, or List of these types",
                         property,
                     )
             }
@@ -1670,6 +1670,9 @@ public class ApiCodegenProcessor(
                 "kotlin.String",
                 "kotlin.Int",
                 "kotlin.Long",
+                "kotlin.Short",
+                "kotlin.Float",
+                "kotlin.Double",
                 "kotlin.Boolean",
             )
 
