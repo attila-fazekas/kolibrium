@@ -442,13 +442,27 @@ public class ApiCodegenProcessor(
             return null
         }
 
-        val returnType = returnsAnnotation.getKClassTypeArgument("type")
+        val returnType = returnsAnnotation.getKClassTypeArgument("success")
         if (returnType == null || returnType.isError) {
-            errors += Diagnostic("Return type for $className could not be resolved", requestClass)
+            errors += Diagnostic("Success type for $className could not be resolved", requestClass)
             return null
         }
 
         val isEmptyResponse = returnType.declaration.qualifiedName?.asString() == KOTLIN_UNIT
+
+        // Extract optional error type
+        val errorType = returnsAnnotation.getKClassTypeArgument("error")
+        val errorQualifiedName = errorType?.declaration?.qualifiedName?.asString()
+        val resolvedErrorType =
+            if (errorType != null &&
+                !errorType.isError &&
+                errorQualifiedName != KOTLIN_NOTHING &&
+                errorQualifiedName != JAVA_VOID
+            ) {
+                errorType
+            } else {
+                null
+            }
 
         // Collect parameters
         val properties = requestClass.getAllProperties().toList()
@@ -512,6 +526,7 @@ public class ApiCodegenProcessor(
             path = path,
             group = extractGroupByApiPrefix(path),
             returnType = returnType,
+            errorType = resolvedErrorType,
             isEmptyResponse = isEmptyResponse,
             pathProperties = pathProperties,
             queryProperties = queryProperties,
@@ -751,31 +766,59 @@ public class ApiCodegenProcessor(
         val requestClass = info.requestClass
         val className = requestClass.getClassName()
 
+        // Validate success type
         val returnType = info.returnType
         if (returnType.isError) {
-            errors += Diagnostic("Return type for $className could not be resolved", requestClass)
+            errors += Diagnostic("Success type for $className could not be resolved", requestClass)
             return
         }
 
         val returnQualifiedName = returnType.declaration.qualifiedName?.asString()
-        if (returnQualifiedName == KOTLIN_UNIT) return
+        if (returnQualifiedName != KOTLIN_UNIT) {
+            val returnClass = returnType.declaration as? KSClassDeclaration
+            if (returnClass == null) {
+                errors +=
+                    Diagnostic(
+                        "Success type '${returnQualifiedName ?: returnType}' for $className must be a concrete class type",
+                        requestClass,
+                    )
+                return
+            }
 
-        val returnClass = returnType.declaration as? KSClassDeclaration
-        if (returnClass == null) {
-            errors +=
-                Diagnostic(
-                    "Return type '${returnQualifiedName ?: returnType}' for $className must be a concrete class type",
-                    requestClass,
-                )
-            return
+            if (!returnClass.hasAnnotation(Serializable::class)) {
+                errors +=
+                    Diagnostic(
+                        "Success type ${returnClass.qualifiedName?.asString() ?: returnClass.simpleName.asString()} for $className is not @Serializable",
+                        requestClass,
+                    )
+            }
         }
 
-        if (!returnClass.hasAnnotation(Serializable::class)) {
-            errors +=
-                Diagnostic(
-                    "Return type ${returnClass.qualifiedName?.asString() ?: returnClass.simpleName.asString()} for $className is not @Serializable",
-                    requestClass,
-                )
+        // Validate error type if specified
+        val errorType = info.errorType
+        if (errorType != null) {
+            if (errorType.isError) {
+                errors += Diagnostic("Error type for $className could not be resolved", requestClass)
+                return
+            }
+
+            val errorClass = errorType.declaration as? KSClassDeclaration
+            if (errorClass == null) {
+                errors +=
+                    Diagnostic(
+                        "Error type '${errorType.declaration.qualifiedName?.asString() ?: errorType}' for $className must be a concrete class type",
+                        requestClass,
+                    )
+                return
+            }
+
+            if (!errorClass.hasAnnotation(Serializable::class)) {
+                errors +=
+                    Diagnostic(
+                        "Error type ${errorClass.qualifiedName?.asString() ?: errorClass.simpleName.asString()} for $className is not @Serializable",
+                        requestClass,
+                    )
+            }
         }
     }
 
@@ -824,6 +867,64 @@ public class ApiCodegenProcessor(
         val clientClassName = "${apiInfo.apiSpec.simpleName.asString().removeSuffix("ApiSpec")}Client"
         val clientPackage = "${apiInfo.packageName}.generated"
 
+        val sourceFiles =
+            requests.mapNotNull { it.requestClass.containingFile } +
+                listOfNotNull(apiInfo.apiSpec.containingFile)
+
+        generateClientClassFile(
+            clientClassName = clientClassName,
+            clientPackage = clientPackage,
+            apiInfo = apiInfo,
+            requests = requests,
+            sourceFiles = sourceFiles,
+        )
+    }
+
+    private fun generateGroupedClientClasses(
+        apiInfo: ApiSpecInfo,
+        requests: List<RequestClassInfo>,
+    ) {
+        val clientPackage = "${apiInfo.packageName}.generated"
+        val rootClientClassName = "${apiInfo.apiSpec.simpleName.asString().removeSuffix("ApiSpec")}Client"
+        val groupedRequests = groupRequestsByPrefix(requests)
+
+        // Collect all source files for dependencies
+        val sourceFiles =
+            requests.mapNotNull { it.requestClass.containingFile } +
+                listOfNotNull(apiInfo.apiSpec.containingFile)
+
+        // Generate individual group client classes
+        val groupClientClassNames = mutableMapOf<String, ClassName>()
+        groupedRequests.forEach { (groupName, groupRequests) ->
+            val groupClientClassName = "${groupName.replaceFirstChar { it.uppercase() }}Client"
+            val groupClientClass = ClassName(clientPackage, groupClientClassName)
+            groupClientClassNames[groupName] = groupClientClass
+
+            generateClientClassFile(
+                clientClassName = groupClientClassName,
+                clientPackage = clientPackage,
+                apiInfo = apiInfo,
+                requests = groupRequests,
+                sourceFiles = sourceFiles,
+            )
+        }
+
+        // Generate root aggregator client
+        generateRootAggregatorClient(
+            rootClientClassName = rootClientClassName,
+            clientPackage = clientPackage,
+            groupClientClassNames = groupClientClassNames,
+            sourceFiles = sourceFiles,
+        )
+    }
+
+    private fun generateClientClassFile(
+        clientClassName: String,
+        clientPackage: String,
+        apiInfo: ApiSpecInfo,
+        requests: List<RequestClassInfo>,
+        sourceFiles: List<KSFile>,
+    ) {
         val classBuilder =
             TypeSpec
                 .classBuilder(clientClassName)
@@ -847,9 +948,15 @@ public class ApiCodegenProcessor(
                         .build(),
                 )
 
+        // Generate result types for requests that have error types
+        val resultTypes =
+            requests
+                .filter { it.errorType != null }
+                .map { generateResultType(it, clientPackage) }
+
         // Generate methods for each request
         requests.forEach { info ->
-            val funSpec = generateClientMethod(apiInfo, info)
+            val funSpec = generateClientMethod(apiInfo, info, clientPackage)
             classBuilder.addFunction(funSpec)
         }
 
@@ -860,132 +967,13 @@ public class ApiCodegenProcessor(
             FileSpec
                 .builder(clientPackage, clientClassName)
                 .addFileComment("Code generated by kolibrium-codegen. Do not edit.")
-                .addType(classBuilder.build())
 
-        // Add HTTP method imports
-        httpMethodNames.forEach { methodName ->
-            fileSpecBuilder.addImport("io.ktor.client.request", methodName)
+        // Add result types before the client class
+        resultTypes.forEach { resultType ->
+            fileSpecBuilder.addType(resultType)
         }
 
-        // Add auth-related imports if any request uses auth
-        val usesAuth = requests.any { it.authType != AuthType.NONE }
-        if (usesAuth) {
-            // Determine which auth imports are needed
-            val authTypes = requests.map { it.authType }.toSet()
-
-            if (AuthType.BEARER in authTypes) {
-                fileSpecBuilder.addImport("io.ktor.client.request", "bearerAuth")
-            }
-            if (AuthType.BASIC in authTypes) {
-                fileSpecBuilder.addImport("io.ktor.client.request", "basicAuth")
-            }
-            if (AuthType.API_KEY in authTypes) {
-                fileSpecBuilder.addImport("io.ktor.client.request", "header")
-            }
-            // CUSTOM would need its AuthContext import
-            if (AuthType.CUSTOM in authTypes) {
-                fileSpecBuilder.addImport(apiInfo.packageName, "AuthContext")
-            }
-        }
-
-        val fileSpec = fileSpecBuilder.build()
-
-        // Collect all source files for dependencies
-        val sourceFiles =
-            requests.mapNotNull { it.requestClass.containingFile } +
-                listOfNotNull(apiInfo.apiSpec.containingFile)
-
-        codeGenerator
-            .createNewFile(
-                Dependencies(false, *sourceFiles.toTypedArray()),
-                fileSpec.packageName,
-                fileSpec.name,
-            ).writer()
-            .use { writer -> fileSpec.writeTo(writer) }
-    }
-
-    private fun generateGroupedClientClasses(
-        apiInfo: ApiSpecInfo,
-        requests: List<RequestClassInfo>,
-    ) {
-        val clientPackage = "${apiInfo.packageName}.generated"
-        val rootClientClassName = "${apiInfo.apiSpec.simpleName.asString().removeSuffix("ApiSpec")}Client"
-        val groupedRequests = groupRequestsByPrefix(requests)
-
-        // Collect all source files for dependencies
-        val sourceFiles =
-            requests.mapNotNull { it.requestClass.containingFile } +
-                listOfNotNull(apiInfo.apiSpec.containingFile)
-
-        // Generate individual group client classes
-        val groupClientClassNames = mutableMapOf<String, ClassName>()
-        groupedRequests.forEach { (groupName, groupRequests) ->
-            val groupClientClassName = "${groupName.replaceFirstChar { it.uppercase() }}Client"
-            val groupClientClass = ClassName(clientPackage, groupClientClassName)
-            groupClientClassNames[groupName] = groupClientClass
-
-            generateGroupClientClass(
-                groupClientClassName = groupClientClassName,
-                clientPackage = clientPackage,
-                apiInfo = apiInfo,
-                requests = groupRequests,
-                sourceFiles = sourceFiles,
-            )
-        }
-
-        // Generate root aggregator client
-        generateRootAggregatorClient(
-            rootClientClassName = rootClientClassName,
-            clientPackage = clientPackage,
-            groupClientClassNames = groupClientClassNames,
-            sourceFiles = sourceFiles,
-        )
-    }
-
-    private fun generateGroupClientClass(
-        groupClientClassName: String,
-        clientPackage: String,
-        apiInfo: ApiSpecInfo,
-        requests: List<RequestClassInfo>,
-        sourceFiles: List<KSFile>,
-    ) {
-        val classBuilder =
-            TypeSpec
-                .classBuilder(groupClientClassName)
-                .primaryConstructor(
-                    FunSpec
-                        .constructorBuilder()
-                        .addParameter("client", HTTP_CLIENT_CLASS)
-                        .addParameter("baseUrl", String::class)
-                        .build(),
-                ).addProperty(
-                    PropertySpec
-                        .builder("client", HTTP_CLIENT_CLASS)
-                        .initializer("client")
-                        .addModifiers(KModifier.PRIVATE)
-                        .build(),
-                ).addProperty(
-                    PropertySpec
-                        .builder("baseUrl", String::class)
-                        .initializer("baseUrl")
-                        .addModifiers(KModifier.PRIVATE)
-                        .build(),
-                )
-
-        // Generate methods for each request in this group
-        requests.forEach { info ->
-            val funSpec = generateClientMethod(apiInfo, info)
-            classBuilder.addFunction(funSpec)
-        }
-
-        // Collect HTTP methods used for imports
-        val httpMethodNames = collectHttpMethodNames(requests)
-
-        val fileSpecBuilder =
-            FileSpec
-                .builder(clientPackage, groupClientClassName)
-                .addFileComment("Code generated by kolibrium-codegen. Do not edit.")
-                .addType(classBuilder.build())
+        fileSpecBuilder.addType(classBuilder.build())
 
         // Add HTTP method imports
         httpMethodNames.forEach { methodName ->
@@ -1009,6 +997,12 @@ public class ApiCodegenProcessor(
             if (AuthType.CUSTOM in authTypes) {
                 fileSpecBuilder.addImport(apiInfo.packageName, "AuthContext")
             }
+        }
+
+        // Add isSuccess import if any request has error type (for sealed result handling)
+        val hasErrorTypes = requests.any { it.errorType != null }
+        if (hasErrorTypes) {
+            fileSpecBuilder.addImport("io.ktor.http", "isSuccess")
         }
 
         val fileSpec = fileSpecBuilder.build()
@@ -1135,11 +1129,12 @@ public class ApiCodegenProcessor(
     private fun generateClientMethod(
         apiInfo: ApiSpecInfo,
         info: RequestClassInfo,
+        clientPackage: String,
     ): FunSpec {
         val functionName = info.requestClass.toFunctionName()
         val modelsPackage = info.requestClass.packageName.asString()
         val requestClassName = ClassName(modelsPackage, info.requestClass.simpleName.asString())
-        val returnTypeName = getReturnTypeName(info)
+        val returnTypeName = getReturnTypeName(info, clientPackage)
 
         val funBuilder =
             FunSpec
@@ -1204,7 +1199,7 @@ public class ApiCodegenProcessor(
         }
 
         // Generate function body
-        val codeBlock = generateClientMethodBody(info, requestClassName, hasBody)
+        val codeBlock = generateClientMethodBody(info, requestClassName, hasBody, clientPackage)
         funBuilder.addCode(codeBlock)
 
         return funBuilder.build()
@@ -1214,6 +1209,7 @@ public class ApiCodegenProcessor(
         info: RequestClassInfo,
         requestClassName: ClassName,
         hasBody: Boolean,
+        clientPackage: String,
     ): CodeBlock {
         val builder = CodeBlock.builder()
 
@@ -1300,20 +1296,68 @@ public class ApiCodegenProcessor(
 
         builder.add("\n")
 
-        // Return ApiResponse
-        builder.addStatement("return %T(", API_RESPONSE_CLASS)
-        builder.indent()
-        builder.addStatement("status = httpResponse.status,")
-        builder.addStatement("headers = httpResponse.headers,")
-        builder.addStatement("contentType = httpResponse.%M(),", CONTENT_TYPE_MEMBER)
+        // If error type is specified, return sealed result type
+        if (info.errorType != null) {
+            val resultTypeName = getResultTypeName(info.requestClass.simpleName.asString())
+            val resultClass = ClassName(clientPackage, resultTypeName)
+            val successClass = resultClass.nestedClass("Success")
+            val errorClass = resultClass.nestedClass("Error")
 
-        if (info.isEmptyResponse) {
-            builder.addStatement("body = Unit,")
+            builder.addStatement("return if (httpResponse.status.isSuccess()) {")
+            builder.indent()
+            builder.addStatement("%T(", successClass)
+            builder.indent()
+            builder.addStatement("data = httpResponse.%M(),", BODY_MEMBER)
+            builder.addStatement("response = httpResponse,")
+            builder.unindent()
+            builder.addStatement(")")
+            builder.unindent()
+            builder.addStatement("} else {")
+            builder.indent()
+            builder.beginControlFlow("try")
+            builder.addStatement("%T(", errorClass)
+            builder.indent()
+            builder.addStatement("data = httpResponse.%M(),", BODY_MEMBER)
+            builder.addStatement("response = httpResponse,")
+            builder.unindent()
+            builder.addStatement(")")
+            builder.nextControlFlow("catch (e: %T)", EXCEPTION_CLASS)
+
+            // Get the error type for the fallback
+            val errorTypeDeclaration = info.errorType.declaration
+            val errorClassName =
+                ClassName(
+                    errorTypeDeclaration.packageName.asString(),
+                    errorTypeDeclaration.simpleName.asString(),
+                )
+            builder.addStatement(
+                "throw %T(%S + %T::class.simpleName + %S + httpResponse.status.value + %S + (e.message ?: %S))",
+                ILLEGAL_STATE_EXCEPTION_CLASS,
+                "Failed to parse error response as ",
+                errorClassName,
+                " (HTTP ",
+                "): ",
+                "unknown error",
+            )
+            builder.endControlFlow()
+            builder.unindent()
+            builder.addStatement("}")
         } else {
-            builder.addStatement("body = httpResponse.%M(),", BODY_MEMBER)
+            // Return ApiResponse
+            builder.addStatement("return %T(", API_RESPONSE_CLASS)
+            builder.indent()
+            builder.addStatement("status = httpResponse.status,")
+            builder.addStatement("headers = httpResponse.headers,")
+            builder.addStatement("contentType = httpResponse.%M(),", CONTENT_TYPE_MEMBER)
+
+            if (info.isEmptyResponse) {
+                builder.addStatement("body = Unit,")
+            } else {
+                builder.addStatement("body = httpResponse.%M(),", BODY_MEMBER)
+            }
+            builder.unindent()
+            builder.addStatement(")")
         }
-        builder.unindent()
-        builder.addStatement(")")
 
         return builder.build()
     }
@@ -1431,8 +1475,18 @@ public class ApiCodegenProcessor(
             .use { writer -> fileSpec.writeTo(writer) }
     }
 
-    private fun getReturnTypeName(info: RequestClassInfo): TypeName =
-        if (info.isEmptyResponse) {
+    private fun getReturnTypeName(
+        info: RequestClassInfo,
+        clientPackage: String,
+    ): TypeName {
+        // If error type is specified, return the sealed result type
+        if (info.errorType != null) {
+            val resultTypeName = getResultTypeName(info.requestClass.simpleName.asString())
+            return ClassName(clientPackage, resultTypeName)
+        }
+
+        // Standard return type without error handling
+        return if (info.isEmptyResponse) {
             EMPTY_RESPONSE_CLASS
         } else {
             val returnTypeDeclaration = info.returnType.declaration
@@ -1443,6 +1497,125 @@ public class ApiCodegenProcessor(
                 )
             API_RESPONSE_CLASS.parameterizedBy(returnClassName)
         }
+    }
+
+    private fun getResultTypeName(requestClassName: String): String {
+        // Convert "*Request" to "*Result"
+        return requestClassName.removeSuffix("Request") + "Result"
+    }
+
+    private fun generateResultType(
+        info: RequestClassInfo,
+        clientPackage: String,
+    ): TypeSpec {
+        val resultTypeName = getResultTypeName(info.requestClass.simpleName.asString())
+
+        val successTypeDeclaration = info.returnType.declaration
+        val successClassName =
+            ClassName(
+                successTypeDeclaration.packageName.asString(),
+                successTypeDeclaration.simpleName.asString(),
+            )
+
+        val errorTypeDeclaration = info.errorType!!.declaration
+        val errorClassName =
+            ClassName(
+                errorTypeDeclaration.packageName.asString(),
+                errorTypeDeclaration.simpleName.asString(),
+            )
+
+        // Build sealed interface with Success and Error data classes
+        val sealedInterface =
+            TypeSpec
+                .interfaceBuilder(resultTypeName)
+                .addModifiers(KModifier.SEALED)
+                .addFunction(
+                    FunSpec
+                        .builder("requireSuccess")
+                        .returns(ClassName(clientPackage, resultTypeName).nestedClass("Success"))
+                        .addCode(
+                            CodeBlock
+                                .builder()
+                                .beginControlFlow("return when (this)")
+                                .addStatement("is Success -> this")
+                                .addStatement(
+                                    "is Error -> throw %T(%P)",
+                                    ClassName("kotlin", "IllegalStateException"),
+                                    $$"Expected success but got error: ${data}",
+                                ).endControlFlow()
+                                .build(),
+                        ).build(),
+                ).addFunction(
+                    FunSpec
+                        .builder("requireError")
+                        .returns(ClassName(clientPackage, resultTypeName).nestedClass("Error"))
+                        .addCode(
+                            CodeBlock
+                                .builder()
+                                .beginControlFlow("return when (this)")
+                                .addStatement(
+                                    "is Success -> throw %T(%P)",
+                                    ClassName("kotlin", "IllegalStateException"),
+                                    $$"Expected error but got success: ${data}",
+                                ).addStatement("is Error -> this")
+                                .endControlFlow()
+                                .build(),
+                        ).build(),
+                )
+
+        // Success data class
+        val successClass =
+            TypeSpec
+                .classBuilder("Success")
+                .addModifiers(KModifier.DATA)
+                .addSuperinterface(ClassName(clientPackage, resultTypeName))
+                .primaryConstructor(
+                    FunSpec
+                        .constructorBuilder()
+                        .addParameter("data", successClassName)
+                        .addParameter("response", HTTP_RESPONSE_CLASS)
+                        .build(),
+                ).addProperty(
+                    PropertySpec
+                        .builder("data", successClassName)
+                        .initializer("data")
+                        .build(),
+                ).addProperty(
+                    PropertySpec
+                        .builder("response", HTTP_RESPONSE_CLASS)
+                        .initializer("response")
+                        .build(),
+                ).build()
+
+        // Error data class
+        val errorClass =
+            TypeSpec
+                .classBuilder("Error")
+                .addModifiers(KModifier.DATA)
+                .addSuperinterface(ClassName(clientPackage, resultTypeName))
+                .primaryConstructor(
+                    FunSpec
+                        .constructorBuilder()
+                        .addParameter("data", errorClassName)
+                        .addParameter("response", HTTP_RESPONSE_CLASS)
+                        .build(),
+                ).addProperty(
+                    PropertySpec
+                        .builder("data", errorClassName)
+                        .initializer("data")
+                        .build(),
+                ).addProperty(
+                    PropertySpec
+                        .builder("response", HTTP_RESPONSE_CLASS)
+                        .initializer("response")
+                        .build(),
+                ).build()
+
+        sealedInterface.addType(successClass)
+        sealedInterface.addType(errorClass)
+
+        return sealedInterface.build()
+    }
 
     private fun buildUrlPath(info: RequestClassInfo): String {
         var path = info.path
@@ -1641,6 +1814,7 @@ public class ApiCodegenProcessor(
         val path: String,
         val group: String,
         val returnType: KSType,
+        val errorType: KSType?,
         val isEmptyResponse: Boolean,
         val pathProperties: List<KSPropertyDeclaration>,
         val queryProperties: List<KSPropertyDeclaration>,
@@ -1663,6 +1837,8 @@ public class ApiCodegenProcessor(
 
     private companion object {
         private const val KOTLIN_UNIT: String = "kotlin.Unit"
+        private const val KOTLIN_NOTHING: String = "kotlin.Nothing"
+        private const val JAVA_VOID: String = "java.lang.Void"
         private const val API_SPEC_BASE_CLASS: String = "dev.kolibrium.api.core.ApiSpec"
 
         private val ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES: Set<String> =
@@ -1680,6 +1856,9 @@ public class ApiCodegenProcessor(
         private val EMPTY_RESPONSE_CLASS = ClassName("dev.kolibrium.api.core", "EmptyResponse")
         private val CONTENT_TYPE_CLASS = ClassName("io.ktor.http", "ContentType")
         private val HTTP_CLIENT_CLASS = ClassName("io.ktor.client", "HttpClient")
+        private val HTTP_RESPONSE_CLASS = ClassName("io.ktor.client.statement", "HttpResponse")
+        private val EXCEPTION_CLASS = ClassName("kotlin", "Exception")
+        private val ILLEGAL_STATE_EXCEPTION_CLASS = ClassName("kotlin", "IllegalStateException")
         private val DEFAULT_HTTP_CLIENT_MEMBER = MemberName("dev.kolibrium.api.core", "defaultHttpClient")
         private val API_TEST_MEMBER = MemberName("dev.kolibrium.api.core", "apiTest")
 

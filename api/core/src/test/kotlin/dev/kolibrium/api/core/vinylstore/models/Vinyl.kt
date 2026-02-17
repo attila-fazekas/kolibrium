@@ -27,7 +27,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 @POST("/api/vinyls")
-@Returns(Vinyl::class)
+@Returns(success = Vinyl::class)
 @Serializable
 data class CreateVinylRequest(
     var artist: String? = null,
@@ -39,14 +39,14 @@ data class CreateVinylRequest(
 )
 
 @GET("/api/vinyls/{id}")
-@Returns(Vinyl::class)
+@Returns(success = Vinyl::class)
 @Serializable
 data class GetVinylRequest(
     @Path @Transient val id: Int = 0,
 )
 
 @GET("/api/vinyls")
-@Returns(VinylList::class)
+@Returns(success = VinylList::class)
 @Serializable
 data class ListVinylsRequest(
     @Query val genre: String? = null,
@@ -54,7 +54,7 @@ data class ListVinylsRequest(
 )
 
 @PUT("/api/vinyls/{id}")
-@Returns(Vinyl::class)
+@Returns(success = Vinyl::class)
 @Serializable
 data class UpdateVinylRequest(
     @Path @Transient val id: Int = 0,
@@ -67,7 +67,7 @@ data class UpdateVinylRequest(
 )
 
 @DELETE("/api/vinyls/{id}")
-@Returns(Unit::class)
+@Returns(success = Unit::class)
 @Serializable
 data class DeleteVinylRequest(
     @Path @Transient val id: Int = 0,

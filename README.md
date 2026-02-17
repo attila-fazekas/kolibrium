@@ -28,4 +28,5 @@ Please read [CONTRIBUTING](docs/CONTRIBUTING.md) before submitting your pull req
 
 # Project status
 
-This project serves as a playground to explore new ideas and push the boundaries of what can be done when Kotlin's language features and tools are combined with Selenium. Although it’s experimental, the goal is to make it production-ready under version 1.0.0 once the project's APIs and Kotlin's [context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md) are stabilized.  
+This project serves as a playground to explore new ideas and push the boundaries of what can be done when Kotlin's language features and tools are combined with Selenium. 
+Although it’s experimental, the goal is to make it production-ready under version 1.0.0 once the project's APIs and Kotlin's [Context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md) and [Rich Errors](https://github.com/Kotlin/KEEP/blob/main/proposals/KEEP-0441-rich-errors-motivation.md) are stabilized.  

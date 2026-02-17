@@ -127,7 +127,7 @@ import dev.kolibrium.api.ksp.annotations.Returns
 import kotlinx.serialization.Serializable
 
 @GET("/users")
-@Returns(UsersResponse::class)
+@Returns(success = UsersResponse::class)
 @Serializable
 class ListUsersRequest
 ```
@@ -138,7 +138,7 @@ Path variables are defined using curly braces `{variableName}` and substituted i
 
 ```kotlin
 @GET("/users/{id}/posts/{postId}")
-@Returns(Post::class)
+@Returns(success = Post::class)
 @Serializable
 data class GetUserPostRequest(
     @Path @Transient val id: Int = 0,
@@ -157,7 +157,7 @@ Query parameters are appended to the URL as query strings.
 
 ```kotlin
 @GET("/users")
-@Returns(UserList::class)
+@Returns(success = UserList::class)
 @Serializable
 data class ListUsersRequest(
     @Query @Transient val page: Int? = null,
@@ -178,7 +178,7 @@ Body parameters are serialized as the request body (JSON).
 
 ```kotlin
 @POST("/users")
-@Returns(User::class)
+@Returns(success = User::class)
 @Serializable
 data class CreateUserRequest(
     var name: String? = null,
@@ -409,7 +409,7 @@ The `@Auth` annotation configures authentication for requests.
 
 ```kotlin
 @GET("/public/data")
-@Returns(Data::class)
+@Returns(success = Data::class)
 @Serializable
 class GetPublicDataRequest
 ```
@@ -419,7 +419,7 @@ class GetPublicDataRequest
 ```kotlin
 @GET("/secure/data")
 @Auth(type = AuthType.BEARER)
-@Returns(Data::class)
+@Returns(success = Data::class)
 @Serializable
 class GetSecureDataRequest
 ```
@@ -444,7 +444,7 @@ context("my-bearer-token") {
 ```kotlin
 @GET("/protected/resource")
 @Auth(type = AuthType.BASIC)
-@Returns(Resource::class)
+@Returns(success = Resource::class)
 @Serializable
 class GetProtectedResourceRequest
 ```
@@ -469,7 +469,7 @@ context("admin", "secret") {
 ```kotlin
 @GET("/api/data")
 @Auth(type = AuthType.API_KEY)
-@Returns(Data::class)
+@Returns(success = Data::class)
 @Serializable
 class GetApiDataRequest
 ```
@@ -479,7 +479,7 @@ By default, the processor uses the `X-API-Key` header name, but you can customiz
 ```kotlin
 @GET("/api/data")
 @Auth(type = AuthType.API_KEY, headerName = "X-Custom-API-Key")
-@Returns(Data::class)
+@Returns(success = Data::class)
 @Serializable
 class GetApiDataRequest
 ```
@@ -503,7 +503,7 @@ context("my-api-key") {
 ```kotlin
 @GET("/custom/auth")
 @Auth(type = AuthType.CUSTOM)
-@Returns(Data::class)
+@Returns(success = Data::class)
 @Serializable
 class GetCustomAuthDataRequest
 ```
@@ -535,7 +535,7 @@ Specify the response type using `@Returns`:
 
 ```kotlin
 @GET("/users/{id}")
-@Returns(User::class)
+@Returns(success = User::class)
 @Serializable
 data class GetUserRequest(@Path @Transient val id: Int = 1)
 ```
@@ -563,7 +563,7 @@ For endpoints that return no body (e.g., DELETE):
 
 ```kotlin
 @DELETE("/users/{id}")
-@Returns(Unit::class)
+@Returns(success = Unit::class)
 @Serializable
 data class DeleteUserRequest(@Path @Transient val id: Int = 1)
 ```
@@ -593,6 +593,78 @@ class ApiResponse<T>(
     fun requireSuccess(): ApiResponse<T>  // Throws if not 2xx
 }
 ```
+
+### Error type handling
+
+For APIs that return structured error responses, you can specify an optional `error` type in the `@Returns` annotation:
+
+```kotlin
+@Serializable
+data class ErrorResponse(
+    val code: String,
+    val message: String,
+    val details: Map<String, String>? = null
+)
+
+@POST("/auth/login")
+@Returns(success = LoginResponse::class, error = ErrorResponse::class)
+@Serializable
+data class LoginRequest(
+    var email: String? = null,
+    var password: String? = null
+)
+```
+
+When an error type is specified, the processor generates a sealed result type:
+
+```kotlin
+public sealed interface LoginResult {
+    data class Success(val data: LoginResponse, val response: HttpResponse) : LoginResult
+    data class Error(val data: ErrorResponse, val response: HttpResponse) : LoginResult
+}
+```
+
+The generated method returns this sealed type:
+
+```kotlin
+suspend fun login(block: LoginRequest.() -> Unit): LoginResult
+```
+
+**Usage:**
+
+Normal usage:
+```kotlin
+// Testing success case - clean and focused
+val result = client.login {
+    email = "user@example.com"
+    password = "secret"
+}.requireSuccess()
+
+println("Token: ${result.data.token}")
+// Access raw HTTP response if needed: result.response
+
+// Testing error case - equally clean
+val errorResult = client.login {
+    email = "invalid@example.com"
+    password = "wrong"
+}.requireError()
+
+println("Error ${errorResult.data.code}: ${errorResult.data.message}")
+// Access raw HTTP response: errorResult.response
+```
+
+For cases where you need to handle both outcomes:
+```kotlin
+when (val result = client.login { email = "user@example.com"; password = "secret" }) {
+    is LoginResult.Success -> println("Token: ${result.data.token}")
+    is LoginResult.Error -> println("Error ${result.data.code}: ${result.data.message}")
+}
+```
+
+**Requirements:**
+- The error type must be annotated with `@Serializable`
+- If the error response cannot be deserialized (unexpected format), an `IllegalStateException` is thrown
+
 ---
 
 ## Validation rules
@@ -667,7 +739,7 @@ import kotlinx.serialization.Transient
 
 // Request models
 @POST("/api/vinyls")
-@Returns(Vinyl::class)
+@Returns(success = Vinyl::class)
 @Serializable
 data class CreateVinylRequest(
     var artist: String? = null,
@@ -679,14 +751,14 @@ data class CreateVinylRequest(
 )
 
 @GET("/api/vinyls/{id}")
-@Returns(Vinyl::class)
+@Returns(success = Vinyl::class)
 @Serializable
 data class GetVinylRequest(
     @Path @Transient val id: Int = 0
 )
 
 @GET("/api/vinyls")
-@Returns(VinylList::class)
+@Returns(success = VinylList::class)
 @Serializable
 data class ListVinylsRequest(
     @Query @Transient val genre: String? = null,
@@ -694,7 +766,7 @@ data class ListVinylsRequest(
 )
 
 @PUT("/api/vinyls/{id}")
-@Returns(Vinyl::class)
+@Returns(success = Vinyl::class)
 @Serializable
 data class UpdateVinylRequest(
     @Path @Transient val id: Int = 0,
@@ -707,7 +779,7 @@ data class UpdateVinylRequest(
 )
 
 @DELETE("/api/vinyls/{id}")
-@Returns(Unit::class)
+@Returns(success = Unit::class)
 @Serializable
 data class DeleteVinylRequest(
     @Path @Transient val id: Int = 0

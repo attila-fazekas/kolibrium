@@ -27,10 +27,9 @@ import dev.kolibrium.api.ksp.annotations.Query
 import dev.kolibrium.api.ksp.annotations.Returns
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import sun.security.util.Password
 
 @POST("/auth/login")
-@Returns(LoginResponse::class)
+@Returns(success = LoginResponse::class)
 @Serializable
 data class LoginRequest(
     var email: String? = null,
@@ -52,7 +51,7 @@ data class UserResponse(
 )
 
 @POST("/vinyls")
-@Returns(Vinyl::class)
+@Returns(success = Vinyl::class)
 @Serializable
 data class CreateVinylRequest(
     var artist: String? = null,
@@ -64,7 +63,7 @@ data class CreateVinylRequest(
 )
 
 @GET("/vinyls/{id}")
-@Returns(Vinyl::class)
+@Returns(success = Vinyl::class)
 @Serializable
 data class GetVinylRequest(
     @Path @Transient val id: Int = 0,
@@ -72,7 +71,7 @@ data class GetVinylRequest(
 
 @GET("/vinyls")
 @Auth(type = AuthType.BEARER)
-@Returns(VinylList::class)
+@Returns(success = VinylList::class)
 @Serializable
 data class ListVinylsRequest(
     @Query @Transient val genre: String? = null,
@@ -80,7 +79,7 @@ data class ListVinylsRequest(
 )
 
 @PUT("/vinyls/{id}")
-@Returns(Vinyl::class)
+@Returns(success = Vinyl::class)
 @Serializable
 data class UpdateVinylRequest(
     @Path @Transient val id: Int = 0,
@@ -93,7 +92,7 @@ data class UpdateVinylRequest(
 )
 
 @DELETE("/vinyls/{id}")
-@Returns(Unit::class)
+@Returns(success = Unit::class)
 @Serializable
 data class DeleteVinylRequest(
     @Path @Transient val id: Int = 0,

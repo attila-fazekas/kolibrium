@@ -115,18 +115,32 @@ public annotation class Path
 public annotation class Query
 
 /**
- * Specifies the return type for an API request.
+ * Specifies the return types for an API request.
  *
- * Use this annotation on request classes to indicate what type of data the API
+ * Use this annotation on request classes to indicate what types of data the API
  * endpoint returns. The generated client method will deserialize the response
- * body into the specified type.
+ * body into the specified types.
  *
- * @property type The KClass of the expected response type
+ * When only [success] is specified, the generated method returns `ApiResponse<SuccessType>`.
+ *
+ * When both [success] and [error] are specified, the generated method returns a sealed
+ * result type with Success and Error variants, allowing type-safe handling of both cases:
+ * ```kotlin
+ * when (val result = client.login { ... }) {
+ *     is LoginResult.Success -> println("Token: ${result.data.token}")
+ *     is LoginResult.Error -> println("Error: ${result.data.message}")
+ * }
+ * ```
+ *
+ * @property success The KClass of the expected success response type
+ * @property error The optional KClass of the expected error response type. When specified,
+ *   the generated method returns a sealed result type instead of [ApiResponse].
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
 public annotation class Returns(
-    val type: KClass<*>,
+    val success: KClass<*>,
+    val error: KClass<*> = Nothing::class,
 )
 
 /**
