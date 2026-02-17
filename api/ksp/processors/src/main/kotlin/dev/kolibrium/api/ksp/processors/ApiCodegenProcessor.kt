@@ -52,7 +52,6 @@ import dev.kolibrium.api.ksp.annotations.AuthType
 import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import dev.kolibrium.api.ksp.annotations.DELETE
 import dev.kolibrium.api.ksp.annotations.GET
-import dev.kolibrium.api.ksp.annotations.GenerateApi
 import dev.kolibrium.api.ksp.annotations.PATCH
 import dev.kolibrium.api.ksp.annotations.POST
 import dev.kolibrium.api.ksp.annotations.PUT
@@ -64,25 +63,51 @@ import kotlinx.serialization.Serializable
 import kotlin.reflect.KClass
 
 /**
- * Symbol processor that generates API client code from annotated request classes.
+ * Symbol processor that generates API client code from request classes.
  *
- * This processor discovers classes annotated with [@GenerateApi][GenerateApi]
- * and generates corresponding HTTP client implementations. It supports two client generation modes:
- * - **SingleClient**: All endpoints in one client class
+ * This processor discovers classes that extend [ApiSpec][dev.kolibrium.api.core.ApiSpec]
+ * and generates corresponding HTTP client implementations based on request classes found
+ * in the configured scan packages.
+ *
+ * ## Configuration
+ *
+ * API specifications are configured by extending `ApiSpec` and overriding properties:
+ * - **baseUrl**: Required. The base URL for the API endpoint
+ * - **scanPackages**: Optional. Packages to scan for request classes (defaults to `<api-package>.models`)
+ * - **grouping**: Optional. Client organization mode (defaults to [ClientGrouping.SingleClient])
+ * - **httpClient**: Optional. Custom HTTP client configuration (defaults to [defaultHttpClient][dev.kolibrium.api.core.defaultHttpClient])
+ *
+ * ## Client Generation Modes
+ *
+ * - **SingleClient**: All endpoints in one client class (default)
  * - **ByPrefix**: Endpoints grouped by API path prefix into separate client classes
  *
- * The processor validates:
- * - API specification classes (must extend ApiSpec)
- * - Request classes (must be @Serializable data classes with HTTP method annotations)
- * - Path parameters (must match path variables and be annotated with @Path and @Transient)
- * - Query parameters (must be nullable and annotated with @Query)
- * - Body parameters (must be nullable or have defaults for DSL builder pattern)
- * - Return types (must be @Serializable or Unit)
+ * ## Validation
  *
- * Generated code includes:
+ * The processor validates:
+ * - API specification classes (must extend `ApiSpec`)
+ * - Request classes (must be `@Serializable` data classes with HTTP method annotations)
+ * - Path parameters (must match path variables and be annotated with `@Path` and `@Transient`)
+ * - Query parameters (must be nullable and annotated with `@Query`)
+ * - Body parameters (must be nullable or have defaults for DSL builder pattern)
+ * - Return types (must be `@Serializable` or `Unit`)
+ *
+ * ## Generated Code
+ *
+ * For each API specification, the processor generates:
  * - Typed HTTP client classes with suspend functions
- * - Test harness functions for API testing
+ * - Test harness functions for API testing with setUp/tearDown support
+ * - Sealed result types for requests with error type specifications
  * - Automatic serialization/deserialization using Ktor's content negotiation
+ *
+ * Example API specification:
+ * ```kotlin
+ * object VinylStoreApiSpec : ApiSpec() {
+ *     override val baseUrl = "http://localhost:8080"
+ *     override val scanPackages = setOf("io.github.vinylstore.models")
+ *     override val grouping = ClientGrouping.ByPrefix
+ * }
+ * ```
  *
  * @param environment The symbol processor environment providing access to logging and code generation
  */
@@ -96,23 +121,30 @@ public class ApiCodegenProcessor(
         val warnings = mutableListOf<Diagnostic>()
         val errors = mutableListOf<Diagnostic>()
 
-        // Discover @GenerateApi annotated classes directly via annotation
-        val generateApiSymbols =
+        // Find all classes that extend ApiSpec
+        val apiSpecSymbols =
             resolver
-                .getSymbolsWithAnnotation(GenerateApi::class.qualifiedName!!)
+                .getNewFiles()
+                .flatMap { it.declarations }
                 .filterIsInstance<KSClassDeclaration>()
-                .toList()
+                .filter { classDecl ->
+                    classDecl.superTypes.any { superType ->
+                        superType
+                            .resolve()
+                            .declaration.qualifiedName
+                            ?.asString() == API_SPEC_BASE_CLASS
+                    }
+                }.toList()
 
-        if (generateApiSymbols.isEmpty()) {
-            logger.logging("No @GenerateApi classes found, skipping code generation")
+        if (apiSpecSymbols.isEmpty()) {
             return emptyList()
         }
 
-        logger.logging("Discovered ${generateApiSymbols.size} @GenerateApi class(es)")
+        logger.logging("Discovered ${apiSpecSymbols.size} ApiSpec implementation(s)")
 
         // Validate API spec classes and collect info
         val apiSpecInfos =
-            generateApiSymbols.mapNotNull { apiClass ->
+            apiSpecSymbols.mapNotNull { apiClass ->
                 validateApiSpecClass(apiClass, errors)
             }
 
@@ -218,7 +250,7 @@ public class ApiCodegenProcessor(
         if (!isObject && !(isClass && !isAbstract)) {
             errors +=
                 Diagnostic(
-                    "@GenerateApi class $className must be an object declaration or a concrete class",
+                    "ApiSpec implementation $className must be an object declaration or a concrete class",
                     apiSpecClass,
                 )
             return null
@@ -234,7 +266,7 @@ public class ApiCodegenProcessor(
         if (!extendsApiSpec) {
             errors +=
                 Diagnostic(
-                    "@GenerateApi class $className must extend $API_SPEC_BASE_CLASS",
+                    "Class $className must extend $API_SPEC_BASE_CLASS",
                     apiSpecClass,
                 )
             return null
@@ -246,7 +278,7 @@ public class ApiCodegenProcessor(
         if (!packageName.isValidKotlinPackage()) {
             errors +=
                 Diagnostic(
-                    "@GenerateApi class $className has invalid package name: $packageName",
+                    "ApiSpec implementation $className has invalid package name: $packageName",
                     apiSpecClass,
                 )
             return null
@@ -259,19 +291,21 @@ public class ApiCodegenProcessor(
         if (apiName.isBlank()) {
             errors +=
                 Diagnostic(
-                    "@GenerateApi class must not be named exactly 'ApiSpec'. Use a descriptive name like '<Name>ApiSpec'.",
+                    "ApiSpec implementation must not be named exactly 'ApiSpec'. Use a descriptive name like '<Name>ApiSpec'.",
                     apiSpecClass,
                 )
             return null
         }
 
-        // Determine scan packages from annotation or use default
-        val scanPackages = determineScanPackages(apiSpecClass, packageName)
+        // Use convention-based configuration
+        // scanPackages defaults to <package-name>.models
+        val scanPackages = setOf("$packageName.models")
 
-        // Extract grouping configuration from annotation
-        val grouping = extractGroupingConfiguration(apiSpecClass)
+        // grouping defaults to SingleClient
+        val grouping = ClientGrouping.SingleClient
 
-        logger.info("Grouping for $apiName: $grouping")
+        logger.info("API '$apiName' will use grouping: $grouping")
+        logger.info("API '$apiName' will scan packages: $scanPackages")
 
         return ApiSpecInfo(
             apiSpec = apiSpecClass,
@@ -308,43 +342,6 @@ public class ApiCodegenProcessor(
         //         "0"-"9" / "A"-"Z" / "^" / "_" / "`" / "a"-"z" / "|" / "~"
         val regex = Regex("^[!#$%&'*+\\-.0-9A-Z^_`a-z|~]+$")
         return isNotEmpty() && regex.matches(this)
-    }
-
-    private fun determineScanPackages(
-        apiSpec: KSClassDeclaration,
-        apiPackage: String,
-    ): List<String> {
-        val defaultPackage = listOf("$apiPackage.models")
-
-        val generateApiAnnotation = apiSpec.getAnnotation(GenerateApi::class) ?: return defaultPackage
-
-        val scanPackages =
-            when (val scanPackagesArg = generateApiAnnotation.getArgumentValue("scanPackages")) {
-                is List<*> -> scanPackagesArg.filterIsInstance<String>()
-                else -> emptyList()
-            }
-
-        return scanPackages.ifEmpty {
-            // Default to <api-package>.models
-            defaultPackage
-        }
-    }
-
-    private fun extractGroupingConfiguration(apiSpec: KSClassDeclaration): ClientGrouping {
-        val generateApiAnnotation =
-            apiSpec.getAnnotation(GenerateApi::class)
-                ?: return ClientGrouping.SingleClient
-
-        return when (val groupingArg = generateApiAnnotation.getArgumentValue("grouping")) {
-            is KSClassDeclaration -> {
-                val enumEntryName = groupingArg.simpleName.asString()
-                ClientGrouping.entries.find { it.name == enumEntryName } ?: ClientGrouping.SingleClient
-            }
-
-            else -> {
-                ClientGrouping.SingleClient
-            }
-        }
     }
 
     private fun discoverRequestModels(
@@ -1804,7 +1801,7 @@ public class ApiCodegenProcessor(
         val apiSpec: KSClassDeclaration,
         val apiName: String,
         val packageName: String,
-        val scanPackages: List<String>,
+        val scanPackages: Set<String>,
         val grouping: ClientGrouping,
     )
 

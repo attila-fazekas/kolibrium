@@ -30,11 +30,6 @@ public abstract interface annotation class dev/kolibrium/api/ksp/annotations/GET
 	public abstract fun path ()Ljava/lang/String;
 }
 
-public abstract interface annotation class dev/kolibrium/api/ksp/annotations/GenerateApi : java/lang/annotation/Annotation {
-	public abstract fun grouping ()Ldev/kolibrium/api/ksp/annotations/ClientGrouping;
-	public abstract fun scanPackages ()[Ljava/lang/String;
-}
-
 public abstract interface annotation class dev/kolibrium/api/ksp/annotations/PATCH : java/lang/annotation/Annotation {
 	public abstract fun path ()Ljava/lang/String;
 }

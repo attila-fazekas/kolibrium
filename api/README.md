@@ -88,19 +88,16 @@ dependencies {
 
 An API specification is the entry point for code generation. Create a class or object that:
 1. Extends `ApiSpec`. Class name should follow the pattern `<Name>ApiSpec` (e.g., `VinylStoreApiSpec`)
-2. Is annotated with `@GenerateApi`
-3. Implements `baseUrl`
+2. Overrides `baseUrl`
 
 ### Basic API specification example
 
 ```kotlin
 import dev.kolibrium.api.core.ApiSpec
-import dev.kolibrium.api.ksp.annotations.GenerateApi
 
-@GenerateApi
-object MyApiSpec : ApiSpec(
-    baseUrl = "https://api.example.com"
-)
+object MyApiSpec : ApiSpec() {
+    override val baseUrl = "https://api.example.com"
+}
 ```
 
 ## Defining request models
@@ -291,26 +288,28 @@ fun `update user`() = myApiTest(
 
 ### Scan custom packages
 
-By default, the processor scans `<api-package>.models` for request classes. You can also specify custom packages:
+By default, the processor scans `<api-package>.models` for request classes. You can also specify custom packages by overriding `scanPackages`:
 
 ```kotlin
-@GenerateApi(scanPackages = ["com.example.api.requests", "com.example.api.queries"])
-object MyApiSpec : ApiSpec(
-    baseUrl = "https://api.example.com"
-)
+object MyApiSpec : ApiSpec() {
+    override val baseUrl = "https://api.example.com"
+    override val scanPackages = setOf("com.example.api.requests", "com.example.api.queries")
+}
 ```
 
 ### Client grouping
 
-The processor supports two client organization modes:
+The processor supports two client organization modes, configured by overriding the `grouping` property:
 
 #### SingleClient (Default)
 
 All endpoints are generated in a single client class:
 
 ```kotlin
-@GenerateApi(grouping = ClientGrouping.SingleClient)
-object MyApiSpec : ApiSpec(baseUrl = "https://api.example.com")
+object MyApiSpec : ApiSpec() {
+    override val baseUrl = "https://api.example.com"
+    // grouping defaults to ClientGrouping.SingleClient
+}
 ```
 
 Generates:
@@ -333,8 +332,12 @@ This helps with:
 - Separation of Concerns: Each resource domain gets its own client class
 
 ```kotlin
-@GenerateApi(grouping = ClientGrouping.ByPrefix)
-object MyApiSpec : ApiSpec(baseUrl = "https://api.example.com")
+import dev.kolibrium.api.ksp.annotations.ClientGrouping
+
+object MyApiSpec : ApiSpec() {
+    override val baseUrl = "https://api.example.com"
+    override val grouping = ClientGrouping.ByPrefix
+}
 ```
 
 Given these requests:
@@ -373,6 +376,32 @@ client.vinyls.createVinyl { artist = "Pink Floyd" }
 ```
 
 > Note: If all paths start with `/api/...`, everything groups under a single ApiClient, defeating the purpose of grouping. The solution is to put `/api` in `baseUrl`.
+
+### Custom HTTP client
+
+By default, the generated test harness uses `defaultHttpClient` which is pre-configured with JSON content negotiation, logging, and timeouts. You can customize the HTTP client by overriding `httpClient`:
+
+```kotlin
+import dev.kolibrium.api.core.ApiSpec
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+
+object MyApiSpec : ApiSpec() {
+    override val baseUrl = "https://api.example.com"
+    
+    override val httpClient = HttpClient(CIO) {
+        install(ContentNegotiation) {
+            json(Json {
+                ignoreUnknownKeys = true
+                prettyPrint = true
+            })
+        }
+    }
+}
+```
 
 ---
 
@@ -673,11 +702,11 @@ The processor validates your code at compile time and reports errors for:
 
 ### API specification errors
 
-| Error                               | Cause                                                     |
-|-------------------------------------|-----------------------------------------------------------|
-| Must be an object or concrete class | `@GenerateApi` on interface or abstract class             |
-| Must extend ApiSpec                 | Missing `ApiSpec` base class                              |
-| Duplicate API name                  | Multiple `@GenerateApi` classes with same name in package |
+| Error                               | Cause                                                        |
+|-------------------------------------|--------------------------------------------------------------|
+| Must be an object or concrete class | API spec is an interface or abstract class                   |
+| Must extend ApiSpec                 | Missing `ApiSpec` base class or not overriding `baseUrl`     |
+| Duplicate API name                  | Multiple API spec classes with same name in package          |
 
 ### Request class errors
 
@@ -721,12 +750,10 @@ The processor validates your code at compile time and reports errors for:
 package dev.kolibrium.api.example
 
 import dev.kolibrium.api.core.ApiSpec
-import dev.kolibrium.api.ksp.annotations.GenerateApi
 
-@GenerateApi
-object VinylStoreApiSpec : ApiSpec(
-    baseUrl = "http://localhost:8080"
-)
+object VinylStoreApiSpec : ApiSpec() {
+    override val baseUrl = "http://localhost:8080"
+}
 ```
 
 ```kotlin
@@ -954,7 +981,7 @@ fun `integration test`() = myApiTest(
 **Symptoms:** Build succeeds but no client classes are generated.
 
 **Solutions:**
-1. Ensure `@GenerateApi` class extends `ApiSpec`
+1. Ensure API spec class extends `ApiSpec` and overrides `baseUrl`
 2. Check that request classes are in the scan packages (default: `<api-package>.models`)
 3. Verify request classes have `@Serializable` and HTTP method annotations
 4. Check KSP is properly configured in `build.gradle.kts`

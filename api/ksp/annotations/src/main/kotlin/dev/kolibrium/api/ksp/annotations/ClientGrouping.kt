@@ -14,13 +14,23 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.examples.api.vinylstore
+package dev.kolibrium.api.ksp.annotations
 
-import dev.kolibrium.api.core.ApiSpec
-import dev.kolibrium.api.ksp.annotations.ClientGrouping
+/**
+ * Defines how API client classes are organized.
+ */
+public enum class ClientGrouping {
+    /**
+     * Generates a single client class containing all API methods.
+     * This is the default behavior.
+     */
+    SingleClient,
 
-object VinylStoreApiSpec : ApiSpec() {
-    override val baseUrl = "http://localhost:8080/api"
-
-    override val grouping = ClientGrouping.ByPrefix
+    /**
+     * Groups API methods by their path prefix into separate client classes.
+     * For example, `/vinyls/...` endpoints go into `VinylsClient`,
+     * `/users/...` endpoints go into `UsersClient`, etc.
+     * A root aggregator client is generated that contains properties for each group.
+     */
+    ByPrefix,
 }

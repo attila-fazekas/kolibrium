@@ -17,9 +17,7 @@
 package dev.kolibrium.api.core.vinylstore.models
 
 import dev.kolibrium.api.core.ApiSpec
-import dev.kolibrium.api.ksp.annotations.GenerateApi
 
-@GenerateApi
-object VinylStoreApiSpec : ApiSpec(
-    baseUrl = "http://localhost:8080",
-)
+object VinylStoreApiSpec : ApiSpec() {
+    override val baseUrl = "http://localhost:8080"
+}
