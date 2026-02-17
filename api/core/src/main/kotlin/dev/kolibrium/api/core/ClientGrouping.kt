@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.api.ksp.annotations
+package dev.kolibrium.api.core
 
 /**
  * Defines how API client classes are organized.

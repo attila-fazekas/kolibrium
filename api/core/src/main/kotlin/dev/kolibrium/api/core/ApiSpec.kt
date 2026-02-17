@@ -16,7 +16,6 @@
 
 package dev.kolibrium.api.core
 
-import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import io.ktor.client.HttpClient
 
 /**

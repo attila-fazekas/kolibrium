@@ -47,9 +47,9 @@ import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.TypeSpec
 import com.squareup.kotlinpoet.TypeVariableName
 import com.squareup.kotlinpoet.asTypeName
+import dev.kolibrium.api.core.AuthType
+import dev.kolibrium.api.core.ClientGrouping
 import dev.kolibrium.api.ksp.annotations.Auth
-import dev.kolibrium.api.ksp.annotations.AuthType
-import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import dev.kolibrium.api.ksp.annotations.DELETE
 import dev.kolibrium.api.ksp.annotations.GET
 import dev.kolibrium.api.ksp.annotations.PATCH
@@ -74,7 +74,7 @@ import kotlin.reflect.KClass
  * API specifications are configured by extending `ApiSpec` and overriding properties:
  * - **baseUrl**: Required. The base URL for the API endpoint
  * - **scanPackages**: Optional. Packages to scan for request classes (defaults to `<api-package>.models`)
- * - **grouping**: Optional. Client organization mode (defaults to [ClientGrouping.SingleClient])
+ * - **grouping**: Optional. Client organization mode (defaults to [dev.kolibrium.api.core.ClientGrouping.SingleClient])
  * - **httpClient**: Optional. Custom HTTP client configuration (defaults to [defaultHttpClient][dev.kolibrium.api.core.defaultHttpClient])
  *
  * ## Client Generation Modes

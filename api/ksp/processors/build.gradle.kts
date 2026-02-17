@@ -22,6 +22,6 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":api:core"))
     implementation(project(":api:ksp:annotations"))
-    testImplementation(project(":api:core"))
 }
