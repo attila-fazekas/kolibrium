@@ -23,7 +23,7 @@ import kotlinx.serialization.Serializable
 public typealias Products = List<Product>
 
 @GET("/api/products")
-@Returns(ProductList::class)
+@Returns(success = ProductList::class)
 @Serializable
 public class GetProductsRequest
 

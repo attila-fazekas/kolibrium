@@ -24,7 +24,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
 @POST("/users")
-@Returns(User::class)
+@Returns(success = User::class)
 @Serializable
 data class CreateUserRequest(
     var username: String? = null,
@@ -34,7 +34,7 @@ data class CreateUserRequest(
 )
 
 @PUT("/users/{id}")
-@Returns(User::class)
+@Returns(success = User::class)
 @Serializable
 data class UpdateUserRequest(
     @Path @Transient val id: Int = 0,

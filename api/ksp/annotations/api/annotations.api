@@ -54,6 +54,7 @@ public abstract interface annotation class dev/kolibrium/api/ksp/annotations/Que
 }
 
 public abstract interface annotation class dev/kolibrium/api/ksp/annotations/Returns : java/lang/annotation/Annotation {
-	public abstract fun type ()Ljava/lang/Class;
+	public abstract fun error ()Ljava/lang/Class;
+	public abstract fun success ()Ljava/lang/Class;
 }
 
