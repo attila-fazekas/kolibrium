@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.api.ksp.annotations
+package dev.kolibrium.api.core
 
 /**
  * Defines the available authentication types for API requests.
  *
- * This enum is used with the [Auth] annotation to specify how authentication
+ * This enum is used with the [dev.kolibrium.api.ksp.annotations.Auth] annotation to specify how authentication
  * credentials should be handled when making API calls.
  */
 public enum class AuthType {
@@ -42,7 +42,7 @@ public enum class AuthType {
 
     /**
      * API key authentication, typically sent as a custom header or query parameter.
-     * The header name can be configured using [Auth.headerName].
+     * The header name can be configured using [dev.kolibrium.api.ksp.annotations.Auth.headerName].
      */
     API_KEY,
 

@@ -16,6 +16,7 @@
 
 package dev.kolibrium.api.ksp.annotations
 
+import dev.kolibrium.api.core.AuthType
 import kotlin.reflect.KClass
 
 /**
@@ -144,34 +145,15 @@ public annotation class Returns(
 )
 
 /**
- * Defines how API client classes are organized.
- */
-public enum class ClientGrouping {
-    /**
-     * Generates a single client class containing all API methods.
-     * This is the default behavior.
-     */
-    SingleClient,
-
-    /**
-     * Groups API methods by their path prefix into separate client classes.
-     * For example, `/vinyls/...` endpoints go into `VinylsClient`,
-     * `/users/...` endpoints go into `UsersClient`, etc.
-     * A root aggregator client is generated that contains properties for each group.
-     */
-    ByPrefix,
-}
-
-/**
  * Configures authentication for an API request.
  *
  * This annotation specifies the authentication mechanism to be used when making
  * API calls. It can be applied to request classes to indicate how credentials
  * should be provided.
  *
- * @property type The type of authentication to use. Defaults to [AuthType.NONE].
+ * @property type The type of authentication to use. Defaults to [dev.kolibrium.api.core.AuthType.NONE].
  * @property headerName The name of the header used for authentication credentials.
- *   Only relevant for [AuthType.API_KEY]. Defaults to "X-API-Key".
+ *   Only relevant for [dev.kolibrium.api.core.AuthType.API_KEY]. Defaults to "X-API-Key".
  *
  * Example usage:
  * ```kotlin
@@ -189,40 +171,4 @@ public enum class ClientGrouping {
 public annotation class Auth(
     val type: AuthType = AuthType.NONE,
     val headerName: String = "X-API-Key",
-)
-
-/**
- * Marks a class or object as an API specification.
- *
- * Classes annotated with @GenerateApi serve as the entry point for API client generation.
- * The processor will generate a client class with methods for all request classes
- * found in the scan packages.
- *
- * @property scanPackages The packages to scan for request classes. If empty (default),
- *   the processor will scan `<api-package>.models` where `<api-package>` is the package
- *   containing the @GenerateApi class.
- * @property grouping Defines how the generated client classes are organized.
- *   Use [ClientGrouping.SingleClient] (default) for a single client with all methods,
- *   or [ClientGrouping.ByPrefix] to group methods by their API path prefix.
- *
- * Example usage:
- * ```kotlin
- * // Uses default scan package: dev.example.api.models
- * @GenerateApi
- * object MyApi : Api("https://api.example.com")
- *
- * // Explicit scan packages
- * @GenerateApi(scanPackages = ["dev.example.api.requests", "dev.example.api.queries"])
- * object MyApi : Api("https://api.example.com")
- *
- * // Grouped client by path prefix
- * @GenerateApi(grouping = ClientGrouping.ByPrefix)
- * object MyApi : Api("https://api.example.com")
- * ```
- */
-@Retention(AnnotationRetention.SOURCE)
-@Target(AnnotationTarget.CLASS)
-public annotation class GenerateApi(
-    val scanPackages: Array<String> = [],
-    val grouping: ClientGrouping = ClientGrouping.SingleClient,
 )

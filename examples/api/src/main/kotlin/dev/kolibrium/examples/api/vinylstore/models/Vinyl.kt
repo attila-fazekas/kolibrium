@@ -16,8 +16,8 @@
 
 package dev.kolibrium.examples.api.vinylstore.models
 
+import dev.kolibrium.api.core.AuthType
 import dev.kolibrium.api.ksp.annotations.Auth
-import dev.kolibrium.api.ksp.annotations.AuthType
 import dev.kolibrium.api.ksp.annotations.DELETE
 import dev.kolibrium.api.ksp.annotations.GET
 import dev.kolibrium.api.ksp.annotations.POST

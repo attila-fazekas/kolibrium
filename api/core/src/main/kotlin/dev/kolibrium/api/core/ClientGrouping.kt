@@ -14,14 +14,23 @@
  * limitations under the License.
  */
 
-plugins {
-    id("kolibrium.library-conventions")
-    id("kolibrium.ksp-conventions")
-    id("kolibrium.ktor-client-conventions")
-    id("kolibrium.test-conventions")
-}
+package dev.kolibrium.api.core
 
-dependencies {
-    implementation(project(":api:core"))
-    implementation(project(":api:ksp:annotations"))
+/**
+ * Defines how API client classes are organized.
+ */
+public enum class ClientGrouping {
+    /**
+     * Generates a single client class containing all API methods.
+     * This is the default behavior.
+     */
+    SingleClient,
+
+    /**
+     * Groups API methods by their path prefix into separate client classes.
+     * For example, `/vinyls/...` endpoints go into `VinylsClient`,
+     * `/users/...` endpoints go into `UsersClient`, etc.
+     * A root aggregator client is generated that contains properties for each group.
+     */
+    ByPrefix,
 }

@@ -17,3 +17,7 @@
 plugins {
     id("kolibrium.library-conventions")
 }
+
+dependencies {
+    implementation(project(":api:core"))
+}
