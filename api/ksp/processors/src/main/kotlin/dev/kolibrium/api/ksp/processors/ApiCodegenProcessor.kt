@@ -1381,7 +1381,7 @@ public class ApiCodegenProcessor(
                 ).addParameter(
                     ParameterSpec
                         .builder("client", HTTP_CLIENT_CLASS)
-                        .defaultValue("%M", DEFAULT_HTTP_CLIENT_MEMBER)
+                        .defaultValue("%T.httpClient", apiSpecClassName)
                         .build(),
                 ).addParameter(
                     "block",
@@ -1415,7 +1415,7 @@ public class ApiCodegenProcessor(
                 ).addParameter(
                     ParameterSpec
                         .builder("client", HTTP_CLIENT_CLASS)
-                        .defaultValue("%M", DEFAULT_HTTP_CLIENT_MEMBER)
+                        .defaultValue("%T.httpClient", apiSpecClassName)
                         .build(),
                 ).addParameter(
                     "setUp",
