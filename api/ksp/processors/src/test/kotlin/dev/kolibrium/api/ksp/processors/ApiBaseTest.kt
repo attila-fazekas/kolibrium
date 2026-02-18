@@ -36,6 +36,7 @@ open class ApiBaseTest {
         symbolProcessorProviders = mutableListOf(ApiCodegenProcessorProvider())
         inheritClassPath = true
         verbose = true
+        kotlincArguments = listOf("-Xcontext-parameters")
     }
 
     protected fun assertSourceEquals(

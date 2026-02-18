@@ -148,12 +148,6 @@ public class ApiCodegenProcessor(
                 validateApiSpecClass(apiClass, errors)
             }
 
-        // Log discovered APIs with their scan packages
-        apiSpecInfos.forEach { apiInfo ->
-            val scanPackagesStr = apiInfo.scanPackages.joinToString(", ")
-            logger.logging("API '${apiInfo.apiName}' will scan packages: [$scanPackagesStr]")
-        }
-
         // Check for duplicate API names in the same package
         val apiNamesByPackage = apiSpecInfos.groupBy { it.packageName }
         apiNamesByPackage.forEach { (packageName, apis) ->
