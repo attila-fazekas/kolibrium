@@ -17,33 +17,13 @@
 package dev.kolibrium.api.ksp.processors
 
 import com.google.devtools.ksp.processing.CodeGenerator
-import com.google.devtools.ksp.processing.Dependencies
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.processing.Resolver
 import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import com.google.devtools.ksp.symbol.KSFile
-import com.google.devtools.ksp.symbol.KSType
-import com.google.devtools.ksp.symbol.Nullability
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.CodeBlock
-import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi
-import com.squareup.kotlinpoet.FileSpec
-import com.squareup.kotlinpoet.FunSpec
-import com.squareup.kotlinpoet.KModifier
-import com.squareup.kotlinpoet.LambdaTypeName
-import com.squareup.kotlinpoet.ParameterSpec
-import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
-import com.squareup.kotlinpoet.PropertySpec
-import com.squareup.kotlinpoet.TypeName
-import com.squareup.kotlinpoet.TypeSpec
-import com.squareup.kotlinpoet.TypeVariableName
-import com.squareup.kotlinpoet.asTypeName
-import dev.kolibrium.api.core.AuthType
 import dev.kolibrium.api.core.ClientGrouping
-import io.ktor.http.HttpMethod
 import kotlinx.serialization.Serializable
 
 /**
@@ -134,7 +114,7 @@ public class ApiCodegenProcessor(
             return emptyList()
         }
 
-        logger.logging("Discovered ${apiSpecSymbols.size} ApiSpec implementation(s)")
+        logger.info("Discovered ${apiSpecSymbols.size} ApiSpec implementation(s)")
 
         // Validate API spec classes and collect info
         val apiSpecInfos =
@@ -163,7 +143,7 @@ public class ApiCodegenProcessor(
 
         // Log request class counts per API
         requestsByApi.forEach { (apiInfo, requestClasses) ->
-            logger.logging("API '${apiInfo.apiName}' found ${requestClasses.size} request class(es)")
+            logger.info("API '${apiInfo.apiName}' found ${requestClasses.size} request class(es)")
         }
 
         // Check if any APIs have request classes
@@ -183,7 +163,7 @@ public class ApiCodegenProcessor(
         val requestInfosByApi: Map<ApiSpecInfo, List<RequestClassInfo>> =
             requestsByApi.mapValues { (apiInfo, requestClasses) ->
                 requestClasses.mapNotNull { requestClass ->
-                    requestClassValidator.validateRequestClass(requestClass, apiInfo, errors)
+                    requestClassValidator.validateRequestClass(requestClass, apiInfo, errors, warnings)
                 }
             }
 
@@ -217,7 +197,9 @@ public class ApiCodegenProcessor(
             val requests = requestInfosByApi[apiInfo] ?: emptyList()
             if (requests.isNotEmpty()) {
                 clientCodeGenerator.generateClientClass(apiInfo, requests)
-                testHarnessGenerator.generateTestHarness(apiInfo)
+                if (apiInfo.generateTestHarness) {
+                    testHarnessGenerator.generateTestHarness(apiInfo)
+                }
             }
         }
 

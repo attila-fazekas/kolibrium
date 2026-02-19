@@ -99,7 +99,13 @@ internal class ParameterValidator {
                     )
             }
 
-            if (!property.hasAnnotation(Transient::class)) {
+            if (property.hasJvmTransientOnly()) {
+                errors +=
+                    Diagnostic(
+                        "@Path parameter '$propertyName' uses @kotlin.jvm.Transient, which does not affect kotlinx.serialization. Use @kotlinx.serialization.Transient instead",
+                        property,
+                    )
+            } else if (!property.hasTransientAnnotation()) {
                 errors +=
                     Diagnostic(
                         "@Path parameter '$propertyName' must be annotated with @Transient",
@@ -142,7 +148,13 @@ internal class ParameterValidator {
             val propertyName = property.simpleName.asString()
 
             // Query parameters must be annotated with @Transient
-            if (!property.hasAnnotation(Transient::class)) {
+            if (property.hasJvmTransientOnly()) {
+                errors +=
+                    Diagnostic(
+                        "@Query parameter '$propertyName' uses @kotlin.jvm.Transient, which does not affect kotlinx.serialization. Use @kotlinx.serialization.Transient instead",
+                        property,
+                    )
+            } else if (!property.hasTransientAnnotation()) {
                 errors +=
                     Diagnostic(
                         "@Query parameter '$propertyName' must be annotated with @Transient",

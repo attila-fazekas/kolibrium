@@ -30,6 +30,7 @@ internal data class ApiSpecInfo(
     val packageName: String,
     val scanPackages: Set<String>,
     val grouping: ClientGrouping,
+    val generateTestHarness: Boolean,
 )
 
 internal data class RequestClassInfo(

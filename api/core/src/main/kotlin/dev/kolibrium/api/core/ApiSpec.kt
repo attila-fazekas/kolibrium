@@ -72,6 +72,14 @@ public abstract class ApiSpec {
         get() = setOf("${this::class.java.packageName}.models")
 
     /**
+     * Controls whether a test harness file is generated for this API specification.
+     *
+     * Defaults to `true`. Set to `false` to skip generating the test harness
+     * functions (e.g., when the API client is used in production code only).
+     */
+    public open val generateTestHarness: Boolean = true
+
+    /**
      * The HTTP client instance used for API requests.
      *
      * Defaults to [defaultHttpClient], which is pre-configured with JSON content

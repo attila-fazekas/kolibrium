@@ -30,6 +30,7 @@ internal class RequestClassValidator {
         requestClass: KSClassDeclaration,
         apiInfo: ApiSpecInfo,
         errors: MutableList<Diagnostic>,
+        warnings: MutableList<Diagnostic>,
     ): RequestClassInfo? {
         val className = requestClass.getClassName()
 
@@ -80,6 +81,22 @@ internal class RequestClassValidator {
             errors += Diagnostic("HTTP method annotation on $className must specify a path", requestClass)
             return null
         }
+
+        // Validate path format (malformed paths, brace syntax)
+        validatePathFormat(path, className, requestClass, errors)
+
+        // Normalize trailing slash: strip it for consistency (except root "/")
+        val normalizedPath =
+            if (path.length > 1 && path.endsWith("/")) {
+                warnings +=
+                    Diagnostic(
+                        "Trailing slash in path '$path' on $className was stripped for consistency",
+                        requestClass,
+                    )
+                path.trimEnd('/')
+            } else {
+                path
+            }
 
         val returnsAnnotation = requestClass.getAnnotation(Returns::class)
         if (returnsAnnotation == null) {
@@ -172,8 +189,8 @@ internal class RequestClassValidator {
         return RequestClassInfo(
             requestClass = requestClass,
             httpMethod = httpMethod,
-            path = path,
-            group = extractGroupByApiPrefix(path),
+            path = normalizedPath,
+            group = extractGroupByApiPrefix(normalizedPath),
             returnType = returnType,
             errorType = resolvedErrorType,
             isEmptyResponse = isEmptyResponse,
@@ -190,16 +207,11 @@ internal class RequestClassValidator {
     private fun extractAuthType(requestClass: KSClassDeclaration): AuthType {
         val annotation = requestClass.getAnnotation(Auth::class) ?: return AuthType.NONE
 
-        return when (val authArg = annotation.getArgumentValue("type")) {
-            is KSClassDeclaration -> {
-                val enumName = authArg.simpleName.asString()
-                AuthType.entries.find { it.name == enumName } ?: AuthType.NONE
-            }
-
-            else -> {
-                AuthType.NONE
-            }
-        }
+        val authArg =
+            annotation.getArgumentValue("type") as? KSClassDeclaration
+                ?: error("Could not resolve auth type on ${requestClass.getClassName()}")
+        val enumName = authArg.simpleName.asString()
+        return AuthType.entries.first { it.name == enumName }
     }
 
     private fun extractApiKeyHeader(requestClass: KSClassDeclaration): String {

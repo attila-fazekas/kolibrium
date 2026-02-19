@@ -24,6 +24,9 @@ internal const val KOTLIN_NOTHING: String = "kotlin.Nothing"
 internal const val JAVA_VOID: String = "java.lang.Void"
 internal const val API_SPEC_BASE_CLASS: String = "dev.kolibrium.api.core.ApiSpec"
 internal const val KOTLIN_COLLECTIONS_LIST: String = "kotlin.collections.List"
+internal const val KOTLINX_SERIALIZATION_TRANSIENT: String = "kotlinx.serialization.Transient"
+internal const val KOTLIN_JVM_TRANSIENT: String = "kotlin.jvm.Transient"
+internal const val ERROR_RESPONSE_BODY_MAX_LENGTH: Int = 500
 
 internal val ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES: Set<String> =
     setOf(
@@ -51,6 +54,7 @@ internal val PARAMETER_MEMBER: MemberName = MemberName("io.ktor.client.request",
 
 // Ktor response functions
 internal val BODY_MEMBER: MemberName = MemberName("io.ktor.client.call", "body")
+internal val BODY_AS_TEXT_MEMBER: MemberName = MemberName("io.ktor.client.statement", "bodyAsText")
 
 // Ktor HTTP functions
 internal val CONTENT_TYPE_MEMBER: MemberName = MemberName("io.ktor.http", "contentType")

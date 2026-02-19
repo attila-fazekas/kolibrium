@@ -163,6 +163,11 @@ internal class ClientCodeGenerator(
             fileSpecBuilder.addImport("io.ktor.client.request", methodName)
         }
 
+        // Add URL encoding import if any request has path parameters
+        if (clientMethodGenerator.hasPathParameters(requests)) {
+            fileSpecBuilder.addImport("io.ktor.http", "encodeURLPathPart")
+        }
+
         // Add auth-related imports if any request uses auth
         val usesAuth = requests.any { it.authType != AuthType.NONE }
         if (usesAuth) {

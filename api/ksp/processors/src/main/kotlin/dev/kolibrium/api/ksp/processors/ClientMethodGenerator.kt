@@ -146,7 +146,7 @@ internal class ClientMethodGenerator {
                 HttpMethod.Put -> "put"
                 HttpMethod.Delete -> "delete"
                 HttpMethod.Patch -> "patch"
-                else -> "get"
+                else -> error("Unsupported HTTP method: ${info.httpMethod}")
             }
 
         val hasQueryParams = info.queryProperties.isNotEmpty()
@@ -190,7 +190,16 @@ internal class ClientMethodGenerator {
             if (hasQueryParams) {
                 info.queryProperties.forEach { property ->
                     val paramName = property.simpleName.asString()
-                    builder.addStatement("$paramName?.let { %M(%S, it) }", PARAMETER_MEMBER, paramName)
+                    val resolvedType = property.type.resolve()
+                    val typeQualifiedName = resolvedType.declaration.qualifiedName?.asString()
+                    if (typeQualifiedName == KOTLIN_COLLECTIONS_LIST) {
+                        builder.addStatement(
+                            "$paramName?.let { url.parameters.appendAll(%S, it) }",
+                            paramName,
+                        )
+                    } else {
+                        builder.addStatement("$paramName?.let { %M(%S, it) }", PARAMETER_MEMBER, paramName)
+                    }
                 }
             }
 
@@ -238,13 +247,20 @@ internal class ClientMethodGenerator {
                     errorTypeDeclaration.simpleName.asString(),
                 )
             builder.addStatement(
-                "throw %T(%S + %T::class.simpleName + %S + httpResponse.status.value + %S + (e.message ?: %S))",
+                "val rawBody = try { httpResponse.%M() } catch (_: %T) { %S }",
+                BODY_AS_TEXT_MEMBER,
+                EXCEPTION_CLASS,
+                "<unavailable>",
+            )
+            builder.addStatement(
+                "throw %T(%S + %T::class.simpleName + %S + httpResponse.status.value + %S + (e.message ?: %S) + %S + rawBody.take($ERROR_RESPONSE_BODY_MAX_LENGTH))",
                 ILLEGAL_STATE_EXCEPTION_CLASS,
-                "Failed to parse error response as ",
+                "Failed to deserialize error response as ",
                 errorClassName,
                 " (HTTP ",
                 "): ",
                 "unknown error",
+                ". Response body: ",
             )
             builder.endControlFlow()
             builder.unindent()
@@ -299,10 +315,18 @@ internal class ClientMethodGenerator {
         var path = info.path
         info.pathProperties.forEach { property ->
             val paramName = property.simpleName.asString()
-            path = path.replace("{$paramName}", $$"$$$paramName")
+            val typeQualifiedName =
+                property.type
+                    .resolve()
+                    .declaration.qualifiedName
+                    ?.asString()
+            val toStringCall = if (typeQualifiedName == "kotlin.String") "" else ".toString()"
+            path = path.replace("{$paramName}", "\${$paramName$toStringCall.encodeURLPathPart()}")
         }
         return path
     }
+
+    fun hasPathParameters(requests: List<RequestClassInfo>): Boolean = requests.any { it.pathProperties.isNotEmpty() }
 
     fun collectHttpMethodNames(requests: List<RequestClassInfo>): List<String> =
         requests
@@ -313,7 +337,7 @@ internal class ClientMethodGenerator {
                     HttpMethod.Put -> "put"
                     HttpMethod.Delete -> "delete"
                     HttpMethod.Patch -> "patch"
-                    else -> "get"
+                    else -> error("Unsupported HTTP method: ${info.httpMethod}")
                 }
             }.distinct()
 }
@@ -337,8 +361,11 @@ internal fun KSType.toTypeName(): TypeName {
             if (typeArgumentNames.size == typeArguments.size) {
                 baseClassName.parameterizedBy(typeArgumentNames)
             } else {
-                // Fallback if we can't resolve all type arguments
-                baseClassName
+                error(
+                    "Could not resolve all type arguments for" +
+                        " ${declaration.qualifiedName?.asString() ?: declaration.simpleName.asString()}. " +
+                        "Expected ${typeArguments.size} type argument(s) but resolved ${typeArgumentNames.size}.",
+                )
             }
         } else {
             baseClassName

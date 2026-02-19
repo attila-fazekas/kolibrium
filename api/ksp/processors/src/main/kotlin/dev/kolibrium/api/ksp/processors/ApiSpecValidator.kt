@@ -96,12 +96,15 @@ internal class ApiSpecValidator(
         logger.info("API '$apiName' will use grouping: $grouping")
         logger.info("API '$apiName' will scan packages: $scanPackages")
 
+        val generateTestHarness = apiSpecClass.readBooleanProperty("generateTestHarness", defaultValue = true)
+
         return ApiSpecInfo(
             apiSpec = apiSpecClass,
             apiName = apiName,
             packageName = packageName,
             scanPackages = scanPackages,
             grouping = grouping,
+            generateTestHarness = generateTestHarness,
         )
     }
 }
