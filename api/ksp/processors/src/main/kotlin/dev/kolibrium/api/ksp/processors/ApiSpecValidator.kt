@@ -19,8 +19,10 @@ package dev.kolibrium.api.ksp.processors
 import com.google.devtools.ksp.processing.KSPLogger
 import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.Modifier
 import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 
 internal class ApiSpecValidator(
     private val logger: KSPLogger,
@@ -86,17 +88,50 @@ internal class ApiSpecValidator(
             return null
         }
 
-        // Use convention-based configuration
-        // scanPackages defaults to <package-name>.models
-        val scanPackages = setOf("$packageName.models")
+        // Read codegen configuration from @GenerateApi annotation (defaults when absent)
+        val generateApiAnnotation = apiSpecClass.getAnnotation(GenerateApi::class)
 
-        // grouping defaults to SingleClient
-        val grouping = ClientGrouping.SingleClient
+        val conventionDefault = setOf("$packageName.models")
+
+        val scanPackages =
+            if (generateApiAnnotation != null) {
+                @Suppress("UNCHECKED_CAST")
+                val declared = generateApiAnnotation.getArgumentValue("scanPackages") as? List<String> ?: emptyList()
+                if (declared.isEmpty()) conventionDefault else declared.toSet()
+            } else {
+                conventionDefault
+            }
+
+        val grouping =
+            if (generateApiAnnotation != null) {
+                when (val groupingArg = generateApiAnnotation.getArgumentValue("grouping")) {
+                    is KSType -> {
+                        val name = groupingArg.declaration.simpleName.asString()
+                        ClientGrouping.entries.first { it.name == name }
+                    }
+
+                    is KSClassDeclaration -> {
+                        val name = groupingArg.simpleName.asString()
+                        ClientGrouping.entries.first { it.name == name }
+                    }
+
+                    else -> {
+                        ClientGrouping.SingleClient
+                    }
+                }
+            } else {
+                ClientGrouping.SingleClient
+            }
+
+        val generateTestHarness =
+            if (generateApiAnnotation != null) {
+                generateApiAnnotation.getArgumentValue("generateTestHarness") as? Boolean ?: true
+            } else {
+                true
+            }
 
         logger.info("API '$apiName' will use grouping: $grouping")
         logger.info("API '$apiName' will scan packages: $scanPackages")
-
-        val generateTestHarness = apiSpecClass.readBooleanProperty("generateTestHarness", defaultValue = true)
 
         return ApiSpecInfo(
             apiSpec = apiSpecClass,

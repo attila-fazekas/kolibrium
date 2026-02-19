@@ -108,7 +108,7 @@ Request models define API endpoints and can have the following properties:
 - Body parameter
 
 **Requirements:**
-- Must be annotated with `@Serializable` and, by default, placed under `<api-package>.models` (scan packages can be customized on the API spec)
+- Must be annotated with `@Serializable` and, by default, placed under `<api-package>.models` (scan packages can be customized via the `@GenerateApi` annotation)
 - Must have exactly one HTTP method annotation (`@GET`, `@POST`, `@PUT`, `@PATCH`, `@DELETE`)
 - Must have a `@Returns` annotation specifying the response type
 - Class name must end with the `Request` suffix (e.g., `GetUserRequest`, `CreateOrderRequest`)
@@ -286,20 +286,37 @@ fun `update user`() = myApiTest(
 
 ## Customizing code generation
 
+### Runtime vs. codegen configuration
+
+`ApiSpec` owns **runtime** configuration — properties that the generated code uses at execution time:
+- `baseUrl` — the base URL for the API endpoint
+- `httpClient` — the HTTP client instance
+
+The `@GenerateApi` annotation owns **codegen** configuration — directives that control how the KSP processor generates code:
+- `scanPackages` — packages to scan for request classes
+- `grouping` — how client classes are organized
+- `generateTestHarness` — whether to generate test harness functions
+
+When `@GenerateApi` is absent, all codegen properties use their defaults.
+
 ### Scan custom packages
 
-By default, the processor scans `<api-package>.models` for request classes. You can also specify custom packages by overriding `scanPackages`:
+By default, the processor scans `<api-package>.models` for request classes. You can specify custom packages using the `@GenerateApi` annotation:
 
 ```kotlin
+import dev.kolibrium.api.ksp.annotations.GenerateApi
+
+@GenerateApi(scanPackages = ["com.example.api.requests", "com.example.api.queries"])
 object MyApiSpec : ApiSpec() {
     override val baseUrl = "https://api.example.com"
-    override val scanPackages = setOf("com.example.api.requests", "com.example.api.queries")
 }
 ```
 
+An empty `scanPackages` array (the default) means "use the convention default": the `<api-package>.models` subpackage.
+
 ### Client grouping
 
-The processor supports two client organization modes, configured by overriding the `grouping` property:
+The processor supports two client organization modes, configured via the `@GenerateApi` annotation:
 
 #### SingleClient (Default)
 
@@ -332,11 +349,12 @@ This helps with:
 - Separation of Concerns: Each resource domain gets its own client class
 
 ```kotlin
-import dev.kolibrium.api.ksp.annotations.ClientGrouping
+import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 
+@GenerateApi(grouping = ClientGrouping.ByPrefix)
 object MyApiSpec : ApiSpec() {
     override val baseUrl = "https://api.example.com"
-    override val grouping = ClientGrouping.ByPrefix
 }
 ```
 

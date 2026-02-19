@@ -35,11 +35,14 @@ import kotlinx.serialization.Serializable
  *
  * ## Configuration
  *
- * API specifications are configured by extending `ApiSpec` and overriding properties:
+ * Runtime configuration is provided by extending `ApiSpec`:
  * - **baseUrl**: Required. The base URL for the API endpoint
+ * - **httpClient**: Optional. Custom HTTP client configuration (defaults to [defaultHttpClient][dev.kolibrium.api.core.defaultHttpClient])
+ *
+ * Codegen configuration is provided via the [@GenerateApi][dev.kolibrium.api.ksp.annotations.GenerateApi] annotation:
  * - **scanPackages**: Optional. Packages to scan for request classes (defaults to `<api-package>.models`)
  * - **grouping**: Optional. Client organization mode (defaults to [dev.kolibrium.api.core.ClientGrouping.SingleClient])
- * - **httpClient**: Optional. Custom HTTP client configuration (defaults to [defaultHttpClient][dev.kolibrium.api.core.defaultHttpClient])
+ * - **generateTestHarness**: Optional. Whether to generate test harness functions (defaults to `true`)
  *
  * ## Client Generation Modes
  *
@@ -66,10 +69,12 @@ import kotlinx.serialization.Serializable
  *
  * Example API specification:
  * ```kotlin
+ * @GenerateApi(
+ *     scanPackages = ["io.github.vinylstore.models"],
+ *     grouping = ClientGrouping.ByPrefix,
+ * )
  * object VinylStoreApiSpec : ApiSpec() {
  *     override val baseUrl = "http://localhost:8080"
- *     override val scanPackages = setOf("io.github.vinylstore.models")
- *     override val grouping = ClientGrouping.ByPrefix
  * }
  * ```
  *

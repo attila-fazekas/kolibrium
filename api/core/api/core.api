@@ -18,10 +18,7 @@ public final class dev/kolibrium/api/core/ApiResponse {
 public abstract class dev/kolibrium/api/core/ApiSpec {
 	public fun <init> ()V
 	public abstract fun getBaseUrl ()Ljava/lang/String;
-	public fun getGenerateTestHarness ()Z
-	public fun getGrouping ()Ldev/kolibrium/api/core/ClientGrouping;
 	public fun getHttpClient ()Lio/ktor/client/HttpClient;
-	public fun getScanPackages ()Ljava/util/Set;
 }
 
 public final class dev/kolibrium/api/core/AuthType : java/lang/Enum {

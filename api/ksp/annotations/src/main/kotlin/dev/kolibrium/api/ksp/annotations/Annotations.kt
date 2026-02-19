@@ -17,7 +17,34 @@
 package dev.kolibrium.api.ksp.annotations
 
 import dev.kolibrium.api.core.AuthType
+import dev.kolibrium.api.core.ClientGrouping
 import kotlin.reflect.KClass
+
+/**
+ * Configures code generation for an [ApiSpec][dev.kolibrium.api.core.ApiSpec] subclass.
+ *
+ * Place this annotation on your `ApiSpec` subclass to customize how the KSP processor discovers
+ * request models and organizes the generated client code. When absent, all properties use their
+ * defaults.
+ *
+ * @property scanPackages Packages to scan for request classes. An empty array (the default) means
+ *   "use the convention default": the `<api-package>.models` subpackage of the annotated class's
+ *   package.
+ * @property grouping Controls how generated client classes are organized. Defaults to
+ *   [ClientGrouping.SingleClient], which places all endpoint methods in a single client class.
+ *   Use [ClientGrouping.ByPrefix] to group methods by their first path segment into separate
+ *   client classes.
+ * @property generateTestHarness Whether to generate a test harness file for this API specification.
+ *   Defaults to `true`. Set to `false` to skip generating test harness functions (e.g., when the
+ *   API client is used in production code only).
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.CLASS)
+public annotation class GenerateApi(
+    val scanPackages: Array<String> = [],
+    val grouping: ClientGrouping = ClientGrouping.SingleClient,
+    val generateTestHarness: Boolean = true,
+)
 
 /**
  * Marks a class as an HTTP GET request specification.

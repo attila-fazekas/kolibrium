@@ -18,9 +18,9 @@ package dev.kolibrium.examples.api.vinylstore
 
 import dev.kolibrium.api.core.ApiSpec
 import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 
+@GenerateApi(grouping = ClientGrouping.ByPrefix)
 object VinylStoreApiSpec : ApiSpec() {
     override val baseUrl = "http://localhost:8080/api"
-
-    override val grouping = ClientGrouping.ByPrefix
 }

@@ -37,7 +37,6 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             package dev.kolibrium.api.ksp.test
 
             import dev.kolibrium.api.core.ApiSpec
-            import dev.kolibrium.api.core.ClientGrouping
 
             object TestApiSpec : ApiSpec() {
                 override val baseUrl = "https://test.api"
@@ -2108,9 +2107,10 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test
                     import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi(generateTestHarness = false)
                     object NoHarnessApiSpec : ApiSpec() {
                         override val baseUrl = "https://test.api"
-                        override val generateTestHarness = false
                     }
                     """.trimIndent(),
                 )
@@ -2142,23 +2142,110 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
         }
 
         @Test
-        fun `13_4 — generateTestHarness getter syntax = false skips test harness generation`() {
-            val noHarnessApiSpec =
+        fun `13_4 — GenerateApi with custom scanPackages discovers request classes in specified package`() {
+            val apiSpec =
                 kotlin(
-                    "NoHarnessApiSpec.kt",
+                    "CustomScanApiSpec.kt",
                     """
                     package dev.kolibrium.api.ksp.test
                     import dev.kolibrium.api.core.ApiSpec
-                    object NoHarnessApiSpec : ApiSpec() {
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi(scanPackages = ["dev.kolibrium.api.ksp.test.custom"])
+                    object CustomScanApiSpec : ApiSpec() {
                         override val baseUrl = "https://test.api"
-                        override val generateTestHarness: Boolean
-                            get() = false
                     }
                     """.trimIndent(),
                 )
             val request =
                 kotlin(
-                    "Requests.kt",
+                    "CustomRequests.kt",
+                    """
+                    package dev.kolibrium.api.ksp.test.custom
+                    import dev.kolibrium.api.ksp.annotations.*
+                    import kotlinx.serialization.Serializable
+                    @Serializable
+                    data class UserDto(val id: Int)
+                    @GET("/users")
+                    @Returns(success = UserDto::class)
+                    @Serializable
+                    class GetUsersRequest
+                    """.trimIndent(),
+                )
+            val kotlinCompilation = getCompilation(apiSpec, request)
+            val compilation = kotlinCompilation.compile()
+            compilation.exitCode shouldBe OK
+            val clientSource = kotlinCompilation.getGeneratedSource("CustomScanClient.kt")
+            clientSource shouldContain "class CustomScanClient"
+            clientSource shouldContain "suspend fun getUsers"
+        }
+
+        @Test
+        fun `13_5 — GenerateApi with ByPrefix grouping produces grouped clients`() {
+            val apiSpec =
+                kotlin(
+                    "GroupedApiSpec.kt",
+                    """
+                    package dev.kolibrium.api.ksp.test
+                    import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.core.ClientGrouping
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi(grouping = ClientGrouping.ByPrefix)
+                    object GroupedApiSpec : ApiSpec() {
+                        override val baseUrl = "https://test.api"
+                    }
+                    """.trimIndent(),
+                )
+            val request =
+                kotlin(
+                    "GroupedRequests.kt",
+                    """
+                    package dev.kolibrium.api.ksp.test.models
+                    import dev.kolibrium.api.ksp.annotations.*
+                    import kotlinx.serialization.Serializable
+                    @Serializable
+                    data class UserDto(val id: Int)
+                    @GET("/users")
+                    @Returns(success = UserDto::class)
+                    @Serializable
+                    class GetUsersRequest
+                    @Serializable
+                    data class OrderDto(val id: Int)
+                    @GET("/orders")
+                    @Returns(success = OrderDto::class)
+                    @Serializable
+                    class GetOrdersRequest
+                    """.trimIndent(),
+                )
+            val kotlinCompilation = getCompilation(apiSpec, request)
+            val compilation = kotlinCompilation.compile()
+            compilation.exitCode shouldBe OK
+            val usersClient = kotlinCompilation.getGeneratedSource("UsersClient.kt")
+            usersClient shouldContain "class UsersClient"
+            usersClient shouldContain "suspend fun getUsers"
+            val ordersClient = kotlinCompilation.getGeneratedSource("OrdersClient.kt")
+            ordersClient shouldContain "class OrdersClient"
+            ordersClient shouldContain "suspend fun getOrders"
+            // Root aggregator client should reference group clients
+            val rootClient = kotlinCompilation.getGeneratedSource("GroupedClient.kt")
+            rootClient shouldContain "class GroupedClient"
+        }
+
+        @Test
+        fun `13_6 — GenerateApi absent uses all defaults`() {
+            val apiSpec =
+                kotlin(
+                    "DefaultApiSpec.kt",
+                    """
+                    package dev.kolibrium.api.ksp.test
+                    import dev.kolibrium.api.core.ApiSpec
+                    object DefaultApiSpec : ApiSpec() {
+                        override val baseUrl = "https://test.api"
+                    }
+                    """.trimIndent(),
+                )
+            val request =
+                kotlin(
+                    "DefaultRequests.kt",
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
@@ -2171,16 +2258,53 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     class GetUsersRequest
                     """.trimIndent(),
                 )
-            val kotlinCompilation = getCompilation(noHarnessApiSpec, request)
+            val kotlinCompilation = getCompilation(apiSpec, request)
             val compilation = kotlinCompilation.compile()
             compilation.exitCode shouldBe OK
-            // Client should still be generated
-            val clientSource = kotlinCompilation.getGeneratedSource("NoHarnessClient.kt")
-            clientSource shouldContain "class NoHarnessClient"
-            // But test harness should NOT be generated
-            shouldThrow<IllegalArgumentException> {
-                kotlinCompilation.getGeneratedSource("NoHarnessTestHarness.kt")
-            }
+            // SingleClient: single client class
+            val clientSource = kotlinCompilation.getGeneratedSource("DefaultClient.kt")
+            clientSource shouldContain "class DefaultClient"
+            // Test harness generated by default
+            val harnessSource = kotlinCompilation.getGeneratedSource("DefaultTestHarness.kt")
+            harnessSource shouldContain "fun defaultApiTest"
+        }
+
+        @Test
+        fun `13_7 — GenerateApi with empty scanPackages uses convention default`() {
+            val apiSpec =
+                kotlin(
+                    "EmptyScanApiSpec.kt",
+                    """
+                    package dev.kolibrium.api.ksp.test
+                    import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi(scanPackages = [])
+                    object EmptyScanApiSpec : ApiSpec() {
+                        override val baseUrl = "https://test.api"
+                    }
+                    """.trimIndent(),
+                )
+            val request =
+                kotlin(
+                    "EmptyScanRequests.kt",
+                    """
+                    package dev.kolibrium.api.ksp.test.models
+                    import dev.kolibrium.api.ksp.annotations.*
+                    import kotlinx.serialization.Serializable
+                    @Serializable
+                    data class UserDto(val id: Int)
+                    @GET("/users")
+                    @Returns(success = UserDto::class)
+                    @Serializable
+                    class GetUsersRequest
+                    """.trimIndent(),
+                )
+            val kotlinCompilation = getCompilation(apiSpec, request)
+            val compilation = kotlinCompilation.compile()
+            compilation.exitCode shouldBe OK
+            val clientSource = kotlinCompilation.getGeneratedSource("EmptyScanClient.kt")
+            clientSource shouldContain "class EmptyScanClient"
+            clientSource shouldContain "suspend fun getUsers"
         }
     }
 

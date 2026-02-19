@@ -16,7 +16,6 @@
 
 package dev.kolibrium.api.ksp.processors
 
-import com.google.devtools.ksp.getDeclaredProperties
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
@@ -214,56 +213,3 @@ internal fun extractGroupByApiPrefix(path: String): String {
 
 internal fun groupRequestsByPrefix(requests: List<RequestClassInfo>): Map<String, List<RequestClassInfo>> =
     requests.groupBy { extractGroupByApiPrefix(it.path) }
-
-/**
- * Reads a Boolean property value from a class declaration by parsing the source file.
- *
- * Since KSP doesn't provide direct access to property initializer values, this function
- * reads the source file and parses the property declaration to extract the Boolean value.
- *
- * @param propertyName the name of the Boolean property to read
- * @param defaultValue the value to return if the property is not declared in the class
- * @return the Boolean value of the property, or [defaultValue] if not found
- */
-internal fun KSClassDeclaration.readBooleanProperty(
-    propertyName: String,
-    defaultValue: Boolean,
-): Boolean {
-    // First check if the property is declared in this class
-    val property =
-        getDeclaredProperties().find { it.simpleName.asString() == propertyName }
-            ?: return defaultValue
-
-    // Read the source file to find the property value
-    val sourceFile = property.containingFile ?: return defaultValue
-    val filePath = sourceFile.filePath
-    val sourceText =
-        try {
-            java.io.File(filePath).readText()
-        } catch (_: Exception) {
-            return defaultValue
-        }
-
-    // Find the property declaration - supports two styles:
-    // 1. Direct assignment: override val propertyName = false
-    //                       override val propertyName: Boolean = false
-    // 2. Getter syntax:     override val propertyName: Boolean
-    //                           get() = false
-
-    // Pattern for direct assignment (= true/false on same line as property declaration)
-    val directAssignmentPattern = Regex("""(?:override\s+)?val\s+$propertyName(?:\s*:\s*Boolean)?\s*=\s*(true|false)""")
-    val directMatch = directAssignmentPattern.find(sourceText)
-    if (directMatch != null) {
-        return directMatch.groupValues[1].toBoolean()
-    }
-
-    // Pattern for getter syntax (get() = true/false, possibly on next line)
-    // First find the property declaration, then look for its getter
-    val getterPattern = Regex("""(?:override\s+)?val\s+$propertyName\s*:\s*Boolean\s*\n\s*get\(\)\s*=\s*(true|false)""")
-    val getterMatch = getterPattern.find(sourceText)
-    if (getterMatch != null) {
-        return getterMatch.groupValues[1].toBoolean()
-    }
-
-    return defaultValue
-}
