@@ -87,14 +87,17 @@ dependencies {
 ## Defining API specification
 
 An API specification is the entry point for code generation. Create a class or object that:
-1. Extends `ApiSpec`. Class name should follow the pattern `<Name>ApiSpec` (e.g., `VinylStoreApiSpec`)
-2. Overrides `baseUrl`
+1. Is annotated with `@GenerateApi`
+2. Extends `ApiSpec`. Class name should follow the pattern `<Name>ApiSpec` (e.g., `VinylStoreApiSpec`)
+3. Overrides `baseUrl`
 
 ### Basic API specification example
 
 ```kotlin
 import dev.kolibrium.api.core.ApiSpec
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 
+@GenerateApi
 object MyApiSpec : ApiSpec() {
     override val baseUrl = "https://api.example.com"
 }
@@ -108,7 +111,7 @@ Request models define API endpoints and can have the following properties:
 - Body parameter
 
 **Requirements:**
-- Must be annotated with `@Serializable` and, by default, placed under `<api-package>.models` (scan packages can be customized on the API spec)
+- Must be annotated with `@Serializable` and, by default, placed under `<api-package>.models` (scan packages can be customized via the `@GenerateApi` annotation)
 - Must have exactly one HTTP method annotation (`@GET`, `@POST`, `@PUT`, `@PATCH`, `@DELETE`)
 - Must have a `@Returns` annotation specifying the response type
 - Class name must end with the `Request` suffix (e.g., `GetUserRequest`, `CreateOrderRequest`)
@@ -286,26 +289,44 @@ fun `update user`() = myApiTest(
 
 ## Customizing code generation
 
+### Runtime vs. codegen configuration
+
+`ApiSpec` owns **runtime** configuration — properties that the generated code uses at execution time:
+- `baseUrl` — the base URL for the API endpoint
+- `httpClient` — the HTTP client instance
+
+The `@GenerateApi` annotation owns **codegen** configuration — directives that control how the KSP processor generates code:
+- `scanPackages` — packages to scan for request classes
+- `grouping` — how client classes are organized
+- `generateTestHarness` — whether to generate test harness functions
+
+When `@GenerateApi` is absent, all codegen properties use their defaults.
+
 ### Scan custom packages
 
-By default, the processor scans `<api-package>.models` for request classes. You can also specify custom packages by overriding `scanPackages`:
+By default, the processor scans `<api-package>.models` for request classes. You can specify custom packages using the `@GenerateApi` annotation:
 
 ```kotlin
+import dev.kolibrium.api.ksp.annotations.GenerateApi
+
+@GenerateApi(scanPackages = ["com.example.api.requests", "com.example.api.queries"])
 object MyApiSpec : ApiSpec() {
     override val baseUrl = "https://api.example.com"
-    override val scanPackages = setOf("com.example.api.requests", "com.example.api.queries")
 }
 ```
 
+An empty `scanPackages` array (the default) means "use the convention default": the `<api-package>.models` subpackage.
+
 ### Client grouping
 
-The processor supports two client organization modes, configured by overriding the `grouping` property:
+The processor supports two client organization modes, configured via the `@GenerateApi` annotation:
 
 #### SingleClient (Default)
 
 All endpoints are generated in a single client class:
 
 ```kotlin
+@GenerateApi
 object MyApiSpec : ApiSpec() {
     override val baseUrl = "https://api.example.com"
     // grouping defaults to ClientGrouping.SingleClient
@@ -332,11 +353,12 @@ This helps with:
 - Separation of Concerns: Each resource domain gets its own client class
 
 ```kotlin
-import dev.kolibrium.api.ksp.annotations.ClientGrouping
+import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 
+@GenerateApi(grouping = ClientGrouping.ByPrefix)
 object MyApiSpec : ApiSpec() {
     override val baseUrl = "https://api.example.com"
-    override val grouping = ClientGrouping.ByPrefix
 }
 ```
 
@@ -383,12 +405,14 @@ By default, the generated test harness uses `defaultHttpClient` which is pre-con
 
 ```kotlin
 import dev.kolibrium.api.core.ApiSpec
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
+@GenerateApi
 object MyApiSpec : ApiSpec() {
     override val baseUrl = "https://api.example.com"
     
@@ -750,7 +774,9 @@ The processor validates your code at compile time and reports errors for:
 package dev.kolibrium.api.example
 
 import dev.kolibrium.api.core.ApiSpec
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 
+@GenerateApi
 object VinylStoreApiSpec : ApiSpec() {
     override val baseUrl = "http://localhost:8080"
 }
@@ -981,10 +1007,11 @@ fun `integration test`() = myApiTest(
 **Symptoms:** Build succeeds but no client classes are generated.
 
 **Solutions:**
-1. Ensure API spec class extends `ApiSpec` and overrides `baseUrl`
-2. Check that request classes are in the scan packages (default: `<api-package>.models`)
-3. Verify request classes have `@Serializable` and HTTP method annotations
-4. Check KSP is properly configured in `build.gradle.kts`
+1. Ensure API spec class is annotated with `@GenerateApi` and extends `ApiSpec`
+2. Ensure `baseUrl` is overridden
+3. Check that request classes are in the scan packages (default: `<api-package>.models`)
+4. Verify request classes have `@Serializable` and HTTP method annotations
+5. Check KSP is properly configured in `build.gradle.kts`
 
 ### Compilation errors in generated code
 
