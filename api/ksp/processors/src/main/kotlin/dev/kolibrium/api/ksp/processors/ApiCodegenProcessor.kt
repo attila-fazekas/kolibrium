@@ -142,7 +142,7 @@ public class ApiCodegenProcessor(
 
         // Log request class counts per API
         requestsByApi.forEach { (apiInfo, requestClasses) ->
-            logger.info("API '${apiInfo.apiName}' found ${requestClasses.size} request class(es)")
+            logger.logging("API '${apiInfo.apiName}' found ${requestClasses.size} request class(es)")
         }
 
         // Check if any APIs have request classes

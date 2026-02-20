@@ -130,8 +130,8 @@ internal class ApiSpecValidator(
                 true
             }
 
-        logger.info("API '$apiName' will use grouping: $grouping")
-        logger.info("API '$apiName' will scan packages: $scanPackages")
+        logger.logging("API '$apiName' will use grouping: $grouping")
+        logger.logging("API '$apiName' will scan packages: $scanPackages")
 
         return ApiSpecInfo(
             apiSpec = apiSpecClass,
