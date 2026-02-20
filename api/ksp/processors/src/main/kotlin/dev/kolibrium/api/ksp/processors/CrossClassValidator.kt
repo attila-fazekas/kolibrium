@@ -17,7 +17,7 @@
 package dev.kolibrium.api.ksp.processors
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.ClientGrouping
 
 internal class CrossClassValidator {
     fun checkFunctionNameCollisions(

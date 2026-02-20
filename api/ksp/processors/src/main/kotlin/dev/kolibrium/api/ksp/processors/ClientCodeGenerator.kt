@@ -25,8 +25,8 @@ import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
-import dev.kolibrium.api.core.AuthType
-import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.AuthType
+import dev.kolibrium.api.ksp.annotations.ClientGrouping
 
 internal class ClientCodeGenerator(
     private val codeGenerator: CodeGenerator,

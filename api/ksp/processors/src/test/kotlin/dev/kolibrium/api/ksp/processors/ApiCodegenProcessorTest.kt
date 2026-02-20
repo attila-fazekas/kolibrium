@@ -37,7 +37,9 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             package dev.kolibrium.api.ksp.test
 
             import dev.kolibrium.api.core.ApiSpec
+            import dev.kolibrium.api.ksp.annotations.GenerateApi
 
+            @GenerateApi
             object TestApiSpec : ApiSpec() {
                 override val baseUrl = "https://test.api"
             }
@@ -90,6 +92,8 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test
                     import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi
                     abstract class PetApiSpec : ApiSpec()
                     """.trimIndent(),
                 )
@@ -106,6 +110,8 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test
                     import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi
                     object ApiSpec : ApiSpec()
                     """.trimIndent(),
                 )
@@ -122,6 +128,8 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package com.`123invalid`
                     import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi
                     object PetApiSpec : ApiSpec() {
                         override val baseUrl = "https://test.api"
                     }
@@ -140,6 +148,8 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test
                     import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi
                     object PetApiSpec : ApiSpec() {
                         override val baseUrl = "https://test.api"
                     }
@@ -151,6 +161,8 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test
                     import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi
                     object PetApiSpec : ApiSpec() {
                         override val baseUrl = "https://test2.api"
                     }
@@ -169,6 +181,8 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test.one
                     import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi
                     object TestApiSpec : ApiSpec() {
                         override val baseUrl = "https://test1.api"
                     }
@@ -180,6 +194,8 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test.two
                     import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi
                     object TestApiSpec : ApiSpec() {
                         override val baseUrl = "https://test2.api"
                     }
@@ -222,6 +238,25 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             compilation.exitCode shouldBe OK
             kotlinCompilation.getGeneratedSource("TestClient.kt")
             kotlinCompilation.getGeneratedSource("TestTestHarness.kt")
+        }
+
+        @Test
+        fun `2_6 — GenerateApi on class not extending ApiSpec rejected`() {
+            val source =
+                kotlin(
+                    "NotAnApiSpec.kt",
+                    """
+                    package dev.kolibrium.api.ksp.test
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi
+                    object NotAnApiSpec {
+                        val baseUrl = "https://test.api"
+                    }
+                    """.trimIndent(),
+                )
+            val compilation = getCompilation(source).compile()
+            compilation.exitCode shouldBe COMPILATION_ERROR
+            compilation.messages shouldContain "annotated with @GenerateApi but does not extend"
         }
     }
 
@@ -1366,7 +1401,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
-                    import dev.kolibrium.api.core.AuthType
+                    import dev.kolibrium.api.ksp.annotations.AuthType
                     import kotlinx.serialization.Serializable
                     @Serializable
                     data class UserDto(val id: Int)
@@ -1426,7 +1461,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
-                    import dev.kolibrium.api.core.AuthType
+                    import dev.kolibrium.api.ksp.annotations.AuthType
                     import kotlinx.serialization.Serializable
                     @Serializable
                     data class UserDto(val id: Int)
@@ -1486,7 +1521,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
-                    import dev.kolibrium.api.core.AuthType
+                    import dev.kolibrium.api.ksp.annotations.AuthType
                     import kotlinx.serialization.Serializable
                     @Serializable
                     data class UserDto(val id: Int)
@@ -1546,7 +1581,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
-                    import dev.kolibrium.api.core.AuthType
+                    import dev.kolibrium.api.ksp.annotations.AuthType
                     import kotlinx.serialization.Serializable
                     @Serializable
                     data class UserDto(val id: Int)
@@ -1606,7 +1641,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
-                    import dev.kolibrium.api.core.AuthType
+                    import dev.kolibrium.api.ksp.annotations.AuthType
                     import kotlinx.serialization.Serializable
                     @Serializable
                     data class UserDto(val id: Int)
@@ -1643,7 +1678,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
-                    import dev.kolibrium.api.core.AuthType
+                    import dev.kolibrium.api.ksp.annotations.AuthType
                     import kotlinx.serialization.Serializable
                     @Serializable
                     data class UserDto(val id: Int)
@@ -1703,7 +1738,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
-                    import dev.kolibrium.api.core.AuthType
+                    import dev.kolibrium.api.ksp.annotations.AuthType
                     import kotlinx.serialization.Serializable
                     @Serializable
                     data class UserDto(val id: Int)
@@ -1727,7 +1762,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
-                    import dev.kolibrium.api.core.AuthType
+                    import dev.kolibrium.api.ksp.annotations.AuthType
                     import kotlinx.serialization.Serializable
                     @Serializable
                     data class UserDto(val id: Int)
@@ -2187,7 +2222,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test
                     import dev.kolibrium.api.core.ApiSpec
-                    import dev.kolibrium.api.core.ClientGrouping
+                    import dev.kolibrium.api.ksp.annotations.ClientGrouping
                     import dev.kolibrium.api.ksp.annotations.GenerateApi
                     @GenerateApi(grouping = ClientGrouping.ByPrefix)
                     object GroupedApiSpec : ApiSpec() {
@@ -2231,7 +2266,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
         }
 
         @Test
-        fun `13_6 — GenerateApi absent uses all defaults`() {
+        fun `13_6 — GenerateApi absent skips code generation`() {
             val apiSpec =
                 kotlin(
                     "DefaultApiSpec.kt",
@@ -2261,12 +2296,11 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             val kotlinCompilation = getCompilation(apiSpec, request)
             val compilation = kotlinCompilation.compile()
             compilation.exitCode shouldBe OK
-            // SingleClient: single client class
-            val clientSource = kotlinCompilation.getGeneratedSource("DefaultClient.kt")
-            clientSource shouldContain "class DefaultClient"
-            // Test harness generated by default
-            val harnessSource = kotlinCompilation.getGeneratedSource("DefaultTestHarness.kt")
-            harnessSource shouldContain "fun defaultApiTest"
+            // No @GenerateApi means no code generation
+            kotlinCompilation.kspSourcesDir
+                .walkTopDown()
+                .filter { it.isFile }
+                .toList() shouldBe emptyList()
         }
 
         @Test
@@ -2587,6 +2621,8 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test
                     import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi
                     object PetApiSpec : ApiSpec() {
                         override val baseUrl = "https://pet.api"
                     }
@@ -2598,6 +2634,8 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     """
                     package dev.kolibrium.api.ksp.test
                     import dev.kolibrium.api.core.ApiSpec
+                    import dev.kolibrium.api.ksp.annotations.GenerateApi
+                    @GenerateApi
                     object StoreApiSpec : ApiSpec() {
                         override val baseUrl = "https://store.api"
                     }

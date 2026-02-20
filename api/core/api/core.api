@@ -21,25 +21,6 @@ public abstract class dev/kolibrium/api/core/ApiSpec {
 	public fun getHttpClient ()Lio/ktor/client/HttpClient;
 }
 
-public final class dev/kolibrium/api/core/AuthType : java/lang/Enum {
-	public static final field API_KEY Ldev/kolibrium/api/core/AuthType;
-	public static final field BASIC Ldev/kolibrium/api/core/AuthType;
-	public static final field BEARER Ldev/kolibrium/api/core/AuthType;
-	public static final field CUSTOM Ldev/kolibrium/api/core/AuthType;
-	public static final field NONE Ldev/kolibrium/api/core/AuthType;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/api/core/AuthType;
-	public static fun values ()[Ldev/kolibrium/api/core/AuthType;
-}
-
-public final class dev/kolibrium/api/core/ClientGrouping : java/lang/Enum {
-	public static final field ByPrefix Ldev/kolibrium/api/core/ClientGrouping;
-	public static final field SingleClient Ldev/kolibrium/api/core/ClientGrouping;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/api/core/ClientGrouping;
-	public static fun values ()[Ldev/kolibrium/api/core/ClientGrouping;
-}
-
 public final class dev/kolibrium/api/core/ClientsKt {
 	public static final fun getDefaultHttpClient ()Lio/ktor/client/HttpClient;
 }

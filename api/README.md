@@ -87,14 +87,17 @@ dependencies {
 ## Defining API specification
 
 An API specification is the entry point for code generation. Create a class or object that:
-1. Extends `ApiSpec`. Class name should follow the pattern `<Name>ApiSpec` (e.g., `VinylStoreApiSpec`)
-2. Overrides `baseUrl`
+1. Is annotated with `@GenerateApi`
+2. Extends `ApiSpec`. Class name should follow the pattern `<Name>ApiSpec` (e.g., `VinylStoreApiSpec`)
+3. Overrides `baseUrl`
 
 ### Basic API specification example
 
 ```kotlin
 import dev.kolibrium.api.core.ApiSpec
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 
+@GenerateApi
 object MyApiSpec : ApiSpec() {
     override val baseUrl = "https://api.example.com"
 }
@@ -323,6 +326,7 @@ The processor supports two client organization modes, configured via the `@Gener
 All endpoints are generated in a single client class:
 
 ```kotlin
+@GenerateApi
 object MyApiSpec : ApiSpec() {
     override val baseUrl = "https://api.example.com"
     // grouping defaults to ClientGrouping.SingleClient
@@ -401,12 +405,14 @@ By default, the generated test harness uses `defaultHttpClient` which is pre-con
 
 ```kotlin
 import dev.kolibrium.api.core.ApiSpec
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
+@GenerateApi
 object MyApiSpec : ApiSpec() {
     override val baseUrl = "https://api.example.com"
     
@@ -768,7 +774,9 @@ The processor validates your code at compile time and reports errors for:
 package dev.kolibrium.api.example
 
 import dev.kolibrium.api.core.ApiSpec
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 
+@GenerateApi
 object VinylStoreApiSpec : ApiSpec() {
     override val baseUrl = "http://localhost:8080"
 }
@@ -999,10 +1007,11 @@ fun `integration test`() = myApiTest(
 **Symptoms:** Build succeeds but no client classes are generated.
 
 **Solutions:**
-1. Ensure API spec class extends `ApiSpec` and overrides `baseUrl`
-2. Check that request classes are in the scan packages (default: `<api-package>.models`)
-3. Verify request classes have `@Serializable` and HTTP method annotations
-4. Check KSP is properly configured in `build.gradle.kts`
+1. Ensure API spec class is annotated with `@GenerateApi` and extends `ApiSpec`
+2. Ensure `baseUrl` is overridden
+3. Check that request classes are in the scan packages (default: `<api-package>.models`)
+4. Verify request classes have `@Serializable` and HTTP method annotations
+5. Check KSP is properly configured in `build.gradle.kts`
 
 ### Compilation errors in generated code
 

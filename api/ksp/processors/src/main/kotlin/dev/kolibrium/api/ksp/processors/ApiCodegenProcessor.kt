@@ -23,13 +23,14 @@ import com.google.devtools.ksp.processing.SymbolProcessor
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
-import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 import kotlinx.serialization.Serializable
 
 /**
  * Symbol processor that generates API client code from request classes.
  *
- * This processor discovers classes that extend [ApiSpec][dev.kolibrium.api.core.ApiSpec]
+ * This processor discovers classes annotated with [@GenerateApi][dev.kolibrium.api.ksp.annotations.GenerateApi]
  * and generates corresponding HTTP client implementations based on request classes found
  * in the configured scan packages.
  *
@@ -41,7 +42,7 @@ import kotlinx.serialization.Serializable
  *
  * Codegen configuration is provided via the [@GenerateApi][dev.kolibrium.api.ksp.annotations.GenerateApi] annotation:
  * - **scanPackages**: Optional. Packages to scan for request classes (defaults to `<api-package>.models`)
- * - **grouping**: Optional. Client organization mode (defaults to [dev.kolibrium.api.core.ClientGrouping.SingleClient])
+ * - **grouping**: Optional. Client organization mode (defaults to [ClientGrouping.SingleClient])
  * - **generateTestHarness**: Optional. Whether to generate test harness functions (defaults to `true`)
  *
  * ## Client Generation Modes
@@ -100,30 +101,23 @@ public class ApiCodegenProcessor(
         val warnings = mutableListOf<Diagnostic>()
         val errors = mutableListOf<Diagnostic>()
 
-        // Find all classes that extend ApiSpec
-        val apiSpecSymbols =
+        // Discover @GenerateApi annotated classes directly via annotation
+        val generateApiSymbols =
             resolver
-                .getNewFiles()
-                .flatMap { it.declarations }
+                .getSymbolsWithAnnotation(GenerateApi::class.qualifiedName!!)
                 .filterIsInstance<KSClassDeclaration>()
-                .filter { classDecl ->
-                    classDecl.superTypes.any { superType ->
-                        superType
-                            .resolve()
-                            .declaration.qualifiedName
-                            ?.asString() == API_SPEC_BASE_CLASS
-                    }
-                }.toList()
+                .toList()
 
-        if (apiSpecSymbols.isEmpty()) {
+        if (generateApiSymbols.isEmpty()) {
+            logger.logging("No @GenerateApi classes found, skipping code generation")
             return emptyList()
         }
 
-        logger.info("Discovered ${apiSpecSymbols.size} ApiSpec implementation(s)")
+        logger.logging("Discovered ${generateApiSymbols.size} @GenerateApi class(es)")
 
         // Validate API spec classes and collect info
         val apiSpecInfos =
-            apiSpecSymbols.mapNotNull { apiClass ->
+            generateApiSymbols.mapNotNull { apiClass ->
                 apiSpecValidator.validateApiSpecClass(apiClass, errors)
             }
 

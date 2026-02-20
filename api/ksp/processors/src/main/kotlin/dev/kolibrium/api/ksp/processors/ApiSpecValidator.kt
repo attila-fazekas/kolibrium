@@ -21,7 +21,7 @@ import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.Modifier
-import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import dev.kolibrium.api.ksp.annotations.GenerateApi
 
 internal class ApiSpecValidator(
@@ -57,7 +57,7 @@ internal class ApiSpecValidator(
         if (!extendsApiSpec) {
             errors +=
                 Diagnostic(
-                    "Class $className must extend $API_SPEC_BASE_CLASS",
+                    "Class $className is annotated with @GenerateApi but does not extend $API_SPEC_BASE_CLASS",
                     apiSpecClass,
                 )
             return null

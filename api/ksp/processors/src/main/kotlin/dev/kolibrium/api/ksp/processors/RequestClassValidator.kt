@@ -19,8 +19,8 @@ package dev.kolibrium.api.ksp.processors
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.Modifier
-import dev.kolibrium.api.core.AuthType
 import dev.kolibrium.api.ksp.annotations.Auth
+import dev.kolibrium.api.ksp.annotations.AuthType
 import dev.kolibrium.api.ksp.annotations.Path
 import dev.kolibrium.api.ksp.annotations.Query
 import dev.kolibrium.api.ksp.annotations.Returns

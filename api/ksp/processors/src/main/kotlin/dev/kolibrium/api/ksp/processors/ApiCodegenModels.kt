@@ -20,8 +20,8 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSNode
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSType
-import dev.kolibrium.api.core.AuthType
-import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.AuthType
+import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import io.ktor.http.HttpMethod
 
 internal data class ApiSpecInfo(

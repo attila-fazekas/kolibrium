@@ -17,7 +17,7 @@
 package dev.kolibrium.examples.api.vinylstore
 
 import dev.kolibrium.api.core.ApiSpec
-import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import dev.kolibrium.api.ksp.annotations.GenerateApi
 
 @GenerateApi(grouping = ClientGrouping.ByPrefix)

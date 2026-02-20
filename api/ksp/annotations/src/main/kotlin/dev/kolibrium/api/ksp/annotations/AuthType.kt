@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.api.core
+package dev.kolibrium.api.ksp.annotations
 
 /**
  * Defines the available authentication types for API requests.

@@ -16,8 +16,6 @@
 
 package dev.kolibrium.api.ksp.annotations
 
-import dev.kolibrium.api.core.AuthType
-import dev.kolibrium.api.core.ClientGrouping
 import kotlin.reflect.KClass
 
 /**
@@ -178,9 +176,9 @@ public annotation class Returns(
  * API calls. It can be applied to request classes to indicate how credentials
  * should be provided.
  *
- * @property type The type of authentication to use. Defaults to [dev.kolibrium.api.core.AuthType.NONE].
+ * @property type The type of authentication to use. Defaults to [AuthType.NONE].
  * @property headerName The name of the header used for authentication credentials.
- *   Only relevant for [dev.kolibrium.api.core.AuthType.API_KEY]. Defaults to "X-API-Key".
+ *   Only relevant for [AuthType.API_KEY]. Defaults to "X-API-Key".
  *
  * Example usage:
  * ```kotlin

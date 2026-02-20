@@ -28,7 +28,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
-import dev.kolibrium.api.core.AuthType
+import dev.kolibrium.api.ksp.annotations.AuthType
 import io.ktor.http.HttpMethod
 
 internal class ClientMethodGenerator {

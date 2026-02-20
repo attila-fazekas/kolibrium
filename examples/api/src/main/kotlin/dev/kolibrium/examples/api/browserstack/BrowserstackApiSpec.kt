@@ -19,9 +19,11 @@ package dev.kolibrium.examples.api.browserstack
 import dev.kolibrium.api.core.ApiSpec
 import dev.kolibrium.api.core.runWithApi
 import dev.kolibrium.api.core.defaultHttpClient
+import dev.kolibrium.api.ksp.annotations.GenerateApi
 import dev.kolibrium.examples.api.browserstack.generated.BrowserstackClient
 import io.ktor.client.HttpClient
 
+@GenerateApi
 object BrowserstackApiSpec : ApiSpec() {
     override val baseUrl = BrowserstackApiConfig.baseUrl
 }
