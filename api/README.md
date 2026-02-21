@@ -88,7 +88,7 @@ dependencies {
 
 An API specification is the entry point for code generation. Create a class or object that:
 1. Is annotated with `@GenerateApi`
-2. Extends `ApiSpec`. Class name should follow the pattern `<Name>ApiSpec` (e.g., `VinylStoreApiSpec`)
+2. Extends `ApiSpec`. By convention, the class name follows the pattern `<Name>ApiSpec` (e.g., `VinylStoreApiSpec`)
 3. Overrides `baseUrl`
 
 ### Basic API specification example
@@ -238,7 +238,7 @@ After building the project, the following files are generated in `<api-package>.
 ```kotlin
 fun myApiTest(
     baseUrl: String = MyApiSpec.baseUrl,
-    client: HttpClient = defaultHttpClient,
+    client: HttpClient = MyApiSpec.httpClient,
     block: suspend MyClient.() -> Unit
 )
 ```
@@ -258,7 +258,7 @@ fun `get users`() = myApiTest {
 ```kotlin
 fun <T> myApiTest(
     baseUrl: String = MyApiSpec.baseUrl,
-    client: HttpClient = defaultHttpClient,
+    client: HttpClient = MyApiSpec.httpClient,
     setUp: suspend MyClient.() -> T,
     tearDown: suspend MyClient.(T) -> Unit = {},
     block: suspend MyClient.(T) -> Unit
@@ -300,7 +300,7 @@ The `@GenerateApi` annotation owns **codegen** configuration — directives that
 - `grouping` — how client classes are organized
 - `generateTestHarness` — whether to generate test harness functions
 
-When `@GenerateApi` is absent, all codegen properties use their defaults.
+When `@GenerateApi` is used without explicit arguments, all codegen properties use their defaults.
 
 ### Scan custom packages
 
@@ -353,7 +353,7 @@ This helps with:
 - Separation of Concerns: Each resource domain gets its own client class
 
 ```kotlin
-import dev.kolibrium.api.core.ClientGrouping
+import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import dev.kolibrium.api.ksp.annotations.GenerateApi
 
 @GenerateApi(grouping = ClientGrouping.ByPrefix)
@@ -392,7 +392,7 @@ class MyClient(client: HttpClient, baseUrl: String) {
 Usage:
 
 ```kotlin
-val client = MyClient(httpClient, "https://api.example.com")
+val client = MyClient(MyApiSpec.httpClient, "https://api.example.com")
 client.users.getUser(1)
 client.vinyls.createVinyl { artist = "Pink Floyd" }
 ```
@@ -401,7 +401,7 @@ client.vinyls.createVinyl { artist = "Pink Floyd" }
 
 ### Custom HTTP client
 
-By default, the generated test harness uses `defaultHttpClient` which is pre-configured with JSON content negotiation, logging, and timeouts. You can customize the HTTP client by overriding `httpClient`:
+By default, the generated test harness uses the `httpClient` from your `ApiSpec`, which defaults to `defaultHttpClient` — a pre-configured client with JSON content negotiation, logging, and timeouts. You can customize the HTTP client by overriding `httpClient`:
 
 ```kotlin
 import dev.kolibrium.api.core.ApiSpec
@@ -561,20 +561,16 @@ context("my-api-key") {
 class GetCustomAuthDataRequest
 ```
 
-Requires implementing an `AuthContext.Custom` class in your API package:
-
+Generated method:
 ```kotlin
-package your.api.package
+context(customAuth: HttpRequestBuilder.() -> Unit)
+suspend fun getCustomAuthData(): ApiResponse<Data>
+```
 
-import io.ktor.client.request.HttpRequestBuilder
-
-sealed interface AuthContext {
-    object Custom : AuthContext {
-        fun configure(request: HttpRequestBuilder) {
-            // Add custom authentication logic
-            request.headers.append("X-Custom-Header", "value")
-        }
-    }
+Usage:
+```kotlin
+context({ headers.append("X-Custom-Header", "value") }) {
+    client.getCustomAuthData()
 }
 ```
 
@@ -1047,7 +1043,7 @@ fun `integration test`() = myApiTest(
 **Solutions:**
 1. Verify `@Auth` annotation is on the request class
 2. Provide credentials via context parameters
-3. For `CUSTOM` auth, ensure `AuthContext.Custom` is implemented in the correct package
+3. For `CUSTOM` auth, provide the `HttpRequestBuilder.() -> Unit` lambda via a context parameter
 
 ### Build performance
 

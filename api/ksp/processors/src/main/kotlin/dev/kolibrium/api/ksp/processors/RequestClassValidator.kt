@@ -18,6 +18,7 @@ package dev.kolibrium.api.ksp.processors
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.Modifier
 import dev.kolibrium.api.ksp.annotations.Auth
 import dev.kolibrium.api.ksp.annotations.AuthType
@@ -119,11 +120,12 @@ internal class RequestClassValidator {
         // Extract optional error type
         val errorType = returnsAnnotation.getKClassTypeArgument("error")
         val errorQualifiedName = errorType?.declaration?.qualifiedName?.asString()
+        // KSP resolves Nothing::class defaults as java.lang.Void
         val resolvedErrorType =
             if (errorType != null &&
                 !errorType.isError &&
                 errorQualifiedName != KOTLIN_NOTHING &&
-                errorQualifiedName != JAVA_VOID
+                errorQualifiedName != "java.lang.Void"
             ) {
                 errorType
             } else {
@@ -147,6 +149,14 @@ internal class RequestClassValidator {
         properties.forEach { property ->
             val isPath = property.hasAnnotation(Path::class)
             val isQuery = property.hasAnnotation(Query::class)
+            if (isPath && isQuery) {
+                errors +=
+                    Diagnostic(
+                        "Property '${property.simpleName.asString()}' in $className cannot be annotated with both @Path and @Query",
+                        property,
+                    )
+                return@forEach
+            }
             when {
                 isPath -> pathProperties += property
                 isQuery -> queryProperties += property
@@ -161,7 +171,7 @@ internal class RequestClassValidator {
             return null
         }
 
-        val authType = extractAuthType(requestClass)
+        val authType = extractAuthType(requestClass, errors) ?: return null
         val apiKeyHeader = extractApiKeyHeader(requestClass)
 
         if (authType == AuthType.API_KEY && !apiKeyHeader.isValidHttpHeaderName()) {
@@ -204,14 +214,40 @@ internal class RequestClassValidator {
         )
     }
 
-    private fun extractAuthType(requestClass: KSClassDeclaration): AuthType {
+    private fun extractAuthType(
+        requestClass: KSClassDeclaration,
+        errors: MutableList<Diagnostic>,
+    ): AuthType? {
         val annotation = requestClass.getAnnotation(Auth::class) ?: return AuthType.NONE
 
-        val authArg =
-            annotation.getArgumentValue("type") as? KSClassDeclaration
-                ?: error("Could not resolve auth type on ${requestClass.getClassName()}")
-        val enumName = authArg.simpleName.asString()
-        return AuthType.entries.first { it.name == enumName }
+        val enumName =
+            when (val authArg = annotation.getArgumentValue("type")) {
+                is KSType -> {
+                    authArg.declaration.simpleName.asString()
+                }
+
+                is KSClassDeclaration -> {
+                    authArg.simpleName.asString()
+                }
+
+                else -> {
+                    errors +=
+                        Diagnostic(
+                            "Could not resolve auth type on ${requestClass.getClassName()}",
+                            requestClass,
+                        )
+                    return null
+                }
+            }
+        return AuthType.entries.firstOrNull { it.name == enumName }
+            ?: run {
+                errors +=
+                    Diagnostic(
+                        "Unknown auth type '$enumName' on ${requestClass.getClassName()}",
+                        requestClass,
+                    )
+                null
+            }
     }
 
     private fun extractApiKeyHeader(requestClass: KSClassDeclaration): String {

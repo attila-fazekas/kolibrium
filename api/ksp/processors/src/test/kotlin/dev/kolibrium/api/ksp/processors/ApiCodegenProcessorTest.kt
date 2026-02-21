@@ -1658,20 +1658,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
         }
 
         @Test
-        fun `9_6 — CUSTOM generates AuthContext Custom context parameter and configure call`() {
-            val authContext =
-                kotlin(
-                    "AuthContext.kt",
-                    """
-                    package dev.kolibrium.api.ksp.test
-                    import io.ktor.client.request.HttpRequestBuilder
-                    sealed interface AuthContext {
-                        interface Custom {
-                            fun configure(builder: HttpRequestBuilder)
-                        }
-                    }
-                    """.trimIndent(),
-                )
+        fun `9_6 — CUSTOM generates lambda context parameter and customAuth call`() {
             val request =
                 kotlin(
                     "Requests.kt",
@@ -1689,7 +1676,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     class GetUsersRequest
                     """.trimIndent(),
                 )
-            val kotlinCompilation = getCompilation(validApiSpec, authContext, request)
+            val kotlinCompilation = getCompilation(validApiSpec, request)
             val compilation = kotlinCompilation.compile()
             compilation.exitCode shouldBe OK
             assertSourceEquals(
@@ -1698,22 +1685,23 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                 package dev.kolibrium.api.ksp.test.generated
 
                 import dev.kolibrium.api.core.ApiResponse
-                import dev.kolibrium.api.ksp.test.AuthContext
                 import dev.kolibrium.api.ksp.test.models.UserDto
                 import io.ktor.client.HttpClient
                 import io.ktor.client.call.body
+                import io.ktor.client.request.HttpRequestBuilder
                 import io.ktor.client.request.`get`
                 import io.ktor.http.contentType
                 import kotlin.String
+                import kotlin.Unit
 
                 public class TestClient(
                   private val client: HttpClient,
                   private val baseUrl: String,
                 ) {
-                  context(auth: AuthContext.Custom)
+                  context(customAuth: HttpRequestBuilder.() -> Unit)
                   public suspend fun getUsers(): ApiResponse<UserDto> {
                     val httpResponse = client.get("${'$'}baseUrl/users") {
-                      auth.configure(this)
+                      customAuth()
                     }
 
                     return ApiResponse(
@@ -2428,50 +2416,6 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
         }
 
         @Test
-        fun `15_2 — Query string in path rejected`() {
-            val request =
-                kotlin(
-                    "Requests.kt",
-                    """
-                    package dev.kolibrium.api.ksp.test.models
-                    import dev.kolibrium.api.ksp.annotations.*
-                    import kotlinx.serialization.Serializable
-                    @Serializable
-                    data class UserDto(val id: Int)
-                    @GET("/users?foo=bar")
-                    @Returns(success = UserDto::class)
-                    @Serializable
-                    class GetUsersRequest
-                    """.trimIndent(),
-                )
-            val compilation = getCompilation(validApiSpec, request).compile()
-            compilation.exitCode shouldBe COMPILATION_ERROR
-            compilation.messages shouldContain "must not contain query strings"
-        }
-
-        @Test
-        fun `15_3 — Fragment identifier in path rejected`() {
-            val request =
-                kotlin(
-                    "Requests.kt",
-                    """
-                    package dev.kolibrium.api.ksp.test.models
-                    import dev.kolibrium.api.ksp.annotations.*
-                    import kotlinx.serialization.Serializable
-                    @Serializable
-                    data class UserDto(val id: Int)
-                    @GET("/users#section")
-                    @Returns(success = UserDto::class)
-                    @Serializable
-                    class GetUsersRequest
-                    """.trimIndent(),
-                )
-            val compilation = getCompilation(validApiSpec, request).compile()
-            compilation.exitCode shouldBe COMPILATION_ERROR
-            compilation.messages shouldContain "must not contain fragment identifiers"
-        }
-
-        @Test
         fun `15_4 — Empty path segments rejected`() {
             val request =
                 kotlin(
@@ -2491,50 +2435,6 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             val compilation = getCompilation(validApiSpec, request).compile()
             compilation.exitCode shouldBe COMPILATION_ERROR
             compilation.messages shouldContain "contains empty segments"
-        }
-
-        @Test
-        fun `15_5 — Nested braces in path rejected`() {
-            val request =
-                kotlin(
-                    "Requests.kt",
-                    """
-                    package dev.kolibrium.api.ksp.test.models
-                    import dev.kolibrium.api.ksp.annotations.*
-                    import kotlinx.serialization.Serializable
-                    @Serializable
-                    data class UserDto(val id: Int)
-                    @GET("/users/{foo{bar}}")
-                    @Returns(success = UserDto::class)
-                    @Serializable
-                    class GetUsersRequest
-                    """.trimIndent(),
-                )
-            val compilation = getCompilation(validApiSpec, request).compile()
-            compilation.exitCode shouldBe COMPILATION_ERROR
-            compilation.messages shouldContain "contains nested braces"
-        }
-
-        @Test
-        fun `15_6 — Unclosed brace in path rejected`() {
-            val request =
-                kotlin(
-                    "Requests.kt",
-                    """
-                    package dev.kolibrium.api.ksp.test.models
-                    import dev.kolibrium.api.ksp.annotations.*
-                    import kotlinx.serialization.Serializable
-                    @Serializable
-                    data class UserDto(val id: Int)
-                    @GET("/users/{id")
-                    @Returns(success = UserDto::class)
-                    @Serializable
-                    class GetUsersRequest
-                    """.trimIndent(),
-                )
-            val compilation = getCompilation(validApiSpec, request).compile()
-            compilation.exitCode shouldBe COMPILATION_ERROR
-            compilation.messages shouldContain "contains unclosed brace"
         }
 
         @Test
@@ -2714,14 +2614,14 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
         fun `17_2 — Multiple validation errors are all reported`() {
             val request =
                 kotlin(
-                    "Requests.kt",
+                    "GetUserRequest.kt",
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
                     import kotlinx.serialization.Serializable
                     @Serializable
                     data class UserDto(val id: Int)
-                    @GET("//users?bad#path")
+                    @GET("//users/{}")
                     @Returns(success = UserDto::class)
                     @Serializable
                     class GetUsersRequest
@@ -2730,8 +2630,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             val compilation = getCompilation(validApiSpec, request).compile()
             compilation.exitCode shouldBe COMPILATION_ERROR
             compilation.messages shouldContain "contains empty segments"
-            compilation.messages shouldContain "must not contain query strings"
-            compilation.messages shouldContain "must not contain fragment identifiers"
+            compilation.messages shouldContain "contains empty braces"
         }
     }
 }

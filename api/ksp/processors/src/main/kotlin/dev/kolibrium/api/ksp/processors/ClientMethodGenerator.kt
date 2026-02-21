@@ -66,8 +66,12 @@ internal class ClientMethodGenerator {
             }
 
             AuthType.CUSTOM -> {
-                val authContextClass = ClassName(apiInfo.packageName, "AuthContext", "Custom")
-                funBuilder.contextParameter("auth", authContextClass)
+                val customAuthType =
+                    LambdaTypeName.get(
+                        receiver = HTTP_REQUEST_BUILDER_CLASS,
+                        returnType = Unit::class.asTypeName(),
+                    )
+                funBuilder.contextParameter("customAuth", customAuthType)
             }
 
             AuthType.NONE -> {
@@ -172,7 +176,7 @@ internal class ClientMethodGenerator {
                 }
 
                 AuthType.CUSTOM -> {
-                    builder.addStatement("auth.configure(this)")
+                    builder.addStatement("customAuth()")
                 }
 
                 AuthType.NONE -> {
@@ -193,8 +197,17 @@ internal class ClientMethodGenerator {
                     val resolvedType = property.type.resolve()
                     val typeQualifiedName = resolvedType.declaration.qualifiedName?.asString()
                     if (typeQualifiedName == KOTLIN_COLLECTIONS_LIST) {
+                        val elementType =
+                            resolvedType.arguments
+                                .firstOrNull()
+                                ?.type
+                                ?.resolve()
+                                ?.declaration
+                                ?.qualifiedName
+                                ?.asString()
+                        val mapSuffix = if (elementType == "kotlin.String") "" else ".map { it.toString() }"
                         builder.addStatement(
-                            "$paramName?.let { url.parameters.appendAll(%S, it) }",
+                            "$paramName?.let { url.parameters.appendAll(%S, it$mapSuffix) }",
                             paramName,
                         )
                     } else {

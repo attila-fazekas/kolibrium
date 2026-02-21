@@ -21,9 +21,8 @@ import kotlin.reflect.KClass
 /**
  * Configures code generation for an [ApiSpec][dev.kolibrium.api.core.ApiSpec] subclass.
  *
- * Place this annotation on your `ApiSpec` subclass to customize how the KSP processor discovers
- * request models and organizes the generated client code. When absent, all properties use their
- * defaults.
+ * This annotation is required on every `ApiSpec` subclass to trigger code generation.
+ * When used without explicit arguments, all properties use their defaults.
  *
  * @property scanPackages Packages to scan for request classes. An empty array (the default) means
  *   "use the convention default": the `<api-package>.models` subpackage of the annotated class's

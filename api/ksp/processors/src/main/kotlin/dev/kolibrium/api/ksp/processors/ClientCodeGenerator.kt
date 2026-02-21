@@ -183,7 +183,7 @@ internal class ClientCodeGenerator(
                 fileSpecBuilder.addImport("io.ktor.client.request", "header")
             }
             if (AuthType.CUSTOM in authTypes) {
-                fileSpecBuilder.addImport(apiInfo.packageName, "AuthContext")
+                fileSpecBuilder.addImport("io.ktor.client.request", "HttpRequestBuilder")
             }
         }
 
@@ -224,13 +224,13 @@ internal class ClientCodeGenerator(
                     PropertySpec
                         .builder("client", HTTP_CLIENT_CLASS)
                         .initializer("client")
-                        .addModifiers(KModifier.INTERNAL)
+                        .addModifiers(KModifier.PRIVATE)
                         .build(),
                 ).addProperty(
                     PropertySpec
                         .builder("baseUrl", String::class)
                         .initializer("baseUrl")
-                        .addModifiers(KModifier.INTERNAL)
+                        .addModifiers(KModifier.PRIVATE)
                         .build(),
                 )
 

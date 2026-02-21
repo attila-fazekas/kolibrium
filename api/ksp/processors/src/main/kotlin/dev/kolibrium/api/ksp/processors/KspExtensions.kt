@@ -39,8 +39,7 @@ internal fun KSAnnotated.hasAnnotation(annotationClass: KClass<*>): Boolean =
 
         val expectedQualifiedName = annotationClass.qualifiedName ?: annotationClass.java.name
 
-        resolvedQualifiedName == expectedQualifiedName ||
-            ksAnnotation.shortName.asString() == annotationClass.simpleName
+        resolvedQualifiedName == expectedQualifiedName
     }
 
 internal fun KSAnnotated.hasAnnotation(qualifiedName: String): Boolean =
@@ -101,9 +100,41 @@ internal fun KSClassDeclaration.getClassName(): String = qualifiedName?.asString
 
 internal fun String.isValidKotlinPackage(): Boolean = split('.').all { it.isValidKotlinIdentifier() }
 
+private val KOTLIN_HARD_KEYWORDS: Set<String> =
+    setOf(
+        "as",
+        "break",
+        "class",
+        "continue",
+        "do",
+        "else",
+        "false",
+        "for",
+        "fun",
+        "if",
+        "in",
+        "interface",
+        "is",
+        "null",
+        "object",
+        "package",
+        "return",
+        "super",
+        "this",
+        "throw",
+        "true",
+        "try",
+        "typealias",
+        "typeof",
+        "val",
+        "var",
+        "when",
+        "while",
+    )
+
 internal fun String.isValidKotlinIdentifier(): Boolean {
     val regex = Regex("^[A-Za-z_][A-Za-z0-9_]*$")
-    return regex.matches(this)
+    return regex.matches(this) && this !in KOTLIN_HARD_KEYWORDS
 }
 
 internal fun String.isValidHttpHeaderName(): Boolean {
@@ -123,58 +154,9 @@ internal fun validatePathFormat(
     if (path.contains("//")) {
         errors += Diagnostic("Path '$path' in $className contains empty segments (double slashes)", node)
     }
-    if (path.contains('?')) {
-        errors += Diagnostic("Path '$path' in $className must not contain query strings", node)
-    }
-    if (path.contains('#')) {
-        errors += Diagnostic("Path '$path' in $className must not contain fragment identifiers", node)
-    }
 
-    // Check for unclosed or nested braces
-    var braceDepth = 0
-    for (char in path) {
-        when (char) {
-            '{' -> {
-                braceDepth++
-                if (braceDepth > 1) {
-                    errors += Diagnostic("Path '$path' in $className contains nested braces", node)
-                    return
-                }
-            }
-
-            '}' -> {
-                braceDepth--
-                if (braceDepth < 0) {
-                    errors += Diagnostic("Path '$path' in $className contains unmatched closing brace", node)
-                    return
-                }
-            }
-        }
-    }
-    if (braceDepth != 0) {
-        errors += Diagnostic("Path '$path' in $className contains unclosed brace", node)
-    }
-
-    // Check for empty braces
     if (path.contains("{}")) {
         errors += Diagnostic("Path '$path' in $className contains empty braces", node)
-    }
-
-    // Check for whitespace inside braces
-    val whitespaceInBraces = Regex("\\{[^}]*\\s[^}]*}")
-    if (whitespaceInBraces.containsMatchIn(path)) {
-        errors += Diagnostic("Path '$path' in $className contains whitespace inside path variable braces", node)
-    }
-
-    // Check for duplicate path variable names
-    val variableNames = Regex("\\{([^}]+)}").findAll(path).map { it.groupValues[1].trim() }.toList()
-    val duplicates = variableNames.groupBy { it }.filter { it.value.size > 1 }.keys
-    if (duplicates.isNotEmpty()) {
-        errors +=
-            Diagnostic(
-                "Path '$path' in $className contains duplicate path variable(s): ${duplicates.joinToString(", ")}",
-                node,
-            )
     }
 }
 
