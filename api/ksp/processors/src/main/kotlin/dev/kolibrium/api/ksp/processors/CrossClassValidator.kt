@@ -87,10 +87,12 @@ internal class CrossClassValidator {
 
         // Detect "root" group name collision: paths like "/" or "/{id}" derive group "root",
         // which collides with a literal "/root/..." prefix.
-        val hasLiteralRoot = groupedRequests.containsKey("root") &&
-            groupedRequests["root"]!!.any { it.path.trimStart('/').substringBefore('/') == "root" }
-        val hasDerivedRoot = groupedRequests.containsKey("root") &&
-            groupedRequests["root"]!!.any { it.path.trimStart('/').substringBefore('/') != "root" }
+        val hasLiteralRoot =
+            groupedRequests.containsKey("root") &&
+                groupedRequests["root"]!!.any { it.path.trimStart('/').substringBefore('/') == "root" }
+        val hasDerivedRoot =
+            groupedRequests.containsKey("root") &&
+                groupedRequests["root"]!!.any { it.path.trimStart('/').substringBefore('/') != "root" }
 
         if (hasLiteralRoot && hasDerivedRoot) {
             warnings +=

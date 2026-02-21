@@ -66,8 +66,12 @@ internal class ClientMethodGenerator {
             }
 
             AuthType.CUSTOM -> {
-                val authContextClass = ClassName(apiInfo.packageName, "AuthContext", "Custom")
-                funBuilder.contextParameter("auth", authContextClass)
+                val customAuthType =
+                    LambdaTypeName.get(
+                        receiver = HTTP_REQUEST_BUILDER_CLASS,
+                        returnType = Unit::class.asTypeName(),
+                    )
+                funBuilder.contextParameter("customAuth", customAuthType)
             }
 
             AuthType.NONE -> {
@@ -172,7 +176,7 @@ internal class ClientMethodGenerator {
                 }
 
                 AuthType.CUSTOM -> {
-                    builder.addStatement("auth.configure(this)")
+                    builder.addStatement("customAuth()")
                 }
 
                 AuthType.NONE -> {

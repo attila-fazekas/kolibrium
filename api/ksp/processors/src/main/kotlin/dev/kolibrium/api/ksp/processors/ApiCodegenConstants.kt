@@ -42,6 +42,7 @@ internal val API_RESPONSE_CLASS: ClassName = ClassName("dev.kolibrium.api.core",
 internal val EMPTY_RESPONSE_CLASS: ClassName = ClassName("dev.kolibrium.api.core", "EmptyResponse")
 internal val CONTENT_TYPE_CLASS: ClassName = ClassName("io.ktor.http", "ContentType")
 internal val HTTP_CLIENT_CLASS: ClassName = ClassName("io.ktor.client", "HttpClient")
+internal val HTTP_REQUEST_BUILDER_CLASS: ClassName = ClassName("io.ktor.client.request", "HttpRequestBuilder")
 internal val HTTP_RESPONSE_CLASS: ClassName = ClassName("io.ktor.client.statement", "HttpResponse")
 internal val EXCEPTION_CLASS: ClassName = ClassName("kotlin", "Exception")
 internal val ILLEGAL_STATE_EXCEPTION_CLASS: ClassName = ClassName("kotlin", "IllegalStateException")

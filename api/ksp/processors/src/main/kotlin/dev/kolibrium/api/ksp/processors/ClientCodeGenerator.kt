@@ -183,7 +183,7 @@ internal class ClientCodeGenerator(
                 fileSpecBuilder.addImport("io.ktor.client.request", "header")
             }
             if (AuthType.CUSTOM in authTypes) {
-                fileSpecBuilder.addImport(apiInfo.packageName, "AuthContext")
+                fileSpecBuilder.addImport("io.ktor.client.request", "HttpRequestBuilder")
             }
         }
 

@@ -1658,20 +1658,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
         }
 
         @Test
-        fun `9_6 — CUSTOM generates AuthContext Custom context parameter and configure call`() {
-            val authContext =
-                kotlin(
-                    "AuthContext.kt",
-                    """
-                    package dev.kolibrium.api.ksp.test
-                    import io.ktor.client.request.HttpRequestBuilder
-                    sealed interface AuthContext {
-                        interface Custom {
-                            fun configure(builder: HttpRequestBuilder)
-                        }
-                    }
-                    """.trimIndent(),
-                )
+        fun `9_6 — CUSTOM generates lambda context parameter and customAuth call`() {
             val request =
                 kotlin(
                     "Requests.kt",
@@ -1689,7 +1676,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                     class GetUsersRequest
                     """.trimIndent(),
                 )
-            val kotlinCompilation = getCompilation(validApiSpec, authContext, request)
+            val kotlinCompilation = getCompilation(validApiSpec, request)
             val compilation = kotlinCompilation.compile()
             compilation.exitCode shouldBe OK
             assertSourceEquals(
@@ -1698,22 +1685,23 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
                 package dev.kolibrium.api.ksp.test.generated
 
                 import dev.kolibrium.api.core.ApiResponse
-                import dev.kolibrium.api.ksp.test.AuthContext
                 import dev.kolibrium.api.ksp.test.models.UserDto
                 import io.ktor.client.HttpClient
                 import io.ktor.client.call.body
+                import io.ktor.client.request.HttpRequestBuilder
                 import io.ktor.client.request.`get`
                 import io.ktor.http.contentType
                 import kotlin.String
+                import kotlin.Unit
 
                 public class TestClient(
                   private val client: HttpClient,
                   private val baseUrl: String,
                 ) {
-                  context(auth: AuthContext.Custom)
+                  context(customAuth: HttpRequestBuilder.() -> Unit)
                   public suspend fun getUsers(): ApiResponse<UserDto> {
                     val httpResponse = client.get("${'$'}baseUrl/users") {
-                      auth.configure(this)
+                      customAuth()
                     }
 
                     return ApiResponse(
@@ -2427,7 +2415,6 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             compilation.messages shouldContain "contains empty segments"
         }
 
-
         @Test
         fun `15_4 — Empty path segments rejected`() {
             val request =
@@ -2449,7 +2436,6 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             compilation.exitCode shouldBe COMPILATION_ERROR
             compilation.messages shouldContain "contains empty segments"
         }
-
 
         @Test
         fun `15_7 — Empty braces in path rejected`() {

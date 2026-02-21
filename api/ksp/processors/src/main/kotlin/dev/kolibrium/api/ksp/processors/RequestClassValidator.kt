@@ -222,8 +222,14 @@ internal class RequestClassValidator {
 
         val enumName =
             when (val authArg = annotation.getArgumentValue("type")) {
-                is KSType -> authArg.declaration.simpleName.asString()
-                is KSClassDeclaration -> authArg.simpleName.asString()
+                is KSType -> {
+                    authArg.declaration.simpleName.asString()
+                }
+
+                is KSClassDeclaration -> {
+                    authArg.simpleName.asString()
+                }
+
                 else -> {
                     errors +=
                         Diagnostic(
