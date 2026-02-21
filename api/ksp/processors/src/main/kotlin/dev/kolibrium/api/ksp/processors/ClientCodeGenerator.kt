@@ -224,13 +224,13 @@ internal class ClientCodeGenerator(
                     PropertySpec
                         .builder("client", HTTP_CLIENT_CLASS)
                         .initializer("client")
-                        .addModifiers(KModifier.INTERNAL)
+                        .addModifiers(KModifier.PRIVATE)
                         .build(),
                 ).addProperty(
                     PropertySpec
                         .builder("baseUrl", String::class)
                         .initializer("baseUrl")
-                        .addModifiers(KModifier.INTERNAL)
+                        .addModifiers(KModifier.PRIVATE)
                         .build(),
                 )
 

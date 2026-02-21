@@ -228,10 +228,11 @@ public class ApiCodegenProcessor(
                     .filterIsInstance<KSClassDeclaration>()
 
             // Filter to request classes: must have @Serializable and at least one HTTP method annotation
-            classesInScanPackages.filter { classDeclaration ->
-                classDeclaration.hasAnnotation(Serializable::class) &&
-                    classDeclaration.getHttpMethodAnnotations().isNotEmpty()
-            }
+            classesInScanPackages
+                .filter { classDeclaration ->
+                    classDeclaration.hasAnnotation(Serializable::class) &&
+                        classDeclaration.getHttpMethodAnnotations().isNotEmpty()
+                }.distinctBy { it.qualifiedName?.asString() }
         }
     }
 

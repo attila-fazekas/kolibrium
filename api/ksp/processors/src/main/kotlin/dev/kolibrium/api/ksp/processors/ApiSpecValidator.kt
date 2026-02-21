@@ -102,17 +102,45 @@ internal class ApiSpecValidator(
                 conventionDefault
             }
 
+        scanPackages.forEach { pkg ->
+            if (!pkg.isValidKotlinPackage()) {
+                errors +=
+                    Diagnostic(
+                        "Invalid scan package '$pkg' in @GenerateApi on $className",
+                        apiSpecClass,
+                    )
+            }
+        }
+
+        if (errors.isNotEmpty()) return null
+
         val grouping =
             if (generateApiAnnotation != null) {
                 when (val groupingArg = generateApiAnnotation.getArgumentValue("grouping")) {
                     is KSType -> {
                         val name = groupingArg.declaration.simpleName.asString()
-                        ClientGrouping.entries.first { it.name == name }
+                        ClientGrouping.entries.firstOrNull { it.name == name }
+                            ?: run {
+                                errors +=
+                                    Diagnostic(
+                                        "Unknown grouping '$name' in @GenerateApi on $className",
+                                        apiSpecClass,
+                                    )
+                                return null
+                            }
                     }
 
                     is KSClassDeclaration -> {
                         val name = groupingArg.simpleName.asString()
-                        ClientGrouping.entries.first { it.name == name }
+                        ClientGrouping.entries.firstOrNull { it.name == name }
+                            ?: run {
+                                errors +=
+                                    Diagnostic(
+                                        "Unknown grouping '$name' in @GenerateApi on $className",
+                                        apiSpecClass,
+                                    )
+                                return null
+                            }
                     }
 
                     else -> {

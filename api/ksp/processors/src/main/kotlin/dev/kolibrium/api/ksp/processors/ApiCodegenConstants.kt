@@ -21,7 +21,6 @@ import com.squareup.kotlinpoet.MemberName
 
 internal const val KOTLIN_UNIT: String = "kotlin.Unit"
 internal const val KOTLIN_NOTHING: String = "kotlin.Nothing"
-internal const val JAVA_VOID: String = "java.lang.Void"
 internal const val API_SPEC_BASE_CLASS: String = "dev.kolibrium.api.core.ApiSpec"
 internal const val KOTLIN_COLLECTIONS_LIST: String = "kotlin.collections.List"
 internal const val KOTLINX_SERIALIZATION_TRANSIENT: String = "kotlinx.serialization.Transient"

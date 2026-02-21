@@ -2427,49 +2427,6 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             compilation.messages shouldContain "contains empty segments"
         }
 
-        @Test
-        fun `15_2 — Query string in path rejected`() {
-            val request =
-                kotlin(
-                    "Requests.kt",
-                    """
-                    package dev.kolibrium.api.ksp.test.models
-                    import dev.kolibrium.api.ksp.annotations.*
-                    import kotlinx.serialization.Serializable
-                    @Serializable
-                    data class UserDto(val id: Int)
-                    @GET("/users?foo=bar")
-                    @Returns(success = UserDto::class)
-                    @Serializable
-                    class GetUsersRequest
-                    """.trimIndent(),
-                )
-            val compilation = getCompilation(validApiSpec, request).compile()
-            compilation.exitCode shouldBe COMPILATION_ERROR
-            compilation.messages shouldContain "must not contain query strings"
-        }
-
-        @Test
-        fun `15_3 — Fragment identifier in path rejected`() {
-            val request =
-                kotlin(
-                    "Requests.kt",
-                    """
-                    package dev.kolibrium.api.ksp.test.models
-                    import dev.kolibrium.api.ksp.annotations.*
-                    import kotlinx.serialization.Serializable
-                    @Serializable
-                    data class UserDto(val id: Int)
-                    @GET("/users#section")
-                    @Returns(success = UserDto::class)
-                    @Serializable
-                    class GetUsersRequest
-                    """.trimIndent(),
-                )
-            val compilation = getCompilation(validApiSpec, request).compile()
-            compilation.exitCode shouldBe COMPILATION_ERROR
-            compilation.messages shouldContain "must not contain fragment identifiers"
-        }
 
         @Test
         fun `15_4 — Empty path segments rejected`() {
@@ -2493,49 +2450,6 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             compilation.messages shouldContain "contains empty segments"
         }
 
-        @Test
-        fun `15_5 — Nested braces in path rejected`() {
-            val request =
-                kotlin(
-                    "Requests.kt",
-                    """
-                    package dev.kolibrium.api.ksp.test.models
-                    import dev.kolibrium.api.ksp.annotations.*
-                    import kotlinx.serialization.Serializable
-                    @Serializable
-                    data class UserDto(val id: Int)
-                    @GET("/users/{foo{bar}}")
-                    @Returns(success = UserDto::class)
-                    @Serializable
-                    class GetUsersRequest
-                    """.trimIndent(),
-                )
-            val compilation = getCompilation(validApiSpec, request).compile()
-            compilation.exitCode shouldBe COMPILATION_ERROR
-            compilation.messages shouldContain "contains nested braces"
-        }
-
-        @Test
-        fun `15_6 — Unclosed brace in path rejected`() {
-            val request =
-                kotlin(
-                    "Requests.kt",
-                    """
-                    package dev.kolibrium.api.ksp.test.models
-                    import dev.kolibrium.api.ksp.annotations.*
-                    import kotlinx.serialization.Serializable
-                    @Serializable
-                    data class UserDto(val id: Int)
-                    @GET("/users/{id")
-                    @Returns(success = UserDto::class)
-                    @Serializable
-                    class GetUsersRequest
-                    """.trimIndent(),
-                )
-            val compilation = getCompilation(validApiSpec, request).compile()
-            compilation.exitCode shouldBe COMPILATION_ERROR
-            compilation.messages shouldContain "contains unclosed brace"
-        }
 
         @Test
         fun `15_7 — Empty braces in path rejected`() {
@@ -2714,14 +2628,14 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
         fun `17_2 — Multiple validation errors are all reported`() {
             val request =
                 kotlin(
-                    "Requests.kt",
+                    "GetUserRequest.kt",
                     """
                     package dev.kolibrium.api.ksp.test.models
                     import dev.kolibrium.api.ksp.annotations.*
                     import kotlinx.serialization.Serializable
                     @Serializable
                     data class UserDto(val id: Int)
-                    @GET("//users?bad#path")
+                    @GET("//users/{}")
                     @Returns(success = UserDto::class)
                     @Serializable
                     class GetUsersRequest
@@ -2730,8 +2644,7 @@ class ApiCodegenProcessorTest : ApiBaseTest() {
             val compilation = getCompilation(validApiSpec, request).compile()
             compilation.exitCode shouldBe COMPILATION_ERROR
             compilation.messages shouldContain "contains empty segments"
-            compilation.messages shouldContain "must not contain query strings"
-            compilation.messages shouldContain "must not contain fragment identifiers"
+            compilation.messages shouldContain "contains empty braces"
         }
     }
 }

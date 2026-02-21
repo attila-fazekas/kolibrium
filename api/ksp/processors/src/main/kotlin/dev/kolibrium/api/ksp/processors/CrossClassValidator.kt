@@ -85,22 +85,29 @@ internal class CrossClassValidator {
             return
         }
 
-        groupedRequests.forEach { (groupName, groupRequests) ->
+        // Detect "root" group name collision: paths like "/" or "/{id}" derive group "root",
+        // which collides with a literal "/root/..." prefix.
+        val hasLiteralRoot = groupedRequests.containsKey("root") &&
+            groupedRequests["root"]!!.any { it.path.trimStart('/').substringBefore('/') == "root" }
+        val hasDerivedRoot = groupedRequests.containsKey("root") &&
+            groupedRequests["root"]!!.any { it.path.trimStart('/').substringBefore('/') != "root" }
+
+        if (hasLiteralRoot && hasDerivedRoot) {
+            warnings +=
+                Diagnostic(
+                    "API '${apiInfo.apiName}' has paths that derive group 'root' (e.g. '/' or '/{id}') " +
+                        "colliding with the literal '/root/...' prefix. Consider renaming the '/root' prefix.",
+                    apiInfo.apiSpec,
+                )
+        }
+
+        groupedRequests.forEach { (groupName, _) ->
             // Validate group name is a valid Kotlin identifier
             if (!groupName.isValidKotlinIdentifier()) {
                 errors +=
                     Diagnostic(
                         "Group name '$groupName' in API '${apiInfo.apiName}' is not a valid Kotlin identifier",
                         apiInfo.apiSpec,
-                    )
-            }
-
-            // Warn if a group contains only one endpoint
-            if (groupRequests.size == 1) {
-                warnings +=
-                    Diagnostic(
-                        "Group '$groupName' in API '${apiInfo.apiName}' contains only one endpoint; consider using SingleClient mode",
-                        groupRequests.first().requestClass,
                     )
             }
         }

@@ -19,8 +19,6 @@ package dev.kolibrium.api.ksp.processors
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.Nullability
-import dev.kolibrium.api.ksp.annotations.Path
-import dev.kolibrium.api.ksp.annotations.Query
 import io.ktor.http.HttpMethod
 
 internal class ParameterValidator {
@@ -29,37 +27,9 @@ internal class ParameterValidator {
         errors: MutableList<Diagnostic>,
         warnings: MutableList<Diagnostic>,
     ) {
-        val requestClass = info.requestClass
-        val className = requestClass.getClassName()
-
-        val properties = requestClass.getAllProperties().toList()
-
-        val pathProperties = mutableListOf<KSPropertyDeclaration>()
-        val queryProperties = mutableListOf<KSPropertyDeclaration>()
-        val bodyProperties = mutableListOf<KSPropertyDeclaration>()
-
-        properties.forEach { property ->
-            val isPath = property.hasAnnotation(Path::class)
-            val isQuery = property.hasAnnotation(Query::class)
-            if (isPath && isQuery) {
-                errors +=
-                    Diagnostic(
-                        "Property '${property.simpleName.asString()}' in $className cannot be annotated with both @Path and @Query",
-                        property,
-                    )
-                return@forEach
-            }
-
-            when {
-                isPath -> pathProperties += property
-                isQuery -> queryProperties += property
-                else -> bodyProperties += property
-            }
-        }
-
-        validatePathParameters(info, pathProperties, errors)
-        validateQueryParameters(info, queryProperties, errors)
-        validateBodyParameters(info, bodyProperties, errors, warnings)
+        validatePathParameters(info, info.pathProperties, errors)
+        validateQueryParameters(info, info.queryProperties, errors)
+        validateBodyParameters(info, info.bodyProperties, errors, warnings)
     }
 
     fun validatePathParameters(

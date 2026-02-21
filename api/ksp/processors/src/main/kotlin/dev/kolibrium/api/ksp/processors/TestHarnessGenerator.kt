@@ -136,7 +136,7 @@ internal class TestHarnessGenerator(
 
         codeGenerator
             .createNewFile(
-                Dependencies(false, apiInfo.apiSpec.containingFile!!),
+                Dependencies(false, *listOfNotNull(apiInfo.apiSpec.containingFile).toTypedArray()),
                 fileSpec.packageName,
                 fileSpec.name,
             ).writer()
