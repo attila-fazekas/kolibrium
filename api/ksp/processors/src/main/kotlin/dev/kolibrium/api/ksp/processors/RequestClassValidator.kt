@@ -22,6 +22,7 @@ import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.Modifier
 import dev.kolibrium.api.ksp.annotations.Auth
 import dev.kolibrium.api.ksp.annotations.AuthType
+import dev.kolibrium.api.ksp.annotations.Header
 import dev.kolibrium.api.ksp.annotations.Path
 import dev.kolibrium.api.ksp.annotations.Query
 import dev.kolibrium.api.ksp.annotations.Returns
@@ -144,15 +145,18 @@ internal class RequestClassValidator {
 
         val pathProperties = mutableListOf<KSPropertyDeclaration>()
         val queryProperties = mutableListOf<KSPropertyDeclaration>()
+        val headerProperties = mutableListOf<KSPropertyDeclaration>()
         val bodyProperties = mutableListOf<KSPropertyDeclaration>()
 
         properties.forEach { property ->
             val isPath = property.hasAnnotation(Path::class)
             val isQuery = property.hasAnnotation(Query::class)
-            if (isPath && isQuery) {
+            val isHeader = property.hasAnnotation(Header::class)
+            val annotationCount = listOf(isPath, isQuery, isHeader).count { it }
+            if (annotationCount > 1) {
                 errors +=
                     Diagnostic(
-                        "Property '${property.simpleName.asString()}' in $className cannot be annotated with both @Path and @Query",
+                        "Property '${property.simpleName.asString()}' in $className cannot have multiple parameter annotations (@Path, @Query, @Header)",
                         property,
                     )
                 return@forEach
@@ -160,6 +164,7 @@ internal class RequestClassValidator {
             when {
                 isPath -> pathProperties += property
                 isQuery -> queryProperties += property
+                isHeader -> headerProperties += property
                 else -> bodyProperties += property
             }
         }
@@ -206,6 +211,7 @@ internal class RequestClassValidator {
             isEmptyResponse = isEmptyResponse,
             pathProperties = pathProperties,
             queryProperties = queryProperties,
+            headerProperties = headerProperties,
             bodyProperties = bodyProperties,
             ctorDefaults = ctorDefaults,
             apiPackage = apiInfo.packageName,

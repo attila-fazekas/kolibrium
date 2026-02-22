@@ -98,6 +98,18 @@ internal class ClientMethodGenerator {
             )
         }
 
+        // Add header parameters as optional function parameters
+        info.headerProperties.forEach { property ->
+            val paramName = property.simpleName.asString()
+            val paramType = property.type.resolve().toTypeName()
+            funBuilder.addParameter(
+                ParameterSpec
+                    .builder(paramName, paramType)
+                    .defaultValue("null")
+                    .build(),
+            )
+        }
+
         // Add DSL builder parameter for body requests
         val hasBody = info.bodyProperties.isNotEmpty()
         if (hasBody) {
@@ -154,10 +166,11 @@ internal class ClientMethodGenerator {
             }
 
         val hasQueryParams = info.queryProperties.isNotEmpty()
+        val hasHeaders = info.headerProperties.isNotEmpty()
         val needsAuth = info.authType != AuthType.NONE
 
         // Generate HTTP request
-        if (hasBody || hasQueryParams || needsAuth) {
+        if (hasBody || hasQueryParams || hasHeaders || needsAuth) {
             builder.addStatement($$"val httpResponse = client.%L(\"$baseUrl%L\") {", httpMethodName, urlPath)
             builder.indent()
 
@@ -213,6 +226,21 @@ internal class ClientMethodGenerator {
                     } else {
                         builder.addStatement("$paramName?.let { %M(%S, it) }", PARAMETER_MEMBER, paramName)
                     }
+                }
+            }
+
+            // Header parameters
+            if (hasHeaders) {
+                info.headerProperties.forEach { property ->
+                    val paramName = property.simpleName.asString()
+                    val headerName = extractHeaderName(property)
+                    val typeQualifiedName =
+                        property.type
+                            .resolve()
+                            .declaration.qualifiedName
+                            ?.asString()
+                    val toStringCall = if (typeQualifiedName == "kotlin.String") "" else ".toString()"
+                    builder.addStatement("$paramName?.let { header(%S, it$toStringCall) }", headerName)
                 }
             }
 

@@ -38,6 +38,22 @@ internal val ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES: Set<String> =
         "kotlin.Boolean",
     )
 
+internal val ALLOWED_HEADER_PARAMETER_TYPES: Set<String> = ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES
+
+internal val RESERVED_HEADER_NAMES: Set<String> =
+    setOf(
+        "host",
+        "content-length",
+        "transfer-encoding",
+        "connection",
+        "keep-alive",
+        "proxy-authenticate",
+        "proxy-authorization",
+        "te",
+        "trailer",
+        "upgrade",
+    )
+
 internal val API_RESPONSE_CLASS: ClassName = ClassName("dev.kolibrium.api.core", "ApiResponse")
 internal val EMPTY_RESPONSE_CLASS: ClassName = ClassName("dev.kolibrium.api.core", "EmptyResponse")
 internal val CONTENT_TYPE_CLASS: ClassName = ClassName("io.ktor.http", "ContentType")

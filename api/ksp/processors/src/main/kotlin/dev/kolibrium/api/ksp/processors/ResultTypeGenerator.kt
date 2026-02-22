@@ -61,9 +61,9 @@ internal class ResultTypeGenerator(
                                 .beginControlFlow("return when (this)")
                                 .addStatement("is Success -> this")
                                 .addStatement(
-                                    "is Error -> throw %T(%P)",
+                                    "is Error -> throw %T(%L)",
                                     ClassName("kotlin", "IllegalStateException"),
-                                    $$"Expected success but got error: ${data}",
+                                    $$"\"Expected success but got error: $data\"",
                                 ).endControlFlow()
                                 .build(),
                         ).build(),
@@ -76,9 +76,9 @@ internal class ResultTypeGenerator(
                                 .builder()
                                 .beginControlFlow("return when (this)")
                                 .addStatement(
-                                    "is Success -> throw %T(%P)",
+                                    "is Success -> throw %T(%L)",
                                     ClassName("kotlin", "IllegalStateException"),
-                                    $$"Expected error but got success: ${data}",
+                                    $$"\"Expected error but got success: $data\"",
                                 ).addStatement("is Error -> this")
                                 .endControlFlow()
                                 .build(),

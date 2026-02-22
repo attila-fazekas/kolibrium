@@ -36,6 +36,10 @@ public abstract interface annotation class dev/kolibrium/api/ksp/annotations/Gen
 	public abstract fun scanPackages ()[Ljava/lang/String;
 }
 
+public abstract interface annotation class dev/kolibrium/api/ksp/annotations/Header : java/lang/annotation/Annotation {
+	public abstract fun name ()Ljava/lang/String;
+}
+
 public abstract interface annotation class dev/kolibrium/api/ksp/annotations/PATCH : java/lang/annotation/Annotation {
 	public abstract fun path ()Ljava/lang/String;
 }

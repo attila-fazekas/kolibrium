@@ -19,9 +19,11 @@ package dev.kolibrium.api.ksp.processors
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
+import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import dev.kolibrium.api.ksp.annotations.DELETE
 import dev.kolibrium.api.ksp.annotations.GET
+import dev.kolibrium.api.ksp.annotations.Header
 import dev.kolibrium.api.ksp.annotations.PATCH
 import dev.kolibrium.api.ksp.annotations.POST
 import dev.kolibrium.api.ksp.annotations.PUT
@@ -191,6 +193,12 @@ internal fun extractGroupByApiPrefix(path: String): String {
     } else {
         firstSegment
     }
+}
+
+internal fun extractHeaderName(property: KSPropertyDeclaration): String {
+    val annotation = property.getAnnotation(Header::class) ?: return property.simpleName.asString()
+    val name = annotation.getArgumentValue("name") as? String
+    return if (name.isNullOrBlank()) property.simpleName.asString() else name
 }
 
 internal fun groupRequestsByPrefix(requests: List<RequestClassInfo>): Map<String, List<RequestClassInfo>> =
