@@ -35,16 +35,20 @@ internal class TestHarnessGenerator(
         val clientClassName =
             ClassName(
                 "${apiInfo.packageName}.generated",
-                "${apiInfo.apiSpec.simpleName.asString().removeSuffix("ApiSpec")}Client",
+                "${apiInfo.displayName}Client",
             )
-        val fileName = "${apiInfo.apiSpec.simpleName.asString().removeSuffix("ApiSpec")}TestHarness"
+        val fileName = "${apiInfo.displayName}TestHarness"
         val functionName = "${apiInfo.apiName}ApiTest"
 
         // Simple test harness function (no setUp/tearDown)
         val simpleFunSpec =
             FunSpec
                 .builder(functionName)
-                .addParameter(
+                .also {
+                    if (apiInfo.generateKDoc) {
+                        it.addKdoc("Runs a test against the %L API client.", apiInfo.displayName)
+                    }
+                }.addParameter(
                     ParameterSpec
                         .builder("baseUrl", String::class)
                         .defaultValue("%T.baseUrl", apiSpecClassName)
@@ -78,7 +82,11 @@ internal class TestHarnessGenerator(
             FunSpec
                 .builder(functionName)
                 .addTypeVariable(typeVariableT)
-                .addParameter(
+                .also {
+                    if (apiInfo.generateKDoc) {
+                        it.addKdoc("Runs a test against the %L API client with setUp and tearDown phases.", apiInfo.displayName)
+                    }
+                }.addParameter(
                     ParameterSpec
                         .builder("baseUrl", String::class)
                         .defaultValue("%T.baseUrl", apiSpecClassName)

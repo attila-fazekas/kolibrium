@@ -324,6 +324,7 @@ The `@GenerateApi` annotation owns **codegen** configuration — directives that
 - `scanPackages` — packages to scan for request classes
 - `grouping` — how client classes are organized
 - `generateTestHarness` — whether to generate test harness functions
+- `generateKDoc` — whether to generate KDoc comments on generated code
 
 When `@GenerateApi` is used without explicit arguments, all codegen properties use their defaults.
 
@@ -423,6 +424,36 @@ client.vinyls.createVinyl { artist = "Pink Floyd" }
 ```
 
 > Note: If all paths start with `/api/...`, everything groups under a single ApiClient, defeating the purpose of grouping. The solution is to put `/api` in `baseUrl`.
+
+### KDoc generation
+
+By default, the processor generates KDoc comments on client methods, test harness functions, and sealed result types. Each generated request function gets a one-liner description plus `@param` tags indicating whether each parameter is a path, query, or header parameter.
+
+Example of generated KDoc:
+
+```kotlin
+/**
+ * Performs a GET request to /users/{userId}/items.
+ *
+ * @param userId path parameter — substituted into `/users/{userId}/items`
+ * @param status query parameter
+ * @param correlationId header: `X-Correlation-ID`
+ */
+public suspend fun getUserItems(
+    userId: Int,
+    status: String? = null,
+    correlationId: String? = null,
+): ApiResponse<ItemDto>
+```
+
+To disable KDoc generation:
+
+```kotlin
+@GenerateApi(generateKDoc = false)
+object MyApiSpec : ApiSpec() {
+    override val baseUrl = "https://api.example.com"
+}
+```
 
 ### Custom HTTP client
 

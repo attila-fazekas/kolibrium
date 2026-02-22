@@ -127,10 +127,16 @@ class RequestClassStructuralValidationTest : ApiBaseTest() {
             import io.ktor.http.contentType
             import kotlin.String
 
+            /**
+             * HTTP client for the Test API.
+             */
             public class TestClient(
               private val client: HttpClient,
               private val baseUrl: String,
             ) {
+              /**
+               * Performs a DELETE request to /sessions.
+               */
               public suspend fun deleteSession(): EmptyResponse {
                 val httpResponse = client.delete("$baseUrl/sessions")
 

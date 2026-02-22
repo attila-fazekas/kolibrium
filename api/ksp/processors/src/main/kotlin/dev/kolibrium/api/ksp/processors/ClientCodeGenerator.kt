@@ -47,7 +47,7 @@ internal class ClientCodeGenerator(
         apiInfo: ApiSpecInfo,
         requests: List<RequestClassInfo>,
     ) {
-        val clientClassName = "${apiInfo.apiSpec.simpleName.asString().removeSuffix("ApiSpec")}Client"
+        val clientClassName = "${apiInfo.displayName}Client"
         val clientPackage = "${apiInfo.packageName}.generated"
 
         val sourceFiles =
@@ -68,7 +68,7 @@ internal class ClientCodeGenerator(
         requests: List<RequestClassInfo>,
     ) {
         val clientPackage = "${apiInfo.packageName}.generated"
-        val rootClientClassName = "${apiInfo.apiSpec.simpleName.asString().removeSuffix("ApiSpec")}Client"
+        val rootClientClassName = "${apiInfo.displayName}Client"
         val groupedRequests = groupRequestsByPrefix(requests)
 
         // Collect all source files for dependencies
@@ -96,6 +96,7 @@ internal class ClientCodeGenerator(
         generateRootAggregatorClient(
             rootClientClassName = rootClientClassName,
             clientPackage = clientPackage,
+            apiInfo = apiInfo,
             groupClientClassNames = groupClientClassNames,
             sourceFiles = sourceFiles,
         )
@@ -111,31 +112,37 @@ internal class ClientCodeGenerator(
         val classBuilder =
             TypeSpec
                 .classBuilder(clientClassName)
-                .primaryConstructor(
-                    FunSpec
-                        .constructorBuilder()
-                        .addParameter("client", HTTP_CLIENT_CLASS)
-                        .addParameter("baseUrl", String::class)
-                        .build(),
-                ).addProperty(
-                    PropertySpec
-                        .builder("client", HTTP_CLIENT_CLASS)
-                        .initializer("client")
-                        .addModifiers(KModifier.PRIVATE)
-                        .build(),
-                ).addProperty(
-                    PropertySpec
-                        .builder("baseUrl", String::class)
-                        .initializer("baseUrl")
-                        .addModifiers(KModifier.PRIVATE)
-                        .build(),
-                )
+
+        if (apiInfo.generateKDoc) {
+            classBuilder.addKdoc("HTTP client for the %L API.", apiInfo.displayName)
+        }
+
+        classBuilder
+            .primaryConstructor(
+                FunSpec
+                    .constructorBuilder()
+                    .addParameter("client", HTTP_CLIENT_CLASS)
+                    .addParameter("baseUrl", String::class)
+                    .build(),
+            ).addProperty(
+                PropertySpec
+                    .builder("client", HTTP_CLIENT_CLASS)
+                    .initializer("client")
+                    .addModifiers(KModifier.PRIVATE)
+                    .build(),
+            ).addProperty(
+                PropertySpec
+                    .builder("baseUrl", String::class)
+                    .initializer("baseUrl")
+                    .addModifiers(KModifier.PRIVATE)
+                    .build(),
+            )
 
         // Generate result types for requests that have error types
         val resultTypes =
             requests
                 .filter { it.errorType != null }
-                .map { resultTypeGenerator.generateResultType(it, clientPackage) }
+                .map { resultTypeGenerator.generateResultType(it, clientPackage, apiInfo.generateKDoc) }
 
         // Generate methods for each request
         requests.forEach { info ->
@@ -212,6 +219,7 @@ internal class ClientCodeGenerator(
     private fun generateRootAggregatorClient(
         rootClientClassName: String,
         clientPackage: String,
+        apiInfo: ApiSpecInfo,
         groupClientClassNames: Map<String, ClassName>,
         sourceFiles: List<KSFile>,
     ) {
@@ -224,20 +232,26 @@ internal class ClientCodeGenerator(
         val classBuilder =
             TypeSpec
                 .classBuilder(rootClientClassName)
-                .primaryConstructor(constructorBuilder.build())
-                .addProperty(
-                    PropertySpec
-                        .builder("client", HTTP_CLIENT_CLASS)
-                        .initializer("client")
-                        .addModifiers(KModifier.PRIVATE)
-                        .build(),
-                ).addProperty(
-                    PropertySpec
-                        .builder("baseUrl", String::class)
-                        .initializer("baseUrl")
-                        .addModifiers(KModifier.PRIVATE)
-                        .build(),
-                )
+
+        if (apiInfo.generateKDoc) {
+            classBuilder.addKdoc("Aggregator client for the %L API, grouping endpoints by resource.", apiInfo.displayName)
+        }
+
+        classBuilder
+            .primaryConstructor(constructorBuilder.build())
+            .addProperty(
+                PropertySpec
+                    .builder("client", HTTP_CLIENT_CLASS)
+                    .initializer("client")
+                    .addModifiers(KModifier.PRIVATE)
+                    .build(),
+            ).addProperty(
+                PropertySpec
+                    .builder("baseUrl", String::class)
+                    .initializer("baseUrl")
+                    .addModifiers(KModifier.PRIVATE)
+                    .build(),
+            )
 
         // Add group client properties
         groupClientClassNames.forEach { (groupName, groupClientClass) ->

@@ -49,6 +49,10 @@ internal class ClientMethodGenerator {
                 .addModifiers(KModifier.SUSPEND)
                 .returns(returnTypeName)
 
+        if (apiInfo.generateKDoc) {
+            funBuilder.addKdoc("Performs a %L request to %L.", info.httpMethod.value, info.path)
+        }
+
         // Add context parameters based on resolved auth type
         when (info.authType) {
             AuthType.BEARER -> {
@@ -83,31 +87,44 @@ internal class ClientMethodGenerator {
         info.pathProperties.forEach { property ->
             val paramName = property.simpleName.asString()
             val paramType = property.type.resolve().toTypeName()
-            funBuilder.addParameter(paramName, paramType)
+            val paramBuilder = ParameterSpec.builder(paramName, paramType)
+            if (apiInfo.generateKDoc) {
+                paramBuilder.addKdoc("path parameter — substituted into `%L`", info.path)
+            }
+            funBuilder.addParameter(paramBuilder.build())
         }
 
         // Add query parameters as optional function parameters
         info.queryProperties.forEach { property ->
             val paramName = property.simpleName.asString()
             val paramType = property.type.resolve().toTypeName()
-            funBuilder.addParameter(
+            val paramBuilder =
                 ParameterSpec
                     .builder(paramName, paramType)
                     .defaultValue("null")
-                    .build(),
-            )
+            if (apiInfo.generateKDoc) {
+                paramBuilder.addKdoc("query parameter")
+            }
+            funBuilder.addParameter(paramBuilder.build())
         }
 
         // Add header parameters as optional function parameters
         info.headerProperties.forEach { property ->
             val paramName = property.simpleName.asString()
             val paramType = property.type.resolve().toTypeName()
-            funBuilder.addParameter(
+            val explicitHeaderName = extractHeaderName(property)
+            val paramBuilder =
                 ParameterSpec
                     .builder(paramName, paramType)
                     .defaultValue("null")
-                    .build(),
-            )
+            if (apiInfo.generateKDoc) {
+                if (explicitHeaderName != null) {
+                    paramBuilder.addKdoc("header: `%L`", explicitHeaderName)
+                } else {
+                    paramBuilder.addKdoc("header parameter")
+                }
+            }
+            funBuilder.addParameter(paramBuilder.build())
         }
 
         // Add DSL builder parameter for body requests
@@ -118,7 +135,11 @@ internal class ClientMethodGenerator {
                     receiver = requestClassName,
                     returnType = Unit::class.asTypeName(),
                 )
-            funBuilder.addParameter("block", lambdaType)
+            val blockBuilder = ParameterSpec.builder("block", lambdaType)
+            if (apiInfo.generateKDoc) {
+                blockBuilder.addKdoc("request body builder")
+            }
+            funBuilder.addParameter(blockBuilder.build())
         }
 
         // Generate function body
@@ -233,7 +254,7 @@ internal class ClientMethodGenerator {
             if (hasHeaders) {
                 info.headerProperties.forEach { property ->
                     val paramName = property.simpleName.asString()
-                    val headerName = extractHeaderName(property)
+                    val headerName = extractHeaderName(property) ?: paramName
                     val typeQualifiedName =
                         property.type
                             .resolve()
@@ -255,7 +276,7 @@ internal class ClientMethodGenerator {
 
         // If error type is specified, return sealed result type
         if (info.errorType != null) {
-            val resultTypeName = getResultTypeName(info.requestClass.simpleName.asString())
+            val resultTypeName = getResultTypeName(info)
             val resultClass = ClassName(clientPackage, resultTypeName)
             val successClass = resultClass.nestedClass("Success")
             val errorClass = resultClass.nestedClass("Error")
@@ -332,7 +353,7 @@ internal class ClientMethodGenerator {
     ): TypeName {
         // If error type is specified, return the sealed result type
         if (info.errorType != null) {
-            val resultTypeName = getResultTypeName(info.requestClass.simpleName.asString())
+            val resultTypeName = getResultTypeName(info)
             return ClassName(clientPackage, resultTypeName)
         }
 
@@ -350,7 +371,7 @@ internal class ClientMethodGenerator {
         }
     }
 
-    fun getResultTypeName(requestClassName: String): String = requestClassName.removeSuffix("Request") + "Result"
+    fun getResultTypeName(info: RequestClassInfo): String = info.endpointName + "Result"
 
     fun buildUrlPath(info: RequestClassInfo): String {
         var path = info.path
