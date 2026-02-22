@@ -64,5 +64,6 @@ bin/
 .kotlin
 .junie
 .aiassistant
+.output*.txt
 
 context-parameters.md

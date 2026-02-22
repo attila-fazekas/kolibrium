@@ -452,6 +452,36 @@ object MyApiSpec : ApiSpec() {
 }
 ```
 
+### Global headers
+
+For headers that should be included in every request (e.g., client version, default content type), use Ktor's `DefaultRequest` plugin instead of adding `@Header` to each request class:
+
+```kotlin
+import dev.kolibrium.api.core.ApiSpec
+import dev.kolibrium.api.ksp.annotations.GenerateApi
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.request.header
+import io.ktor.serialization.kotlinx.json.json
+
+@GenerateApi
+object MyApiSpec : ApiSpec() {
+    override val baseUrl = "https://api.example.com"
+    
+    override val httpClient = HttpClient(CIO) {
+        install(ContentNegotiation) { json() }
+        defaultRequest {
+            header("X-Client-Version", "1.0")
+            header("Accept", "application/json")
+        }
+    }
+}
+```
+
+Every request through this client automatically includes those headers.
+
 ---
 
 ## HTTP method annotations

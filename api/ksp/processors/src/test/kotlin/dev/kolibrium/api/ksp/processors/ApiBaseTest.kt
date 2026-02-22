@@ -20,6 +20,7 @@ package dev.kolibrium.api.ksp.processors
 
 import com.tschuchort.compiletesting.KotlinCompilation
 import com.tschuchort.compiletesting.SourceFile
+import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import com.tschuchort.compiletesting.kspSourcesDir
 import com.tschuchort.compiletesting.symbolProcessorProviders
 import com.tschuchort.compiletesting.useKsp2
@@ -28,6 +29,22 @@ import org.intellij.lang.annotations.Language
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 
 open class ApiBaseTest {
+    protected val validApiSpec =
+        kotlin(
+            "TestApiSpec.kt",
+            """
+            package dev.kolibrium.api.ksp.test
+
+            import dev.kolibrium.api.core.ApiSpec
+            import dev.kolibrium.api.ksp.annotations.GenerateApi
+
+            @GenerateApi
+            object TestApiSpec : ApiSpec() {
+                override val baseUrl = "https://test.api"
+            }
+            """.trimIndent(),
+        )
+
     protected fun getCompilation(
         vararg sourceFiles: SourceFile,
     ) = KotlinCompilation().apply {
