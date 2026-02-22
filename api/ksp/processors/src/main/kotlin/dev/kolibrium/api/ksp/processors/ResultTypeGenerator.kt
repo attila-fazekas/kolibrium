@@ -63,7 +63,7 @@ internal class ResultTypeGenerator(
                                 .addStatement(
                                     "is Error -> throw %T(%L)",
                                     ClassName("kotlin", "IllegalStateException"),
-                                    $$"\"Expected success but got error: $data\"",
+                                    $$"\"Expected success but got error: $body\"",
                                 ).endControlFlow()
                                 .build(),
                         ).build(),
@@ -78,7 +78,7 @@ internal class ResultTypeGenerator(
                                 .addStatement(
                                     "is Success -> throw %T(%L)",
                                     ClassName("kotlin", "IllegalStateException"),
-                                    $$"\"Expected error but got success: $data\"",
+                                    $$"\"Expected error but got success: $body\"",
                                 ).addStatement("is Error -> this")
                                 .endControlFlow()
                                 .build(),
@@ -94,13 +94,13 @@ internal class ResultTypeGenerator(
                 .primaryConstructor(
                     FunSpec
                         .constructorBuilder()
-                        .addParameter("data", successClassName)
+                        .addParameter("body", successClassName)
                         .addParameter("response", HTTP_RESPONSE_CLASS)
                         .build(),
                 ).addProperty(
                     PropertySpec
-                        .builder("data", successClassName)
-                        .initializer("data")
+                        .builder("body", successClassName)
+                        .initializer("body")
                         .build(),
                 ).addProperty(
                     PropertySpec
@@ -118,13 +118,13 @@ internal class ResultTypeGenerator(
                 .primaryConstructor(
                     FunSpec
                         .constructorBuilder()
-                        .addParameter("data", errorClassName)
+                        .addParameter("body", errorClassName)
                         .addParameter("response", HTTP_RESPONSE_CLASS)
                         .build(),
                 ).addProperty(
                     PropertySpec
-                        .builder("data", errorClassName)
-                        .initializer("data")
+                        .builder("body", errorClassName)
+                        .initializer("body")
                         .build(),
                 ).addProperty(
                     PropertySpec

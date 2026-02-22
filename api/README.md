@@ -723,8 +723,8 @@ When an error type is specified, the processor generates a sealed result type:
 
 ```kotlin
 public sealed interface LoginResult {
-    data class Success(val data: LoginResponse, val response: HttpResponse) : LoginResult
-    data class Error(val data: ErrorResponse, val response: HttpResponse) : LoginResult
+    data class Success(val body: LoginResponse, val response: HttpResponse) : LoginResult
+    data class Error(val body: ErrorResponse, val response: HttpResponse) : LoginResult
 }
 ```
 
@@ -744,7 +744,7 @@ val result = client.login {
     password = "secret"
 }.requireSuccess()
 
-println("Token: ${result.data.token}")
+println("Token: ${result.body.token}")
 // Access raw HTTP response if needed: result.response
 
 // Testing error case - equally clean
@@ -753,15 +753,15 @@ val errorResult = client.login {
     password = "wrong"
 }.requireError()
 
-println("Error ${errorResult.data.code}: ${errorResult.data.message}")
+println("Error ${errorResult.body.code}: ${errorResult.body.message}")
 // Access raw HTTP response: errorResult.response
 ```
 
 For cases where you need to handle both outcomes:
 ```kotlin
 when (val result = client.login { email = "user@example.com"; password = "secret" }) {
-    is LoginResult.Success -> println("Token: ${result.data.token}")
-    is LoginResult.Error -> println("Error ${result.data.code}: ${result.data.message}")
+    is LoginResult.Success -> println("Token: ${result.body.token}")
+    is LoginResult.Error -> println("Error ${result.body.code}: ${result.body.message}")
 }
 ```
 

@@ -27,7 +27,7 @@ internal const val KOTLINX_SERIALIZATION_TRANSIENT: String = "kotlinx.serializat
 internal const val KOTLIN_JVM_TRANSIENT: String = "kotlin.jvm.Transient"
 internal const val ERROR_RESPONSE_BODY_MAX_LENGTH: Int = 500
 
-internal val ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES: Set<String> =
+internal val ALLOWED_PARAMETER_TYPES: Set<String> =
     setOf(
         "kotlin.String",
         "kotlin.Int",
@@ -37,8 +37,6 @@ internal val ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES: Set<String> =
         "kotlin.Double",
         "kotlin.Boolean",
     )
-
-internal val ALLOWED_HEADER_PARAMETER_TYPES: Set<String> = ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES
 
 internal val RESERVED_HEADER_NAMES: Set<String> =
     setOf(
