@@ -77,7 +77,7 @@ internal class ParameterValidator {
                     .resolve()
                     .declaration.qualifiedName
                     ?.asString()
-            if (typeQualifiedName !in ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES) {
+            if (typeQualifiedName !in ALLOWED_PARAMETER_TYPES) {
                 errors +=
                     Diagnostic(
                         "@Path parameter '$propertyName' must be String, Int, Long, Short, Float, Double, or Boolean",
@@ -157,7 +157,7 @@ internal class ParameterValidator {
             }
 
             val typeQualifiedName = resolvedType.declaration.qualifiedName?.asString()
-            if (typeQualifiedName !in ALLOWED_HEADER_PARAMETER_TYPES) {
+            if (typeQualifiedName !in ALLOWED_PARAMETER_TYPES) {
                 errors +=
                     Diagnostic(
                         "@Header parameter '$propertyName' must be String, Int, Long, Short, Float, Double, or Boolean",
@@ -297,7 +297,7 @@ internal class ParameterValidator {
         val qualifiedName = declaration.qualifiedName?.asString() ?: return false
 
         // Check if it's a simple type
-        if (qualifiedName in ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES) {
+        if (qualifiedName in ALLOWED_PARAMETER_TYPES) {
             return true
         }
 
@@ -310,7 +310,7 @@ internal class ParameterValidator {
                     ?.resolve()
             if (typeArg != null) {
                 val typeArgQualifiedName = typeArg.declaration.qualifiedName?.asString()
-                return typeArgQualifiedName in ALLOWED_PATH_AND_QUERY_PARAMETER_TYPES
+                return typeArgQualifiedName in ALLOWED_PARAMETER_TYPES
             }
         }
 
