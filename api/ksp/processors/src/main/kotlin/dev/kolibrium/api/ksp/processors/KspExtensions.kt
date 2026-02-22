@@ -71,6 +71,11 @@ internal fun KSAnnotation.getArgumentValue(argumentName: String): Any? =
         .firstOrNull { it.name?.asString() == argumentName }
         ?.value
 
+internal fun KSAnnotation?.getBooleanArg(
+    name: String,
+    default: Boolean,
+): Boolean = this?.getArgumentValue(name) as? Boolean ?: default
+
 internal fun KSAnnotation.getKClassTypeArgument(name: String): KSType? =
     when (val value = getArgumentValue(name)) {
         is KSType -> value
@@ -195,10 +200,10 @@ internal fun extractGroupByApiPrefix(path: String): String {
     }
 }
 
-internal fun extractHeaderName(property: KSPropertyDeclaration): String {
-    val annotation = property.getAnnotation(Header::class) ?: return property.simpleName.asString()
+internal fun extractHeaderName(property: KSPropertyDeclaration): String? {
+    val annotation = property.getAnnotation(Header::class) ?: return null
     val name = annotation.getArgumentValue("name") as? String
-    return if (name.isNullOrBlank()) property.simpleName.asString() else name
+    return if (name.isNullOrBlank()) null else name
 }
 
 internal fun groupRequestsByPrefix(requests: List<RequestClassInfo>): Map<String, List<RequestClassInfo>> =

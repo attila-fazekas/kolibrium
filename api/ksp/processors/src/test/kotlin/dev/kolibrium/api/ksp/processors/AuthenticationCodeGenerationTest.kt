@@ -63,10 +63,16 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.http.contentType
             import kotlin.String
 
+            /**
+             * HTTP client for the Test API.
+             */
             public class TestClient(
               private val client: HttpClient,
               private val baseUrl: String,
             ) {
+              /**
+               * Performs a GET request to /users.
+               */
               context(token: String)
               public suspend fun getUsers(): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
@@ -123,10 +129,16 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.http.contentType
             import kotlin.String
 
+            /**
+             * HTTP client for the Test API.
+             */
             public class TestClient(
               private val client: HttpClient,
               private val baseUrl: String,
             ) {
+              /**
+               * Performs a GET request to /users.
+               */
               context(username: String, password: String)
               public suspend fun getUsers(): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
@@ -183,10 +195,16 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.http.contentType
             import kotlin.String
 
+            /**
+             * HTTP client for the Test API.
+             */
             public class TestClient(
               private val client: HttpClient,
               private val baseUrl: String,
             ) {
+              /**
+               * Performs a GET request to /users.
+               */
               context(apiKey: String)
               public suspend fun getUsers(): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
@@ -243,10 +261,16 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.http.contentType
             import kotlin.String
 
+            /**
+             * HTTP client for the Test API.
+             */
             public class TestClient(
               private val client: HttpClient,
               private val baseUrl: String,
             ) {
+              /**
+               * Performs a GET request to /users.
+               */
               context(apiKey: String)
               public suspend fun getUsers(): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
@@ -328,10 +352,16 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import kotlin.String
             import kotlin.Unit
 
+            /**
+             * HTTP client for the Test API.
+             */
             public class TestClient(
               private val client: HttpClient,
               private val baseUrl: String,
             ) {
+              /**
+               * Performs a GET request to /users.
+               */
               context(customAuth: HttpRequestBuilder.() -> Unit)
               public suspend fun getUsers(): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
@@ -441,10 +471,16 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.http.contentType
             import kotlin.String
 
+            /**
+             * HTTP client for the Test API.
+             */
             public class TestClient(
               private val client: HttpClient,
               private val baseUrl: String,
             ) {
+              /**
+               * Performs a GET request to /users.
+               */
               public suspend fun getUsers(): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users")
 

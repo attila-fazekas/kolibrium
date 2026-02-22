@@ -29,8 +29,9 @@ internal class ResultTypeGenerator(
     fun generateResultType(
         info: RequestClassInfo,
         clientPackage: String,
+        generateKDoc: Boolean,
     ): TypeSpec {
-        val resultTypeName = clientMethodGenerator.getResultTypeName(info.requestClass.simpleName.asString())
+        val resultTypeName = clientMethodGenerator.getResultTypeName(info)
 
         val successTypeDeclaration = info.returnType.declaration
         val successClassName =
@@ -46,96 +47,134 @@ internal class ResultTypeGenerator(
                 errorTypeDeclaration.simpleName.asString(),
             )
 
-        // Build sealed interface with Success and Error data classes
         val sealedInterface =
             TypeSpec
                 .interfaceBuilder(resultTypeName)
                 .addModifiers(KModifier.SEALED)
-                .addFunction(
-                    FunSpec
-                        .builder("requireSuccess")
-                        .returns(ClassName(clientPackage, resultTypeName).nestedClass("Success"))
-                        .addCode(
-                            CodeBlock
-                                .builder()
-                                .beginControlFlow("return when (this)")
-                                .addStatement("is Success -> this")
-                                .addStatement(
-                                    "is Error -> throw %T(%L)",
-                                    ClassName("kotlin", "IllegalStateException"),
-                                    $$"\"Expected success but got error: $body\"",
-                                ).endControlFlow()
-                                .build(),
-                        ).build(),
-                ).addFunction(
-                    FunSpec
-                        .builder("requireError")
-                        .returns(ClassName(clientPackage, resultTypeName).nestedClass("Error"))
-                        .addCode(
-                            CodeBlock
-                                .builder()
-                                .beginControlFlow("return when (this)")
-                                .addStatement(
-                                    "is Success -> throw %T(%L)",
-                                    ClassName("kotlin", "IllegalStateException"),
-                                    $$"\"Expected error but got success: $body\"",
-                                ).addStatement("is Error -> this")
-                                .endControlFlow()
-                                .build(),
-                        ).build(),
-                )
+                .also {
+                    if (generateKDoc) {
+                        it.addKdoc("Sealed result type for the %L endpoint.", info.endpointName)
+                    }
+                }.addFunction(buildRequireSuccess(clientPackage, resultTypeName, generateKDoc))
+                .addFunction(buildRequireError(clientPackage, resultTypeName, generateKDoc))
+                .addType(buildSuccessClass(clientPackage, resultTypeName, successClassName, generateKDoc))
+                .addType(buildErrorClass(clientPackage, resultTypeName, errorClassName, generateKDoc))
+                .build()
 
-        // Success data class
-        val successClass =
-            TypeSpec
-                .classBuilder("Success")
-                .addModifiers(KModifier.DATA)
-                .addSuperinterface(ClassName(clientPackage, resultTypeName))
-                .primaryConstructor(
-                    FunSpec
-                        .constructorBuilder()
-                        .addParameter("body", successClassName)
-                        .addParameter("response", HTTP_RESPONSE_CLASS)
-                        .build(),
-                ).addProperty(
-                    PropertySpec
-                        .builder("body", successClassName)
-                        .initializer("body")
-                        .build(),
-                ).addProperty(
-                    PropertySpec
-                        .builder("response", HTTP_RESPONSE_CLASS)
-                        .initializer("response")
-                        .build(),
-                ).build()
-
-        // Error data class
-        val errorClass =
-            TypeSpec
-                .classBuilder("Error")
-                .addModifiers(KModifier.DATA)
-                .addSuperinterface(ClassName(clientPackage, resultTypeName))
-                .primaryConstructor(
-                    FunSpec
-                        .constructorBuilder()
-                        .addParameter("body", errorClassName)
-                        .addParameter("response", HTTP_RESPONSE_CLASS)
-                        .build(),
-                ).addProperty(
-                    PropertySpec
-                        .builder("body", errorClassName)
-                        .initializer("body")
-                        .build(),
-                ).addProperty(
-                    PropertySpec
-                        .builder("response", HTTP_RESPONSE_CLASS)
-                        .initializer("response")
-                        .build(),
-                ).build()
-
-        sealedInterface.addType(successClass)
-        sealedInterface.addType(errorClass)
-
-        return sealedInterface.build()
+        return sealedInterface
     }
+
+    private fun buildRequireSuccess(
+        clientPackage: String,
+        resultTypeName: String,
+        generateKDoc: Boolean,
+    ): FunSpec =
+        FunSpec
+            .builder("requireSuccess")
+            .returns(ClassName(clientPackage, resultTypeName).nestedClass("Success"))
+            .also {
+                if (generateKDoc) {
+                    it.addKdoc("Returns this as [Success] or throws [IllegalStateException] if this is [Error].")
+                }
+            }.addCode(
+                CodeBlock
+                    .builder()
+                    .beginControlFlow("return when (this)")
+                    .addStatement("is Success -> this")
+                    .addStatement(
+                        "is Error -> throw %T(%L)",
+                        ClassName("kotlin", "IllegalStateException"),
+                        $$"\"Expected success but got error: $body\"",
+                    ).endControlFlow()
+                    .build(),
+            ).build()
+
+    private fun buildRequireError(
+        clientPackage: String,
+        resultTypeName: String,
+        generateKDoc: Boolean,
+    ): FunSpec =
+        FunSpec
+            .builder("requireError")
+            .returns(ClassName(clientPackage, resultTypeName).nestedClass("Error"))
+            .also {
+                if (generateKDoc) {
+                    it.addKdoc("Returns this as [Error] or throws [IllegalStateException] if this is [Success].")
+                }
+            }.addCode(
+                CodeBlock
+                    .builder()
+                    .beginControlFlow("return when (this)")
+                    .addStatement(
+                        "is Success -> throw %T(%L)",
+                        ClassName("kotlin", "IllegalStateException"),
+                        $$"\"Expected error but got success: $body\"",
+                    ).addStatement("is Error -> this")
+                    .endControlFlow()
+                    .build(),
+            ).build()
+
+    private fun buildSuccessClass(
+        clientPackage: String,
+        resultTypeName: String,
+        successClassName: ClassName,
+        generateKDoc: Boolean,
+    ): TypeSpec =
+        TypeSpec
+            .classBuilder("Success")
+            .addModifiers(KModifier.DATA)
+            .addSuperinterface(ClassName(clientPackage, resultTypeName))
+            .also {
+                if (generateKDoc) {
+                    it.addKdoc("Successful response with a [%T] body.", successClassName)
+                }
+            }.primaryConstructor(
+                FunSpec
+                    .constructorBuilder()
+                    .addParameter("body", successClassName)
+                    .addParameter("response", HTTP_RESPONSE_CLASS)
+                    .build(),
+            ).addProperty(
+                PropertySpec
+                    .builder("body", successClassName)
+                    .initializer("body")
+                    .build(),
+            ).addProperty(
+                PropertySpec
+                    .builder("response", HTTP_RESPONSE_CLASS)
+                    .initializer("response")
+                    .build(),
+            ).build()
+
+    private fun buildErrorClass(
+        clientPackage: String,
+        resultTypeName: String,
+        errorClassName: ClassName,
+        generateKDoc: Boolean,
+    ): TypeSpec =
+        TypeSpec
+            .classBuilder("Error")
+            .addModifiers(KModifier.DATA)
+            .addSuperinterface(ClassName(clientPackage, resultTypeName))
+            .also {
+                if (generateKDoc) {
+                    it.addKdoc("Error response with a [%T] body.", errorClassName)
+                }
+            }.primaryConstructor(
+                FunSpec
+                    .constructorBuilder()
+                    .addParameter("body", errorClassName)
+                    .addParameter("response", HTTP_RESPONSE_CLASS)
+                    .build(),
+            ).addProperty(
+                PropertySpec
+                    .builder("body", errorClassName)
+                    .initializer("body")
+                    .build(),
+            ).addProperty(
+                PropertySpec
+                    .builder("response", HTTP_RESPONSE_CLASS)
+                    .initializer("response")
+                    .build(),
+            ).build()
 }

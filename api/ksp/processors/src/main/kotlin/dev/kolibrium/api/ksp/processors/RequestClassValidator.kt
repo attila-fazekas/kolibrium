@@ -217,6 +217,7 @@ internal class RequestClassValidator {
             apiPackage = apiInfo.packageName,
             authType = authType,
             apiKeyHeader = apiKeyHeader,
+            endpointName = requestClass.simpleName.asString().removeSuffix("Request"),
         )
     }
 

@@ -63,10 +63,18 @@ class PathParameterValidationTest : ApiBaseTest() {
             import kotlin.Int
             import kotlin.String
 
+            /**
+             * HTTP client for the Test API.
+             */
             public class TestClient(
               private val client: HttpClient,
               private val baseUrl: String,
             ) {
+              /**
+               * Performs a GET request to /users/{id}.
+               *
+               * @param id path parameter — substituted into `/users/{id}`
+               */
               public suspend fun getUser(id: Int): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users/${id.toString().encodeURLPathPart()}")
 

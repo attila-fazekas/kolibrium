@@ -165,7 +165,7 @@ internal class ParameterValidator {
                     )
             }
 
-            val headerName = extractHeaderName(property)
+            val headerName = extractHeaderName(property) ?: propertyName
             if (!headerName.isValidHttpHeaderName()) {
                 errors +=
                     Diagnostic(
@@ -188,7 +188,7 @@ internal class ParameterValidator {
         // Detect duplicate header names (case-insensitive per RFC 7230)
         val resolvedHeaders =
             headerProperties.map { property ->
-                val headerName = extractHeaderName(property)
+                val headerName = extractHeaderName(property) ?: property.simpleName.asString()
                 headerName to property
             }
         val seen = mutableMapOf<String, KSPropertyDeclaration>()

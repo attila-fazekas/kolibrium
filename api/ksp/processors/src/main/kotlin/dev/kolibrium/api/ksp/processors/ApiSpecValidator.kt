@@ -151,12 +151,8 @@ internal class ApiSpecValidator(
                 ClientGrouping.SingleClient
             }
 
-        val generateTestHarness =
-            if (generateApiAnnotation != null) {
-                generateApiAnnotation.getArgumentValue("generateTestHarness") as? Boolean ?: true
-            } else {
-                true
-            }
+        val generateTestHarness = generateApiAnnotation.getBooleanArg("generateTestHarness", default = true)
+        val generateKDoc = generateApiAnnotation.getBooleanArg("generateKDoc", default = true)
 
         logger.logging("API '$apiName' will use grouping: $grouping")
         logger.logging("API '$apiName' will scan packages: $scanPackages")
@@ -168,6 +164,8 @@ internal class ApiSpecValidator(
             scanPackages = scanPackages,
             grouping = grouping,
             generateTestHarness = generateTestHarness,
+            generateKDoc = generateKDoc,
+            displayName = simpleName.removeSuffix("ApiSpec"),
         )
     }
 }

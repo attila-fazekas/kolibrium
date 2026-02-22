@@ -326,10 +326,18 @@ class HeaderParameterValidationTest : ApiBaseTest() {
                 import io.ktor.http.contentType
                 import kotlin.String
 
+                /**
+                 * HTTP client for the Test API.
+                 */
                 public class TestClient(
                   private val client: HttpClient,
                   private val baseUrl: String,
                 ) {
+                  /**
+                   * Performs a GET request to /users.
+                   *
+                   * @param correlationId header: `X-Correlation-ID`
+                   */
                   public suspend fun listUsers(correlationId: String? = null): ApiResponse<UserDto> {
                     val httpResponse = client.get("$baseUrl/users") {
                       correlationId?.let { header("X-Correlation-ID", it) }
@@ -672,10 +680,21 @@ class HeaderParameterValidationTest : ApiBaseTest() {
                 import kotlin.String
                 import kotlin.Unit
 
+                /**
+                 * HTTP client for the Test API.
+                 */
                 public class TestClient(
                   private val client: HttpClient,
                   private val baseUrl: String,
                 ) {
+                  /**
+                   * Performs a POST request to /users/{userId}/items.
+                   *
+                   * @param userId path parameter — substituted into `/users/{userId}/items`
+                   * @param requestId header: `X-Request-ID`
+                   * @param priority header: `X-Priority`
+                   * @param block request body builder
+                   */
                   public suspend fun createUserItem(
                     userId: Int,
                     requestId: String? = null,
@@ -749,10 +768,22 @@ class HeaderParameterValidationTest : ApiBaseTest() {
                 import kotlin.Int
                 import kotlin.String
 
+                /**
+                 * HTTP client for the Test API.
+                 */
                 public class TestClient(
                   private val client: HttpClient,
                   private val baseUrl: String,
                 ) {
+                  /**
+                   * Performs a GET request to /users/{userId}/items.
+                   *
+                   * @param userId path parameter — substituted into `/users/{userId}/items`
+                   * @param status query parameter
+                   * @param limit query parameter
+                   * @param correlationId header: `X-Correlation-ID`
+                   * @param pageSize header: `X-Page-Size`
+                   */
                   public suspend fun getUserItems(
                     userId: Int,
                     status: String? = null,

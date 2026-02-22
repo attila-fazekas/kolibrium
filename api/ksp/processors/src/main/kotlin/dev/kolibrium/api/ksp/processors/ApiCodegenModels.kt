@@ -31,6 +31,8 @@ internal data class ApiSpecInfo(
     val scanPackages: Set<String>,
     val grouping: ClientGrouping,
     val generateTestHarness: Boolean,
+    val generateKDoc: Boolean,
+    val displayName: String,
 )
 
 internal data class RequestClassInfo(
@@ -49,6 +51,7 @@ internal data class RequestClassInfo(
     val apiPackage: String,
     val authType: AuthType,
     val apiKeyHeader: String,
+    val endpointName: String,
 )
 
 internal data class PathVariables(
