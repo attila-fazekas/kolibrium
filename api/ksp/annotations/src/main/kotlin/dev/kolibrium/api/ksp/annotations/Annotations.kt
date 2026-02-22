@@ -140,6 +140,36 @@ public annotation class Path
 public annotation class Query
 
 /**
+ * Marks a property as an HTTP header in an API request.
+ *
+ * Properties annotated with @Header will be sent as HTTP headers in the request.
+ * The header name defaults to the property name but can be overridden via the [name]
+ * parameter — useful when the HTTP header name contains characters that aren't valid
+ * in Kotlin identifiers (e.g., `X-Correlation-ID`).
+ *
+ * Header properties must be `String?`, annotated with `@Transient`, and nullable
+ * (a null value means the header is not sent).
+ *
+ * Example usage:
+ * ```kotlin
+ * @GET("/users")
+ * @Returns(success = UserList::class)
+ * @Serializable
+ * data class ListUsersRequest(
+ *     @Header(name = "X-Correlation-ID") @Transient val correlationId: String? = null,
+ *     @Header @Transient val accept: String? = null,
+ * )
+ * ```
+ *
+ * @property name The HTTP header name. Defaults to the property name when empty.
+ */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.PROPERTY)
+public annotation class Header(
+    val name: String = "",
+)
+
+/**
  * Specifies the return types for an API request.
  *
  * Use this annotation on request classes to indicate what types of data the API

@@ -7,6 +7,7 @@
 4. [Defining request models](#defining-request-models)
     - [Path parameters](#path-parameters)
     - [Query parameters](#query-parameters)
+    - [Header parameters](#header-parameters)
     - [Body parameters](#body-parameters)
 5. [Defining response models](#defining-response-models)
 6. [Generate code](#generate-code)
@@ -172,6 +173,30 @@ data class ListUsersRequest(
 - Only allowed on `GET` and `DELETE` requests
 - Must be one of: `String?`, `Int?`, `Long?`, `Boolean?`, `Short?`, `Float?`, `Double?`, or `List<T>?` where T is one of these types
 
+### Header parameters
+
+Header parameters are sent as HTTP headers in the request. Unlike query parameters, headers are allowed on any HTTP method.
+
+```kotlin
+@GET("/users")
+@Returns(success = UserList::class)
+@Serializable
+data class ListUsersRequest(
+    @Header(name = "X-Correlation-ID") @Transient val correlationId: String? = null,
+    @Header @Transient val accept: String? = null
+)
+```
+
+By default, the property name is used as the HTTP header name. Use the `name` parameter to specify a different header name — this is useful when the HTTP header name contains characters that aren't valid Kotlin identifiers (e.g., `X-Correlation-ID`).
+
+A `null` value means the header is not sent.
+
+**Requirements:**
+- Must be annotated with both `@Header` and `@Transient`
+- Must be `String?` (nullable String)
+- Cannot be combined with `@Path` or `@Query`
+- Header name must be a valid HTTP header name per RFC 7230
+
 ### Body parameters
 
 Body parameters are serialized as the request body (JSON).
@@ -191,7 +216,7 @@ data class CreateUserRequest(
 - Only allowed on `POST`, `PUT`, and `PATCH` requests
 - Should be `var` to support the DSL builder pattern
 - Must be nullable or have a default value
-- Not annotated with `@Path` or `@Query`
+- Not annotated with `@Path`, `@Query`, or `@Header`
 
 ---
 
@@ -749,6 +774,11 @@ The processor validates your code at compile time and reports errors for:
 | @Query must be annotated with @Transient                          | Query parameter missing `@Transient`     |
 | @Query must be nullable                                           | Non-nullable query parameter             |
 | @Query not allowed on POST/PUT/PATCH                              | Query params on body requests            |
+| @Header must be String?                                           | Non-String header parameter type         |
+| @Header must be annotated with @Transient                         | Header parameter missing `@Transient`    |
+| @Header must be nullable                                         | Non-nullable header parameter            |
+| Invalid HTTP header name                                          | Header name violates RFC 7230            |
+| Cannot have multiple parameter annotations                        | Property has more than one of @Path, @Query, @Header |
 | Body parameters not allowed on GET/DELETE                         | Body params on non-body requests         |
 | Body parameter must be nullable or have default                   | Non-nullable body param without default  |
 

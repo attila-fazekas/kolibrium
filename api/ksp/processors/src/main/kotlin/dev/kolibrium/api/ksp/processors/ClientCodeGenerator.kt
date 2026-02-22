@@ -179,12 +179,17 @@ internal class ClientCodeGenerator(
             if (AuthType.BASIC in authTypes) {
                 fileSpecBuilder.addImport("io.ktor.client.request", "basicAuth")
             }
-            if (AuthType.API_KEY in authTypes) {
-                fileSpecBuilder.addImport("io.ktor.client.request", "header")
-            }
             if (AuthType.CUSTOM in authTypes) {
                 fileSpecBuilder.addImport("io.ktor.client.request", "HttpRequestBuilder")
             }
+        }
+
+        // Add header import if any request uses API_KEY auth or @Header properties
+        val needsHeaderImport =
+            requests.any { it.authType == AuthType.API_KEY } ||
+                requests.any { it.headerProperties.isNotEmpty() }
+        if (needsHeaderImport) {
+            fileSpecBuilder.addImport("io.ktor.client.request", "header")
         }
 
         // Add isSuccess import if any request has error type (for sealed result handling)
