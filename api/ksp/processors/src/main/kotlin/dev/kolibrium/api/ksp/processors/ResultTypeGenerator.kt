@@ -29,7 +29,6 @@ internal class ResultTypeGenerator(
     fun generateResultType(
         info: RequestClassInfo,
         clientPackage: String,
-        generateKDoc: Boolean,
     ): TypeSpec {
         val resultTypeName = clientMethodGenerator.getResultTypeName(info)
 
@@ -51,14 +50,11 @@ internal class ResultTypeGenerator(
             TypeSpec
                 .interfaceBuilder(resultTypeName)
                 .addModifiers(KModifier.SEALED)
-                .also {
-                    if (generateKDoc) {
-                        it.addKdoc("Sealed result type for the %L endpoint.", info.endpointName)
-                    }
-                }.addFunction(buildRequireSuccess(clientPackage, resultTypeName, generateKDoc))
-                .addFunction(buildRequireError(clientPackage, resultTypeName, generateKDoc))
-                .addType(buildSuccessClass(clientPackage, resultTypeName, successClassName, generateKDoc))
-                .addType(buildErrorClass(clientPackage, resultTypeName, errorClassName, generateKDoc))
+                .addKdoc("Sealed result type for the %L endpoint.", info.endpointName)
+                .addFunction(buildRequireSuccess(clientPackage, resultTypeName))
+                .addFunction(buildRequireError(clientPackage, resultTypeName))
+                .addType(buildSuccessClass(clientPackage, resultTypeName, successClassName))
+                .addType(buildErrorClass(clientPackage, resultTypeName, errorClassName))
                 .build()
 
         return sealedInterface
@@ -67,16 +63,12 @@ internal class ResultTypeGenerator(
     private fun buildRequireSuccess(
         clientPackage: String,
         resultTypeName: String,
-        generateKDoc: Boolean,
     ): FunSpec =
         FunSpec
             .builder("requireSuccess")
             .returns(ClassName(clientPackage, resultTypeName).nestedClass("Success"))
-            .also {
-                if (generateKDoc) {
-                    it.addKdoc("Returns this as [Success] or throws [IllegalStateException] if this is [Error].")
-                }
-            }.addCode(
+            .addKdoc("Returns this as [Success] or throws [IllegalStateException] if this is [Error].")
+            .addCode(
                 CodeBlock
                     .builder()
                     .beginControlFlow("return when (this)")
@@ -92,16 +84,12 @@ internal class ResultTypeGenerator(
     private fun buildRequireError(
         clientPackage: String,
         resultTypeName: String,
-        generateKDoc: Boolean,
     ): FunSpec =
         FunSpec
             .builder("requireError")
             .returns(ClassName(clientPackage, resultTypeName).nestedClass("Error"))
-            .also {
-                if (generateKDoc) {
-                    it.addKdoc("Returns this as [Error] or throws [IllegalStateException] if this is [Success].")
-                }
-            }.addCode(
+            .addKdoc("Returns this as [Error] or throws [IllegalStateException] if this is [Success].")
+            .addCode(
                 CodeBlock
                     .builder()
                     .beginControlFlow("return when (this)")
@@ -118,17 +106,13 @@ internal class ResultTypeGenerator(
         clientPackage: String,
         resultTypeName: String,
         successClassName: ClassName,
-        generateKDoc: Boolean,
     ): TypeSpec =
         TypeSpec
             .classBuilder("Success")
             .addModifiers(KModifier.DATA)
             .addSuperinterface(ClassName(clientPackage, resultTypeName))
-            .also {
-                if (generateKDoc) {
-                    it.addKdoc("Successful response with a [%T] body.", successClassName)
-                }
-            }.primaryConstructor(
+            .addKdoc("Successful response with a [%T] body.", successClassName)
+            .primaryConstructor(
                 FunSpec
                     .constructorBuilder()
                     .addParameter("body", successClassName)
@@ -150,17 +134,13 @@ internal class ResultTypeGenerator(
         clientPackage: String,
         resultTypeName: String,
         errorClassName: ClassName,
-        generateKDoc: Boolean,
     ): TypeSpec =
         TypeSpec
             .classBuilder("Error")
             .addModifiers(KModifier.DATA)
             .addSuperinterface(ClassName(clientPackage, resultTypeName))
-            .also {
-                if (generateKDoc) {
-                    it.addKdoc("Error response with a [%T] body.", errorClassName)
-                }
-            }.primaryConstructor(
+            .addKdoc("Error response with a [%T] body.", errorClassName)
+            .primaryConstructor(
                 FunSpec
                     .constructorBuilder()
                     .addParameter("body", errorClassName)

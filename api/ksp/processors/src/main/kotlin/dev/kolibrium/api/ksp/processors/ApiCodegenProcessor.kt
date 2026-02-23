@@ -87,11 +87,6 @@ public class ApiCodegenProcessor(
     private val logger: KSPLogger = environment.logger
     private val codeGenerator: CodeGenerator = environment.codeGenerator
 
-    private val apiSpecValidator = ApiSpecValidator(logger)
-    private val requestClassValidator = RequestClassValidator()
-    private val parameterValidator = ParameterValidator()
-    private val returnTypeValidator = ReturnTypeValidator()
-    private val crossClassValidator = CrossClassValidator()
     private val clientMethodGenerator = ClientMethodGenerator()
     private val resultTypeGenerator = ResultTypeGenerator(clientMethodGenerator)
     private val clientCodeGenerator = ClientCodeGenerator(codeGenerator, clientMethodGenerator, resultTypeGenerator)
@@ -118,8 +113,13 @@ public class ApiCodegenProcessor(
         // Validate API spec classes and collect info
         val apiSpecInfos =
             generateApiSymbols.mapNotNull { apiClass ->
-                apiSpecValidator.validateApiSpecClass(apiClass, errors)
+                validateApiSpecClass(apiClass, errors)
             }
+
+        apiSpecInfos.forEach { apiInfo ->
+            logger.logging("API '${apiInfo.apiName}' will use grouping: ${apiInfo.grouping}")
+            logger.logging("API '${apiInfo.apiName}' will scan packages: ${apiInfo.scanPackages}")
+        }
 
         // Check for duplicate API names in the same package
         val apiNamesByPackage = apiSpecInfos.groupBy { it.packageName }
@@ -132,6 +132,26 @@ public class ApiCodegenProcessor(
                             "Duplicate API name '$apiName' in package '$packageName'",
                             api.apiSpec,
                         )
+                }
+            }
+        }
+
+        // Detect overlapping scan packages across API specs
+        for (i in apiSpecInfos.indices) {
+            for (j in i + 1 until apiSpecInfos.size) {
+                val specA = apiSpecInfos[i]
+                val specB = apiSpecInfos[j]
+                for (pkgA in specA.scanPackages) {
+                    for (pkgB in specB.scanPackages) {
+                        if (pkgA == pkgB || pkgA.startsWith("$pkgB.") || pkgB.startsWith("$pkgA.")) {
+                            warnings +=
+                                Diagnostic(
+                                    "Scan packages overlap between API '${specA.apiName}' ($pkgA) and API '${specB.apiName}' ($pkgB) — " +
+                                        "the same request classes may be discovered by both specs, leading to duplicate client methods",
+                                    specB.apiSpec,
+                                )
+                        }
+                    }
                 }
             }
         }
@@ -162,25 +182,25 @@ public class ApiCodegenProcessor(
         val requestInfosByApi: Map<ApiSpecInfo, List<RequestClassInfo>> =
             requestsByApi.mapValues { (apiInfo, requestClasses) ->
                 requestClasses.mapNotNull { requestClass ->
-                    requestClassValidator.validateRequestClass(requestClass, apiInfo, errors, warnings)
+                    validateRequestClass(requestClass, apiInfo, errors, warnings)
                 }
             }
 
         // Parameter and Return Type Validation
         requestInfosByApi.values.flatten().forEach { info ->
-            parameterValidator.validateRequestParameters(info, errors, warnings)
-            returnTypeValidator.validateReturnType(info, errors)
+            validateRequestParameters(info, errors, warnings)
+            validateReturnType(info, errors, warnings)
         }
 
         // Check for function name collisions per API
         requestInfosByApi.forEach { (apiInfo, requests) ->
-            crossClassValidator.checkFunctionNameCollisions(apiInfo, requests, errors)
+            checkFunctionNameCollisions(apiInfo, requests, errors)
         }
 
         // Validate grouped mode specific constraints
         requestInfosByApi.forEach { (apiInfo, requests) ->
             if (apiInfo.grouping == ClientGrouping.ByPrefix) {
-                crossClassValidator.validateGroupedMode(apiInfo, requests, errors, warnings)
+                validateGroupedMode(apiInfo, requests, errors, warnings)
             }
         }
 

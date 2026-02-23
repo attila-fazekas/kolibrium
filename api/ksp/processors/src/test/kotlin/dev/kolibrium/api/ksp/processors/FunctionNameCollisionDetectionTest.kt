@@ -28,45 +28,6 @@ import org.junit.jupiter.api.Test
 class FunctionNameCollisionDetectionTest : ApiBaseTest() {
     @Test
     fun `Two request classes that derive the same function name in SingleClient rejected`() {
-        val request =
-            kotlin(
-                "Requests.kt",
-                """
-                package dev.kolibrium.api.ksp.test.models
-                import dev.kolibrium.api.ksp.annotations.*
-                import kotlinx.serialization.Serializable
-                @Serializable
-                data class UserDto(val id: Int)
-                @GET("/users")
-                @Returns(success = UserDto::class)
-                @Serializable
-                class GetUserRequest
-                @GET("/users/active")
-                @Returns(success = UserDto::class)
-                @Serializable
-                class GetUserRequest2
-                """.trimIndent(),
-            )
-        // GetUserRequest -> getUser, GetUserRequest2 won't collide. Need actual collision.
-        val request2 =
-            kotlin(
-                "Requests2.kt",
-                """
-                package dev.kolibrium.api.ksp.test.models
-                import dev.kolibrium.api.ksp.annotations.*
-                import kotlinx.serialization.Serializable
-                @Serializable
-                data class UserDto(val id: Int)
-                @GET("/users/a")
-                @Returns(success = UserDto::class)
-                @Serializable
-                class GetUsersRequest
-                @GET("/users/b")
-                @Returns(success = UserDto::class)
-                @Serializable
-                class GetUsersRequest2
-                """.trimIndent(),
-            )
         // GetUsersRequest -> getUsers, GetUsersRequest2 won't collide either.
         // Need two classes that produce same function name. Use same simple name in different files.
         val requestA =
@@ -81,7 +42,7 @@ class FunctionNameCollisionDetectionTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUserRequest
+                object GetUserRequest
                 """.trimIndent(),
             )
         val requestB =
@@ -95,7 +56,7 @@ class FunctionNameCollisionDetectionTest : ApiBaseTest() {
                 @GET("/users/active")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUserRequest
+                object GetUserRequest
                 """.trimIndent(),
             )
         val compilation = getCompilation(validApiSpec, requestA, requestB).compile()

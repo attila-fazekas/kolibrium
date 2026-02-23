@@ -31,7 +31,7 @@ public abstract interface annotation class dev/kolibrium/api/ksp/annotations/GET
 }
 
 public abstract interface annotation class dev/kolibrium/api/ksp/annotations/GenerateApi : java/lang/annotation/Annotation {
-	public abstract fun generateKDoc ()Z
+	public abstract fun displayName ()Ljava/lang/String;
 	public abstract fun generateTestHarness ()Z
 	public abstract fun grouping ()Ldev/kolibrium/api/ksp/annotations/ClientGrouping;
 	public abstract fun scanPackages ()[Ljava/lang/String;

@@ -23,7 +23,6 @@ import com.tschuchort.compiletesting.KotlinCompilation.ExitCode.OK
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import io.kotest.matchers.string.shouldNotContain
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
 
@@ -42,7 +41,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -66,7 +65,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -104,13 +103,13 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 @Serializable
                 data class OrderDto(val id: Int)
                 @GET("/orders")
                 @Returns(success = OrderDto::class)
                 @Serializable
-                class GetOrdersRequest
+                object GetOrdersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(apiSpec, request)
@@ -259,50 +258,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
     }
 
     @Test
-    fun `generateKDoc = false suppresses KDoc on client class and methods`() {
-        val noKDocApiSpec =
-            kotlin(
-                "NoKDocApiSpec.kt",
-                """
-                package dev.kolibrium.api.ksp.test
-                import dev.kolibrium.api.core.ApiSpec
-                import dev.kolibrium.api.ksp.annotations.GenerateApi
-                @GenerateApi(generateKDoc = false)
-                object NoKDocApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
-                """.trimIndent(),
-            )
-        val request =
-            kotlin(
-                "Requests.kt",
-                """
-                package dev.kolibrium.api.ksp.test.models
-                import dev.kolibrium.api.ksp.annotations.*
-                import kotlinx.serialization.Serializable
-                import kotlinx.serialization.Transient
-                @Serializable
-                data class UserDto(val id: Int)
-                @GET("/users/{id}")
-                @Returns(success = UserDto::class)
-                @Serializable
-                data class GetUserRequest(@Path @Transient val id: Int = 0)
-                """.trimIndent(),
-            )
-        val kotlinCompilation = getCompilation(noKDocApiSpec, request)
-        val compilation = kotlinCompilation.compile()
-        compilation.exitCode shouldBe OK
-        val source = kotlinCompilation.getGeneratedSource("NoKDocClient.kt")
-        source shouldNotContain "Performs a GET request"
-        source shouldNotContain "Performs a POST request"
-        source shouldNotContain "HTTP client for"
-        source shouldNotContain "@param id path parameter"
-        source shouldNotContain "header parameter"
-        source shouldNotContain "query parameter"
-        source shouldNotContain "request body builder"
-    }
-
-    @Test
     fun `API spec without ApiSpec suffix produces sensible KDoc`() {
         val apiSpec =
             kotlin(
@@ -329,7 +284,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(apiSpec, request)

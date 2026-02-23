@@ -34,10 +34,9 @@ import kotlin.reflect.KClass
  * @property generateTestHarness Whether to generate a test harness file for this API specification.
  *   Defaults to `true`. Set to `false` to skip generating test harness functions (e.g., when the
  *   API client is used in production code only).
- * @property generateKDoc Whether to generate KDoc comments on generated client methods, test harness
- *   functions, and result types. Defaults to `true`. Each generated request function gets a one-liner
- *   description plus `@param` tags indicating whether each parameter is a path, query, or header
- *   parameter.
+ * @property displayName Human-readable name for the API, used in generated KDoc and class names.
+ *   When empty (the default), the name is derived from the class name by stripping common suffixes
+ *   (`ApiSpec`, `Spec`, `Api`). Set this explicitly when the derived name is awkward or incorrect.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
@@ -45,7 +44,7 @@ public annotation class GenerateApi(
     val scanPackages: Array<String> = [],
     val grouping: ClientGrouping = ClientGrouping.SingleClient,
     val generateTestHarness: Boolean = true,
-    val generateKDoc: Boolean = true,
+    val displayName: String = "",
 )
 
 /**

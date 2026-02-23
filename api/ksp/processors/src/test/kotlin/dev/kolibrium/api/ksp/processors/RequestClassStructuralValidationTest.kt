@@ -109,7 +109,7 @@ class RequestClassStructuralValidationTest : ApiBaseTest() {
                 @DELETE("/sessions")
                 @Returns(success = Unit::class)
                 @Serializable
-                class DeleteSessionRequest
+                object DeleteSessionRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -174,7 +174,7 @@ class RequestClassStructuralValidationTest : ApiBaseTest() {
             )
         val compilation1 = getCompilation(validApiSpec, abstractRequest).compile()
         compilation1.exitCode shouldBe COMPILATION_ERROR
-        compilation1.messages shouldContain "cannot be abstract or sealed"
+        compilation1.messages shouldContain "cannot be abstract, sealed, or inner"
 
         val sealedRequest =
             kotlin(
@@ -194,7 +194,62 @@ class RequestClassStructuralValidationTest : ApiBaseTest() {
             )
         val compilation2 = getCompilation(validApiSpec, sealedRequest).compile()
         compilation2.exitCode shouldBe COMPILATION_ERROR
-        compilation2.messages shouldContain "cannot be abstract or sealed"
+        compilation2.messages shouldContain "cannot be abstract, sealed, or inner"
+    }
+
+    @Test
+    fun `Inner class request is not discovered by package scan`() {
+        // Discovery iterates top-level file declarations only, so an inner class
+        // inside another class is never passed to the validator. This test confirms
+        // the inner class is silently ignored (no error, no generated method).
+        val request =
+            kotlin(
+                "InnerRequest.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.GET
+                import dev.kolibrium.api.ksp.annotations.Returns
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class UserDto(val id: Int)
+                class Outer {
+                    @GET("/users")
+                    @Returns(success = UserDto::class)
+                    @Serializable
+                    inner class GetUserRequest
+                }
+                """.trimIndent(),
+            )
+        val compilation = getCompilation(validApiSpec, request).compile()
+        compilation.exitCode shouldBe OK
+        compilation.messages shouldContain "No request classes found"
+    }
+
+    @Test
+    fun `Object request class with properties rejected`() {
+        val request =
+            kotlin(
+                "ObjectWithProps.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.GET
+                import dev.kolibrium.api.ksp.annotations.Path
+                import dev.kolibrium.api.ksp.annotations.Returns
+                import kotlinx.serialization.Serializable
+                import kotlinx.serialization.Transient
+                @Serializable
+                data class UserDto(val id: Int)
+                @GET("/users/{id}")
+                @Returns(success = UserDto::class)
+                @Serializable
+                object GetUserRequest {
+                    @Path @Transient val id: Int = 0
+                }
+                """.trimIndent(),
+            )
+        val compilation = getCompilation(validApiSpec, request).compile()
+        compilation.exitCode shouldBe COMPILATION_ERROR
+        compilation.messages shouldContain "cannot have properties"
     }
 
     @Test

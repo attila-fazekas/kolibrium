@@ -19,67 +19,79 @@ package dev.kolibrium.api.ksp.processors
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import kotlinx.serialization.Serializable
 
-internal class ReturnTypeValidator {
-    fun validateReturnType(
-        info: RequestClassInfo,
-        errors: MutableList<Diagnostic>,
-    ) {
-        val requestClass = info.requestClass
-        val className = requestClass.getClassName()
+internal fun validateReturnType(
+    info: RequestClassInfo,
+    errors: MutableList<Diagnostic>,
+    warnings: MutableList<Diagnostic>,
+) {
+    val requestClass = info.requestClass
+    val className = requestClass.getClassName()
 
-        // Validate success type
-        val returnType = info.returnType
-        if (returnType.isError) {
-            errors += Diagnostic("Success type for $className could not be resolved", requestClass)
+    // Validate no self-referential return type
+    val returnQualified =
+        info.returnType.declaration.qualifiedName
+            ?.asString()
+    val requestQualified = info.requestClass.qualifiedName?.asString()
+    if (returnQualified != null && returnQualified == requestQualified) {
+        warnings +=
+            Diagnostic(
+                "Request class $className uses itself as its own return type — this will deserialize the response body as the request class",
+                requestClass,
+            )
+    }
+
+    // Validate success type
+    val returnType = info.returnType
+    if (returnType.isError) {
+        errors += Diagnostic("Success type for $className could not be resolved", requestClass)
+        return
+    }
+
+    val returnQualifiedName = returnType.declaration.qualifiedName?.asString()
+    if (returnQualifiedName != KOTLIN_UNIT) {
+        val returnClass = returnType.declaration as? KSClassDeclaration
+        if (returnClass == null) {
+            errors +=
+                Diagnostic(
+                    "Success type '${returnQualifiedName ?: returnType}' for $className must be a concrete class type",
+                    requestClass,
+                )
             return
         }
 
-        val returnQualifiedName = returnType.declaration.qualifiedName?.asString()
-        if (returnQualifiedName != KOTLIN_UNIT) {
-            val returnClass = returnType.declaration as? KSClassDeclaration
-            if (returnClass == null) {
-                errors +=
-                    Diagnostic(
-                        "Success type '${returnQualifiedName ?: returnType}' for $className must be a concrete class type",
-                        requestClass,
-                    )
-                return
-            }
+        if (!returnClass.hasAnnotation(Serializable::class)) {
+            errors +=
+                Diagnostic(
+                    "Success type ${returnClass.qualifiedName?.asString() ?: returnClass.simpleName.asString()} for $className is not @Serializable",
+                    requestClass,
+                )
+        }
+    }
 
-            if (!returnClass.hasAnnotation(Serializable::class)) {
-                errors +=
-                    Diagnostic(
-                        "Success type ${returnClass.qualifiedName?.asString() ?: returnClass.simpleName.asString()} for $className is not @Serializable",
-                        requestClass,
-                    )
-            }
+    // Validate error type if specified
+    val errorType = info.errorType
+    if (errorType != null) {
+        if (errorType.isError) {
+            errors += Diagnostic("Error type for $className could not be resolved", requestClass)
+            return
         }
 
-        // Validate error type if specified
-        val errorType = info.errorType
-        if (errorType != null) {
-            if (errorType.isError) {
-                errors += Diagnostic("Error type for $className could not be resolved", requestClass)
-                return
-            }
+        val errorClass = errorType.declaration as? KSClassDeclaration
+        if (errorClass == null) {
+            errors +=
+                Diagnostic(
+                    "Error type '${errorType.declaration.qualifiedName?.asString() ?: errorType}' for $className must be a concrete class type",
+                    requestClass,
+                )
+            return
+        }
 
-            val errorClass = errorType.declaration as? KSClassDeclaration
-            if (errorClass == null) {
-                errors +=
-                    Diagnostic(
-                        "Error type '${errorType.declaration.qualifiedName?.asString() ?: errorType}' for $className must be a concrete class type",
-                        requestClass,
-                    )
-                return
-            }
-
-            if (!errorClass.hasAnnotation(Serializable::class)) {
-                errors +=
-                    Diagnostic(
-                        "Error type ${errorClass.qualifiedName?.asString() ?: errorClass.simpleName.asString()} for $className is not @Serializable",
-                        requestClass,
-                    )
-            }
+        if (!errorClass.hasAnnotation(Serializable::class)) {
+            errors +=
+                Diagnostic(
+                    "Error type ${errorClass.qualifiedName?.asString() ?: errorClass.simpleName.asString()} for $className is not @Serializable",
+                    requestClass,
+                )
         }
     }
 }

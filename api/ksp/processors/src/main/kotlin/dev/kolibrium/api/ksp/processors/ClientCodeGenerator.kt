@@ -28,6 +28,8 @@ import com.squareup.kotlinpoet.TypeSpec
 import dev.kolibrium.api.ksp.annotations.AuthType
 import dev.kolibrium.api.ksp.annotations.ClientGrouping
 
+// Generators are classes (not top-level functions like validators) because they share
+// constructor-injected dependencies (CodeGenerator, sub-generators) across multiple methods.
 internal class ClientCodeGenerator(
     private val codeGenerator: CodeGenerator,
     private val clientMethodGenerator: ClientMethodGenerator,
@@ -113,11 +115,8 @@ internal class ClientCodeGenerator(
             TypeSpec
                 .classBuilder(clientClassName)
 
-        if (apiInfo.generateKDoc) {
-            classBuilder.addKdoc("HTTP client for the %L API.", apiInfo.displayName)
-        }
-
         classBuilder
+            .addKdoc("HTTP client for the %L API.", apiInfo.displayName)
             .primaryConstructor(
                 FunSpec
                     .constructorBuilder()
@@ -142,7 +141,7 @@ internal class ClientCodeGenerator(
         val resultTypes =
             requests
                 .filter { it.errorType != null }
-                .map { resultTypeGenerator.generateResultType(it, clientPackage, apiInfo.generateKDoc) }
+                .map { resultTypeGenerator.generateResultType(it, clientPackage) }
 
         // Generate methods for each request
         requests.forEach { info ->
@@ -233,11 +232,8 @@ internal class ClientCodeGenerator(
             TypeSpec
                 .classBuilder(rootClientClassName)
 
-        if (apiInfo.generateKDoc) {
-            classBuilder.addKdoc("Aggregator client for the %L API, grouping endpoints by resource.", apiInfo.displayName)
-        }
-
         classBuilder
+            .addKdoc("Aggregator client for the %L API, grouping endpoints by resource.", apiInfo.displayName)
             .primaryConstructor(constructorBuilder.build())
             .addProperty(
                 PropertySpec

@@ -22,13 +22,12 @@ import com.tschuchort.compiletesting.KotlinCompilation.ExitCode.OK
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import io.kotest.matchers.string.shouldNotContain
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
 
 class TestHarnessKDocTest : ApiBaseTest() {
     @Test
-    fun `Test harness functions get KDoc when generateKDoc is true`() {
+    fun `Test harness functions get KDoc`() {
         val request =
             kotlin(
                 "Requests.kt",
@@ -41,7 +40,7 @@ class TestHarnessKDocTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -50,42 +49,5 @@ class TestHarnessKDocTest : ApiBaseTest() {
         val source = kotlinCompilation.getGeneratedSource("TestTestHarness.kt")
         source shouldContain "Runs a test against the Test API client."
         source shouldContain "Runs a test against the Test API client with setUp and tearDown phases."
-    }
-
-    @Test
-    fun `generateKDoc = false suppresses KDoc on test harness functions`() {
-        val noKDocApiSpec =
-            kotlin(
-                "NoKDocApiSpec.kt",
-                """
-                package dev.kolibrium.api.ksp.test
-                import dev.kolibrium.api.core.ApiSpec
-                import dev.kolibrium.api.ksp.annotations.GenerateApi
-                @GenerateApi(generateKDoc = false)
-                object NoKDocApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
-                """.trimIndent(),
-            )
-        val request =
-            kotlin(
-                "Requests.kt",
-                """
-                package dev.kolibrium.api.ksp.test.models
-                import dev.kolibrium.api.ksp.annotations.*
-                import kotlinx.serialization.Serializable
-                @Serializable
-                data class UserDto(val id: Int)
-                @GET("/users")
-                @Returns(success = UserDto::class)
-                @Serializable
-                class GetUsersRequest
-                """.trimIndent(),
-            )
-        val kotlinCompilation = getCompilation(noKDocApiSpec, request)
-        val compilation = kotlinCompilation.compile()
-        compilation.exitCode shouldBe OK
-        val source = kotlinCompilation.getGeneratedSource("NoKDocTestHarness.kt")
-        source shouldNotContain "Runs a test against"
     }
 }

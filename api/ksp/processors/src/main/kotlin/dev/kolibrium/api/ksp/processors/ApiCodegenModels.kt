@@ -31,7 +31,6 @@ internal data class ApiSpecInfo(
     val scanPackages: Set<String>,
     val grouping: ClientGrouping,
     val generateTestHarness: Boolean,
-    val generateKDoc: Boolean,
     val displayName: String,
 )
 
@@ -57,6 +56,7 @@ internal data class RequestClassInfo(
 internal data class PathVariables(
     val names: Set<String>,
     val invalidNames: Set<String>,
+    val duplicateNames: Set<String>,
 )
 
 internal data class Diagnostic(
