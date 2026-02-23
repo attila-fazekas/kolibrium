@@ -44,11 +44,8 @@ internal class TestHarnessGenerator(
         val simpleFunSpec =
             FunSpec
                 .builder(functionName)
-                .also {
-                    if (apiInfo.generateKDoc) {
-                        it.addKdoc("Runs a test against the %L API client.", apiInfo.displayName)
-                    }
-                }.addParameter(
+                .addKdoc("Runs a test against the %L API client.", apiInfo.displayName)
+                .addParameter(
                     ParameterSpec
                         .builder("baseUrl", String::class)
                         .defaultValue("%T.baseUrl", apiSpecClassName)
@@ -82,11 +79,8 @@ internal class TestHarnessGenerator(
             FunSpec
                 .builder(functionName)
                 .addTypeVariable(typeVariableT)
-                .also {
-                    if (apiInfo.generateKDoc) {
-                        it.addKdoc("Runs a test against the %L API client with setUp and tearDown phases.", apiInfo.displayName)
-                    }
-                }.addParameter(
+                .addKdoc("Runs a test against the %L API client with setUp and tearDown phases.", apiInfo.displayName)
+                .addParameter(
                     ParameterSpec
                         .builder("baseUrl", String::class)
                         .defaultValue("%T.baseUrl", apiSpecClassName)

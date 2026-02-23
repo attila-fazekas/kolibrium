@@ -30,18 +30,15 @@ import dev.kolibrium.api.ksp.annotations.PUT
 import io.ktor.http.HttpMethod
 import kotlin.reflect.KClass
 
+private fun KClass<*>.resolvedName(): String = qualifiedName ?: java.name
+
 internal fun KSAnnotated.hasAnnotation(annotationClass: KClass<*>): Boolean =
     annotations.any { ksAnnotation ->
-        val resolvedQualifiedName =
-            ksAnnotation.annotationType
-                .resolve()
-                .declaration
-                .qualifiedName
-                ?.asString()
-
-        val expectedQualifiedName = annotationClass.qualifiedName ?: annotationClass.java.name
-
-        resolvedQualifiedName == expectedQualifiedName
+        ksAnnotation.annotationType
+            .resolve()
+            .declaration
+            .qualifiedName
+            ?.asString() == annotationClass.resolvedName()
     }
 
 internal fun KSAnnotated.hasAnnotation(qualifiedName: String): Boolean =
@@ -63,7 +60,7 @@ internal fun KSAnnotated.getAnnotation(annotationClass: KClass<*>): KSAnnotation
         it.annotationType
             .resolve()
             .declaration.qualifiedName
-            ?.asString() == annotationClass.java.name
+            ?.asString() == annotationClass.resolvedName()
     }
 
 internal fun KSAnnotation.getArgumentValue(argumentName: String): Any? =
@@ -154,24 +151,55 @@ internal fun String.isValidHttpHeaderName(): Boolean {
 
 internal fun validatePathFormat(
     path: String,
-    className: String,
-    node: com.google.devtools.ksp.symbol.KSNode?,
+    requestClass: KSClassDeclaration,
     errors: MutableList<Diagnostic>,
-) {
+): Boolean {
+    val className = requestClass.simpleName.asString()
+    val initialErrorCount = errors.size
+
+    if (!path.startsWith("/")) {
+        errors += Diagnostic("Path '$path' in $className must start with '/'", requestClass)
+    }
+
     if (path.contains("//")) {
-        errors += Diagnostic("Path '$path' in $className contains empty segments (double slashes)", node)
+        errors += Diagnostic("Path '$path' in $className contains empty segments (double slashes)", requestClass)
     }
 
     if (path.contains("{}")) {
-        errors += Diagnostic("Path '$path' in $className contains empty braces", node)
+        errors += Diagnostic("Path '$path' in $className contains empty braces", requestClass)
     }
+
+    // Nested braces: /users/{{id}}
+    if (Regex("\\{[^}]*\\{").containsMatchIn(path)) {
+        errors += Diagnostic("Path '$path' in $className contains nested braces", requestClass)
+    }
+
+    // Reversed braces: /users/}id{  — match }...{ within the same segment (no / between)
+    if (Regex("}[^{/]*\\{").containsMatchIn(path)) {
+        errors += Diagnostic("Path '$path' in $className contains reversed braces", requestClass)
+    }
+
+    // Unclosed/mismatched braces
+    val openCount = path.count { it == '{' }
+    val closeCount = path.count { it == '}' }
+    if (openCount != closeCount) {
+        errors += Diagnostic("Path '$path' in $className has mismatched braces", requestClass)
+    }
+
+    return errors.size == initialErrorCount
 }
 
 internal fun extractPathVariables(path: String): PathVariables {
     val rawMatches = Regex("\\{([^}]+)}").findAll(path).map { it.groupValues[1] }.toList()
-    val validNames = rawMatches.filter { it.isValidKotlinIdentifier() }.toSet()
     val invalidNames = rawMatches.filterNot { it.isValidKotlinIdentifier() }.toSet()
-    return PathVariables(names = validNames, invalidNames = invalidNames)
+    val duplicateNames =
+        rawMatches
+            .groupingBy { it }
+            .eachCount()
+            .filter { it.value > 1 }
+            .keys
+    val validNames = rawMatches.filter { it.isValidKotlinIdentifier() }.toSet() - duplicateNames
+    return PathVariables(names = validNames, invalidNames = invalidNames, duplicateNames = duplicateNames)
 }
 
 internal fun KSClassDeclaration.toFunctionName(): String {
@@ -188,16 +216,17 @@ internal fun deriveFunctionName(className: String): String {
     }
 }
 
+/**
+ * Extracts the first literal (non-path-variable) path segment to use as a group name
+ * for ByPrefix client grouping.
+ *
+ * Returns `"root"` as the fallback group name when there is no literal segment
+ * (e.g., path is `"/"`, `"/{id}"`, or `"/{a}/{b}"`).
+ */
 internal fun extractGroupByApiPrefix(path: String): String {
-    val trimmedPath = path.trimStart('/')
-    if (trimmedPath.isEmpty()) return "root"
-
-    val firstSegment = trimmedPath.substringBefore('/')
-    return if (firstSegment.startsWith("{")) {
-        "root"
-    } else {
-        firstSegment
-    }
+    val segments = path.trimStart('/').split('/').filter { it.isNotEmpty() }
+    val firstLiteralSegment = segments.firstOrNull { !it.startsWith("{") }
+    return firstLiteralSegment ?: ROOT_GROUP_NAME
 }
 
 internal fun extractHeaderName(property: KSPropertyDeclaration): String? {

@@ -16,8 +16,6 @@
 
 package dev.kolibrium.api.ksp.processors
 
-import com.google.devtools.ksp.symbol.KSType
-import com.google.devtools.ksp.symbol.Nullability
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.CodeBlock
 import com.squareup.kotlinpoet.ExperimentalKotlinPoetApi
@@ -28,6 +26,7 @@ import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.ParameterizedTypeName.Companion.parameterizedBy
 import com.squareup.kotlinpoet.TypeName
 import com.squareup.kotlinpoet.asTypeName
+import com.squareup.kotlinpoet.ksp.toTypeName
 import dev.kolibrium.api.ksp.annotations.AuthType
 import io.ktor.http.HttpMethod
 
@@ -49,9 +48,7 @@ internal class ClientMethodGenerator {
                 .addModifiers(KModifier.SUSPEND)
                 .returns(returnTypeName)
 
-        if (apiInfo.generateKDoc) {
-            funBuilder.addKdoc("Performs a %L request to %L.", info.httpMethod.value, info.path)
-        }
+        funBuilder.addKdoc("Performs a %L request to %L.", info.httpMethod.value, info.path)
 
         // Add context parameters based on resolved auth type
         when (info.authType) {
@@ -87,10 +84,10 @@ internal class ClientMethodGenerator {
         info.pathProperties.forEach { property ->
             val paramName = property.simpleName.asString()
             val paramType = property.type.resolve().toTypeName()
-            val paramBuilder = ParameterSpec.builder(paramName, paramType)
-            if (apiInfo.generateKDoc) {
-                paramBuilder.addKdoc("path parameter — substituted into `%L`", info.path)
-            }
+            val paramBuilder =
+                ParameterSpec
+                    .builder(paramName, paramType)
+                    .addKdoc("path parameter — substituted into `%L`", info.path)
             funBuilder.addParameter(paramBuilder.build())
         }
 
@@ -102,9 +99,7 @@ internal class ClientMethodGenerator {
                 ParameterSpec
                     .builder(paramName, paramType)
                     .defaultValue("null")
-            if (apiInfo.generateKDoc) {
-                paramBuilder.addKdoc("query parameter")
-            }
+                    .addKdoc("query parameter")
             funBuilder.addParameter(paramBuilder.build())
         }
 
@@ -117,12 +112,10 @@ internal class ClientMethodGenerator {
                 ParameterSpec
                     .builder(paramName, paramType)
                     .defaultValue("null")
-            if (apiInfo.generateKDoc) {
-                if (explicitHeaderName != null) {
-                    paramBuilder.addKdoc("header: `%L`", explicitHeaderName)
-                } else {
-                    paramBuilder.addKdoc("header parameter")
-                }
+            if (explicitHeaderName != null) {
+                paramBuilder.addKdoc("header: `%L`", explicitHeaderName)
+            } else {
+                paramBuilder.addKdoc("header parameter")
             }
             funBuilder.addParameter(paramBuilder.build())
         }
@@ -135,10 +128,10 @@ internal class ClientMethodGenerator {
                     receiver = requestClassName,
                     returnType = Unit::class.asTypeName(),
                 )
-            val blockBuilder = ParameterSpec.builder("block", lambdaType)
-            if (apiInfo.generateKDoc) {
-                blockBuilder.addKdoc("request body builder")
-            }
+            val blockBuilder =
+                ParameterSpec
+                    .builder("block", lambdaType)
+                    .addKdoc("request body builder")
             funBuilder.addParameter(blockBuilder.build())
         }
 
@@ -383,7 +376,7 @@ internal class ClientMethodGenerator {
                     .declaration.qualifiedName
                     ?.asString()
             val toStringCall = if (typeQualifiedName == "kotlin.String") "" else ".toString()"
-            path = path.replace("{$paramName}", "\${$paramName$toStringCall.encodeURLPathPart()}")
+            path = path.replace("{$paramName}", $$"${$$paramName$$toStringCall.encodeURLPathPart()}")
         }
         return path
     }
@@ -402,41 +395,4 @@ internal class ClientMethodGenerator {
                     else -> error("Unsupported HTTP method: ${info.httpMethod}")
                 }
             }.distinct()
-}
-
-internal fun KSType.toTypeName(): TypeName {
-    val declaration = this.declaration
-    val baseClassName =
-        ClassName(
-            declaration.packageName.asString(),
-            declaration.simpleName.asString(),
-        )
-
-    // Handle generic types (e.g., List<String>)
-    val typeArguments = this.arguments
-    val typeName =
-        if (typeArguments.isNotEmpty()) {
-            val typeArgumentNames =
-                typeArguments.mapNotNull { typeArg ->
-                    typeArg.type?.resolve()?.toTypeName()
-                }
-            if (typeArgumentNames.size == typeArguments.size) {
-                baseClassName.parameterizedBy(typeArgumentNames)
-            } else {
-                error(
-                    "Could not resolve all type arguments for" +
-                        " ${declaration.qualifiedName?.asString() ?: declaration.simpleName.asString()}. " +
-                        "Expected ${typeArguments.size} type argument(s) but resolved ${typeArgumentNames.size}.",
-                )
-            }
-        } else {
-            baseClassName
-        }
-
-    // Apply nullability
-    return if (this.nullability == Nullability.NULLABLE) {
-        typeName.copy(nullable = true)
-    } else {
-        typeName
-    }
 }

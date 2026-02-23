@@ -42,7 +42,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -67,7 +67,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -113,7 +113,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(noHarnessApiSpec, request)
@@ -155,7 +155,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(apiSpec, request)
@@ -194,13 +194,13 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 @Serializable
                 data class OrderDto(val id: Int)
                 @GET("/orders")
                 @Returns(success = OrderDto::class)
                 @Serializable
-                class GetOrdersRequest
+                object GetOrdersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(apiSpec, request)
@@ -282,7 +282,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(apiSpec, request)

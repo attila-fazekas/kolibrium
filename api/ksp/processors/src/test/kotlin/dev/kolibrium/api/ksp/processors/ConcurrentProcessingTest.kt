@@ -65,7 +65,7 @@ class ConcurrentProcessingTest : ApiBaseTest() {
                 @GET("/items")
                 @Returns(success = ItemDto::class)
                 @Serializable
-                class GetItemsRequest
+                object GetItemsRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(spec1, spec2, request)

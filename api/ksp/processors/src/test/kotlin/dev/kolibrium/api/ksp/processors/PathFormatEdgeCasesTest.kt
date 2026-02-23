@@ -107,7 +107,7 @@ class PathFormatEdgeCasesTest : ApiBaseTest() {
                 @GET("/users/")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)

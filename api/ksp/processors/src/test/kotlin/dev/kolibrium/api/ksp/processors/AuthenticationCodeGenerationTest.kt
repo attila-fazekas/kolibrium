@@ -43,7 +43,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.BEARER)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -109,7 +109,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.BASIC)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -175,7 +175,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.API_KEY)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -241,7 +241,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.API_KEY, headerName = "Authorization")
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -307,7 +307,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.API_KEY, headerName = "Invalid Header Name")
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val compilation = getCompilation(validApiSpec, request).compile()
@@ -331,7 +331,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.CUSTOM)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -398,7 +398,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.BEARER, headerName = "X-Custom")
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val compilation = getCompilation(validApiSpec, request).compile()
@@ -422,12 +422,12 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.BEARER)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 @GET("/orders")
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.BASIC)
                 @Serializable
-                class GetOrdersRequest
+                object GetOrdersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -452,7 +452,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)

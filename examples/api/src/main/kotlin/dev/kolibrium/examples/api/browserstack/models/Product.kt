@@ -25,7 +25,7 @@ public typealias Products = List<Product>
 @GET("/api/products")
 @Returns(success = ProductList::class)
 @Serializable
-public class GetProductsRequest
+object GetProductsRequest
 
 @Serializable
 public data class ProductList(

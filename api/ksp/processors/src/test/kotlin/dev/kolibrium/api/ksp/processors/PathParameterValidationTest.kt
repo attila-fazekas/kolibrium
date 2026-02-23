@@ -106,7 +106,7 @@ class PathParameterValidationTest : ApiBaseTest() {
                 @GET("/users/{id}")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUserRequest
+                object GetUserRequest
                 """.trimIndent(),
             )
         val compilation = getCompilation(validApiSpec, request).compile()
@@ -154,7 +154,7 @@ class PathParameterValidationTest : ApiBaseTest() {
                 @GET("/users/{123bad}")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUserRequest
+                object GetUserRequest
                 """.trimIndent(),
             )
         val compilation = getCompilation(validApiSpec, request).compile()
@@ -235,6 +235,29 @@ class PathParameterValidationTest : ApiBaseTest() {
             )
         val compilation = getCompilation(validApiSpec, request).compile()
         compilation.exitCode shouldBe OK
+    }
+
+    @Test
+    fun `Duplicate path variables rejected`() {
+        val request =
+            kotlin(
+                "Requests.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                import kotlinx.serialization.Transient
+                @Serializable
+                data class UserDto(val id: Int)
+                @GET("/users/{id}/posts/{id}")
+                @Returns(success = UserDto::class)
+                @Serializable
+                data class GetUserPostRequest(@Path @Transient val id: Int = 0)
+                """.trimIndent(),
+            )
+        val compilation = getCompilation(validApiSpec, request).compile()
+        compilation.exitCode shouldBe COMPILATION_ERROR
+        compilation.messages shouldContain "Duplicate path variable"
     }
 
     @Test

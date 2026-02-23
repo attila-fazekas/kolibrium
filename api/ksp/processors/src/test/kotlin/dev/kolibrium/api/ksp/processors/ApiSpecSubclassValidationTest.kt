@@ -157,7 +157,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val request2 =
@@ -173,7 +173,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 @GET("/items")
                 @Returns(success = ItemDto::class)
                 @Serializable
-                class GetItemsRequest
+                object GetItemsRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(spec1, spec2, request1, request2)

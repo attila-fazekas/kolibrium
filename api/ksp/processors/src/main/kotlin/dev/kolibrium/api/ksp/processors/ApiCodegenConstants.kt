@@ -25,6 +25,7 @@ internal const val API_SPEC_BASE_CLASS: String = "dev.kolibrium.api.core.ApiSpec
 internal const val KOTLIN_COLLECTIONS_LIST: String = "kotlin.collections.List"
 internal const val KOTLINX_SERIALIZATION_TRANSIENT: String = "kotlinx.serialization.Transient"
 internal const val KOTLIN_JVM_TRANSIENT: String = "kotlin.jvm.Transient"
+internal const val ROOT_GROUP_NAME: String = "root"
 internal const val ERROR_RESPONSE_BODY_MAX_LENGTH: Int = 500
 
 internal val ALLOWED_PARAMETER_TYPES: Set<String> =

@@ -22,13 +22,12 @@ import com.tschuchort.compiletesting.KotlinCompilation.ExitCode.OK
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import io.kotest.matchers.string.shouldNotContain
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
 
 class ResultTypeKDocTest : ApiBaseTest() {
     @Test
-    fun `Sealed result type and variants get KDoc when generateKDoc is true`() {
+    fun `Sealed result type and variants get KDoc`() {
         val request =
             kotlin(
                 "Requests.kt",
@@ -43,7 +42,7 @@ class ResultTypeKDocTest : ApiBaseTest() {
                 @POST("/login")
                 @Returns(success = LoginResponse::class, error = ErrorResponse::class)
                 @Serializable
-                class LoginRequest
+                object LoginRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -55,47 +54,5 @@ class ResultTypeKDocTest : ApiBaseTest() {
         source shouldContain "Returns this as [Error] or throws [IllegalStateException] if this is [Success]."
         source shouldContain "Successful response with a [LoginResponse] body."
         source shouldContain "Error response with a [ErrorResponse] body."
-    }
-
-    @Test
-    fun `generateKDoc = false suppresses KDoc on result types`() {
-        val noKDocApiSpec =
-            kotlin(
-                "NoKDocApiSpec.kt",
-                """
-                package dev.kolibrium.api.ksp.test
-                import dev.kolibrium.api.core.ApiSpec
-                import dev.kolibrium.api.ksp.annotations.GenerateApi
-                @GenerateApi(generateKDoc = false)
-                object NoKDocApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
-                """.trimIndent(),
-            )
-        val request =
-            kotlin(
-                "Requests.kt",
-                """
-                package dev.kolibrium.api.ksp.test.models
-                import dev.kolibrium.api.ksp.annotations.*
-                import kotlinx.serialization.Serializable
-                @Serializable
-                data class LoginResponse(val token: String)
-                @Serializable
-                data class ErrorResponse(val message: String)
-                @POST("/login")
-                @Returns(success = LoginResponse::class, error = ErrorResponse::class)
-                @Serializable
-                class LoginRequest
-                """.trimIndent(),
-            )
-        val kotlinCompilation = getCompilation(noKDocApiSpec, request)
-        val compilation = kotlinCompilation.compile()
-        compilation.exitCode shouldBe OK
-        val source = kotlinCompilation.getGeneratedSource("NoKDocClient.kt")
-        source shouldNotContain "Sealed result type"
-        source shouldNotContain "Returns this as"
-        source shouldNotContain "Successful response"
-        source shouldNotContain "Error response"
     }
 }

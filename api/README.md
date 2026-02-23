@@ -13,6 +13,7 @@
 6. [Generate code](#generate-code)
 7. [Customizing code generation](#customizing-code-generation)
     - [Client grouping](#client-grouping)
+    - [Display name](#display-name)
 8. [HTTP method annotations](#http-method-annotations)
 9. [Authentication](#authentication)
 10. [Return types](#return-types)
@@ -117,8 +118,8 @@ Request models define API endpoints and can have the following properties:
 - Must have a `@Returns` annotation specifying the response type
 - Class name must end with the `Request` suffix (e.g., `GetUserRequest`, `CreateOrderRequest`)
 - If the class has properties, it must be a `data class`
-- Classes without properties (marker classes) don't need to be data classes
-- Cannot be `abstract` or `sealed`
+- Classes without properties (marker classes) must be `object` declarations
+- Cannot be `abstract`, `sealed`, or `inner`
 
 ### Basic request model example
 
@@ -130,7 +131,7 @@ import kotlinx.serialization.Serializable
 @GET("/users")
 @Returns(success = UsersResponse::class)
 @Serializable
-class ListUsersRequest
+object ListUsersRequest
 ```
 
 ### Path parameters
@@ -193,7 +194,8 @@ A `null` value means the header is not sent.
 
 **Requirements:**
 - Must be annotated with both `@Header` and `@Transient`
-- Must be `String?` (nullable String)
+- Must be nullable
+- Must be one of: `String?`, `Int?`, `Long?`, `Short?`, `Float?`, `Double?`, `Boolean?`
 - Cannot be combined with `@Path` or `@Query`
 - Header name must be a valid HTTP header name per RFC 7230
 
@@ -324,7 +326,7 @@ The `@GenerateApi` annotation owns **codegen** configuration — directives that
 - `scanPackages` — packages to scan for request classes
 - `grouping` — how client classes are organized
 - `generateTestHarness` — whether to generate test harness functions
-- `generateKDoc` — whether to generate KDoc comments on generated code
+- `displayName` — human-readable API name used in generated KDoc and class names
 
 When `@GenerateApi` is used without explicit arguments, all codegen properties use their defaults.
 
@@ -425,9 +427,28 @@ client.vinyls.createVinyl { artist = "Pink Floyd" }
 
 > Note: If all paths start with `/api/...`, everything groups under a single ApiClient, defeating the purpose of grouping. The solution is to put `/api` in `baseUrl`.
 
+### Display name
+
+The `displayName` parameter controls the human-readable API name used in generated KDoc comments and class names. When not specified, the name is derived automatically from the class name by stripping common suffixes (`ApiSpec`, `Spec`).
+
+For example, `VinylStoreApiSpec` produces `displayName = "VinylStore"`, which results in:
+- Client class: `VinylStoreClient`
+- KDoc: "HTTP client for the VinylStore API."
+
+To override the derived name:
+
+```kotlin
+@GenerateApi(displayName = "Record Shop")
+object MyApiSpec : ApiSpec() {
+    override val baseUrl = "https://api.example.com"
+}
+```
+
+This produces `RecordShopClient` and KDoc referencing "Record Shop API."
+
 ### KDoc generation
 
-By default, the processor generates KDoc comments on client methods, test harness functions, and sealed result types. Each generated request function gets a one-liner description plus `@param` tags indicating whether each parameter is a path, query, or header parameter.
+The processor generates KDoc comments on client methods, test harness functions, and sealed result types. Each generated request function gets a one-liner description plus `@param` tags indicating whether each parameter is a path, query, or header parameter.
 
 Example of generated KDoc:
 
@@ -444,15 +465,6 @@ public suspend fun getUserItems(
     status: String? = null,
     correlationId: String? = null,
 ): ApiResponse<ItemDto>
-```
-
-To disable KDoc generation:
-
-```kotlin
-@GenerateApi(generateKDoc = false)
-object MyApiSpec : ApiSpec() {
-    override val baseUrl = "https://api.example.com"
-}
 ```
 
 ### Custom HTTP client
@@ -550,7 +562,7 @@ The `@Auth` annotation configures authentication for requests.
 @GET("/public/data")
 @Returns(success = Data::class)
 @Serializable
-class GetPublicDataRequest
+object GetPublicDataRequest
 ```
 
 ### Bearer token authentication
@@ -560,7 +572,7 @@ class GetPublicDataRequest
 @Auth(type = AuthType.BEARER)
 @Returns(success = Data::class)
 @Serializable
-class GetSecureDataRequest
+object GetSecureDataRequest
 ```
 
 Generated method requires a `token` context parameter:
@@ -585,7 +597,7 @@ context("my-bearer-token") {
 @Auth(type = AuthType.BASIC)
 @Returns(success = Resource::class)
 @Serializable
-class GetProtectedResourceRequest
+object GetProtectedResourceRequest
 ```
 
 Generated method requires `username` and `password` context parameters:
@@ -610,7 +622,7 @@ context("admin", "secret") {
 @Auth(type = AuthType.API_KEY)
 @Returns(success = Data::class)
 @Serializable
-class GetApiDataRequest
+object GetApiDataRequest
 ```
 
 By default, the processor uses the `X-API-Key` header name, but you can customize it:
@@ -620,7 +632,7 @@ By default, the processor uses the `X-API-Key` header name, but you can customiz
 @Auth(type = AuthType.API_KEY, headerName = "X-Custom-API-Key")
 @Returns(success = Data::class)
 @Serializable
-class GetApiDataRequest
+object GetApiDataRequest
 ```
 
 Generated method requires an `apiKey` context parameter:
@@ -644,7 +656,7 @@ context("my-api-key") {
 @Auth(type = AuthType.CUSTOM)
 @Returns(success = Data::class)
 @Serializable
-class GetCustomAuthDataRequest
+object GetCustomAuthDataRequest
 ```
 
 Generated method:
@@ -816,32 +828,34 @@ The processor validates your code at compile time and reports errors for:
 
 ### Request class errors
 
-| Error                            | Cause                                  |
-|----------------------------------|----------------------------------------|
-| Must end with 'Request' suffix   | Class name doesn't end with `Request`  |
-| Must be a data class             | Has properties but isn't a data class  |
-| Cannot be abstract or sealed     | Request class is abstract or sealed    |
-| Multiple HTTP method annotations | More than one of `@GET`, `@POST`, etc. |
-| Must specify a path              | HTTP annotation has empty path         |
-| Must have @Returns annotation    | Missing `@Returns` annotation          |
+| Error                                | Cause                                         |
+|--------------------------------------|-----------------------------------------------|
+| Must end with 'Request' suffix       | Class name doesn't end with `Request`         |
+| Must be a data class                 | Has properties but isn't a data class         |
+| Marker class must be an object       | No properties but isn't an object declaration |
+| Object cannot have properties        | Object declaration has properties             |
+| Cannot be abstract, sealed, or inner | Request class is abstract, sealed, or inner   |
+| Multiple HTTP method annotations     | More than one of `@GET`, `@POST`, etc.        |
+| Must specify a path                  | HTTP annotation has empty path                |
+| Must have @Returns annotation        | Missing `@Returns` annotation                 |
 
 ### Parameter errors
 
-| Error                                                             | Cause                                    |
-|-------------------------------------------------------------------|------------------------------------------|
-| @Path must be annotated with @Transient                           | Path parameter missing `@Transient`      |
-| @Path must be String, Int, Long, Short, Float, Double, or Boolean | Invalid path parameter type              |
-| Path variable has no matching @Path parameter                     | URL has `{var}` but no matching property |
-| @Query must be annotated with @Transient                          | Query parameter missing `@Transient`     |
-| @Query must be nullable                                           | Non-nullable query parameter             |
-| @Query not allowed on POST/PUT/PATCH                              | Query params on body requests            |
-| @Header must be String?                                           | Non-String header parameter type         |
-| @Header must be annotated with @Transient                         | Header parameter missing `@Transient`    |
-| @Header must be nullable                                         | Non-nullable header parameter            |
-| Invalid HTTP header name                                          | Header name violates RFC 7230            |
+| Error                                                             | Cause                                                |
+|-------------------------------------------------------------------|------------------------------------------------------|
+| @Path must be annotated with @Transient                           | Path parameter missing `@Transient`                  |
+| @Path must be String, Int, Long, Short, Float, Double, or Boolean | Invalid path parameter type                          |
+| Path variable has no matching @Path parameter                     | URL has `{var}` but no matching property             |
+| @Query must be annotated with @Transient                          | Query parameter missing `@Transient`                 |
+| @Query must be nullable                                           | Non-nullable query parameter                         |
+| @Query not allowed on POST/PUT/PATCH                              | Query params on body requests                        |
+| @Header type not allowed                                          | Header parameter type not in allowed set             |
+| @Header must be annotated with @Transient                         | Header parameter missing `@Transient`                |
+| @Header must be nullable                                          | Non-nullable header parameter                        |
+| Invalid HTTP header name                                          | Header name violates RFC 7230                        |
 | Cannot have multiple parameter annotations                        | Property has more than one of @Path, @Query, @Header |
-| Body parameters not allowed on GET/DELETE                         | Body params on non-body requests         |
-| Body parameter must be nullable or have default                   | Non-nullable body param without default  |
+| Body parameters not allowed on GET/DELETE                         | Body params on non-body requests                     |
+| Body parameter must be nullable or have default                   | Non-nullable body param without default              |
 
 ### Return type errors
 

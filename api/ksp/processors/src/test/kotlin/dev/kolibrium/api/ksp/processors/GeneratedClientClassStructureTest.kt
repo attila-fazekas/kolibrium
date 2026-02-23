@@ -40,7 +40,7 @@ class GeneratedClientClassStructureTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -66,7 +66,7 @@ class GeneratedClientClassStructureTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -91,23 +91,23 @@ class GeneratedClientClassStructureTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 @POST("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class CreateUserRequest
+                object CreateUserRequest
                 @PUT("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class UpdateUserRequest
+                object UpdateUserRequest
                 @PATCH("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class PatchUserRequest
+                object PatchUserRequest
                 @DELETE("/users")
                 @Returns(success = Unit::class)
                 @Serializable
-                class DeleteUserRequest
+                object DeleteUserRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
@@ -140,7 +140,7 @@ class GeneratedClientClassStructureTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)
