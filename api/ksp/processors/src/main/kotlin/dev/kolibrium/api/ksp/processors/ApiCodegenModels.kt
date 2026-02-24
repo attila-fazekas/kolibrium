@@ -45,7 +45,6 @@ internal data class RequestClassInfo(
     val isEmptyResponse: Boolean,
     val pathProperties: List<KSPropertyDeclaration>,
     val queryProperties: List<KSPropertyDeclaration>,
-    val headerProperties: List<KSPropertyDeclaration>,
     val bodyProperties: List<KSPropertyDeclaration>,
     val ctorDefaults: Map<String, Boolean>,
     val apiPackage: String,

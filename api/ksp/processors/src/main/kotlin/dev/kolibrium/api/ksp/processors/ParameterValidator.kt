@@ -27,7 +27,6 @@ internal fun validateRequestParameters(info: RequestClassInfo): ValidationResult
 
     validatePathParameters(info, info.pathProperties, errors)
     validateQueryParameters(info, info.queryProperties, errors)
-    validateHeaderParameters(info, info.headerProperties, errors, warnings)
     validateBodyParameters(info, info.bodyProperties, errors, warnings)
 
     return if (errors.isEmpty()) {
@@ -147,80 +146,6 @@ private fun validateQueryParameters(
         }
 
         validateDefaultValue(property, "@Query", info.ctorDefaults, errors)
-    }
-}
-
-private fun validateHeaderParameters(
-    info: RequestClassInfo,
-    headerProperties: List<KSPropertyDeclaration>,
-    errors: MutableList<Diagnostic>,
-    warnings: MutableList<Diagnostic>,
-) {
-    if (headerProperties.isEmpty()) return
-
-    headerProperties.forEach { property ->
-        val propertyName = property.simpleName.asString()
-
-        validateTransientAnnotation(property, "@Header", errors)
-
-        val resolvedType = property.type.resolve()
-
-        if (resolvedType.nullability != Nullability.NULLABLE) {
-            errors +=
-                Diagnostic(
-                    "@Header parameter '$propertyName' must be nullable",
-                    property,
-                )
-        }
-
-        val typeQualifiedName = resolvedType.declaration.qualifiedName?.asString()
-        if (typeQualifiedName !in ALLOWED_PARAMETER_TYPES) {
-            errors +=
-                Diagnostic(
-                    "@Header parameter '$propertyName' must be String, Int, Long, Short, Float, Double, or Boolean",
-                    property,
-                )
-        }
-
-        val headerName = extractHeaderName(property) ?: propertyName
-        if (!headerName.isValidHttpHeaderName()) {
-            errors +=
-                Diagnostic(
-                    "Invalid HTTP header name '$headerName' for @Header parameter '$propertyName'",
-                    property,
-                )
-        }
-
-        if (headerName.lowercase() in RESERVED_HEADER_NAMES) {
-            warnings +=
-                Diagnostic(
-                    "@Header parameter '$propertyName' uses reserved HTTP header name '$headerName'. Setting this header may cause silent failures or protocol-level bugs depending on the HTTP client",
-                    property,
-                )
-        }
-
-        validateDefaultValue(property, "@Header", info.ctorDefaults, errors)
-    }
-
-    // Detect duplicate header names (case-insensitive per RFC 7230)
-    val resolvedHeaders =
-        headerProperties.map { property ->
-            val headerName = extractHeaderName(property) ?: property.simpleName.asString()
-            headerName to property
-        }
-    val seen = mutableMapOf<String, KSPropertyDeclaration>()
-    resolvedHeaders.forEach { (headerName, property) ->
-        val normalized = headerName.lowercase()
-        val existing = seen[normalized]
-        if (existing != null) {
-            errors +=
-                Diagnostic(
-                    "Duplicate HTTP header name '$headerName': properties '${existing.simpleName.asString()}' and '${property.simpleName.asString()}' resolve to the same header (case-insensitive)",
-                    property,
-                )
-        } else {
-            seen[normalized] = property
-        }
     }
 }
 

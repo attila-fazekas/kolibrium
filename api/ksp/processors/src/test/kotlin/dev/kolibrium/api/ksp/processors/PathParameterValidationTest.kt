@@ -204,7 +204,7 @@ class PathParameterValidationTest : ApiBaseTest() {
             )
         val compilation = getCompilation(validApiSpec, request).compile()
         compilation.exitCode shouldBe COMPILATION_ERROR
-        compilation.messages shouldContain "cannot have multiple parameter annotations (@Path, @Query, @Header)"
+        compilation.messages shouldContain "cannot have multiple parameter annotations (@Path, @Query)"
     }
 
     @Test

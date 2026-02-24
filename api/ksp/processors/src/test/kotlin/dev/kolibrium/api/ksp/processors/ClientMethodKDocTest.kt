@@ -174,35 +174,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
     }
 
     @Test
-    fun `Header parameters get param KDoc with actual HTTP header name`() {
-        val request =
-            kotlin(
-                "Requests.kt",
-                """
-                package dev.kolibrium.api.ksp.test.models
-                import dev.kolibrium.api.ksp.annotations.*
-                import kotlinx.serialization.Serializable
-                import kotlinx.serialization.Transient
-                @Serializable
-                data class UserDto(val id: Int)
-                @GET("/users")
-                @Returns(success = UserDto::class)
-                @Serializable
-                data class ListUsersRequest(
-                    @Header(name = "X-Correlation-ID") @Transient val correlationId: String? = null,
-                    @Header @Transient val accept: String? = null
-                )
-                """.trimIndent(),
-            )
-        val kotlinCompilation = getCompilation(validApiSpec, request)
-        val compilation = kotlinCompilation.compile()
-        compilation.exitCode shouldBe OK
-        val source = kotlinCompilation.getGeneratedSource("TestClient.kt")
-        source shouldContain "@param correlationId header: `X-Correlation-ID`"
-        source shouldContain "@param accept header parameter"
-    }
-
-    @Test
     fun `All parameter types combined produce correct param tags`() {
         val getRequest =
             kotlin(
@@ -220,7 +191,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 data class GetUserItemsRequest(
                     @Path @Transient val userId: Int = 0,
                     @Query @Transient val status: String? = null,
-                    @Header(name = "X-Request-ID") @Transient val requestId: String? = null,
                 )
                 """.trimIndent(),
             )
@@ -237,7 +207,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 @Serializable
                 data class CreateUserItemRequest(
                     @Path @Transient val userId: Int = 0,
-                    @Header(name = "X-Trace-ID") @Transient val traceId: String? = null,
                     var name: String? = null,
                 )
                 """.trimIndent(),
@@ -250,10 +219,8 @@ class ClientMethodKDocTest : ApiBaseTest() {
         source shouldContain "Performs a GET request to /users/{userId}/items."
         source shouldContain "@param userId path parameter — substituted into `/users/{userId}/items`"
         source shouldContain "@param status query parameter"
-        source shouldContain "@param requestId header: `X-Request-ID`"
         // POST method KDoc
         source shouldContain "Performs a POST request to /users/{userId}/items."
-        source shouldContain "@param traceId header: `X-Trace-ID`"
         source shouldContain "@param block request body builder"
     }
 
@@ -426,33 +393,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
         val kotlinCompilation = getCompilation(validApiSpec, request)
         val compilation = kotlinCompilation.compile()
         compilation.exitCode shouldBe KotlinCompilation.ExitCode.COMPILATION_ERROR
-    }
-
-    @Test
-    fun `Header with whitespace-only name falls back to header parameter in KDoc`() {
-        val request =
-            kotlin(
-                "Requests.kt",
-                """
-                package dev.kolibrium.api.ksp.test.models
-                import dev.kolibrium.api.ksp.annotations.*
-                import kotlinx.serialization.Serializable
-                import kotlinx.serialization.Transient
-                @Serializable
-                data class UserDto(val id: Int)
-                @GET("/users")
-                @Returns(success = UserDto::class)
-                @Serializable
-                data class ListUsersRequest(
-                    @Header(name = "  ") @Transient val myHeader: String? = null
-                )
-                """.trimIndent(),
-            )
-        val kotlinCompilation = getCompilation(validApiSpec, request)
-        val compilation = kotlinCompilation.compile()
-        compilation.exitCode shouldBe OK
-        val source = kotlinCompilation.getGeneratedSource("TestClient.kt")
-        source shouldContain "@param myHeader header parameter"
     }
 
     @Test
