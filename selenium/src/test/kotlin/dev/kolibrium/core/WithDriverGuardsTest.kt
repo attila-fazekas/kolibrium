@@ -16,10 +16,6 @@
 
 package dev.kolibrium.core
 
-import dev.kolibrium.core.InternalKolibriumApi
-import dev.kolibrium.core.Session
-import dev.kolibrium.core.SessionContext
-import dev.kolibrium.core.Site
 import dev.kolibrium.core.support.FakeWebDriver
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
