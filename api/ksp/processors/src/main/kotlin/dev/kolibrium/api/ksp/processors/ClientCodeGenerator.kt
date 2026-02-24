@@ -190,10 +190,8 @@ internal class ClientCodeGenerator(
             }
         }
 
-        // Add header import if any request uses API_KEY auth or @Header properties
-        val needsHeaderImport =
-            requests.any { it.authType == AuthType.API_KEY } ||
-                requests.any { it.headerProperties.isNotEmpty() }
+        // Add header import if any request uses API_KEY auth
+        val needsHeaderImport = requests.any { it.authType == AuthType.API_KEY }
         if (needsHeaderImport) {
             fileSpecBuilder.addImport("io.ktor.client.request", "header")
         }
@@ -203,6 +201,9 @@ internal class ClientCodeGenerator(
         if (hasErrorTypes) {
             fileSpecBuilder.addImport("io.ktor.http", "isSuccess")
         }
+
+        // Add HeadersBuilder since every generated function has a `headers` parameter
+        // TODO fileSpecBuilder.addImport("io.ktor.http.", "HeadersBuilder")
 
         val fileSpec = fileSpecBuilder.build()
 

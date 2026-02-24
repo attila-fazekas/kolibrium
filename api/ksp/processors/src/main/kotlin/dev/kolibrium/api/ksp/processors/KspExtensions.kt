@@ -23,7 +23,6 @@ import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.symbol.KSType
 import dev.kolibrium.api.ksp.annotations.DELETE
 import dev.kolibrium.api.ksp.annotations.GET
-import dev.kolibrium.api.ksp.annotations.Header
 import dev.kolibrium.api.ksp.annotations.PATCH
 import dev.kolibrium.api.ksp.annotations.POST
 import dev.kolibrium.api.ksp.annotations.PUT
@@ -235,12 +234,6 @@ internal fun extractGroupByApiPrefix(path: String): String {
     val segments = path.trimStart('/').split('/').filter { it.isNotEmpty() }
     val firstLiteralSegment = segments.firstOrNull { !it.startsWith("{") }
     return firstLiteralSegment ?: ROOT_GROUP_NAME
-}
-
-internal fun extractHeaderName(property: KSPropertyDeclaration): String? {
-    val annotation = property.getAnnotation(Header::class) ?: return null
-    val name = annotation.getArgumentValue("name") as? String
-    return if (name.isNullOrBlank()) null else name
 }
 
 internal fun getResultTypeName(info: RequestClassInfo): String = info.endpointName + "Result"
