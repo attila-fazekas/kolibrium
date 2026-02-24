@@ -32,11 +32,13 @@ import kotlin.reflect.KClass
  *   Use [ClientGrouping.ByPrefix] to group methods by their first path segment into separate
  *   client classes.
  * @property generateTestHarness Whether to generate a test harness file for this API specification.
- *   Defaults to `true`. Set to `false` to skip generating test harness functions (e.g., when the
- *   API client is used in production code only).
- * @property displayName Human-readable name for the API, used in generated KDoc and class names.
- *   When empty (the default), the name is derived from the class name by stripping common suffixes
- *   (`ApiSpec`, `Spec`, `Api`). Set this explicitly when the derived name is awkward or incorrect.
+ *   Defaults to `true`. Set to `false` to skip generating test harness functions.
+ * @property displayName Human-readable name for the API, used only in generated KDoc comments. Has
+ *   no effect on generated class names or function names — those are derived from the annotated
+ *   class's simple name. When empty (the default), the display name is derived by stripping the
+ *   first matching suffix from `ApiSpec`, `Spec`, `Api` (in that order) from the class name. Set
+ *   this explicitly when the derived name is awkward or incorrect (e.g., for class names like
+ *   `ApiSpec` or `Spec` that produce redundant KDoc).
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)

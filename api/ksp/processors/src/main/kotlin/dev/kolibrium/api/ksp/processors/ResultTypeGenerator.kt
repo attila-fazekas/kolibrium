@@ -23,21 +23,23 @@ import com.squareup.kotlinpoet.KModifier
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 
-internal class ResultTypeGenerator(
-    private val clientMethodGenerator: ClientMethodGenerator,
-) {
+internal class ResultTypeGenerator {
     fun generateResultType(
         info: RequestClassInfo,
         clientPackage: String,
     ): TypeSpec {
-        val resultTypeName = clientMethodGenerator.getResultTypeName(info)
+        val resultTypeName = getResultTypeName(info)
 
-        val successTypeDeclaration = info.returnType.declaration
         val successClassName =
-            ClassName(
-                successTypeDeclaration.packageName.asString(),
-                successTypeDeclaration.simpleName.asString(),
-            )
+            if (info.isEmptyResponse) {
+                ClassName("kotlin", "Unit")
+            } else {
+                val successTypeDeclaration = info.returnType.declaration
+                ClassName(
+                    successTypeDeclaration.packageName.asString(),
+                    successTypeDeclaration.simpleName.asString(),
+                )
+            }
 
         val errorTypeDeclaration = info.errorType!!.declaration
         val errorClassName =

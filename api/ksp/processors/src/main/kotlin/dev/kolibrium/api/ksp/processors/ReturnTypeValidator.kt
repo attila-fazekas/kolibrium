@@ -19,11 +19,10 @@ package dev.kolibrium.api.ksp.processors
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import kotlinx.serialization.Serializable
 
-internal fun validateReturnType(
-    info: RequestClassInfo,
-    errors: MutableList<Diagnostic>,
-    warnings: MutableList<Diagnostic>,
-) {
+internal fun validateReturnType(info: RequestClassInfo): ValidationResult<Unit> {
+    val errors = mutableListOf<Diagnostic>()
+    val warnings = mutableListOf<Diagnostic>()
+
     val requestClass = info.requestClass
     val className = requestClass.getClassName()
 
@@ -44,7 +43,7 @@ internal fun validateReturnType(
     val returnType = info.returnType
     if (returnType.isError) {
         errors += Diagnostic("Success type for $className could not be resolved", requestClass)
-        return
+        return ValidationResult.Invalid(errors, warnings)
     }
 
     val returnQualifiedName = returnType.declaration.qualifiedName?.asString()
@@ -56,7 +55,7 @@ internal fun validateReturnType(
                     "Success type '${returnQualifiedName ?: returnType}' for $className must be a concrete class type",
                     requestClass,
                 )
-            return
+            return ValidationResult.Invalid(errors, warnings)
         }
 
         if (!returnClass.hasAnnotation(Serializable::class)) {
@@ -73,7 +72,7 @@ internal fun validateReturnType(
     if (errorType != null) {
         if (errorType.isError) {
             errors += Diagnostic("Error type for $className could not be resolved", requestClass)
-            return
+            return ValidationResult.Invalid(errors, warnings)
         }
 
         val errorClass = errorType.declaration as? KSClassDeclaration
@@ -83,7 +82,7 @@ internal fun validateReturnType(
                     "Error type '${errorType.declaration.qualifiedName?.asString() ?: errorType}' for $className must be a concrete class type",
                     requestClass,
                 )
-            return
+            return ValidationResult.Invalid(errors, warnings)
         }
 
         if (!errorClass.hasAnnotation(Serializable::class)) {
@@ -93,5 +92,11 @@ internal fun validateReturnType(
                     requestClass,
                 )
         }
+    }
+
+    return if (errors.isEmpty()) {
+        ValidationResult.Valid(Unit, warnings)
+    } else {
+        ValidationResult.Invalid(errors, warnings)
     }
 }

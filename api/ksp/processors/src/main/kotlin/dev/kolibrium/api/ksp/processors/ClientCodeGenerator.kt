@@ -49,7 +49,7 @@ internal class ClientCodeGenerator(
         apiInfo: ApiSpecInfo,
         requests: List<RequestClassInfo>,
     ) {
-        val clientClassName = "${apiInfo.displayName}Client"
+        val clientClassName = "${apiInfo.clientNamePrefix}Client"
         val clientPackage = "${apiInfo.packageName}.generated"
 
         val sourceFiles =
@@ -70,7 +70,7 @@ internal class ClientCodeGenerator(
         requests: List<RequestClassInfo>,
     ) {
         val clientPackage = "${apiInfo.packageName}.generated"
-        val rootClientClassName = "${apiInfo.displayName}Client"
+        val rootClientClassName = "${apiInfo.clientNamePrefix}Client"
         val groupedRequests = groupRequestsByPrefix(requests)
 
         // Collect all source files for dependencies
@@ -208,7 +208,7 @@ internal class ClientCodeGenerator(
 
         codeGenerator
             .createNewFile(
-                Dependencies(false, *sourceFiles.toTypedArray()),
+                Dependencies.ALL_FILES,
                 fileSpec.packageName,
                 fileSpec.name,
             ).writer()
@@ -269,7 +269,7 @@ internal class ClientCodeGenerator(
 
         codeGenerator
             .createNewFile(
-                Dependencies(false, *sourceFiles.toTypedArray()),
+                Dependencies.ALL_FILES,
                 fileSpec.packageName,
                 fileSpec.name,
             ).writer()

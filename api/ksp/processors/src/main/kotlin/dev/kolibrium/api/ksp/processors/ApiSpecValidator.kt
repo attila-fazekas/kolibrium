@@ -23,10 +23,7 @@ import com.google.devtools.ksp.symbol.Modifier
 import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import dev.kolibrium.api.ksp.annotations.GenerateApi
 
-internal fun validateApiSpecClass(
-    apiSpecClass: KSClassDeclaration,
-    errors: MutableList<Diagnostic>,
-): ApiSpecInfo? {
+internal fun validateApiSpecClass(apiSpecClass: KSClassDeclaration): ValidationResult<ApiSpecInfo> {
     val className = apiSpecClass.getClassName()
 
     // Must be an object or concrete class
@@ -35,12 +32,14 @@ internal fun validateApiSpecClass(
     val isAbstract = apiSpecClass.modifiers.contains(Modifier.ABSTRACT)
 
     if (!isObject && !(isClass && !isAbstract)) {
-        errors +=
-            Diagnostic(
-                "ApiSpec implementation $className must be an object declaration or a concrete class",
-                apiSpecClass,
-            )
-        return null
+        return ValidationResult.Invalid(
+            listOf(
+                Diagnostic(
+                    "ApiSpec implementation $className must be an object declaration or a concrete class",
+                    apiSpecClass,
+                ),
+            ),
+        )
     }
 
     // Must extend dev.kolibrium.api.core.ApiSpec
@@ -51,37 +50,47 @@ internal fun validateApiSpecClass(
         }
 
     if (!extendsApiSpec) {
-        errors +=
-            Diagnostic(
-                "Class $className is annotated with @GenerateApi but does not extend $API_SPEC_BASE_CLASS",
-                apiSpecClass,
-            )
-        return null
+        return ValidationResult.Invalid(
+            listOf(
+                Diagnostic(
+                    "Class $className is annotated with @GenerateApi but does not extend $API_SPEC_BASE_CLASS",
+                    apiSpecClass,
+                ),
+            ),
+        )
     }
 
     // Must be in a package with a valid name
     val packageName = apiSpecClass.packageName.asString()
 
     if (!packageName.isValidKotlinPackage()) {
-        errors +=
-            Diagnostic(
-                "ApiSpec implementation $className has invalid package name: $packageName",
-                apiSpecClass,
-            )
-        return null
+        return ValidationResult.Invalid(
+            listOf(
+                Diagnostic(
+                    "ApiSpec implementation $className has invalid package name: $packageName",
+                    apiSpecClass,
+                ),
+            ),
+        )
     }
 
-    // Extract API name from class simple name (remove "ApiSpec" suffix, convert to camelCase)
+    // Extract display name and API name from class simple name
     val simpleName = apiSpecClass.simpleName.asString()
-    val apiName = simpleName.removeSuffix("ApiSpec").replaceFirstChar { it.lowercase() }
 
-    if (apiName.isBlank()) {
-        errors +=
-            Diagnostic(
-                "ApiSpec implementation must not be named exactly 'ApiSpec'. Use a descriptive name like '<Name>ApiSpec'.",
-                apiSpecClass,
-            )
-        return null
+    val clientNamePrefix = deriveClientNamePrefix(simpleName)
+
+    if (!clientNamePrefix.isValidKotlinIdentifier()) {
+        return ValidationResult.Invalid(
+            listOf(
+                Diagnostic(
+                    "Derived client name prefix '$clientNamePrefix' from class '$simpleName' is not a valid Kotlin " +
+                        "identifier. Class names with backtick escaping that produce identifiers starting with a digit " +
+                        "or containing special characters are not supported. The derived prefix must start with a " +
+                        "letter and contain only letters, digits, or underscores.",
+                    apiSpecClass,
+                ),
+            ),
+        )
     }
 
     // Read codegen configuration from @GenerateApi annotation (defaults when absent)
@@ -100,14 +109,14 @@ internal fun validateApiSpecClass(
 
     val invalidPackages = scanPackages.filterNot { it.isValidKotlinPackage() }
     if (invalidPackages.isNotEmpty()) {
-        invalidPackages.forEach { pkg ->
-            errors +=
+        return ValidationResult.Invalid(
+            invalidPackages.map { pkg ->
                 Diagnostic(
                     "Invalid scan package '$pkg' in @GenerateApi on $className",
                     apiSpecClass,
                 )
-        }
-        return null
+            },
+        )
     }
 
     val grouping =
@@ -116,27 +125,27 @@ internal fun validateApiSpecClass(
                 is KSType -> {
                     val name = groupingArg.declaration.simpleName.asString()
                     ClientGrouping.entries.firstOrNull { it.name == name }
-                        ?: run {
-                            errors +=
+                        ?: return ValidationResult.Invalid(
+                            listOf(
                                 Diagnostic(
                                     "Unknown grouping '$name' in @GenerateApi on $className",
                                     apiSpecClass,
-                                )
-                            return null
-                        }
+                                ),
+                            ),
+                        )
                 }
 
                 is KSClassDeclaration -> {
                     val name = groupingArg.simpleName.asString()
                     ClientGrouping.entries.firstOrNull { it.name == name }
-                        ?: run {
-                            errors +=
+                        ?: return ValidationResult.Invalid(
+                            listOf(
                                 Diagnostic(
                                     "Unknown grouping '$name' in @GenerateApi on $className",
                                     apiSpecClass,
-                                )
-                            return null
-                        }
+                                ),
+                            ),
+                        )
                 }
 
                 else -> {
@@ -157,24 +166,33 @@ internal fun validateApiSpecClass(
             deriveDisplayName(simpleName)
         }
 
-    return ApiSpecInfo(
-        apiSpec = apiSpecClass,
-        apiName = apiName,
-        packageName = packageName,
-        scanPackages = scanPackages,
-        grouping = grouping,
-        generateTestHarness = generateTestHarness,
-        displayName = displayName,
+    val apiName = clientNamePrefix.replaceFirstChar { it.lowercase() }
+
+    return ValidationResult.Valid(
+        ApiSpecInfo(
+            apiSpec = apiSpecClass,
+            apiName = apiName,
+            packageName = packageName,
+            scanPackages = scanPackages,
+            grouping = grouping,
+            generateTestHarness = generateTestHarness,
+            displayName = displayName,
+            clientNamePrefix = clientNamePrefix,
+        ),
     )
 }
 
-private val DISPLAY_NAME_SUFFIXES: List<String> = listOf("ApiSpec", "Spec")
+// Ordering matters: "ApiSpec" must be checked before "Spec" to avoid partial stripping
+private val NAME_SUFFIXES: List<String> = listOf("ApiSpec", "Spec", "Api")
 
-private fun deriveDisplayName(simpleName: String): String {
-    for (suffix in DISPLAY_NAME_SUFFIXES) {
-        if (simpleName.endsWith(suffix) && simpleName.length > suffix.length) {
+private fun deriveClientNamePrefix(simpleName: String): String {
+    if (simpleName in NAME_SUFFIXES) return simpleName
+    for (suffix in NAME_SUFFIXES) {
+        if (simpleName.endsWith(suffix)) {
             return simpleName.removeSuffix(suffix)
         }
     }
     return simpleName
 }
+
+private fun deriveDisplayName(simpleName: String): String = deriveClientNamePrefix(simpleName)

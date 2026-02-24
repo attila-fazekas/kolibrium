@@ -21,18 +21,23 @@ import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.Nullability
 import io.ktor.http.HttpMethod
 
-internal fun validateRequestParameters(
-    info: RequestClassInfo,
-    errors: MutableList<Diagnostic>,
-    warnings: MutableList<Diagnostic>,
-) {
+internal fun validateRequestParameters(info: RequestClassInfo): ValidationResult<Unit> {
+    val errors = mutableListOf<Diagnostic>()
+    val warnings = mutableListOf<Diagnostic>()
+
     validatePathParameters(info, info.pathProperties, errors)
     validateQueryParameters(info, info.queryProperties, errors)
     validateHeaderParameters(info, info.headerProperties, errors, warnings)
     validateBodyParameters(info, info.bodyProperties, errors, warnings)
+
+    return if (errors.isEmpty()) {
+        ValidationResult.Valid(Unit, warnings)
+    } else {
+        ValidationResult.Invalid(errors, warnings)
+    }
 }
 
-internal fun validatePathParameters(
+private fun validatePathParameters(
     info: RequestClassInfo,
     pathProperties: List<KSPropertyDeclaration>,
     errors: MutableList<Diagnostic>,
@@ -99,7 +104,7 @@ internal fun validatePathParameters(
     }
 }
 
-internal fun validateQueryParameters(
+private fun validateQueryParameters(
     info: RequestClassInfo,
     queryProperties: List<KSPropertyDeclaration>,
     errors: MutableList<Diagnostic>,
@@ -145,7 +150,7 @@ internal fun validateQueryParameters(
     }
 }
 
-internal fun validateHeaderParameters(
+private fun validateHeaderParameters(
     info: RequestClassInfo,
     headerProperties: List<KSPropertyDeclaration>,
     errors: MutableList<Diagnostic>,
@@ -219,7 +224,7 @@ internal fun validateHeaderParameters(
     }
 }
 
-internal fun validateBodyParameters(
+private fun validateBodyParameters(
     info: RequestClassInfo,
     bodyProperties: List<KSPropertyDeclaration>,
     errors: MutableList<Diagnostic>,

@@ -68,7 +68,7 @@ import kotlinx.serialization.Serializable
  * - Sealed result types for requests with error type specifications
  * - Automatic serialization/deserialization using Ktor's content negotiation
  *
- * Example API specification:
+ * Example API specifications:
  * ```kotlin
  * @GenerateApi(
  *     scanPackages = ["io.github.vinylstore.models"],
@@ -79,16 +79,25 @@ import kotlinx.serialization.Serializable
  * }
  * ```
  *
+ * The `ApiSpec` suffix is not required — the processor strips known suffixes (`ApiSpec`, `Spec`,
+ * `Api`) to derive the client name prefix:
+ * ```kotlin
+ * @GenerateApi
+ * object VinylStore : ApiSpec() {
+ *     override val baseUrl = "http://localhost:8080"
+ * }
+ * ```
+ *
  * @param environment The symbol processor environment providing access to logging and code generation
  */
-public class ApiCodegenProcessor(
+internal class ApiCodegenProcessor(
     environment: SymbolProcessorEnvironment,
 ) : SymbolProcessor {
     private val logger: KSPLogger = environment.logger
     private val codeGenerator: CodeGenerator = environment.codeGenerator
 
     private val clientMethodGenerator = ClientMethodGenerator()
-    private val resultTypeGenerator = ResultTypeGenerator(clientMethodGenerator)
+    private val resultTypeGenerator = ResultTypeGenerator()
     private val clientCodeGenerator = ClientCodeGenerator(codeGenerator, clientMethodGenerator, resultTypeGenerator)
     private val testHarnessGenerator = TestHarnessGenerator(codeGenerator)
 
@@ -113,7 +122,18 @@ public class ApiCodegenProcessor(
         // Validate API spec classes and collect info
         val apiSpecInfos =
             generateApiSymbols.mapNotNull { apiClass ->
-                validateApiSpecClass(apiClass, errors)
+                when (val result = validateApiSpecClass(apiClass)) {
+                    is ValidationResult.Valid -> {
+                        warnings += result.warnings
+                        result.value
+                    }
+
+                    is ValidationResult.Invalid -> {
+                        errors += result.errors
+                        warnings += result.warnings
+                        null
+                    }
+                }
             }
 
         apiSpecInfos.forEach { apiInfo ->
@@ -121,15 +141,21 @@ public class ApiCodegenProcessor(
             logger.logging("API '${apiInfo.apiName}' will scan packages: ${apiInfo.scanPackages}")
         }
 
-        // Check for duplicate API names in the same package
-        val apiNamesByPackage = apiSpecInfos.groupBy { it.packageName }
-        apiNamesByPackage.forEach { (packageName, apis) ->
-            val duplicates = apis.groupBy { it.apiName }.filter { it.value.size > 1 }
-            duplicates.forEach { (apiName, duplicateApis) ->
+        // Check for duplicate generated class names in the same package (case-insensitive)
+        val apisByPackage = apiSpecInfos.groupBy { it.packageName }
+        apisByPackage.forEach { (packageName, apis) ->
+            val duplicates =
+                apis
+                    .groupBy { "${it.clientNamePrefix}Client".lowercase() }
+                    .filter { it.value.size > 1 }
+            duplicates.forEach { (_, duplicateApis) ->
+                val generatedClassName = "${duplicateApis.first().clientNamePrefix}Client"
                 duplicateApis.forEach { api ->
+                    val className = api.apiSpec.getClassName()
                     errors +=
                         Diagnostic(
-                            "Duplicate API name '$apiName' in package '$packageName'",
+                            "Generated class name '$generatedClassName' from class '$className' collides with " +
+                                "another API spec in package '$packageName' (case-insensitive)",
                             api.apiSpec,
                         )
                 }
@@ -182,25 +208,36 @@ public class ApiCodegenProcessor(
         val requestInfosByApi: Map<ApiSpecInfo, List<RequestClassInfo>> =
             requestsByApi.mapValues { (apiInfo, requestClasses) ->
                 requestClasses.mapNotNull { requestClass ->
-                    validateRequestClass(requestClass, apiInfo, errors, warnings)
+                    when (val result = validateRequestClass(requestClass, apiInfo)) {
+                        is ValidationResult.Valid -> {
+                            warnings += result.warnings
+                            result.value
+                        }
+
+                        is ValidationResult.Invalid -> {
+                            errors += result.errors
+                            warnings += result.warnings
+                            null
+                        }
+                    }
                 }
             }
 
         // Parameter and Return Type Validation
         requestInfosByApi.values.flatten().forEach { info ->
-            validateRequestParameters(info, errors, warnings)
-            validateReturnType(info, errors, warnings)
+            collectDiagnostics(validateRequestParameters(info), errors, warnings)
+            collectDiagnostics(validateReturnType(info), errors, warnings)
         }
 
         // Check for function name collisions per API
         requestInfosByApi.forEach { (apiInfo, requests) ->
-            checkFunctionNameCollisions(apiInfo, requests, errors)
+            collectDiagnostics(checkFunctionNameCollisions(apiInfo, requests), errors, warnings)
         }
 
         // Validate grouped mode specific constraints
         requestInfosByApi.forEach { (apiInfo, requests) ->
             if (apiInfo.grouping == ClientGrouping.ByPrefix) {
-                validateGroupedMode(apiInfo, requests, errors, warnings)
+                collectDiagnostics(validateGroupedMode(apiInfo, requests), errors, warnings)
             }
         }
 
@@ -223,6 +260,17 @@ public class ApiCodegenProcessor(
         }
 
         return emptyList()
+    }
+
+    private fun collectDiagnostics(
+        result: ValidationResult<*>,
+        errors: MutableList<Diagnostic>,
+        warnings: MutableList<Diagnostic>,
+    ) {
+        warnings += result.warnings
+        if (result is ValidationResult.Invalid) {
+            errors += result.errors
+        }
     }
 
     private fun discoverRequestModels(
