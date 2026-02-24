@@ -290,21 +290,20 @@ class ClientMethodKDocTest : ApiBaseTest() {
         val kotlinCompilation = getCompilation(apiSpec, request)
         val compilation = kotlinCompilation.compile()
         compilation.exitCode shouldBe OK
-        val source = kotlinCompilation.getGeneratedSource("MyApiClient.kt")
-        source shouldContain "HTTP client for the MyApi API."
+        val source = kotlinCompilation.getGeneratedSource("MyClient.kt")
+        source shouldContain "HTTP client for the My API."
     }
 
     @Test
-    fun `API spec named exactly ApiSpec is rejected by validation`() {
+    fun `API spec named exactly ApiSpec generates KDoc with ApiSpec display name`() {
         val apiSpec =
             kotlin(
                 "ApiSpec.kt",
                 """
                 package dev.kolibrium.api.ksp.test
-                import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object ApiSpec : ApiSpec() {
+                object ApiSpec : dev.kolibrium.api.core.ApiSpec() {
                     override val baseUrl = "https://test.api"
                 }
                 """.trimIndent(),
@@ -321,12 +320,88 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
+                object GetUsersRequest
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(apiSpec, request)
         val compilation = kotlinCompilation.compile()
-        compilation.exitCode shouldBe KotlinCompilation.ExitCode.COMPILATION_ERROR
+        compilation.exitCode shouldBe OK
+        val source = kotlinCompilation.getGeneratedSource("ApiSpecClient.kt")
+        source shouldContain "HTTP client for the ApiSpec API."
+    }
+
+    @Test
+    fun `Explicit displayName overrides derived display name in KDoc but not class name`() {
+        val apiSpec =
+            kotlin(
+                "PetStoreApiSpec.kt",
+                """
+                package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi(displayName = "My Awesome Store")
+                object PetStoreApiSpec : ApiSpec() {
+                    override val baseUrl = "https://test.api"
+                }
+                """.trimIndent(),
+            )
+        val request =
+            kotlin(
+                "Requests.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class PetDto(val id: Int)
+                @GET("/pets")
+                @Returns(success = PetDto::class)
+                @Serializable
+                object GetPetsRequest
+                """.trimIndent(),
+            )
+        val kotlinCompilation = getCompilation(apiSpec, request)
+        val compilation = kotlinCompilation.compile()
+        compilation.exitCode shouldBe OK
+        val source = kotlinCompilation.getGeneratedSource("PetStoreClient.kt")
+        source shouldContain "HTTP client for the My Awesome Store API."
+    }
+
+    @Test
+    fun `displayName with special characters works for KDoc but does not affect class name`() {
+        val apiSpec =
+            kotlin(
+                "PetStoreApiSpec.kt",
+                """
+                package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi(displayName = "My API! (v2)")
+                object PetStoreApiSpec : ApiSpec() {
+                    override val baseUrl = "https://test.api"
+                }
+                """.trimIndent(),
+            )
+        val request =
+            kotlin(
+                "Requests.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class PetDto(val id: Int)
+                @GET("/pets")
+                @Returns(success = PetDto::class)
+                @Serializable
+                object GetPetsRequest
+                """.trimIndent(),
+            )
+        val kotlinCompilation = getCompilation(apiSpec, request)
+        val compilation = kotlinCompilation.compile()
+        compilation.exitCode shouldBe OK
+        val source = kotlinCompilation.getGeneratedSource("PetStoreClient.kt")
+        source shouldContain "HTTP client for the My API! (v2) API."
     }
 
     @Test

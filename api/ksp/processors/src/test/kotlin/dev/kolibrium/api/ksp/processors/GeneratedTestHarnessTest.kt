@@ -292,4 +292,63 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
         clientSource shouldContain "class EmptyScanClient"
         clientSource shouldContain "suspend fun getUsers"
     }
+
+    @Test
+    fun `Test harness function name and file name match class-name-derived apiName`() {
+        val apiSpec =
+            kotlin(
+                "PetStoreApiSpec.kt",
+                """
+                package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi
+                object PetStoreApiSpec : ApiSpec() {
+                    override val baseUrl = "https://test.api"
+                }
+                """.trimIndent(),
+            )
+        val request =
+            kotlin(
+                "Requests.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class PetDto(val id: Int)
+                @GET("/pets")
+                @Returns(success = PetDto::class)
+                @Serializable
+                object GetPetsRequest
+                """.trimIndent(),
+            )
+        val kotlinCompilation = getCompilation(apiSpec, request)
+        val compilation = kotlinCompilation.compile()
+        compilation.exitCode shouldBe OK
+        val harnessSource = kotlinCompilation.getGeneratedSource("PetStoreTestHarness.kt")
+        harnessSource shouldContain "fun petStoreApiTest("
+        harnessSource shouldContain "fun <T> petStoreApiTest("
+        // Also verify TestApiSpec produces expected names
+        val request2 =
+            kotlin(
+                "Requests2.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class UserDto(val id: Int)
+                @GET("/users")
+                @Returns(success = UserDto::class)
+                @Serializable
+                object GetUsersRequest
+                """.trimIndent(),
+            )
+        val kotlinCompilation2 = getCompilation(validApiSpec, request2)
+        val compilation2 = kotlinCompilation2.compile()
+        compilation2.exitCode shouldBe OK
+        val harnessSource2 = kotlinCompilation2.getGeneratedSource("TestTestHarness.kt")
+        harnessSource2 shouldContain "fun testApiTest("
+    }
 }

@@ -46,21 +46,38 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
     }
 
     @Test
-    fun `Named exactly ApiSpec rejected`() {
+    fun `Named exactly ApiSpec is accepted and generates ApiSpecClient`() {
         val source =
             kotlin(
                 "ApiSpec.kt",
                 """
                 package dev.kolibrium.api.ksp.test
-                import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object ApiSpec : ApiSpec()
+                object ApiSpec : dev.kolibrium.api.core.ApiSpec() {
+                    override val baseUrl = "https://test.api"
+                }
                 """.trimIndent(),
             )
-        val compilation = getCompilation(source).compile()
-        compilation.exitCode shouldBe COMPILATION_ERROR
-        compilation.messages shouldContain "must not be named exactly 'ApiSpec'"
+        val request =
+            kotlin(
+                "Requests.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class UserDto(val id: Int)
+                @GET("/users")
+                @Returns(success = UserDto::class)
+                @Serializable
+                object GetUsersRequest
+                """.trimIndent(),
+            )
+        val kotlinCompilation = getCompilation(source, request)
+        val compilation = kotlinCompilation.compile()
+        compilation.exitCode shouldBe OK
+        kotlinCompilation.getGeneratedSource("ApiSpecClient.kt")
     }
 
     @Test
@@ -113,7 +130,8 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
             )
         val compilation = getCompilation(source1, source2).compile()
         compilation.exitCode shouldBe COMPILATION_ERROR
-        compilation.messages shouldContain "Duplicate API name"
+        compilation.messages shouldContain "Generated class name 'PetClient' from class"
+        compilation.messages shouldContain "collides with another API spec in package"
     }
 
     @Test
@@ -181,6 +199,268 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
         compilation.exitCode shouldBe OK
         kotlinCompilation.getGeneratedSource("TestClient.kt")
         kotlinCompilation.getGeneratedSource("TestTestHarness.kt")
+    }
+
+    @Test
+    fun `Named exactly Spec is accepted and generates SpecClient`() {
+        val source =
+            kotlin(
+                "Spec.kt",
+                """
+                package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi
+                object Spec : ApiSpec() {
+                    override val baseUrl = "https://test.api"
+                }
+                """.trimIndent(),
+            )
+        val request =
+            kotlin(
+                "Requests.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class UserDto(val id: Int)
+                @GET("/users")
+                @Returns(success = UserDto::class)
+                @Serializable
+                object GetUsersRequest
+                """.trimIndent(),
+            )
+        val kotlinCompilation = getCompilation(source, request)
+        val compilation = kotlinCompilation.compile()
+        compilation.exitCode shouldBe OK
+        kotlinCompilation.getGeneratedSource("SpecClient.kt")
+    }
+
+    @Test
+    fun `Named exactly Api is accepted and generates ApiClient`() {
+        val source =
+            kotlin(
+                "Api.kt",
+                """
+                package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi
+                object Api : ApiSpec() {
+                    override val baseUrl = "https://test.api"
+                }
+                """.trimIndent(),
+            )
+        val request =
+            kotlin(
+                "Requests.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class UserDto(val id: Int)
+                @GET("/users")
+                @Returns(success = UserDto::class)
+                @Serializable
+                object GetUsersRequest
+                """.trimIndent(),
+            )
+        val kotlinCompilation = getCompilation(source, request)
+        val compilation = kotlinCompilation.compile()
+        compilation.exitCode shouldBe OK
+        kotlinCompilation.getGeneratedSource("ApiClient.kt")
+    }
+
+    @Test
+    fun `PetStoreApiSpec generates PetStoreClient`() {
+        val source =
+            kotlin(
+                "PetStoreApiSpec.kt",
+                """
+                package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi
+                object PetStoreApiSpec : ApiSpec() {
+                    override val baseUrl = "https://test.api"
+                }
+                """.trimIndent(),
+            )
+        val request =
+            kotlin(
+                "Requests.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class PetDto(val id: Int)
+                @GET("/pets")
+                @Returns(success = PetDto::class)
+                @Serializable
+                object GetPetsRequest
+                """.trimIndent(),
+            )
+        val kotlinCompilation = getCompilation(source, request)
+        val compilation = kotlinCompilation.compile()
+        compilation.exitCode shouldBe OK
+        kotlinCompilation.getGeneratedSource("PetStoreClient.kt")
+    }
+
+    @Test
+    fun `PetStore without suffix generates PetStoreClient`() {
+        val source =
+            kotlin(
+                "PetStore.kt",
+                """
+                package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi
+                object PetStore : ApiSpec() {
+                    override val baseUrl = "https://test.api"
+                }
+                """.trimIndent(),
+            )
+        val request =
+            kotlin(
+                "Requests.kt",
+                """
+                package dev.kolibrium.api.ksp.test.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class PetDto(val id: Int)
+                @GET("/pets")
+                @Returns(success = PetDto::class)
+                @Serializable
+                object GetPetsRequest
+                """.trimIndent(),
+            )
+        val kotlinCompilation = getCompilation(source, request)
+        val compilation = kotlinCompilation.compile()
+        compilation.exitCode shouldBe OK
+        kotlinCompilation.getGeneratedSource("PetStoreClient.kt")
+    }
+
+    @Test
+    fun `Same clientNamePrefix from different suffixes in same package rejected as duplicate`() {
+        val source1 =
+            kotlin(
+                "PetStoreApi.kt",
+                """
+                package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi
+                object PetStoreApi : ApiSpec() {
+                    override val baseUrl = "https://test.api"
+                }
+                """.trimIndent(),
+            )
+        val source2 =
+            kotlin(
+                "PetStoreSpec.kt",
+                """
+                package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi
+                object PetStoreSpec : ApiSpec() {
+                    override val baseUrl = "https://test2.api"
+                }
+                """.trimIndent(),
+            )
+        val compilation = getCompilation(source1, source2).compile()
+        compilation.exitCode shouldBe COMPILATION_ERROR
+        compilation.messages shouldContain "PetStoreClient"
+        compilation.messages shouldContain "collides with another API spec in package"
+    }
+
+    @Test
+    fun `Same clientNamePrefix from different suffixes in different packages is allowed`() {
+        val spec1 =
+            kotlin(
+                "PetStoreApi.kt",
+                """
+                package dev.kolibrium.api.ksp.test.one
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi
+                object PetStoreApi : ApiSpec() {
+                    override val baseUrl = "https://test1.api"
+                }
+                """.trimIndent(),
+            )
+        val spec2 =
+            kotlin(
+                "PetStoreSpec.kt",
+                """
+                package dev.kolibrium.api.ksp.test.two
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi
+                object PetStoreSpec : ApiSpec() {
+                    override val baseUrl = "https://test2.api"
+                }
+                """.trimIndent(),
+            )
+        val request1 =
+            kotlin(
+                "Request1.kt",
+                """
+                package dev.kolibrium.api.ksp.test.one.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class PetDto(val id: Int)
+                @GET("/pets")
+                @Returns(success = PetDto::class)
+                @Serializable
+                object GetPetsRequest
+                """.trimIndent(),
+            )
+        val request2 =
+            kotlin(
+                "Request2.kt",
+                """
+                package dev.kolibrium.api.ksp.test.two.models
+                import dev.kolibrium.api.ksp.annotations.*
+                import kotlinx.serialization.Serializable
+                @Serializable
+                data class ItemDto(val id: Int)
+                @GET("/items")
+                @Returns(success = ItemDto::class)
+                @Serializable
+                object GetItemsRequest
+                """.trimIndent(),
+            )
+        val kotlinCompilation = getCompilation(spec1, spec2, request1, request2)
+        val compilation = kotlinCompilation.compile()
+        compilation.exitCode shouldBe OK
+        kotlinCompilation.getGeneratedSource("PetStoreClient.kt")
+    }
+
+    @Test
+    fun `Backtick-escaped class name starting with digit produces invalid identifier error`() {
+        val source =
+            kotlin(
+                "InvalidSpec.kt",
+                """
+                package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
+                import dev.kolibrium.api.ksp.annotations.GenerateApi
+                @GenerateApi
+                object `123Test` : ApiSpec() {
+                    override val baseUrl = "https://test.api"
+                }
+                """.trimIndent(),
+            )
+        val compilation = getCompilation(source).compile()
+        compilation.exitCode shouldBe COMPILATION_ERROR
+        compilation.messages shouldContain "is not a valid Kotlin identifier"
     }
 
     @Test

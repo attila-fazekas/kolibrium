@@ -35,9 +35,9 @@ internal class TestHarnessGenerator(
         val clientClassName =
             ClassName(
                 "${apiInfo.packageName}.generated",
-                "${apiInfo.displayName}Client",
+                "${apiInfo.clientNamePrefix}Client",
             )
-        val fileName = "${apiInfo.displayName}TestHarness"
+        val fileName = "${apiInfo.clientNamePrefix}TestHarness"
         val functionName = "${apiInfo.apiName}ApiTest"
 
         // Simple test harness function (no setUp/tearDown)
@@ -138,7 +138,7 @@ internal class TestHarnessGenerator(
 
         codeGenerator
             .createNewFile(
-                Dependencies(false, *listOfNotNull(apiInfo.apiSpec.containingFile).toTypedArray()),
+                Dependencies.ALL_FILES,
                 fileSpec.packageName,
                 fileSpec.name,
             ).writer()

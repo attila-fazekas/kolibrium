@@ -129,7 +129,7 @@ import dev.kolibrium.api.ksp.annotations.Returns
 import kotlinx.serialization.Serializable
 
 @GET("/users")
-@Returns(success = UsersResponse::class)
+@Returns(UsersResponse::class)
 @Serializable
 object ListUsersRequest
 ```
@@ -139,12 +139,12 @@ object ListUsersRequest
 Path variables are defined using curly braces `{variableName}` and substituted into the URL path.
 
 ```kotlin
-@GET("/users/{id}/posts/{postId}")
-@Returns(success = Post::class)
+@GET("/users/{id}/articles/{articleId}")
+@Returns(Article::class)
 @Serializable
-data class GetUserPostRequest(
+data class GetUserArticleRequest(
     @Path @Transient val id: Int = 0,
-    @Path @Transient val postId: Int = 0
+    @Path @Transient val articleId: Int = 0
 )
 ```
 
@@ -159,7 +159,7 @@ Query parameters are appended to the URL as query strings.
 
 ```kotlin
 @GET("/users")
-@Returns(success = UserList::class)
+@Returns(UserList::class)
 @Serializable
 data class ListUsersRequest(
     @Query @Transient val page: Int? = null,
@@ -180,7 +180,7 @@ Header parameters are sent as HTTP headers in the request. Unlike query paramete
 
 ```kotlin
 @GET("/users")
-@Returns(success = UserList::class)
+@Returns(UserList::class)
 @Serializable
 data class ListUsersRequest(
     @Header(name = "X-Correlation-ID") @Transient val correlationId: String? = null,
@@ -205,7 +205,7 @@ Body parameters are serialized as the request body (JSON).
 
 ```kotlin
 @POST("/users")
-@Returns(success = User::class)
+@Returns(User::class)
 @Serializable
 data class CreateUserRequest(
     var name: String? = null,
@@ -560,7 +560,7 @@ The `@Auth` annotation configures authentication for requests.
 
 ```kotlin
 @GET("/public/data")
-@Returns(success = Data::class)
+@Returns(Data::class)
 @Serializable
 object GetPublicDataRequest
 ```
@@ -570,7 +570,7 @@ object GetPublicDataRequest
 ```kotlin
 @GET("/secure/data")
 @Auth(type = AuthType.BEARER)
-@Returns(success = Data::class)
+@Returns(Data::class)
 @Serializable
 object GetSecureDataRequest
 ```
@@ -595,7 +595,7 @@ context("my-bearer-token") {
 ```kotlin
 @GET("/protected/resource")
 @Auth(type = AuthType.BASIC)
-@Returns(success = Resource::class)
+@Returns(Resource::class)
 @Serializable
 object GetProtectedResourceRequest
 ```
@@ -620,7 +620,7 @@ context("admin", "secret") {
 ```kotlin
 @GET("/api/data")
 @Auth(type = AuthType.API_KEY)
-@Returns(success = Data::class)
+@Returns(Data::class)
 @Serializable
 object GetApiDataRequest
 ```
@@ -630,7 +630,7 @@ By default, the processor uses the `X-API-Key` header name, but you can customiz
 ```kotlin
 @GET("/api/data")
 @Auth(type = AuthType.API_KEY, headerName = "X-Custom-API-Key")
-@Returns(success = Data::class)
+@Returns(Data::class)
 @Serializable
 object GetApiDataRequest
 ```
@@ -654,12 +654,12 @@ context("my-api-key") {
 ```kotlin
 @GET("/custom/auth")
 @Auth(type = AuthType.CUSTOM)
-@Returns(success = Data::class)
+@Returns(Data::class)
 @Serializable
 object GetCustomAuthDataRequest
 ```
 
-Generated method:
+Generated method signature:
 ```kotlin
 context(customAuth: HttpRequestBuilder.() -> Unit)
 suspend fun getCustomAuthData(): ApiResponse<Data>
@@ -682,7 +682,7 @@ Specify the response type using `@Returns`:
 
 ```kotlin
 @GET("/users/{id}")
-@Returns(success = User::class)
+@Returns(User::class)
 @Serializable
 data class GetUserRequest(@Path @Transient val id: Int = 1)
 ```
@@ -710,7 +710,7 @@ For endpoints that return no body (e.g., DELETE):
 
 ```kotlin
 @DELETE("/users/{id}")
-@Returns(success = Unit::class)
+@Returns(Unit::class)
 @Serializable
 data class DeleteUserRequest(@Path @Transient val id: Int = 1)
 ```
@@ -893,7 +893,7 @@ import kotlinx.serialization.Transient
 
 // Request models
 @POST("/api/vinyls")
-@Returns(success = Vinyl::class)
+@Returns(Vinyl::class)
 @Serializable
 data class CreateVinylRequest(
     var artist: String? = null,
@@ -905,14 +905,14 @@ data class CreateVinylRequest(
 )
 
 @GET("/api/vinyls/{id}")
-@Returns(success = Vinyl::class)
+@Returns(Vinyl::class)
 @Serializable
 data class GetVinylRequest(
     @Path @Transient val id: Int = 0
 )
 
 @GET("/api/vinyls")
-@Returns(success = VinylList::class)
+@Returns(VinylList::class)
 @Serializable
 data class ListVinylsRequest(
     @Query @Transient val genre: String? = null,
@@ -920,7 +920,7 @@ data class ListVinylsRequest(
 )
 
 @PUT("/api/vinyls/{id}")
-@Returns(success = Vinyl::class)
+@Returns(Vinyl::class)
 @Serializable
 data class UpdateVinylRequest(
     @Path @Transient val id: Int = 0,
@@ -933,7 +933,7 @@ data class UpdateVinylRequest(
 )
 
 @DELETE("/api/vinyls/{id}")
-@Returns(success = Unit::class)
+@Returns(Unit::class)
 @Serializable
 data class DeleteVinylRequest(
     @Path @Transient val id: Int = 0

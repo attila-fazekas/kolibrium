@@ -22,8 +22,9 @@ import dev.kolibrium.api.ksp.annotations.ClientGrouping
 internal fun checkFunctionNameCollisions(
     apiInfo: ApiSpecInfo,
     requestInfos: List<RequestClassInfo>,
-    errors: MutableList<Diagnostic>,
-) {
+): ValidationResult<Unit> {
+    val errors = mutableListOf<Diagnostic>()
+
     when (apiInfo.grouping) {
         ClientGrouping.SingleClient -> {
             // Check collisions across all requests in the API
@@ -64,14 +65,21 @@ internal fun checkFunctionNameCollisions(
             }
         }
     }
+
+    return if (errors.isEmpty()) {
+        ValidationResult.Valid(Unit)
+    } else {
+        ValidationResult.Invalid(errors)
+    }
 }
 
 internal fun validateGroupedMode(
     apiInfo: ApiSpecInfo,
     requests: List<RequestClassInfo>,
-    errors: MutableList<Diagnostic>,
-    warnings: MutableList<Diagnostic>,
-) {
+): ValidationResult<Unit> {
+    val errors = mutableListOf<Diagnostic>()
+    val warnings = mutableListOf<Diagnostic>()
+
     val groupedRequests = groupRequestsByPrefix(requests)
 
     // Check for empty groups (defensive - shouldn't happen)
@@ -81,7 +89,7 @@ internal fun validateGroupedMode(
                 "API '${apiInfo.apiName}' with ByPrefix grouping has no groupable endpoints",
                 apiInfo.apiSpec,
             )
-        return
+        return ValidationResult.Valid(Unit, warnings)
     }
 
     // Warn when all or most endpoints collapse into the fallback "root" group
@@ -138,5 +146,45 @@ internal fun validateGroupedMode(
                     apiInfo.apiSpec,
                 )
         }
+    }
+
+    // Detect group client class name collisions (case-insensitive)
+    val aggregatorName = "${apiInfo.clientNamePrefix}Client"
+    val groupClientNames =
+        groupedRequests.keys.associateWith { groupName ->
+            "${groupName.replaceFirstChar { it.uppercase() }}Client"
+        }
+
+    // Check collisions among group clients
+    val seenNames = mutableMapOf<String, String>()
+    groupClientNames.forEach { (groupName, clientName) ->
+        val normalized = clientName.lowercase()
+        val existing = seenNames[normalized]
+        if (existing != null) {
+            errors +=
+                Diagnostic(
+                    "Group prefixes '$existing' and '$groupName' in API '${apiInfo.apiName}' produce the same client class name '$clientName' (case-insensitive)",
+                    apiInfo.apiSpec,
+                )
+        } else {
+            seenNames[normalized] = groupName
+        }
+    }
+
+    // Check collisions between group clients and the aggregator
+    groupClientNames.forEach { (groupName, clientName) ->
+        if (clientName.equals(aggregatorName, ignoreCase = true)) {
+            errors +=
+                Diagnostic(
+                    "Group prefix '$groupName' in API '${apiInfo.apiName}' produces client class name '$clientName' which collides with the root aggregator class '$aggregatorName'",
+                    apiInfo.apiSpec,
+                )
+        }
+    }
+
+    return if (errors.isEmpty()) {
+        ValidationResult.Valid(Unit, warnings)
+    } else {
+        ValidationResult.Invalid(errors, warnings)
     }
 }

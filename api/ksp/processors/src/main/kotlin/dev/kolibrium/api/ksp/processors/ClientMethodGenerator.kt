@@ -142,7 +142,7 @@ internal class ClientMethodGenerator {
         return funBuilder.build()
     }
 
-    fun generateClientMethodBody(
+    private fun generateClientMethodBody(
         info: RequestClassInfo,
         requestClassName: ClassName,
         hasBody: Boolean,
@@ -278,7 +278,11 @@ internal class ClientMethodGenerator {
             builder.indent()
             builder.addStatement("%T(", successClass)
             builder.indent()
-            builder.addStatement("body = httpResponse.%M(),", BODY_MEMBER)
+            if (info.isEmptyResponse) {
+                builder.addStatement("body = Unit,")
+            } else {
+                builder.addStatement("body = httpResponse.%M(),", BODY_MEMBER)
+            }
             builder.addStatement("response = httpResponse,")
             builder.unindent()
             builder.addStatement(")")
@@ -364,9 +368,7 @@ internal class ClientMethodGenerator {
         }
     }
 
-    fun getResultTypeName(info: RequestClassInfo): String = info.endpointName + "Result"
-
-    fun buildUrlPath(info: RequestClassInfo): String {
+    private fun buildUrlPath(info: RequestClassInfo): String {
         var path = info.path
         info.pathProperties.forEach { property ->
             val paramName = property.simpleName.asString()

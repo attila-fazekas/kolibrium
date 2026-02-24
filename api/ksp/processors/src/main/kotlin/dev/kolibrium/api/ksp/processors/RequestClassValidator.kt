@@ -31,65 +31,72 @@ import dev.kolibrium.api.ksp.annotations.Returns
 internal fun validateRequestClass(
     requestClass: KSClassDeclaration,
     apiInfo: ApiSpecInfo,
-    errors: MutableList<Diagnostic>,
-    warnings: MutableList<Diagnostic>,
-): RequestClassInfo? {
+): ValidationResult<RequestClassInfo> {
+    val errors = mutableListOf<Diagnostic>()
+    val warnings = mutableListOf<Diagnostic>()
     val className = requestClass.getClassName()
 
     val simpleName = requestClass.simpleName.asString()
     val functionName = deriveFunctionName(simpleName)
 
     if (!simpleName.endsWith("Request") || simpleName == "Request") {
-        errors +=
-            Diagnostic(
-                "Request class '$simpleName' must end with 'Request' suffix and have a descriptive name (e.g., 'GetUserRequest', 'CreateOrderRequest')",
-                requestClass,
-            )
-        return null
+        return ValidationResult.Invalid(
+            listOf(
+                Diagnostic(
+                    "Request class '$simpleName' must end with 'Request' suffix and have a descriptive name (e.g., 'GetUserRequest', 'CreateOrderRequest')",
+                    requestClass,
+                ),
+            ),
+        )
     }
 
     if (!functionName.isValidKotlinIdentifier()) {
-        errors +=
-            Diagnostic(
-                "Request class name '$className' generates invalid function name '$functionName'. " +
-                    "Function name must be a valid Kotlin identifier.",
-                requestClass,
-            )
-        return null
+        return ValidationResult.Invalid(
+            listOf(
+                Diagnostic(
+                    "Request class name '$className' generates invalid function name '$functionName'. " +
+                        "Function name must be a valid Kotlin identifier.",
+                    requestClass,
+                ),
+            ),
+        )
     }
 
     if (requestClass.modifiers.contains(Modifier.ABSTRACT) ||
         requestClass.modifiers.contains(Modifier.SEALED) ||
         requestClass.modifiers.contains(Modifier.INNER)
     ) {
-        errors += Diagnostic("Request class $className cannot be abstract, sealed, or inner", requestClass)
-        return null
+        return ValidationResult.Invalid(
+            listOf(Diagnostic("Request class $className cannot be abstract, sealed, or inner", requestClass)),
+        )
     }
 
     val httpAnnotations = requestClass.getHttpMethodAnnotations()
     if (httpAnnotations.size != 1) {
-        errors += Diagnostic("Class $className has multiple HTTP method annotations", requestClass)
-        return null
+        return ValidationResult.Invalid(
+            listOf(Diagnostic("Class $className has multiple HTTP method annotations", requestClass)),
+        )
     }
 
     val methodAnnotation = httpAnnotations.single()
     val httpMethod =
         methodAnnotation.toHttpMethod()
-            ?: run {
-                errors += Diagnostic("Class $className has an unsupported HTTP method annotation", requestClass)
-                return null
-            }
+            ?: return ValidationResult.Invalid(
+                listOf(Diagnostic("Class $className has an unsupported HTTP method annotation", requestClass)),
+            )
 
     val path = methodAnnotation.getArgumentValue("path")?.let { it as? String }
 
     if (path.isNullOrBlank()) {
-        errors += Diagnostic("HTTP method annotation on $className must specify a path", requestClass)
-        return null
+        return ValidationResult.Invalid(
+            listOf(Diagnostic("HTTP method annotation on $className must specify a path", requestClass)),
+        )
     }
 
     // Validate path format (malformed paths, brace syntax)
-    if (!validatePathFormat(path, requestClass, errors)) {
-        return null
+    val pathErrors = mutableListOf<Diagnostic>()
+    if (!validatePathFormat(path, requestClass, pathErrors)) {
+        return ValidationResult.Invalid(pathErrors)
     }
 
     // Normalize trailing slash: strip it for consistency (except root "/")
@@ -107,21 +114,38 @@ internal fun validateRequestClass(
 
     val returnsAnnotation = requestClass.getAnnotation(Returns::class)
     if (returnsAnnotation == null) {
-        errors +=
-            Diagnostic(
-                "Request class $className with HTTP method annotation must have @Returns annotation",
-                requestClass,
-            )
-        return null
+        return ValidationResult.Invalid(
+            listOf(
+                Diagnostic(
+                    "Request class $className with HTTP method annotation must have @Returns annotation",
+                    requestClass,
+                ),
+            ),
+        )
     }
 
     val returnType = returnsAnnotation.getKClassTypeArgument("success")
     if (returnType == null || returnType.isError) {
-        errors += Diagnostic("Success type for $className could not be resolved", requestClass)
-        return null
+        return ValidationResult.Invalid(
+            listOf(Diagnostic("Success type for $className could not be resolved", requestClass)),
+        )
     }
 
-    val isEmptyResponse = returnType.declaration.qualifiedName?.asString() == KOTLIN_UNIT
+    val successQualifiedName = returnType.declaration.qualifiedName?.asString()
+
+    // Reject Nothing::class / java.lang.Void as success type
+    if (successQualifiedName == KOTLIN_NOTHING || successQualifiedName == "java.lang.Void") {
+        return ValidationResult.Invalid(
+            listOf(
+                Diagnostic(
+                    "Nothing::class is not allowed as a success type in @Returns on $className. Use Unit::class for empty responses",
+                    requestClass,
+                ),
+            ),
+        )
+    }
+
+    val isEmptyResponse = successQualifiedName == KOTLIN_UNIT
 
     // Extract optional error type
     val errorType = returnsAnnotation.getKClassTypeArgument("error")
@@ -131,9 +155,19 @@ internal fun validateRequestClass(
         if (errorType != null &&
             !errorType.isError &&
             errorQualifiedName != KOTLIN_NOTHING &&
-            errorQualifiedName != "java.lang.Void"
+            errorQualifiedName != "java.lang.Void" &&
+            errorQualifiedName != KOTLIN_UNIT
         ) {
             errorType
+        } else if (errorQualifiedName == KOTLIN_UNIT) {
+            return ValidationResult.Invalid(
+                listOf(
+                    Diagnostic(
+                        "Unit::class is not allowed as an error type in @Returns on $className. Use Nothing::class (the default) to omit the error type",
+                        requestClass,
+                    ),
+                ),
+            )
         } else {
             null
         }
@@ -176,35 +210,45 @@ internal fun validateRequestClass(
 
     // Object declarations must not have properties — use a data class for requests with parameters.
     if (requestClass.classKind == ClassKind.OBJECT && properties.isNotEmpty()) {
-        errors +=
-            Diagnostic(
-                "Object request class $className cannot have properties — use a data class for requests with parameters",
-                requestClass,
-            )
-        return null
+        return ValidationResult.Invalid(
+            listOf(
+                Diagnostic(
+                    "Object request class $className cannot have properties — use a data class for requests with parameters",
+                    requestClass,
+                ),
+            ),
+        )
     }
 
     // Marker request classes (no properties) must be object declarations.
     // Request classes with properties must be data classes.
     if (properties.isEmpty() && requestClass.classKind != ClassKind.OBJECT) {
-        errors += Diagnostic("Marker request class $className with no properties must be an object declaration", requestClass)
-        return null
+        return ValidationResult.Invalid(
+            listOf(Diagnostic("Marker request class $className with no properties must be an object declaration", requestClass)),
+        )
     }
     if (properties.isNotEmpty() && !requestClass.modifiers.contains(Modifier.DATA)) {
-        errors += Diagnostic("Request class $className must be a data class", requestClass)
-        return null
+        return ValidationResult.Invalid(
+            listOf(Diagnostic("Request class $className must be a data class", requestClass)),
+        )
     }
 
-    val authType = extractAuthType(requestClass, errors) ?: return null
+    val authResult = extractAuthType(requestClass)
+    if (authResult is ValidationResult.Invalid) {
+        return authResult
+    }
+    val authType = (authResult as ValidationResult.Valid).value
     val apiKeyHeader = extractApiKeyHeader(requestClass)
 
     if (authType == AuthType.API_KEY && !apiKeyHeader.isValidHttpHeaderName()) {
-        errors +=
-            Diagnostic(
-                "Invalid API key header name: '$apiKeyHeader' in request class $className",
-                requestClass,
-            )
-        return null
+        return ValidationResult.Invalid(
+            listOf(
+                Diagnostic(
+                    "Invalid API key header name: '$apiKeyHeader' in request class $className",
+                    requestClass,
+                ),
+            ),
+        )
     }
 
     // Validate that headerName is only used with API_KEY auth type
@@ -221,31 +265,38 @@ internal fun validateRequestClass(
         }
     }
 
-    return RequestClassInfo(
-        requestClass = requestClass,
-        httpMethod = httpMethod,
-        path = normalizedPath,
-        group = extractGroupByApiPrefix(normalizedPath),
-        returnType = returnType,
-        errorType = resolvedErrorType,
-        isEmptyResponse = isEmptyResponse,
-        pathProperties = pathProperties,
-        queryProperties = queryProperties,
-        headerProperties = headerProperties,
-        bodyProperties = bodyProperties,
-        ctorDefaults = ctorDefaults,
-        apiPackage = apiInfo.packageName,
-        authType = authType,
-        apiKeyHeader = apiKeyHeader,
-        endpointName = requestClass.simpleName.asString().removeSuffix("Request"),
+    if (errors.isNotEmpty()) {
+        return ValidationResult.Invalid(errors, warnings)
+    }
+
+    return ValidationResult.Valid(
+        value =
+            RequestClassInfo(
+                requestClass = requestClass,
+                httpMethod = httpMethod,
+                path = normalizedPath,
+                group = extractGroupByApiPrefix(normalizedPath),
+                returnType = returnType,
+                errorType = resolvedErrorType,
+                isEmptyResponse = isEmptyResponse,
+                pathProperties = pathProperties,
+                queryProperties = queryProperties,
+                headerProperties = headerProperties,
+                bodyProperties = bodyProperties,
+                ctorDefaults = ctorDefaults,
+                apiPackage = apiInfo.packageName,
+                authType = authType,
+                apiKeyHeader = apiKeyHeader,
+                endpointName = requestClass.simpleName.asString().removeSuffix("Request"),
+            ),
+        warnings = warnings,
     )
 }
 
-private fun extractAuthType(
-    requestClass: KSClassDeclaration,
-    errors: MutableList<Diagnostic>,
-): AuthType? {
-    val annotation = requestClass.getAnnotation(Auth::class) ?: return AuthType.NONE
+private fun extractAuthType(requestClass: KSClassDeclaration): ValidationResult<AuthType> {
+    val annotation =
+        requestClass.getAnnotation(Auth::class)
+            ?: return ValidationResult.Valid(AuthType.NONE)
 
     val enumName =
         when (val authArg = annotation.getArgumentValue("type")) {
@@ -258,23 +309,27 @@ private fun extractAuthType(
             }
 
             else -> {
-                errors +=
-                    Diagnostic(
-                        "Could not resolve auth type on ${requestClass.getClassName()}",
-                        requestClass,
-                    )
-                return null
+                return ValidationResult.Invalid(
+                    listOf(
+                        Diagnostic(
+                            "Could not resolve auth type on ${requestClass.getClassName()}",
+                            requestClass,
+                        ),
+                    ),
+                )
             }
         }
-    return AuthType.entries.firstOrNull { it.name == enumName }
-        ?: run {
-            errors +=
+    return AuthType.entries
+        .firstOrNull { it.name == enumName }
+        ?.let { ValidationResult.Valid(it) }
+        ?: ValidationResult.Invalid(
+            listOf(
                 Diagnostic(
                     "Unknown auth type '$enumName' on ${requestClass.getClassName()}",
                     requestClass,
-                )
-            null
-        }
+                ),
+            ),
+        )
 }
 
 private fun extractApiKeyHeader(requestClass: KSClassDeclaration): String {

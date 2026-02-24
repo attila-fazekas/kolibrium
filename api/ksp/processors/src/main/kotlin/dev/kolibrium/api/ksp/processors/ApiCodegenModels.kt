@@ -32,6 +32,7 @@ internal data class ApiSpecInfo(
     val grouping: ClientGrouping,
     val generateTestHarness: Boolean,
     val displayName: String,
+    val clientNamePrefix: String,
 )
 
 internal data class RequestClassInfo(
@@ -63,3 +64,17 @@ internal data class Diagnostic(
     val message: String,
     val node: KSNode? = null,
 )
+
+internal sealed interface ValidationResult<out T> {
+    val warnings: List<Diagnostic>
+
+    data class Valid<T>(
+        val value: T,
+        override val warnings: List<Diagnostic> = emptyList(),
+    ) : ValidationResult<T>
+
+    data class Invalid(
+        val errors: List<Diagnostic>,
+        override val warnings: List<Diagnostic> = emptyList(),
+    ) : ValidationResult<Nothing>
+}

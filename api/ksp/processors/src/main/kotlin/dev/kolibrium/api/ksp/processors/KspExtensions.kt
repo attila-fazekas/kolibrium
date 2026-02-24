@@ -161,6 +161,14 @@ internal fun validatePathFormat(
         errors += Diagnostic("Path '$path' in $className must start with '/'", requestClass)
     }
 
+    if (path.contains('?') || path.contains('&') || path.contains('#')) {
+        errors +=
+            Diagnostic(
+                "Path '$path' in $className must not contain query strings or fragment identifiers ('?', '&', '#'). Use @Query parameters instead",
+                requestClass,
+            )
+    }
+
     if (path.contains("//")) {
         errors += Diagnostic("Path '$path' in $className contains empty segments (double slashes)", requestClass)
     }
@@ -234,6 +242,8 @@ internal fun extractHeaderName(property: KSPropertyDeclaration): String? {
     val name = annotation.getArgumentValue("name") as? String
     return if (name.isNullOrBlank()) null else name
 }
+
+internal fun getResultTypeName(info: RequestClassInfo): String = info.endpointName + "Result"
 
 internal fun groupRequestsByPrefix(requests: List<RequestClassInfo>): Map<String, List<RequestClassInfo>> =
     requests.groupBy { extractGroupByApiPrefix(it.path) }
