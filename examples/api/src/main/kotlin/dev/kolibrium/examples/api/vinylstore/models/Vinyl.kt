@@ -70,7 +70,7 @@ data class GetVinylRequest(
 )
 
 @GET("/vinyls")
-@Auth(type = AuthType.BEARER)
+@Auth(type = AuthType.Bearer)
 @Returns(success = VinylList::class)
 @Serializable
 data class ListVinylsRequest(

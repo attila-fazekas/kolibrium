@@ -181,9 +181,9 @@ public annotation class Returns(
  * API calls. It can be applied to request classes to indicate how credentials
  * should be provided.
  *
- * @property type The type of authentication to use. Defaults to [AuthType.NONE].
+ * @property type The type of authentication to use. Defaults to [AuthType.None].
  * @property headerName The name of the header used for authentication credentials.
- *   Only relevant for [AuthType.API_KEY]. Defaults to "X-API-Key".
+ *   Only relevant for [AuthType.ApiKey]. Defaults to "X-API-Key".
  *
  * Example usage:
  * ```kotlin
@@ -199,6 +199,6 @@ public annotation class Returns(
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
 public annotation class Auth(
-    val type: AuthType = AuthType.NONE,
+    val type: AuthType = AuthType.None,
     val headerName: String = "X-API-Key",
 )

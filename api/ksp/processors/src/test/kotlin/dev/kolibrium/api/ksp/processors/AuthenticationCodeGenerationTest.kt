@@ -41,7 +41,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Auth(type = AuthType.BEARER)
+                @Auth(type = AuthType.Bearer)
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -112,7 +112,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Auth(type = AuthType.BASIC)
+                @Auth(type = AuthType.Basic)
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -183,7 +183,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Auth(type = AuthType.API_KEY)
+                @Auth(type = AuthType.ApiKey)
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -253,7 +253,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Auth(type = AuthType.API_KEY, headerName = "Authorization")
+                @Auth(type = AuthType.ApiKey, headerName = "Authorization")
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -323,7 +323,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Auth(type = AuthType.API_KEY, headerName = "Invalid Header Name")
+                @Auth(type = AuthType.ApiKey, headerName = "Invalid Header Name")
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -346,7 +346,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Auth(type = AuthType.CUSTOM)
+                @Auth(type = AuthType.Custom)
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -417,13 +417,13 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Auth(type = AuthType.BEARER, headerName = "X-Custom")
+                @Auth(type = AuthType.Bearer, headerName = "X-Custom")
                 object GetUsersRequest
                 """.trimIndent(),
             )
         val compilation = getCompilation(validApiSpec, request).compile()
         compilation.exitCode shouldBe COMPILATION_ERROR
-        compilation.messages shouldContain "headerName parameter can only be used with AuthType.API_KEY"
+        compilation.messages shouldContain "headerName parameter can only be used with AuthType.ApiKey"
     }
 
     @Test
@@ -440,11 +440,11 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Auth(type = AuthType.BEARER)
+                @Auth(type = AuthType.Bearer)
                 object GetUsersRequest
                 @GET("/orders")
                 @Returns(success = UserDto::class)
-                @Auth(type = AuthType.BASIC)
+                @Auth(type = AuthType.Basic)
                 object GetOrdersRequest
                 """.trimIndent(),
             )

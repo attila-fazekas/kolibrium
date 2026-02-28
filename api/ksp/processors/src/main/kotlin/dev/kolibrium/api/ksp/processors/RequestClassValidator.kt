@@ -20,7 +20,6 @@ import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
-import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.Modifier
 import dev.kolibrium.api.ksp.annotations.Auth
 import dev.kolibrium.api.ksp.annotations.AuthType
@@ -229,7 +228,7 @@ internal fun validateRequestClass(requestClass: KSClassDeclaration): ValidationR
 
     val apiKeyHeader = extractApiKeyHeader(requestClass)
 
-    if (authType == AuthType.API_KEY && !apiKeyHeader.isValidHttpHeaderName()) {
+    if (authType == AuthType.ApiKey && !apiKeyHeader.isValidHttpHeaderName()) {
         return ValidationResult.Invalid(
             listOf(
                 Diagnostic(
@@ -241,13 +240,13 @@ internal fun validateRequestClass(requestClass: KSClassDeclaration): ValidationR
     }
 
     // Validate that headerName is only used with API_KEY auth type
-    if (authAnnotation != null && authType != AuthType.API_KEY) {
+    if (authAnnotation != null && authType != AuthType.ApiKey) {
         val headerNameValue = authAnnotation.getArgumentValue("headerName") as? String
         // Only error if headerName was explicitly provided (not the default)
         if (headerNameValue != null && headerNameValue != API_KEY_HEADER) {
             errors +=
                 Diagnostic(
-                    "headerName parameter can only be used with AuthType.API_KEY, but request uses AuthType.$authType",
+                    "headerName parameter can only be used with AuthType.ApiKey, but request uses AuthType.$authType",
                     requestClass,
                 )
         }
@@ -325,7 +324,7 @@ private fun validatePathFormat(
 }
 
 private fun extractAuthType(annotation: KSAnnotation?): AuthType {
-    annotation ?: return AuthType.NONE
+    annotation ?: return AuthType.None
     val enumName = (annotation.getArgumentValue("type") as KSClassDeclaration).simpleName.asString()
     return AuthType.entries.first { it.name == enumName }
 }

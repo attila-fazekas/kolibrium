@@ -52,21 +52,21 @@ internal class ClientMethodGenerator {
 
         // Add context parameters based on resolved auth type
         when (info.authType) {
-            AuthType.BEARER -> {
+            AuthType.Bearer -> {
                 funBuilder.contextParameter("token", String::class)
             }
 
-            AuthType.BASIC -> {
+            AuthType.Basic -> {
                 funBuilder
                     .contextParameter("username", String::class)
                     .contextParameter("password", String::class)
             }
 
-            AuthType.API_KEY -> {
+            AuthType.ApiKey -> {
                 funBuilder.contextParameter("apiKey", String::class)
             }
 
-            AuthType.CUSTOM -> {
+            AuthType.Custom -> {
                 val customAuthType =
                     LambdaTypeName.get(
                         receiver = HTTP_REQUEST_BUILDER_CLASS,
@@ -75,7 +75,7 @@ internal class ClientMethodGenerator {
                 funBuilder.contextParameter("customAuth", customAuthType)
             }
 
-            AuthType.NONE -> {
+            AuthType.None -> {
                 // No context parameters
             }
         }
@@ -185,23 +185,23 @@ internal class ClientMethodGenerator {
 
         // Apply authentication based on resolved type
         when (info.authType) {
-            AuthType.BEARER -> {
+            AuthType.Bearer -> {
                 builder.addStatement("%M(token)", BEARER_AUTH_MEMBER)
             }
 
-            AuthType.BASIC -> {
+            AuthType.Basic -> {
                 builder.addStatement("%M(username, password)", BASIC_AUTH_MEMBER)
             }
 
-            AuthType.API_KEY -> {
+            AuthType.ApiKey -> {
                 builder.addStatement("this.%M.append(%S, apiKey)", HEADERS_MEMBER, info.apiKeyHeader)
             }
 
-            AuthType.CUSTOM -> {
+            AuthType.Custom -> {
                 builder.addStatement("customAuth()")
             }
 
-            AuthType.NONE -> {
+            AuthType.None -> {
                 // No authentication
             }
         }
