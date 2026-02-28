@@ -48,7 +48,7 @@ class RequestClassDiscoveryTest : ApiBaseTest() {
         val compilation = kotlinCompilation.compile()
         compilation.exitCode shouldBe OK
         val source = kotlinCompilation.getGeneratedSource("TestClient.kt")
-        source shouldContain "fun getUsers()"
+        source shouldContain "fun getUsers(headers:"
     }
 
     @Test
@@ -73,7 +73,7 @@ class RequestClassDiscoveryTest : ApiBaseTest() {
         val compilation = kotlinCompilation.compile()
         compilation.exitCode shouldBe OK
         val source = kotlinCompilation.getGeneratedSource("TestClient.kt")
-        source shouldContain "fun getUsers()"
+        source shouldContain "fun getUsers(headers:"
     }
 
     @Test
@@ -91,29 +91,6 @@ class RequestClassDiscoveryTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Serializable
-                class GetUsersRequest
-                """.trimIndent(),
-            )
-        val kotlinCompilation = getCompilation(validApiSpec, request)
-        val compilation = kotlinCompilation.compile()
-        compilation.exitCode shouldBe OK
-        compilation.messages shouldContain "No request classes found"
-    }
-
-    @Test
-    fun `Class without @Serializable is ignored`() {
-        val request =
-            kotlin(
-                "GetUsersRequest.kt",
-                """
-                package dev.kolibrium.api.ksp.test.models
-                import dev.kolibrium.api.ksp.annotations.GET
-                import dev.kolibrium.api.ksp.annotations.Returns
-                import kotlinx.serialization.Serializable
-                @Serializable
-                data class UserDto(val id: Int)
-                @GET("/users")
-                @Returns(success = UserDto::class)
                 class GetUsersRequest
                 """.trimIndent(),
             )

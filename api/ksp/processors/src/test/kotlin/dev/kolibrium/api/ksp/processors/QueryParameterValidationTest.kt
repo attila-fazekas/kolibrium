@@ -53,10 +53,10 @@ class QueryParameterValidationTest : ApiBaseTest() {
         val compilation = kotlinCompilation.compile()
         compilation.exitCode shouldBe OK
         val source = kotlinCompilation.getGeneratedSource("TestClient.kt")
-        source shouldContain "search: String? = null"
-        source shouldContain """search?.let { parameter("search", it) }"""
-        source shouldContain "filter: String? = null"
-        source shouldContain """filter?.let { parameter("filter", it) }"""
+        source shouldContain "block: SearchUsersRequest.() -> Unit = {}"
+        source shouldContain """request.search?.let { parameter("search", it) }"""
+        source shouldContain "block: DeleteUsersRequest.() -> Unit = {}"
+        source shouldContain """request.filter?.let { parameter("filter", it) }"""
     }
 
     @Test

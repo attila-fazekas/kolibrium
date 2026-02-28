@@ -124,8 +124,11 @@ class RequestClassStructuralValidationTest : ApiBaseTest() {
             import dev.kolibrium.api.core.EmptyResponse
             import io.ktor.client.HttpClient
             import io.ktor.client.request.delete
+            import io.ktor.http.HeadersBuilder
             import io.ktor.http.contentType
+            import io.ktor.http.headers
             import kotlin.String
+            import kotlin.Unit
 
             /**
              * HTTP client for the Test API.
@@ -136,9 +139,13 @@ class RequestClassStructuralValidationTest : ApiBaseTest() {
             ) {
               /**
                * Performs a DELETE request to /sessions.
+               *
+               * @param headers custom headers builder
                */
-              public suspend fun deleteSession(): EmptyResponse {
-                val httpResponse = client.delete("$baseUrl/sessions")
+              public suspend fun deleteSession(headers: HeadersBuilder.() -> Unit = {}): EmptyResponse {
+                val httpResponse = client.delete("$baseUrl/sessions") {
+                  headers { headers() }
+                }
 
                 return ApiResponse(
                   status = httpResponse.status,

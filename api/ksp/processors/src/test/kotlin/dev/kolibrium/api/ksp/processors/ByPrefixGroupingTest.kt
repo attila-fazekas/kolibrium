@@ -61,7 +61,6 @@ class ByPrefixGroupingTest : ApiBaseTest() {
                 data class GetItemRequest(@Path @Transient val id: Int = 0)
                 @GET("/users")
                 @Returns(success = ItemDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )

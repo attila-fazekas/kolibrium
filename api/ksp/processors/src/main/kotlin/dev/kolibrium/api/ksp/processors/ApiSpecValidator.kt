@@ -93,19 +93,18 @@ internal fun validateApiSpecClass(apiSpecClass: KSClassDeclaration): ValidationR
         )
     }
 
-    // Read codegen configuration from @GenerateApi annotation (defaults when absent)
-    val generateApiAnnotation = apiSpecClass.getAnnotation(GenerateApi::class)
+    // Read codegen configuration from @GenerateApi annotation
+    val generateApiAnnotation =
+        requireNotNull(apiSpecClass.getAnnotation(GenerateApi::class)) {
+            "Expected @GenerateApi annotation on ${apiSpecClass.getClassName()}"
+        }
 
     val conventionDefault = setOf("$packageName.models")
 
-    val scanPackages =
-        if (generateApiAnnotation != null) {
-            @Suppress("UNCHECKED_CAST")
-            val declared = generateApiAnnotation.getArgumentValue("scanPackages") as? List<String> ?: emptyList()
-            if (declared.isEmpty()) conventionDefault else declared.toSet()
-        } else {
-            conventionDefault
-        }
+    @Suppress("UNCHECKED_CAST")
+    val declared = generateApiAnnotation.getArgumentValue("scanPackages") as? List<String> ?: emptyList()
+
+    val scanPackages = if (declared.isEmpty()) conventionDefault else declared.toSet()
 
     val invalidPackages = scanPackages.filterNot { it.isValidKotlinPackage() }
     if (invalidPackages.isNotEmpty()) {
@@ -120,40 +119,23 @@ internal fun validateApiSpecClass(apiSpecClass: KSClassDeclaration): ValidationR
     }
 
     val grouping =
-        if (generateApiAnnotation != null) {
-            when (val groupingArg = generateApiAnnotation.getArgumentValue("grouping")) {
-                is KSType -> {
-                    val name = groupingArg.declaration.simpleName.asString()
-                    ClientGrouping.entries.firstOrNull { it.name == name }
-                        ?: return ValidationResult.Invalid(
-                            listOf(
-                                Diagnostic(
-                                    "Unknown grouping '$name' in @GenerateApi on $className",
-                                    apiSpecClass,
-                                ),
+        when (val groupingArg = generateApiAnnotation.getArgumentValue("grouping")) {
+            is KSClassDeclaration -> {
+                val name = groupingArg.simpleName.asString()
+                ClientGrouping.entries.firstOrNull { it.name == name }
+                    ?: return ValidationResult.Invalid(
+                        listOf(
+                            Diagnostic(
+                                "Unknown grouping '$name' in @GenerateApi on $className",
+                                apiSpecClass,
                             ),
-                        )
-                }
-
-                is KSClassDeclaration -> {
-                    val name = groupingArg.simpleName.asString()
-                    ClientGrouping.entries.firstOrNull { it.name == name }
-                        ?: return ValidationResult.Invalid(
-                            listOf(
-                                Diagnostic(
-                                    "Unknown grouping '$name' in @GenerateApi on $className",
-                                    apiSpecClass,
-                                ),
-                            ),
-                        )
-                }
-
-                else -> {
-                    ClientGrouping.SingleClient
-                }
+                        ),
+                    )
             }
-        } else {
-            ClientGrouping.SingleClient
+
+            else -> {
+                ClientGrouping.SingleClient
+            }
         }
 
     val generateTestHarness = generateApiAnnotation.getBooleanArg("generateTestHarness", default = true)
@@ -163,21 +145,17 @@ internal fun validateApiSpecClass(apiSpecClass: KSClassDeclaration): ValidationR
         if (!annotationDisplayName.isNullOrBlank()) {
             annotationDisplayName
         } else {
-            deriveDisplayName(simpleName)
+            deriveClientNamePrefix(simpleName)
         }
-
-    val apiName = clientNamePrefix.replaceFirstChar { it.lowercase() }
 
     return ValidationResult.Valid(
         ApiSpecInfo(
             apiSpec = apiSpecClass,
-            apiName = apiName,
-            packageName = packageName,
+            clientNamePrefix = clientNamePrefix,
             scanPackages = scanPackages,
             grouping = grouping,
             generateTestHarness = generateTestHarness,
             displayName = displayName,
-            clientNamePrefix = clientNamePrefix,
         ),
     )
 }
@@ -194,5 +172,3 @@ private fun deriveClientNamePrefix(simpleName: String): String {
     }
     return simpleName
 }
-
-private fun deriveDisplayName(simpleName: String): String = deriveClientNamePrefix(simpleName)
