@@ -26,32 +26,32 @@ import io.ktor.http.HttpMethod
 
 internal data class ApiSpecInfo(
     val apiSpec: KSClassDeclaration,
-    val apiName: String,
-    val packageName: String,
+    val clientNamePrefix: String,
     val scanPackages: Set<String>,
     val grouping: ClientGrouping,
     val generateTestHarness: Boolean,
     val displayName: String,
-    val clientNamePrefix: String,
-)
+) {
+    val apiName: String get() = clientNamePrefix.replaceFirstChar { it.lowercase() }
+    val packageName: String get() = apiSpec.packageName.asString()
+}
 
 internal data class RequestClassInfo(
     val requestClass: KSClassDeclaration,
     val httpMethod: HttpMethod,
     val path: String,
-    val group: String,
     val returnType: KSType,
     val errorType: KSType?,
-    val isEmptyResponse: Boolean,
     val pathProperties: List<KSPropertyDeclaration>,
     val queryProperties: List<KSPropertyDeclaration>,
     val bodyProperties: List<KSPropertyDeclaration>,
     val ctorDefaults: Map<String, Boolean>,
-    val apiPackage: String,
     val authType: AuthType,
     val apiKeyHeader: String,
-    val endpointName: String,
-)
+) {
+    val endpointName: String get() = requestClass.simpleName.asString().removeSuffix("Request")
+    val isEmptyResponse: Boolean get() = returnType.declaration.qualifiedName?.asString() == KOTLIN_UNIT
+}
 
 internal data class PathVariables(
     val names: Set<String>,

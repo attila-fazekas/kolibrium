@@ -70,7 +70,6 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -174,7 +173,6 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -190,7 +188,6 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 data class ItemDto(val id: Int)
                 @GET("/items")
                 @Returns(success = ItemDto::class)
-                @Serializable
                 object GetItemsRequest
                 """.trimIndent(),
             )
@@ -227,7 +224,6 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -263,7 +259,6 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -299,7 +294,6 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 data class PetDto(val id: Int)
                 @GET("/pets")
                 @Returns(success = PetDto::class)
-                @Serializable
                 object GetPetsRequest
                 """.trimIndent(),
             )
@@ -335,7 +329,6 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 data class PetDto(val id: Int)
                 @GET("/pets")
                 @Returns(success = PetDto::class)
-                @Serializable
                 object GetPetsRequest
                 """.trimIndent(),
             )
@@ -418,7 +411,6 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 data class PetDto(val id: Int)
                 @GET("/pets")
                 @Returns(success = PetDto::class)
-                @Serializable
                 object GetPetsRequest
                 """.trimIndent(),
             )
@@ -433,7 +425,6 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 data class ItemDto(val id: Int)
                 @GET("/items")
                 @Returns(success = ItemDto::class)
-                @Serializable
                 object GetItemsRequest
                 """.trimIndent(),
             )

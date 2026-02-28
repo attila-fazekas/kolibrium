@@ -58,10 +58,13 @@ class PathParameterValidationTest : ApiBaseTest() {
             import io.ktor.client.HttpClient
             import io.ktor.client.call.body
             import io.ktor.client.request.`get`
+            import io.ktor.http.HeadersBuilder
             import io.ktor.http.contentType
             import io.ktor.http.encodeURLPathPart
+            import io.ktor.http.headers
             import kotlin.Int
             import kotlin.String
+            import kotlin.Unit
 
             /**
              * HTTP client for the Test API.
@@ -74,9 +77,12 @@ class PathParameterValidationTest : ApiBaseTest() {
                * Performs a GET request to /users/{id}.
                *
                * @param id path parameter — substituted into `/users/{id}`
+               * @param headers custom headers builder
                */
-              public suspend fun getUser(id: Int): ApiResponse<UserDto> {
-                val httpResponse = client.get("$baseUrl/users/${id.toString().encodeURLPathPart()}")
+              public suspend fun getUser(id: Int, headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
+                val httpResponse = client.get("$baseUrl/users/${id.toString().encodeURLPathPart()}") {
+                  this.headers.apply(headers)
+                }
 
                 return ApiResponse(
                   status = httpResponse.status,
@@ -105,7 +111,6 @@ class PathParameterValidationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users/{id}")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUserRequest
                 """.trimIndent(),
             )
@@ -153,7 +158,6 @@ class PathParameterValidationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users/{123bad}")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUserRequest
                 """.trimIndent(),
             )

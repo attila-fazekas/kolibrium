@@ -146,7 +146,7 @@ internal class ApiCodegenProcessor(
         apisByPackage.forEach { (packageName, apis) ->
             val duplicates =
                 apis
-                    .groupBy { "${it.clientNamePrefix}Client".lowercase() }
+                    .groupBy { it.clientNamePrefix.lowercase() }
                     .filter { it.value.size > 1 }
             duplicates.forEach { (_, duplicateApis) ->
                 val generatedClassName = "${duplicateApis.first().clientNamePrefix}Client"
@@ -182,6 +182,23 @@ internal class ApiCodegenProcessor(
             }
         }
 
+        fun <T> List<T>.pairs(): List<Pair<T, T>> = indices.flatMap { i -> (i + 1 until size).map { j -> this[i] to this[j] } }
+
+        apiSpecInfos.pairs().forEach { (specA, specB) ->
+            specA.scanPackages.forEach { pkgA ->
+                specB.scanPackages.forEach { pkgB ->
+                    if (pkgA == pkgB || pkgA.startsWith("$pkgB.") || pkgB.startsWith("$pkgA.")) {
+                        warnings +=
+                            Diagnostic(
+                                "Scan packages overlap between API '${specA.apiName}' ($pkgA) and API '${specB.apiName}' ($pkgB) — " +
+                                    "the same request classes may be discovered by both specs, leading to duplicate client methods",
+                                specB.apiSpec,
+                            )
+                    }
+                }
+            }
+        }
+
         // Discover request models per API based on scan packages
         val requestsByApi: Map<ApiSpecInfo, List<KSClassDeclaration>> =
             discoverRequestModels(apiSpecInfos, resolver)
@@ -208,7 +225,7 @@ internal class ApiCodegenProcessor(
         val requestInfosByApi: Map<ApiSpecInfo, List<RequestClassInfo>> =
             requestsByApi.mapValues { (apiInfo, requestClasses) ->
                 requestClasses.mapNotNull { requestClass ->
-                    when (val result = validateRequestClass(requestClass, apiInfo)) {
+                    when (val result = validateRequestClass(requestClass)) {
                         is ValidationResult.Valid -> {
                             warnings += result.warnings
                             result.value
@@ -289,17 +306,12 @@ internal class ApiCodegenProcessor(
                     }
                 }
 
-            // Get all class declarations from those files
-            val classesInScanPackages =
-                filesInScanPackages
-                    .flatMap { it.declarations.toList() }
-                    .filterIsInstance<KSClassDeclaration>()
-
-            // Filter to request classes: must have @Serializable and at least one HTTP method annotation
-            classesInScanPackages
+            // Get all class declarations from those files and filter to request classes with at least one HTTP method annotation
+            filesInScanPackages
+                .flatMap { it.declarations.toList() }
+                .filterIsInstance<KSClassDeclaration>()
                 .filter { classDeclaration ->
-                    classDeclaration.hasAnnotation(Serializable::class) &&
-                        classDeclaration.getHttpMethodAnnotations().isNotEmpty()
+                    classDeclaration.getHttpMethodAnnotations().isNotEmpty()
                 }.distinctBy { it.qualifiedName?.asString() }
         }
     }

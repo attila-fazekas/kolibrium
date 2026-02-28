@@ -40,7 +40,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -48,7 +47,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
         val compilation = kotlinCompilation.compile()
         compilation.exitCode shouldBe OK
         val source = kotlinCompilation.getGeneratedSource("TestClient.kt")
-        source shouldContain "/**\n   * Performs a GET request to /users.\n   */"
+        source shouldContain "Performs a GET request to /users."
     }
 
     @Test
@@ -64,7 +63,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -102,13 +100,11 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 @Serializable
                 data class OrderDto(val id: Int)
                 @GET("/orders")
                 @Returns(success = OrderDto::class)
-                @Serializable
                 object GetOrdersRequest
                 """.trimIndent(),
             )
@@ -170,7 +166,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
         val compilation = kotlinCompilation.compile()
         compilation.exitCode shouldBe OK
         val source = kotlinCompilation.getGeneratedSource("TestClient.kt")
-        source shouldContain "@param search query parameter"
+        source shouldContain "@param block query parameters builder"
     }
 
     @Test
@@ -218,7 +214,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
         // GET method KDoc
         source shouldContain "Performs a GET request to /users/{userId}/items."
         source shouldContain "@param userId path parameter — substituted into `/users/{userId}/items`"
-        source shouldContain "@param status query parameter"
+        source shouldContain "@param block query parameters builder"
         // POST method KDoc
         source shouldContain "Performs a POST request to /users/{userId}/items."
         source shouldContain "@param block request body builder"
@@ -250,7 +246,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -286,7 +281,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -323,7 +317,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 data class PetDto(val id: Int)
                 @GET("/pets")
                 @Returns(success = PetDto::class)
-                @Serializable
                 object GetPetsRequest
                 """.trimIndent(),
             )
@@ -360,7 +353,6 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 data class PetDto(val id: Int)
                 @GET("/pets")
                 @Returns(success = PetDto::class)
-                @Serializable
                 object GetPetsRequest
                 """.trimIndent(),
             )
@@ -386,8 +378,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 data class ErrorDto(val message: String)
                 @POST("/action")
                 @Returns(success = SuccessDto::class, error = ErrorDto::class)
-                @Serializable
-                class Request
+                object Request
                 """.trimIndent(),
             )
         val kotlinCompilation = getCompilation(validApiSpec, request)

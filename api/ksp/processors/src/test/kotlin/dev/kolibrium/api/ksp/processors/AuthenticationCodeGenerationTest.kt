@@ -42,7 +42,6 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.BEARER)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -60,8 +59,11 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.client.call.body
             import io.ktor.client.request.`get`
             import io.ktor.client.request.bearerAuth
+            import io.ktor.http.HeadersBuilder
             import io.ktor.http.contentType
+            import io.ktor.http.headers
             import kotlin.String
+            import kotlin.Unit
 
             /**
              * HTTP client for the Test API.
@@ -72,11 +74,14 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             ) {
               /**
                * Performs a GET request to /users.
+               *
+               * @param headers custom headers builder
                */
               context(token: String)
-              public suspend fun getUsers(): ApiResponse<UserDto> {
+              public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
                   bearerAuth(token)
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(
@@ -108,7 +113,6 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.BASIC)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -126,8 +130,11 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.client.call.body
             import io.ktor.client.request.`get`
             import io.ktor.client.request.basicAuth
+            import io.ktor.http.HeadersBuilder
             import io.ktor.http.contentType
+            import io.ktor.http.headers
             import kotlin.String
+            import kotlin.Unit
 
             /**
              * HTTP client for the Test API.
@@ -138,11 +145,14 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             ) {
               /**
                * Performs a GET request to /users.
+               *
+               * @param headers custom headers builder
                */
               context(username: String, password: String)
-              public suspend fun getUsers(): ApiResponse<UserDto> {
+              public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
                   basicAuth(username, password)
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(
@@ -174,7 +184,6 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.API_KEY)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -191,9 +200,11 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.client.HttpClient
             import io.ktor.client.call.body
             import io.ktor.client.request.`get`
-            import io.ktor.client.request.`header`
+            import io.ktor.http.HeadersBuilder
             import io.ktor.http.contentType
+            import io.ktor.http.headers
             import kotlin.String
+            import kotlin.Unit
 
             /**
              * HTTP client for the Test API.
@@ -204,11 +215,14 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             ) {
               /**
                * Performs a GET request to /users.
+               *
+               * @param headers custom headers builder
                */
               context(apiKey: String)
-              public suspend fun getUsers(): ApiResponse<UserDto> {
+              public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
-                  header("X-API-Key", apiKey)
+                  this.headers.append("X-API-Key", apiKey)
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(
@@ -240,7 +254,6 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.API_KEY, headerName = "Authorization")
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -257,9 +270,11 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.client.HttpClient
             import io.ktor.client.call.body
             import io.ktor.client.request.`get`
-            import io.ktor.client.request.`header`
+            import io.ktor.http.HeadersBuilder
             import io.ktor.http.contentType
+            import io.ktor.http.headers
             import kotlin.String
+            import kotlin.Unit
 
             /**
              * HTTP client for the Test API.
@@ -270,11 +285,14 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             ) {
               /**
                * Performs a GET request to /users.
+               *
+               * @param headers custom headers builder
                */
               context(apiKey: String)
-              public suspend fun getUsers(): ApiResponse<UserDto> {
+              public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
-                  header("Authorization", apiKey)
+                  this.headers.append("Authorization", apiKey)
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(
@@ -306,7 +324,6 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.API_KEY, headerName = "Invalid Header Name")
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -330,7 +347,6 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.CUSTOM)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -348,7 +364,9 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.client.call.body
             import io.ktor.client.request.HttpRequestBuilder
             import io.ktor.client.request.`get`
+            import io.ktor.http.HeadersBuilder
             import io.ktor.http.contentType
+            import io.ktor.http.headers
             import kotlin.String
             import kotlin.Unit
 
@@ -361,11 +379,14 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             ) {
               /**
                * Performs a GET request to /users.
+               *
+               * @param headers custom headers builder
                */
               context(customAuth: HttpRequestBuilder.() -> Unit)
-              public suspend fun getUsers(): ApiResponse<UserDto> {
+              public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
                   customAuth()
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(
@@ -397,7 +418,6 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.BEARER, headerName = "X-Custom")
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -421,12 +441,10 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 @GET("/users")
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.BEARER)
-                @Serializable
                 object GetUsersRequest
                 @GET("/orders")
                 @Returns(success = UserDto::class)
                 @Auth(type = AuthType.BASIC)
-                @Serializable
                 object GetOrdersRequest
                 """.trimIndent(),
             )
@@ -451,7 +469,6 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -468,8 +485,11 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             import io.ktor.client.HttpClient
             import io.ktor.client.call.body
             import io.ktor.client.request.`get`
+            import io.ktor.http.HeadersBuilder
             import io.ktor.http.contentType
+            import io.ktor.http.headers
             import kotlin.String
+            import kotlin.Unit
 
             /**
              * HTTP client for the Test API.
@@ -480,9 +500,13 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
             ) {
               /**
                * Performs a GET request to /users.
+               *
+               * @param headers custom headers builder
                */
-              public suspend fun getUsers(): ApiResponse<UserDto> {
-                val httpResponse = client.get("$baseUrl/users")
+              public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
+                val httpResponse = client.get("$baseUrl/users") {
+                  this.headers.apply(headers)
+                }
 
                 return ApiResponse(
                   status = httpResponse.status,

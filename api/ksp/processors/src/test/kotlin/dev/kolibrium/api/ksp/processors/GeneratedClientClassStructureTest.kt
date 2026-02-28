@@ -114,15 +114,15 @@ class GeneratedClientClassStructureTest : ApiBaseTest() {
         val compilation = kotlinCompilation.compile()
         compilation.exitCode shouldBe OK
         val source = kotlinCompilation.getGeneratedSource("TestClient.kt")
-        source shouldContain "public suspend fun getUsers()"
+        source shouldContain "public suspend fun getUsers(headers:"
         source shouldContain "client.get("
-        source shouldContain "public suspend fun createUser()"
+        source shouldContain "public suspend fun createUser(headers:"
         source shouldContain "client.post("
-        source shouldContain "public suspend fun updateUser()"
+        source shouldContain "public suspend fun updateUser(headers:"
         source shouldContain "client.put("
-        source shouldContain "public suspend fun patchUser()"
+        source shouldContain "public suspend fun patchUser(headers:"
         source shouldContain "client.patch("
-        source shouldContain "public suspend fun deleteUser()"
+        source shouldContain "public suspend fun deleteUser(headers:"
         source shouldContain "client.delete("
     }
 
@@ -139,7 +139,6 @@ class GeneratedClientClassStructureTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUsersRequest
                 """.trimIndent(),
             )
@@ -147,7 +146,7 @@ class GeneratedClientClassStructureTest : ApiBaseTest() {
         val compilation = kotlinCompilation.compile()
         compilation.exitCode shouldBe OK
         val source = kotlinCompilation.getGeneratedSource("TestClient.kt")
-        source shouldContain $$"""val httpResponse = client.get("$baseUrl/users")"""
+        source shouldContain $$"""val httpResponse = client.get("$baseUrl/users") {"""
     }
 
     @Test

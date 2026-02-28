@@ -18,7 +18,6 @@ package dev.kolibrium.api.ksp.processors
 
 import com.google.devtools.ksp.processing.CodeGenerator
 import com.google.devtools.ksp.processing.Dependencies
-import com.google.devtools.ksp.symbol.KSFile
 import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
@@ -52,16 +51,11 @@ internal class ClientCodeGenerator(
         val clientClassName = "${apiInfo.clientNamePrefix}Client"
         val clientPackage = "${apiInfo.packageName}.generated"
 
-        val sourceFiles =
-            requests.mapNotNull { it.requestClass.containingFile } +
-                listOfNotNull(apiInfo.apiSpec.containingFile)
-
         generateClientClassFile(
             clientClassName = clientClassName,
             clientPackage = clientPackage,
             apiInfo = apiInfo,
             requests = requests,
-            sourceFiles = sourceFiles,
         )
     }
 
@@ -72,11 +66,6 @@ internal class ClientCodeGenerator(
         val clientPackage = "${apiInfo.packageName}.generated"
         val rootClientClassName = "${apiInfo.clientNamePrefix}Client"
         val groupedRequests = groupRequestsByPrefix(requests)
-
-        // Collect all source files for dependencies
-        val sourceFiles =
-            requests.mapNotNull { it.requestClass.containingFile } +
-                listOfNotNull(apiInfo.apiSpec.containingFile)
 
         // Generate individual group client classes
         val groupClientClassNames = mutableMapOf<String, ClassName>()
@@ -90,7 +79,6 @@ internal class ClientCodeGenerator(
                 clientPackage = clientPackage,
                 apiInfo = apiInfo,
                 requests = groupRequests,
-                sourceFiles = sourceFiles,
             )
         }
 
@@ -100,7 +88,6 @@ internal class ClientCodeGenerator(
             clientPackage = clientPackage,
             apiInfo = apiInfo,
             groupClientClassNames = groupClientClassNames,
-            sourceFiles = sourceFiles,
         )
     }
 
@@ -109,7 +96,6 @@ internal class ClientCodeGenerator(
         clientPackage: String,
         apiInfo: ApiSpecInfo,
         requests: List<RequestClassInfo>,
-        sourceFiles: List<KSFile>,
     ) {
         val classBuilder =
             TypeSpec
@@ -190,20 +176,11 @@ internal class ClientCodeGenerator(
             }
         }
 
-        // Add header import if any request uses API_KEY auth
-        val needsHeaderImport = requests.any { it.authType == AuthType.API_KEY }
-        if (needsHeaderImport) {
-            fileSpecBuilder.addImport("io.ktor.client.request", "header")
-        }
-
         // Add isSuccess import if any request has error type (for sealed result handling)
         val hasErrorTypes = requests.any { it.errorType != null }
         if (hasErrorTypes) {
             fileSpecBuilder.addImport("io.ktor.http", "isSuccess")
         }
-
-        // Add HeadersBuilder since every generated function has a `headers` parameter
-        // TODO fileSpecBuilder.addImport("io.ktor.http.", "HeadersBuilder")
 
         val fileSpec = fileSpecBuilder.build()
 
@@ -221,7 +198,6 @@ internal class ClientCodeGenerator(
         clientPackage: String,
         apiInfo: ApiSpecInfo,
         groupClientClassNames: Map<String, ClassName>,
-        sourceFiles: List<KSFile>,
     ) {
         val constructorBuilder =
             FunSpec

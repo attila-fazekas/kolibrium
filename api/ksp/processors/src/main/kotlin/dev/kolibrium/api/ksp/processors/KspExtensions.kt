@@ -27,6 +27,8 @@ import dev.kolibrium.api.ksp.annotations.PATCH
 import dev.kolibrium.api.ksp.annotations.POST
 import dev.kolibrium.api.ksp.annotations.PUT
 import io.ktor.http.HttpMethod
+import jdk.internal.joptsimple.util.RegexMatcher.regex
+import jdk.internal.net.http.common.Log.errors
 import kotlin.reflect.KClass
 
 private fun KClass<*>.resolvedName(): String = qualifiedName ?: java.name
@@ -72,11 +74,7 @@ internal fun KSAnnotation?.getBooleanArg(
     default: Boolean,
 ): Boolean = this?.getArgumentValue(name) as? Boolean ?: default
 
-internal fun KSAnnotation.getKClassTypeArgument(name: String): KSType? =
-    when (val value = getArgumentValue(name)) {
-        is KSType -> value
-        else -> null
-    }
+internal fun KSAnnotation.getKClassTypeArgument(name: String): KSType? = getArgumentValue(name) as? KSType
 
 internal fun KSClassDeclaration.getHttpMethodAnnotations(): List<KSAnnotation> = annotations.filter { it.toHttpMethod() != null }.toList()
 
@@ -144,60 +142,12 @@ internal fun String.isValidHttpHeaderName(): Boolean {
     // RFC 7230: token = 1*tchar
     // tchar = "!" / "#" / "$" / "%" / "&" / "'" / "*" / "+" / "-" / "." /
     //         "0"-"9" / "A"-"Z" / "^" / "_" / "`" / "a"-"z" / "|" / "~"
-    val regex = Regex("^[!#$%&'*+\\-.0-9A-Z^_`a-z|~]+$")
+    val regex = Regex("""^[!#$%&'*+\-.0-9A-Z^_`a-z|~]+$""")
     return isNotEmpty() && regex.matches(this)
 }
 
-internal fun validatePathFormat(
-    path: String,
-    requestClass: KSClassDeclaration,
-    errors: MutableList<Diagnostic>,
-): Boolean {
-    val className = requestClass.simpleName.asString()
-    val initialErrorCount = errors.size
-
-    if (!path.startsWith("/")) {
-        errors += Diagnostic("Path '$path' in $className must start with '/'", requestClass)
-    }
-
-    if (path.contains('?') || path.contains('&') || path.contains('#')) {
-        errors +=
-            Diagnostic(
-                "Path '$path' in $className must not contain query strings or fragment identifiers ('?', '&', '#'). Use @Query parameters instead",
-                requestClass,
-            )
-    }
-
-    if (path.contains("//")) {
-        errors += Diagnostic("Path '$path' in $className contains empty segments (double slashes)", requestClass)
-    }
-
-    if (path.contains("{}")) {
-        errors += Diagnostic("Path '$path' in $className contains empty braces", requestClass)
-    }
-
-    // Nested braces: /users/{{id}}
-    if (Regex("\\{[^}]*\\{").containsMatchIn(path)) {
-        errors += Diagnostic("Path '$path' in $className contains nested braces", requestClass)
-    }
-
-    // Reversed braces: /users/}id{  — match }...{ within the same segment (no / between)
-    if (Regex("}[^{/]*\\{").containsMatchIn(path)) {
-        errors += Diagnostic("Path '$path' in $className contains reversed braces", requestClass)
-    }
-
-    // Unclosed/mismatched braces
-    val openCount = path.count { it == '{' }
-    val closeCount = path.count { it == '}' }
-    if (openCount != closeCount) {
-        errors += Diagnostic("Path '$path' in $className has mismatched braces", requestClass)
-    }
-
-    return errors.size == initialErrorCount
-}
-
 internal fun extractPathVariables(path: String): PathVariables {
-    val rawMatches = Regex("\\{([^}]+)}").findAll(path).map { it.groupValues[1] }.toList()
+    val rawMatches = Regex("""\{([^}]+)}""").findAll(path).map { it.groupValues[1] }.toList()
     val invalidNames = rawMatches.filterNot { it.isValidKotlinIdentifier() }.toSet()
     val duplicateNames =
         rawMatches
@@ -205,7 +155,7 @@ internal fun extractPathVariables(path: String): PathVariables {
             .eachCount()
             .filter { it.value > 1 }
             .keys
-    val validNames = rawMatches.filter { it.isValidKotlinIdentifier() }.toSet() - duplicateNames
+    val validNames = rawMatches.toSet() - invalidNames - duplicateNames
     return PathVariables(names = validNames, invalidNames = invalidNames, duplicateNames = duplicateNames)
 }
 
@@ -223,6 +173,11 @@ internal fun deriveFunctionName(className: String): String {
     }
 }
 
+internal fun getResultTypeName(info: RequestClassInfo): String = info.endpointName + "Result"
+
+internal fun groupRequestsByPrefix(requests: List<RequestClassInfo>): Map<String, List<RequestClassInfo>> =
+    requests.groupBy { extractGroupByApiPrefix(it.path) }
+
 /**
  * Extracts the first literal (non-path-variable) path segment to use as a group name
  * for ByPrefix client grouping.
@@ -230,13 +185,5 @@ internal fun deriveFunctionName(className: String): String {
  * Returns `"root"` as the fallback group name when there is no literal segment
  * (e.g., path is `"/"`, `"/{id}"`, or `"/{a}/{b}"`).
  */
-internal fun extractGroupByApiPrefix(path: String): String {
-    val segments = path.trimStart('/').split('/').filter { it.isNotEmpty() }
-    val firstLiteralSegment = segments.firstOrNull { !it.startsWith("{") }
-    return firstLiteralSegment ?: ROOT_GROUP_NAME
-}
-
-internal fun getResultTypeName(info: RequestClassInfo): String = info.endpointName + "Result"
-
-internal fun groupRequestsByPrefix(requests: List<RequestClassInfo>): Map<String, List<RequestClassInfo>> =
-    requests.groupBy { extractGroupByApiPrefix(it.path) }
+internal fun extractGroupByApiPrefix(path: String): String =
+    path.trimStart('/').split('/').firstOrNull { it.isNotEmpty() && !it.startsWith('{') } ?: ROOT_GROUP_NAME

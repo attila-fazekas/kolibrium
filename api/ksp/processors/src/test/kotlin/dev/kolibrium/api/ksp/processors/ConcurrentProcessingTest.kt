@@ -64,7 +64,6 @@ class ConcurrentProcessingTest : ApiBaseTest() {
                 data class ItemDto(val id: Int)
                 @GET("/items")
                 @Returns(success = ItemDto::class)
-                @Serializable
                 object GetItemsRequest
                 """.trimIndent(),
             )

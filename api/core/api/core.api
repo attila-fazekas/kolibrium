@@ -25,6 +25,10 @@ public final class dev/kolibrium/api/core/ClientsKt {
 	public static final fun getDefaultHttpClient ()Lio/ktor/client/HttpClient;
 }
 
+public final class dev/kolibrium/api/core/HeadersKt {
+	public static final fun header (Lio/ktor/http/HeadersBuilder;Ljava/lang/String;Ljava/lang/Object;)V
+}
+
 public final class dev/kolibrium/api/core/TestHarnessKt {
 	public static final fun apiTest (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;)V
 	public static final fun apiTest (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V

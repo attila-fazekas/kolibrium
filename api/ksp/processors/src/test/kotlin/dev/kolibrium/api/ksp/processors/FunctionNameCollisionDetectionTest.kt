@@ -41,7 +41,6 @@ class FunctionNameCollisionDetectionTest : ApiBaseTest() {
                 data class UserDto(val id: Int)
                 @GET("/users")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUserRequest
                 """.trimIndent(),
             )
@@ -55,7 +54,6 @@ class FunctionNameCollisionDetectionTest : ApiBaseTest() {
                 import kotlinx.serialization.Serializable
                 @GET("/users/active")
                 @Returns(success = UserDto::class)
-                @Serializable
                 object GetUserRequest
                 """.trimIndent(),
             )

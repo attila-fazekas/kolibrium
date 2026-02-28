@@ -91,19 +91,23 @@ internal class ClientMethodGenerator {
             funBuilder.addParameter(paramBuilder.build())
         }
 
-        // Add query parameters as optional function parameters
-        info.queryProperties.forEach { property ->
-            val paramName = property.simpleName.asString()
-            val paramType = property.type.resolve().toTypeName()
-            val paramBuilder =
-                ParameterSpec
-                    .builder(paramName, paramType)
-                    .defaultValue("null")
-                    .addKdoc("query parameter")
-            funBuilder.addParameter(paramBuilder.build())
-        }
+        // Add headers parameter (unconditional — applies to all request types)
+        val headersLambdaType =
+            LambdaTypeName.get(
+                receiver = HEADERS_BUILDER_CLASS,
+                returnType = Unit::class.asTypeName(),
+            )
+        val headersBuilder =
+            ParameterSpec
+                .builder("headers", headersLambdaType)
+                .defaultValue("{}")
+                .addKdoc("custom headers builder")
+        funBuilder.addParameter(headersBuilder.build())
 
-        // Add DSL builder parameter for body requests
+        // Add query parameters as DSL block parameter
+        val hasQueryParams = info.queryProperties.isNotEmpty()
+
+        // Add DSL builder parameter for body or query requests
         val hasBody = info.bodyProperties.isNotEmpty()
         if (hasBody) {
             val lambdaType =
@@ -115,6 +119,18 @@ internal class ClientMethodGenerator {
                 ParameterSpec
                     .builder("block", lambdaType)
                     .addKdoc("request body builder")
+            funBuilder.addParameter(blockBuilder.build())
+        } else if (hasQueryParams) {
+            val lambdaType =
+                LambdaTypeName.get(
+                    receiver = requestClassName,
+                    returnType = Unit::class.asTypeName(),
+                )
+            val blockBuilder =
+                ParameterSpec
+                    .builder("block", lambdaType)
+                    .defaultValue("{}")
+                    .addKdoc("query parameters builder")
             funBuilder.addParameter(blockBuilder.build())
         }
 
@@ -132,9 +148,10 @@ internal class ClientMethodGenerator {
         clientPackage: String,
     ): CodeBlock {
         val builder = CodeBlock.builder()
+        val hasQueryParams = info.queryProperties.isNotEmpty()
 
-        // For requests with body, create a request object
-        if (hasBody) {
+        // For requests with body or query params, create a request object via DSL
+        if (hasBody || hasQueryParams) {
             if (info.pathProperties.isNotEmpty()) {
                 // Pass path params to constructor
                 val pathParams =
@@ -162,75 +179,70 @@ internal class ClientMethodGenerator {
                 else -> error("Unsupported HTTP method: ${info.httpMethod}")
             }
 
-        val hasQueryParams = info.queryProperties.isNotEmpty()
-        val needsAuth = info.authType != AuthType.NONE
+        // Always generate the lambda form since every function has a `headers` parameter
+        builder.addStatement($$"val httpResponse = client.%L(\"$baseUrl%L\") {", httpMethodName, urlPath)
+        builder.indent()
 
-        // Generate HTTP request
-        if (hasBody || hasQueryParams || needsAuth) {
-            builder.addStatement($$"val httpResponse = client.%L(\"$baseUrl%L\") {", httpMethodName, urlPath)
-            builder.indent()
-
-            // Apply authentication based on resolved type
-            when (info.authType) {
-                AuthType.BEARER -> {
-                    builder.addStatement("%M(token)", BEARER_AUTH_MEMBER)
-                }
-
-                AuthType.BASIC -> {
-                    builder.addStatement("%M(username, password)", BASIC_AUTH_MEMBER)
-                }
-
-                AuthType.API_KEY -> {
-                    builder.addStatement("header(%S, apiKey)", info.apiKeyHeader)
-                }
-
-                AuthType.CUSTOM -> {
-                    builder.addStatement("customAuth()")
-                }
-
-                AuthType.NONE -> {
-                    // No authentication
-                }
+        // Apply authentication based on resolved type
+        when (info.authType) {
+            AuthType.BEARER -> {
+                builder.addStatement("%M(token)", BEARER_AUTH_MEMBER)
             }
 
-            // Content type and body for non-GET/DELETE requests
-            if (hasBody) {
-                builder.addStatement("%M(%T.Application.Json)", CONTENT_TYPE_MEMBER, CONTENT_TYPE_CLASS)
-                builder.addStatement("%M(request)", SET_BODY_MEMBER)
+            AuthType.BASIC -> {
+                builder.addStatement("%M(username, password)", BASIC_AUTH_MEMBER)
             }
 
-            // Query parameters
-            if (hasQueryParams) {
-                info.queryProperties.forEach { property ->
-                    val paramName = property.simpleName.asString()
-                    val resolvedType = property.type.resolve()
-                    val typeQualifiedName = resolvedType.declaration.qualifiedName?.asString()
-                    if (typeQualifiedName == KOTLIN_COLLECTIONS_LIST) {
-                        val elementType =
-                            resolvedType.arguments
-                                .firstOrNull()
-                                ?.type
-                                ?.resolve()
-                                ?.declaration
-                                ?.qualifiedName
-                                ?.asString()
-                        val mapSuffix = if (elementType == "kotlin.String") "" else ".map { it.toString() }"
-                        builder.addStatement(
-                            "$paramName?.let { url.parameters.appendAll(%S, it$mapSuffix) }",
-                            paramName,
-                        )
-                    } else {
-                        builder.addStatement("$paramName?.let { %M(%S, it) }", PARAMETER_MEMBER, paramName)
-                    }
-                }
+            AuthType.API_KEY -> {
+                builder.addStatement("this.%M.append(%S, apiKey)", HEADERS_MEMBER, info.apiKeyHeader)
             }
 
-            builder.unindent()
-            builder.addStatement("}")
-        } else {
-            // Simple request with no body, query params, or auth
-            builder.addStatement($$"val httpResponse = client.%L(\"$baseUrl%L\")", httpMethodName, urlPath)
+            AuthType.CUSTOM -> {
+                builder.addStatement("customAuth()")
+            }
+
+            AuthType.NONE -> {
+                // No authentication
+            }
         }
+
+        // Content type, headers and body for non-GET/DELETE requests
+        if (hasBody) {
+            builder.addStatement("%M(%T.Application.Json)", CONTENT_TYPE_MEMBER, CONTENT_TYPE_CLASS)
+            builder.addStatement("this.%M.apply(headers)", HEADERS_MEMBER)
+            builder.addStatement("%M(request)", SET_BODY_MEMBER)
+        } else {
+            builder.addStatement("this.%M.apply(headers)", HEADERS_MEMBER)
+        }
+
+        // Query parameters
+        if (hasQueryParams) {
+            info.queryProperties.forEach { property ->
+                val paramName = property.simpleName.asString()
+                val resolvedType = property.type.resolve()
+                val typeQualifiedName = resolvedType.declaration.qualifiedName?.asString()
+                if (typeQualifiedName == KOTLIN_COLLECTIONS_LIST) {
+                    val elementType =
+                        resolvedType.arguments
+                            .firstOrNull()
+                            ?.type
+                            ?.resolve()
+                            ?.declaration
+                            ?.qualifiedName
+                            ?.asString()
+                    val mapSuffix = if (elementType == "kotlin.String") "" else ".map { it.toString() }"
+                    builder.addStatement(
+                        "request.$paramName?.let { url.parameters.appendAll(%S, it$mapSuffix) }",
+                        paramName,
+                    )
+                } else {
+                    builder.addStatement("request.$paramName?.let { %M(%S, it) }", PARAMETER_MEMBER, paramName)
+                }
+            }
+        }
+
+        builder.unindent()
+        builder.addStatement("}")
 
         builder.add("\n")
 
