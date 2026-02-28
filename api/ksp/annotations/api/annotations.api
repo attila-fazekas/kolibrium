@@ -4,11 +4,11 @@ public abstract interface annotation class dev/kolibrium/api/ksp/annotations/Aut
 }
 
 public final class dev/kolibrium/api/ksp/annotations/AuthType : java/lang/Enum {
-	public static final field API_KEY Ldev/kolibrium/api/ksp/annotations/AuthType;
-	public static final field BASIC Ldev/kolibrium/api/ksp/annotations/AuthType;
-	public static final field BEARER Ldev/kolibrium/api/ksp/annotations/AuthType;
-	public static final field CUSTOM Ldev/kolibrium/api/ksp/annotations/AuthType;
-	public static final field NONE Ldev/kolibrium/api/ksp/annotations/AuthType;
+	public static final field ApiKey Ldev/kolibrium/api/ksp/annotations/AuthType;
+	public static final field Basic Ldev/kolibrium/api/ksp/annotations/AuthType;
+	public static final field Bearer Ldev/kolibrium/api/ksp/annotations/AuthType;
+	public static final field Custom Ldev/kolibrium/api/ksp/annotations/AuthType;
+	public static final field None Ldev/kolibrium/api/ksp/annotations/AuthType;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/api/ksp/annotations/AuthType;
 	public static fun values ()[Ldev/kolibrium/api/ksp/annotations/AuthType;

@@ -161,17 +161,17 @@ internal class ClientCodeGenerator(
         }
 
         // Add auth-related imports if any request uses auth
-        val usesAuth = requests.any { it.authType != AuthType.NONE }
+        val usesAuth = requests.any { it.authType != AuthType.None }
         if (usesAuth) {
             val authTypes = requests.map { it.authType }.toSet()
 
-            if (AuthType.BEARER in authTypes) {
+            if (AuthType.Bearer in authTypes) {
                 fileSpecBuilder.addImport("io.ktor.client.request", "bearerAuth")
             }
-            if (AuthType.BASIC in authTypes) {
+            if (AuthType.Basic in authTypes) {
                 fileSpecBuilder.addImport("io.ktor.client.request", "basicAuth")
             }
-            if (AuthType.CUSTOM in authTypes) {
+            if (AuthType.Custom in authTypes) {
                 fileSpecBuilder.addImport("io.ktor.client.request", "HttpRequestBuilder")
             }
         }

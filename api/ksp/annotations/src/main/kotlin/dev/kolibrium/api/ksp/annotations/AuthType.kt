@@ -26,28 +26,28 @@ public enum class AuthType {
     /**
      * No authentication is required for the API request.
      */
-    NONE,
+    None,
 
     /**
      * Bearer token authentication (e.g., OAuth 2.0 access tokens).
      * The token is sent in the Authorization header as "Bearer {token}".
      */
-    BEARER,
+    Bearer,
 
     /**
      * Basic HTTP authentication using username and password.
      * Credentials are Base64-encoded and sent in the Authorization header.
      */
-    BASIC,
+    Basic,
 
     /**
      * API key authentication, typically sent as a custom header or query parameter.
      * The header name can be configured using [dev.kolibrium.api.ksp.annotations.Auth.headerName].
      */
-    API_KEY,
+    ApiKey,
 
     /**
      * Custom authentication mechanism that allows for application-specific implementations.
      */
-    CUSTOM,
+    Custom,
 }
