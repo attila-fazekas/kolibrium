@@ -270,6 +270,7 @@ internal fun validateRequestClass(requestClass: KSClassDeclaration): ValidationR
                 bodyProperties = bodyProperties,
                 ctorDefaults = ctorDefaults,
                 authType = authType,
+                apiKeyHeader = apiKeyHeader,
             ),
         warnings = warnings,
     )

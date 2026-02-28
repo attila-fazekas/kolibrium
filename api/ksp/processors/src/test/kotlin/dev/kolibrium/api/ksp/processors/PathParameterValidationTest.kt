@@ -81,7 +81,7 @@ class PathParameterValidationTest : ApiBaseTest() {
                */
               public suspend fun getUser(id: Int, headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users/${id.toString().encodeURLPathPart()}") {
-                  headers { headers() }
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(

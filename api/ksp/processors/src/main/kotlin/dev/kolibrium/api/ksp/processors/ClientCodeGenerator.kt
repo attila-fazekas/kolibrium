@@ -176,9 +176,6 @@ internal class ClientCodeGenerator(
             }
         }
 
-        // Add header import
-        fileSpecBuilder.addImport("io.ktor.http", "headers")
-
         // Add isSuccess import if any request has error type (for sealed result handling)
         val hasErrorTypes = requests.any { it.errorType != null }
         if (hasErrorTypes) {

@@ -42,6 +42,7 @@ internal val ALLOWED_PARAMETER_TYPES: Set<String> =
         "kotlin.Boolean",
     )
 
+// classes
 internal val API_RESPONSE_CLASS: ClassName = ClassName("dev.kolibrium.api.core", "ApiResponse")
 internal val EMPTY_RESPONSE_CLASS: ClassName = ClassName("dev.kolibrium.api.core", "EmptyResponse")
 internal val CONTENT_TYPE_CLASS: ClassName = ClassName("io.ktor.http", "ContentType")
@@ -50,7 +51,10 @@ internal val HTTP_REQUEST_BUILDER_CLASS: ClassName = ClassName("io.ktor.client.r
 internal val HTTP_RESPONSE_CLASS: ClassName = ClassName("io.ktor.client.statement", "HttpResponse")
 internal val EXCEPTION_CLASS: ClassName = ClassName("kotlin", "Exception")
 internal val ILLEGAL_STATE_EXCEPTION_CLASS: ClassName = ClassName("kotlin", "IllegalStateException")
+
+// members
 internal val API_TEST_MEMBER: MemberName = MemberName("dev.kolibrium.api.core", "apiTest")
+internal val HEADERS_MEMBER: MemberName = MemberName("io.ktor.http", "headers")
 
 // Ktor request builder functions
 internal val SET_BODY_MEMBER: MemberName = MemberName("io.ktor.client.request", "setBody")

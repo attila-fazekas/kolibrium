@@ -194,7 +194,7 @@ internal class ClientMethodGenerator {
             }
 
             AuthType.API_KEY -> {
-                // handled separately below
+                builder.addStatement("this.%M.append(%S, apiKey)", HEADERS_MEMBER, info.apiKeyHeader)
             }
 
             AuthType.CUSTOM -> {
@@ -206,10 +206,13 @@ internal class ClientMethodGenerator {
             }
         }
 
-        // Content type and body for non-GET/DELETE requests
+        // Content type, headers and body for non-GET/DELETE requests
         if (hasBody) {
             builder.addStatement("%M(%T.Application.Json)", CONTENT_TYPE_MEMBER, CONTENT_TYPE_CLASS)
+            builder.addStatement("this.%M.apply(headers)", HEADERS_MEMBER)
             builder.addStatement("%M(request)", SET_BODY_MEMBER)
+        } else {
+            builder.addStatement("this.%M.apply(headers)", HEADERS_MEMBER)
         }
 
         // Query parameters

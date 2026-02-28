@@ -81,7 +81,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
               public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
                   bearerAuth(token)
-                  headers { headers() }
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(
@@ -152,7 +152,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
               public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
                   basicAuth(username, password)
-                  headers { headers() }
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(
@@ -221,10 +221,8 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
               context(apiKey: String)
               public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
-                  headers {
-                    append("X-API-Key", apiKey)
-                    headers()
-                  }
+                  this.headers.append("X-API-Key", apiKey)
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(
@@ -293,10 +291,8 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
               context(apiKey: String)
               public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
-                  headers {
-                    append("Authorization", apiKey)
-                    headers()
-                  }
+                  this.headers.append("Authorization", apiKey)
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(
@@ -390,7 +386,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
               public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
                   customAuth()
-                  headers { headers() }
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(
@@ -509,7 +505,7 @@ class AuthenticationCodeGenerationTest : ApiBaseTest() {
                */
               public suspend fun getUsers(headers: HeadersBuilder.() -> Unit = {}): ApiResponse<UserDto> {
                 val httpResponse = client.get("$baseUrl/users") {
-                  headers { headers() }
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(

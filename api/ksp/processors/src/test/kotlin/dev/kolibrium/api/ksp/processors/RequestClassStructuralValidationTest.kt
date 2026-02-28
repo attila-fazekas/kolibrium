@@ -144,7 +144,7 @@ class RequestClassStructuralValidationTest : ApiBaseTest() {
                */
               public suspend fun deleteSession(headers: HeadersBuilder.() -> Unit = {}): EmptyResponse {
                 val httpResponse = client.delete("$baseUrl/sessions") {
-                  headers { headers() }
+                  this.headers.apply(headers)
                 }
 
                 return ApiResponse(

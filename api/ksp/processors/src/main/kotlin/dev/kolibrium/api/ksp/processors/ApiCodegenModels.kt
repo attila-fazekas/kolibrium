@@ -47,6 +47,7 @@ internal data class RequestClassInfo(
     val bodyProperties: List<KSPropertyDeclaration>,
     val ctorDefaults: Map<String, Boolean>,
     val authType: AuthType,
+    val apiKeyHeader: String,
 ) {
     val endpointName: String get() = requestClass.simpleName.asString().removeSuffix("Request")
     val isEmptyResponse: Boolean get() = returnType.declaration.qualifiedName?.asString() == KOTLIN_UNIT
