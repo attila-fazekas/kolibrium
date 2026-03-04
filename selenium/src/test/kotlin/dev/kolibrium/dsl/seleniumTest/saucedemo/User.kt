@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.saucedemo.pages.twitter
+package dev.kolibrium.dsl.seleniumTest.saucedemo
 
-import dev.kolibrium.core.Page
-import dev.kolibrium.core.WaitConfig
-import dev.kolibrium.core.dataTestId
-import dev.kolibrium.dsl.webtest.saucedemo.Twitter
-import kotlin.time.Duration.Companion.seconds
-
-class TwitterHomePage : Page<Twitter>() {
-    private val tweet =
-        dataTestId(
-            value = "tweet",
-            waitConfig = WaitConfig.Default.copy(timeout = 5.seconds),
-        )
-
-    override fun awaitReady() {
-        tweet.get()
-    }
-
-    fun login(): FeedPage = FeedPage()
+enum class User(
+    val username: String,
+) {
+    Standard("standard_user"),
+    LockedOut("locked_out_user"),
+    Problem("problem_user"),
+    PerformanceGlitch("performance_glitch_user"),
+    Error("error_user"),
+    Visual("visual_user"),
 }

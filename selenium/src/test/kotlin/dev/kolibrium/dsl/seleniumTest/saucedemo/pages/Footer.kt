@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.saucedemo.pages
+package dev.kolibrium.dsl.seleniumTest.saucedemo.pages
 
 import dev.kolibrium.core.Page
 import dev.kolibrium.core.dataTest
-import dev.kolibrium.dsl.webtest.saucedemo.SauceDemo
+import dev.kolibrium.dsl.seleniumTest.saucedemo.SauceDemo
 
 // Return the current page so callers can continue fluent chains that expect a Page
 context(page: Page<SauceDemo>)

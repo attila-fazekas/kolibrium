@@ -29,7 +29,7 @@ import dev.kolibrium.dsl.creation.Arguments.Firefox.headless as firefoxHeadless
 import dev.kolibrium.dsl.creation.Arguments.Firefox.incognito as firefoxIncognito
 
 /**
- * Factory function that creates a new WebDriver instance for use by Kolibrium DSL helpers such as [dev.kolibrium.dsl.selenium.webTest].
+ * Factory function that creates a new WebDriver instance for use by Kolibrium DSL helpers such as [dev.kolibrium.dsl.seleniumTest].
  *
  * Prefer the predefined factories in dev.kolibrium.dsl.selenium.DriverFactories for common setups
  * (e.g., headlessChrome, incognitoFirefox).

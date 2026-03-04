@@ -37,26 +37,6 @@ public fun <C> apiTest(
     }
 
 /**
- * Executes an API operation and returns its result.
- *
- * This function allows you to run suspend API operations synchronously and
- * retrieve their return value. It blocks the current thread until the operation completes.
- *
- * @param C The type of the API client or context
- * @param T The return type of the operation
- * @param api The API client instance to use
- * @param block The suspend operation to execute with the API client as a receiver
- * @return The result of the operation
- */
-public fun <C, T> runWithApi(
-    api: C,
-    block: suspend C.() -> T,
-): T =
-    runBlocking {
-        api.block()
-    }
-
-/**
  * Executes an API test with setup and teardown phases.
  *
  * This function provides a structured way to run API tests with proper resource management:
@@ -81,10 +61,41 @@ public fun <C, T> apiTest(
 ): Unit =
     runBlocking {
         val ctx = api.setUp()
+        var testError: Throwable? = null
         try {
             api.block(ctx)
+        } catch (e: Throwable) {
+            testError = e
+            throw e
         } finally {
-            // Teardown failures should not hide the original test failure.
-            runCatching { api.tearDown(ctx) }
+            try {
+                api.tearDown(ctx)
+            } catch (teardownError: Throwable) {
+                if (testError != null) {
+                    testError.addSuppressed(teardownError)
+                } else {
+                    throw teardownError
+                }
+            }
         }
+    }
+
+/**
+ * Executes an API operation and returns its result.
+ *
+ * This function allows you to run suspend API operations synchronously and
+ * retrieve their return value. It blocks the current thread until the operation completes.
+ *
+ * @param C The type of the API client or context
+ * @param T The return type of the operation
+ * @param api The API client instance to use
+ * @param block The suspend operation to execute with the API client as a receiver
+ * @return The result of the operation
+ */
+public fun <C, T> runWithApi(
+    api: C,
+    block: suspend C.() -> T,
+): T =
+    runBlocking {
+        api.block()
     }

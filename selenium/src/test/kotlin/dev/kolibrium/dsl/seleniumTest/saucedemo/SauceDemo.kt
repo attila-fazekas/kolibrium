@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.bstackdemo
+package dev.kolibrium.dsl.seleniumTest.saucedemo
 
 import dev.kolibrium.core.Site
 import dev.kolibrium.core.WaitConfig
@@ -29,7 +29,23 @@ import dev.kolibrium.core.isClickable
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
 
-object BstackDemo : Site(baseUrl = "https://bstackdemo.com") {
+object SauceDemo : Site(baseUrl = "https://www.saucedemo.com") {
+    override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
+
+    override val waitConfig: WaitConfig = Quick
+
+    override val decorators: List<AbstractDecorator> =
+        listOf(
+            HighlighterDecorator(
+                style = BorderStyle.Dashed,
+                color = Color.Green,
+            ),
+            SlowMotionDecorator(wait = 300.milliseconds),
+            LoggerDecorator(),
+        )
+}
+
+object Twitter : Site(baseUrl = "https://www.x.com") {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
     override val waitConfig: WaitConfig = Quick

@@ -114,7 +114,7 @@ public class PageScope<P : Page<*>> internal constructor(
 /**
  * Lightweight entry point bound to a live [WebDriver] session for a specific [Site].
  *
- * Instances are created by the test harness (see webTest) and passed into user code as the receiver
+ * Instances are created by the test harness (see seleniumTest) and passed into user code as the receiver
  * of startup and test blocks.
  */
 @KolibriumDsl
@@ -197,7 +197,7 @@ internal class PageEntry<S : Site>
 
             val site =
                 SessionContext.get()?.site
-                    ?: error("No active Session in SessionContext; open() must be called within webTest/site context.")
+                    ?: error("No active Session in SessionContext; open() must be called within seleniumTest/site context.")
 
             val effectivePath = path ?: page.path
             val url = joinUrls(site.baseUrl, effectivePath)
@@ -226,7 +226,7 @@ internal class PageEntry<S : Site>
 
             val site =
                 SessionContext.get()?.site
-                    ?: error("No active Session in SessionContext; on() must be called within webTest/site context.")
+                    ?: error("No active Session in SessionContext; on() must be called within seleniumTest/site context.")
 
             // Ensure the current tab belongs to the active site origin
             val currentUri = runCatching { URI(driver.currentUrl) }.getOrNull()

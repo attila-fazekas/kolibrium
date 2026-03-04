@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.saucedemo.pages.twitter
+package dev.kolibrium.dsl.seleniumTest.saucedemo.pages.twitter
 
 import dev.kolibrium.core.Page
-import dev.kolibrium.dsl.webtest.saucedemo.Twitter
+import dev.kolibrium.dsl.seleniumTest.saucedemo.Twitter
 import io.kotest.matchers.shouldBe
 
 class FeedPage : Page<Twitter>() {

@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.saucedemo
+package dev.kolibrium.dsl.seleniumTest.saucedemo.pages
 
-enum class Product(
-    val productName: String,
-    val price: String,
-    val locatorName: String,
-) {
-    Backpack("Sauce Labs Backpack", "$29.99", "backpack"),
-    BikeLight("Sauce Labs Bike Light", "$9.99", "bike-light"),
-    BoltTShirt("Sauce Labs Bolt T-Shirt", "$15.99", "bolt-t-shirt"),
-    FleeceJacket("Sauce Labs Fleece Jacket", "$49.99", "fleece-jacket"),
-    RedTShirt("Test.allTheThings() T-Shirt (Red)", "$7.99", "t-shirt-red"),
-    Onesie("Sauce Labs Onesie", "$15.99", "onesie"),
+import dev.kolibrium.core.Page
+import dev.kolibrium.dsl.seleniumTest.saucedemo.SauceDemo
+
+class CheckoutPage : Page<SauceDemo>() {
+    fun fillShippingInfo(
+        firstName: String,
+        lastName: String,
+        zipCode: String,
+    ) {
+    }
 }
-
-typealias Products = List<Product>

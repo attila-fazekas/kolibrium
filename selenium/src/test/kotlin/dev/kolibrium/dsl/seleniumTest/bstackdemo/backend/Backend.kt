@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.bstackdemo.backend
+package dev.kolibrium.dsl.seleniumTest.bstackdemo.backend
 
-import dev.kolibrium.dsl.webtest.bstackdemo.BstackDemo
+import dev.kolibrium.dsl.seleniumTest.bstackdemo.BstackDemo
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
