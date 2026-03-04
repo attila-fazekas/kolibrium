@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.bstackdemo
+package dev.kolibrium.dsl.seleniumTest.bstackdemo
 
 import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.dsl.DriverFactory
@@ -22,11 +22,11 @@ import dev.kolibrium.dsl.SiteEntry
 import dev.kolibrium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.creation.chromeDriver
-import dev.kolibrium.dsl.webTest
-import dev.kolibrium.dsl.webtest.bstackdemo.Product.IPHONE_12
-import dev.kolibrium.dsl.webtest.bstackdemo.Product.IPHONE_12_MINI
-import dev.kolibrium.dsl.webtest.bstackdemo.backend.getProducts
-import dev.kolibrium.dsl.webtest.bstackdemo.pages.ProductsPage
+import dev.kolibrium.dsl.seleniumTest
+import dev.kolibrium.dsl.seleniumTest.bstackdemo.Product.IPHONE_12
+import dev.kolibrium.dsl.seleniumTest.bstackdemo.Product.IPHONE_12_MINI
+import dev.kolibrium.dsl.seleniumTest.bstackdemo.backend.getProducts
+import dev.kolibrium.dsl.seleniumTest.bstackdemo.pages.ProductsPage
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.chrome.ChromeDriver
@@ -44,10 +44,10 @@ class BstackDemoTest {
 
 //    @Test
 //    fun test() =
-//        webTest(
+//        seleniumTest(
 //            site = BrowserstackDemo,
 //            keepBrowserOpen = false,
-//            prepare = {
+//            setUp = {
 //                val displayNames = products.map { it.displayName }
 //                val productIds: List<Int> =
 //                    getProducts()
@@ -67,7 +67,7 @@ class BstackDemoTest {
     fun test2() =
         browserstackDemoTest(
             keepBrowserOpen = false,
-            prepare = {
+            setUp = {
                 val displayNames = products.map { it.displayName }
                 val productIds: List<Int> =
                     getProducts()
@@ -100,28 +100,24 @@ class BstackDemoTest {
     private fun browserstackDemoTest(
         driverFactory: DriverFactory = { ChromeDriver() },
         keepBrowserOpen: Boolean = false,
-        startup: SiteEntry<BstackDemo>.(Unit) -> Unit = { _ -> },
         block: SiteEntry<BstackDemo>.(Unit) -> Unit,
-    ) = webTest(
+    ) = seleniumTest(
         site = BstackDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
-        startup = startup,
         block = block,
     )
 
     private fun <T> browserstackDemoTest(
         driverFactory: DriverFactory = browserstackDemoDriver,
         keepBrowserOpen: Boolean = false,
-        prepare: () -> T,
-        startup: SiteEntry<BstackDemo>.(T) -> Unit = { },
+        setUp: () -> T,
         block: SiteEntry<BstackDemo>.(T) -> Unit,
-    ) = webTest(
+    ) = seleniumTest(
         site = BstackDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
-        prepare = prepare,
-        startup = startup,
+        setUp = setUp,
         block = block,
     )
 

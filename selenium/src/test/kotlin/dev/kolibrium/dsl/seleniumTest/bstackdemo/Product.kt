@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.bstackdemo
+package dev.kolibrium.dsl.seleniumTest.bstackdemo
 
 enum class Product(
     val displayName: String,

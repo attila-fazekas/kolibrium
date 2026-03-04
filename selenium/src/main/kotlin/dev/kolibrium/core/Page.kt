@@ -84,7 +84,7 @@ public abstract class Page<S : Site> : SearchContext {
             "Kolibrium runtime error: Page '$pageName' has no active WebDriver context.\n" +
                 "You likely constructed this page directly or are calling it outside Kolibrium DSL.\n\n" +
                 "How to fix:\n" +
-                "- Run page interactions inside Kolibrium DSL (e.g., webTest/open/on)\n" +
+                "- Run page interactions inside Kolibrium DSL (e.g., seleniumTest/open/on)\n" +
                 "- Or wrap code with withDriver(driver) { ... } so a contextual driver is available\n"
         )
     }

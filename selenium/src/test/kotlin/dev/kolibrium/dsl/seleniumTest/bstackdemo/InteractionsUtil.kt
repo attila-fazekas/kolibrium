@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.bstackdemo
+package dev.kolibrium.dsl.seleniumTest.bstackdemo
 
 import org.openqa.selenium.WebElement
 

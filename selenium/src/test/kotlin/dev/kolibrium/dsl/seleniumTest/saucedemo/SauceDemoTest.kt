@@ -32,7 +32,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.saucedemo
+package dev.kolibrium.dsl.seleniumTest.saucedemo
 
 import dev.kolibrium.dsl.DriverFactory
 import dev.kolibrium.dsl.SiteEntry
@@ -42,14 +42,14 @@ import dev.kolibrium.dsl.creation.Preferences.Chromium.credentials_enable_servic
 import dev.kolibrium.dsl.creation.Preferences.Chromium.password_manager_enabled
 import dev.kolibrium.dsl.creation.Preferences.Chromium.password_manager_leak_detection
 import dev.kolibrium.dsl.creation.chromeDriver
-import dev.kolibrium.dsl.webTest
+import dev.kolibrium.dsl.seleniumTest
 import dev.kolibrium.dsl.chrome
-import dev.kolibrium.dsl.webtest.saucedemo.Product.Backpack
-import dev.kolibrium.dsl.webtest.saucedemo.Product.BikeLight
-import dev.kolibrium.dsl.webtest.saucedemo.pages.InventoryPage
-import dev.kolibrium.dsl.webtest.saucedemo.pages.LoginPage
-import dev.kolibrium.dsl.webtest.saucedemo.pages.twitter.TwitterHomePage
-import dev.kolibrium.dsl.webtest.saucedemo.pages.visitTwitter
+import dev.kolibrium.dsl.seleniumTest.saucedemo.Product.Backpack
+import dev.kolibrium.dsl.seleniumTest.saucedemo.Product.BikeLight
+import dev.kolibrium.dsl.seleniumTest.saucedemo.pages.InventoryPage
+import dev.kolibrium.dsl.seleniumTest.saucedemo.pages.LoginPage
+import dev.kolibrium.dsl.seleniumTest.saucedemo.pages.twitter.TwitterHomePage
+import dev.kolibrium.dsl.seleniumTest.saucedemo.pages.visitTwitter
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -65,11 +65,11 @@ class SauceDemoTest() {
     }
 
     @Test
-    fun `webTest used with PageEntry's open() function`() = webTest(
+    fun `seleniumTest used with PageEntry's open() function`() = seleniumTest(
         site = SauceDemo,
         keepBrowserOpen = false,
         driverFactory = chrome,
-        prepare = { },
+        setUp = { },
     ) { _: Unit ->
         open(::LoginPage) {
             login()
@@ -150,11 +150,11 @@ class SauceDemoTest() {
         driverFactory: DriverFactory = sauceDemoDriver,
         keepBrowserOpen: Boolean = false,
         block: SiteEntry<SauceDemo>.() -> Unit,
-    ) = webTest(
+    ) = seleniumTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
-        prepare = { },
+        setUp = { },
     ) { _: Unit ->
         block()
     }
@@ -164,13 +164,14 @@ class SauceDemoTest() {
         keepBrowserOpen: Boolean = false,
         driverFactory: DriverFactory = sauceDemoDriver,
         block: SiteEntry<SauceDemo>.() -> Unit,
-    ) = webTest(
+    ) = seleniumTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
-        prepare = { user.acquireCredentials() },
-        startup = { username -> loginAs(username) },
-        block = {
+        setUp = { user.acquireCredentials() },
+        tearDown = { },
+        block = { username ->
+            loginAs(username)
             block()
         },
     )

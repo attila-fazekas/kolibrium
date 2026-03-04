@@ -22,13 +22,10 @@ import dev.kolibrium.dsl.SiteEntry
 import dev.kolibrium.dsl.alsoLogDuration
 import dev.kolibrium.dsl.chrome
 import dev.kolibrium.dsl.discard
-import dev.kolibrium.dsl.webTest
-import dev.kolibrium.dsl.webTestResult
+import dev.kolibrium.dsl.seleniumTest
+import dev.kolibrium.dsl.seleniumTestResult
 import dev.kolibrium.examples.selenium.saucedemo.Product.Backpack
 import dev.kolibrium.examples.selenium.saucedemo.Product.BikeLight
-import dev.kolibrium.examples.selenium.saucedemo.SauceDemo
-import dev.kolibrium.examples.selenium.saucedemo.Twitter
-import dev.kolibrium.examples.selenium.saucedemo.User
 import dev.kolibrium.examples.selenium.saucedemo.pages.InventoryPage
 import dev.kolibrium.examples.selenium.saucedemo.pages.LoginPage
 import dev.kolibrium.examples.selenium.saucedemo.pages.twitter.TwitterHomePage
@@ -50,8 +47,8 @@ class SauceDemoTest {
     private val products = listOf(Backpack, BikeLight)
 
     @Test
-    fun `webTest - only open used`() =
-        webTest(
+    fun `seleniumTest - only open used`() =
+        seleniumTest(
             site = SauceDemo,
             driverFactory = chrome,
             keepBrowserOpen = false,
@@ -136,8 +133,8 @@ class SauceDemoTest {
         }
 
     @Test
-    fun `webTestResult - open used with verify`() =
-        webTestResult(
+    fun `seleniumTestResult - open used with verify`() =
+        seleniumTestResult(
             site = SauceDemo,
             driverFactory = chrome,
             keepBrowserOpen = false,
@@ -159,7 +156,7 @@ class SauceDemoTest {
         prepare: () -> T,
         startup: SiteEntry<SauceDemo>.(T) -> Unit = {},
         block: SiteEntry<SauceDemo>.() -> Unit,
-    ) = webTest(
+    ) = seleniumTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
@@ -174,7 +171,7 @@ class SauceDemoTest {
         driverFactory: DriverFactory = chrome,
         keepBrowserOpen: Boolean = false,
         block: SiteEntry<SauceDemo>.() -> Unit,
-    ) = webTest(
+    ) = seleniumTest(
         site = SauceDemo,
         driverFactory = driverFactory,
         keepBrowserOpen = keepBrowserOpen,

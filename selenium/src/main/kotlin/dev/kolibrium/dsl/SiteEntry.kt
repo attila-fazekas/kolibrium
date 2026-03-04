@@ -18,17 +18,16 @@ package dev.kolibrium.dsl
 
 import dev.kolibrium.core.Page
 import dev.kolibrium.core.Site
-import dev.kolibrium.dsl.PageScope
 import org.openqa.selenium.Cookie
 
 /**
- * Site-scoped DSL receiver available inside `webTest { … }` blocks and within `switchTo<S>() { … }`.
+ * Site-scoped DSL receiver available inside `seleniumTest { … }` blocks and within `switchTo<S>() { … }`.
  *
  * It represents the entry surface for flows on the active [Site], exposing operations like [open], [on],
  * cookie helpers, and site/window switching through higher-level DSL.
  *
  * Notes
- * - Implemented internally by Kolibrium; end users receive this as the receiver of [webTest] blocks.
+ * - Implemented internally by Kolibrium; end users receive this as the receiver of [seleniumTest] blocks.
  * - Backed by an internal implementation that binds to a live WebDriver session; the driver remains hidden.
  */
 @KolibriumDsl

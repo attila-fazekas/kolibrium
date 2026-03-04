@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.webtest.saucedemo.pages
+package dev.kolibrium.dsl.seleniumTest.saucedemo.pages
 
 import dev.kolibrium.core.Page
 import dev.kolibrium.core.dataTest
 import dev.kolibrium.core.dataTests
 import dev.kolibrium.core.idOrName
-import dev.kolibrium.dsl.webtest.saucedemo.SauceDemo
+import dev.kolibrium.dsl.seleniumTest.saucedemo.SauceDemo
 import org.openqa.selenium.WebElement
 
 class CartPage : Page<SauceDemo>() {

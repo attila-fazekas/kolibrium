@@ -31,7 +31,7 @@ import dev.kolibrium.dsl.SiteEntry
 import dev.kolibrium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.dsl.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.creation.chromeDriver
-import dev.kolibrium.dsl.webTest
+import dev.kolibrium.dsl.seleniumTest
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
 import org.openqa.selenium.chrome.ChromeDriver
@@ -55,28 +55,24 @@ object BrowserstackDemo : Site(baseUrl = "https://bstackdemo.com") {
 fun browserstackDemoTest(
     driverFactory: DriverFactory = { ChromeDriver() },
     keepBrowserOpen: Boolean = false,
-    startup: SiteEntry<BrowserstackDemo>.(Unit) -> Unit = { _ -> },
     block: SiteEntry<BrowserstackDemo>.(Unit) -> Unit,
-) = webTest(
+) = seleniumTest(
     site = BrowserstackDemo,
     keepBrowserOpen = keepBrowserOpen,
     driverFactory = driverFactory,
-    startup = startup,
     block = block,
 )
 
 fun <T> browserstackDemoTest(
     driverFactory: DriverFactory = browserstackDemoDriver,
     keepBrowserOpen: Boolean = false,
-    prepare: () -> T,
-    startup: SiteEntry<BrowserstackDemo>.(T) -> Unit = { },
+    setUp: () -> T,
     block: SiteEntry<BrowserstackDemo>.(T) -> Unit,
-) = webTest(
+) = seleniumTest(
     site = BrowserstackDemo,
     keepBrowserOpen = keepBrowserOpen,
     driverFactory = driverFactory,
-    prepare = prepare,
-    startup = startup,
+    setUp = setUp,
     block = block,
 )
 
