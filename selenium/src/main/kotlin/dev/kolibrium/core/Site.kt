@@ -43,6 +43,7 @@ import org.openqa.selenium.WebElement
  * - Never navigate in [onSessionReady]; keep it fast and idempotent.
  *
  * @property baseUrl Base URL used by pages and the test DSL to build absolute routes.
+ *           This property is required and must be overridden by implementations.
  */
 public abstract class Site(
     public val baseUrl: String,

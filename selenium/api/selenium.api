@@ -228,10 +228,6 @@ public final class dev/kolibrium/dsl/Browser : java/lang/Enum {
 	public static fun values ()[Ldev/kolibrium/dsl/Browser;
 }
 
-public final class dev/kolibrium/dsl/DiscardKt {
-	public static final fun discard (Ljava/lang/Object;)V
-}
-
 public final class dev/kolibrium/dsl/DriverFactoriesKt {
 	public static final fun getChrome ()Lkotlin/jvm/functions/Function0;
 	public static final fun getEdge ()Lkotlin/jvm/functions/Function0;

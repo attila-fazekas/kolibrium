@@ -37,9 +37,7 @@ class ByPrefixGroupingTest : ApiBaseTest() {
             import dev.kolibrium.api.ksp.annotations.GenerateApi
 
             @GenerateApi(grouping = ClientGrouping.ByPrefix)
-            object TestApiSpec : ApiSpec() {
-                override val baseUrl = "https://test.api"
-            }
+            object TestApiSpec : ApiSpec(baseUrl = "https://test.api")
             """.trimIndent(),
         )
 

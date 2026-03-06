@@ -19,11 +19,8 @@ package dev.kolibrium.examples.selenium.saucedemo
 import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.dsl.DriverFactory
 import dev.kolibrium.dsl.SiteEntry
-import dev.kolibrium.dsl.alsoLogDuration
 import dev.kolibrium.dsl.chrome
-import dev.kolibrium.dsl.discard
 import dev.kolibrium.dsl.seleniumTest
-import dev.kolibrium.dsl.seleniumTestResult
 import dev.kolibrium.examples.selenium.saucedemo.Product.Backpack
 import dev.kolibrium.examples.selenium.saucedemo.Product.BikeLight
 import dev.kolibrium.examples.selenium.saucedemo.pages.InventoryPage
@@ -52,11 +49,9 @@ class SauceDemoTest {
             site = SauceDemo,
             driverFactory = chrome,
             keepBrowserOpen = false,
-            prepare = { User.Standard.acquireCredentials() },
-            startup = { username ->
-                addCookie(Cookie("session-username", username))
-            },
-        ) {
+            setUp = { User.Standard.acquireCredentials() },
+        ) { username ->
+            addCookie(Cookie("session-username", username))
             open(::InventoryPage) {
                 products.addToCart()
             }.verify {
@@ -68,9 +63,9 @@ class SauceDemoTest {
     fun `sauceDemoTest - only open used`() =
         sauceDemoTest(
             keepBrowserOpen = false,
-            prepare = { User.Standard.acquireCredentials() },
-            startup = { username -> loginAs(username) },
-        ) {
+            setUp = { User.Standard.acquireCredentials() },
+        ) {username ->
+            loginAs(username)
             open(::InventoryPage) {
                 products.addToCart()
             }.verify {
@@ -94,7 +89,7 @@ class SauceDemoTest {
     fun `sauceDemoTest used with PageEntry's open() function`() =
         sauceDemoTest(
             keepBrowserOpen = false,
-            prepare = {},
+            setUp = {},
         ) {
             open(::LoginPage) {
                 login()
@@ -132,39 +127,18 @@ class SauceDemoTest {
             }
         }
 
-    @Test
-    fun `seleniumTestResult - open used with verify`() =
-        seleniumTestResult(
-            site = SauceDemo,
-            driverFactory = chrome,
-            keepBrowserOpen = false,
-            prepare = { User.Standard.acquireCredentials() },
-            startup = { username -> loginAs(username) },
-        ) {
-            open(::InventoryPage) {
-                products.addToCart()
-            }.verify {
-                numberOfProductsOnShoppingCart() shouldBe 2
-            }
-        }.alsoLogDuration()
-            .also { println("status: ${it.status}") }
-            .discard()
-
     private fun <T> sauceDemoTest(
         driverFactory: DriverFactory = chrome,
         keepBrowserOpen: Boolean = false,
-        prepare: () -> T,
-        startup: SiteEntry<SauceDemo>.(T) -> Unit = {},
-        block: SiteEntry<SauceDemo>.() -> Unit,
+        setUp: () -> T,
+        block: SiteEntry<SauceDemo>.(T) -> Unit,
     ) = seleniumTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
-        prepare = prepare,
-        startup = startup,
-    ) {
-        block()
-    }
+        setUp = setUp,
+        block = block,
+    )
 
     private fun authenticatedSauceDemoTest(
         user: User = User.Standard,
@@ -175,9 +149,9 @@ class SauceDemoTest {
         site = SauceDemo,
         driverFactory = driverFactory,
         keepBrowserOpen = keepBrowserOpen,
-        prepare = { user.acquireCredentials() },
-        startup = { username -> loginAs(username) },
-    ) {
+        setUp = { user.acquireCredentials() },
+    ) {username ->
+        loginAs(username)
         block()
     }
 

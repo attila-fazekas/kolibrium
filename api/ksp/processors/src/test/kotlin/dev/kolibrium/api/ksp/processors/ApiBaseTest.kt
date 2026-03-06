@@ -39,9 +39,7 @@ open class ApiBaseTest {
             import dev.kolibrium.api.ksp.annotations.GenerateApi
 
             @GenerateApi
-            object TestApiSpec : ApiSpec() {
-                override val baseUrl = "https://test.api"
-            }
+            object TestApiSpec : ApiSpec(baseUrl = "https://test.api")
             """.trimIndent(),
         )
 

@@ -66,4 +66,6 @@ bin/
 .aiassistant
 .output*.txt
 
-context-parameters.md
+*.md
+!README.md
+!*/README.md

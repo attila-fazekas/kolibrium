@@ -36,7 +36,7 @@ class BrowserstackTest {
     @Test
     fun `add products to shopping cart`() = browserstackDemoTest(
         keepBrowserOpen = false,
-        prepare = browserstackApiPrepare {
+        setUp = browserstackApiPrepare {
             val displayNames = products.map { it.displayName }
 
             val productIds: List<Int> =

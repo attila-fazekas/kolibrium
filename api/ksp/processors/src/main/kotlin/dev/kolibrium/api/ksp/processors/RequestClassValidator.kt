@@ -20,6 +20,7 @@ import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotation
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
+import com.google.devtools.ksp.symbol.KSType
 import com.google.devtools.ksp.symbol.Modifier
 import dev.kolibrium.api.ksp.annotations.Auth
 import dev.kolibrium.api.ksp.annotations.AuthType
@@ -224,8 +225,12 @@ internal fun validateRequestClass(requestClass: KSClassDeclaration): ValidationR
     }
 
     val authAnnotation = requestClass.getAnnotation(Auth::class)
-    val authType = extractAuthType(authAnnotation)
 
+    val authResult = extractAuthType(requestClass)
+    if (authResult is ValidationResult.Invalid) {
+        return authResult
+    }
+    val authType = (authResult as ValidationResult.Valid).value
     val apiKeyHeader = extractApiKeyHeader(requestClass)
 
     if (authType == AuthType.ApiKey && !apiKeyHeader.isValidHttpHeaderName()) {
@@ -323,10 +328,30 @@ private fun validatePathFormat(
     return errors
 }
 
-private fun extractAuthType(annotation: KSAnnotation?): AuthType {
-    annotation ?: return AuthType.None
-    val enumName = (annotation.getArgumentValue("type") as KSClassDeclaration).simpleName.asString()
-    return AuthType.entries.first { it.name == enumName }
+private fun extractAuthType(requestClass: KSClassDeclaration): ValidationResult<AuthType> {
+    val annotation =
+        requestClass.getAnnotation(Auth::class)
+            ?: return ValidationResult.Valid(AuthType.None)
+
+    val enumName =
+        when (val authArg = annotation.getArgumentValue("type")) {
+            is KSClassDeclaration -> {
+                authArg.simpleName.asString()
+            }
+
+            // because kspKotlin task runs before compileKotlin task
+            else -> {
+                return ValidationResult.Invalid(
+                    listOf(
+                        Diagnostic(
+                            "Could not resolve auth type on ${requestClass.getClassName()}",
+                            requestClass,
+                        ),
+                    ),
+                )
+            }
+        }
+    return AuthType.entries.first { it.name == enumName }.let { ValidationResult.Valid(it) }
 }
 
 private fun extractApiKeyHeader(requestClass: KSClassDeclaration): String {

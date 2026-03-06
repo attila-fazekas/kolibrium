@@ -52,11 +52,10 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 "ApiSpec.kt",
                 """
                 package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object ApiSpec : dev.kolibrium.api.core.ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object ApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -89,9 +88,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object PetApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val compilation = getCompilation(source).compile()
@@ -109,9 +106,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object PetApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val source2 =
@@ -122,9 +117,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test2.api"
-                }
+                object PetApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val compilation = getCompilation(source1, source2).compile()
@@ -143,9 +136,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object TestApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test1.api"
-                }
+                object TestApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val spec2 =
@@ -156,9 +147,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object TestApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test2.api"
-                }
+                object TestApiSpec : ApiSpec(baseUrl = "https://test2.api")
                 """.trimIndent(),
             )
         val request1 =
@@ -208,9 +197,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object Spec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object Spec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -243,9 +230,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object Api : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object Api : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -278,9 +263,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetStoreApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object PetStoreApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -313,9 +296,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetStore : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object PetStore : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -348,9 +329,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetStoreApi : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object PetStoreApi : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val source2 =
@@ -361,9 +340,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetStoreSpec : ApiSpec() {
-                    override val baseUrl = "https://test2.api"
-                }
+                object PetStoreSpec : ApiSpec(baseUrl = "https://test2.api")
                 """.trimIndent(),
             )
         val compilation = getCompilation(source1, source2).compile()
@@ -382,9 +359,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetStoreApi : ApiSpec() {
-                    override val baseUrl = "https://test1.api"
-                }
+                object PetStoreApi : ApiSpec(baseUrl = "https://test1.api")
                 """.trimIndent(),
             )
         val spec2 =
@@ -395,9 +370,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetStoreSpec : ApiSpec() {
-                    override val baseUrl = "https://test2.api"
-                }
+                object PetStoreSpec : ApiSpec(baseUrl = "https://test2.api")
                 """.trimIndent(),
             )
         val request1 =
@@ -444,9 +417,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object `123Test` : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object `123Test` : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val compilation = getCompilation(source).compile()
@@ -464,7 +435,7 @@ class ApiSpecSubclassValidationTest : ApiBaseTest() {
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
                 object NotAnApiSpec {
-                    val baseUrl = "https://test.api"
+                    val baseUrl = "https://test1.api"
                 }
                 """.trimIndent(),
             )

@@ -30,9 +30,7 @@ import io.ktor.client.HttpClient
  * Example usage:
  * ```
  * @GenerateApi(grouping = ClientGrouping.ByPrefix)
- * object MyApiSpec : ApiSpec() {
- *     override val baseUrl = "https://api.example.com"
- *
+ * object MyApiSpec : ApiSpec(baseUrl = "api.example.com"") {
  *     // Optional: customize HTTP client
  *     override val httpClient = HttpClient(CIO) {
  *         install(ContentNegotiation) {
@@ -41,15 +39,13 @@ import io.ktor.client.HttpClient
  *     }
  * }
  * ```
+ *
+ * @property baseUrl The base URL for the API endpoint.
+ *           This property is required and must be overridden by implementations.
  */
-public abstract class ApiSpec {
-    /**
-     * The base URL for the API endpoint (e.g., "https://api.example.com").
-     *
-     * This property is required and must be overridden by implementations.
-     */
-    public abstract val baseUrl: String
-
+public abstract class ApiSpec(
+    public val baseUrl: String,
+) {
     /**
      * The HTTP client instance used for API requests.
      *
