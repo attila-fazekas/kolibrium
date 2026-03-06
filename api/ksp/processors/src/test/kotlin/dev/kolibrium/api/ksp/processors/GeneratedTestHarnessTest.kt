@@ -96,9 +96,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi(generateTestHarness = false)
-                object NoHarnessApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object NoHarnessApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -138,9 +136,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi(scanPackages = ["dev.kolibrium.api.ksp.test.custom"])
-                object CustomScanApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object CustomScanApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -177,9 +173,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 import dev.kolibrium.api.ksp.annotations.ClientGrouping
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi(grouping = ClientGrouping.ByPrefix)
-                object GroupedApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object GroupedApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -225,9 +219,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 """
                 package dev.kolibrium.api.ksp.test
                 import dev.kolibrium.api.core.ApiSpec
-                object DefaultApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object DefaultApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -265,9 +257,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi(scanPackages = [])
-                object EmptyScanApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object EmptyScanApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -303,9 +293,7 @@ class GeneratedTestHarnessTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetStoreApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object PetStoreApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =

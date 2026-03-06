@@ -35,9 +35,7 @@ class ConcurrentProcessingTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object PetApiSpec : ApiSpec() {
-                    override val baseUrl = "https://pet.api"
-                }
+                object PetApiSpec : ApiSpec(baseUrl = "https://pet.api")
                 """.trimIndent(),
             )
         val spec2 =
@@ -48,9 +46,7 @@ class ConcurrentProcessingTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object StoreApiSpec : ApiSpec() {
-                    override val baseUrl = "https://store.api"
-                }
+                object StoreApiSpec : ApiSpec(baseUrl = "https://store.api")
                 """.trimIndent(),
             )
         val request =

@@ -100,9 +100,7 @@ import dev.kolibrium.api.core.ApiSpec
 import dev.kolibrium.api.ksp.annotations.GenerateApi
 
 @GenerateApi
-object MyApiSpec : ApiSpec() {
-    override val baseUrl = "https://api.example.com"
-}
+object MyApiSpec : ApiSpec(baseUrl = "https://api.example.com")
 ```
 
 ## Defining request models
@@ -338,9 +336,7 @@ By default, the processor scans `<api-package>.models` for request classes. You 
 import dev.kolibrium.api.ksp.annotations.GenerateApi
 
 @GenerateApi(scanPackages = ["com.example.api.requests", "com.example.api.queries"])
-object MyApiSpec : ApiSpec() {
-    override val baseUrl = "https://api.example.com"
-}
+object MyApiSpec : ApiSpec(baseUrl = "https://api.example.com")
 ```
 
 An empty `scanPackages` array (the default) means "use the convention default": the `<api-package>.models` subpackage.
@@ -355,10 +351,7 @@ All endpoints are generated in a single client class:
 
 ```kotlin
 @GenerateApi
-object MyApiSpec : ApiSpec() {
-    override val baseUrl = "https://api.example.com"
-    // grouping defaults to ClientGrouping.SingleClient
-}
+object MyApiSpec : ApiSpec(baseUrl = "https://api.example.com")
 ```
 
 Generates:
@@ -385,9 +378,7 @@ import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import dev.kolibrium.api.ksp.annotations.GenerateApi
 
 @GenerateApi(grouping = ClientGrouping.ByPrefix)
-object MyApiSpec : ApiSpec() {
-    override val baseUrl = "https://api.example.com"
-}
+object MyApiSpec : ApiSpec(baseUrl = "https://api.example.com")
 ```
 
 Given these requests:
@@ -439,9 +430,7 @@ To override the derived name:
 
 ```kotlin
 @GenerateApi(displayName = "Record Shop")
-object MyApiSpec : ApiSpec() {
-    override val baseUrl = "https://api.example.com"
-}
+object MyApiSpec : ApiSpec(baseUrl = "https://api.example.com")
 ```
 
 This produces `RecordShopClient` and KDoc referencing "Record Shop API."
@@ -481,9 +470,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 @GenerateApi
-object MyApiSpec : ApiSpec() {
-    override val baseUrl = "https://api.example.com"
-    
+object MyApiSpec : ApiSpec(baseUrl = "https://api.example.com") {
     override val httpClient = HttpClient(CIO) {
         install(ContentNegotiation) {
             json(Json {
@@ -510,9 +497,7 @@ import io.ktor.client.request.header
 import io.ktor.serialization.kotlinx.json.json
 
 @GenerateApi
-object MyApiSpec : ApiSpec() {
-    override val baseUrl = "https://api.example.com"
-    
+object MyApiSpec : ApiSpec(baseUrl = "https://api.example.com") {
     override val httpClient = HttpClient(CIO) {
         install(ContentNegotiation) { json() }
         defaultRequest {
@@ -878,9 +863,7 @@ import dev.kolibrium.api.core.ApiSpec
 import dev.kolibrium.api.ksp.annotations.GenerateApi
 
 @GenerateApi
-object VinylStoreApiSpec : ApiSpec() {
-    override val baseUrl = "http://localhost:8080"
-}
+object VinylStoreApiSpec : ApiSpec(baseUrl = "https://api.example.com")
 ```
 
 ```kotlin

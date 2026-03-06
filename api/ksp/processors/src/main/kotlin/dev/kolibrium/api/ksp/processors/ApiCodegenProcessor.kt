@@ -25,7 +25,6 @@ import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import dev.kolibrium.api.ksp.annotations.ClientGrouping
 import dev.kolibrium.api.ksp.annotations.GenerateApi
-import kotlinx.serialization.Serializable
 
 /**
  * Symbol processor that generates API client code from request classes.
@@ -74,18 +73,14 @@ import kotlinx.serialization.Serializable
  *     scanPackages = ["io.github.vinylstore.models"],
  *     grouping = ClientGrouping.ByPrefix,
  * )
- * object VinylStoreApiSpec : ApiSpec() {
- *     override val baseUrl = "http://localhost:8080"
- * }
+ * object VinylStoreApiSpec : ApiSpec("http://localhost:8080")
  * ```
  *
  * The `ApiSpec` suffix is not required — the processor strips known suffixes (`ApiSpec`, `Spec`,
  * `Api`) to derive the client name prefix:
  * ```kotlin
  * @GenerateApi
- * object VinylStore : ApiSpec() {
- *     override val baseUrl = "http://localhost:8080"
- * }
+ * object VinylStore : ApiSpec("http://localhost:8080")
  * ```
  *
  * @param environment The symbol processor environment providing access to logging and code generation

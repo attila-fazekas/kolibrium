@@ -84,9 +84,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 import dev.kolibrium.api.ksp.annotations.ClientGrouping
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi(grouping = ClientGrouping.ByPrefix)
-                object GroupedApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object GroupedApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -230,9 +228,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object MyApi : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object MyApi : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -263,11 +259,10 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 "ApiSpec.kt",
                 """
                 package dev.kolibrium.api.ksp.test
+                import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi
-                object ApiSpec : dev.kolibrium.api.core.ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object ApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -301,9 +296,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi(displayName = "My Awesome Store")
-                object PetStoreApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object PetStoreApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
@@ -337,9 +330,7 @@ class ClientMethodKDocTest : ApiBaseTest() {
                 import dev.kolibrium.api.core.ApiSpec
                 import dev.kolibrium.api.ksp.annotations.GenerateApi
                 @GenerateApi(displayName = "My API! (v2)")
-                object PetStoreApiSpec : ApiSpec() {
-                    override val baseUrl = "https://test.api"
-                }
+                object PetStoreApiSpec : ApiSpec(baseUrl = "https://test.api")
                 """.trimIndent(),
             )
         val request =
