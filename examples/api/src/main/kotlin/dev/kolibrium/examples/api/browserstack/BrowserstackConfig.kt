@@ -19,19 +19,19 @@ package dev.kolibrium.examples.api.browserstack
 import com.sksamuel.hoplite.ConfigLoaderBuilder
 import com.sksamuel.hoplite.addResourceSource
 
-public object BrowserstackApiConfig {
-    private val config: BrowserstackConfiguration by lazy {
+public object BrowserStackApiConfig {
+    private val config: BrowserStackConfiguration by lazy {
         try {
             ConfigLoaderBuilder
                 .default()
                 .addResourceSource("/browserstack-api.yml")
                 .build()
-                .loadConfigOrThrow<BrowserstackConfiguration>()
+                .loadConfigOrThrow<BrowserStackConfiguration>()
         } catch (_: Exception) {
             // Fall back to environment variable
-            BrowserstackConfiguration(
+            BrowserStackConfiguration(
                 api =
-                    BrowserstackConfiguration.ApiConfiguration(
+                    BrowserStackConfiguration.ApiConfiguration(
                         baseUrl =
                             System.getenv("API_BASE_URL")
                                 ?: error("API baseUrl not configured. Set API_BASE_URL env var or create browserstack-api.yml"),
@@ -44,7 +44,7 @@ public object BrowserstackApiConfig {
         get() = System.getenv("API_BASE_URL") ?: config.api.baseUrl
 }
 
-public data class BrowserstackConfiguration(
+public data class BrowserStackConfiguration(
     val api: ApiConfiguration,
 ) {
     public data class ApiConfiguration(

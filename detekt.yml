@@ -18,6 +18,7 @@ comments:
     active: true
   OutdatedDocumentation:
     active: true
+    excludes: ["**/src/main/kotlin/dev/kolibrium/core/LocatorDelegates.kt"]
   UndocumentedPublicClass:
     active: true
   UndocumentedPublicFunction:

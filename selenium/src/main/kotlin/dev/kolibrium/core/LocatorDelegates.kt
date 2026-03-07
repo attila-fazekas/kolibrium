@@ -1059,12 +1059,30 @@ public fun SearchContext.xpaths(
         readyWhen = readyWhen,
     )
 
-internal abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<T, R>, R>(
+/**
+ * Base implementation for element locator delegates with built‑in waiting, caching and decoration.
+ *
+ * This abstract class powers Kolibrium's locator delegates by:
+ * - Merging site‑level and test‑level decorators and applying them to the underlying [SearchContext]
+ * - Providing a consistent wait loop via Selenium's [FluentWait], configured by [WaitConfig]
+ * - Ignoring transient lookup errors: always ignores [NoSuchElementException] and handles
+ *   [StaleElementReferenceException] by clearing cache and retrying
+ *
+ * Subclasses implement how to locate the element(s) ([findElement]), how to drop any cache
+ * ([clearCache]), and how to determine element readiness ([isElementReady]).
+ *
+ * @param T The self type of the concrete descriptor (used to type the [FluentWait]).
+ * @param R The result element type returned by this descriptor (e.g., [WebElement] or [WebElements]).
+ * @param searchCtx The original Selenium [SearchContext] used as the base for all lookups. It may be
+ * decorated with site/test decorators before actual searching occurs.
+ */
+@InternalKolibriumApi
+public abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<T, R>, R>(
     protected val searchCtx: SearchContext,
 ) {
     protected var appliedDecoratorClassNames: List<String> = emptyList()
 
-    protected val searchContext by lazy {
+    protected val searchContext: SearchContext by lazy {
         val merged = mergedDecorators()
         appliedDecoratorClassNames = merged.map { it::class.java.simpleName }
         if (merged.isEmpty()) {
@@ -1138,7 +1156,27 @@ internal abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<
     }
 }
 
-internal class SingleElementDescriptor(
+/**
+ * Descriptor/delegate for lazily locating a single [WebElement].
+ *
+ * Supports optional caching of the located element, configurable waiting via [waitConfig],
+ * and a per‑element readiness predicate via [readyWhen]. The element is searched using the
+ * provided [locatorStrategy] against the decorated [SearchContext].
+ *
+ * Typical usage is via higher‑level helpers (e.g., `id`, `cssSelector`, and Appium’s
+ * `accessibilityId`) which supply [value] and [locatorStrategy].
+ *
+ * @param searchCtx The base [SearchContext] to perform the lookup in (driver/page/screen or a nested element).
+ * @param value The raw locator value (e.g., CSS, XPath, id) passed to [locatorStrategy]. Must be non‑blank.
+ * @param locatorStrategy Function that converts [value] into a Selenium [By].
+ * @param cacheLookup When true, cache the first resolved [WebElement] and reuse it until cache is cleared.
+ * @param waitConfig Optional [WaitConfig] to control timeout/polling/ignored exceptions; when `null`,
+ *        the effective configuration defaults to [defaultWaitConfig].
+ * @param readyWhen Optional predicate that defines when the found element is considered ready; when `null`,
+ *        the effective predicate defaults to [defaultElementReadyCondition].
+ */
+@InternalKolibriumApi
+public class SingleElementDescriptor(
     searchCtx: SearchContext,
     value: String,
     locatorStrategy: (String) -> By,
@@ -1190,7 +1228,25 @@ internal class SingleElementDescriptor(
     }
 }
 
-internal class MultiElementsDescriptor(
+/**
+ * Descriptor/delegate for lazily locating multiple [WebElement]s as a [WebElements] collection.
+ *
+ * Multi‑element delegates are intentionally non‑caching: each access performs a fresh lookup to
+ * reflect the current DOM/UI state. Waiting behavior and readiness can be customized through
+ * [waitConfig] and [readyWhen] respectively.
+ *
+ * Typical usage is via higher‑level helpers (e.g., `xpaths`, `cssSelectors`).
+ *
+ * @param searchCtx The base [SearchContext] to perform the lookup in (driver/page/screen or a nested element).
+ * @param value The raw locator value (e.g., CSS, XPath, id) passed to [locatorStrategy]. Must be non‑blank.
+ * @param locatorStrategy Function that converts [value] into a Selenium [By].
+ * @param waitConfig Optional [WaitConfig] to control timeout/polling/ignored exceptions; when `null`,
+ *        the effective configuration defaults to [defaultWaitConfig].
+ * @param readyWhen Optional predicate that defines when the found elements are considered ready; when `null`,
+ *        the effective predicate defaults to [defaultElementsReadyCondition].
+ */
+@InternalKolibriumApi
+public class MultiElementsDescriptor(
     searchCtx: SearchContext,
     value: String,
     locatorStrategy: (String) -> By,

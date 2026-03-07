@@ -14,31 +14,15 @@
  * limitations under the License.
  */
 
-rootProject.name = "kolibrium"
+package dev.kolibrium.appium.screens
 
-include("api")
-include("api:core")
-include("api:ksp")
-include("api:ksp:annotations")
-include("api:ksp:processors")
-include("appium")
-include("bom")
-include("dokka")
-include("examples")
-include("examples:api")
-include("examples:sel")
-include("konsistTest")
-include("selenium")
+import dev.kolibrium.appium.resourceId
+import org.openqa.selenium.WebElement
 
-gradle.startParameter.isContinueOnFailure = true
-
-plugins {
-    id("de.fayard.refreshVersions") version "0.60.6"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-}
-
-refreshVersions {
-    rejectVersionIf {
-        candidate.stabilityLevel.isLessStableThan(current.stabilityLevel)
-    }
+class Item(
+    root: WebElement,
+) {
+    val image by root.resourceId("productIV")
+    val title by root.resourceId("titleTV")
+    val price by root.resourceId("priceTV")
 }

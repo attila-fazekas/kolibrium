@@ -55,7 +55,7 @@ import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.Cookie
 
-class SauceDemoTest() {
+class SauceDemoTest {
     companion object {
         @JvmStatic
         @BeforeAll
@@ -161,8 +161,8 @@ class SauceDemoTest() {
 
     private fun authenticatedSauceDemoTest(
         user: User = User.Standard,
-        keepBrowserOpen: Boolean = false,
         driverFactory: DriverFactory = sauceDemoDriver,
+        keepBrowserOpen: Boolean = false,
         block: SiteEntry<SauceDemo>.() -> Unit,
     ) = seleniumTest(
         site = SauceDemo,

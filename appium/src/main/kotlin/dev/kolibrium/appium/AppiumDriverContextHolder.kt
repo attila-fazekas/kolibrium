@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.seleniumTest.bstackdemo
+package dev.kolibrium.appium
 
-import org.openqa.selenium.WebElement
+import io.appium.java_client.AppiumDriver
 
-fun type(
-    block: TypeScope.() -> Unit,
-) = TypeScope().apply(block)
+internal object AppiumDriverContextHolder {
+    private val tl: ThreadLocal<AppiumDriver?> = ThreadLocal()
 
-class TypeScope {
-    infix fun String.into(element: WebElement) {
-        element.sendKeys(this)
+    fun get(): AppiumDriver? = tl.get()
+
+    fun set(driver: AppiumDriver) {
+        tl.set(driver)
     }
-}
 
-object Click
-
-infix fun Click.on(element: WebElement) {
-    element.click()
+    fun clear() {
+        tl.remove()
+    }
 }

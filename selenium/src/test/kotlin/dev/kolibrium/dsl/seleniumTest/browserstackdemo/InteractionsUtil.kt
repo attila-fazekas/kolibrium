@@ -14,31 +14,22 @@
  * limitations under the License.
  */
 
-rootProject.name = "kolibrium"
+package dev.kolibrium.dsl.seleniumTest.browserstackdemo
 
-include("api")
-include("api:core")
-include("api:ksp")
-include("api:ksp:annotations")
-include("api:ksp:processors")
-include("appium")
-include("bom")
-include("dokka")
-include("examples")
-include("examples:api")
-include("examples:sel")
-include("konsistTest")
-include("selenium")
+import org.openqa.selenium.WebElement
 
-gradle.startParameter.isContinueOnFailure = true
+fun type(
+    block: TypeScope.() -> Unit,
+) = TypeScope().apply(block)
 
-plugins {
-    id("de.fayard.refreshVersions") version "0.60.6"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+class TypeScope {
+    infix fun String.into(element: WebElement) {
+        element.sendKeys(this)
+    }
 }
 
-refreshVersions {
-    rejectVersionIf {
-        candidate.stabilityLevel.isLessStableThan(current.stabilityLevel)
-    }
+object Click
+
+infix fun Click.on(element: WebElement) {
+    element.click()
 }
