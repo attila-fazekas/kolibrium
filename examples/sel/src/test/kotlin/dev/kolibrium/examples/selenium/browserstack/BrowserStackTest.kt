@@ -17,12 +17,12 @@
 package dev.kolibrium.examples.selenium.browserstack
 
 import com.titusfortner.logging.SeleniumLogger
-import dev.kolibrium.examples.api.browserstack.browserstackApiPrepare
+import dev.kolibrium.examples.api.browserstack.browserStackApiPrepare
 import dev.kolibrium.examples.selenium.browserstack.pages.ProductsPage
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
-class BrowserstackTest {
+class BrowserStackTest {
     private val products = listOf(Product.IPHONE_12, Product.IPHONE_12_MINI)
 
     companion object {
@@ -34,9 +34,9 @@ class BrowserstackTest {
     }
 
     @Test
-    fun `add products to shopping cart`() = browserstackDemoTest(
+    fun `add products to shopping cart`() = browserStackDemoTest(
         keepBrowserOpen = false,
-        setUp = browserstackApiPrepare {
+        setUp = browserStackApiPrepare {
             val displayNames = products.map { it.displayName }
 
             val productIds: List<Int> =

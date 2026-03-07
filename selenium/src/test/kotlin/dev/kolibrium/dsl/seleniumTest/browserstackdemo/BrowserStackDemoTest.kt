@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.seleniumTest.bstackdemo
+package dev.kolibrium.dsl.seleniumTest.browserstackdemo
 
 import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.dsl.DriverFactory
@@ -23,15 +23,15 @@ import dev.kolibrium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_
 import dev.kolibrium.dsl.creation.Arguments.Chrome.incognito
 import dev.kolibrium.dsl.creation.chromeDriver
 import dev.kolibrium.dsl.seleniumTest
-import dev.kolibrium.dsl.seleniumTest.bstackdemo.Product.IPHONE_12
-import dev.kolibrium.dsl.seleniumTest.bstackdemo.Product.IPHONE_12_MINI
-import dev.kolibrium.dsl.seleniumTest.bstackdemo.backend.getProducts
-import dev.kolibrium.dsl.seleniumTest.bstackdemo.pages.ProductsPage
+import dev.kolibrium.dsl.seleniumTest.browserstackdemo.Product.IPHONE_12
+import dev.kolibrium.dsl.seleniumTest.browserstackdemo.Product.IPHONE_12_MINI
+import dev.kolibrium.dsl.seleniumTest.browserstackdemo.backend.getProducts
+import dev.kolibrium.dsl.seleniumTest.browserstackdemo.pages.ProductsPage
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.openqa.selenium.chrome.ChromeDriver
 
-class BstackDemoTest {
+class BrowserStackDemoTest {
     private val products = listOf(IPHONE_12, IPHONE_12_MINI)
 
     companion object {
@@ -100,9 +100,9 @@ class BstackDemoTest {
     private fun browserstackDemoTest(
         driverFactory: DriverFactory = { ChromeDriver() },
         keepBrowserOpen: Boolean = false,
-        block: SiteEntry<BstackDemo>.(Unit) -> Unit,
+        block: SiteEntry<BrowserStackDemo>.(Unit) -> Unit,
     ) = seleniumTest(
-        site = BstackDemo,
+        site = BrowserStackDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
         block = block,
@@ -112,9 +112,9 @@ class BstackDemoTest {
         driverFactory: DriverFactory = browserstackDemoDriver,
         keepBrowserOpen: Boolean = false,
         setUp: () -> T,
-        block: SiteEntry<BstackDemo>.(T) -> Unit,
+        block: SiteEntry<BrowserStackDemo>.(T) -> Unit,
     ) = seleniumTest(
-        site = BstackDemo,
+        site = BrowserStackDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
         setUp = setUp,

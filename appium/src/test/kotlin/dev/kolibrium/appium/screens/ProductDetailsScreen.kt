@@ -14,31 +14,16 @@
  * limitations under the License.
  */
 
-rootProject.name = "kolibrium"
+package dev.kolibrium.appium.screens
 
-include("api")
-include("api:core")
-include("api:ksp")
-include("api:ksp:annotations")
-include("api:ksp:processors")
-include("appium")
-include("bom")
-include("dokka")
-include("examples")
-include("examples:api")
-include("examples:sel")
-include("konsistTest")
-include("selenium")
+import dev.kolibrium.appium.SauceDemoAndroidApp
+import dev.kolibrium.appium.Screen
+import dev.kolibrium.appium.resourceId
 
-gradle.startParameter.isContinueOnFailure = true
+class ProductDetailsScreen : Screen<SauceDemoAndroidApp>() {
+    private val cartButton by resourceId("cartBt")
 
-plugins {
-    id("de.fayard.refreshVersions") version "0.60.6"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
-}
-
-refreshVersions {
-    rejectVersionIf {
-        candidate.stabilityLevel.isLessStableThan(current.stabilityLevel)
+    fun addToCart() {
+        cartButton.click()
     }
 }

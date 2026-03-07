@@ -14,31 +14,24 @@
  * limitations under the License.
  */
 
-rootProject.name = "kolibrium"
-
-include("api")
-include("api:core")
-include("api:ksp")
-include("api:ksp:annotations")
-include("api:ksp:processors")
-include("appium")
-include("bom")
-include("dokka")
-include("examples")
-include("examples:api")
-include("examples:sel")
-include("konsistTest")
-include("selenium")
-
-gradle.startParameter.isContinueOnFailure = true
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("de.fayard.refreshVersions") version "0.60.6"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+    id("kolibrium.library-conventions")
+    id("kolibrium.test-conventions")
 }
 
-refreshVersions {
-    rejectVersionIf {
-        candidate.stabilityLevel.isLessStableThan(current.stabilityLevel)
-    }
+dependencies {
+    implementation(project(":selenium"))
+    implementation("io.appium:java-client:_")
+    testImplementation("com.titusfortner:selenium-logger:_")
+}
+
+tasks.withType<KotlinCompile> {
+    compilerOptions.freeCompilerArgs =
+        listOf(
+            "-Xcontext-parameters",
+            "-opt-in=dev.kolibrium.core.InternalKolibriumApi",
+        )
 }

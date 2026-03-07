@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.seleniumTest.bstackdemo.backend
+package dev.kolibrium.dsl.seleniumTest.browserstackdemo.backend
 
-import dev.kolibrium.dsl.seleniumTest.bstackdemo.BstackDemo
+import dev.kolibrium.dsl.seleniumTest.browserstackdemo.BrowserStackDemo
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
@@ -48,7 +48,7 @@ val client =
 
 fun getProducts() =
     runBlocking {
-        client.get("${BstackDemo.baseUrl}/api/products").body<Products>().products
+        client.get("${BrowserStackDemo.baseUrl}/api/products").body<Products>().products
     }
 
 @Serializable

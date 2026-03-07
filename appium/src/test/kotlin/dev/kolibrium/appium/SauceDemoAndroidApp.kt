@@ -14,31 +14,21 @@
  * limitations under the License.
  */
 
-rootProject.name = "kolibrium"
+package dev.kolibrium.appium
 
-include("api")
-include("api:core")
-include("api:ksp")
-include("api:ksp:annotations")
-include("api:ksp:processors")
-include("appium")
-include("bom")
-include("dokka")
-include("examples")
-include("examples:api")
-include("examples:sel")
-include("konsistTest")
-include("selenium")
-
-gradle.startParameter.isContinueOnFailure = true
-
-plugins {
-    id("de.fayard.refreshVersions") version "0.60.6"
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+object SauceDemoAndroidApp : AndroidApp(
+    driverFactory =
+        androidDriverByPackage(
+            appPackage = "com.saucelabs.mydemoapp.android",
+            appActivity = ".view.activities.SplashActivity",
+        ),
+) {
+    const val APP_PACKAGE = "com.saucelabs.mydemoapp.android"
 }
 
-refreshVersions {
-    rejectVersionIf {
-        candidate.stabilityLevel.isLessStableThan(current.stabilityLevel)
-    }
-}
+object SauceDemoIosApp : IosApp(
+    driverFactory =
+        iosDriverByBundleId(
+            bundleId = "com.saucelabs.mydemoapp.ios",
+        ),
+)

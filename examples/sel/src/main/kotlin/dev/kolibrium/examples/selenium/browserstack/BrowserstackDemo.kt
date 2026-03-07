@@ -52,7 +52,7 @@ object BrowserstackDemo : Site(baseUrl = "https://bstackdemo.com") {
         )
 }
 
-fun browserstackDemoTest(
+fun browserStackDemoTest(
     driverFactory: DriverFactory = { ChromeDriver() },
     keepBrowserOpen: Boolean = false,
     block: SiteEntry<BrowserstackDemo>.(Unit) -> Unit,
@@ -63,8 +63,8 @@ fun browserstackDemoTest(
     block = block,
 )
 
-fun <T> browserstackDemoTest(
-    driverFactory: DriverFactory = browserstackDemoDriver,
+fun <T> browserStackDemoTest(
+    driverFactory: DriverFactory = browserStackDemoDriver,
     keepBrowserOpen: Boolean = false,
     setUp: () -> T,
     block: SiteEntry<BrowserstackDemo>.(T) -> Unit,
@@ -76,7 +76,7 @@ fun <T> browserstackDemoTest(
     block = block,
 )
 
-private val browserstackDemoDriver = {
+private val browserStackDemoDriver = {
     chromeDriver {
         options {
             arguments {

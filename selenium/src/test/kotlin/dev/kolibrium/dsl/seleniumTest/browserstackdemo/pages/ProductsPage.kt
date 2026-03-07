@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.seleniumTest.bstackdemo.pages
+package dev.kolibrium.dsl.seleniumTest.browserstackdemo.pages
 
 import dev.kolibrium.core.Page
 import dev.kolibrium.core.cssSelector
 import dev.kolibrium.core.cssSelectors
-import dev.kolibrium.dsl.seleniumTest.bstackdemo.BstackDemo
-import dev.kolibrium.dsl.seleniumTest.bstackdemo.Click
-import dev.kolibrium.dsl.seleniumTest.bstackdemo.on
+import dev.kolibrium.dsl.seleniumTest.browserstackdemo.BrowserStackDemo
+import dev.kolibrium.dsl.seleniumTest.browserstackdemo.Click
+import dev.kolibrium.dsl.seleniumTest.browserstackdemo.on
 import io.kotest.matchers.shouldBe
 import org.openqa.selenium.WebElement
 
-class ProductsPage : Page<BstackDemo>() {
+class ProductsPage : Page<BrowserStackDemo>() {
     private val shoppingCartBadge by cssSelectors("span[class='bag__quantity']")
 
     fun addToCart(id: Int) {

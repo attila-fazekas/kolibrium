@@ -49,8 +49,8 @@ import kotlin.time.TimeSource
  * @param S The concrete site type bound to this test.
  * @param T The type of the prepared input value passed to [block].
  * @param site The site under test; establishes the base URL and defaults.
- * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param driverFactory Factory creating a WebDriver instance (e.g., `chrome`, `firefox`, or predefined factories like `headlessChrome`).
+ * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param setUp Computes the input [T] before the browser session is created. It runs without
  * an active WebDriver or [SessionContext].
  * @param tearDown Cleans up the test context after the test body; runs even if the test fails.
@@ -59,13 +59,13 @@ import kotlin.time.TimeSource
 @KolibriumDsl
 public fun <S : Site, T> seleniumTest(
     site: S,
-    keepBrowserOpen: Boolean = false,
     driverFactory: DriverFactory,
+    keepBrowserOpen: Boolean = false,
     setUp: () -> T,
     tearDown: (T) -> Unit = {},
     block: SiteEntry<S>.(T) -> Unit,
 ) {
-    seleniumTestImpl(site, keepBrowserOpen, driverFactory, setUp, tearDown, block)
+    seleniumTestImpl(site, driverFactory, keepBrowserOpen, setUp, tearDown, block)
 }
 
 /**
@@ -76,15 +76,15 @@ public fun <S : Site, T> seleniumTest(
  *
  * @param S The concrete site type bound to this test.
  * @param site The site under test.
- * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param driverFactory Factory creating a WebDriver instance.
+ * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param block Main test body executed with a [dev.kolibrium.dsl.PageEntry] receiver.
  */
 @KolibriumDsl
 public fun <S : Site> seleniumTest(
     site: S,
-    keepBrowserOpen: Boolean = false,
     driverFactory: DriverFactory,
+    keepBrowserOpen: Boolean = false,
     block: SiteEntry<S>.(Unit) -> Unit,
 ) {
     seleniumTest(
@@ -98,8 +98,8 @@ public fun <S : Site> seleniumTest(
 
 internal fun <S : Site, T> seleniumTestImpl(
     site: S,
-    keepBrowserOpen: Boolean,
     driverFactory: DriverFactory,
+    keepBrowserOpen: Boolean,
     setUp: () -> T,
     tearDown: (T) -> Unit = {},
     block: SiteEntry<S>.(T) -> Unit,
