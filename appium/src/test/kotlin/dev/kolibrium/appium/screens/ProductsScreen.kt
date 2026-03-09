@@ -21,7 +21,7 @@ import dev.kolibrium.appium.SauceDemoAndroidApp
 import dev.kolibrium.appium.SauceDemoAndroidApp.APP_PACKAGE
 import dev.kolibrium.appium.Screen
 import dev.kolibrium.appium.accessibilityId
-import dev.kolibrium.core.xpaths
+import dev.kolibrium.selenium.core.xpaths
 
 class ProductsScreen : Screen<SauceDemoAndroidApp>() {
     val title by accessibilityId("title")

@@ -16,7 +16,7 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.dsl.KolibriumDsl
+import dev.kolibrium.selenium.dsl.KolibriumDsl
 import io.appium.java_client.AppiumDriver
 
 /**

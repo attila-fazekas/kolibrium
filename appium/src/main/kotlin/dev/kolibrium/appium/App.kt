@@ -16,7 +16,7 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.core.WaitConfig
+import dev.kolibrium.selenium.core.WaitConfig
 import io.appium.java_client.AppiumDriver
 import org.openqa.selenium.WebElement
 
@@ -41,7 +41,7 @@ public sealed interface App {
         get() = { isDisplayed }
 
     /**
-     * Default [WaitConfig] used by locator delegates when none is specified at the call site.
+     * Default [dev.kolibrium.selenium.core.WaitConfig] used by locator delegates when none is specified at the call site.
      */
     public val waitConfig: WaitConfig
         get() = WaitConfig.Default

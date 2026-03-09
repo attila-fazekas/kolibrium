@@ -16,12 +16,12 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.core.MultiElementsDescriptor
-import dev.kolibrium.core.SingleElementDescriptor
-import dev.kolibrium.core.WaitConfig
-import dev.kolibrium.core.WebElementDescriptor
-import dev.kolibrium.core.WebElements
-import dev.kolibrium.core.WebElementsDescriptor
+import dev.kolibrium.selenium.core.MultiElementsDescriptor
+import dev.kolibrium.selenium.core.SingleElementDescriptor
+import dev.kolibrium.selenium.core.WaitConfig
+import dev.kolibrium.selenium.core.WebElementDescriptor
+import dev.kolibrium.selenium.core.WebElements
+import dev.kolibrium.selenium.core.WebElementsDescriptor
 import io.appium.java_client.AppiumBy
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
@@ -51,9 +51,9 @@ import org.openqa.selenium.WebElement
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
- * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
+ * @return A [dev.kolibrium.selenium.core.WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.selenium.core.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.accessibilityId(
@@ -88,12 +88,12 @@ public fun SearchContext.accessibilityId(
  *                   timeout, error message, and which exceptions to ignore during the wait.
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
- *                  It's called with [WebElements] as receiver. By default, requires the collection
+ *                  It's called with [dev.kolibrium.selenium.core.WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
- * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
+ * @return A [dev.kolibrium.selenium.core.WebElementsDescriptor] delegate that provides a [dev.kolibrium.selenium.core.WebElements] collection when accessed.
  *
- * @see WaitConfig
- * @see WebElements
+ * @see dev.kolibrium.selenium.core.WaitConfig
+ * @see dev.kolibrium.selenium.core.WebElements
  */
 public fun SearchContext.accessibilityIds(
     value: String,
@@ -134,9 +134,9 @@ public fun SearchContext.accessibilityIds(
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
- * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
+ * @return A [dev.kolibrium.selenium.core.WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.selenium.core.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.resourceId(
@@ -170,12 +170,12 @@ public fun SearchContext.resourceId(
  *                   timeout, error message, and which exceptions to ignore during the wait.
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
- *                  It's called with [WebElements] as receiver. By default, requires the collection
+ *                  It's called with [dev.kolibrium.selenium.core.WebElements] as receiver. By default, requires the collection
  *                  to be non‑empty and all elements to be displayed.
- * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
+ * @return A [dev.kolibrium.selenium.core.WebElementsDescriptor] delegate that provides a [dev.kolibrium.selenium.core.WebElements] collection when accessed.
  *
- * @see WaitConfig
- * @see WebElements
+ * @see dev.kolibrium.selenium.core.WaitConfig
+ * @see dev.kolibrium.selenium.core.WebElements
  */
 public fun SearchContext.resourceIds(
     value: String,

@@ -16,7 +16,7 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.dsl.KolibriumDsl
+import dev.kolibrium.selenium.dsl.KolibriumDsl
 
 /**
  * App‑scoped DSL receiver available inside `androidTest { … }`, `iosTest { … }` and
