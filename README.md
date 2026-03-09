@@ -5,69 +5,59 @@
 <a href="https://github.com/attila-fazekas/kolibrium/actions/workflows/gradle.yml"><img src="https://github.com/attila-fazekas/kolibrium/actions/workflows/gradle.yml/badge.svg" alt="Build"></a>
 <a href="https://github.com/attila-fazekas/kolibrium/actions/workflows/codeql.yml"><img src="https://github.com/attila-fazekas/kolibrium/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
 <a href="https://central.sonatype.com/search?namespace=dev.kolibrium"><img src="https://img.shields.io/maven-central/v/dev.kolibrium/kolibrium-selenium.svg" alt="Maven Central"></a>
-<a href="https://javadoc.io/doc/dev.kolibrium/kolibrium-selenium"><img src="https://img.shields.io/badge/API_reference-KDoc-blue" alt="KDoc"></a>  
+<a href="https://javadoc.io/doc/dev.kolibrium/kolibrium-selenium"><img src="https://img.shields.io/badge/API_reference-KDoc-blue" alt="KDoc"></a>
 </div>
 
-Kolibrium is a unified, Kotlin-first testing ecosystem that seamlessly integrates API testing with browser and mobile automation. 
-Write idiomatic Kotlin tests with minimal boilerplate and compile-time safety.
+Kolibrium is a unified, Kotlin-first testing ecosystem where API, browser, and mobile automation share the same configuration patterns, harness lifecycle, error contract, and design principles. The modules can be used independently or composed into integrated test suites with type safety across layers.
 
-# Core Concepts & Design Philosophy
+# Design Philosophy
 
-Kolibrium APIs are designed to be simple, intuitive, consistent, and predictable with reasonable defaults. 
-The goal is minimal cognitive load: Test engineers should be able to build muscle memory across modules without constantly context-switching. 
-Everything fits together into a coherent developer experience. 
-Many library consumers will think with a Java mindset, so familiar and simple APIs at call sites that feel natural to Java-background users are always preferred.
+**Compile-time safety over runtime discovery.** Type errors, missing endpoints, and invalid configurations are caught before a test runs. KSP code generation, sealed class hierarchies, and strong typing throughout make this possible without boilerplate.
 
-- **Kotlin-First**: Not Java-with-Kotlin. Kolibrium embraces coroutines, type safety, DSLs, and modern language features such as Context parameters and Rich errors *(planned)* where they add value, but never forces them.
-- **Type Safety at Compile Time**: Catch errors before runtime. KSP code generation, sealed class hierarchies, and strong typing throughout.
-- **Minimal Boilerplate**: Write what matters, the test logic. Let the framework handle ceremony. Generated code and DSLs eliminate repetition and verbosity.
-- **Escape Hatches Everywhere**: Opinionated defaults for the 80% case. Full control for the 20% edge cases. Selenium WebDriver, Appium drivers, Playwright *(planned)*, and Ktor Client are always accessible for advanced users.
+**A single mental model across modules.** Configuration, harness, lifecycle, and extension points work the same way whether you're testing a REST API, a browser, or a mobile app. An engineer who knows one module knows 80% of any other module.
+
+**Kotlin-first means actually using Kotlin.** Not Java with Kotlin syntax. Kolibrium uses coroutines, context parameters, DSLs, and modern language features where they reduce friction and improve correctness.
+
+**Escape hatches are not afterthoughts.** Opinionated defaults cover the common case. When they don't fit, the underlying Selenium `WebDriver`, Appium driver, and Ktor client are directly accessible.
 
 # Modules
 
-Kolibrium is divided into several modules, each of which can be used either independently or in conjunction with others.
-
-## Core
-
-Shared foundation for the entire ecosystem.
-
-- `kolibrium-core`: common annotations, shared utilities, and core abstractions used across modules
-- `kolibrium-ksp-core` *(planned)*: shared foundation for codegen and test harness generation
+Kolibrium is divided into modules that can be used independently or together as an integrated stack.
 
 ## API
 
-Compile-time type-safe REST clients via KSP code generation. Provides a declarative way to define REST API endpoints and generates type-safe client methods, automatic serialization/deserialization via kotlinx.serialization, authentication handling, test harness functions, and request body DSL builders.
+Compile-time type-safe REST clients via KSP code generation. Define endpoints declaratively; the processor generates type-safe client methods, handles serialization and deserialization via kotlinx.serialization, manages authentication, and generates test harness functions and request body DSL builders.
 
 - `kolibrium-api-core`: core functionality and test harness
 - `kolibrium-api-ksp-annotations`: annotation definitions (`@GET`, `@POST`, `@Path`, etc.)
 - `kolibrium-api-ksp-processors`: KSP processor for code generation
 
+See [api/README.md](api/README.md) for detailed API module documentation.
+
 ## Selenium
 
-Enhanced Selenium WebDriver with Kotlin ergonomics. Solves common Selenium pain points with idiomatic Kotlin patterns: fluent type-safe element location, smart waits and synchronization, Page Object patterns, thread-safe session management, and enhanced failure handling with automatic screenshots *(planned)*.
+Fluent type-safe element location, smart waits, Page Object patterns, thread-safe session management, and an extensible decorator framework.
 
 - `kolibrium-selenium`: core WebDriver functionality including Page object base class, `seleniumTest` harness, element locator delegates, and extensible decorator framework
 - `kolibrium-selenium-ksp` *(planned)*: KSP processor for test harness code generation
 
 ## Appium
 
-Mobile testing for Android and iOS via Appium. Provides a sealed `App` hierarchy (`AndroidApp`, `IosApp`, `CrossPlatformApp`) with platform-specific driver factories, Screen objects with locator delegates (`accessibilityId`, `resourceId`), and dedicated test harnesses (`androidTest`, `iosTest`, `appiumTest`).
+`AndroidApp`, `IosApp`, and `CrossPlatformApp` cover platform-specific and shared automation scenarios with a consistent API surface.
 
 - `kolibrium-appium`: Screen object base class, driver factories, locator delegates, and test harness functions
 - `kolibrium-appium-ksp` *(planned)*: KSP processor for test harness code generation
 
 ## Playwright *(planned)*
 
-Lightweight abstractions and test harness for Playwright.
-
 - `kolibrium-playwright` *(planned)*: lightweight test harness, Site/PageObject base classes, and Playwright lifecycle management
 - `kolibrium-playwright-ksp` *(planned)*: KSP processor for test harness code generation
 
 # Unified Architecture
 
-## Similar Configuration
+## Configuration
 
-All modules follow the same pattern for defining the application under test:
+Every module uses the same pattern to define the application under test.
 
 ```kotlin
 // API
@@ -92,28 +82,28 @@ object SauceDemoApp : AndroidApp(
 object SauceDemo : Site(baseUrl = "https://www.saucedemo.com")
 ```
 
-## Similar Test Harness
+## Test Harness
 
-All modules follow a unified three-phase lifecycle: `setUp` → `block` → `tearDown`.
+All modules follow a unified three-phase lifecycle: `setUp` → `block` → `tearDown`. The harness handles session creation, cleanup, and error propagation.
 
 ```kotlin
 // API
-vinylStoreApiTest { 
-    getProducts() 
+vinylStoreApiTest {
+    getProducts()
 }
 
 // Selenium
-browserstackDemoTest { 
+browserStackDemoTest {
     open(::ProductsPage) {
-        titleText() shouldBe "Products" 
-    } 
+        titleText() shouldBe "Products"
+    }
 }
 
 // Appium
-androidTest(app = SauceDemoApp) { 
+sauceDemoAppTest {
     open(::ProductsScreen) {
-        titleText() shouldBe "Products"  
-    } 
+        titleText() shouldBe "Products"
+    }
 }
 
 // Playwright (planned)
@@ -124,31 +114,30 @@ sauceDemoTest {
 }
 ```
 
-## Integration
+## Cross-Module Integration
 
-Kolibrium's modules work together for complete E2E workflows: set up test data via API or database (fast, reliable), verify UI behavior via browser or mobile automation, and clean up via API or database in teardown. Type-safe across the entire test, one ecosystem, consistent patterns.
+The modules compose. API calls handle test data setup and teardown; browser or mobile automation handles behavioral verification. Type safety holds across the entire test.
 
 # Concurrency Model
 
-Thread-confined sessions for browser and mobile modules, coroutine-scoped for API, with the harness functions handling the bridge. Each test gets its own browser/driver session and its own coroutine scope for API calls. No shared mutable state across tests.
+Thread-confined sessions for browser and mobile, coroutine-scoped for API, with the harness bridging between the two. Each test gets its own browser or driver session and its own coroutine scope for API calls. No shared mutable state across tests - parallel execution is safe by default.
 
 # Error Handling
 
-Across all modules, the failure contract is:
+The failure contract is consistent across all modules:
 
-- **`setUp` failure** → no test body runs, no `tearDown` runs, exception propagates immediately
-- **Test body failure** → `tearDown` still runs, teardown exceptions are suppressed on the original
-- **`tearDown` failure (no prior failure)** → teardown exception propagates normally
+- **`setUp` failure** → the test body does not run, `tearDown` does not run, the exception propagates immediately
+- **Test body failure** → `tearDown` still runs, teardown exceptions are suppressed against the original failure
+- **`tearDown` failure with no prior failure** → teardown exception propagates normally
 
 # Documentation
 
-The documentation is available at [https://kolibrium.dev](https://kolibrium.dev).
+Full documentation is available at [https://kolibrium.dev](https://kolibrium.dev).
 
 # Contributing
 
-Please read [CONTRIBUTING](docs/CONTRIBUTING.md) before submitting your pull requests.
+Please read [CONTRIBUTING](docs/CONTRIBUTING.md) before submitting pull requests.
 
-# Project status
+# Project Status
 
-Kolibrium is built to demonstrate what becomes possible when Kotlin's language features are applied thoughtfully to test automation.
-The goal is a production-ready 1.0.0 release once the project's APIs and Kotlin's [Context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md) and [Rich Errors](https://github.com/Kotlin/KEEP/blob/main/proposals/KEEP-0441-rich-errors-motivation.md) are stabilized.  
+Kolibrium is targeting a production-ready 1.0.0 release once its own APIs are stable and Kotlin's [Context parameters](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md) and [Rich Errors](https://github.com/Kotlin/KEEP/blob/main/proposals/KEEP-0441-rich-errors-motivation.md) are out of preview.
