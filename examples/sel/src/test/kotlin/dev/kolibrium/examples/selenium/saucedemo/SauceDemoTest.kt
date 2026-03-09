@@ -17,10 +17,10 @@
 package dev.kolibrium.examples.selenium.saucedemo
 
 import com.titusfortner.logging.SeleniumLogger
-import dev.kolibrium.dsl.DriverFactory
-import dev.kolibrium.dsl.SiteEntry
-import dev.kolibrium.dsl.chrome
-import dev.kolibrium.dsl.seleniumTest
+import dev.kolibrium.selenium.dsl.DriverFactory
+import dev.kolibrium.selenium.dsl.SiteEntry
+import dev.kolibrium.selenium.dsl.chrome
+import dev.kolibrium.selenium.dsl.seleniumTest
 import dev.kolibrium.examples.selenium.saucedemo.Product.Backpack
 import dev.kolibrium.examples.selenium.saucedemo.Product.BikeLight
 import dev.kolibrium.examples.selenium.saucedemo.pages.InventoryPage

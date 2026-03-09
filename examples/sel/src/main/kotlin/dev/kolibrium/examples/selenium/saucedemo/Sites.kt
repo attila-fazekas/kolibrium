@@ -16,16 +16,16 @@
 
 package dev.kolibrium.examples.selenium.saucedemo
 
-import dev.kolibrium.core.Site
-import dev.kolibrium.core.WaitConfig
-import dev.kolibrium.core.WaitConfig.Companion.Quick
-import dev.kolibrium.core.decorators.AbstractDecorator
-import dev.kolibrium.core.decorators.BorderStyle
-import dev.kolibrium.core.decorators.Color
-import dev.kolibrium.core.decorators.HighlighterDecorator
-import dev.kolibrium.core.decorators.LoggerDecorator
-import dev.kolibrium.core.decorators.SlowMotionDecorator
-import dev.kolibrium.core.isClickable
+import dev.kolibrium.selenium.core.Site
+import dev.kolibrium.selenium.core.WaitConfig
+import dev.kolibrium.selenium.core.WaitConfig.Companion.Quick
+import dev.kolibrium.selenium.core.decorators.AbstractDecorator
+import dev.kolibrium.selenium.core.decorators.BorderStyle
+import dev.kolibrium.selenium.core.decorators.Color
+import dev.kolibrium.selenium.core.decorators.HighlighterDecorator
+import dev.kolibrium.selenium.core.decorators.LoggerDecorator
+import dev.kolibrium.selenium.core.decorators.SlowMotionDecorator
+import dev.kolibrium.selenium.core.isClickable
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
 

@@ -16,7 +16,7 @@
 
 package dev.kolibrium.examples.selenium.saucedemo.pages.twitter
 
-import dev.kolibrium.core.Page
+import dev.kolibrium.selenium.core.Page
 import dev.kolibrium.examples.selenium.saucedemo.Twitter
 
 class FeedPage : Page<Twitter>() {

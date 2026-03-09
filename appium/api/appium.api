@@ -2,19 +2,19 @@ public abstract class dev/kolibrium/appium/AndroidApp : dev/kolibrium/appium/App
 	public fun <init> (Lkotlin/jvm/functions/Function0;)V
 	public final fun getDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
-	public fun getWaitConfig ()Ldev/kolibrium/core/WaitConfig;
+	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
 	public fun onSessionReady (Lio/appium/java_client/AppiumDriver;)V
 }
 
 public abstract interface class dev/kolibrium/appium/App {
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
-	public fun getWaitConfig ()Ldev/kolibrium/core/WaitConfig;
+	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
 	public fun onSessionReady (Lio/appium/java_client/AppiumDriver;)V
 }
 
 public final class dev/kolibrium/appium/App$DefaultImpls {
 	public static fun getElementReadyCondition (Ldev/kolibrium/appium/App;)Lkotlin/jvm/functions/Function1;
-	public static fun getWaitConfig (Ldev/kolibrium/appium/App;)Ldev/kolibrium/core/WaitConfig;
+	public static fun getWaitConfig (Ldev/kolibrium/appium/App;)Ldev/kolibrium/selenium/core/WaitConfig;
 	public static fun onSessionReady (Ldev/kolibrium/appium/App;Lio/appium/java_client/AppiumDriver;)V
 }
 
@@ -49,7 +49,7 @@ public abstract class dev/kolibrium/appium/CrossPlatformApp : dev/kolibrium/appi
 	public final fun getAndroidDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public final fun getIosDriverFactory ()Lkotlin/jvm/functions/Function0;
-	public fun getWaitConfig ()Ldev/kolibrium/core/WaitConfig;
+	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
 	public fun onSessionReady (Lio/appium/java_client/AppiumDriver;)V
 }
 
@@ -57,19 +57,19 @@ public abstract class dev/kolibrium/appium/IosApp : dev/kolibrium/appium/App {
 	public fun <init> (Lkotlin/jvm/functions/Function0;)V
 	public final fun getDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
-	public fun getWaitConfig ()Ldev/kolibrium/core/WaitConfig;
+	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
 	public fun onSessionReady (Lio/appium/java_client/AppiumDriver;)V
 }
 
 public final class dev/kolibrium/appium/LocatorDelegatesKt {
-	public static final fun accessibilityId (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/core/WebElementDescriptor;
-	public static synthetic fun accessibilityId$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/core/WebElementDescriptor;
-	public static final fun accessibilityIds (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/core/WebElementsDescriptor;
-	public static synthetic fun accessibilityIds$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/core/WebElementsDescriptor;
-	public static final fun resourceId (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/core/WebElementDescriptor;
-	public static synthetic fun resourceId$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/core/WebElementDescriptor;
-	public static final fun resourceIds (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/core/WebElementsDescriptor;
-	public static synthetic fun resourceIds$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/core/WebElementsDescriptor;
+	public static final fun accessibilityId (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static synthetic fun accessibilityId$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static final fun accessibilityIds (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static synthetic fun accessibilityIds$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static final fun resourceId (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static synthetic fun resourceId$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static final fun resourceIds (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static synthetic fun resourceIds$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
 }
 
 public abstract class dev/kolibrium/appium/Screen : org/openqa/selenium/SearchContext {

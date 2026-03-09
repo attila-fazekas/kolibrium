@@ -16,12 +16,12 @@
 
 package dev.kolibrium.examples.selenium.saucedemo.pages
 
-import dev.kolibrium.core.Page
-import dev.kolibrium.core.className
-import dev.kolibrium.core.dataTest
-import dev.kolibrium.core.dataTests
 import dev.kolibrium.examples.selenium.saucedemo.Products
 import dev.kolibrium.examples.selenium.saucedemo.SauceDemo
+import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.className
+import dev.kolibrium.selenium.core.dataTest
+import dev.kolibrium.selenium.core.dataTests
 
 class InventoryPage :
     Page<SauceDemo>(),

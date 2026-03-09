@@ -16,7 +16,7 @@
 
 package dev.kolibrium.examples.selenium.saucedemo.pages
 
-import dev.kolibrium.core.Page
+import dev.kolibrium.selenium.core.Page
 import dev.kolibrium.examples.selenium.saucedemo.SauceDemo
 
 class CheckoutPage : Page<SauceDemo>() {

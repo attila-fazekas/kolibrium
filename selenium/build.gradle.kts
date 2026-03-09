@@ -61,6 +61,6 @@ tasks.withType<KotlinCompile> {
     compilerOptions.freeCompilerArgs =
         listOf(
             "-Xcontext-parameters",
-            "-opt-in=dev.kolibrium.core.InternalKolibriumApi",
+            "-opt-in=dev.kolibrium.selenium.core.InternalKolibriumApi",
         )
 }

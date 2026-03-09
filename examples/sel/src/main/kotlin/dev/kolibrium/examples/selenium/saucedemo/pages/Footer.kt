@@ -16,9 +16,10 @@
 
 package dev.kolibrium.examples.selenium.saucedemo.pages
 
-import dev.kolibrium.core.Page
-import dev.kolibrium.core.dataTest
+import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.dataTest
 import dev.kolibrium.examples.selenium.saucedemo.SauceDemo
+import dev.kolibrium.selenium.core.dataTest
 
 /**
  * Marker interface for pages that include the shared footer component.

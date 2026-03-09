@@ -16,12 +16,12 @@
 
 package dev.kolibrium.examples.selenium.browserstack.pages
 
-import dev.kolibrium.core.Page
-import dev.kolibrium.core.cssSelector
-import dev.kolibrium.core.cssSelectors
 import dev.kolibrium.examples.selenium.browserstack.BrowserstackDemo
 import dev.kolibrium.examples.selenium.browserstack.Click
 import dev.kolibrium.examples.selenium.browserstack.on
+import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.cssSelector
+import dev.kolibrium.selenium.core.cssSelectors
 import org.openqa.selenium.WebElement
 
 class ProductsPage : Page<BrowserstackDemo>() {
