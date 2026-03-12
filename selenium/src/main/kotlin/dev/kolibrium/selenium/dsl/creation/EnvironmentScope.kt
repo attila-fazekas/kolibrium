@@ -16,17 +16,22 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
+import dev.kolibrium.selenium.core.InternalKolibriumApi
 import dev.kolibrium.selenium.dsl.KolibriumDsl
 
 /**
  * Scope class for configuring environment variables for the driver service.
  *
- * This scope allows setting environment variables that will be inherited by every browser session
+ * This scope allows setting environment variables that will be inherited by every session
  * launched by the server.
  */
 @KolibriumDsl
 public class EnvironmentScope {
-    internal val environmentVariables: MutableMap<String, String> = mutableMapOf()
+    /**
+     * The map of environment variables that will be set for every session.
+     */
+    @InternalKolibriumApi
+    public val environmentVariables: MutableMap<String, String> = mutableMapOf()
 
     /**
      * Adds an environment variable to the map of environment variables.

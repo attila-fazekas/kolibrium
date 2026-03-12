@@ -18,6 +18,7 @@ package dev.kolibrium.appium
 
 import dev.kolibrium.selenium.core.WaitConfig
 import io.appium.java_client.AppiumDriver
+import io.appium.java_client.service.local.AppiumDriverLocalService
 import org.openqa.selenium.WebElement
 
 /**
@@ -32,6 +33,15 @@ import org.openqa.selenium.WebElement
  * the driver lifecycle via [onSessionReady].
  */
 public sealed interface App {
+    /**
+     * Optional local Appium server managed by Kolibrium for this app.
+     *
+     * When non-null, the test harness starts the service before creating the
+     * [io.appium.java_client.AppiumDriver] session and stops it during teardown.
+     * If null (default), tests assume an external Appium server is already running.
+     */
+    public val service: AppiumDriverLocalService?
+
     /**
      * Default readiness predicate applied by locator delegates for a single [WebElement].
      *
@@ -61,9 +71,13 @@ public sealed interface App {
  *
  * @property driverFactory The factory used to create an [io.appium.java_client.android.AndroidDriver]
  *                         session for this app.
+ * @property service Optional [AppiumDriverLocalService] to be managed for this app.
+ * If provided, it is started before the driver session is created and stopped during teardown.
+ * If null, an external Appium server is assumed to be running.
  */
 public abstract class AndroidApp(
     public val driverFactory: AndroidDriverFactory,
+    override val service: AppiumDriverLocalService? = null,
 ) : App
 
 /**
@@ -71,9 +85,13 @@ public abstract class AndroidApp(
  *
  * @property driverFactory The factory used to create an [io.appium.java_client.ios.IOSDriver]
  *                         session for this app.
+ * @property service Optional [AppiumDriverLocalService] to be managed for this app.
+ * If provided, it is started before the driver session is created and stopped during teardown.
+ * If null, an external Appium server is assumed to be running.
  */
 public abstract class IosApp(
     public val driverFactory: IosDriverFactory,
+    override val service: AppiumDriverLocalService? = null,
 ) : App
 
 /**
@@ -81,8 +99,12 @@ public abstract class IosApp(
  *
  * @property androidDriverFactory The factory used to create Android driver sessions.
  * @property iosDriverFactory The factory used to create iOS driver sessions.
+ * @property service Optional [AppiumDriverLocalService] to be managed for this app.
+ * If provided, it is started before the driver session is created and stopped during teardown.
+ * If null, an external Appium server is assumed to be running.
  */
 public abstract class CrossPlatformApp(
     public val androidDriverFactory: AndroidDriverFactory,
     public val iosDriverFactory: IosDriverFactory,
+    override val service: AppiumDriverLocalService? = null,
 ) : App

@@ -128,32 +128,38 @@ internal fun <A : App, T> appiumTestImpl(
     tearDown: (T) -> Unit = {},
     block: AppEntry<A>.(T) -> Unit,
 ) {
-    val prepared: T = setUp()
-    var testError: Throwable? = null
-    var driver: AppiumDriver? = null
-
+    val service = app.service
+    service?.start()
     try {
-        driver = driverFactory()
-        app.onSessionReady(driver)
+        val prepared: T = setUp()
+        var testError: Throwable? = null
+        var driver: AppiumDriver? = null
 
-        AppiumDriverContextHolder.set(driver)
-        val entry: AppEntry<A> = ScreenEntry(driver)
-        entry.block(prepared)
-    } catch (e: Throwable) {
-        testError = e
-        throw e
-    } finally {
         try {
-            tearDown(prepared)
-        } catch (teardownError: Throwable) {
-            if (testError != null) {
-                testError.addSuppressed(teardownError)
-            } else {
-                throw teardownError
-            }
+            driver = driverFactory()
+            app.onSessionReady(driver)
+
+            AppiumDriverContextHolder.set(driver)
+            val entry: AppEntry<A> = ScreenEntry(driver)
+            entry.block(prepared)
+        } catch (e: Throwable) {
+            testError = e
+            throw e
         } finally {
-            AppiumDriverContextHolder.clear()
-            runCatching { driver?.quit() }
+            try {
+                tearDown(prepared)
+            } catch (teardownError: Throwable) {
+                if (testError != null) {
+                    testError.addSuppressed(teardownError)
+                } else {
+                    throw teardownError
+                }
+            } finally {
+                AppiumDriverContextHolder.clear()
+                runCatching { driver?.quit() }
+            }
         }
+    } finally {
+        service?.stop()
     }
 }
