@@ -22,6 +22,11 @@ object SauceDemoAndroidApp : AndroidApp(
             appPackage = "com.saucelabs.mydemoapp.android",
             appActivity = ".view.activities.SplashActivity",
         ),
+    service =
+        appiumService {
+            port = 4723
+            logLevel = "info"
+        },
 ) {
     const val APP_PACKAGE = "com.saucelabs.mydemoapp.android"
 }

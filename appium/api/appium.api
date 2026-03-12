@@ -1,13 +1,16 @@
 public abstract class dev/kolibrium/appium/AndroidApp : dev/kolibrium/appium/App {
-	public fun <init> (Lkotlin/jvm/functions/Function0;)V
+	public fun <init> (Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
+	public fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
 	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
 	public fun onSessionReady (Lio/appium/java_client/AppiumDriver;)V
 }
 
 public abstract interface class dev/kolibrium/appium/App {
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
+	public abstract fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
 	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
 	public fun onSessionReady (Lio/appium/java_client/AppiumDriver;)V
 }
@@ -34,6 +37,41 @@ public final class dev/kolibrium/appium/AppiumDriverFactoriesKt {
 	public static synthetic fun iosDriverByBundleId$default (Ljava/lang/String;Ljava/net/URL;ILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
 }
 
+public final class dev/kolibrium/appium/AppiumServiceKt {
+	public static final fun appiumService (Lkotlin/jvm/functions/Function1;)Lio/appium/java_client/service/local/AppiumDriverLocalService;
+}
+
+public final class dev/kolibrium/appium/AppiumServiceScope {
+	public fun <init> ()V
+	public final fun argument (Lio/appium/java_client/service/local/flags/ServerArgument;Ljava/lang/String;)V
+	public static synthetic fun argument$default (Ldev/kolibrium/appium/AppiumServiceScope;Lio/appium/java_client/service/local/flags/ServerArgument;Ljava/lang/String;ILjava/lang/Object;)V
+	public final fun capabilities (Lkotlin/jvm/functions/Function1;)V
+	public final fun environments (Lkotlin/jvm/functions/Function1;)V
+	public final fun getAppiumJS ()Ljava/io/File;
+	public final fun getBasePath ()Ljava/lang/String;
+	public final fun getDrivers ()Ljava/lang/String;
+	public final fun getIpAddress ()Ljava/lang/String;
+	public final fun getLogFile ()Ljava/io/File;
+	public final fun getLogLevel ()Ljava/lang/String;
+	public final fun getNodeExecutable ()Ljava/io/File;
+	public final fun getPlugins ()Ljava/lang/String;
+	public final fun getPort ()Ljava/lang/Integer;
+	public final fun getRelaxedSecurity ()Z
+	public final fun getUseAnyFreePort ()Z
+	public final fun setAppiumJS (Ljava/io/File;)V
+	public final fun setBasePath (Ljava/lang/String;)V
+	public final fun setDrivers (Ljava/lang/String;)V
+	public final fun setIpAddress (Ljava/lang/String;)V
+	public final fun setLogFile (Ljava/io/File;)V
+	public final fun setLogLevel (Ljava/lang/String;)V
+	public final fun setNodeExecutable (Ljava/io/File;)V
+	public final fun setPlugins (Ljava/lang/String;)V
+	public final fun setPort (Ljava/lang/Integer;)V
+	public final fun setRelaxedSecurity (Z)V
+	public final fun setUseAnyFreePort (Z)V
+	public fun toString ()Ljava/lang/String;
+}
+
 public final class dev/kolibrium/appium/AppiumTestKt {
 	public static final fun androidTest (Ldev/kolibrium/appium/AndroidApp;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;)V
 	public static synthetic fun androidTest$default (Ldev/kolibrium/appium/AndroidApp;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
@@ -44,19 +82,29 @@ public final class dev/kolibrium/appium/AppiumTestKt {
 	public static synthetic fun iosTest$default (Ldev/kolibrium/appium/IosApp;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 }
 
+public final class dev/kolibrium/appium/CapabilitiesScope {
+	public fun <init> ()V
+	public final fun to (Ljava/lang/String;Ljava/lang/Object;)V
+	public fun toString ()Ljava/lang/String;
+}
+
 public abstract class dev/kolibrium/appium/CrossPlatformApp : dev/kolibrium/appium/App {
-	public fun <init> (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;)V
+	public fun <init> (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getAndroidDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public final fun getIosDriverFactory ()Lkotlin/jvm/functions/Function0;
+	public fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
 	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
 	public fun onSessionReady (Lio/appium/java_client/AppiumDriver;)V
 }
 
 public abstract class dev/kolibrium/appium/IosApp : dev/kolibrium/appium/App {
-	public fun <init> (Lkotlin/jvm/functions/Function0;)V
+	public fun <init> (Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;)V
+	public synthetic fun <init> (Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun getDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
+	public fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
 	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
 	public fun onSessionReady (Lio/appium/java_client/AppiumDriver;)V
 }
