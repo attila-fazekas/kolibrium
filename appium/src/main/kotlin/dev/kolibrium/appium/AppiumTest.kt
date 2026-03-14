@@ -129,6 +129,16 @@ internal fun <A : App, T> appiumTestImpl(
     block: AppEntry<A>.(T) -> Unit,
 ) {
     val service = app.service
+    val shutdownHook =
+        service?.let { localService ->
+            Thread {
+                runCatching {
+                    localService.stop()
+                }
+            }.also { hook ->
+                Runtime.getRuntime().addShutdownHook(hook)
+            }
+        }
     service?.start()
     try {
         val prepared: T = setUp()
@@ -161,5 +171,10 @@ internal fun <A : App, T> appiumTestImpl(
         }
     } finally {
         service?.stop()
+        shutdownHook?.let { thread ->
+            runCatching {
+                Runtime.getRuntime().removeShutdownHook(thread)
+            }
+        }
     }
 }

@@ -24,8 +24,8 @@ import org.junit.jupiter.api.Test
 
 class SauceDemoAppTest {
     @Test
-    fun checkout() =
-        sauceDemoAppTest(
+    fun `android checkout`() =
+        sauceDemoAndroidAppTest(
             app = SauceDemoAndroidApp,
         ) {
             open(::ProductsScreen) {
@@ -36,15 +36,38 @@ class SauceDemoAppTest {
                 addToCart()
             }
         }
+
+    @Test
+    fun `iOS checkout`() =
+        sauceDemoIosAppTest(
+            app = SauceDemoIosApp,
+        ) {
+//            open(::ProductsScreen) {
+//                titleText() shouldBe "Products"
+//
+//                Backpack.openProductDetails()
+//            }.on(::ProductDetailsScreen) {
+//                addToCart()
+//            }
+        }
 }
 
 // TODO Generate this with KSP
-fun sauceDemoAppTest(
+fun sauceDemoAndroidAppTest(
     app: SauceDemoAndroidApp = SauceDemoAndroidApp,
     driverFactory: AndroidDriverFactory = app.driverFactory,
     block: AppEntry<SauceDemoAndroidApp>.(Unit) -> Unit,
 ) {
     androidTest(app = app, driverFactory = driverFactory, block = block)
+}
+
+// TODO Generate this with KSP
+fun sauceDemoIosAppTest(
+    app: SauceDemoIosApp = SauceDemoIosApp,
+    driverFactory: IosDriverFactory = app.driverFactory,
+    block: AppEntry<SauceDemoIosApp>.(Unit) -> Unit,
+) {
+    iosTest(app = app, driverFactory = driverFactory, block = block)
 }
 
 enum class Product(
