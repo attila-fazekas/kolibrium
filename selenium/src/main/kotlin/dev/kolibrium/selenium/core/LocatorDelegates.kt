@@ -1145,6 +1145,25 @@ public abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<T,
             wait.copy(ignoring = wait.ignoring + NoSuchElementException::class)
         }
 
+    protected fun resolveWaitConfig(waitConfig: WaitConfig?): WaitConfig =
+        ensureNoSuchElementIgnored(waitConfig ?: defaultWaitConfig)
+
+    protected fun buildDescriptorString(
+        descriptorName: String,
+        by: By,
+        waitConfig: WaitConfig,
+        cacheLookup: Boolean? = null,
+    ): String {
+        val ctxName = classNameOf(searchCtx)
+        val timeoutStr = waitConfig.timeout?.toString() ?: "N/A"
+        val pollingStr = waitConfig.pollingInterval?.toString() ?: "N/A"
+        val decorators = appliedDecoratorClassNames.ifEmpty { mergedDecoratorClassNames() }
+        val decoratorsStr = if (decorators.isEmpty()) "N/A" else decorators.joinToString(prefix = "[", postfix = "]")
+        val cacheStr = if (cacheLookup != null) ", cacheLookup=$cacheLookup" else ""
+        return "$descriptorName(ctx=$ctxName, by=$by$cacheStr, waitConfig=(timeout=$timeoutStr, " +
+            "polling=$pollingStr), decorators=$decoratorsStr)"
+    }
+
     // Merge decorators deterministically: site first, then test; de-duplicate by class with test-level winning on conflicts.
     private fun mergedDecorators(): List<AbstractDecorator> {
         val siteLevelDecorators = SessionContext.get()?.site?.decorators ?: emptyList()
@@ -1192,7 +1211,7 @@ public class SingleElementDescriptor(
 
     override val by: By = locatorStrategy(value)
 
-    private val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig ?: defaultWaitConfig)
+    private val effectiveWaitConfig: WaitConfig = resolveWaitConfig(waitConfig)
     private val effectiveReady: WebElement.() -> Boolean = readyWhen ?: defaultElementReadyCondition
 
     private var cachedWebElement: WebElement? = null
@@ -1218,15 +1237,12 @@ public class SingleElementDescriptor(
 
     override fun isElementReady(element: WebElement): Boolean = element.effectiveReady()
 
-    override fun toString(): String {
-        val ctxName = classNameOf(searchCtx)
-        val timeoutStr = effectiveWaitConfig.timeout?.toString() ?: "N/A"
-        val pollingStr = effectiveWaitConfig.pollingInterval?.toString() ?: "N/A"
-        val decorators = appliedDecoratorClassNames.ifEmpty { mergedDecoratorClassNames() }
-        val decoratorsStr = if (decorators.isEmpty()) "N/A" else decorators.joinToString(prefix = "[", postfix = "]")
-        return "ElementDescriptor(ctx=$ctxName, by=$by, cacheLookup=$cacheLookup, waitConfig=(timeout=$timeoutStr, " +
-            "polling=$pollingStr), decorators=$decoratorsStr)"
-    }
+    override fun toString(): String = buildDescriptorString(
+        descriptorName = "ElementDescriptor",
+        by = by,
+        waitConfig = effectiveWaitConfig,
+        cacheLookup = cacheLookup,
+    )
 }
 
 /**
@@ -1261,7 +1277,7 @@ public class MultiElementsDescriptor(
 
     override val by: By = locatorStrategy(value)
 
-    private val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig ?: defaultWaitConfig)
+    private val effectiveWaitConfig: WaitConfig = resolveWaitConfig(waitConfig)
     private val effectiveReady: WebElements.() -> Boolean = readyWhen ?: defaultElementsReadyCondition
 
     private val wait: FluentWait<MultiElementsDescriptor> by lazy { initializeWait(effectiveWaitConfig) }
@@ -1279,13 +1295,9 @@ public class MultiElementsDescriptor(
 
     override fun isElementReady(element: WebElements): Boolean = element.effectiveReady()
 
-    override fun toString(): String {
-        val ctxName = classNameOf(searchCtx)
-        val timeoutStr = effectiveWaitConfig.timeout?.toString() ?: "N/A"
-        val pollingStr = effectiveWaitConfig.pollingInterval?.toString() ?: "N/A"
-        val decorators = appliedDecoratorClassNames.ifEmpty { mergedDecoratorClassNames() }
-        val decoratorsStr = if (decorators.isEmpty()) "N/A" else decorators.joinToString(prefix = "[", postfix = "]")
-        return "ElementsDescriptor(ctx=$ctxName, by=$by, waitConfig=(timeout=$timeoutStr, " +
-            "polling=$pollingStr), decorators=$decoratorsStr)"
-    }
+    override fun toString(): String = buildDescriptorString(
+        descriptorName = "ElementsDescriptor",
+        by = by,
+        waitConfig = effectiveWaitConfig,
+    )
 }
