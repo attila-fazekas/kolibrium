@@ -1301,3 +1301,115 @@ public class MultiElementsDescriptor(
         waitConfig = effectiveWaitConfig,
     )
 }
+
+/**
+ * Descriptor/delegate for lazily locating a single [WebElement] using a pre‑built [By].
+ *
+ * Unlike [SingleElementDescriptor], this class accepts a fully constructed [By] instance directly,
+ * making it suitable for composite locators produced by [org.openqa.selenium.support.pagefactory.ByChained],
+ * [org.openqa.selenium.support.pagefactory.ByAll], or any other custom [By] subclass.
+ *
+ * Supports optional caching of the located element, configurable waiting via [waitConfig],
+ * and a per‑element readiness predicate via [readyWhen].
+ *
+ * @param searchCtx The base [SearchContext] to perform the lookup in (driver/page/screen or a nested element).
+ * @param by The pre‑built Selenium [By] locator to use for element lookup.
+ * @param cacheLookup When true, cache the first resolved [WebElement] and reuse it until cache is cleared.
+ * @param waitConfig Optional [WaitConfig] to control timeout/polling/ignored exceptions; when `null`,
+ *        the effective configuration defaults to [defaultWaitConfig].
+ * @param readyWhen Optional predicate that defines when the found element is considered ready; when `null`,
+ *        the effective predicate defaults to [defaultElementReadyCondition].
+ */
+@InternalKolibriumApi
+public class CompositeElementDescriptor(
+    searchCtx: SearchContext,
+    override val by: By,
+    private val cacheLookup: Boolean,
+    override val waitConfig: WaitConfig?,
+    override val readyWhen: (WebElement.() -> Boolean)?,
+) : AbstractElementDescriptor<CompositeElementDescriptor, WebElement>(searchCtx),
+    WebElementDescriptor {
+    private val effectiveWaitConfig: WaitConfig = resolveWaitConfig(waitConfig)
+    private val effectiveReady: WebElement.() -> Boolean = readyWhen ?: defaultElementReadyCondition
+
+    private var cachedWebElement: WebElement? = null
+    private val wait: FluentWait<CompositeElementDescriptor> by lazy { initializeWait(effectiveWaitConfig) }
+
+    override fun getValue(
+        thisRef: Any?,
+        property: KProperty<*>,
+    ): WebElement = get()
+
+    override fun get(): WebElement = getValueInternal(wait)
+
+    override fun findElement(): WebElement =
+        if (cacheLookup) {
+            cachedWebElement ?: searchContext.findElement(by).also { cachedWebElement = it }
+        } else {
+            searchContext.findElement(by)
+        }
+
+    override fun clearCache() {
+        cachedWebElement = null
+    }
+
+    override fun isElementReady(element: WebElement): Boolean = element.effectiveReady()
+
+    override fun toString(): String = buildDescriptorString(
+        descriptorName = "CompositeElementDescriptor",
+        by = by,
+        waitConfig = effectiveWaitConfig,
+        cacheLookup = cacheLookup,
+    )
+}
+
+/**
+ * Descriptor/delegate for lazily locating multiple [WebElement]s as a [WebElements] collection
+ * using a pre‑built [By].
+ *
+ * Unlike [MultiElementsDescriptor], this class accepts a fully constructed [By] instance directly,
+ * making it suitable for composite locators produced by [org.openqa.selenium.support.pagefactory.ByChained],
+ * [org.openqa.selenium.support.pagefactory.ByAll], or any other custom [By] subclass.
+ *
+ * Multi‑element delegates are intentionally non‑caching: each access performs a fresh lookup to
+ * reflect the current DOM/UI state.
+ *
+ * @param searchCtx The base [SearchContext] to perform the lookup in (driver/page/screen or a nested element).
+ * @param by The pre‑built Selenium [By] locator to use for element lookup.
+ * @param waitConfig Optional [WaitConfig] to control timeout/polling/ignored exceptions; when `null`,
+ *        the effective configuration defaults to [defaultWaitConfig].
+ * @param readyWhen Optional predicate that defines when the found elements are considered ready; when `null`,
+ *        the effective predicate defaults to [defaultElementsReadyCondition].
+ */
+@InternalKolibriumApi
+public class CompositeElementsDescriptor(
+    searchCtx: SearchContext,
+    override val by: By,
+    override val waitConfig: WaitConfig?,
+    override val readyWhen: (WebElements.() -> Boolean)?,
+) : AbstractElementDescriptor<CompositeElementsDescriptor, WebElements>(searchCtx),
+    WebElementsDescriptor {
+    private val effectiveWaitConfig: WaitConfig = resolveWaitConfig(waitConfig)
+    private val effectiveReady: WebElements.() -> Boolean = readyWhen ?: defaultElementsReadyCondition
+
+    private val wait: FluentWait<CompositeElementsDescriptor> by lazy { initializeWait(effectiveWaitConfig) }
+
+    override fun getValue(
+        thisRef: Any?,
+        property: KProperty<*>,
+    ): WebElements = get()
+
+    override fun get(): WebElements = getValueInternal(wait)
+
+    override fun findElement(): WebElements = searchContext.findElements(by)
+
+    override fun clearCache() { /* no-op: multi-element delegates are not cached */ }
+
+    override fun isElementReady(element: WebElements): Boolean = element.effectiveReady()
+
+    override fun toString(): String = buildDescriptorString(
+        descriptorName = "CompositeElementsDescriptor",
+        by = by,
+        waitConfig = effectiveWaitConfig,
+    )
+}
