@@ -99,10 +99,11 @@ class ElementByDelegateTest {
 
         @Test
         fun `element(by) should work with nested mixed composition`() {
-            val by = chained(
-                By.id("form"),
-                anyOf(By.name("submit"), By.className("submit-btn")),
-            )
+            val by =
+                chained(
+                    By.id("form"),
+                    anyOf(By.name("submit"), By.className("submit-btn")),
+                )
 
             every { mockSearchContext.findElement(by) } returns mockElement
             every { mockElement.isDisplayed } returns true
@@ -135,11 +136,12 @@ class ElementByDelegateTest {
             every { mockSearchContext.findElement(by) } returns mockElement
             every { mockElement.isDisplayed } returns true
 
-            val descriptor = mockSearchContext.element(
-                by,
-                cacheLookup = false,
-                waitConfig = WaitConfig.Quick,
-            )
+            val descriptor =
+                mockSearchContext.element(
+                    by,
+                    cacheLookup = false,
+                    waitConfig = WaitConfig.Quick,
+                )
 
             descriptor.get()
             descriptor.get()
@@ -213,10 +215,11 @@ class ElementByDelegateTest {
 
         @Test
         fun `elements(by) should work with nested mixed composition`() {
-            val by = chained(
-                By.id("container"),
-                anyOf(By.className("row"), By.cssSelector(".item")),
-            )
+            val by =
+                chained(
+                    By.id("container"),
+                    anyOf(By.className("row"), By.cssSelector(".item")),
+                )
             val mockElements = listOf(mockElement, mockElement2)
 
             every { mockSearchContext.findElements(by) } returns mockElements

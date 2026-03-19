@@ -80,10 +80,11 @@ class CompositeLocatorsTest {
 
     @Test
     fun `chained and anyOf can be nested`() {
-        val nested = chained(
-            By.id("container"),
-            anyOf(By.className("primary"), By.className("secondary")),
-        )
+        val nested =
+            chained(
+                By.id("container"),
+                anyOf(By.className("primary"), By.className("secondary")),
+            )
 
         nested.shouldBeInstanceOf<ByChained>()
         nested.toString() shouldBe "By.chained({By.id: container,By.all({By.className: primary,By.className: secondary})})"

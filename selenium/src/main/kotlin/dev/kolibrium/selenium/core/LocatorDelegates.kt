@@ -1238,8 +1238,7 @@ public abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<T,
             wait.copy(ignoring = wait.ignoring + NoSuchElementException::class)
         }
 
-    protected fun resolveWaitConfig(waitConfig: WaitConfig?): WaitConfig =
-        ensureNoSuchElementIgnored(waitConfig ?: defaultWaitConfig)
+    protected fun resolveWaitConfig(waitConfig: WaitConfig?): WaitConfig = ensureNoSuchElementIgnored(waitConfig ?: defaultWaitConfig)
 
     protected fun buildDescriptorString(
         descriptorName: String,
@@ -1330,12 +1329,13 @@ public class SingleElementDescriptor(
 
     override fun isElementReady(element: WebElement): Boolean = element.effectiveReady()
 
-    override fun toString(): String = buildDescriptorString(
-        descriptorName = "ElementDescriptor",
-        by = by,
-        waitConfig = effectiveWaitConfig,
-        cacheLookup = cacheLookup,
-    )
+    override fun toString(): String =
+        buildDescriptorString(
+            descriptorName = "ElementDescriptor",
+            by = by,
+            waitConfig = effectiveWaitConfig,
+            cacheLookup = cacheLookup,
+        )
 }
 
 /**
@@ -1388,11 +1388,12 @@ public class MultiElementsDescriptor(
 
     override fun isElementReady(element: WebElements): Boolean = element.effectiveReady()
 
-    override fun toString(): String = buildDescriptorString(
-        descriptorName = "ElementsDescriptor",
-        by = by,
-        waitConfig = effectiveWaitConfig,
-    )
+    override fun toString(): String =
+        buildDescriptorString(
+            descriptorName = "ElementsDescriptor",
+            by = by,
+            waitConfig = effectiveWaitConfig,
+        )
 }
 
 /**
@@ -1448,12 +1449,13 @@ public class CompositeElementDescriptor(
 
     override fun isElementReady(element: WebElement): Boolean = element.effectiveReady()
 
-    override fun toString(): String = buildDescriptorString(
-        descriptorName = "CompositeElementDescriptor",
-        by = by,
-        waitConfig = effectiveWaitConfig,
-        cacheLookup = cacheLookup,
-    )
+    override fun toString(): String =
+        buildDescriptorString(
+            descriptorName = "CompositeElementDescriptor",
+            by = by,
+            waitConfig = effectiveWaitConfig,
+            cacheLookup = cacheLookup,
+        )
 }
 
 /**
@@ -1500,9 +1502,10 @@ public class CompositeElementsDescriptor(
 
     override fun isElementReady(element: WebElements): Boolean = element.effectiveReady()
 
-    override fun toString(): String = buildDescriptorString(
-        descriptorName = "CompositeElementsDescriptor",
-        by = by,
-        waitConfig = effectiveWaitConfig,
-    )
+    override fun toString(): String =
+        buildDescriptorString(
+            descriptorName = "CompositeElementsDescriptor",
+            by = by,
+            waitConfig = effectiveWaitConfig,
+        )
 }

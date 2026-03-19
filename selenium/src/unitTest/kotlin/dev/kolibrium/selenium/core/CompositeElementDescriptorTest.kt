@@ -57,13 +57,14 @@ class CompositeElementDescriptorTest {
     @Test
     fun `should find element with simple By`() {
         val by = By.id("test-id")
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = true,
-            waitConfig = WaitConfig.Quick,
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = true,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = null,
+            )
 
         every { mockSearchContext.findElement(by) } returns mockElement
         every { mockElement.isDisplayed } returns true
@@ -76,13 +77,14 @@ class CompositeElementDescriptorTest {
     @Test
     fun `should find element with ByChained`() {
         val by = ByChained(By.id("container"), By.className("title"))
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = false,
-            waitConfig = WaitConfig.Quick,
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = false,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = null,
+            )
 
         every { mockSearchContext.findElement(by) } returns mockElement
         every { mockElement.isDisplayed } returns true
@@ -95,13 +97,14 @@ class CompositeElementDescriptorTest {
     @Test
     fun `should find element with ByAll`() {
         val by = ByAll(By.id("primary"), By.cssSelector(".fallback"))
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = false,
-            waitConfig = WaitConfig.Quick,
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = false,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = null,
+            )
 
         every { mockSearchContext.findElement(by) } returns mockElement
         every { mockElement.isDisplayed } returns true
@@ -114,13 +117,14 @@ class CompositeElementDescriptorTest {
     @Test
     fun `should cache element when cacheLookup is true`() {
         val by = By.id("cached")
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = true,
-            waitConfig = WaitConfig.Quick,
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = true,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = null,
+            )
 
         every { mockSearchContext.findElement(by) } returns mockElement
         every { mockElement.isDisplayed } returns true
@@ -136,13 +140,14 @@ class CompositeElementDescriptorTest {
     @Test
     fun `should not cache element when cacheLookup is false`() {
         val by = By.id("uncached")
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = false,
-            waitConfig = WaitConfig.Quick,
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = false,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = null,
+            )
 
         every { mockSearchContext.findElement(by) } returns mockElement
         every { mockElement.isDisplayed } returns true
@@ -158,16 +163,18 @@ class CompositeElementDescriptorTest {
     @Test
     fun `should wait until element is ready`() {
         val by = By.cssSelector(".loading")
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = false,
-            waitConfig = WaitConfig(
-                timeout = 2.seconds,
-                pollingInterval = 100.milliseconds,
-            ),
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = false,
+                waitConfig =
+                    WaitConfig(
+                        timeout = 2.seconds,
+                        pollingInterval = 100.milliseconds,
+                    ),
+                readyWhen = null,
+            )
 
         every { mockSearchContext.findElement(by) } returns mockElement
         every { mockElement.isDisplayed } returnsMany listOf(false, false, true)
@@ -181,13 +188,14 @@ class CompositeElementDescriptorTest {
     @Test
     fun `should use custom readyWhen condition`() {
         val by = By.id("button")
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = false,
-            waitConfig = WaitConfig.Quick,
-            readyWhen = { isDisplayed && isEnabled },
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = false,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = { isDisplayed && isEnabled },
+            )
 
         every { mockSearchContext.findElement(by) } returns mockElement
         every { mockElement.isDisplayed } returnsMany listOf(true, true, true)
@@ -203,13 +211,14 @@ class CompositeElementDescriptorTest {
     fun `should clear cache and retry on StaleElementReferenceException`() {
         val freshElement = mockk<WebElement>(relaxed = true)
         val by = By.id("stale")
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = true,
-            waitConfig = WaitConfig.Quick,
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = true,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = null,
+            )
 
         every { mockSearchContext.findElement(by) } returnsMany listOf(mockElement, freshElement)
         every { mockElement.isDisplayed } throws StaleElementReferenceException("stale")
@@ -224,17 +233,19 @@ class CompositeElementDescriptorTest {
     @Test
     fun `should throw exception when element not found within timeout`() {
         val by = By.id("missing")
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = false,
-            waitConfig = WaitConfig(
-                timeout = 500.milliseconds,
-                pollingInterval = 100.milliseconds,
-                message = "Element not found",
-            ),
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = false,
+                waitConfig =
+                    WaitConfig(
+                        timeout = 500.milliseconds,
+                        pollingInterval = 100.milliseconds,
+                        message = "Element not found",
+                    ),
+                readyWhen = null,
+            )
 
         every { mockSearchContext.findElement(by) } throws NoSuchElementException("not found")
 
@@ -246,17 +257,19 @@ class CompositeElementDescriptorTest {
     @Test
     fun `should always ignore NoSuchElementException in wait config`() {
         val by = By.id("eventual")
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = false,
-            waitConfig = WaitConfig(
-                timeout = 1.seconds,
-                pollingInterval = 100.milliseconds,
-                ignoring = emptySet(),
-            ),
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = false,
+                waitConfig =
+                    WaitConfig(
+                        timeout = 1.seconds,
+                        pollingInterval = 100.milliseconds,
+                        ignoring = emptySet(),
+                    ),
+                readyWhen = null,
+            )
 
         var callCount = 0
         every { mockSearchContext.findElement(by) } answers {
@@ -275,16 +288,18 @@ class CompositeElementDescriptorTest {
     @Test
     fun `toString should include descriptor name, by, cache, and wait info`() {
         val by = ByChained(By.id("container"), By.className("title"))
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = true,
-            waitConfig = WaitConfig(
-                timeout = 5.seconds,
-                pollingInterval = 250.milliseconds,
-            ),
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = true,
+                waitConfig =
+                    WaitConfig(
+                        timeout = 5.seconds,
+                        pollingInterval = 250.milliseconds,
+                    ),
+                readyWhen = null,
+            )
 
         val result = descriptor.toString()
 
@@ -297,13 +312,14 @@ class CompositeElementDescriptorTest {
     @Test
     fun `toString without cache should include cacheLookup false`() {
         val by = By.id("test")
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = false,
-            waitConfig = WaitConfig.Quick,
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = false,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = null,
+            )
 
         val result = descriptor.toString()
 
@@ -317,13 +333,14 @@ class CompositeElementDescriptorTest {
         every { mockSearchContext.findElement(by) } returns mockElement
         every { mockElement.isDisplayed } returns true
 
-        val descriptor = CompositeElementDescriptor(
-            searchCtx = mockSearchContext,
-            by = by,
-            cacheLookup = true,
-            waitConfig = WaitConfig.Quick,
-            readyWhen = null,
-        )
+        val descriptor =
+            CompositeElementDescriptor(
+                searchCtx = mockSearchContext,
+                by = by,
+                cacheLookup = true,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = null,
+            )
 
         val element by descriptor
 
