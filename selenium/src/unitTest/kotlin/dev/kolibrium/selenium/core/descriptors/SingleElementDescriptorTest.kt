@@ -14,11 +14,27 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.selenium.core.descriptors
 
+import dev.kolibrium.selenium.core.Session
+import dev.kolibrium.selenium.core.SessionContext
+import dev.kolibrium.selenium.core.Site
+import dev.kolibrium.selenium.core.WaitConfig
+import dev.kolibrium.selenium.core.className
+import dev.kolibrium.selenium.core.cssSelector
+import dev.kolibrium.selenium.core.dataQa
+import dev.kolibrium.selenium.core.dataTest
+import dev.kolibrium.selenium.core.dataTestId
 import dev.kolibrium.selenium.core.decorators.DecoratorManager.withDecorators
 import dev.kolibrium.selenium.core.decorators.LoggerDecorator
 import dev.kolibrium.selenium.core.decorators.SlowMotionDecorator
+import dev.kolibrium.selenium.core.id
+import dev.kolibrium.selenium.core.idOrName
+import dev.kolibrium.selenium.core.linkText
+import dev.kolibrium.selenium.core.name
+import dev.kolibrium.selenium.core.partialLinkText
+import dev.kolibrium.selenium.core.tagName
+import dev.kolibrium.selenium.core.xpath
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -64,7 +80,7 @@ class SingleElementDescriptorTest {
             mockSearchContext.id(
                 value = "test-id",
                 cacheLookup = true,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
             )
 
         every { mockSearchContext.findElement(By.id("test-id")) } returns mockElement
@@ -87,7 +103,7 @@ class SingleElementDescriptorTest {
             mockSearchContext.id(
                 value = "test-id",
                 cacheLookup = false,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
             )
 
         every { mockSearchContext.findElement(By.id("test-id")) } returns mockElement
@@ -136,7 +152,7 @@ class SingleElementDescriptorTest {
             mockSearchContext.id(
                 value = "button",
                 cacheLookup = false,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
                 readyWhen = { isDisplayed && isEnabled },
             )
 
@@ -160,7 +176,7 @@ class SingleElementDescriptorTest {
             mockSearchContext.name(
                 value = "username",
                 cacheLookup = true,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
             )
 
         every { mockSearchContext.findElement(By.name("username")) } returnsMany
@@ -262,7 +278,7 @@ class SingleElementDescriptorTest {
         // Given
         val site =
             object : Site("https://example.com") {
-                override val waitConfig = WaitConfig.Patient
+                override val waitConfig = WaitConfig.Companion.Patient
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
@@ -292,7 +308,7 @@ class SingleElementDescriptorTest {
             mockSearchContext.dataQa(
                 value = "test\"value\\with",
                 cacheLookup = false,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
             )
 
         every {
@@ -416,7 +432,7 @@ class SingleElementDescriptorTest {
             every { mockElement.isDisplayed } returns true
 
             withDecorators(SlowMotionDecorator(wait = 1.seconds), LoggerDecorator()) {
-                val descriptor = mockSearchContext.id("x", waitConfig = WaitConfig.Quick)
+                val descriptor = mockSearchContext.id("x", waitConfig = WaitConfig.Companion.Quick)
                 descriptor.get() // trigger lazy merge and decoration
                 descriptor.toString() shouldContain "decorators=[SlowMotionDecorator, LoggerDecorator]"
             }

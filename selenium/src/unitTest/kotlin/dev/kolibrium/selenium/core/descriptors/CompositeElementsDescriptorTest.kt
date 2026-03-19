@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.selenium.core.descriptors
 
+import dev.kolibrium.selenium.core.SessionContext
+import dev.kolibrium.selenium.core.WaitConfig
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -67,7 +69,7 @@ class CompositeElementsDescriptorTest {
             CompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
                 readyWhen = null,
             )
 
@@ -89,7 +91,7 @@ class CompositeElementsDescriptorTest {
             CompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
                 readyWhen = null,
             )
 
@@ -110,7 +112,7 @@ class CompositeElementsDescriptorTest {
             CompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
                 readyWhen = null,
             )
 
@@ -129,7 +131,7 @@ class CompositeElementsDescriptorTest {
             CompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
                 readyWhen = null,
             )
 
@@ -180,7 +182,7 @@ class CompositeElementsDescriptorTest {
             CompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
                 readyWhen = { size >= 2 && all { it.isEnabled } },
             )
 
@@ -204,7 +206,7 @@ class CompositeElementsDescriptorTest {
             CompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
                 readyWhen = null,
             )
 
@@ -310,7 +312,7 @@ class CompositeElementsDescriptorTest {
             CompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Quick,
+                waitConfig = WaitConfig.Companion.Quick,
                 readyWhen = null,
             )
 

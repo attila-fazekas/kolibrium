@@ -16,12 +16,12 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.selenium.core.MultiElementsDescriptor
-import dev.kolibrium.selenium.core.SingleElementDescriptor
 import dev.kolibrium.selenium.core.WaitConfig
 import dev.kolibrium.selenium.core.WebElementDescriptor
 import dev.kolibrium.selenium.core.WebElements
 import dev.kolibrium.selenium.core.WebElementsDescriptor
+import dev.kolibrium.selenium.core.descriptors.MultiElementsDescriptor
+import dev.kolibrium.selenium.core.descriptors.SingleElementDescriptor
 import io.appium.java_client.AppiumBy
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement

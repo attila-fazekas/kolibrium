@@ -16,6 +16,8 @@
 
 package dev.kolibrium.selenium.core
 
+import dev.kolibrium.selenium.core.descriptors.CompositeElementDescriptor
+import dev.kolibrium.selenium.core.descriptors.CompositeElementsDescriptor
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.clearAllMocks
