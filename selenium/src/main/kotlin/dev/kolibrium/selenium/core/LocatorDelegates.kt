@@ -1061,6 +1061,99 @@ public fun SearchContext.xpaths(
     )
 
 /**
+ * Creates a property delegate that lazily finds a single element using the provided [By] locator.
+ *
+ * This function is useful for composite locators built with [chained] or [anyOf], or when you have
+ * a pre-constructed [By] instance. The element lookup and synchronization behavior can be configured
+ * through the parameters.
+ *
+ * Example usage:
+ * ```
+ * private val nestedButton by element(chained(By.id("container"), By.className("button")))
+ * private val fallbackLink by element(anyOf(By.id("primary"), By.cssSelector(".fallback")))
+ * private val mixed by element(
+ *     chained(By.id("form"), anyOf(By.name("submit"), By.className("submit-btn")))
+ * )
+ * ```
+ *
+ * @receiver The [SearchContext] instance used to search for the element.
+ * @param by The [By] locator to use for finding the element.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
+ *                   timeout, error message, and which exceptions to ignore during the wait.
+ *                   Defaults come from defaultWaitConfig.
+ * @param readyWhen A predicate that determines when the found element is considered ready for use.
+ *                       It's called with [WebElement] as receiver. By default, checks if element is
+ *                       displayed using [isDisplayed].
+ * @return A [WebElementDescriptor] that provides a [WebElement] when accessed.
+ *
+ * @see chained
+ * @see anyOf
+ * @see WaitConfig
+ * @see WebElement
+ */
+public fun SearchContext.element(
+    by: By,
+    cacheLookup: Boolean = true,
+    waitConfig: WaitConfig? = null,
+    readyWhen: (WebElement.() -> Boolean)? = null,
+): WebElementDescriptor =
+    CompositeElementDescriptor(
+        searchCtx = this,
+        by = by,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
+    )
+
+/**
+ * Creates a property delegate that lazily finds all elements using the provided [By] locator.
+ *
+ * This function is useful for composite locators built with [chained] or [anyOf], or when you have
+ * a pre-constructed [By] instance. The elements lookup and synchronization behavior can be configured
+ * through the parameters.
+ *
+ * Example usage:
+ * ```
+ * private val nestedItems by elements(chained(By.id("list"), By.className("item")))
+ * private val fallbackLinks by elements(anyOf(By.cssSelector(".primary-link"), By.tagName("a")))
+ * private val mixed by elements(
+ *     chained(By.id("container"), anyOf(By.className("row"), By.cssSelector(".item")))
+ * )
+ * ```
+ *
+ * Note: Multi-element delegates always perform a fresh lookup and are not cached.
+ *
+ * @receiver The [SearchContext] instance used to search for the elements.
+ * @param by The [By] locator to use for finding the elements.
+ * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
+ *                   timeout, error message, and which exceptions to ignore during the wait.
+ *                   Defaults come from defaultWaitConfig.
+ * @param readyWhen A predicate that determines when the found elements are considered ready for use.
+ *                       It's called with [WebElements] as receiver. By default, requires the collection
+ *                       to be non-empty and all elements to be displayed.
+ * @return A [WebElementsDescriptor] that provides a [WebElements] collection when accessed.
+ *
+ * @see chained
+ * @see anyOf
+ * @see WaitConfig
+ * @see WebElements
+ */
+public fun SearchContext.elements(
+    by: By,
+    waitConfig: WaitConfig? = null,
+    readyWhen: (WebElements.() -> Boolean)? = null,
+): WebElementsDescriptor =
+    CompositeElementsDescriptor(
+        searchCtx = this,
+        by = by,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
+    )
+
+/**
  * Base implementation for element locator delegates with built‑in waiting, caching and decoration.
  *
  * This abstract class powers Kolibrium's locator delegates by:
