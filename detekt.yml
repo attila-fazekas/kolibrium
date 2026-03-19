@@ -18,7 +18,7 @@ comments:
     active: true
   OutdatedDocumentation:
     active: true
-    excludes: ["**/src/main/kotlin/dev/kolibrium/selenium/core/LocatorDelegates.kt"]
+    excludes: ["**/src/main/kotlin/dev/kolibrium/selenium/core/descriptors/**"]
   UndocumentedPublicClass:
     active: true
   UndocumentedPublicFunction:
