@@ -25,10 +25,8 @@ import org.junit.jupiter.api.Test
 class SauceDemoAppTest {
     @Test
     fun `android checkout`() =
-        sauceDemoAndroidAppTest(
-            app = SauceDemoAndroidApp,
-        ) {
-            open(::ProductsScreen) {
+        sauceDemoAndroidAppTest {
+            open(ProductsScreen::Android) {
                 titleText() shouldBe "Products"
 
                 Backpack.openProductDetails()
@@ -39,9 +37,7 @@ class SauceDemoAppTest {
 
     @Test
     fun `iOS checkout`() =
-        sauceDemoIosAppTest(
-            app = SauceDemoIosApp,
-        ) {
+        sauceDemoIosAppTest {
 //            open(::ProductsScreen) {
 //                titleText() shouldBe "Products"
 //

@@ -48,6 +48,8 @@ Fluent type-safe element location, smart waits, Page Object patterns, thread-saf
 - `kolibrium-appium`: Screen object base class, driver factories, locator delegates, and test harness functions
 - `kolibrium-appium-ksp` *(planned)*: KSP processor for test harness code generation
 
+See [appium/README.md](appium/README.md) for detailed Appium module documentation.
+
 ## Playwright *(planned)*
 
 - `kolibrium-playwright` *(planned)*: lightweight test harness, Site/PageObject base classes, and Playwright lifecycle management
