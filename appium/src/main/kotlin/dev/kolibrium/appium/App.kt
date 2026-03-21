@@ -20,6 +20,7 @@ import dev.kolibrium.selenium.core.WaitConfig
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.service.local.AppiumDriverLocalService
 import org.openqa.selenium.WebElement
+import java.net.URL
 
 /**
  * Marker interface for mobile applications under test.
@@ -37,7 +38,7 @@ public sealed interface App {
      * Optional local Appium server managed by Kolibrium for this app.
      *
      * When non-null, the test harness starts the service before creating the
-     * [io.appium.java_client.AppiumDriver] session and stops it during teardown.
+     * [AppiumDriver] session and stops it during teardown.
      * If null (default), tests assume an external Appium server is already running.
      */
     public val service: AppiumDriverLocalService?
@@ -51,15 +52,15 @@ public sealed interface App {
         get() = { isDisplayed }
 
     /**
-     * Default [dev.kolibrium.selenium.core.WaitConfig] used by locator delegates when none is specified at the call site.
+     * Default [WaitConfig] used by locator delegates when none is specified at the call site.
      */
     public val waitConfig: WaitConfig
         get() = WaitConfig.Default
 
     /**
      * Optional hook invoked after the [AppiumDriver] session has been created and before any
-     * screen interactions. Override to perform additional configuration (e.g., timeouts) or
-     * pre‑navigation common to all tests.
+     * screen interactions. Override to perform additional configuration (e.g., setting orientation
+     * or geolocation) or pre‑navigation common to all tests.
      *
      * @param driver The newly created [AppiumDriver] backing this test run.
      */
@@ -69,42 +70,123 @@ public sealed interface App {
 /**
  * Android‑only application definition.
  *
- * @property driverFactory The factory used to create an [io.appium.java_client.android.AndroidDriver]
- *                         session for this app.
+ * Supports three modes of construction — supply whichever combination applies:
+ * - **by package**: [appPackage] + [appActivity] → factory derived via [androidDriverByPackage].
+ * - **by app path**: [appPath] (+ optional [appPackage]) → factory derived via [androidDriverByApp].
+ * - **custom factory**: pass [driverFactory] directly (+ optional [appPackage] for locators/deep links).
+ *
+ * @property appPackage The Android package name, available at runtime for locators and deep links.
+ * @property appActivity The launcher activity. Required when launching by package.
+ * @property appPath Filesystem path or URL to the APK/AAB. Required when installing from a binary.
+ * @property appiumUrl URL of the Appium server to connect to. Defaults to the local server.
  * @property service Optional [AppiumDriverLocalService] to be managed for this app.
- * If provided, it is started before the driver session is created and stopped during teardown.
- * If null, an external Appium server is assumed to be running.
+ * @param driverFactory The factory used to create an [io.appium.java_client.android.AndroidDriver]
+ *                      session. Derived automatically when not provided explicitly.
  */
 public abstract class AndroidApp(
-    public val driverFactory: AndroidDriverFactory,
+    public val appPackage: String? = null,
+    public val appActivity: String? = null,
+    public val appPath: String? = null,
+    public val appiumUrl: URL = DEFAULT_APPIUM_URL,
     override val service: AppiumDriverLocalService? = null,
-) : App
+    driverFactory: AndroidDriverFactory? = null,
+) : App {
+    init {
+        require(appPath == null || appActivity == null) {
+            "Specify either 'appPath' (install mode) or 'appPackage' + 'appActivity' (launch mode), not both. " +
+                "If you need 'appPackage' for locators with 'appPath', omit 'appActivity'."
+        }
+    }
+
+    public open val driverFactory: AndroidDriverFactory = driverFactory ?: deriveDriverFactory()
+
+    private fun deriveDriverFactory(): AndroidDriverFactory =
+        when {
+            appPath != null -> androidDriverByApp(appPath, appiumUrl)
+            appPackage != null && appActivity != null -> androidDriverByPackage(appPackage, appActivity, appiumUrl)
+            else -> error("'AndroidApp' requires either 'appPath', both 'appPackage' and 'appActivity', or an explicit 'driverFactory'")
+        }
+}
 
 /**
  * iOS‑only application definition.
  *
- * @property driverFactory The factory used to create an [io.appium.java_client.ios.IOSDriver]
- *                         session for this app.
+ * Supports three modes of construction:
+ * - **by bundle ID**: [bundleId] → factory derived via [iosDriverByBundleId].
+ * - **by app path**: [appPath] (+ optional [bundleId]) → factory derived via [iosDriverByApp].
+ * - **custom factory**: pass [driverFactory] directly (+ optional [bundleId] for locators).
+ *
+ * @property bundleId The iOS bundle identifier, available at runtime for locators.
+ * @property appPath Filesystem path or URL to the .app/IPA. Required when installing from a binary.
+ * @property appiumUrl URL of the Appium server to connect to. Defaults to the local server.
  * @property service Optional [AppiumDriverLocalService] to be managed for this app.
- * If provided, it is started before the driver session is created and stopped during teardown.
- * If null, an external Appium server is assumed to be running.
+ * @param driverFactory The factory used to create an [io.appium.java_client.ios.IOSDriver]
+ *                      session. Derived automatically when not provided explicitly.
  */
 public abstract class IosApp(
-    public val driverFactory: IosDriverFactory,
+    public val bundleId: String? = null,
+    public val appPath: String? = null,
+    public val appiumUrl: URL = DEFAULT_APPIUM_URL,
     override val service: AppiumDriverLocalService? = null,
-) : App
+    driverFactory: IosDriverFactory? = null,
+) : App {
+    init {
+        require(appPath == null || bundleId == null) {
+            "Specify either 'appPath' (install mode) or 'bundleId' (launch mode), not both. " +
+                "When installing from an app path, Appium derives the bundle ID from the app itself."
+        }
+    }
+
+    public val driverFactory: IosDriverFactory = driverFactory ?: deriveDriverFactory()
+
+    private fun deriveDriverFactory(): IosDriverFactory =
+        when {
+            appPath != null -> iosDriverByApp(appPath, appiumUrl)
+            bundleId != null -> iosDriverByBundleId(bundleId, appiumUrl)
+            else -> error("'IosApp' requires either 'appPath', a 'bundleId', or an explicit 'driverFactory'")
+        }
+}
 
 /**
  * Cross‑platform application definition supporting both Android and iOS.
  *
- * @property androidDriverFactory The factory used to create Android driver sessions.
- * @property iosDriverFactory The factory used to create iOS driver sessions.
+ * Composes an [AndroidApp] and an [IosApp] — each defined with its own
+ * platform-specific parameters — into a single app object.
+ *
+ * @property android The Android-side app definition.
+ * @property ios The iOS-side app definition.
  * @property service Optional [AppiumDriverLocalService] to be managed for this app.
- * If provided, it is started before the driver session is created and stopped during teardown.
- * If null, an external Appium server is assumed to be running.
  */
 public abstract class CrossPlatformApp(
-    public val androidDriverFactory: AndroidDriverFactory,
-    public val iosDriverFactory: IosDriverFactory,
+    public val android: AndroidApp,
+    public val ios: IosApp,
     override val service: AppiumDriverLocalService? = null,
-) : App
+) : App {
+    /**
+     * The driver factory used to create Android driver sessions for this app.
+     * Delegates to the [driverFactory] property of the Android-side app.
+     */
+    public val androidDriverFactory: AndroidDriverFactory
+        get() = android.driverFactory
+
+    /**
+     * The driver factory used to create iOS driver sessions for this app.
+     * Delegates to the [driverFactory] property of the iOS-side app.
+     */
+    public val iosDriverFactory: IosDriverFactory
+        get() = ios.driverFactory
+
+    /**
+     * The Android package name for the app under test.
+     * Delegates to the [appPackage] property of the Android-side app.
+     */
+    public val appPackage: String?
+        get() = android.appPackage
+
+    /**
+     * The iOS bundle identifier for the app under test.
+     * Delegates to the [bundleId] property of the iOS-side app.
+     */
+    public val bundleId: String?
+        get() = ios.bundleId
+}

@@ -1,7 +1,12 @@
 public abstract class dev/kolibrium/appium/AndroidApp : dev/kolibrium/appium/App {
-	public fun <init> (Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;)V
-	public synthetic fun <init> (Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getDriverFactory ()Lkotlin/jvm/functions/Function0;
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;Lio/appium/java_client/service/local/AppiumDriverLocalService;Lkotlin/jvm/functions/Function0;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;Lio/appium/java_client/service/local/AppiumDriverLocalService;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAppActivity ()Ljava/lang/String;
+	public final fun getAppPackage ()Ljava/lang/String;
+	public final fun getAppPath ()Ljava/lang/String;
+	public final fun getAppiumUrl ()Ljava/net/URL;
+	public fun getDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
 	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
@@ -89,10 +94,14 @@ public final class dev/kolibrium/appium/CapabilitiesScope {
 }
 
 public abstract class dev/kolibrium/appium/CrossPlatformApp : dev/kolibrium/appium/App {
-	public fun <init> (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;)V
-	public synthetic fun <init> (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ldev/kolibrium/appium/AndroidApp;Ldev/kolibrium/appium/IosApp;Lio/appium/java_client/service/local/AppiumDriverLocalService;)V
+	public synthetic fun <init> (Ldev/kolibrium/appium/AndroidApp;Ldev/kolibrium/appium/IosApp;Lio/appium/java_client/service/local/AppiumDriverLocalService;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAndroid ()Ldev/kolibrium/appium/AndroidApp;
 	public final fun getAndroidDriverFactory ()Lkotlin/jvm/functions/Function0;
+	public final fun getAppPackage ()Ljava/lang/String;
+	public final fun getBundleId ()Ljava/lang/String;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
+	public final fun getIos ()Ldev/kolibrium/appium/IosApp;
 	public final fun getIosDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
 	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
@@ -100,8 +109,12 @@ public abstract class dev/kolibrium/appium/CrossPlatformApp : dev/kolibrium/appi
 }
 
 public abstract class dev/kolibrium/appium/IosApp : dev/kolibrium/appium/App {
-	public fun <init> (Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;)V
-	public synthetic fun <init> (Lkotlin/jvm/functions/Function0;Lio/appium/java_client/service/local/AppiumDriverLocalService;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;Lio/appium/java_client/service/local/AppiumDriverLocalService;Lkotlin/jvm/functions/Function0;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;Lio/appium/java_client/service/local/AppiumDriverLocalService;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getAppPath ()Ljava/lang/String;
+	public final fun getAppiumUrl ()Ljava/net/URL;
+	public final fun getBundleId ()Ljava/lang/String;
 	public final fun getDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
