@@ -20,7 +20,6 @@ import dev.kolibrium.appium.AndroidApp
 import dev.kolibrium.appium.CrossPlatformApp
 import dev.kolibrium.appium.IosApp
 import dev.kolibrium.appium.appiumService
-import dev.kolibrium.appium.iosDriverByBundleId
 import io.appium.java_client.Location
 import io.appium.java_client.android.AndroidDriver
 import org.openqa.selenium.ScreenOrientation
@@ -43,10 +42,7 @@ object MyDemoAndroidApp : AndroidApp(
 }
 
 object MyDemoIosApp : IosApp(
-    driverFactory =
-        iosDriverByBundleId(
-            bundleId = "com.saucelabs.mydemoapp.ios",
-        ),
+    bundleId = "com.saucelabs.mydemoapp.ios",
 )
 
 object MyDemoCrossPlatform : CrossPlatformApp(

@@ -26,7 +26,6 @@ public final class dev/kolibrium/appium/App$DefaultImpls {
 
 public abstract interface class dev/kolibrium/appium/AppEntry {
 	public abstract fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
-	public abstract fun open (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
 }
 
 public final class dev/kolibrium/appium/AppiumDriverFactoriesKt {
@@ -169,6 +168,5 @@ public abstract class dev/kolibrium/appium/Screen : org/openqa/selenium/SearchCo
 public final class dev/kolibrium/appium/ScreenScope {
 	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
 	public final fun then (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
-	public final fun verify (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
 }
 

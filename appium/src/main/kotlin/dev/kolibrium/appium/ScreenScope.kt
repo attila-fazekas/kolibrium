@@ -20,61 +20,54 @@ import dev.kolibrium.selenium.dsl.KolibriumDsl
 import io.appium.java_client.AppiumDriver
 
 /**
- * Scope object returned from [AppEntry.open] and [AppEntry.on] that carries the currently bound
+ * Scope object returned from [AppEntry.on] that carries the currently bound
  * screen and provides chaining helpers for further actions and assertions.
  *
+ * @param A The app type, ensuring all chained screens belong to the same app.
  * @param S The type of the currently bound screen.
  * @property screen The bound screen instance.
  * @property driver The underlying [AppiumDriver] backing this scope.
  */
 @KolibriumDsl
-public class ScreenScope<S : Screen<*>> internal constructor(
+public class ScreenScope<A : App, S : Screen<A>> internal constructor(
     internal val screen: S,
     internal val driver: AppiumDriver,
 ) {
     /**
-     * Bind a new screen created by [factory], execute [action] on it, and return a new [ScreenScope]
-     * for further chaining.
+     * Bind a new screen created by [factory], ensure it is ready, execute [action] on it,
+     * and return a new [ScreenScope] for further chaining.
      *
      * @param Next The type of the next screen to bind.
      * @param factory No‑arg factory that constructs the next screen instance.
      * @param action The action to execute on the next screen before returning the new scope.
      */
     @KolibriumDsl
-    public fun <Next : Screen<*>> on(
+    public fun <Next : Screen<A>> on(
         factory: () -> Next,
         action: Next.() -> Unit,
-    ): ScreenScope<Next> {
+    ): ScreenScope<A, Next> {
         val next = factory()
-        next.awaitReady()
-        next.assertReady()
+        ensureReady(next)
         next.action()
         return ScreenScope(next, driver)
     }
 
     /**
-     * Perform assertions on the currently bound [screen] while ensuring it is in a ready state.
-     *
-     * @param assertions The assertions to run against the current screen.
-     * @return This [ScreenScope] to allow fluent chaining.
-     */
-    @KolibriumDsl
-    public fun verify(assertions: S.() -> Unit): ScreenScope<S> =
-        apply {
-            screen.assertReady()
-            screen.assertions()
-        }
-
-    /**
-     * Perform arbitrary actions on the currently bound [screen] while ensuring it is in a ready state.
+     * Perform actions or assertions on the currently bound [screen] while ensuring it is
+     * in a ready state. Returns this [ScreenScope] for fluent chaining.
      *
      * @param action The action to run against the current screen.
-     * @return This [ScreenScope] to allow fluent chaining.
+     * @return This [ScreenScope] to allow further chaining.
      */
     @KolibriumDsl
-    public fun then(action: S.() -> Unit): ScreenScope<S> =
+    public fun then(action: S.() -> Unit): ScreenScope<A, S> =
         apply {
-            screen.assertReady()
+            ensureReady(screen)
             screen.action()
         }
+
+    private fun ensureReady(screen: Screen<*>) {
+        screen.awaitReady()
+        screen.assertReady()
+    }
 }
