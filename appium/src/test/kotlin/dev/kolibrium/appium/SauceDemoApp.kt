@@ -16,6 +16,10 @@
 
 package dev.kolibrium.appium
 
+import io.appium.java_client.Location
+import io.appium.java_client.android.AndroidDriver
+import org.openqa.selenium.ScreenOrientation
+
 object SauceDemoAndroidApp : AndroidApp(
     appPackage = "com.saucelabs.mydemoapp.android",
     appActivity = ".view.activities.SplashActivity",
@@ -24,7 +28,14 @@ object SauceDemoAndroidApp : AndroidApp(
             port = 4723
             logLevel = "info"
         },
-)
+) {
+    override fun onSessionReady(driver: AndroidDriver) {
+        driver.apply {
+            rotate(ScreenOrientation.PORTRAIT)
+            location = Location(39.4666667, -0.3666667, 0.0) // Valencia, Spain
+        }
+    }
+}
 
 object SauceDemoIosApp : IosApp(
     driverFactory =

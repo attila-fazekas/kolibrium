@@ -18,6 +18,8 @@ package dev.kolibrium.appium
 
 import dev.kolibrium.selenium.dsl.KolibriumDsl
 import io.appium.java_client.AppiumDriver
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.ios.IOSDriver
 
 /**
  * Unified test harness that creates an AppiumDriver session for the given [App] and runs the test flow.
@@ -174,6 +176,25 @@ internal fun <A : App, T> appiumTestImpl(
         shutdownHook?.let { thread ->
             runCatching {
                 Runtime.getRuntime().removeShutdownHook(thread)
+            }
+        }
+    }
+}
+
+private fun <A : App> A.onSessionReady(driver: AppiumDriver) {
+    when (this) {
+        is AndroidApp -> {
+            onSessionReady(driver as AndroidDriver)
+        }
+
+        is IosApp -> {
+            onSessionReady(driver as IOSDriver)
+        }
+
+        is CrossPlatformApp -> {
+            when (driver) {
+                is AndroidDriver -> android.onSessionReady(driver)
+                is IOSDriver -> ios.onSessionReady(driver)
             }
         }
     }

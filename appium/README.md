@@ -359,10 +359,10 @@ object MyAndroidApp : AndroidApp(
     override val elementReadyCondition: WebElement.() -> Boolean
         get() = { isEnabled }
 
-    override fun onSessionReady(driver: AppiumDriver) {
-        (driver as AndroidDriver).apply {
-            rotate(ScreenOrientation.PORTRAIT)
-            location = Location(59.332700, 18.065600, 0.0) // Stockholm
+    override fun onSessionReady(driver: AndroidDriver) {
+        driver.apply {
+            rotate(ScreenOrientation.LANDSCAPE)
+            location = Location(39.4666667, -0.3666667, 0.0) // Valencia, Spain
         }
     }
 }
