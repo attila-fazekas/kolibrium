@@ -127,30 +127,6 @@ public final class dev/kolibrium/appium/LocatorDelegatesKt {
 	public static synthetic fun accessibilityId$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
 	public static final fun accessibilityIds (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
 	public static synthetic fun accessibilityIds$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun androidDataMatcher (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun androidDataMatcher$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun androidDataMatchers (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun androidDataMatchers$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun androidUIAutomator (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun androidUIAutomator$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun androidUIAutomators (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun androidUIAutomators$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun androidViewMatcher (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun androidViewMatcher$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun androidViewMatchers (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun androidViewMatchers$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun androidViewTag (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun androidViewTag$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun androidViewTags (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun androidViewTags$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun iOSClassChain (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun iOSClassChain$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun iOSClassChains (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun iOSClassChains$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun iOSNsPredicate (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun iOSNsPredicate$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun iOSNsPredicates (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun iOSNsPredicates$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
 	public static final fun resourceId (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
 	public static synthetic fun resourceId$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
 	public static final fun resourceIds (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
@@ -168,5 +144,62 @@ public abstract class dev/kolibrium/appium/Screen : org/openqa/selenium/SearchCo
 public final class dev/kolibrium/appium/ScreenScope {
 	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
 	public final fun then (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
+}
+
+public final class dev/kolibrium/appium/android/LocatorDelegatesKt {
+	public static final fun androidDataMatcher (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static synthetic fun androidDataMatcher$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static final fun androidDataMatchers (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static synthetic fun androidDataMatchers$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static final fun androidUIAutomator (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static synthetic fun androidUIAutomator$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static final fun androidUIAutomators (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static synthetic fun androidUIAutomators$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static final fun androidViewMatcher (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static synthetic fun androidViewMatcher$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static final fun androidViewMatchers (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static synthetic fun androidViewMatchers$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static final fun androidViewTag (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static synthetic fun androidViewTag$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static final fun androidViewTags (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static synthetic fun androidViewTags$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+}
+
+public final class dev/kolibrium/appium/android/UiSelectorKt {
+	public static final fun uiSelector (Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
+}
+
+public final class dev/kolibrium/appium/android/UiSelectorScope {
+	public final fun className (Ljava/lang/String;)V
+	public final fun clickable (Z)V
+	public static synthetic fun clickable$default (Ldev/kolibrium/appium/android/UiSelectorScope;ZILjava/lang/Object;)V
+	public final fun description (Ljava/lang/String;)V
+	public final fun descriptionContains (Ljava/lang/String;)V
+	public final fun descriptionMatches (Ljava/lang/String;)V
+	public final fun descriptionStartsWith (Ljava/lang/String;)V
+	public final fun enabled (Z)V
+	public static synthetic fun enabled$default (Ldev/kolibrium/appium/android/UiSelectorScope;ZILjava/lang/Object;)V
+	public final fun focusable (Z)V
+	public static synthetic fun focusable$default (Ldev/kolibrium/appium/android/UiSelectorScope;ZILjava/lang/Object;)V
+	public final fun index (I)V
+	public final fun instance (I)V
+	public final fun resourceId (Ljava/lang/String;)V
+	public final fun scrollable (Z)V
+	public static synthetic fun scrollable$default (Ldev/kolibrium/appium/android/UiSelectorScope;ZILjava/lang/Object;)V
+	public final fun text (Ljava/lang/String;)V
+	public final fun textContains (Ljava/lang/String;)V
+	public final fun textMatches (Ljava/lang/String;)V
+	public final fun textStartsWith (Ljava/lang/String;)V
+}
+
+public final class dev/kolibrium/appium/ios/LocatorDelegatesKt {
+	public static final fun iOSClassChain (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static synthetic fun iOSClassChain$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static final fun iOSClassChains (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static synthetic fun iOSClassChains$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static final fun iOSNsPredicate (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static synthetic fun iOSNsPredicate$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static final fun iOSNsPredicates (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static synthetic fun iOSNsPredicates$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
 }
 

@@ -17,11 +17,12 @@
 package dev.kolibrium.appium.mydemoapprn.screens
 
 import dev.kolibrium.appium.Screen
-import dev.kolibrium.appium.androidUIAutomator
+import dev.kolibrium.appium.android.androidUIAutomator
+import dev.kolibrium.appium.android.uiSelector
 import dev.kolibrium.appium.mydemoapprn.MyDemoAppRnAndroidApp
 
 class ProductDetailsScreen : Screen<MyDemoAppRnAndroidApp>() {
-    val addToCartButton by androidUIAutomator("""new UiSelector().text("Add To Cart")""")
+    val addToCartButton by androidUIAutomator(uiSelector { text("Add To Cart") })
 
     fun addToCart() {
         addToCartButton.click()

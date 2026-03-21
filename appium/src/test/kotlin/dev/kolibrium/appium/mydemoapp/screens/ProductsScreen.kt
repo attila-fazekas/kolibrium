@@ -18,8 +18,8 @@ package dev.kolibrium.appium.mydemoapp.screens
 
 import dev.kolibrium.appium.Screen
 import dev.kolibrium.appium.accessibilityId
-import dev.kolibrium.appium.iOSClassChain
-import dev.kolibrium.appium.iOSNsPredicates
+import dev.kolibrium.appium.ios.iOSClassChain
+import dev.kolibrium.appium.ios.iOSNsPredicates
 import dev.kolibrium.appium.mydemoapp.MyDemoAndroidApp
 import dev.kolibrium.appium.mydemoapp.MyDemoIosApp
 import dev.kolibrium.appium.mydemoapp.Product

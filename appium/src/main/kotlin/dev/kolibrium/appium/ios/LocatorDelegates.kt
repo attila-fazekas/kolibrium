@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium
+package dev.kolibrium.appium.ios
 
 import dev.kolibrium.selenium.core.WaitConfig
 import dev.kolibrium.selenium.core.WebElementDescriptor
@@ -27,21 +27,20 @@ import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 
 /**
- * Creates a property delegate that lazily finds a single element by its accessibility id.
+ * Creates a property delegate that lazily finds a single element using an iOS class chain query.
  *
- * Accessibility ids are the preferred cross-platform locator strategy for mobile apps.
- * On Android this maps to the element's content description; on iOS to the accessibility
- * identifier.
+ * Class chain queries are an XCUITest-specific locator strategy that provides a faster alternative
+ * to XPath for navigating the iOS element hierarchy. The syntax resembles a simplified XPath
+ * tailored to the XCUITest framework.
  *
  * Example usage:
  * ```
- * private val loginButton by accessibilityId("login-button")
- * private val avatar by accessibilityId("user-avatar", cacheLookup = false)
- * private val submitButton by accessibilityId("submit", readyWhen = { isEnabled })
+ * private val cell by iOSClassChain("XCUIElementTypeCell[`name == 'Product'`]")
+ * private val button by iOSClassChain("XCUIElementTypeWindow/XCUIElementTypeButton[`label BEGINSWITH 'Add'`]")
  * ```
  *
  * @receiver The [SearchContext] instance used to search for the element.
- * @param value The accessibility id to search for.
+ * @param value The iOS class chain query string.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -56,7 +55,7 @@ import org.openqa.selenium.WebElement
  * @see WaitConfig
  * @see WebElement
  */
-public fun SearchContext.accessibilityId(
+public fun SearchContext.iOSClassChain(
     value: String,
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig? = null,
@@ -65,25 +64,24 @@ public fun SearchContext.accessibilityId(
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
-        locatorStrategy = AppiumBy::accessibilityId,
+        locatorStrategy = AppiumBy::iOSClassChain,
         cacheLookup = cacheLookup,
         waitConfig = waitConfig,
         readyWhen = readyWhen,
     )
 
 /**
- * Creates a property delegate that lazily finds all elements by their accessibility id.
+ * Creates a property delegate that lazily finds all elements using an iOS class chain query.
  *
  * Example usage:
  * ```
- * private val menuItems by accessibilityIds("menu-item")
- * private val cards by accessibilityIds("product-card", readyWhen = { all { isEnabled } })
+ * private val cells by iOSClassChains("XCUIElementTypeCell")
  * ```
  *
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
  * @receiver The [SearchContext] instance used to search for the elements.
- * @param value The accessibility id to search for.
+ * @param value The iOS class chain query string.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
  *                   Defaults come from defaultWaitConfig.
@@ -95,7 +93,7 @@ public fun SearchContext.accessibilityId(
  * @see WaitConfig
  * @see WebElements
  */
-public fun SearchContext.accessibilityIds(
+public fun SearchContext.iOSClassChains(
     value: String,
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElements.() -> Boolean)? = null,
@@ -103,28 +101,27 @@ public fun SearchContext.accessibilityIds(
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
-        locatorStrategy = AppiumBy::accessibilityId,
+        locatorStrategy = AppiumBy::iOSClassChain,
         waitConfig = waitConfig,
         readyWhen = readyWhen,
     )
 
 /**
- * Creates a property delegate that lazily finds a single element by its resource id.
+ * Creates a property delegate that lazily finds a single element using an iOS NSPredicate string.
  *
- * Notes on accepted values:
- * - At the root [SearchContext] (typically a driver or a top‑level screen), you can pass the
- *   full `resource-id` (e.g., `com.example.app:id/titleTV`).
- * - When the [SearchContext] is a nested [WebElement] (e.g., an item container), Appium allows
- *   using the short id (e.g., `titleTV`). Both forms are supported by this delegate.
+ * NSPredicate strings are an XCUITest-specific locator strategy that allows querying elements
+ * using Apple's [NSPredicate](https://developer.apple.com/documentation/foundation/nspredicate)
+ * syntax. This is often the most flexible iOS locator strategy, supporting complex conditions
+ * on element attributes.
  *
  * Example usage:
  * ```
- * private val productImage by resourceId("productIV")
- * private val title by resourceId("titleTV", cacheLookup = false)
+ * private val loginButton by iOSNsPredicate("label == 'Login' AND isEnabled == true")
+ * private val searchField by iOSNsPredicate("type == 'XCUIElementTypeTextField' AND name CONTAINS 'search'")
  * ```
  *
  * @receiver The [SearchContext] instance used to search for the element.
- * @param value The resource id to search for (short or fully qualified).
+ * @param value The NSPredicate string expression.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -139,7 +136,7 @@ public fun SearchContext.accessibilityIds(
  * @see WaitConfig
  * @see WebElement
  */
-public fun SearchContext.resourceId(
+public fun SearchContext.iOSNsPredicate(
     value: String,
     cacheLookup: Boolean = true,
     waitConfig: WaitConfig? = null,
@@ -148,36 +145,36 @@ public fun SearchContext.resourceId(
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
-        locatorStrategy = AppiumBy::id,
+        locatorStrategy = AppiumBy::iOSNsPredicateString,
         cacheLookup = cacheLookup,
         waitConfig = waitConfig,
         readyWhen = readyWhen,
     )
 
 /**
- * Creates a property delegate that lazily finds all elements by their resource id.
+ * Creates a property delegate that lazily finds all elements using an iOS NSPredicate string.
  *
  * Example usage:
  * ```
- * private val productImages by resourceIds("productIV")
+ * private val buttons by iOSNsPredicates("type == 'XCUIElementTypeButton'")
  * ```
  *
- * Note: Multi‑element delegates always perform a fresh lookup and are not cached.
+ * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
  * @receiver The [SearchContext] instance used to search for the elements.
- * @param value The resource id to search for (short or fully qualified).
+ * @param value The NSPredicate string expression.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
- *                  to be non‑empty and all elements to be displayed.
+ *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
  * @see WaitConfig
  * @see WebElements
  */
-public fun SearchContext.resourceIds(
+public fun SearchContext.iOSNsPredicates(
     value: String,
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElements.() -> Boolean)? = null,
@@ -185,7 +182,7 @@ public fun SearchContext.resourceIds(
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
-        locatorStrategy = AppiumBy::id,
+        locatorStrategy = AppiumBy::iOSNsPredicateString,
         waitConfig = waitConfig,
         readyWhen = readyWhen,
     )
