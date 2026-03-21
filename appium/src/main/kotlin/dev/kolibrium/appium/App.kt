@@ -18,6 +18,8 @@ package dev.kolibrium.appium
 
 import dev.kolibrium.selenium.core.WaitConfig
 import io.appium.java_client.AppiumDriver
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.ios.IOSDriver
 import io.appium.java_client.service.local.AppiumDriverLocalService
 import org.openqa.selenium.WebElement
 import java.net.URL
@@ -56,15 +58,6 @@ public sealed interface App {
      */
     public val waitConfig: WaitConfig
         get() = WaitConfig.Default
-
-    /**
-     * Optional hook invoked after the [AppiumDriver] session has been created and before any
-     * screen interactions. Override to perform additional configuration (e.g., setting orientation
-     * or geolocation) or pre‑navigation common to all tests.
-     *
-     * @param driver The newly created [AppiumDriver] backing this test run.
-     */
-    public fun onSessionReady(driver: AppiumDriver) {}
 }
 
 /**
@@ -80,7 +73,7 @@ public sealed interface App {
  * @property appPath Filesystem path or URL to the APK/AAB. Required when installing from a binary.
  * @property appiumUrl URL of the Appium server to connect to. Defaults to the local server.
  * @property service Optional [AppiumDriverLocalService] to be managed for this app.
- * @param driverFactory The factory used to create an [io.appium.java_client.android.AndroidDriver]
+ * @param driverFactory The factory used to create an [AndroidDriver]
  *                      session. Derived automatically when not provided explicitly.
  */
 public abstract class AndroidApp(
@@ -99,6 +92,15 @@ public abstract class AndroidApp(
     }
 
     public open val driverFactory: AndroidDriverFactory = driverFactory ?: deriveDriverFactory()
+
+    /**
+     * Optional hook invoked after the [AndroidDriver] session has been created and before any
+     * screen interactions. Override to perform additional configuration (e.g., setting orientation
+     * or geolocation) or pre‑navigation common to all tests.
+     *
+     * @param driver The newly created [AndroidDriver] backing this test run.
+     */
+    public open fun onSessionReady(driver: AndroidDriver) {}
 
     private fun deriveDriverFactory(): AndroidDriverFactory =
         when {
@@ -120,7 +122,7 @@ public abstract class AndroidApp(
  * @property appPath Filesystem path or URL to the .app/IPA. Required when installing from a binary.
  * @property appiumUrl URL of the Appium server to connect to. Defaults to the local server.
  * @property service Optional [AppiumDriverLocalService] to be managed for this app.
- * @param driverFactory The factory used to create an [io.appium.java_client.ios.IOSDriver]
+ * @param driverFactory The factory used to create an [IOSDriver]
  *                      session. Derived automatically when not provided explicitly.
  */
 public abstract class IosApp(
@@ -138,6 +140,15 @@ public abstract class IosApp(
     }
 
     public val driverFactory: IosDriverFactory = driverFactory ?: deriveDriverFactory()
+
+    /**
+     * Optional hook invoked after the [IOSDriver] session has been created and before any
+     * screen interactions. Override to perform additional configuration (e.g., setting orientation
+     * or geolocation) or pre‑navigation common to all tests.
+     *
+     * @param driver The newly created [IOSDriver] backing this test run.
+     */
+    public open fun onSessionReady(driver: IOSDriver) {}
 
     private fun deriveDriverFactory(): IosDriverFactory =
         when {
