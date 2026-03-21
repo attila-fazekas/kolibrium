@@ -49,6 +49,64 @@ public fun <A : App, T> appiumTest(
 }
 
 /**
+ * Unified deep link–aware test harness.
+ *
+ * After the driver session is created, navigates to the given [deepLink] before
+ * executing the test [block]. The deep link command is dispatched based on the
+ * concrete [App] subtype:
+ * - [AndroidApp] → `mobile: deepLink` with `package`
+ * - [IosApp] → `mobile: deepLink` with `bundleId`
+ * - [CrossPlatformApp] → resolved at runtime from the driver type
+ *
+ * @param A The concrete app type bound to this test.
+ * @param app The app under test.
+ * @param driverFactory Factory creating an AppiumDriver instance.
+ * @param deepLink The deep link URL to navigate to after session creation.
+ * @param block Main test body executed with an [AppEntry] receiver.
+ */
+@KolibriumDsl
+public fun <A : App> appiumTest(
+    app: A,
+    driverFactory: AppiumDriverFactory,
+    deepLink: String,
+    block: AppEntry<A>.(Unit) -> Unit,
+) {
+    appiumTest(
+        app = app,
+        driverFactory = driverFactory,
+        setUp = { },
+        block = {
+            AppiumDriverContextHolder.get()?.let { driver ->
+                driver.executeScript("mobile: deepLink", app.deepLinkParams(driver, deepLink))
+            }
+            block(Unit)
+        },
+    )
+}
+
+private fun App.deepLinkParams(
+    driver: AppiumDriver,
+    deepLink: String,
+): Map<String, String?> =
+    when (this) {
+        is AndroidApp -> {
+            mapOf("url" to deepLink, "package" to appPackage)
+        }
+
+        is IosApp -> {
+            mapOf("url" to deepLink, "bundleId" to bundleId)
+        }
+
+        is CrossPlatformApp -> {
+            when (driver) {
+                is AndroidDriver -> mapOf("url" to deepLink, "package" to appPackage)
+                is IOSDriver -> mapOf("url" to deepLink, "bundleId" to bundleId)
+                else -> error("Unsupported driver type: ${driver::class.simpleName}")
+            }
+        }
+    }
+
+/**
  * Android‑focused convenience harness.
  *
  * Creates an Appium session using the app's default [AndroidDriverFactory] unless overridden,
@@ -74,6 +132,36 @@ public fun <A : AndroidApp> androidTest(
 }
 
 /**
+ * Android‑focused deep link convenience harness.
+ *
+ * Creates an Appium session using the app's default [AndroidDriverFactory] unless overridden,
+ * navigates to the given [deepLink] after session creation, and then executes the test [block].
+ *
+ * Delegates to the unified [appiumTest] deep link overload, which dispatches the
+ * `mobile: deepLink` command with the app's [AndroidApp.appPackage].
+ *
+ * @param A The concrete Android app type bound to this test.
+ * @param app The Android app under test.
+ * @param driverFactory Optional override for the driver factory; defaults to [AndroidApp.driverFactory].
+ * @param deepLink The deep link URL to navigate to before the test body runs.
+ * @param block The test body executed with an [AppEntry] receiver.
+ */
+@KolibriumDsl
+public fun <A : AndroidApp> androidTest(
+    app: A,
+    driverFactory: AndroidDriverFactory = app.driverFactory,
+    deepLink: String,
+    block: AppEntry<A>.(Unit) -> Unit,
+) {
+    appiumTest(
+        app = app,
+        driverFactory = driverFactory,
+        deepLink = deepLink,
+        block = block,
+    )
+}
+
+/**
  * iOS‑focused convenience harness.
  *
  * Creates an Appium session using the app's default [IosDriverFactory] unless overridden,
@@ -94,6 +182,36 @@ public fun <A : IosApp> iosTest(
         app = app,
         driverFactory = driverFactory,
         setUp = { },
+        block = block,
+    )
+}
+
+/**
+ * iOS‑focused deep link convenience harness.
+ *
+ * Creates an Appium session using the app's default [IosDriverFactory] unless overridden,
+ * navigates to the given [deepLink] after session creation, and then executes the test [block].
+ *
+ * Delegates to the unified [appiumTest] deep link overload, which dispatches the
+ * `mobile: deepLink` command with the app's [IosApp.bundleId].
+ *
+ * @param A The concrete iOS app type bound to this test.
+ * @param app The iOS app under test.
+ * @param driverFactory Optional override for the driver factory; defaults to [IosApp.driverFactory].
+ * @param deepLink The deep link URL to navigate to before the test body runs.
+ * @param block The test body executed with an [AppEntry] receiver.
+ */
+@KolibriumDsl
+public fun <A : IosApp> iosTest(
+    app: A,
+    driverFactory: IosDriverFactory = app.driverFactory,
+    deepLink: String,
+    block: AppEntry<A>.(Unit) -> Unit,
+) {
+    appiumTest(
+        app = app,
+        driverFactory = driverFactory,
+        deepLink = deepLink,
         block = block,
     )
 }

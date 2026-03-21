@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.screens
+package dev.kolibrium.appium.mydemoapp.screens
 
-import dev.kolibrium.appium.SauceDemoAndroidApp
-import dev.kolibrium.appium.Screen
 import dev.kolibrium.appium.resourceId
+import org.openqa.selenium.WebElement
 
-class ProductDetailsScreen : Screen<SauceDemoAndroidApp>() {
-    private val cartButton by resourceId("cartBt")
-
-    fun addToCart() {
-        cartButton.click()
-    }
+class Item(
+    root: WebElement,
+) {
+    val image by root.resourceId("productIV")
+    val title by root.resourceId("titleTV")
+    val price by root.resourceId("priceTV")
 }
