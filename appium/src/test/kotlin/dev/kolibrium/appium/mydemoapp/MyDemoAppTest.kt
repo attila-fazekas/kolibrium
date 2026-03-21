@@ -30,7 +30,7 @@ class MyDemoAppTest {
     @Test
     fun `android checkout`() =
         myDemoAndroidAppTest {
-            open(ProductsScreen::Android) {
+            on(ProductsScreen::Android) {
                 titleText() shouldBe "Products"
 
                 Product.Backpack.openProductDetails()
@@ -42,7 +42,7 @@ class MyDemoAppTest {
     @Test
     fun `iOS checkout`() =
         myDemoIosAppTest {
-//            open(::ProductsScreen) {
+//            on(::ProductsScreen) {
 //                titleText() shouldBe "Products"
 //
 //                Backpack.openProductDetails()

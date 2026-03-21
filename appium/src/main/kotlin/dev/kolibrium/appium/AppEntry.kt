@@ -22,48 +22,37 @@ import dev.kolibrium.selenium.dsl.KolibriumDsl
  * App‑scoped DSL receiver available inside `androidTest { … }`, `iosTest { … }` and
  * cross‑platform `appiumTest { … }` blocks.
  *
- * Exposes operations like [open] and [on] for constructing screen objects and chaining
- * interactions in a fluent style.
+ * Provides the [on] function for constructing screen objects and chaining interactions
+ * in a fluent style.
  */
 @KolibriumDsl
 public interface AppEntry<A : App> {
     /**
-     * Open a screen created by [factory] and run [action] on it, returning a new [ScreenScope]
-     * that is bound to the screen returned from [action].
+     * Create a screen via [factory], ensure it is ready, execute [action] on it, and return
+     * a [ScreenScope] bound to that screen for further chaining.
+     *
+     * Use this as the entry point for every screen interaction — whether the screen was reached
+     * through normal navigation, a deep link, or is simply the first screen after app launch.
      *
      * Typical usage:
      * ```kotlin
-     * open(::ProductsScreen) {
-     *     // this == ProductsScreen
-     *     titleText()
-     * }.on(::CartScreen) {
-     *     // ...
+     * androidTest(app = MyAndroidApp) {
+     *     on(::ProductsScreen) {
+     *         titleText() shouldBe "Products"
+     *         selectProduct("Backpack")
+     *     }.on(::ProductDetailsScreen) {
+     *         addToCart()
+     *     }
      * }
      * ```
      *
-     * @param S The type of the created screen.
-     * @param R The type of the screen returned from [action] (can be the same as [S]).
-     * @param factory No‑arg factory that constructs the initial screen instance.
-     * @param action Action executed on the created screen which returns the next screen to bind.
+     * @param S The type of the screen to create and interact with.
+     * @param factory No‑arg factory that constructs the screen instance (typically a constructor reference like `::MyScreen`).
+     * @param action Action executed on the created screen with the screen as the receiver.
+     * @return A [ScreenScope] bound to the screen, allowing further [ScreenScope.on] or [ScreenScope.then] calls.
      */
-    public fun <S : Screen<A>, R : Screen<A>> open(
+    public fun <S : Screen<A>> on(
         factory: () -> S,
-        action: S.() -> R,
-    ): ScreenScope<R>
-
-    /**
-     * Bind a screen created by [factory] to the current context (no navigation implied) and run
-     * [action] on it, returning a [ScreenScope] for the next screen.
-     *
-     * Use this when you want to attach to an already opened screen object.
-     *
-     * @param S The type of the created screen.
-     * @param R The type of the screen returned from [action] (can be the same as [S]).
-     * @param factory No‑arg factory that constructs the screen instance to bind.
-     * @param action Action executed on the created screen which returns the next screen to bind.
-     */
-    public fun <S : Screen<A>, R : Screen<A>> on(
-        factory: () -> S,
-        action: S.() -> R,
-    ): ScreenScope<R>
+        action: S.() -> Unit,
+    ): ScreenScope<A, S>
 }

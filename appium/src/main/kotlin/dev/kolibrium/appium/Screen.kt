@@ -49,6 +49,6 @@ public abstract class Screen<A : App> : SearchContext {
         AppiumDriverContextHolder.get() ?: error(
             "Kolibrium runtime error: Screen '${this::class.simpleName ?: "<unknown>"}' " +
                 "has no active AppiumDriver context.\n" +
-                "Run screen interactions inside Kolibrium DSL (e.g., androidTest/iosTest/appiumTest → open/on).",
+                "Run screen interactions inside Kolibrium DSL (e.g., androidTest/iosTest/appiumTest → on).",
         )
 }

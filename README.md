@@ -41,6 +41,8 @@ Fluent type-safe element location, smart waits, Page Object patterns, thread-saf
 - `kolibrium-selenium`: core WebDriver functionality including Page object base class, `seleniumTest` harness, element locator delegates, and extensible decorator framework
 - `kolibrium-selenium-ksp` *(planned)*: KSP processor for test harness code generation
 
+See [Kolibrium website](https://kolibrium.dev/docs/category/selenium) for detailed Selenium module documentation.
+
 ## Appium
 
 `AndroidApp`, `IosApp`, and `CrossPlatformApp` cover platform-specific and shared automation scenarios with a consistent API surface.

@@ -90,21 +90,47 @@ private fun App.deepLinkParams(
 ): Map<String, String?> =
     when (this) {
         is AndroidApp -> {
-            mapOf("url" to deepLink, "package" to appPackage)
+            androidDeepLinkParams(deepLink)
         }
 
         is IosApp -> {
-            mapOf("url" to deepLink, "bundleId" to bundleId)
+            iosDeepLinkParams(deepLink)
         }
 
         is CrossPlatformApp -> {
             when (driver) {
-                is AndroidDriver -> mapOf("url" to deepLink, "package" to appPackage)
-                is IOSDriver -> mapOf("url" to deepLink, "bundleId" to bundleId)
+                is AndroidDriver -> androidDeepLinkParams(deepLink)
+                is IOSDriver -> iosDeepLinkParams(deepLink)
                 else -> error("Unsupported driver type: ${driver::class.simpleName}")
             }
         }
     }
+
+private fun App.androidDeepLinkParams(deepLink: String): Map<String, String?> {
+    val appPackage =
+        when (this) {
+            is AndroidApp -> appPackage
+            is CrossPlatformApp -> appPackage
+            else -> null
+        }
+    check(appPackage != null) {
+        "Deep links require 'appPackage' to be set on the AndroidApp definition."
+    }
+    return mapOf("url" to deepLink, "package" to appPackage)
+}
+
+private fun App.iosDeepLinkParams(deepLink: String): Map<String, String?> {
+    val bundleId =
+        when (this) {
+            is IosApp -> bundleId
+            is CrossPlatformApp -> bundleId
+            else -> null
+        }
+    check(bundleId != null) {
+        "Deep links require 'bundleId' to be set on the IosApp definition."
+    }
+    return mapOf("url" to deepLink, "bundleId" to bundleId)
+}
 
 /**
  * Android‑focused convenience harness.

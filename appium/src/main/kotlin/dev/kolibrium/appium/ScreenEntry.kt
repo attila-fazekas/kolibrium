@@ -23,29 +23,14 @@ import io.appium.java_client.AppiumDriver
 internal class ScreenEntry<A : App>(
     private val driver: AppiumDriver,
 ) : AppEntry<A> {
-    override fun <S : Screen<A>, R : Screen<A>> open(
+    override fun <S : Screen<A>> on(
         factory: () -> S,
-        action: S.() -> R,
-    ): ScreenScope<R> {
+        action: S.() -> Unit,
+    ): ScreenScope<A, S> {
         val screen = factory()
         ensureReady(screen)
-        val next = screen.action()
-        return scope(next)
-    }
-
-    override fun <S : Screen<A>, R : Screen<A>> on(
-        factory: () -> S,
-        action: S.() -> R,
-    ): ScreenScope<R> {
-        val screen = factory()
-        ensureReady(screen)
-        val next = screen.action()
-        return scope(next)
-    }
-
-    private fun <R : Screen<A>> scope(next: R): ScreenScope<R> {
-        ensureReady(next)
-        return ScreenScope(next, driver)
+        screen.action()
+        return ScreenScope(screen, driver)
     }
 
     private fun ensureReady(screen: Screen<*>) {

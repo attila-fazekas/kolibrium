@@ -1,6 +1,7 @@
 
 # Kolibrium Appium User Guide
 
+
 ## Table of Contents
 1. [Overview](#overview)
 2. [Setup](#setup)
@@ -11,11 +12,12 @@
     - [Custom driver factory](#custom-driver-factory)
 4. [Appium launch modes](#appium-launch-modes)
 5. [Writing tests](#writing-tests)
-6. [Screens and navigation](#screens-and-navigation)
-7. [Local Appium server management](#local-appium-server-management)
-8. [Cloud and parallel execution](#cloud-and-parallel-execution)
-9. [Customization](#customization)
-10. [Troubleshooting](#troubleshooting)
+6. [Deep links](#deep-links)
+7. [Screens and navigation](#screens-and-navigation)
+8. [Local Appium server management](#local-appium-server-management)
+9. [Cloud and parallel execution](#cloud-and-parallel-execution)
+10. [Customization](#customization)
+11. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -41,7 +43,7 @@ dependencies {
 
 Model your application under test as a singleton extending `AndroidApp`, `IosApp`, or `CrossPlatformApp`.
 
-Each class supports two launch modes — **by identifier** (preinstalled app) and **by app path** (fresh install) — plus an escape hatch via a custom `driverFactory` lambda. See [Appium launch modes](#appium-launch-modes) for details on how these map to Appium capabilities.
+Each class supports two launch modes - **by identifier** (preinstalled app) and **by app path** (fresh install) - plus an escape hatch via a custom `driverFactory` lambda. See [Appium launch modes](#appium-launch-modes) for details on how these map to Appium capabilities.
 
 ### Android
 
@@ -66,7 +68,7 @@ private val products by xpaths(
 
 #### Install from APK/AAB
 
-Provide `appPath`; Appium installs the binary and launches it automatically. You can optionally include `appPackage` if your screens need it for locators or deep links — but **do not** include `appActivity`, since Appium determines the launch activity from the APK manifest.
+Provide `appPath`; Appium installs the binary and launches it automatically. You can optionally include `appPackage` if your screens need it for locators or deep links - but **do not** include `appActivity`, since Appium determines the launch activity from the APK manifest.
 
 ```kotlin
 object MyAndroidApp : AndroidApp(
@@ -97,7 +99,7 @@ object MyIosApp : IosApp(
 
 #### Install from .app/IPA
 
-Provide `appPath`; Appium installs the binary and derives the bundle ID from it automatically. **Do not** include `bundleId` when using `appPath` — Appium ignores it in install mode.
+Provide `appPath`; Appium installs the binary and derives the bundle ID from it automatically. **Do not** include `bundleId` when using `appPath` - Appium ignores it in install mode.
 
 ```kotlin
 object MyIosApp : IosApp(
@@ -169,7 +171,7 @@ Appium treats **launch by identifier** and **install from path** as two distinct
 | `appPath`                    | **Install** | Installs the APK/AAB and launches it; determines activity from the manifest                        |
 | `appPath` + `appPackage`     | **Install** | Same as above; `appPackage` is stored for locators/deep links but not sent to Appium for launching |
 
-> **⚠️ `appPath` + `appActivity` is rejected.** When installing from an APK, Appium ignores `appActivity` — providing it suggests a misconfiguration. If you need `appPackage` for locators, provide it without `appActivity`.
+> **⚠️ `appPath` + `appActivity` is rejected.** When installing from an APK, Appium ignores `appActivity` - providing it suggests a misconfiguration. If you need `appPackage` for locators, provide it without `appActivity`.
 
 ### iOS
 
@@ -178,32 +180,35 @@ Appium treats **launch by identifier** and **install from path** as two distinct
 | `bundleId` | **Attach**  | Launches an already-installed app by bundle identifier                       |
 | `appPath`  | **Install** | Installs the .app/IPA and launches it; derives the bundle ID from the binary |
 
-> **⚠️ `appPath` + `bundleId` is rejected.** When installing from an app path, Appium derives the bundle ID itself — providing both suggests a misconfiguration.
+> **⚠️ `appPath` + `bundleId` is rejected.** When installing from an app path, Appium derives the bundle ID itself - providing both suggests a misconfiguration.
 
 ### Rule of thumb
 
 - **Fresh install (CI, new build)** → use `appPath`
 - **Reuse installed app (faster local runs)** → use `appPackage`/`appActivity` or `bundleId`
-- **Never mix both modes** — they represent fundamentally different Appium execution paths
+- **Never mix both modes** - they represent fundamentally different Appium execution paths
 
 ---
+
 
 ## Writing tests
 
 Use `androidTest`, `iosTest`, or `appiumTest` as the entry point. Each creates a driver session, runs the test body, and guarantees cleanup.
+
+The single navigation verb is `on` — use it for every screen interaction, whether it's the first screen after launch, a screen reached via navigation, or a screen landed on via deep link.
 
 ### Android
 
 ```kotlin
 @Test
 fun checkout() = androidTest(app = MyAndroidApp) {
-    open(::ProductsScreen) {
-        titleText() shouldBe "Products"
-        Product.Backpack.openProductDetails()
-    }.on(::ProductDetailsScreen) {
-        addToCart()
+        on(::ProductsScreen) {
+            titleText() shouldBe "Products"
+            selectProduct("Backpack")
+        }.on(::ProductDetailsScreen) {
+            addToCart()
+        }
     }
-}
 ```
 
 ### iOS
@@ -211,10 +216,10 @@ fun checkout() = androidTest(app = MyAndroidApp) {
 ```kotlin
 @Test
 fun checkout() = iosTest(app = MyIosApp) {
-    open(::ProductsScreen) {
-        titleText() shouldBe "Products"
+        on(::ProductsScreen) {
+            titleText() shouldBe "Products"
+        }
     }
-}
 ```
 
 ### Cross‑platform
@@ -224,18 +229,22 @@ Pass the platform‑specific factory explicitly:
 ```kotlin
 @Test
 fun checkout_android() = appiumTest(
-    app = MyApp,
-    driverFactory = MyApp.androidDriverFactory,
-) {
-    // test body
-}
+        app = MyApp,
+        driverFactory = MyApp.androidDriverFactory,
+    ) {
+        on(::ProductsScreen) {
+            // test body
+        }
+    }
 
 @Test
 fun checkout_ios() = appiumTest(
     app = MyApp,
     driverFactory = MyApp.iosDriverFactory,
 ) {
-    // test body
+    on(::ProductsScreen) {
+        // test body
+    }
 }
 ```
 
@@ -256,6 +265,77 @@ fun purchase_flow() = appiumTest(
     // use fixture.user in the test body
 }
 ```
+
+---
+
+## Deep links
+
+Deep links let you skip the normal navigation flow and land directly on a specific screen - useful for focused tests that don't need to traverse the entire UI.
+
+Pass the `deepLink` parameter to `androidTest`, `iosTest`, or the generic `appiumTest`. The harness creates the driver session, executes the Appium `mobile: deepLink` command with the correct platform parameters, and then runs the test body.
+
+### Android
+
+```kotlin
+@Test
+fun product_details() =
+    androidTest(app = MyAndroidApp, deepLink = "myapp://product-details/1") {
+        on(::ProductDetailsScreen) {
+            titleText() shouldBe "Sauce Labs Backpack"
+        }
+    }
+```
+
+The harness sends `mobile: deepLink` with `url` and `package` (from `AndroidApp.appPackage`).
+
+### iOS
+
+```kotlin
+@Test
+@Test
+fun product_details() =
+    iosTest(app = MyIosApp, deepLink = "myapp://product-details/1") {
+        on(::ProductDetailsScreen) {
+            titleText() shouldBe "Sauce Labs Backpack"
+        }
+    }
+```
+
+The harness sends `mobile: deepLink` with `url` and `bundleId` (from `IosApp.bundleId`).
+
+### Cross‑platform
+
+```kotlin
+@Test
+fun product_details_android() = appiumTest(
+        app = MyApp,
+        driverFactory = MyApp.androidDriverFactory,
+        deepLink = "myapp://product-details/1",
+    ) {
+        on(::ProductDetailsScreen) {
+            // test body
+        }
+    }
+
+@Test
+fun product_details_ios() = appiumTest(
+    app = MyApp,
+    driverFactory = MyApp.iosDriverFactory,
+    deepLink = "myapp://product-details/1",
+) {
+    on(::ProductDetailsScreen) {
+        // test body
+    }
+}
+```
+
+For `CrossPlatformApp`, the platform is resolved at runtime from the driver type - Android drivers send `package`, iOS drivers send `bundleId`.
+
+### Prerequisites
+
+- The app must be configured to handle the deep link scheme (Android intent filters / iOS universal links or custom URL schemes).
+- `appPackage` (Android) or `bundleId` (iOS) must be set on the app definition - the deep link command needs it to target the correct app.
+- The Appium server (or cloud provider) must support the `mobile: deepLink` extension.
 
 ---
 
@@ -283,13 +363,29 @@ class ProductDetailsScreen : Screen<MyAndroidApp>() {
 }
 ```
 
-Navigate between screens using `open` and `on`:
+Navigate between screens using `on`:
 
 ```kotlin
-open(::ProductsScreen) {
+on(::ProductsScreen) {
     titleText() shouldBe "Products"
+    selectProduct("Backpack")
 }.on(::ProductDetailsScreen) {
     addToCart()
+}
+```
+
+`on` is the single verb for all screen interactions. The first `on` call (on `AppEntry`) creates the screen and returns a `ScreenScope`; subsequent `.on(...)` calls chain from `ScreenScope`. Use `then` to perform additional actions on the current screen and `verify` to run assertions, both without switching screens:
+
+```kotlin
+on(::ProductsScreen) {
+    selectProduct("Backpack")
+}.on(::ProductDetailsScreen) {
+    addToCart()
+}.then {
+    cartBadgeCount() shouldBe 1
+    proceedToCheckout()
+}.on(::CheckoutScreen) {
+    placeOrder()
 }
 ```
 
@@ -312,13 +408,13 @@ object MyAndroidApp : AndroidApp(
 
 When `service` is provided, the harness starts it before creating the driver session and stops it during teardown. A JVM shutdown hook prevents orphaned Appium processes on abnormal exits.
 
-When `service` is `null` (the default), no local server is managed — tests connect to whatever Appium server is already running.
+When `service` is `null` (the default), no local server is managed - tests connect to whatever Appium server is already running.
 
 ---
 
 ## Cloud and parallel execution
 
-For parallel or multi‑device execution, use a cloud provider such as BrowserStack, Sauce Labs, or LambdaTest. The integration point is the driver factory — point it at the cloud hub URL with the appropriate capabilities:
+For parallel or multi‑device execution, use a cloud provider such as BrowserStack, Sauce Labs, or LambdaTest. The integration point is the driver factory - point it at the cloud hub URL with the appropriate capabilities:
 
 ```kotlin
 object MyCloudApp : AndroidApp(
@@ -339,7 +435,7 @@ object MyCloudApp : AndroidApp(
 )
 ```
 
-Everything else — test harness, screens, navigation — works identically regardless of whether the driver connects to a local or remote server.
+Everything else - test harness, screens, navigation - works identically regardless of whether the driver connects to a local or remote server.
 
 ---
 
@@ -347,9 +443,9 @@ Everything else — test harness, screens, navigation — works identically rega
 
 Override properties on your `App` to adjust default behavior:
 
-- **`elementReadyCondition`** — predicate applied by locator delegates to determine when an element is ready for interaction (defaults to `isDisplayed`).
-- **`waitConfig`** — default wait timing used by locator delegates.
-- **`onSessionReady(driver)`** — hook invoked after the driver session is created and before any screen interactions; useful for setting e.g., orientation or geolocation, or performing pre‑navigation setup.
+- **`elementReadyCondition`** - predicate applied by locator delegates to determine when an element is ready for interaction (defaults to `isDisplayed`).
+- **`waitConfig`** - default wait timing used by locator delegates.
+- **`onSessionReady(driver)`** - hook invoked after the driver session is created and before any screen interactions; useful for setting e.g., orientation or geolocation, or performing pre‑navigation setup.
 
 ```kotlin
 object MyAndroidApp : AndroidApp(
@@ -372,8 +468,8 @@ object MyAndroidApp : AndroidApp(
 
 ## Troubleshooting
 
-- **Port already in use when starting local Appium** — Ensure no orphaned Appium processes are running. The managed service stops on normal teardown and on JVM shutdown; if a previous run crashed, kill the process manually or change the port.
+- **Port already in use when starting local Appium** - Ensure no orphaned Appium processes are running. The managed service stops on normal teardown and on JVM shutdown; if a previous run crashed, kill the process manually or change the port.
 
-- **Tests can't find elements intermittently** — Override `elementReadyCondition` or `waitConfig` on your app to better match your UI's state transitions.
+- **Tests can't find elements intermittently** - Override `elementReadyCondition` or `waitConfig` on your app to better match your UI's state transitions.
 
-- **Using a remote Appium server** — Leave `service` as `null` (the default). The harness will not start or stop any local server.
+- **Using a remote Appium server** - Leave `service` as `null` (the default). The harness will not start or stop any local server.

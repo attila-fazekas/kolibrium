@@ -20,20 +20,32 @@ import dev.kolibrium.appium.AndroidApp
 import dev.kolibrium.appium.CrossPlatformApp
 import dev.kolibrium.appium.IosApp
 import dev.kolibrium.appium.appiumService
+import io.appium.java_client.Location
+import io.appium.java_client.android.AndroidDriver
+import org.openqa.selenium.ScreenOrientation
+
+object MyDemoAppRnAndroidApp : AndroidApp(
+    appPackage = "com.saucelabs.mydemoapp.rn",
+    appActivity = ".MainActivity",
+    service =
+        appiumService {
+            port = 4723
+            logLevel = "info"
+        },
+) {
+    override fun onSessionReady(driver: AndroidDriver) {
+        driver.apply {
+            rotate(ScreenOrientation.PORTRAIT)
+            location = Location(39.4666667, -0.3666667, 0.0) // Valencia, Spain
+        }
+    }
+}
+
+object MyDemoAppRnIosApp : IosApp(
+    bundleId = "com.example.ios",
+)
 
 object MyDemoAppRn : CrossPlatformApp(
-    android =
-        object : AndroidApp(
-            appPackage = "com.saucelabs.mydemoapp.rn",
-            appActivity = ".MainActivity",
-            service =
-                appiumService {
-                    port = 4723
-                    logLevel = "info"
-                },
-        ) {},
-    ios =
-        object : IosApp(
-            bundleId = "com.example.ios",
-        ) {},
+    android = MyDemoAppRnAndroidApp,
+    ios = MyDemoAppRnIosApp,
 )
