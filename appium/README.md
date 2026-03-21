@@ -1,15 +1,21 @@
+
 # Kolibrium Appium User Guide
 
 ## Table of Contents
 1. [Overview](#overview)
 2. [Setup](#setup)
 3. [Defining your app](#defining-your-app)
-4. [Writing tests](#writing-tests)
-5. [Screens and navigation](#screens-and-navigation)
-6. [Local Appium server management](#local-appium-server-management)
-7. [Cloud and parallel execution](#cloud-and-parallel-execution)
-8. [Customization](#customization)
-9. [Troubleshooting](#troubleshooting)
+    - [Android](#android)
+    - [iOS](#ios)
+    - [Cross‑platform](#cross-platform)
+    - [Custom driver factory](#custom-driver-factory)
+4. [Appium launch modes](#appium-launch-modes)
+5. [Writing tests](#writing-tests)
+6. [Screens and navigation](#screens-and-navigation)
+7. [Local Appium server management](#local-appium-server-management)
+8. [Cloud and parallel execution](#cloud-and-parallel-execution)
+9. [Customization](#customization)
+10. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -33,71 +39,111 @@ dependencies {
 
 ## Defining your app
 
-Model your application under test as a singleton extending `AndroidApp`, `IosApp`, or `CrossPlatformApp`. The only required argument is a driver factory — a function that creates an `AppiumDriver`.
+Model your application under test as a singleton extending `AndroidApp`, `IosApp`, or `CrossPlatformApp`.
 
-Kolibrium provides convenience factories for common setups, or you can supply your own lambda for full control.
+Each class supports two launch modes — **by identifier** (preinstalled app) and **by app path** (fresh install) — plus an escape hatch via a custom `driverFactory` lambda. See [Appium launch modes](#appium-launch-modes) for details on how these map to Appium capabilities.
 
-### Android — preinstalled app
+### Android
+
+#### Preinstalled app (launch by package)
+
+The most common case. Provide `appPackage` and `appActivity`; the driver factory is derived automatically.
 
 ```kotlin
-object MyApp : AndroidApp(
-    driverFactory = androidDriverByPackage(
-        appPackage = "com.example.app",
-        appActivity = ".MainActivity",
-    ),
+object MyAndroidApp : AndroidApp(
+    appPackage = "com.example.app",
+    appActivity = ".MainActivity",
 )
 ```
 
-### Android — install from APK
+`appPackage` is stored as a property and can be referenced in screen locators:
 
 ```kotlin
-object MyApp : AndroidApp(
-    driverFactory = androidDriverByApp(
-        appPath = "/path/to/app.apk",
-    ),
+private val products by xpaths(
+    """//*[@resource-id="${MyAndroidApp.appPackage}:id/productRV"]/android.view.ViewGroup""",
 )
 ```
 
-### iOS — preinstalled app
+#### Install from APK/AAB
+
+Provide `appPath`; Appium installs the binary and launches it automatically. You can optionally include `appPackage` if your screens need it for locators or deep links — but **do not** include `appActivity`, since Appium determines the launch activity from the APK manifest.
 
 ```kotlin
-object MyApp : IosApp(
-    driverFactory = iosDriverByBundleId(
-        bundleId = "com.example.ios",
-    ),
+object MyAndroidApp : AndroidApp(
+    appPath = "/path/to/app.apk",
 )
 ```
 
-### iOS — install from IPA/.app
+With `appPackage` for locators:
 
 ```kotlin
-object MyApp : IosApp(
-    driverFactory = iosDriverByApp(
-        appPath = "/path/to/app.ipa",
-    ),
+object MyAndroidApp : AndroidApp(
+    appPath = "/path/to/app.apk",
+    appPackage = "com.example.app",
 )
 ```
 
-### Cross‑platform
+### iOS
+
+#### Preinstalled app (launch by bundle ID)
+
+```kotlin
+object MyIosApp : IosApp(
+    bundleId = "com.example.ios",
+)
+```
+
+`bundleId` is stored as a property and can be referenced in screen locators.
+
+#### Install from .app/IPA
+
+Provide `appPath`; Appium installs the binary and derives the bundle ID from it automatically. **Do not** include `bundleId` when using `appPath` — Appium ignores it in install mode.
+
+```kotlin
+object MyIosApp : IosApp(
+    appPath = "/path/to/app.ipa",
+)
+```
+
+### Cross-platform
+
+`CrossPlatformApp` composes an `AndroidApp` and an `IosApp`:
 
 ```kotlin
 object MyApp : CrossPlatformApp(
-    androidDriverFactory = androidDriverByPackage(
+    android = MyAndroidApp,
+    ios = MyIosApp,
+)
+```
+
+Or define the platform apps inline:
+
+```kotlin
+object MyApp : CrossPlatformApp(
+    android = object : AndroidApp(
         appPackage = "com.example.app",
         appActivity = ".MainActivity",
-    ),
-    iosDriverFactory = iosDriverByBundleId(
+    ) {},
+    ios = object : IosApp(
         bundleId = "com.example.ios",
-    ),
+    ) {},
 )
+```
+
+Properties like `appPackage` and `bundleId` are available through delegation:
+
+```kotlin
+MyApp.appPackage   // delegates to MyApp.android.appPackage
+MyApp.bundleId     // delegates to MyApp.ios.bundleId
 ```
 
 ### Custom driver factory
 
-Since the driver factory is just a `() -> AppiumDriver` function, you can configure the driver however you need:
+Since the driver factory is just a `() -> AppiumDriver` function, you can configure the driver however you need. Pass it as the `driverFactory` parameter alongside any metadata properties your screens require:
 
 ```kotlin
-object MyApp : AndroidApp(
+object MyAndroidApp : AndroidApp(
+    appPackage = "com.example.app",
     driverFactory = {
         val options = UiAutomator2Options().apply {
             setAppPackage("com.example.app")
@@ -111,6 +157,37 @@ object MyApp : AndroidApp(
 
 ---
 
+## Appium launch modes
+
+Appium treats **launch by identifier** and **install from path** as two distinct execution modes. Kolibrium enforces this distinction at construction time.
+
+### Android
+
+| Parameter                    | Launch mode | What Appium does                                                                                   |
+|------------------------------|-------------|----------------------------------------------------------------------------------------------------|
+| `appPackage` + `appActivity` | **Attach**  | Launches an already-installed app by package and activity                                          |
+| `appPath`                    | **Install** | Installs the APK/AAB and launches it; determines activity from the manifest                        |
+| `appPath` + `appPackage`     | **Install** | Same as above; `appPackage` is stored for locators/deep links but not sent to Appium for launching |
+
+> **⚠️ `appPath` + `appActivity` is rejected.** When installing from an APK, Appium ignores `appActivity` — providing it suggests a misconfiguration. If you need `appPackage` for locators, provide it without `appActivity`.
+
+### iOS
+
+| Parameter  | Launch mode | What Appium does                                                             |
+|------------|-------------|------------------------------------------------------------------------------|
+| `bundleId` | **Attach**  | Launches an already-installed app by bundle identifier                       |
+| `appPath`  | **Install** | Installs the .app/IPA and launches it; derives the bundle ID from the binary |
+
+> **⚠️ `appPath` + `bundleId` is rejected.** When installing from an app path, Appium derives the bundle ID itself — providing both suggests a misconfiguration.
+
+### Rule of thumb
+
+- **Fresh install (CI, new build)** → use `appPath`
+- **Reuse installed app (faster local runs)** → use `appPackage`/`appActivity` or `bundleId`
+- **Never mix both modes** — they represent fundamentally different Appium execution paths
+
+---
+
 ## Writing tests
 
 Use `androidTest`, `iosTest`, or `appiumTest` as the entry point. Each creates a driver session, runs the test body, and guarantees cleanup.
@@ -119,7 +196,7 @@ Use `androidTest`, `iosTest`, or `appiumTest` as the entry point. Each creates a
 
 ```kotlin
 @Test
-fun checkout() = androidTest(app = MyApp) {
+fun checkout() = androidTest(app = MyAndroidApp) {
     open(::ProductsScreen) {
         titleText() shouldBe "Products"
         Product.Backpack.openProductDetails()
@@ -133,7 +210,7 @@ fun checkout() = androidTest(app = MyApp) {
 
 ```kotlin
 @Test
-fun checkout() = iosTest(app = MyApp) {
+fun checkout() = iosTest(app = MyIosApp) {
     open(::ProductsScreen) {
         titleText() shouldBe "Products"
     }
@@ -171,8 +248,8 @@ data class Fixture(val user: User)
 
 @Test
 fun purchase_flow() = appiumTest(
-    app = MyApp,
-    driverFactory = MyApp.driverFactory,
+    app = MyAndroidApp,
+    driverFactory = MyAndroidApp.driverFactory,
     setUp = { Fixture(seedUser()) },
     tearDown = { fixture -> deleteUser(fixture.user) },
 ) { fixture ->
@@ -187,17 +264,17 @@ fun purchase_flow() = appiumTest(
 Define screens by extending `Screen<YourApp>` and declaring elements with locator delegates:
 
 ```kotlin
-class ProductsScreen : Screen<MyApp>() {
+class ProductsScreen : Screen<MyAndroidApp>() {
     val title by accessibilityId("title")
 
     private val products by xpaths(
-        """//*[@resource-id="com.example.app:id/productList"]/android.view.ViewGroup""",
+        """//*[@resource-id="${MyAndroidApp.appPackage}:id/productList"]/android.view.ViewGroup""",
     )
 
     fun titleText(): String = title.text
 }
 
-class ProductDetailsScreen : Screen<MyApp>() {
+class ProductDetailsScreen : Screen<MyAndroidApp>() {
     private val cartButton by resourceId("cartBt")
 
     fun addToCart() {
@@ -223,11 +300,9 @@ open(::ProductsScreen) {
 If you don't run an external Appium server, Kolibrium can manage a local one for you. Pass a `service` when defining your app:
 
 ```kotlin
-object MyApp : AndroidApp(
-    driverFactory = androidDriverByPackage(
-        appPackage = "com.example.app",
-        appActivity = ".MainActivity",
-    ),
+object MyAndroidApp : AndroidApp(
+    appPackage = "com.example.app",
+    appActivity = ".MainActivity",
     service = appiumService {
         port = 4723
         logLevel = "info"
@@ -246,7 +321,8 @@ When `service` is `null` (the default), no local server is managed — tests con
 For parallel or multi‑device execution, use a cloud provider such as BrowserStack, Sauce Labs, or LambdaTest. The integration point is the driver factory — point it at the cloud hub URL with the appropriate capabilities:
 
 ```kotlin
-object MyApp : AndroidApp(
+object MyCloudApp : AndroidApp(
+    appPackage = "com.example.app",
     driverFactory = {
         AndroidDriver(
             URI("https://hub-cloud.browserstack.com/wd/hub").toURL(),
@@ -276,11 +352,9 @@ Override properties on your `App` to adjust default behavior:
 - **`onSessionReady(driver)`** — hook invoked after the driver session is created and before any screen interactions; useful for setting e.g., orientation or geolocation, or performing pre‑navigation setup.
 
 ```kotlin
-object MyApp : AndroidApp(
-    driverFactory = androidDriverByPackage(
-        appPackage = "com.example.app",
-        appActivity = ".MainActivity",
-    ),
+object MyAndroidApp : AndroidApp(
+    appPackage = "com.example.app",
+    appActivity = ".MainActivity",
 ) {
     override val elementReadyCondition: WebElement.() -> Boolean
         get() = { isEnabled }

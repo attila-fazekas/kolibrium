@@ -23,7 +23,7 @@ import io.appium.java_client.ios.options.XCUITestOptions
 import java.net.URI
 import java.net.URL
 
-private val DEFAULT_APPIUM_URL = URI("http://127.0.0.1:4723").toURL()
+internal val DEFAULT_APPIUM_URL = URI("http://127.0.0.1:4723").toURL()
 
 /**
  * Creates an [AndroidDriver] factory configured to launch an already installed application

@@ -17,23 +17,23 @@
 package dev.kolibrium.appium
 
 object SauceDemoAndroidApp : AndroidApp(
-    driverFactory =
-        androidDriverByPackage(
-            appPackage = "com.saucelabs.mydemoapp.android",
-            appActivity = ".view.activities.SplashActivity",
-        ),
+    appPackage = "com.saucelabs.mydemoapp.android",
+    appActivity = ".view.activities.SplashActivity",
     service =
         appiumService {
             port = 4723
             logLevel = "info"
         },
-) {
-    const val APP_PACKAGE = "com.saucelabs.mydemoapp.android"
-}
+)
 
 object SauceDemoIosApp : IosApp(
     driverFactory =
         iosDriverByBundleId(
             bundleId = "com.saucelabs.mydemoapp.ios",
         ),
+)
+
+object SauceDemoCrossPlatform : CrossPlatformApp(
+    android = SauceDemoAndroidApp,
+    ios = SauceDemoIosApp,
 )

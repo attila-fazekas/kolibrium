@@ -18,7 +18,6 @@ package dev.kolibrium.appium.screens
 
 import dev.kolibrium.appium.Product
 import dev.kolibrium.appium.SauceDemoAndroidApp
-import dev.kolibrium.appium.SauceDemoAndroidApp.APP_PACKAGE
 import dev.kolibrium.appium.SauceDemoIosApp
 import dev.kolibrium.appium.Screen
 import dev.kolibrium.appium.accessibilityId
@@ -36,7 +35,7 @@ sealed interface ProductsScreen {
         ProductsScreen {
         private val title by accessibilityId("title")
         private val products by xpaths(
-            """//*[@resource-id="$APP_PACKAGE:id/productRV"]/android.view.ViewGroup""",
+            """//*[@resource-id="${SauceDemoAndroidApp.appPackage}:id/productRV"]/android.view.ViewGroup""",
         )
 
         override fun titleText(): String = title.text
