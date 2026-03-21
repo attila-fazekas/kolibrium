@@ -76,12 +76,17 @@ public final class dev/kolibrium/appium/AppiumServiceScope {
 }
 
 public final class dev/kolibrium/appium/AppiumTestKt {
+	public static final fun androidTest (Ldev/kolibrium/appium/AndroidApp;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static final fun androidTest (Ldev/kolibrium/appium/AndroidApp;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun androidTest$default (Ldev/kolibrium/appium/AndroidApp;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 	public static synthetic fun androidTest$default (Ldev/kolibrium/appium/AndroidApp;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static final fun appiumTest (Ldev/kolibrium/appium/App;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static final fun appiumTest (Ldev/kolibrium/appium/App;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)V
 	public static final fun appiumTest (Ldev/kolibrium/appium/CrossPlatformApp;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;)V
 	public static synthetic fun appiumTest$default (Ldev/kolibrium/appium/App;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static final fun iosTest (Ldev/kolibrium/appium/IosApp;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)V
 	public static final fun iosTest (Ldev/kolibrium/appium/IosApp;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun iosTest$default (Ldev/kolibrium/appium/IosApp;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 	public static synthetic fun iosTest$default (Ldev/kolibrium/appium/IosApp;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 }
 
@@ -92,8 +97,7 @@ public final class dev/kolibrium/appium/CapabilitiesScope {
 }
 
 public abstract class dev/kolibrium/appium/CrossPlatformApp : dev/kolibrium/appium/App {
-	public fun <init> (Ldev/kolibrium/appium/AndroidApp;Ldev/kolibrium/appium/IosApp;Lio/appium/java_client/service/local/AppiumDriverLocalService;)V
-	public synthetic fun <init> (Ldev/kolibrium/appium/AndroidApp;Ldev/kolibrium/appium/IosApp;Lio/appium/java_client/service/local/AppiumDriverLocalService;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ldev/kolibrium/appium/AndroidApp;Ldev/kolibrium/appium/IosApp;)V
 	public final fun getAndroid ()Ldev/kolibrium/appium/AndroidApp;
 	public final fun getAndroidDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public final fun getAppPackage ()Ljava/lang/String;

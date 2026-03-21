@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.screens
+package dev.kolibrium.appium.mydemoapprn
 
-import dev.kolibrium.appium.resourceId
-import org.openqa.selenium.WebElement
+import dev.kolibrium.appium.androidTest
+import org.junit.jupiter.api.Test
 
-class Item(
-    root: WebElement,
-) {
-    val image by root.resourceId("productIV")
-    val title by root.resourceId("titleTV")
-    val price by root.resourceId("priceTV")
+class MyDemoAppRnTest {
+    @Test
+    fun `android deep link`() =
+        androidTest(app = MyDemoAppRn.android, deepLink = "mydemoapprn://product-details/1") {
+            Thread.sleep(2000)
+        }
 }

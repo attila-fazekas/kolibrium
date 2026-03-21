@@ -14,22 +14,26 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium
+package dev.kolibrium.appium.mydemoapp
 
-import dev.kolibrium.appium.Product.Backpack
-import dev.kolibrium.appium.screens.ProductDetailsScreen
-import dev.kolibrium.appium.screens.ProductsScreen
+import dev.kolibrium.appium.AndroidDriverFactory
+import dev.kolibrium.appium.AppEntry
+import dev.kolibrium.appium.IosDriverFactory
+import dev.kolibrium.appium.androidTest
+import dev.kolibrium.appium.iosTest
+import dev.kolibrium.appium.mydemoapp.screens.ProductDetailsScreen
+import dev.kolibrium.appium.mydemoapp.screens.ProductsScreen
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
-class SauceDemoAppTest {
+class MyDemoAppTest {
     @Test
     fun `android checkout`() =
-        sauceDemoAndroidAppTest {
+        myDemoAndroidAppTest {
             open(ProductsScreen::Android) {
                 titleText() shouldBe "Products"
 
-                Backpack.openProductDetails()
+                Product.Backpack.openProductDetails()
             }.on(::ProductDetailsScreen) {
                 addToCart()
             }
@@ -37,7 +41,7 @@ class SauceDemoAppTest {
 
     @Test
     fun `iOS checkout`() =
-        sauceDemoIosAppTest {
+        myDemoIosAppTest {
 //            open(::ProductsScreen) {
 //                titleText() shouldBe "Products"
 //
@@ -49,19 +53,19 @@ class SauceDemoAppTest {
 }
 
 // TODO Generate this with KSP
-fun sauceDemoAndroidAppTest(
-    app: SauceDemoAndroidApp = SauceDemoAndroidApp,
+fun myDemoAndroidAppTest(
+    app: MyDemoAndroidApp = MyDemoAndroidApp,
     driverFactory: AndroidDriverFactory = app.driverFactory,
-    block: AppEntry<SauceDemoAndroidApp>.(Unit) -> Unit,
+    block: AppEntry<MyDemoAndroidApp>.(Unit) -> Unit,
 ) {
     androidTest(app = app, driverFactory = driverFactory, block = block)
 }
 
 // TODO Generate this with KSP
-fun sauceDemoIosAppTest(
-    app: SauceDemoIosApp = SauceDemoIosApp,
+fun myDemoIosAppTest(
+    app: MyDemoIosApp = MyDemoIosApp,
     driverFactory: IosDriverFactory = app.driverFactory,
-    block: AppEntry<SauceDemoIosApp>.(Unit) -> Unit,
+    block: AppEntry<MyDemoIosApp>.(Unit) -> Unit,
 ) {
     iosTest(app = app, driverFactory = driverFactory, block = block)
 }

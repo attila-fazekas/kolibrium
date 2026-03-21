@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.screens
+package dev.kolibrium.appium.mydemoapp.screens
 
-import dev.kolibrium.appium.Product
-import dev.kolibrium.appium.SauceDemoAndroidApp
-import dev.kolibrium.appium.SauceDemoIosApp
 import dev.kolibrium.appium.Screen
 import dev.kolibrium.appium.accessibilityId
 import dev.kolibrium.appium.iOSClassChain
 import dev.kolibrium.appium.iOSNsPredicates
+import dev.kolibrium.appium.mydemoapp.MyDemoAndroidApp
+import dev.kolibrium.appium.mydemoapp.MyDemoIosApp
+import dev.kolibrium.appium.mydemoapp.Product
 import dev.kolibrium.selenium.core.xpaths
 
 sealed interface ProductsScreen {
@@ -31,11 +31,11 @@ sealed interface ProductsScreen {
     fun Product.openProductDetails(): ProductDetailsScreen
 
     class Android :
-        Screen<SauceDemoAndroidApp>(),
+        Screen<MyDemoAndroidApp>(),
         ProductsScreen {
         private val title by accessibilityId("title")
         private val products by xpaths(
-            """//*[@resource-id="${SauceDemoAndroidApp.appPackage}:id/productRV"]/android.view.ViewGroup""",
+            """//*[@resource-id="${MyDemoAndroidApp.appPackage}:id/productRV"]/android.view.ViewGroup""",
         )
 
         override fun titleText(): String = title.text
@@ -54,7 +54,7 @@ sealed interface ProductsScreen {
     }
 
     class Ios :
-        Screen<SauceDemoIosApp>(),
+        Screen<MyDemoIosApp>(),
         ProductsScreen {
         private val title by iOSClassChain("XCUIElementTypeStaticText[`name == 'title'`]")
         private val products by iOSNsPredicates("type == 'XCUIElementTypeCell'")

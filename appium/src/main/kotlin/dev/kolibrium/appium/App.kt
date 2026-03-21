@@ -66,9 +66,9 @@ public sealed interface App {
  * Supports three modes of construction — supply whichever combination applies:
  * - **by package**: [appPackage] + [appActivity] → factory derived via [androidDriverByPackage].
  * - **by app path**: [appPath] (+ optional [appPackage]) → factory derived via [androidDriverByApp].
- * - **custom factory**: pass [driverFactory] directly (+ optional [appPackage] for locators/deep links).
+ * - **custom factory**: pass [driverFactory] directly (+ optional [appPackage] for locators).
  *
- * @property appPackage The Android package name, available at runtime for locators and deep links.
+ * @property appPackage The Android package name, available at runtime for locators.
  * @property appActivity The launcher activity. Required when launching by package.
  * @property appPath Filesystem path or URL to the APK/AAB. Required when installing from a binary.
  * @property appiumUrl URL of the Appium server to connect to. Defaults to the local server.
@@ -166,13 +166,20 @@ public abstract class IosApp(
  *
  * @property android The Android-side app definition.
  * @property ios The iOS-side app definition.
- * @property service Optional [AppiumDriverLocalService] to be managed for this app.
  */
 public abstract class CrossPlatformApp(
     public val android: AndroidApp,
     public val ios: IosApp,
-    override val service: AppiumDriverLocalService? = null,
 ) : App {
+    /**
+     * Returns the service from the Android-side or iOS-side app, if either is configured.
+     *
+     * At most one platform app should define a service at a time — the harness manages
+     * whichever one is present for the current test run.
+     */
+    override val service: AppiumDriverLocalService?
+        get() = android.service ?: ios.service
+
     /**
      * The driver factory used to create Android driver sessions for this app.
      * Delegates to the [driverFactory] property of the Android-side app.

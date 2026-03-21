@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.screens
+package dev.kolibrium.appium.mydemoapp.screens
 
-import dev.kolibrium.appium.SauceDemoAndroidApp
 import dev.kolibrium.appium.Screen
+import dev.kolibrium.appium.mydemoapp.MyDemoAndroidApp
 
-class CartScreen : Screen<SauceDemoAndroidApp>() {
+class CartScreen : Screen<MyDemoAndroidApp>() {
     fun itemCount(): Int = 0
 }
