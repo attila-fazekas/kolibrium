@@ -14,10 +14,11 @@
 5. [Writing tests](#writing-tests)
 6. [Deep links](#deep-links)
 7. [Screens and navigation](#screens-and-navigation)
-8. [Local Appium server management](#local-appium-server-management)
-9. [Cloud and parallel execution](#cloud-and-parallel-execution)
-10. [Customization](#customization)
-11. [Troubleshooting](#troubleshooting)
+8. [UiSelector DSL](#uiselector-dsl)
+9. [Local Appium server management](#local-appium-server-management)
+10. [Cloud and parallel execution](#cloud-and-parallel-execution)
+11. [Customization](#customization)
+12. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -195,7 +196,7 @@ Appium treats **launch by identifier** and **install from path** as two distinct
 
 Use `androidTest`, `iosTest`, or `appiumTest` as the entry point. Each creates a driver session, runs the test body, and guarantees cleanup.
 
-The single navigation verb is `on` — use it for every screen interaction, whether it's the first screen after launch, a screen reached via navigation, or a screen landed on via deep link.
+The single navigation verb is `on` - use it for every screen interaction, whether it's the first screen after launch, a screen reached via navigation, or a screen landed on via deep link.
 
 ### Android
 
@@ -387,6 +388,71 @@ on(::ProductsScreen) {
 }.on(::CheckoutScreen) {
     placeOrder()
 }
+```
+
+---
+
+## UiSelector DSL
+For Android screens, Kolibrium provides a type-safe DSL for building UIAutomator `UiSelector` expressions - no raw Java strings required. Use `uiSelector { }` with `androidUIAutomator` or `androidUIAutomators`.
+
+```kotlin
+val loginButton by androidUIAutomator(uiSelector { text("Login") })
+
+val listItem by androidUIAutomator(uiSelector {
+    className("android.widget.TextView")
+    textContains("Product")
+    enabled()
+})
+```
+
+### Available matchers
+
+#### Text
+
+| Function                | Matches when…                        |
+|-------------------------|--------------------------------------|
+| `text(value)`           | element text equals `value` exactly  |
+| `textContains(value)`   | element text contains `value`        |
+| `textStartsWith(value)` | element text starts with `value`     |
+| `textMatches(regex)`    | element text matches `regex` pattern |
+
+#### Content description
+
+| Function                       | Matches when…                               |
+|--------------------------------|---------------------------------------------|
+| `description(value)`           | content description equals `value` exactly  |
+| `descriptionContains(value)`   | content description contains `value`        |
+| `descriptionStartsWith(value)` | content description starts with `value`     |
+| `descriptionMatches(regex)`    | content description matches `regex` pattern |
+
+#### Identity & state
+
+| Function                   | Matches when…                        |
+|----------------------------|--------------------------------------|
+| `className(value)`         | element class name equals `value`    |
+| `resourceId(value)`        | element resource name equals `value` |
+| `clickable(value = true)`  | element is (or isn't) clickable      |
+| `enabled(value = true)`    | element is (or isn't) enabled        |
+| `focusable(value = true)`  | element is (or isn't) focusable      |
+| `scrollable(value = true)` | element is (or isn't) scrollable     |
+
+#### Position
+
+| Function       | Matches when…                            |
+|----------------|------------------------------------------|
+| `index(index)` | element is at `index` among siblings     |
+| `instance(n)`  | element is the `n`-th match (zero-based) |
+
+### Combining clauses
+All clauses in a single `uiSelector { }` block are chained as a single `UiSelector` expression:
+
+```kotlin
+val addToCart by androidUIAutomator(uiSelector {
+    className("android.widget.Button")
+    textContains("Add To Cart")
+    enabled()
+    instance(0)
+})
 ```
 
 ---
