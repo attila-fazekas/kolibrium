@@ -15,10 +15,11 @@
 6. [Deep links](#deep-links)
 7. [Screens and navigation](#screens-and-navigation)
 8. [UiSelector DSL](#uiselector-dsl)
-9. [Local Appium server management](#local-appium-server-management)
-10. [Cloud and parallel execution](#cloud-and-parallel-execution)
-11. [Customization](#customization)
-12. [Troubleshooting](#troubleshooting)
+9. [NSPredicate DSL](#nspredicate-dsl)
+10. [Local Appium server management](#local-appium-server-management)
+11. [Cloud and parallel execution](#cloud-and-parallel-execution)
+12. [Customization](#customization)
+13. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -453,6 +454,113 @@ val addToCart by androidUIAutomator(uiSelector {
     enabled()
     instance(0)
 })
+```
+
+---
+
+## NSPredicate DSL
+
+For iOS screens, Kolibrium provides a type-safe DSL for building `NSPredicate` expressions — no raw predicate strings required. Use `nsPredicate { }` with `iOSNSPredicate` or `iOSNSPredicates`.
+
+```kotlin
+val loginButton by iOSNSPredicate(nsPredicate {
+    label equalTo "Login"
+    isEnabled equalTo true
+})
+```
+
+Multiple top-level clauses are joined with `AND`.
+
+### Attributes
+
+#### String
+
+| Attribute | NSPredicate key |
+|-----------|-----------------|
+| `type`    | `type`          |
+| `name`    | `name`          |
+| `label`   | `label`         |
+| `value`   | `value`         |
+
+#### Boolean
+
+| Attribute    | NSPredicate key |
+|--------------|-----------------|
+| `isEnabled`  | `enabled`       |
+| `isVisible`  | `visible`       |
+| `accessible` | `accessible`    |
+| `selected`   | `selected`      |
+| `focused`    | `focused`       |
+| `hittable`   | `hittable`      |
+
+#### Rect (numeric)
+
+Access via `rect.x`, `rect.y`, `rect.width`, `rect.height`.
+
+### String matchers
+
+All string matchers accept an optional `StringModifier` (`CaseInsensitive`, `DiacriticInsensitive`, or both).
+
+| Function                           | Produces                            |
+|------------------------------------|-------------------------------------|
+| `attr equalTo "value"`             | `attr == 'value'`                   |
+| `attr notEqualTo "value"`          | `attr != 'value'`                   |
+| `attr.contains("v", modifier?)`    | `attr CONTAINS[modifier] 'v'`       |
+| `attr.beginsWith("v", modifier?)`  | `attr BEGINSWITH[modifier] 'v'`     |
+| `attr.endsWith("v", modifier?)`    | `attr ENDSWITH[modifier] 'v'`       |
+| `attr.like("v*", modifier?)`       | `attr LIKE[modifier] 'v*'`          |
+| `attr.matches("regex", modifier?)` | `attr MATCHES[modifier] 'regex'`    |
+| `attr isIn listOf("a", "b")`       | `attr IN {'a', 'b'}`                |
+
+### Numeric matchers
+
+| Function                       | Produces                        |
+|--------------------------------|---------------------------------|
+| `attr equalTo 42`              | `attr == 42`                    |
+| `attr notEqualTo 42`           | `attr != 42`                    |
+| `attr greaterThan 42`          | `attr > 42`                     |
+| `attr greaterThanOrEqualTo 42` | `attr >= 42`                    |
+| `attr lessThan 42`             | `attr < 42`                     |
+| `attr lessThanOrEqualTo 42`    | `attr <= 42`                    |
+| `attr.between(lower, upper)`   | `attr BETWEEN { lower, upper }` |
+
+### Compound predicates
+
+| Function       | Joins clauses with | Notes                                        |
+|----------------|--------------------|----------------------------------------------|
+| `anyOf { }`    | `OR`               | Result is grouped in parentheses             |
+| `allOf { }`    | `AND`              | Useful for explicit grouping inside `anyOf`  |
+| `not { }`      | `NOT (...)`        | Negates the clause(s) inside the block       |
+
+```kotlin
+// OR grouping
+val done by iOSNSPredicate(nsPredicate {
+    anyOf {
+        name equalTo "done"
+        value equalTo "done"
+    }
+    type isIn listOf(XCUIElementType.BUTTON, XCUIElementType.KEY)
+})
+// Produces: (name == 'done' OR value == 'done') AND type IN {'XCUIElementTypeButton', 'XCUIElementTypeKey'}
+
+// Negation + rect
+val offscreen by iOSNSPredicate(nsPredicate {
+    rect.x.between(1, 100)
+    not { isVisible equalTo true }
+})
+// Produces: rect.x BETWEEN { 1, 100 } AND NOT (visible == true)
+
+// Nested allOf inside anyOf
+val submit by iOSNSPredicate(nsPredicate {
+    anyOf {
+        allOf {
+            name equalTo "done"
+            isEnabled equalTo true
+        }
+        label equalTo "cancel"
+    }
+})
+// Produces: ((name == 'done' AND enabled == true) OR label == 'cancel')
 ```
 
 ---

@@ -197,9 +197,167 @@ public final class dev/kolibrium/appium/ios/LocatorDelegatesKt {
 	public static synthetic fun iOSClassChain$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
 	public static final fun iOSClassChains (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
 	public static synthetic fun iOSClassChains$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun iOSNsPredicate (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun iOSNsPredicate$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun iOSNsPredicates (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun iOSNsPredicates$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static final fun iOSNSPredicate (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static synthetic fun iOSNSPredicate$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
+	public static final fun iOSNSPredicates (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+	public static synthetic fun iOSNSPredicates$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+}
+
+public final class dev/kolibrium/appium/ios/NSPredicateKt {
+	public static final fun nsPredicate (Lkotlin/jvm/functions/Function1;)Ljava/lang/String;
+}
+
+public final class dev/kolibrium/appium/ios/NSPredicateScope {
+	public final fun allOf (Lkotlin/jvm/functions/Function1;)V
+	public final fun anyOf (Lkotlin/jvm/functions/Function1;)V
+	public final fun getAccessible ()Ldev/kolibrium/appium/ios/NSPredicateScope$BooleanAttribute;
+	public final fun getFocused ()Ldev/kolibrium/appium/ios/NSPredicateScope$BooleanAttribute;
+	public final fun getHittable ()Ldev/kolibrium/appium/ios/NSPredicateScope$BooleanAttribute;
+	public final fun getLabel ()Ldev/kolibrium/appium/ios/NSPredicateScope$StringAttribute;
+	public final fun getName ()Ldev/kolibrium/appium/ios/NSPredicateScope$StringAttribute;
+	public final fun getRect ()Ldev/kolibrium/appium/ios/NSPredicateScope$RectAccessor;
+	public final fun getSelected ()Ldev/kolibrium/appium/ios/NSPredicateScope$BooleanAttribute;
+	public final fun getType ()Ldev/kolibrium/appium/ios/NSPredicateScope$StringAttribute;
+	public final fun getValue ()Ldev/kolibrium/appium/ios/NSPredicateScope$StringAttribute;
+	public final fun isEnabled ()Ldev/kolibrium/appium/ios/NSPredicateScope$BooleanAttribute;
+	public final fun isVisible ()Ldev/kolibrium/appium/ios/NSPredicateScope$BooleanAttribute;
+	public final fun not (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class dev/kolibrium/appium/ios/NSPredicateScope$BooleanAttribute {
+	public fun <init> (Ldev/kolibrium/appium/ios/NSPredicateScope;Ljava/lang/String;)V
+	public final fun equalTo (Z)V
+}
+
+public final class dev/kolibrium/appium/ios/NSPredicateScope$NumericAttribute {
+	public fun <init> (Ldev/kolibrium/appium/ios/NSPredicateScope;Ljava/lang/String;)V
+	public final fun between (Ljava/lang/Number;Ljava/lang/Number;)V
+	public final fun equalTo (Ljava/lang/Number;)V
+	public final fun greaterThan (Ljava/lang/Number;)V
+	public final fun greaterThanOrEqualTo (Ljava/lang/Number;)V
+	public final fun lessThan (Ljava/lang/Number;)V
+	public final fun lessThanOrEqualTo (Ljava/lang/Number;)V
+	public final fun notEqualTo (Ljava/lang/Number;)V
+}
+
+public final class dev/kolibrium/appium/ios/NSPredicateScope$RectAccessor {
+	public fun <init> (Ldev/kolibrium/appium/ios/NSPredicateScope;)V
+	public final fun getHeight ()Ldev/kolibrium/appium/ios/NSPredicateScope$NumericAttribute;
+	public final fun getWidth ()Ldev/kolibrium/appium/ios/NSPredicateScope$NumericAttribute;
+	public final fun getX ()Ldev/kolibrium/appium/ios/NSPredicateScope$NumericAttribute;
+	public final fun getY ()Ldev/kolibrium/appium/ios/NSPredicateScope$NumericAttribute;
+}
+
+public final class dev/kolibrium/appium/ios/NSPredicateScope$StringAttribute {
+	public fun <init> (Ldev/kolibrium/appium/ios/NSPredicateScope;Ljava/lang/String;)V
+	public final fun beginsWith (Ljava/lang/String;Ldev/kolibrium/appium/ios/StringModifier;)V
+	public static synthetic fun beginsWith$default (Ldev/kolibrium/appium/ios/NSPredicateScope$StringAttribute;Ljava/lang/String;Ldev/kolibrium/appium/ios/StringModifier;ILjava/lang/Object;)V
+	public final fun contains (Ljava/lang/String;Ldev/kolibrium/appium/ios/StringModifier;)V
+	public static synthetic fun contains$default (Ldev/kolibrium/appium/ios/NSPredicateScope$StringAttribute;Ljava/lang/String;Ldev/kolibrium/appium/ios/StringModifier;ILjava/lang/Object;)V
+	public final fun endsWith (Ljava/lang/String;Ldev/kolibrium/appium/ios/StringModifier;)V
+	public static synthetic fun endsWith$default (Ldev/kolibrium/appium/ios/NSPredicateScope$StringAttribute;Ljava/lang/String;Ldev/kolibrium/appium/ios/StringModifier;ILjava/lang/Object;)V
+	public final fun equalTo (Ljava/lang/String;)V
+	public final fun isIn (Ljava/util/List;)V
+	public final fun like (Ljava/lang/String;Ldev/kolibrium/appium/ios/StringModifier;)V
+	public static synthetic fun like$default (Ldev/kolibrium/appium/ios/NSPredicateScope$StringAttribute;Ljava/lang/String;Ldev/kolibrium/appium/ios/StringModifier;ILjava/lang/Object;)V
+	public final fun matches (Ljava/lang/String;Ldev/kolibrium/appium/ios/StringModifier;)V
+	public static synthetic fun matches$default (Ldev/kolibrium/appium/ios/NSPredicateScope$StringAttribute;Ljava/lang/String;Ldev/kolibrium/appium/ios/StringModifier;ILjava/lang/Object;)V
+	public final fun notEqualTo (Ljava/lang/String;)V
+}
+
+public final class dev/kolibrium/appium/ios/StringModifier : java/lang/Enum {
+	public static final field CaseAndDiacriticInsensitive Ldev/kolibrium/appium/ios/StringModifier;
+	public static final field CaseInsensitive Ldev/kolibrium/appium/ios/StringModifier;
+	public static final field DiacriticInsensitive Ldev/kolibrium/appium/ios/StringModifier;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/appium/ios/StringModifier;
+	public static fun values ()[Ldev/kolibrium/appium/ios/StringModifier;
+}
+
+public final class dev/kolibrium/appium/ios/XCUIElementType {
+	public static final field ACTIVITY_INDICATOR Ljava/lang/String;
+	public static final field ALERT Ljava/lang/String;
+	public static final field ANY Ljava/lang/String;
+	public static final field APPLICATION Ljava/lang/String;
+	public static final field BROWSER Ljava/lang/String;
+	public static final field BUTTON Ljava/lang/String;
+	public static final field CELL Ljava/lang/String;
+	public static final field CHECK_BOX Ljava/lang/String;
+	public static final field COLLECTION_VIEW Ljava/lang/String;
+	public static final field COLOR_WELL Ljava/lang/String;
+	public static final field COMBO_BOX Ljava/lang/String;
+	public static final field DATE_PICKER Ljava/lang/String;
+	public static final field DECREMENT_ARROW Ljava/lang/String;
+	public static final field DIALOG Ljava/lang/String;
+	public static final field DISCLOSURE_TRIANGLE Ljava/lang/String;
+	public static final field DOCK_ITEM Ljava/lang/String;
+	public static final field DRAWER Ljava/lang/String;
+	public static final field GRID Ljava/lang/String;
+	public static final field GROUP Ljava/lang/String;
+	public static final field HANDLE Ljava/lang/String;
+	public static final field HELP_TAG Ljava/lang/String;
+	public static final field ICON Ljava/lang/String;
+	public static final field IMAGE Ljava/lang/String;
+	public static final field INCREMENT_ARROW Ljava/lang/String;
+	public static final field INSTANCE Ldev/kolibrium/appium/ios/XCUIElementType;
+	public static final field KEY Ljava/lang/String;
+	public static final field KEYBOARD Ljava/lang/String;
+	public static final field LAYOUT_AREA Ljava/lang/String;
+	public static final field LAYOUT_ITEM Ljava/lang/String;
+	public static final field LEVEL_INDICATOR Ljava/lang/String;
+	public static final field LINK Ljava/lang/String;
+	public static final field MAP Ljava/lang/String;
+	public static final field MATTE Ljava/lang/String;
+	public static final field MENU Ljava/lang/String;
+	public static final field MENU_BAR Ljava/lang/String;
+	public static final field MENU_BAR_ITEM Ljava/lang/String;
+	public static final field MENU_BUTTON Ljava/lang/String;
+	public static final field MENU_ITEM Ljava/lang/String;
+	public static final field NAVIGATION_BAR Ljava/lang/String;
+	public static final field OTHER Ljava/lang/String;
+	public static final field OUTLINE Ljava/lang/String;
+	public static final field OUTLINE_ROW Ljava/lang/String;
+	public static final field PAGE_INDICATOR Ljava/lang/String;
+	public static final field PICKER Ljava/lang/String;
+	public static final field PICKER_WHEEL Ljava/lang/String;
+	public static final field POPOVER Ljava/lang/String;
+	public static final field POP_UP_BUTTON Ljava/lang/String;
+	public static final field PROGRESS_INDICATOR Ljava/lang/String;
+	public static final field RADIO_BUTTON Ljava/lang/String;
+	public static final field RADIO_GROUP Ljava/lang/String;
+	public static final field RATING_INDICATOR Ljava/lang/String;
+	public static final field RELEVANCE_INDICATOR Ljava/lang/String;
+	public static final field RULER Ljava/lang/String;
+	public static final field RULER_MARKER Ljava/lang/String;
+	public static final field SCROLL_BAR Ljava/lang/String;
+	public static final field SCROLL_VIEW Ljava/lang/String;
+	public static final field SEARCH_FIELD Ljava/lang/String;
+	public static final field SECURE_TEXT_FIELD Ljava/lang/String;
+	public static final field SEGMENTED_CONTROL Ljava/lang/String;
+	public static final field SHEET Ljava/lang/String;
+	public static final field SLIDER Ljava/lang/String;
+	public static final field SPLITTER Ljava/lang/String;
+	public static final field SPLIT_GROUP Ljava/lang/String;
+	public static final field STATIC_TEXT Ljava/lang/String;
+	public static final field STATUS_BAR Ljava/lang/String;
+	public static final field STATUS_ITEM Ljava/lang/String;
+	public static final field STEPPER Ljava/lang/String;
+	public static final field SWITCH Ljava/lang/String;
+	public static final field TAB Ljava/lang/String;
+	public static final field TABLE Ljava/lang/String;
+	public static final field TABLE_COLUMN Ljava/lang/String;
+	public static final field TABLE_ROW Ljava/lang/String;
+	public static final field TAB_BAR Ljava/lang/String;
+	public static final field TAB_GROUP Ljava/lang/String;
+	public static final field TEXT_FIELD Ljava/lang/String;
+	public static final field TEXT_VIEW Ljava/lang/String;
+	public static final field TIMELINE Ljava/lang/String;
+	public static final field TOGGLE Ljava/lang/String;
+	public static final field TOOLBAR Ljava/lang/String;
+	public static final field TOOLBAR_BUTTON Ljava/lang/String;
+	public static final field TOUCH_BAR Ljava/lang/String;
+	public static final field VALUE_INDICATOR Ljava/lang/String;
+	public static final field WEB_VIEW Ljava/lang/String;
+	public static final field WINDOW Ljava/lang/String;
 }
 

@@ -18,8 +18,10 @@ package dev.kolibrium.appium.mydemoapp.screens
 
 import dev.kolibrium.appium.Screen
 import dev.kolibrium.appium.accessibilityId
+import dev.kolibrium.appium.ios.XCUIElementType
 import dev.kolibrium.appium.ios.iOSClassChain
-import dev.kolibrium.appium.ios.iOSNsPredicates
+import dev.kolibrium.appium.ios.iOSNSPredicates
+import dev.kolibrium.appium.ios.nsPredicate
 import dev.kolibrium.appium.mydemoapp.MyDemoAndroidApp
 import dev.kolibrium.appium.mydemoapp.MyDemoIosApp
 import dev.kolibrium.appium.mydemoapp.Product
@@ -57,7 +59,7 @@ sealed interface ProductsScreen {
         Screen<MyDemoIosApp>(),
         ProductsScreen {
         private val title by iOSClassChain("XCUIElementTypeStaticText[`name == 'title'`]")
-        private val products by iOSNsPredicates("type == 'XCUIElementTypeCell'")
+        private val products by iOSNSPredicates(nsPredicate { type equalTo XCUIElementType.CELL })
 
         override fun titleText(): String = title.text
 
