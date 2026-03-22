@@ -47,7 +47,7 @@ See [Kolibrium website](https://kolibrium.dev/docs/category/selenium) for detail
 
 `AndroidApp`, `IosApp`, and `CrossPlatformApp` cover platform-specific and shared automation scenarios with a consistent API surface.
 
-- `kolibrium-appium`: Screen object base class, driver factories, locator delegates, and test harness functions
+- `kolibrium-appium`: Screen object base class, driver factories, locator delegates, type-safe `UiSelector` DSL (Android) and `NSPredicate` DSL (iOS), and test harness functions
 - `kolibrium-appium-ksp` *(planned)*: KSP processor for test harness code generation
 
 See [appium/README.md](appium/README.md) for detailed Appium module documentation.

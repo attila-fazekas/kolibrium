@@ -140,7 +140,7 @@ internal fun validateApiSpecClass(apiSpecClass: KSClassDeclaration): ValidationR
 
     val generateTestHarness = generateApiAnnotation.getBooleanArg("generateTestHarness", default = true)
 
-    val annotationDisplayName = generateApiAnnotation?.getArgumentValue("displayName") as? String
+    val annotationDisplayName = generateApiAnnotation.getArgumentValue("displayName") as? String
     val displayName =
         if (!annotationDisplayName.isNullOrBlank()) {
             annotationDisplayName
