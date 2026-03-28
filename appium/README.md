@@ -377,7 +377,7 @@ on(::ProductsScreen) {
 }
 ```
 
-`on` is the single verb for all screen interactions. The first `on` call (on `AppEntry`) creates the screen and returns a `ScreenScope`; subsequent `.on(...)` calls chain from `ScreenScope`. Use `then` to perform additional actions on the current screen and `verify` to run assertions, both without switching screens:
+`on` is the single verb for all screen interactions. The first `on` call (on `AppScope`) creates the screen and returns a `ScreenScope`; subsequent `.on(...)` calls chain from `ScreenScope`. Use `then` to perform additional actions on the current screen and `verify` to run assertions, both without switching screens:
 
 ```kotlin
 on(::ProductsScreen) {

@@ -50,7 +50,7 @@ public class CapabilitiesScope {
      *
      * Settings added here are forwarded as part of the server-side capabilities and
      * influence server behavior. They are **not** the same as per-session settings
-     * adjustable at runtime via [AppEntry.settings] or [ScreenScope.settings].
+     * adjustable at runtime via [AppScope.settings] or [ScreenScope.settings].
      *
      * Example:
      * ```kotlin

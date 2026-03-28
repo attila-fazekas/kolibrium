@@ -22,7 +22,7 @@ import io.appium.java_client.AppiumDriver
 import io.appium.java_client.HasSettings
 
 /**
- * Scope object returned from [AppEntry.on] that carries the currently bound
+ * Scope object returned from [AppScope.on] that carries the currently bound
  * screen and provides chaining helpers for further actions and assertions.
  *
  * @param A The app type, ensuring all chained screens belong to the same app.
@@ -89,9 +89,4 @@ public class ScreenScope<A : App, S : Screen<A>> internal constructor(
                 (driver as HasSettings).settings = settingsMap
             }
         }
-
-    private fun ensureReady(screen: Screen<*>) {
-        screen.awaitReady()
-        screen.assertReady()
-    }
 }
