@@ -17,9 +17,10 @@
 8. [UiSelector DSL](#uiselector-dsl)
 9. [NSPredicate DSL](#nspredicate-dsl)
 10. [Local Appium server management](#local-appium-server-management)
-11. [Cloud and parallel execution](#cloud-and-parallel-execution)
-12. [Customization](#customization)
-13. [Troubleshooting](#troubleshooting)
+11. [Settings DSL](#settings-dsl)
+12. [Cloud and parallel execution](#cloud-and-parallel-execution)
+13. [Customization](#customization)
+14. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -583,6 +584,98 @@ object MyAndroidApp : AndroidApp(
 When `service` is provided, the harness starts it before creating the driver session and stops it during teardown. A JVM shutdown hook prevents orphaned Appium processes on abnormal exits.
 
 When `service` is `null` (the default), no local server is managed - tests connect to whatever Appium server is already running.
+
+---
+
+## Settings DSL
+
+Appium settings let you adjust driver behavior at runtime — unlike capabilities, they can be changed multiple times during a test.
+
+### In the test body
+
+Use `settings { }` directly inside the test block to apply settings before any screen interaction:
+```
+kotlin
+androidTest(app = MyAndroidApp) {
+    settings {
+        ignoreUnimportantViews = true
+    }
+    on(::ProductsScreen) {
+        // ...
+    }
+}
+```
+### In a screen chain
+
+`settings { }` is also available on `ScreenScope`, returning the same scope for fluent chaining:
+```
+kotlin
+on(::ProductsScreen) {
+    // ...
+}.settings {
+    ignoreUnimportantViews = true
+}.on(::ProductDetailsScreen) {
+    // ...
+}
+```
+### At server startup (via `capabilities`)
+
+Settings can also be forwarded to the Appium server at startup as the `appium:settings` capability, using the `settings { }` block inside `capabilities { }`:
+```
+kotlin
+object MyAndroidApp : AndroidApp(
+    appPackage = "com.example.app",
+    appActivity = ".MainActivity",
+    service = appiumService {
+        port = 4723
+        capabilities {
+            settings {
+                ignoreUnimportantViews = true
+            }
+        }
+    },
+)
+```
+> **Note:** Settings applied via `capabilities { settings { } }` influence server-side behavior at startup and are **not** the same as the runtime `settings { }` DSL available in the test body or screen chain.
+
+### Available settings
+
+All settings map directly to the [UiAutomator2 driver settings](https://github.com/appium/appium-uiautomator2-driver#settings-api). Only set what you need — unset properties are omitted from the request.
+
+| Property                               | Type      | Default  | Description                                                           |
+|----------------------------------------|-----------|----------|-----------------------------------------------------------------------|
+| `actionAcknowledgmentTimeout`          | `Long`    | 3000 ms  | Wait for acknowledgment of UiAutomator actions (click, setText, etc.) |
+| `allowInvisibleElements`               | `Boolean` | false    | Include invisible elements in the XML source tree                     |
+| `ignoreUnimportantViews`               | `Boolean` | false    | Enable layout hierarchy compression                                   |
+| `elementResponseAttributes`            | `String`  | —        | Comma-separated attribute names to include in `findElement` response  |
+| `enableMultiWindows`                   | `Boolean` | false    | Include all interactive windows in the page source                    |
+| `enableTopmostWindowFromActivePackage` | `Boolean` | false    | Limit interactions to the topmost window of the active package        |
+| `enableNotificationListener`           | `Boolean` | true     | Listen for new toast notifications                                    |
+| `keyInjectionDelay`                    | `Long`    | 0 ms     | Delay between key presses during text injection                       |
+| `scrollAcknowledgmentTimeout`          | `Long`    | 200 ms   | Wait for acknowledgment of scroll swipe actions                       |
+| `shouldUseCompactResponses`            | `Boolean` | true     | Used with `elementResponseAttributes`                                 |
+| `waitForIdleTimeout`                   | `Long`    | 10000 ms | Wait for the UI to become idle                                        |
+| `waitForSelectorTimeout`               | `Long`    | 10000 ms | Wait for a widget to become visible (UIAutomator strategy only)       |
+| `normalizeTagNames`                    | `Boolean` | false    | Normalize element class names in page source XML tag names            |
+| `shutdownOnPowerDisconnect`            | `Boolean` | true     | Shut down the server if the device is disconnected from power         |
+| `simpleBoundsCalculation`              | `Boolean` | false    | Use absolute element bounds without occlusion checking                |
+| `trackScrollEvents`                    | `Boolean` | true     | Apply scroll event tracking                                           |
+| `wakeLockTimeout`                      | `Long`    | 24 h     | UiAutomator2 server wake lock timeout                                 |
+| `serverPort`                           | `Int`     | 6790     | Port for the UiAutomator2 server on the device                        |
+| `mjpegServerPort`                      | `Int`     | 7810     | Port for the MJPEG screenshot broadcaster                             |
+| `mjpegServerFramerate`                 | `Int`     | 10       | Max screenshots per second for MJPEG broadcaster                      |
+| `mjpegScalingFactor`                   | `Int`     | 50       | Downscaling percentage for MJPEG screenshots                          |
+| `mjpegServerScreenshotQuality`         | `Int`     | 50       | JPEG compression quality for MJPEG screenshots                        |
+| `mjpegBilinearFiltering`               | `Boolean` | false    | Use bilinear filtering for MJPEG resize                               |
+| `useResourcesForOrientationDetection`  | `Boolean` | false    | Strategy for detecting device orientation                             |
+| `enforceXPath1`                        | `Boolean` | false    | Use XPath 1 instead of XPath 2                                        |
+| `limitXPathContextScope`               | `Boolean` | true     | Limit context-based XPath searches to the parent element              |
+| `disableIdLocatorAutocompletion`       | `Boolean` | false    | Disable resource ID locator autocompletion                            |
+| `alwaysTraversableViewClasses`         | `String`  | —        | Classes to traverse even when invisible                               |
+| `includeExtrasInPageSource`            | `Boolean` | —        | Include `extras` attribute in XML page source                         |
+| `includeA11yActionsInPageSource`       | `Boolean` | —        | Include `actions` attribute in XML page source                        |
+| `snapshotMaxDepth`                     | `Int`     | 70       | Maximum depth for the source tree snapshot                            |
+| `currentDisplayId`                     | `Int`     | 0        | Display ID for element finding and screenshots                        |
 
 ---
 

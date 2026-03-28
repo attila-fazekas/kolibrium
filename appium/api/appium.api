@@ -26,6 +26,7 @@ public final class dev/kolibrium/appium/App$DefaultImpls {
 
 public abstract interface class dev/kolibrium/appium/AppEntry {
 	public abstract fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
+	public abstract fun settings (Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class dev/kolibrium/appium/AppiumDriverFactoriesKt {
@@ -91,6 +92,7 @@ public final class dev/kolibrium/appium/AppiumTestKt {
 
 public final class dev/kolibrium/appium/CapabilitiesScope {
 	public fun <init> ()V
+	public final fun settings (Lkotlin/jvm/functions/Function1;)V
 	public final fun to (Ljava/lang/String;Ljava/lang/Object;)V
 	public fun toString ()Ljava/lang/String;
 }
@@ -143,6 +145,7 @@ public abstract class dev/kolibrium/appium/Screen : org/openqa/selenium/SearchCo
 
 public final class dev/kolibrium/appium/ScreenScope {
 	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
+	public final fun settings (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
 	public final fun then (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
 }
 
@@ -163,6 +166,74 @@ public final class dev/kolibrium/appium/android/LocatorDelegatesKt {
 	public static synthetic fun androidViewTag$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
 	public static final fun androidViewTags (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
 	public static synthetic fun androidViewTags$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
+}
+
+public final class dev/kolibrium/appium/android/SettingsScope {
+	public fun <init> ()V
+	public final fun getActionAcknowledgmentTimeout ()Ljava/lang/Long;
+	public final fun getAllowInvisibleElements ()Ljava/lang/Boolean;
+	public final fun getAlwaysTraversableViewClasses ()Ljava/lang/String;
+	public final fun getCurrentDisplayId ()Ljava/lang/Integer;
+	public final fun getDisableIdLocatorAutocompletion ()Ljava/lang/Boolean;
+	public final fun getElementResponseAttributes ()Ljava/lang/String;
+	public final fun getEnableMultiWindows ()Ljava/lang/Boolean;
+	public final fun getEnableNotificationListener ()Ljava/lang/Boolean;
+	public final fun getEnableTopmostWindowFromActivePackage ()Ljava/lang/Boolean;
+	public final fun getEnforceXPath1 ()Ljava/lang/Boolean;
+	public final fun getIgnoreUnimportantViews ()Ljava/lang/Boolean;
+	public final fun getIncludeA11yActionsInPageSource ()Ljava/lang/Boolean;
+	public final fun getIncludeExtrasInPageSource ()Ljava/lang/Boolean;
+	public final fun getKeyInjectionDelay ()Ljava/lang/Long;
+	public final fun getLimitXPathContextScope ()Ljava/lang/Boolean;
+	public final fun getMjpegBilinearFiltering ()Ljava/lang/Boolean;
+	public final fun getMjpegScalingFactor ()Ljava/lang/Integer;
+	public final fun getMjpegServerFramerate ()Ljava/lang/Integer;
+	public final fun getMjpegServerPort ()Ljava/lang/Integer;
+	public final fun getMjpegServerScreenshotQuality ()Ljava/lang/Integer;
+	public final fun getNormalizeTagNames ()Ljava/lang/Boolean;
+	public final fun getScrollAcknowledgmentTimeout ()Ljava/lang/Long;
+	public final fun getServerPort ()Ljava/lang/Integer;
+	public final fun getShouldUseCompactResponses ()Ljava/lang/Boolean;
+	public final fun getShutdownOnPowerDisconnect ()Ljava/lang/Boolean;
+	public final fun getSimpleBoundsCalculation ()Ljava/lang/Boolean;
+	public final fun getSnapshotMaxDepth ()Ljava/lang/Integer;
+	public final fun getTrackScrollEvents ()Ljava/lang/Boolean;
+	public final fun getUseResourcesForOrientationDetection ()Ljava/lang/Boolean;
+	public final fun getWaitForIdleTimeout ()Ljava/lang/Long;
+	public final fun getWaitForSelectorTimeout ()Ljava/lang/Long;
+	public final fun getWakeLockTimeout ()Ljava/lang/Long;
+	public final fun setActionAcknowledgmentTimeout (Ljava/lang/Long;)V
+	public final fun setAllowInvisibleElements (Ljava/lang/Boolean;)V
+	public final fun setAlwaysTraversableViewClasses (Ljava/lang/String;)V
+	public final fun setCurrentDisplayId (Ljava/lang/Integer;)V
+	public final fun setDisableIdLocatorAutocompletion (Ljava/lang/Boolean;)V
+	public final fun setElementResponseAttributes (Ljava/lang/String;)V
+	public final fun setEnableMultiWindows (Ljava/lang/Boolean;)V
+	public final fun setEnableNotificationListener (Ljava/lang/Boolean;)V
+	public final fun setEnableTopmostWindowFromActivePackage (Ljava/lang/Boolean;)V
+	public final fun setEnforceXPath1 (Ljava/lang/Boolean;)V
+	public final fun setIgnoreUnimportantViews (Ljava/lang/Boolean;)V
+	public final fun setIncludeA11yActionsInPageSource (Ljava/lang/Boolean;)V
+	public final fun setIncludeExtrasInPageSource (Ljava/lang/Boolean;)V
+	public final fun setKeyInjectionDelay (Ljava/lang/Long;)V
+	public final fun setLimitXPathContextScope (Ljava/lang/Boolean;)V
+	public final fun setMjpegBilinearFiltering (Ljava/lang/Boolean;)V
+	public final fun setMjpegScalingFactor (Ljava/lang/Integer;)V
+	public final fun setMjpegServerFramerate (Ljava/lang/Integer;)V
+	public final fun setMjpegServerPort (Ljava/lang/Integer;)V
+	public final fun setMjpegServerScreenshotQuality (Ljava/lang/Integer;)V
+	public final fun setNormalizeTagNames (Ljava/lang/Boolean;)V
+	public final fun setScrollAcknowledgmentTimeout (Ljava/lang/Long;)V
+	public final fun setServerPort (Ljava/lang/Integer;)V
+	public final fun setShouldUseCompactResponses (Ljava/lang/Boolean;)V
+	public final fun setShutdownOnPowerDisconnect (Ljava/lang/Boolean;)V
+	public final fun setSimpleBoundsCalculation (Ljava/lang/Boolean;)V
+	public final fun setSnapshotMaxDepth (Ljava/lang/Integer;)V
+	public final fun setTrackScrollEvents (Ljava/lang/Boolean;)V
+	public final fun setUseResourcesForOrientationDetection (Ljava/lang/Boolean;)V
+	public final fun setWaitForIdleTimeout (Ljava/lang/Long;)V
+	public final fun setWaitForSelectorTimeout (Ljava/lang/Long;)V
+	public final fun setWakeLockTimeout (Ljava/lang/Long;)V
 }
 
 public final class dev/kolibrium/appium/android/UiSelectorKt {

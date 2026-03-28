@@ -23,15 +23,37 @@ plugins {
 }
 
 dependencies {
+    api("io.appium:java-client:_")
     implementation(project(":selenium"))
-    implementation("io.appium:java-client:_")
     testImplementation("com.titusfortner:selenium-logger:_")
 }
 
-tasks.withType<KotlinCompile> {
-    compilerOptions.freeCompilerArgs =
-        listOf(
+testing {
+    suites {
+        register("unitTest", JvmTestSuite::class) {
+            dependencies {
+                implementation("io.mockk:mockk:_")
+            }
+        }
+        register("integrationTest", JvmTestSuite::class)
+    }
+
+    suites.withType(JvmTestSuite::class).configureEach {
+        dependencies {
+            implementation(project())
+            implementation(Testing.kotest.assertions.core)
+        }
+    }
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        freeCompilerArgs.addAll(
+            "-Xfriend-paths=${project(":appium").projectDir}",
             "-Xcontext-parameters",
-            "-opt-in=dev.kolibrium.selenium.core.InternalKolibriumApi",
         )
+        optIn.addAll(
+            "dev.kolibrium.selenium.core.InternalKolibriumApi",
+        )
+    }
 }

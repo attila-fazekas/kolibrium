@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalCompilerApi::class)
-
 package dev.kolibrium.api.ksp.processors
 
 import com.tschuchort.compiletesting.KotlinCompilation
@@ -26,7 +24,6 @@ import com.tschuchort.compiletesting.symbolProcessorProviders
 import com.tschuchort.compiletesting.useKsp2
 import io.kotest.matchers.shouldBe
 import org.intellij.lang.annotations.Language
-import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 
 open class ApiBaseTest {
     protected val validApiSpec =
