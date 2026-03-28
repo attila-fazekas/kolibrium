@@ -17,7 +17,7 @@
 package dev.kolibrium.appium.mydemoapp
 
 import dev.kolibrium.appium.AndroidDriverFactory
-import dev.kolibrium.appium.AppEntry
+import dev.kolibrium.appium.AppScope
 import dev.kolibrium.appium.IosDriverFactory
 import dev.kolibrium.appium.androidTest
 import dev.kolibrium.appium.iosTest
@@ -56,7 +56,7 @@ class MyDemoAppTest {
 fun myDemoAndroidAppTest(
     app: MyDemoAndroidApp = MyDemoAndroidApp,
     driverFactory: AndroidDriverFactory = app.driverFactory,
-    block: AppEntry<MyDemoAndroidApp>.(Unit) -> Unit,
+    block: AppScope<MyDemoAndroidApp>.(Unit) -> Unit,
 ) {
     androidTest(app = app, driverFactory = driverFactory, block = block)
 }
@@ -65,7 +65,7 @@ fun myDemoAndroidAppTest(
 fun myDemoIosAppTest(
     app: MyDemoIosApp = MyDemoIosApp,
     driverFactory: IosDriverFactory = app.driverFactory,
-    block: AppEntry<MyDemoIosApp>.(Unit) -> Unit,
+    block: AppScope<MyDemoIosApp>.(Unit) -> Unit,
 ) {
     iosTest(app = app, driverFactory = driverFactory, block = block)
 }

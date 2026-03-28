@@ -35,7 +35,7 @@ import io.appium.java_client.ios.IOSDriver
  * @param driverFactory Factory creating an AppiumDriver instance.
  * @param setUp Computes the input [T] before the driver session is created.
  * @param tearDown Cleans up after the test body; runs even if the test fails.
- * @param block Main test body executed with an [AppEntry] receiver and the prepared value.
+ * @param block Main test body executed with an [AppScope] receiver and the prepared value.
  */
 @KolibriumDsl
 public fun <A : App, T> appiumTest(
@@ -43,7 +43,7 @@ public fun <A : App, T> appiumTest(
     driverFactory: AppiumDriverFactory,
     setUp: () -> T,
     tearDown: (T) -> Unit = {},
-    block: AppEntry<A>.(T) -> Unit,
+    block: AppScope<A>.(T) -> Unit,
 ) {
     appiumTestImpl(app, driverFactory, setUp, tearDown, block)
 }
@@ -62,14 +62,14 @@ public fun <A : App, T> appiumTest(
  * @param app The app under test.
  * @param driverFactory Factory creating an AppiumDriver instance.
  * @param deepLink The deep link URL to navigate to after session creation.
- * @param block Main test body executed with an [AppEntry] receiver.
+ * @param block Main test body executed with an [AppScope] receiver.
  */
 @KolibriumDsl
 public fun <A : App> appiumTest(
     app: A,
     driverFactory: AppiumDriverFactory,
     deepLink: String,
-    block: AppEntry<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -141,13 +141,13 @@ private fun App.iosDeepLinkParams(deepLink: String): Map<String, String?> {
  * @param A The concrete Android app type bound to this test.
  * @param app The Android app under test.
  * @param driverFactory Optional override for the driver factory; defaults to [AndroidApp.driverFactory].
- * @param block The test body executed with an [AppEntry] receiver.
+ * @param block The test body executed with an [AppScope] receiver.
  */
 @KolibriumDsl
 public fun <A : AndroidApp> androidTest(
     app: A,
     driverFactory: AndroidDriverFactory = app.driverFactory,
-    block: AppEntry<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -170,14 +170,14 @@ public fun <A : AndroidApp> androidTest(
  * @param app The Android app under test.
  * @param driverFactory Optional override for the driver factory; defaults to [AndroidApp.driverFactory].
  * @param deepLink The deep link URL to navigate to before the test body runs.
- * @param block The test body executed with an [AppEntry] receiver.
+ * @param block The test body executed with an [AppScope] receiver.
  */
 @KolibriumDsl
 public fun <A : AndroidApp> androidTest(
     app: A,
     driverFactory: AndroidDriverFactory = app.driverFactory,
     deepLink: String,
-    block: AppEntry<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -196,13 +196,13 @@ public fun <A : AndroidApp> androidTest(
  * @param A The concrete iOS app type bound to this test.
  * @param app The iOS app under test.
  * @param driverFactory Optional override for the driver factory; defaults to [IosApp.driverFactory].
- * @param block The test body executed with an [AppEntry] receiver.
+ * @param block The test body executed with an [AppScope] receiver.
  */
 @KolibriumDsl
 public fun <A : IosApp> iosTest(
     app: A,
     driverFactory: IosDriverFactory = app.driverFactory,
-    block: AppEntry<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -225,14 +225,14 @@ public fun <A : IosApp> iosTest(
  * @param app The iOS app under test.
  * @param driverFactory Optional override for the driver factory; defaults to [IosApp.driverFactory].
  * @param deepLink The deep link URL to navigate to before the test body runs.
- * @param block The test body executed with an [AppEntry] receiver.
+ * @param block The test body executed with an [AppScope] receiver.
  */
 @KolibriumDsl
 public fun <A : IosApp> iosTest(
     app: A,
     driverFactory: IosDriverFactory = app.driverFactory,
     deepLink: String,
-    block: AppEntry<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -251,13 +251,13 @@ public fun <A : IosApp> iosTest(
  * @param A The concrete cross‑platform app type bound to this test.
  * @param app The app under test.
  * @param driverFactory The explicit driver factory to use for this run.
- * @param block The test body executed with an [AppEntry] receiver.
+ * @param block The test body executed with an [AppScope] receiver.
  */
 @KolibriumDsl
 public fun <A : CrossPlatformApp> appiumTest(
     app: A,
     driverFactory: AppiumDriverFactory,
-    block: AppEntry<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -272,7 +272,7 @@ internal fun <A : App, T> appiumTestImpl(
     driverFactory: AppiumDriverFactory,
     setUp: () -> T,
     tearDown: (T) -> Unit = {},
-    block: AppEntry<A>.(T) -> Unit,
+    block: AppScope<A>.(T) -> Unit,
 ) {
     val service = app.service
     val shutdownHook =
@@ -296,7 +296,7 @@ internal fun <A : App, T> appiumTestImpl(
             app.onSessionReady(driver)
 
             AppiumDriverContextHolder.set(driver)
-            val entry: AppEntry<A> = ScreenEntry(driver)
+            val entry = AppScope<A>(driver)
             entry.block(prepared)
         } catch (e: Throwable) {
             testError = e

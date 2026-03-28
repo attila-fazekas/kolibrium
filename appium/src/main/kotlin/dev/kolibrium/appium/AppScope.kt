@@ -18,6 +18,8 @@ package dev.kolibrium.appium
 
 import dev.kolibrium.appium.android.SettingsScope
 import dev.kolibrium.selenium.dsl.KolibriumDsl
+import io.appium.java_client.AppiumDriver
+import io.appium.java_client.HasSettings
 
 /**
  * App‑scoped DSL receiver available inside `androidTest { … }`, `iosTest { … }` and
@@ -27,7 +29,9 @@ import dev.kolibrium.selenium.dsl.KolibriumDsl
  * in a fluent style.
  */
 @KolibriumDsl
-public interface AppEntry<A : App> {
+public class AppScope<A : App> internal constructor(
+    private val driver: AppiumDriver,
+) {
     /**
      * Create a screen via [factory], ensure it is ready, execute [action] on it, and return
      * a [ScreenScope] bound to that screen for further chaining.
@@ -55,7 +59,12 @@ public interface AppEntry<A : App> {
     public fun <S : Screen<A>> on(
         factory: () -> S,
         action: S.() -> Unit,
-    ): ScreenScope<A, S>
+    ): ScreenScope<A, S> {
+        val screen = factory()
+        ensureReady(screen)
+        screen.action()
+        return ScreenScope(screen, driver)
+    }
 
     /**
      * DSL for adjusting Appium settings at runtime.
@@ -71,5 +80,10 @@ public interface AppEntry<A : App> {
      * }
      * ```
      */
-    public fun settings(block: SettingsScope.() -> Unit)
+    public fun settings(block: SettingsScope.() -> Unit) {
+        val settingsMap = SettingsScope().apply(block).toMap()
+        if (settingsMap.isNotEmpty()) {
+            (driver as HasSettings).settings = settingsMap
+        }
+    }
 }

@@ -24,9 +24,9 @@ public final class dev/kolibrium/appium/App$DefaultImpls {
 	public static fun getWaitConfig (Ldev/kolibrium/appium/App;)Ldev/kolibrium/selenium/core/WaitConfig;
 }
 
-public abstract interface class dev/kolibrium/appium/AppEntry {
-	public abstract fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
-	public abstract fun settings (Lkotlin/jvm/functions/Function1;)V
+public final class dev/kolibrium/appium/AppScope {
+	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
+	public final fun settings (Lkotlin/jvm/functions/Function1;)V
 }
 
 public final class dev/kolibrium/appium/AppiumDriverFactoriesKt {

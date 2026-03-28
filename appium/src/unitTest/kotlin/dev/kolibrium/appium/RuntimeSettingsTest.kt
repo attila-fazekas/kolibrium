@@ -25,9 +25,9 @@ import org.junit.jupiter.api.Test
 
 class RuntimeSettingsTest {
     @Test
-    fun `ScreenEntry settings should call setSettings on driver`() {
+    fun `AppScope settings should call setSettings on driver`() {
         val driver = mockk<AppiumDriver>(relaxed = true)
-        val entry = ScreenEntry<AndroidApp>(driver)
+        val entry = AppScope<AndroidApp>(driver)
 
         entry.settings {
             ignoreUnimportantViews = true
