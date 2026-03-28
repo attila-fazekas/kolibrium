@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("kolibrium.library-conventions")
     id("kolibrium.ksp-conventions")
@@ -24,4 +27,12 @@ plugins {
 dependencies {
     implementation(project(":api:core"))
     implementation(project(":api:ksp:annotations"))
+}
+
+tasks.withType<KotlinCompile> {
+    compilerOptions {
+        optIn.addAll(
+            "org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi",
+        )
+    }
 }

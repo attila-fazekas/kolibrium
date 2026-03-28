@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:OptIn(ExperimentalCompilerApi::class)
-
 package dev.kolibrium.api.ksp.processors
 
 import com.tschuchort.compiletesting.KotlinCompilation.ExitCode.COMPILATION_ERROR
@@ -23,7 +21,6 @@ import com.tschuchort.compiletesting.KotlinCompilation.ExitCode.OK
 import com.tschuchort.compiletesting.SourceFile.Companion.kotlin
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
-import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.jupiter.api.Test
 
 class RequestClassStructuralValidationTest : ApiBaseTest() {

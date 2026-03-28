@@ -181,10 +181,10 @@ class LocatorDelegatesTest {
             // Trigger delayed element display
             (driver as JavascriptExecutor).executeScript(
                 """
-            setTimeout(function() {
-                document.getElementById('delayed').style.display = 'block';
-            }, 500);
-        """,
+                    setTimeout(function() {
+                        document.getElementById('delayed').style.display = 'block';
+                    }, 500);
+                """,
             )
 
             // When
@@ -204,10 +204,10 @@ class LocatorDelegatesTest {
             // Enable button after delay
             (driver as JavascriptExecutor).executeScript(
                 """
-            setTimeout(function() {
-                document.getElementById('disabled-btn').disabled = false;
-            }, 300);
-        """,
+                    setTimeout(function() {
+                        document.getElementById('disabled-btn').disabled = false;
+                    }, 300);
+                 """,
             )
 
             // When
@@ -313,13 +313,13 @@ class LocatorDelegatesTest {
             // Replace the element in DOM
             (driver as JavascriptExecutor).executeScript(
                 """
-            var old = document.getElementById('dynamic-content');
-            var newEl = document.createElement('div');
-            newEl.id = 'dynamic-content';
-            newEl.setAttribute('data-testid', 'dynamic');
-            newEl.textContent = 'Replaced Content';
-            old.parentNode.replaceChild(newEl, old);
-        """,
+                    var old = document.getElementById('dynamic-content');
+                    var newEl = document.createElement('div');
+                    newEl.id = 'dynamic-content';
+                    newEl.setAttribute('data-testid', 'dynamic');
+                    newEl.textContent = 'Replaced Content';
+                    old.parentNode.replaceChild(newEl, old);
+                 """,
             )
 
             // When - Access through non-cached descriptor should get new element

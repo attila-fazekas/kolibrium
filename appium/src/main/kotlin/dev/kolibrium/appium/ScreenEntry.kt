@@ -16,8 +16,10 @@
 
 package dev.kolibrium.appium
 
+import dev.kolibrium.appium.android.SettingsScope
 import dev.kolibrium.selenium.dsl.KolibriumDsl
 import io.appium.java_client.AppiumDriver
+import io.appium.java_client.HasSettings
 
 @KolibriumDsl
 internal class ScreenEntry<A : App>(
@@ -31,6 +33,13 @@ internal class ScreenEntry<A : App>(
         ensureReady(screen)
         screen.action()
         return ScreenScope(screen, driver)
+    }
+
+    override fun settings(block: SettingsScope.() -> Unit) {
+        val settingsMap = SettingsScope().apply(block).toMap()
+        if (settingsMap.isNotEmpty()) {
+            (driver as HasSettings).settings = settingsMap
+        }
     }
 
     private fun ensureReady(screen: Screen<*>) {

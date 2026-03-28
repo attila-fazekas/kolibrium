@@ -16,6 +16,7 @@
 
 package dev.kolibrium.appium
 
+import dev.kolibrium.appium.android.SettingsScope
 import dev.kolibrium.selenium.dsl.KolibriumDsl
 
 /**
@@ -55,4 +56,20 @@ public interface AppEntry<A : App> {
         factory: () -> S,
         action: S.() -> Unit,
     ): ScreenScope<A, S>
+
+    /**
+     * DSL for adjusting Appium settings at runtime.
+     *
+     * Unlike session capabilities, settings can be changed multiple times during a test.
+     *
+     * Example:
+     * ```kotlin
+     * androidTest(app = MyAndroidApp) {
+     *     settings {
+     *         ignoreUnimportantViews = true
+     *     }
+     * }
+     * ```
+     */
+    public fun settings(block: SettingsScope.() -> Unit)
 }

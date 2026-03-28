@@ -16,6 +16,7 @@
 
 package dev.kolibrium.appium
 
+import dev.kolibrium.appium.android.SettingsScope
 import dev.kolibrium.selenium.dsl.KolibriumDsl
 
 /**
@@ -41,6 +42,30 @@ public class CapabilitiesScope {
      */
     public infix fun String.to(value: Any) {
         capabilities[this] = value
+    }
+
+    /**
+     * DSL for configuring Appium settings passed to the server at startup via the
+     * `appium:settings` capability key.
+     *
+     * Settings added here are forwarded as part of the server-side capabilities and
+     * influence server behavior. They are **not** the same as per-session settings
+     * adjustable at runtime via [AppEntry.settings] or [ScreenScope.settings].
+     *
+     * Example:
+     * ```kotlin
+     * capabilities {
+     *     settings {
+     *         ignoreUnimportantViews = true
+     *     }
+     * }
+     * ```
+     */
+    public fun settings(block: SettingsScope.() -> Unit) {
+        val settingsMap = SettingsScope().apply(block).toMap()
+        if (settingsMap.isNotEmpty()) {
+            "appium:settings" to settingsMap
+        }
     }
 
     /**

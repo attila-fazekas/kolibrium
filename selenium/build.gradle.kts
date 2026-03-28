@@ -33,7 +33,7 @@ testing {
     suites {
         register("unitTest", JvmTestSuite::class) {
             dependencies {
-                implementation("io.mockk:mockk:1.14.6")
+                implementation("io.mockk:mockk:_")
             }
         }
         register("integrationTest", JvmTestSuite::class)
@@ -47,20 +47,13 @@ testing {
     }
 }
 
-kotlin {
-    sourceSets {
-        named("unitTest") {
-            languageSettings {
-                optIn("dev.kolibrium.core.InternalKolibriumApi")
-            }
-        }
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    compilerOptions.freeCompilerArgs =
-        listOf(
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        freeCompilerArgs.addAll(
             "-Xcontext-parameters",
-            "-opt-in=dev.kolibrium.selenium.core.InternalKolibriumApi",
         )
+        optIn.addAll(
+            "dev.kolibrium.selenium.core.InternalKolibriumApi",
+        )
+    }
 }

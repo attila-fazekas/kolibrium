@@ -16,8 +16,10 @@
 
 package dev.kolibrium.appium
 
+import dev.kolibrium.appium.android.SettingsScope
 import dev.kolibrium.selenium.dsl.KolibriumDsl
 import io.appium.java_client.AppiumDriver
+import io.appium.java_client.HasSettings
 
 /**
  * Scope object returned from [AppEntry.on] that carries the currently bound
@@ -64,6 +66,28 @@ public class ScreenScope<A : App, S : Screen<A>> internal constructor(
         apply {
             ensureReady(screen)
             screen.action()
+        }
+
+    /**
+     * DSL for adjusting Appium settings at runtime.
+     *
+     * Example:
+     * ```kotlin
+     * androidTest(app = MyAndroidApp) {
+     *     on(::ProductsScreen) {
+     *         // ...
+     *     }.settings {
+     *         ignoreUnimportantViews = true
+     *     }
+     * }
+     * ```
+     */
+    public fun settings(block: SettingsScope.() -> Unit): ScreenScope<A, S> =
+        apply {
+            val settingsMap = SettingsScope().apply(block).toMap()
+            if (settingsMap.isNotEmpty()) {
+                (driver as HasSettings).settings = settingsMap
+            }
         }
 
     private fun ensureReady(screen: Screen<*>) {
