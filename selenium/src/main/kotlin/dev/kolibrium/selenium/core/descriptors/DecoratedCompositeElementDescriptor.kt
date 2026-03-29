@@ -44,5 +44,12 @@ public class DecoratedCompositeElementDescriptor(
 
     override val searchContext: SearchContext by lazy { decoratorResolver.decorateSearchContext(searchCtx) }
 
-    override fun decoratorClassNames(): List<String> = decoratorResolver.decoratorClassNames()
+    override fun toString(): String =
+        buildDescriptorString(
+            descriptorName = "CompositeElementDescriptor",
+            by = by,
+            waitConfig = effectiveWaitConfig,
+            cacheLookup = cacheLookup,
+            decoratorClassNames = decoratorResolver.decoratorClassNames(),
+        )
 }

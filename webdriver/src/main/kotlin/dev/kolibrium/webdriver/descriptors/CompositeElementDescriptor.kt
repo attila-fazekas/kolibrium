@@ -45,12 +45,12 @@ import kotlin.reflect.KProperty
 public open class CompositeElementDescriptor(
     searchCtx: SearchContext,
     override val by: By,
-    private val cacheLookup: Boolean,
+    protected val cacheLookup: Boolean,
     waitConfig: WaitConfig,
     private val readyWhen: WebElement.() -> Boolean,
 ) : AbstractElementDescriptor<CompositeElementDescriptor, WebElement>(searchCtx),
     WebElementDescriptor {
-    private val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig)
+    protected val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig)
 
     private var cachedWebElement: WebElement? = null
     private val wait: FluentWait<CompositeElementDescriptor> by lazy { initializeWait(effectiveWaitConfig) }

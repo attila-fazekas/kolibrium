@@ -17,7 +17,7 @@
 package dev.kolibrium.selenium.core.descriptors
 
 import dev.kolibrium.selenium.core.SessionContext
-import dev.kolibrium.selenium.core.WaitConfig
+import dev.kolibrium.webdriver.WaitConfig
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
@@ -66,11 +66,12 @@ class CompositeElementsDescriptorTest {
     fun `should find elements with simple By`() {
         val by = By.className("item")
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Companion.Quick,
-                readyWhen = null,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = { isNotEmpty() && all { it.isDisplayed } },
+                siteLevelDecorators = emptyList(),
             )
 
         every { mockSearchContext.findElements(by) } returns listOf(mockElement1, mockElement2)
@@ -88,11 +89,12 @@ class CompositeElementsDescriptorTest {
     fun `should find elements with ByChained`() {
         val by = ByChained(By.id("list"), By.className("item"))
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Companion.Quick,
-                readyWhen = null,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = { isNotEmpty() && all { it.isDisplayed } },
+                siteLevelDecorators = emptyList(),
             )
 
         every { mockSearchContext.findElements(by) } returns listOf(mockElement1, mockElement2, mockElement3)
@@ -109,11 +111,12 @@ class CompositeElementsDescriptorTest {
     fun `should find elements with ByAll`() {
         val by = ByAll(By.className("primary"), By.className("secondary"))
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Companion.Quick,
-                readyWhen = null,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = { isNotEmpty() && all { it.isDisplayed } },
+                siteLevelDecorators = emptyList(),
             )
 
         every { mockSearchContext.findElements(by) } returns listOf(mockElement1)
@@ -128,11 +131,12 @@ class CompositeElementsDescriptorTest {
     fun `should not cache elements between calls`() {
         val by = By.id("dynamic")
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Companion.Quick,
-                readyWhen = null,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = { isNotEmpty() && all { it.isDisplayed } },
+                siteLevelDecorators = emptyList(),
             )
 
         every { mockSearchContext.findElements(by) } returns listOf(mockElement1, mockElement2)
@@ -149,7 +153,7 @@ class CompositeElementsDescriptorTest {
     fun `should wait until all elements are displayed`() {
         val by = By.className("loading")
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
                 waitConfig =
@@ -157,7 +161,8 @@ class CompositeElementsDescriptorTest {
                         timeout = 2.seconds,
                         pollingInterval = 100.milliseconds,
                     ),
-                readyWhen = null,
+                readyWhen = { isNotEmpty() && all { it.isDisplayed } },
+                siteLevelDecorators = emptyList(),
             )
 
         every { mockSearchContext.findElements(by) } returnsMany
@@ -179,11 +184,12 @@ class CompositeElementsDescriptorTest {
     fun `should use custom readyWhen condition`() {
         val by = By.className("btn")
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Companion.Quick,
+                waitConfig = WaitConfig.Quick,
                 readyWhen = { size >= 2 && all { it.isEnabled } },
+                siteLevelDecorators = emptyList(),
             )
 
         every { mockSearchContext.findElements(by) } returnsMany
@@ -203,11 +209,12 @@ class CompositeElementsDescriptorTest {
     fun `should retry on StaleElementReferenceException`() {
         val by = By.className("stale")
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Companion.Quick,
-                readyWhen = null,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = { isNotEmpty() && all { it.isDisplayed } },
+                siteLevelDecorators = emptyList(),
             )
 
         var callCount = 0
@@ -228,7 +235,7 @@ class CompositeElementsDescriptorTest {
     fun `should throw exception when elements not ready within timeout`() {
         val by = By.id("missing")
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
                 waitConfig =
@@ -237,7 +244,8 @@ class CompositeElementsDescriptorTest {
                         pollingInterval = 100.milliseconds,
                         message = "Elements not found",
                     ),
-                readyWhen = null,
+                readyWhen = { isNotEmpty() && all { it.isDisplayed } },
+                siteLevelDecorators = emptyList(),
             )
 
         every { mockSearchContext.findElements(by) } returns emptyList()
@@ -251,7 +259,7 @@ class CompositeElementsDescriptorTest {
     fun `should always ignore NoSuchElementException in wait config`() {
         val by = By.id("eventual")
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
                 waitConfig =
@@ -260,7 +268,8 @@ class CompositeElementsDescriptorTest {
                         pollingInterval = 100.milliseconds,
                         ignoring = emptySet(),
                     ),
-                readyWhen = null,
+                readyWhen = { isNotEmpty() && all { it.isDisplayed } },
+                siteLevelDecorators = emptyList(),
             )
 
         var callCount = 0
@@ -281,7 +290,7 @@ class CompositeElementsDescriptorTest {
     fun `toString should include descriptor name, by, and wait info`() {
         val by = ByChained(By.id("container"), By.className("item"))
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
                 waitConfig =
@@ -289,7 +298,8 @@ class CompositeElementsDescriptorTest {
                         timeout = 5.seconds,
                         pollingInterval = 250.milliseconds,
                     ),
-                readyWhen = null,
+                readyWhen = { isNotEmpty() && all { it.isDisplayed } },
+                siteLevelDecorators = emptyList(),
             )
 
         val result = descriptor.toString()
@@ -309,11 +319,12 @@ class CompositeElementsDescriptorTest {
         every { mockElement2.isDisplayed } returns true
 
         val descriptor =
-            CompositeElementsDescriptor(
+            DecoratedCompositeElementsDescriptor(
                 searchCtx = mockSearchContext,
                 by = by,
-                waitConfig = WaitConfig.Companion.Quick,
-                readyWhen = null,
+                waitConfig = WaitConfig.Quick,
+                readyWhen = { isNotEmpty() && all { it.isDisplayed } },
+                siteLevelDecorators = emptyList(),
             )
 
         val elements by descriptor

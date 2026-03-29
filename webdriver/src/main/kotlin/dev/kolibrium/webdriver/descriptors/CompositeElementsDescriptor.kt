@@ -49,7 +49,7 @@ public open class CompositeElementsDescriptor(
     private val readyWhen: WebElements.() -> Boolean,
 ) : AbstractElementDescriptor<CompositeElementsDescriptor, WebElements>(searchCtx),
     WebElementsDescriptor {
-    private val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig)
+    protected val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig)
 
     private val wait: FluentWait<CompositeElementsDescriptor> by lazy { initializeWait(effectiveWaitConfig) }
 

@@ -56,7 +56,7 @@ public open class MultiElementsDescriptor(
 
     override val by: By = locatorStrategy(value)
 
-    private val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig)
+    protected val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig)
 
     private val wait: FluentWait<MultiElementsDescriptor> by lazy { initializeWait(effectiveWaitConfig) }
 

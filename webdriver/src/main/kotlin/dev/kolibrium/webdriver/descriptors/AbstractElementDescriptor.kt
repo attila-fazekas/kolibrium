@@ -52,8 +52,6 @@ public abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<T,
 
     protected abstract fun isElementReady(element: R): Boolean
 
-    protected open fun decoratorClassNames(): List<String> = emptyList()
-
     protected fun initializeWait(waitConfig: WaitConfig): FluentWait<T> =
         @Suppress("UNCHECKED_CAST")
         FluentWait(this as T).configureWith(waitConfig)
@@ -99,12 +97,13 @@ public abstract class AbstractElementDescriptor<T : AbstractElementDescriptor<T,
         by: By,
         waitConfig: WaitConfig,
         cacheLookup: Boolean? = null,
+        decoratorClassNames: List<String> = emptyList(),
     ): String {
         val ctxName = classNameOf(searchCtx)
         val timeoutStr = waitConfig.timeout?.toString() ?: "N/A"
         val pollingStr = waitConfig.pollingInterval?.toString() ?: "N/A"
-        val decorators = decoratorClassNames()
-        val decoratorsStr = if (decorators.isEmpty()) "N/A" else decorators.joinToString(prefix = "[", postfix = "]")
+        val decoratorsStr =
+            if (decoratorClassNames.isEmpty()) "N/A" else decoratorClassNames.joinToString(prefix = "[", postfix = "]")
         val cacheStr = if (cacheLookup != null) ", cacheLookup=$cacheLookup" else ""
         return "$descriptorName(ctx=$ctxName, by=$by$cacheStr, waitConfig=(timeout=$timeoutStr, " +
             "polling=$pollingStr), decorators=$decoratorsStr)"

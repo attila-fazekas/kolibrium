@@ -45,5 +45,12 @@ public class DecoratedSingleElementDescriptor(
 
     override val searchContext: SearchContext by lazy { decoratorResolver.decorateSearchContext(searchCtx) }
 
-    override fun decoratorClassNames(): List<String> = decoratorResolver.decoratorClassNames()
+    override fun toString(): String =
+        buildDescriptorString(
+            descriptorName = "ElementDescriptor",
+            by = by,
+            waitConfig = effectiveWaitConfig,
+            cacheLookup = cacheLookup,
+            decoratorClassNames = decoratorResolver.decoratorClassNames(),
+        )
 }

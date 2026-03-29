@@ -20,7 +20,7 @@ import dev.kolibrium.selenium.core.Page
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
 import dev.kolibrium.selenium.core.Site
-import dev.kolibrium.selenium.core.WaitConfig
+import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElements
 import dev.kolibrium.selenium.core.classNames
 import dev.kolibrium.selenium.core.cssSelectors
@@ -86,7 +86,7 @@ class MultiElementsDescriptorTest {
         val descriptor =
             mockSearchContext.classNames(
                 value = "item",
-                waitConfig = WaitConfig.Companion.Quick,
+                waitConfig = WaitConfig.Quick,
             )
 
         val elements = listOf(mockElement1, mockElement2, mockElement3)
@@ -109,7 +109,7 @@ class MultiElementsDescriptorTest {
         val descriptor =
             mockSearchContext.cssSelectors(
                 value = ".dynamic",
-                waitConfig = WaitConfig.Companion.Quick,
+                waitConfig = WaitConfig.Quick,
             )
 
         val firstCallElements = listOf(mockElement1, mockElement2)
@@ -170,7 +170,7 @@ class MultiElementsDescriptorTest {
         val descriptor =
             mockSearchContext.names(
                 value = "checkbox",
-                waitConfig = WaitConfig.Companion.Quick,
+                waitConfig = WaitConfig.Quick,
                 readyWhen = { all { it.isDisplayed && it.isEnabled } },
             )
 
@@ -231,7 +231,7 @@ class MultiElementsDescriptorTest {
         val descriptor =
             mockSearchContext.linkTexts(
                 value = "Read more",
-                waitConfig = WaitConfig.Companion.Quick,
+                waitConfig = WaitConfig.Quick,
             )
 
         val staleElements = listOf(mockElement1, mockElement2)
@@ -333,7 +333,7 @@ class MultiElementsDescriptorTest {
         // Given
         val site =
             object : Site("https://example.com") {
-                override val waitConfig = WaitConfig.Companion.Patient
+                override val waitConfig = WaitConfig.Patient
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
@@ -389,7 +389,7 @@ class MultiElementsDescriptorTest {
         val descriptor =
             mockSearchContext.dataQas(
                 value = "test\"value\\with",
-                waitConfig = WaitConfig.Companion.Quick,
+                waitConfig = WaitConfig.Quick,
             )
 
         val elements = listOf(mockElement1)
@@ -470,7 +470,7 @@ class MultiElementsDescriptorTest {
         val descriptor =
             mockSearchContext.tagNames(
                 value = "option",
-                waitConfig = WaitConfig.Companion.Quick,
+                waitConfig = WaitConfig.Quick,
                 readyWhen = { size >= 3 && isDisplayed },
             )
 
@@ -500,7 +500,7 @@ class MultiElementsDescriptorTest {
         val descriptor =
             mockSearchContext.cssSelectors(
                 value = "button.action",
-                waitConfig = WaitConfig.Companion.Quick,
+                waitConfig = WaitConfig.Quick,
                 readyWhen = { isClickable }, // Uses extension property from LocatorUtils
             )
 
@@ -551,7 +551,7 @@ class MultiElementsDescriptorTest {
         val descriptor =
             mockSearchContext.classNames(
                 value = "item",
-                waitConfig = WaitConfig.Companion.Quick,
+                waitConfig = WaitConfig.Quick,
                 readyWhen = { isNotEmpty() }, // Don't require all to be displayed
             )
 
@@ -604,7 +604,7 @@ class MultiElementsDescriptorTest {
             every { mockElement2.isDisplayed } returns true
 
             withDecorators(SlowMotionDecorator(wait = 1.seconds), LoggerDecorator()) {
-                val descriptor = mockSearchContext.classNames("items", waitConfig = WaitConfig.Companion.Quick)
+                val descriptor = mockSearchContext.classNames("items", waitConfig = WaitConfig.Quick)
                 descriptor.get()
                 descriptor.toString() shouldContain "decorators=[SlowMotionDecorator, LoggerDecorator]"
             }

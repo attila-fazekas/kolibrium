@@ -47,7 +47,7 @@ public open class SingleElementDescriptor(
     searchCtx: SearchContext,
     value: String,
     locatorStrategy: (String) -> By,
-    private val cacheLookup: Boolean,
+    protected val cacheLookup: Boolean,
     waitConfig: WaitConfig,
     private val readyWhen: WebElement.() -> Boolean,
 ) : AbstractElementDescriptor<SingleElementDescriptor, WebElement>(searchCtx),
@@ -58,7 +58,7 @@ public open class SingleElementDescriptor(
 
     override val by: By = locatorStrategy(value)
 
-    private val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig)
+    protected val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig)
 
     private var cachedWebElement: WebElement? = null
     private val wait: FluentWait<SingleElementDescriptor> by lazy { initializeWait(effectiveWaitConfig) }
