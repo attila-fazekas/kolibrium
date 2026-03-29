@@ -57,11 +57,10 @@ public abstract interface class dev/kolibrium/webdriver/WebElementsDescriptor : 
 
 public abstract class dev/kolibrium/webdriver/descriptors/AbstractElementDescriptor {
 	public fun <init> (Lorg/openqa/selenium/SearchContext;)V
-	protected final fun buildDescriptorString (Ljava/lang/String;Lorg/openqa/selenium/By;Ldev/kolibrium/webdriver/WaitConfig;Ljava/lang/Boolean;)Ljava/lang/String;
-	public static synthetic fun buildDescriptorString$default (Ldev/kolibrium/webdriver/descriptors/AbstractElementDescriptor;Ljava/lang/String;Lorg/openqa/selenium/By;Ldev/kolibrium/webdriver/WaitConfig;Ljava/lang/Boolean;ILjava/lang/Object;)Ljava/lang/String;
+	protected final fun buildDescriptorString (Ljava/lang/String;Lorg/openqa/selenium/By;Ldev/kolibrium/webdriver/WaitConfig;Ljava/lang/Boolean;Ljava/util/List;)Ljava/lang/String;
+	public static synthetic fun buildDescriptorString$default (Ldev/kolibrium/webdriver/descriptors/AbstractElementDescriptor;Ljava/lang/String;Lorg/openqa/selenium/By;Ldev/kolibrium/webdriver/WaitConfig;Ljava/lang/Boolean;Ljava/util/List;ILjava/lang/Object;)Ljava/lang/String;
 	protected final fun classNameOf (Ljava/lang/Object;)Ljava/lang/String;
 	protected abstract fun clearCache ()V
-	protected fun decoratorClassNames ()Ljava/util/List;
 	protected final fun ensureNoSuchElementIgnored (Ldev/kolibrium/webdriver/WaitConfig;)Ldev/kolibrium/webdriver/WaitConfig;
 	protected abstract fun findElement ()Ljava/lang/Object;
 	protected fun getSearchContext ()Lorg/openqa/selenium/SearchContext;
@@ -78,6 +77,8 @@ public class dev/kolibrium/webdriver/descriptors/CompositeElementDescriptor : de
 	protected fun findElement ()Lorg/openqa/selenium/WebElement;
 	public fun get ()Lorg/openqa/selenium/WebElement;
 	public fun getBy ()Lorg/openqa/selenium/By;
+	protected final fun getCacheLookup ()Z
+	protected final fun getEffectiveWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
 	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Lorg/openqa/selenium/WebElement;
 	public synthetic fun isElementReady (Ljava/lang/Object;)Z
@@ -92,6 +93,7 @@ public class dev/kolibrium/webdriver/descriptors/CompositeElementsDescriptor : d
 	protected fun findElement ()Ljava/util/List;
 	public fun get ()Ljava/util/List;
 	public fun getBy ()Lorg/openqa/selenium/By;
+	protected final fun getEffectiveWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
 	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/util/List;
 	public synthetic fun isElementReady (Ljava/lang/Object;)Z
@@ -106,6 +108,7 @@ public class dev/kolibrium/webdriver/descriptors/MultiElementsDescriptor : dev/k
 	protected fun findElement ()Ljava/util/List;
 	public fun get ()Ljava/util/List;
 	public fun getBy ()Lorg/openqa/selenium/By;
+	protected final fun getEffectiveWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
 	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/util/List;
 	public synthetic fun isElementReady (Ljava/lang/Object;)Z
@@ -120,6 +123,8 @@ public class dev/kolibrium/webdriver/descriptors/SingleElementDescriptor : dev/k
 	protected fun findElement ()Lorg/openqa/selenium/WebElement;
 	public fun get ()Lorg/openqa/selenium/WebElement;
 	public fun getBy ()Lorg/openqa/selenium/By;
+	protected final fun getCacheLookup ()Z
+	protected final fun getEffectiveWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
 	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
 	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Lorg/openqa/selenium/WebElement;
 	public synthetic fun isElementReady (Ljava/lang/Object;)Z

@@ -178,20 +178,24 @@ public final class dev/kolibrium/selenium/core/decorators/SlowMotionDecorator : 
 
 public final class dev/kolibrium/selenium/core/descriptors/DecoratedCompositeElementDescriptor : dev/kolibrium/webdriver/descriptors/CompositeElementDescriptor {
 	public fun <init> (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;Ljava/util/List;)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/selenium/core/descriptors/DecoratedCompositeElementsDescriptor : dev/kolibrium/webdriver/descriptors/CompositeElementsDescriptor {
 	public fun <init> (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;Ljava/util/List;)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/selenium/core/descriptors/DecoratedMultiElementsDescriptor : dev/kolibrium/webdriver/descriptors/MultiElementsDescriptor {
 	public fun <init> (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;Ljava/util/List;)V
 	public synthetic fun <init> (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/selenium/core/descriptors/DecoratedSingleElementDescriptor : dev/kolibrium/webdriver/descriptors/SingleElementDescriptor {
 	public fun <init> (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;Ljava/util/List;)V
 	public synthetic fun <init> (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/selenium/dsl/Browser : java/lang/Enum {

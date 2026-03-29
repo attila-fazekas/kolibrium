@@ -110,6 +110,83 @@ public fun SearchContext.accessibilityIds(
     )
 
 /**
+ * Creates a property delegate that lazily finds a single element by its class name.
+ *
+ * Example usage:
+ * ```
+ * private val loginButton by className("android.widget.Button")
+ * private val avatar by className("XCUIElementTypeImage", cacheLookup = false)
+ * ```
+ *
+ * @receiver The [SearchContext] instance used to search for the element.
+ * @param value The class name to search for.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
+ *                   timeout, error message, and which exceptions to ignore during the wait.
+ *                   Defaults come from defaultWaitConfig.
+ * @param readyWhen A predicate that determines when the found element is considered ready for use.
+ *                  It's called with [WebElement] as receiver. By default, checks if element is
+ *                  displayed using [isDisplayed].
+ * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
+ *
+ * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WebElement
+ */
+public fun SearchContext.className(
+    value: String,
+    cacheLookup: Boolean = true,
+    waitConfig: WaitConfig? = null,
+    readyWhen: (WebElement.() -> Boolean)? = null,
+): WebElementDescriptor =
+    SingleElementDescriptor(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = AppiumBy::className,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+    )
+
+/**
+ * Creates a property delegate that lazily finds all elements by their class name.
+ *
+ * Example usage:
+ * ```
+ * private val buttons by classNames("android.widget.Button")
+ * private val images by classNames("XCUIElementTypeImage", readyWhen = { all { isEnabled } })
+ * ```
+ *
+ * Note: Multi-element delegates always perform a fresh lookup and are not cached.
+ *
+ * @receiver The [SearchContext] instance used to search for the elements.
+ * @param value The class name to search for.
+ * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
+ *                   timeout, error message, and which exceptions to ignore during the wait.
+ *                   Defaults come from defaultWaitConfig.
+ * @param readyWhen A predicate that determines when the found elements are considered ready for use.
+ *                  It's called with [WebElements] as receiver. By default, requires the collection
+ *                  to be non-empty and all elements to be displayed.
+ * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
+ *
+ * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WebElements
+ */
+public fun SearchContext.classNames(
+    value: String,
+    waitConfig: WaitConfig? = null,
+    readyWhen: (WebElements.() -> Boolean)? = null,
+): WebElementsDescriptor =
+    MultiElementsDescriptor(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = AppiumBy::className,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+    )
+
+/**
  * Creates a property delegate that lazily finds a single element by its resource id.
  *
  * Notes on accepted values:
@@ -187,6 +264,83 @@ public fun SearchContext.resourceIds(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::id,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+    )
+
+/**
+ * Creates a property delegate that lazily finds a single element using an XPath expression.
+ *
+ * Example usage:
+ * ```
+ * private val submitButton by xpath("//android.widget.Button[@text='Login']")
+ * private val header by xpath("//XCUIElementTypeStaticText[@name='header']", cacheLookup = false)
+ * ```
+ *
+ * @receiver The [SearchContext] instance used to search for the element.
+ * @param value The XPath expression.
+ * @param cacheLookup If true (default), the element will be looked up only once and cached for
+ *                    subsequent accesses. If false, a new lookup will be performed each time
+ *                    the element is accessed.
+ * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
+ *                   timeout, error message, and which exceptions to ignore during the wait.
+ *                   Defaults come from defaultWaitConfig.
+ * @param readyWhen A predicate that determines when the found element is considered ready for use.
+ *                  It's called with [WebElement] as receiver. By default, checks if element is
+ *                  displayed using [isDisplayed].
+ * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
+ *
+ * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WebElement
+ */
+public fun SearchContext.xpath(
+    value: String,
+    cacheLookup: Boolean = true,
+    waitConfig: WaitConfig? = null,
+    readyWhen: (WebElement.() -> Boolean)? = null,
+): WebElementDescriptor =
+    SingleElementDescriptor(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = AppiumBy::xpath,
+        cacheLookup = cacheLookup,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+    )
+
+/**
+ * Creates a property delegate that lazily finds all elements matching an XPath expression.
+ *
+ * Example usage:
+ * ```
+ * private val listItems by xpaths("//android.widget.TextView")
+ * private val inputs by xpaths("//XCUIElementTypeTextField", readyWhen = { all { isClickable } })
+ * ```
+ *
+ * Note: Multi-element delegates always perform a fresh lookup and are not cached.
+ *
+ * @receiver The [SearchContext] instance used to search for the elements.
+ * @param value The XPath expression.
+ * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
+ *                   timeout, error message, and which exceptions to ignore during the wait.
+ *                   Defaults come from defaultWaitConfig.
+ * @param readyWhen A predicate that determines when the found elements are considered ready for use.
+ *                  It's called with [WebElements] as receiver. By default, requires the collection
+ *                  to be non-empty and all elements to be displayed.
+ * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
+ *
+ * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WebElements
+ */
+public fun SearchContext.xpaths(
+    value: String,
+    waitConfig: WaitConfig? = null,
+    readyWhen: (WebElements.() -> Boolean)? = null,
+): WebElementsDescriptor =
+    MultiElementsDescriptor(
+        searchCtx = this,
+        value = value,
+        locatorStrategy = AppiumBy::xpath,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementsReadyCondition,
     )
