@@ -20,6 +20,7 @@ import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
 import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.withDriver
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.WebDriver
 import kotlin.time.Duration
 import kotlin.time.TimeSource

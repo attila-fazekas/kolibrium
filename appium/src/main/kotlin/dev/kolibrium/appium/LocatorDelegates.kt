@@ -16,12 +16,13 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.selenium.core.WaitConfig
-import dev.kolibrium.selenium.core.WebElementDescriptor
-import dev.kolibrium.selenium.core.WebElements
-import dev.kolibrium.selenium.core.WebElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.MultiElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.SingleElementDescriptor
+import dev.kolibrium.webdriver.WaitConfig
+import dev.kolibrium.webdriver.WebElementDescriptor
+import dev.kolibrium.webdriver.WebElements
+import dev.kolibrium.webdriver.WebElementsDescriptor
+import dev.kolibrium.webdriver.descriptors.MultiElementsDescriptor
+import dev.kolibrium.webdriver.descriptors.SingleElementDescriptor
+import dev.kolibrium.webdriver.isDisplayed
 import io.appium.java_client.AppiumBy
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
@@ -53,7 +54,7 @@ import org.openqa.selenium.WebElement
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.accessibilityId(
@@ -67,8 +68,8 @@ public fun SearchContext.accessibilityId(
         value = value,
         locatorStrategy = AppiumBy::accessibilityId,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
     )
 
 /**
@@ -92,7 +93,7 @@ public fun SearchContext.accessibilityId(
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.accessibilityIds(
@@ -104,8 +105,8 @@ public fun SearchContext.accessibilityIds(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::accessibilityId,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
     )
 
 /**
@@ -136,7 +137,7 @@ public fun SearchContext.accessibilityIds(
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.resourceId(
@@ -150,8 +151,8 @@ public fun SearchContext.resourceId(
         value = value,
         locatorStrategy = AppiumBy::id,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
     )
 
 /**
@@ -174,7 +175,7 @@ public fun SearchContext.resourceId(
  *                  to be non‑empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.resourceIds(
@@ -186,6 +187,6 @@ public fun SearchContext.resourceIds(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::id,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
     )

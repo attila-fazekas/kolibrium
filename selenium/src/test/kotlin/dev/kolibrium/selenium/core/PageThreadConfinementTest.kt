@@ -17,6 +17,7 @@
 package dev.kolibrium.selenium.core
 
 import dev.kolibrium.selenium.core.support.FakeWebDriver
+import dev.kolibrium.webdriver.InternalKolibriumApi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -31,7 +32,6 @@ private class TestPage : Page<Site>() {
 
 class PageThreadConfinementTest {
     @Test
-    @OptIn(InternalKolibriumApi::class)
     fun `refresh runs on same thread when session and driver are bound`() {
         val driver = FakeWebDriver()
         val session = Session(driver = driver, site = TestSite)
@@ -46,7 +46,6 @@ class PageThreadConfinementTest {
     }
 
     @Test
-    @OptIn(InternalKolibriumApi::class)
     fun `refresh from different thread fails with clear error`() {
         val driver = FakeWebDriver()
         val session = Session(driver = driver, site = TestSite)

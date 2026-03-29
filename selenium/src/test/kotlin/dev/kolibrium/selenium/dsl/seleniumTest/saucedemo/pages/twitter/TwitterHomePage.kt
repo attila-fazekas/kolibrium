@@ -17,9 +17,9 @@
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.twitter
 
 import dev.kolibrium.selenium.core.Page
-import dev.kolibrium.selenium.core.WaitConfig
 import dev.kolibrium.selenium.core.dataTestId
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.Twitter
+import dev.kolibrium.webdriver.WaitConfig
 import kotlin.time.Duration.Companion.seconds
 
 class TwitterHomePage : Page<Twitter>() {

@@ -29,6 +29,7 @@ include("examples:api")
 include("examples:sel")
 include("konsistTest")
 include("selenium")
+include("webdriver")
 
 gradle.startParameter.isContinueOnFailure = true
 

@@ -17,14 +17,12 @@
 package dev.kolibrium.selenium.dsl.creation
 
 import dev.kolibrium.selenium.core.ConfigurationException
-import dev.kolibrium.selenium.core.InternalKolibriumApi
 
 /**
  * Exception thrown when there is an error in the DSL configuration.
  *
  * @param message The detailed error message describing the configuration issue.
  */
-@OptIn(InternalKolibriumApi::class)
 internal class DslConfigurationException(
     message: String,
 ) : ConfigurationException(message)

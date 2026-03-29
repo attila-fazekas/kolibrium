@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.appium
 
-import org.openqa.selenium.Cookie
-import org.openqa.selenium.WebElement
+/** Thread-local holder for the current App under test. */
+internal object AppContext {
+    private val tl: ThreadLocal<App?> = ThreadLocal()
 
-/**
- * A typealias for a list of [WebElement]s.
- *
- * This provides a more readable and concise way to refer to a list of web elements in the code.
- */
-public typealias WebElements = List<WebElement>
+    fun get(): App? = tl.get()
 
-/**
- * A typealias for a set of [Cookie]s.
- *
- * This provides a more readable and concise way to refer to a set of cookies in the code.
- */
-public typealias Cookies = Set<Cookie>
+    fun set(app: App) {
+        tl.set(app)
+    }
+
+    fun clear() {
+        tl.remove()
+    }
+}

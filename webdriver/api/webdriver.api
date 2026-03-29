@@ -1,0 +1,129 @@
+public final class dev/kolibrium/webdriver/EnvironmentScope {
+	public fun <init> ()V
+	public final fun environment (Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getEnvironmentVariables ()Ljava/util/Map;
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class dev/kolibrium/webdriver/HasBy {
+	public abstract fun getBy ()Lorg/openqa/selenium/By;
+}
+
+public abstract interface annotation class dev/kolibrium/webdriver/InternalKolibriumApi : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class dev/kolibrium/webdriver/KolibriumDsl : java/lang/annotation/Annotation {
+}
+
+public final class dev/kolibrium/webdriver/LocatorUtilsKt {
+	public static final fun isClickable (Ljava/util/List;)Z
+	public static final fun isClickable (Lorg/openqa/selenium/WebElement;)Z
+	public static final fun isDisplayed (Ljava/util/List;)Z
+	public static final fun isEnabled (Ljava/util/List;)Z
+}
+
+public final class dev/kolibrium/webdriver/WaitConfig {
+	public static final field Companion Ldev/kolibrium/webdriver/WaitConfig$Companion;
+	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/Set;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun copy-uklvIs0 (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/Set;)Ldev/kolibrium/webdriver/WaitConfig;
+	public static synthetic fun copy-uklvIs0$default (Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/Set;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WaitConfig;
+	public final fun getIgnoring ()Ljava/util/Set;
+	public final fun getMessage ()Ljava/lang/String;
+	public final fun getPollingInterval-FghU774 ()Lkotlin/time/Duration;
+	public final fun getTimeout-FghU774 ()Lkotlin/time/Duration;
+	public final fun setMessage (Ljava/lang/String;)V
+	public final fun setPollingInterval-BwNAW2A (Lkotlin/time/Duration;)V
+	public final fun setTimeout-BwNAW2A (Lkotlin/time/Duration;)V
+}
+
+public final class dev/kolibrium/webdriver/WaitConfig$Companion {
+	public final fun getDefault ()Ldev/kolibrium/webdriver/WaitConfig;
+	public final fun getPatient ()Ldev/kolibrium/webdriver/WaitConfig;
+	public final fun getQuick ()Ldev/kolibrium/webdriver/WaitConfig;
+}
+
+public final class dev/kolibrium/webdriver/WaitConfigKt {
+	public static final fun configureWith (Lorg/openqa/selenium/support/ui/FluentWait;Ldev/kolibrium/webdriver/WaitConfig;)Lorg/openqa/selenium/support/ui/FluentWait;
+}
+
+public abstract interface class dev/kolibrium/webdriver/WebElementDescriptor : dev/kolibrium/webdriver/HasBy, kotlin/properties/ReadOnlyProperty {
+	public abstract fun get ()Lorg/openqa/selenium/WebElement;
+}
+
+public abstract interface class dev/kolibrium/webdriver/WebElementsDescriptor : dev/kolibrium/webdriver/HasBy, kotlin/properties/ReadOnlyProperty {
+	public abstract fun get ()Ljava/util/List;
+}
+
+public abstract class dev/kolibrium/webdriver/descriptors/AbstractElementDescriptor {
+	public fun <init> (Lorg/openqa/selenium/SearchContext;)V
+	protected final fun buildDescriptorString (Ljava/lang/String;Lorg/openqa/selenium/By;Ldev/kolibrium/webdriver/WaitConfig;Ljava/lang/Boolean;)Ljava/lang/String;
+	public static synthetic fun buildDescriptorString$default (Ldev/kolibrium/webdriver/descriptors/AbstractElementDescriptor;Ljava/lang/String;Lorg/openqa/selenium/By;Ldev/kolibrium/webdriver/WaitConfig;Ljava/lang/Boolean;ILjava/lang/Object;)Ljava/lang/String;
+	protected final fun classNameOf (Ljava/lang/Object;)Ljava/lang/String;
+	protected abstract fun clearCache ()V
+	protected fun decoratorClassNames ()Ljava/util/List;
+	protected final fun ensureNoSuchElementIgnored (Ldev/kolibrium/webdriver/WaitConfig;)Ldev/kolibrium/webdriver/WaitConfig;
+	protected abstract fun findElement ()Ljava/lang/Object;
+	protected fun getSearchContext ()Lorg/openqa/selenium/SearchContext;
+	protected final fun getSearchCtx ()Lorg/openqa/selenium/SearchContext;
+	protected final fun getValueInternal (Lorg/openqa/selenium/support/ui/FluentWait;)Ljava/lang/Object;
+	protected final fun initializeWait (Ldev/kolibrium/webdriver/WaitConfig;)Lorg/openqa/selenium/support/ui/FluentWait;
+	protected abstract fun isElementReady (Ljava/lang/Object;)Z
+}
+
+public class dev/kolibrium/webdriver/descriptors/CompositeElementDescriptor : dev/kolibrium/webdriver/descriptors/AbstractElementDescriptor, dev/kolibrium/webdriver/WebElementDescriptor {
+	public fun <init> (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)V
+	protected fun clearCache ()V
+	public synthetic fun findElement ()Ljava/lang/Object;
+	protected fun findElement ()Lorg/openqa/selenium/WebElement;
+	public fun get ()Lorg/openqa/selenium/WebElement;
+	public fun getBy ()Lorg/openqa/selenium/By;
+	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Lorg/openqa/selenium/WebElement;
+	public synthetic fun isElementReady (Ljava/lang/Object;)Z
+	protected fun isElementReady (Lorg/openqa/selenium/WebElement;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public class dev/kolibrium/webdriver/descriptors/CompositeElementsDescriptor : dev/kolibrium/webdriver/descriptors/AbstractElementDescriptor, dev/kolibrium/webdriver/WebElementsDescriptor {
+	public fun <init> (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)V
+	protected fun clearCache ()V
+	public synthetic fun findElement ()Ljava/lang/Object;
+	protected fun findElement ()Ljava/util/List;
+	public fun get ()Ljava/util/List;
+	public fun getBy ()Lorg/openqa/selenium/By;
+	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/util/List;
+	public synthetic fun isElementReady (Ljava/lang/Object;)Z
+	protected fun isElementReady (Ljava/util/List;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public class dev/kolibrium/webdriver/descriptors/MultiElementsDescriptor : dev/kolibrium/webdriver/descriptors/AbstractElementDescriptor, dev/kolibrium/webdriver/WebElementsDescriptor {
+	public fun <init> (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)V
+	protected fun clearCache ()V
+	public synthetic fun findElement ()Ljava/lang/Object;
+	protected fun findElement ()Ljava/util/List;
+	public fun get ()Ljava/util/List;
+	public fun getBy ()Lorg/openqa/selenium/By;
+	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/util/List;
+	public synthetic fun isElementReady (Ljava/lang/Object;)Z
+	protected fun isElementReady (Ljava/util/List;)Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public class dev/kolibrium/webdriver/descriptors/SingleElementDescriptor : dev/kolibrium/webdriver/descriptors/AbstractElementDescriptor, dev/kolibrium/webdriver/WebElementDescriptor {
+	public fun <init> (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)V
+	protected fun clearCache ()V
+	public synthetic fun findElement ()Ljava/lang/Object;
+	protected fun findElement ()Lorg/openqa/selenium/WebElement;
+	public fun get ()Lorg/openqa/selenium/WebElement;
+	public fun getBy ()Lorg/openqa/selenium/By;
+	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Lorg/openqa/selenium/WebElement;
+	public synthetic fun isElementReady (Ljava/lang/Object;)Z
+	protected fun isElementReady (Lorg/openqa/selenium/WebElement;)Z
+	public fun toString ()Ljava/lang/String;
+}
+

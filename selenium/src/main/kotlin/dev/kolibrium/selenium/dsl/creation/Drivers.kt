@@ -21,7 +21,7 @@ import dev.kolibrium.selenium.dsl.Browser.Chrome
 import dev.kolibrium.selenium.dsl.Browser.Edge
 import dev.kolibrium.selenium.dsl.Browser.Firefox
 import dev.kolibrium.selenium.dsl.Browser.Safari
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeDriverService

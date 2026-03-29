@@ -16,102 +16,19 @@
 
 package dev.kolibrium.selenium.core
 
-import dev.kolibrium.selenium.core.descriptors.CompositeElementDescriptor
-import dev.kolibrium.selenium.core.descriptors.CompositeElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.MultiElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.SingleElementDescriptor
+import dev.kolibrium.selenium.core.descriptors.DecoratedCompositeElementDescriptor
+import dev.kolibrium.selenium.core.descriptors.DecoratedCompositeElementsDescriptor
+import dev.kolibrium.selenium.core.descriptors.DecoratedMultiElementsDescriptor
+import dev.kolibrium.selenium.core.descriptors.DecoratedSingleElementDescriptor
+import dev.kolibrium.webdriver.WaitConfig
+import dev.kolibrium.webdriver.WebElementDescriptor
+import dev.kolibrium.webdriver.WebElements
+import dev.kolibrium.webdriver.WebElementsDescriptor
 import org.openqa.selenium.By
-import org.openqa.selenium.NoSuchElementException
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ByIdOrName
 import kotlin.properties.ReadOnlyProperty
-
-/**
- * Marker interface exposing the Selenium [By] locator used to find element(s).
- * Useful for debugging and to integrate with custom find/wait utilities.
- */
-public interface HasBy {
-    /** The Selenium [By] locator associated with this descriptor. */
-    public val by: By
-}
-
-/**
- * Descriptor for a single Selenium [WebElement] found by a locator delegate.
- *
- * Exposes the underlying [By] for debugging, optional wait configuration, and an optional readiness
- * predicate. It also acts as a Kotlin [ReadOnlyProperty] to enable `by ...` delegation in pages.
- *
- * Thread-safety: Descriptors may cache resolved elements for performance and are not thread-safe.
- * They are intended for single-threaded test usage (typical for page objects). Avoid sharing the same
- * descriptor instance across threads. If you must access from multiple threads, create separate owning
- * page instances or disable caching via `cacheLookup = false`.
- *
- * Waiting semantics
- * - During waits, Kolibrium always ignores [NoSuchElementException] as a minimal baseline,
- *   even if your [WaitConfig] does not include it in `ignoring`. This prevents failing fast while elements
- *   are still appearing in the DOM. You can still add more ignored exceptions via [WaitConfig.ignoring].
- *
- * toString() expectations
- * - Calling toString() on a descriptor yields a stable, human-friendly summary including:
- *   ctx, by, cacheLookup and waitConfig=(timeout=..., polling=...), plus a decorators field.
- *   Values not applicable are shown as "N/A". ctx shows the underlying, undecorated [SearchContext] type.
- *   decorators is always present: it's a class list like [HighlighterDecorator, SlowMotionDecorator] when
- *   any decorators are applied, or "N/A" when none are applied.
- * - Important: Calling toString() on the delegated [WebElement] (e.g., val e by id("..."); e.toString())
- *   will print Selenium's element string, not the descriptor summary. Keep a reference to the descriptor
- *   itself if you need its diagnostic string.
- */
-public interface WebElementDescriptor :
-    ReadOnlyProperty<Any?, WebElement>,
-    HasBy {
-    /** Optional override for wait behavior; if null, site/library defaults apply. */
-    public val waitConfig: WaitConfig?
-
-    /** Optional predicate indicating when the element is considered ready for use. */
-    public val readyWhen: (WebElement.() -> Boolean)?
-
-    /** Resolve the WebElement immediately, applying wait and readiness checks. */
-    public fun get(): WebElement
-}
-
-/**
- * Descriptor for a list-like collection of [WebElements] found by a locator delegate.
- *
- * Provides the [By] locator for diagnostics, an optional wait configuration, and an optional
- * collection-level readiness predicate. Also acts as a [ReadOnlyProperty] for delegation.
- *
- * Thread-safety and caching
- * - Multi-element delegates always perform a fresh lookup and are not cached.
- * - They are intended for single-threaded test usage (typical for page objects). Avoid sharing the same
- *   descriptor instance across threads.
- *
- * Waiting semantics
- * - During waits, Kolibrium always ignores [NoSuchElementException] as a minimal baseline,
- *   even if your [WaitConfig] does not include it in `ignoring`. This prevents failing fast while elements
- *   are still appearing in the DOM. You can still add more ignored exceptions via [WaitConfig.ignoring].
- *
- * toString() expectations
- * - Calling toString() on a descriptor yields a stable, human-friendly summary including:
- *   ctx, by and waitConfig=(timeout=..., polling=...), plus a decorators field.
- *   Values not applicable are shown as "N/A". ctx shows the underlying, undecorated [SearchContext] type.
- *   decorators is always present: it's a class list like [HighlighterDecorator, SlowMotionDecorator] when
- *   any decorators are applied, or "N/A" when none are applied.
- * - Calling toString() on the delegated [WebElements] value prints Selenium's collection string, not
- *   the descriptor's summary. Keep a reference to the descriptor if you need its diagnostics.
- */
-public interface WebElementsDescriptor :
-    ReadOnlyProperty<Any?, WebElements>,
-    HasBy {
-    /** Optional override for wait behavior; if null, site/library defaults apply. */
-    public val waitConfig: WaitConfig?
-
-    /** Optional predicate that tells when the located collection is considered ready. */
-    public val readyWhen: (WebElements.() -> Boolean)?
-
-    /** Resolve the collection immediately, applying wait and readiness checks. */
-    public fun get(): WebElements
-}
 
 /**
  * Creates a property delegate that lazily finds a single element by its class name.
@@ -139,10 +56,10 @@ public interface WebElementsDescriptor :
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.className(
@@ -151,13 +68,14 @@ public fun SearchContext.className(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElement.() -> Boolean)? = null,
 ): WebElementDescriptor =
-    SingleElementDescriptor(
+    DecoratedSingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::className,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -187,7 +105,7 @@ public fun SearchContext.className(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.classNames(
@@ -195,12 +113,13 @@ public fun SearchContext.classNames(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElements.() -> Boolean)? = null,
 ): WebElementsDescriptor =
-    MultiElementsDescriptor(
+    DecoratedMultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::className,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -227,10 +146,10 @@ public fun SearchContext.classNames(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.cssSelector(
@@ -239,13 +158,14 @@ public fun SearchContext.cssSelector(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElement.() -> Boolean)? = null,
 ): WebElementDescriptor =
-    SingleElementDescriptor(
+    DecoratedSingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::cssSelector,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -273,7 +193,7 @@ public fun SearchContext.cssSelector(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.cssSelectors(
@@ -281,12 +201,13 @@ public fun SearchContext.cssSelectors(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElements.() -> Boolean)? = null,
 ): WebElementsDescriptor =
-    MultiElementsDescriptor(
+    DecoratedMultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::cssSelector,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -313,10 +234,10 @@ public fun SearchContext.cssSelectors(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.dataQa(
@@ -357,7 +278,7 @@ public fun SearchContext.dataQa(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.dataQas(
@@ -395,10 +316,10 @@ public fun SearchContext.dataQas(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.dataTest(
@@ -439,7 +360,7 @@ public fun SearchContext.dataTest(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.dataTests(
@@ -477,10 +398,10 @@ public fun SearchContext.dataTests(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.dataTestId(
@@ -521,7 +442,7 @@ public fun SearchContext.dataTestId(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.dataTestIds(
@@ -561,10 +482,10 @@ private fun String.escapeCssAttr(): String = replace("\\", "\\\\").replace("\"",
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.id(
@@ -573,13 +494,14 @@ public fun SearchContext.id(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElement.() -> Boolean)? = null,
 ): WebElementDescriptor =
-    SingleElementDescriptor(
+    DecoratedSingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::id,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -606,10 +528,10 @@ public fun SearchContext.id(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  * @see ByIdOrName
  */
@@ -619,13 +541,14 @@ public fun SearchContext.idOrName(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElement.() -> Boolean)? = null,
 ): WebElementDescriptor =
-    SingleElementDescriptor(
+    DecoratedSingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = ::ByIdOrName,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -652,10 +575,10 @@ public fun SearchContext.idOrName(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.linkText(
@@ -664,13 +587,14 @@ public fun SearchContext.linkText(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElement.() -> Boolean)? = null,
 ): WebElementDescriptor =
-    SingleElementDescriptor(
+    DecoratedSingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::linkText,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -698,7 +622,7 @@ public fun SearchContext.linkText(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.linkTexts(
@@ -706,12 +630,13 @@ public fun SearchContext.linkTexts(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElements.() -> Boolean)? = null,
 ): WebElementsDescriptor =
-    MultiElementsDescriptor(
+    DecoratedMultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::linkText,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -738,10 +663,10 @@ public fun SearchContext.linkTexts(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.name(
@@ -750,13 +675,14 @@ public fun SearchContext.name(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElement.() -> Boolean)? = null,
 ): WebElementDescriptor =
-    SingleElementDescriptor(
+    DecoratedSingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::name,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -784,7 +710,7 @@ public fun SearchContext.name(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.names(
@@ -792,12 +718,13 @@ public fun SearchContext.names(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElements.() -> Boolean)? = null,
 ): WebElementsDescriptor =
-    MultiElementsDescriptor(
+    DecoratedMultiElementsDescriptor(
         this,
         value = value,
         locatorStrategy = By::name,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -824,10 +751,10 @@ public fun SearchContext.names(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.partialLinkText(
@@ -836,13 +763,14 @@ public fun SearchContext.partialLinkText(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElement.() -> Boolean)? = null,
 ): WebElementDescriptor =
-    SingleElementDescriptor(
+    DecoratedSingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::partialLinkText,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -870,7 +798,7 @@ public fun SearchContext.partialLinkText(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.partialLinkTexts(
@@ -878,12 +806,13 @@ public fun SearchContext.partialLinkTexts(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElements.() -> Boolean)? = null,
 ): WebElementsDescriptor =
-    MultiElementsDescriptor(
+    DecoratedMultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::partialLinkText,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -910,10 +839,10 @@ public fun SearchContext.partialLinkTexts(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.tagName(
@@ -922,13 +851,14 @@ public fun SearchContext.tagName(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElement.() -> Boolean)? = null,
 ): WebElementDescriptor =
-    SingleElementDescriptor(
+    DecoratedSingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::tagName,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -956,7 +886,7 @@ public fun SearchContext.tagName(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.tagNames(
@@ -964,12 +894,13 @@ public fun SearchContext.tagNames(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElements.() -> Boolean)? = null,
 ): WebElementsDescriptor =
-    MultiElementsDescriptor(
+    DecoratedMultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::tagName,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -996,10 +927,10 @@ public fun SearchContext.tagNames(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.xpath(
@@ -1008,13 +939,14 @@ public fun SearchContext.xpath(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElement.() -> Boolean)? = null,
 ): WebElementDescriptor =
-    SingleElementDescriptor(
+    DecoratedSingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::xpath,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -1042,7 +974,7 @@ public fun SearchContext.xpath(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.xpaths(
@@ -1050,12 +982,13 @@ public fun SearchContext.xpaths(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElements.() -> Boolean)? = null,
 ): WebElementsDescriptor =
-    MultiElementsDescriptor(
+    DecoratedMultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = By::xpath,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -1084,12 +1017,12 @@ public fun SearchContext.xpaths(
  *                   Defaults come from defaultWaitConfig.
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                       It's called with [WebElement] as receiver. By default, checks if element is
- *                       displayed using [isDisplayed].
+ *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [WebElementDescriptor] that provides a [WebElement] when accessed.
  *
  * @see chained
  * @see anyOf
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.element(
@@ -1098,12 +1031,13 @@ public fun SearchContext.element(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElement.() -> Boolean)? = null,
 ): WebElementDescriptor =
-    CompositeElementDescriptor(
+    DecoratedCompositeElementDescriptor(
         searchCtx = this,
         by = by,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )
 
 /**
@@ -1136,7 +1070,7 @@ public fun SearchContext.element(
  *
  * @see chained
  * @see anyOf
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.elements(
@@ -1144,9 +1078,10 @@ public fun SearchContext.elements(
     waitConfig: WaitConfig? = null,
     readyWhen: (WebElements.() -> Boolean)? = null,
 ): WebElementsDescriptor =
-    CompositeElementsDescriptor(
+    DecoratedCompositeElementsDescriptor(
         searchCtx = this,
         by = by,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        siteLevelDecorators = (SessionContext.get()?.site?.decorators ?: emptyList()),
     )

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.webdriver
 
 import org.openqa.selenium.support.ui.FluentWait
 import java.time.Duration.ofMillis

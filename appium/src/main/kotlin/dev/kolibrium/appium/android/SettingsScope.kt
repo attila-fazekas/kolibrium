@@ -16,7 +16,7 @@
 
 package dev.kolibrium.appium.android
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 
 /**
  * DSL scope for configuring Appium settings.

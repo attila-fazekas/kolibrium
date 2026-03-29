@@ -16,6 +16,8 @@
 
 package dev.kolibrium.selenium.core
 
+import dev.kolibrium.webdriver.InternalKolibriumApi
+
 /**
  * Used to throw a [RuntimeException] when there is a configuration error within Kolibrium.
  *

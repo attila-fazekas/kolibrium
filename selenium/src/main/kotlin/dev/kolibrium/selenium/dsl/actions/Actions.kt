@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.actions
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.interactions.Actions
 

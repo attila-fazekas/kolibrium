@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.webdriver
 
 import org.openqa.selenium.WebElement
 
 /**
- * Checks if the [WebElement] is both displayed and enabled, making it clickable in the UI.
+ * Checks if the [org.openqa.selenium.WebElement] is both displayed and enabled, making it clickable in the UI.
  *
- * This property combines Selenium's [WebElement.isDisplayed] and [WebElement.isEnabled] checks to determine
+ * This property combines Selenium's [org.openqa.selenium.WebElement.isDisplayed] and [org.openqa.selenium.WebElement.isEnabled] checks to determine
  * if the element is ready for user interaction through clicking.
  *
- * @receiver The [WebElement] to check for clickability.
+ * @receiver The [org.openqa.selenium.WebElement] to check for clickability.
  * @return `true` if the element is both displayed and enabled, `false` otherwise.
  */
 public val WebElement.isClickable: Boolean
@@ -65,15 +65,3 @@ public val WebElements.isDisplayed: Boolean
  */
 public val WebElements.isEnabled: Boolean
     get() = all { it.isEnabled }
-
-/** Default readiness condition used for single element lookup. */
-internal val defaultElementReadyCondition: WebElement.() -> Boolean
-    get() = SessionContext.get()?.site?.elementReadyCondition ?: { isDisplayed }
-
-/** Default readiness condition used for multiple element lookup. */
-internal val defaultElementsReadyCondition: WebElements.() -> Boolean
-    get() = SessionContext.get()?.site?.elementsReadyCondition ?: { isNotEmpty() && isDisplayed }
-
-/** Default wait configuration used for element lookup. */
-internal val defaultWaitConfig: WaitConfig
-    get() = SessionContext.get()?.site?.waitConfig ?: WaitConfig.Companion.Default

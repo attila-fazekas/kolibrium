@@ -16,12 +16,16 @@
 
 package dev.kolibrium.appium.ios
 
-import dev.kolibrium.selenium.core.WaitConfig
-import dev.kolibrium.selenium.core.WebElementDescriptor
-import dev.kolibrium.selenium.core.WebElements
-import dev.kolibrium.selenium.core.WebElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.MultiElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.SingleElementDescriptor
+import dev.kolibrium.appium.defaultElementReadyCondition
+import dev.kolibrium.appium.defaultElementsReadyCondition
+import dev.kolibrium.appium.defaultWaitConfig
+import dev.kolibrium.webdriver.WaitConfig
+import dev.kolibrium.webdriver.WebElementDescriptor
+import dev.kolibrium.webdriver.WebElements
+import dev.kolibrium.webdriver.WebElementsDescriptor
+import dev.kolibrium.webdriver.descriptors.MultiElementsDescriptor
+import dev.kolibrium.webdriver.descriptors.SingleElementDescriptor
+import dev.kolibrium.webdriver.isDisplayed
 import io.appium.java_client.AppiumBy
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
@@ -52,7 +56,7 @@ import org.openqa.selenium.WebElement
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.iOSClassChain(
@@ -66,8 +70,8 @@ public fun SearchContext.iOSClassChain(
         value = value,
         locatorStrategy = AppiumBy::iOSClassChain,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
     )
 
 /**
@@ -90,7 +94,7 @@ public fun SearchContext.iOSClassChain(
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.iOSClassChains(
@@ -102,8 +106,8 @@ public fun SearchContext.iOSClassChains(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::iOSClassChain,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
     )
 
 /**
@@ -145,7 +149,7 @@ public fun SearchContext.iOSClassChains(
  *
  * @see nsPredicate
  * @see XCUIElementType
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.iOSNSPredicate(
@@ -159,8 +163,8 @@ public fun SearchContext.iOSNSPredicate(
         value = value,
         locatorStrategy = AppiumBy::iOSNsPredicateString,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
     )
 
 /**
@@ -198,7 +202,7 @@ public fun SearchContext.iOSNSPredicate(
  *
  * @see nsPredicate
  * @see XCUIElementType
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.iOSNSPredicates(
@@ -210,6 +214,6 @@ public fun SearchContext.iOSNSPredicates(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::iOSNsPredicateString,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
     )

@@ -25,7 +25,6 @@ import dev.kolibrium.appium.ios.nsPredicate
 import dev.kolibrium.appium.mydemoapp.MyDemoAndroidApp
 import dev.kolibrium.appium.mydemoapp.MyDemoIosApp
 import dev.kolibrium.appium.mydemoapp.Product
-import dev.kolibrium.selenium.core.xpaths
 
 sealed interface ProductsScreen {
     fun titleText(): String

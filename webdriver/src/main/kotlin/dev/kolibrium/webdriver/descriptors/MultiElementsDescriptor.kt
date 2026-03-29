@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core.descriptors
+package dev.kolibrium.webdriver.descriptors
 
-import dev.kolibrium.selenium.core.InternalKolibriumApi
-import dev.kolibrium.selenium.core.WaitConfig
-import dev.kolibrium.selenium.core.WebElements
-import dev.kolibrium.selenium.core.WebElementsDescriptor
-import dev.kolibrium.selenium.core.defaultElementsReadyCondition
+import dev.kolibrium.webdriver.InternalKolibriumApi
+import dev.kolibrium.webdriver.WaitConfig
+import dev.kolibrium.webdriver.WebElements
+import dev.kolibrium.webdriver.WebElementsDescriptor
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
+import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.FluentWait
 import kotlin.reflect.KProperty
 
@@ -35,31 +35,28 @@ import kotlin.reflect.KProperty
  *
  * Typical usage is via higher‑level helpers (e.g., `xpaths`, `cssSelectors`).
  *
- * @param searchCtx The base [org.openqa.selenium.SearchContext] to perform the lookup in (driver/page/screen or a nested element).
+ * @param searchCtx The base [SearchContext] to perform the lookup in (driver/page/screen or a nested element).
  * @param value The raw locator value (e.g., CSS, XPath, id) passed to [locatorStrategy]. Must be non‑blank.
- * @param locatorStrategy Function that converts [value] into a Selenium [org.openqa.selenium.By].
- * @param waitConfig Optional [WaitConfig] to control timeout/polling/ignored exceptions; when `null`,
- *        the effective configuration defaults to [dev.kolibrium.selenium.core.defaultWaitConfig].
- * @param readyWhen Optional predicate that defines when the found elements are considered ready; when `null`,
- *        the effective predicate defaults to [defaultElementsReadyCondition].
+ * @param locatorStrategy Function that converts [value] into a Selenium [By].
+ * @param waitConfig [WaitConfig] to control timeout/polling/ignored exceptions.
+ * @param readyWhen Predicate that defines when the found elements are considered ready.
  */
 @InternalKolibriumApi
-public class MultiElementsDescriptor(
+public open class MultiElementsDescriptor(
     searchCtx: SearchContext,
     value: String,
     locatorStrategy: (String) -> By,
-    override val waitConfig: WaitConfig?,
-    override val readyWhen: (WebElements.() -> Boolean)?,
+    waitConfig: WaitConfig,
+    private val readyWhen: WebElements.() -> Boolean,
 ) : AbstractElementDescriptor<MultiElementsDescriptor, WebElements>(searchCtx),
     WebElementsDescriptor {
     init {
-        require(value.isNotBlank()) { "\"value\" must not be blank" }
+        require(value.isNotBlank()) { "'value' must not be blank" }
     }
 
     override val by: By = locatorStrategy(value)
 
-    private val effectiveWaitConfig: WaitConfig = resolveWaitConfig(waitConfig)
-    private val effectiveReady: WebElements.() -> Boolean = readyWhen ?: defaultElementsReadyCondition
+    private val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig)
 
     private val wait: FluentWait<MultiElementsDescriptor> by lazy { initializeWait(effectiveWaitConfig) }
 
@@ -74,7 +71,7 @@ public class MultiElementsDescriptor(
 
     override fun clearCache() { /* no-op: multi-element delegates are not cached */ }
 
-    override fun isElementReady(element: WebElements): Boolean = element.effectiveReady()
+    override fun isElementReady(element: WebElements): Boolean = element.readyWhen()
 
     override fun toString(): String =
         buildDescriptorString(

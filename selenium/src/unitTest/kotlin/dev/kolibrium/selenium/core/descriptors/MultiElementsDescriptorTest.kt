@@ -21,7 +21,7 @@ import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
 import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.WaitConfig
-import dev.kolibrium.selenium.core.WebElements
+import dev.kolibrium.webdriver.WebElements
 import dev.kolibrium.selenium.core.classNames
 import dev.kolibrium.selenium.core.cssSelectors
 import dev.kolibrium.selenium.core.dataQas
@@ -30,8 +30,8 @@ import dev.kolibrium.selenium.core.dataTests
 import dev.kolibrium.selenium.core.decorators.DecoratorManager.withDecorators
 import dev.kolibrium.selenium.core.decorators.LoggerDecorator
 import dev.kolibrium.selenium.core.decorators.SlowMotionDecorator
-import dev.kolibrium.selenium.core.isClickable
-import dev.kolibrium.selenium.core.isDisplayed
+import dev.kolibrium.webdriver.isClickable
+import dev.kolibrium.webdriver.isDisplayed
 import dev.kolibrium.selenium.core.linkTexts
 import dev.kolibrium.selenium.core.names
 import dev.kolibrium.selenium.core.partialLinkTexts

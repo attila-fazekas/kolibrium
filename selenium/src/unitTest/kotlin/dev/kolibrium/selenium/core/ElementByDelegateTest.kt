@@ -16,8 +16,9 @@
 
 package dev.kolibrium.selenium.core
 
-import dev.kolibrium.selenium.core.descriptors.CompositeElementDescriptor
-import dev.kolibrium.selenium.core.descriptors.CompositeElementsDescriptor
+import dev.kolibrium.selenium.core.descriptors.DecoratedCompositeElementDescriptor
+import dev.kolibrium.selenium.core.descriptors.DecoratedCompositeElementsDescriptor
+import dev.kolibrium.webdriver.WaitConfig
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.clearAllMocks
@@ -57,7 +58,7 @@ class ElementByDelegateTest {
 
             val descriptor = mockSearchContext.element(by)
 
-            descriptor.shouldBeInstanceOf<CompositeElementDescriptor>()
+            descriptor.shouldBeInstanceOf<DecoratedCompositeElementDescriptor>()
         }
 
         @Test
@@ -167,7 +168,7 @@ class ElementByDelegateTest {
 
             val descriptor = mockSearchContext.elements(by)
 
-            descriptor.shouldBeInstanceOf<CompositeElementsDescriptor>()
+            descriptor.shouldBeInstanceOf<DecoratedCompositeElementsDescriptor>()
         }
 
         @Test

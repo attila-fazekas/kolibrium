@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.dsl.creation
-
-import dev.kolibrium.selenium.core.InternalKolibriumApi
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+package dev.kolibrium.webdriver
 
 /**
  * Scope class for configuring environment variables for the driver service.

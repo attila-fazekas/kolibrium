@@ -16,8 +16,8 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
-import dev.kolibrium.selenium.dsl.creation.EnvironmentScope
+import dev.kolibrium.webdriver.EnvironmentScope
+import dev.kolibrium.webdriver.KolibriumDsl
 import io.appium.java_client.service.local.AppiumDriverLocalService
 import io.appium.java_client.service.local.AppiumServiceBuilder
 import io.appium.java_client.service.local.flags.GeneralServerFlag

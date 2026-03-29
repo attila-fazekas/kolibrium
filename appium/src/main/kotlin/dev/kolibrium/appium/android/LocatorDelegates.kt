@@ -16,12 +16,16 @@
 
 package dev.kolibrium.appium.android
 
-import dev.kolibrium.selenium.core.WaitConfig
-import dev.kolibrium.selenium.core.WebElementDescriptor
-import dev.kolibrium.selenium.core.WebElements
-import dev.kolibrium.selenium.core.WebElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.MultiElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.SingleElementDescriptor
+import dev.kolibrium.appium.defaultElementReadyCondition
+import dev.kolibrium.appium.defaultElementsReadyCondition
+import dev.kolibrium.appium.defaultWaitConfig
+import dev.kolibrium.webdriver.WaitConfig
+import dev.kolibrium.webdriver.WebElementDescriptor
+import dev.kolibrium.webdriver.WebElements
+import dev.kolibrium.webdriver.WebElementsDescriptor
+import dev.kolibrium.webdriver.descriptors.MultiElementsDescriptor
+import dev.kolibrium.webdriver.descriptors.SingleElementDescriptor
+import dev.kolibrium.webdriver.isDisplayed
 import io.appium.java_client.AppiumBy
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
@@ -57,7 +61,7 @@ import org.openqa.selenium.WebElement
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.androidUIAutomator(
@@ -71,8 +75,8 @@ public fun SearchContext.androidUIAutomator(
         value = value,
         locatorStrategy = AppiumBy::androidUIAutomator,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
     )
 
 /**
@@ -95,7 +99,7 @@ public fun SearchContext.androidUIAutomator(
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.androidUIAutomators(
@@ -107,8 +111,8 @@ public fun SearchContext.androidUIAutomators(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::androidUIAutomator,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
     )
 
 // Espresso locator delegates
@@ -141,7 +145,7 @@ public fun SearchContext.androidUIAutomators(
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.androidDataMatcher(
@@ -155,8 +159,8 @@ public fun SearchContext.androidDataMatcher(
         value = value,
         locatorStrategy = AppiumBy::androidDataMatcher,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
     )
 
 /**
@@ -182,7 +186,7 @@ public fun SearchContext.androidDataMatcher(
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.androidDataMatchers(
@@ -194,8 +198,8 @@ public fun SearchContext.androidDataMatchers(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::androidDataMatcher,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
     )
 
 /**
@@ -226,7 +230,7 @@ public fun SearchContext.androidDataMatchers(
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.androidViewMatcher(
@@ -240,8 +244,8 @@ public fun SearchContext.androidViewMatcher(
         value = value,
         locatorStrategy = AppiumBy::androidViewMatcher,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = (waitConfig ?: WaitConfig.Default),
+        readyWhen = (readyWhen ?: { isDisplayed }),
     )
 
 /**
@@ -267,7 +271,7 @@ public fun SearchContext.androidViewMatcher(
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.androidViewMatchers(
@@ -279,8 +283,8 @@ public fun SearchContext.androidViewMatchers(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::androidViewMatcher,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = (waitConfig ?: WaitConfig.Default),
+        readyWhen = (readyWhen ?: { isNotEmpty() && isDisplayed }),
     )
 
 /**
@@ -308,7 +312,7 @@ public fun SearchContext.androidViewMatchers(
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.androidViewTag(
@@ -322,8 +326,8 @@ public fun SearchContext.androidViewTag(
         value = value,
         locatorStrategy = AppiumBy::androidViewTag,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementReadyCondition,
     )
 
 /**
@@ -346,7 +350,7 @@ public fun SearchContext.androidViewTag(
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.androidViewTags(
@@ -358,6 +362,6 @@ public fun SearchContext.androidViewTags(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::androidViewTag,
-        waitConfig = waitConfig,
-        readyWhen = readyWhen,
+        waitConfig = waitConfig ?: defaultWaitConfig,
+        readyWhen = readyWhen ?: defaultElementsReadyCondition,
     )

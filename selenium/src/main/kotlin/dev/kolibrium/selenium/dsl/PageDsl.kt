@@ -16,14 +16,14 @@
 
 package dev.kolibrium.selenium.dsl
 
-import dev.kolibrium.selenium.core.Cookies
 import dev.kolibrium.selenium.core.Page
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
 import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.withDriver
-import dev.kolibrium.selenium.dsl.KolibriumDsl
 import dev.kolibrium.selenium.dsl.SiteEntry
+import dev.kolibrium.webdriver.Cookies
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import java.net.URI

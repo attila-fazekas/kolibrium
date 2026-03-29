@@ -16,7 +16,7 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver
@@ -295,6 +295,7 @@ internal fun <A : App, T> appiumTestImpl(
             driver = driverFactory()
             app.onSessionReady(driver)
 
+            AppContext.set(app)
             AppiumDriverContextHolder.set(driver)
             val entry = AppScope<A>(driver)
             entry.block(prepared)
@@ -311,6 +312,7 @@ internal fun <A : App, T> appiumTestImpl(
                     throw teardownError
                 }
             } finally {
+                AppContext.clear()
                 AppiumDriverContextHolder.clear()
                 runCatching { driver?.quit() }
             }

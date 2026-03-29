@@ -17,13 +17,13 @@
 package dev.kolibrium.selenium.core
 
 import dev.kolibrium.selenium.core.support.FakeWebDriver
+import dev.kolibrium.webdriver.InternalKolibriumApi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 class WithDriverGuardsTest {
     @Test
-    @OptIn(InternalKolibriumApi::class)
     fun `withDriver rejects different driver when session is active`() {
         val driver1 = FakeWebDriver()
         val driver2 = FakeWebDriver()
@@ -42,7 +42,6 @@ class WithDriverGuardsTest {
     }
 
     @Test
-    @OptIn(InternalKolibriumApi::class)
     fun `withDriver allows same driver when session is active`() {
         val driver = FakeWebDriver()
         val site = object : Site("https://example.test") {}

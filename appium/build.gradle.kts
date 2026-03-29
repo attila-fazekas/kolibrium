@@ -23,8 +23,8 @@ plugins {
 }
 
 dependencies {
+    api(project(":webdriver"))
     api("io.appium:java-client:_")
-    implementation(project(":selenium"))
     testImplementation("com.titusfortner:selenium-logger:_")
 }
 
@@ -53,7 +53,7 @@ tasks.withType<KotlinCompile>().configureEach {
             "-Xcontext-parameters",
         )
         optIn.addAll(
-            "dev.kolibrium.selenium.core.InternalKolibriumApi",
+            "dev.kolibrium.webdriver.InternalKolibriumApi",
         )
     }
 }
