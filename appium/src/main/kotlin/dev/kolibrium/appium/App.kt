@@ -16,12 +16,10 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.webdriver.WaitConfig
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver
 import io.appium.java_client.service.local.AppiumDriverLocalService
-import org.openqa.selenium.WebElement
 import java.net.URL
 
 /**
@@ -44,20 +42,6 @@ public sealed interface App {
      * If null (default), tests assume an external Appium server is already running.
      */
     public val service: AppiumDriverLocalService?
-
-    /**
-     * Default readiness predicate applied by locator delegates for a single [WebElement].
-     *
-     * Override to change the global "ready" condition for this app (e.g., `isEnabled`).
-     */
-    public val elementReadyCondition: WebElement.() -> Boolean
-        get() = { isDisplayed }
-
-    /**
-     * Default [dev.kolibrium.webdriver.WaitConfig] used by locator delegates when none is specified at the call site.
-     */
-    public val waitConfig: WaitConfig
-        get() = WaitConfig.Default
 }
 
 /**

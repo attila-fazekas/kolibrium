@@ -18,7 +18,7 @@ comments:
     active: true
   OutdatedDocumentation:
     active: true
-    excludes: ["**/src/main/kotlin/dev/kolibrium/selenium/core/descriptors/**"]
+    excludes: ["**/src/main/kotlin/dev/kolibrium/webdriver/descriptors/**"]
   UndocumentedPublicClass:
     active: true
   UndocumentedPublicFunction:

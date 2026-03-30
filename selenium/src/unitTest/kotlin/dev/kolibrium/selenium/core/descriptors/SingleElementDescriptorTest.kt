@@ -19,7 +19,6 @@ package dev.kolibrium.selenium.core.descriptors
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
 import dev.kolibrium.selenium.core.Site
-import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.selenium.core.className
 import dev.kolibrium.selenium.core.cssSelector
 import dev.kolibrium.selenium.core.dataQa
@@ -35,6 +34,7 @@ import dev.kolibrium.selenium.core.name
 import dev.kolibrium.selenium.core.partialLinkText
 import dev.kolibrium.selenium.core.tagName
 import dev.kolibrium.selenium.core.xpath
+import dev.kolibrium.webdriver.WaitConfig
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe

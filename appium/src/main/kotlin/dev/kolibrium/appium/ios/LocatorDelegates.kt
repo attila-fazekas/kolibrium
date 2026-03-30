@@ -16,9 +16,6 @@
 
 package dev.kolibrium.appium.ios
 
-import dev.kolibrium.appium.defaultElementReadyCondition
-import dev.kolibrium.appium.defaultElementsReadyCondition
-import dev.kolibrium.appium.defaultWaitConfig
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElementDescriptor
 import dev.kolibrium.webdriver.WebElements
@@ -62,16 +59,16 @@ import org.openqa.selenium.WebElement
 public fun SearchContext.iOSClassChain(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::iOSClassChain,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -99,15 +96,15 @@ public fun SearchContext.iOSClassChain(
  */
 public fun SearchContext.iOSClassChains(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::iOSClassChain,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -155,16 +152,16 @@ public fun SearchContext.iOSClassChains(
 public fun SearchContext.iOSNSPredicate(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::iOSNsPredicateString,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -207,13 +204,13 @@ public fun SearchContext.iOSNSPredicate(
  */
 public fun SearchContext.iOSNSPredicates(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::iOSNsPredicateString,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )

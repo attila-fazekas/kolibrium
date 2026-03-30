@@ -7,21 +7,12 @@ public abstract class dev/kolibrium/appium/AndroidApp : dev/kolibrium/appium/App
 	public final fun getAppPath ()Ljava/lang/String;
 	public final fun getAppiumUrl ()Ljava/net/URL;
 	public fun getDriverFactory ()Lkotlin/jvm/functions/Function0;
-	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
-	public fun getWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
 	public fun onSessionReady (Lio/appium/java_client/android/AndroidDriver;)V
 }
 
 public abstract interface class dev/kolibrium/appium/App {
-	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public abstract fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
-	public fun getWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
-}
-
-public final class dev/kolibrium/appium/App$DefaultImpls {
-	public static fun getElementReadyCondition (Ldev/kolibrium/appium/App;)Lkotlin/jvm/functions/Function1;
-	public static fun getWaitConfig (Ldev/kolibrium/appium/App;)Ldev/kolibrium/webdriver/WaitConfig;
 }
 
 public final class dev/kolibrium/appium/AppScope {
@@ -103,11 +94,9 @@ public abstract class dev/kolibrium/appium/CrossPlatformApp : dev/kolibrium/appi
 	public final fun getAndroidDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public final fun getAppPackage ()Ljava/lang/String;
 	public final fun getBundleId ()Ljava/lang/String;
-	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public final fun getIos ()Ldev/kolibrium/appium/IosApp;
 	public final fun getIosDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
-	public fun getWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
 }
 
 public abstract class dev/kolibrium/appium/IosApp : dev/kolibrium/appium/App {
@@ -118,9 +107,7 @@ public abstract class dev/kolibrium/appium/IosApp : dev/kolibrium/appium/App {
 	public final fun getAppiumUrl ()Ljava/net/URL;
 	public final fun getBundleId ()Ljava/lang/String;
 	public final fun getDriverFactory ()Lkotlin/jvm/functions/Function0;
-	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
-	public fun getWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
 	public fun onSessionReady (Lio/appium/java_client/ios/IOSDriver;)V
 }
 

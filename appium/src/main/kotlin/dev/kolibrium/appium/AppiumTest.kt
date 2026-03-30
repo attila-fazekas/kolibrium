@@ -295,7 +295,6 @@ internal fun <A : App, T> appiumTestImpl(
             driver = driverFactory()
             app.onSessionReady(driver)
 
-            AppContext.set(app)
             AppiumDriverContextHolder.set(driver)
             val entry = AppScope<A>(driver)
             entry.block(prepared)
@@ -312,7 +311,6 @@ internal fun <A : App, T> appiumTestImpl(
                     throw teardownError
                 }
             } finally {
-                AppContext.clear()
                 AppiumDriverContextHolder.clear()
                 runCatching { driver?.quit() }
             }

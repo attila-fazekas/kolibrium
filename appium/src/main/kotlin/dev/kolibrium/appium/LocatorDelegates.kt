@@ -60,16 +60,16 @@ import org.openqa.selenium.WebElement
 public fun SearchContext.accessibilityId(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::accessibilityId,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -98,15 +98,15 @@ public fun SearchContext.accessibilityId(
  */
 public fun SearchContext.accessibilityIds(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::accessibilityId,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -137,16 +137,16 @@ public fun SearchContext.accessibilityIds(
 public fun SearchContext.className(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::className,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -175,15 +175,15 @@ public fun SearchContext.className(
  */
 public fun SearchContext.classNames(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::className,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -220,16 +220,16 @@ public fun SearchContext.classNames(
 public fun SearchContext.resourceId(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::id,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -257,15 +257,15 @@ public fun SearchContext.resourceId(
  */
 public fun SearchContext.resourceIds(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::id,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -296,16 +296,16 @@ public fun SearchContext.resourceIds(
 public fun SearchContext.xpath(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::xpath,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -334,13 +334,13 @@ public fun SearchContext.xpath(
  */
 public fun SearchContext.xpaths(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::xpath,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )

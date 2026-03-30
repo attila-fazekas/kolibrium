@@ -16,9 +16,6 @@
 
 package dev.kolibrium.appium.android
 
-import dev.kolibrium.appium.defaultElementReadyCondition
-import dev.kolibrium.appium.defaultElementsReadyCondition
-import dev.kolibrium.appium.defaultWaitConfig
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElementDescriptor
 import dev.kolibrium.webdriver.WebElements
@@ -67,16 +64,16 @@ import org.openqa.selenium.WebElement
 public fun SearchContext.androidUIAutomator(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::androidUIAutomator,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -104,15 +101,15 @@ public fun SearchContext.androidUIAutomator(
  */
 public fun SearchContext.androidUIAutomators(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::androidUIAutomator,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 // Espresso locator delegates
@@ -151,16 +148,16 @@ public fun SearchContext.androidUIAutomators(
 public fun SearchContext.androidDataMatcher(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::androidDataMatcher,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -191,15 +188,15 @@ public fun SearchContext.androidDataMatcher(
  */
 public fun SearchContext.androidDataMatchers(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::androidDataMatcher,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -236,8 +233,8 @@ public fun SearchContext.androidDataMatchers(
 public fun SearchContext.androidViewMatcher(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
@@ -276,8 +273,8 @@ public fun SearchContext.androidViewMatcher(
  */
 public fun SearchContext.androidViewMatchers(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
@@ -318,16 +315,16 @@ public fun SearchContext.androidViewMatchers(
 public fun SearchContext.androidViewTag(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::androidViewTag,
         cacheLookup = cacheLookup,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )
 
 /**
@@ -355,13 +352,13 @@ public fun SearchContext.androidViewTag(
  */
 public fun SearchContext.androidViewTags(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
         value = value,
         locatorStrategy = AppiumBy::androidViewTag,
-        waitConfig = waitConfig ?: defaultWaitConfig,
-        readyWhen = readyWhen ?: defaultElementsReadyCondition,
+        waitConfig = waitConfig,
+        readyWhen = readyWhen,
     )

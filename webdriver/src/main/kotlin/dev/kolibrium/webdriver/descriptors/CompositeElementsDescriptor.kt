@@ -22,7 +22,6 @@ import dev.kolibrium.webdriver.WebElements
 import dev.kolibrium.webdriver.WebElementsDescriptor
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
-import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.FluentWait
 import kotlin.reflect.KProperty
 
