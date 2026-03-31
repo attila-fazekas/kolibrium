@@ -20,6 +20,7 @@ public final class dev/kolibrium/webdriver/LocatorUtilsKt {
 	public static final fun isClickable (Lorg/openqa/selenium/WebElement;)Z
 	public static final fun isDisplayed (Ljava/util/List;)Z
 	public static final fun isEnabled (Ljava/util/List;)Z
+	public static final fun isNotEmptyAndDisplayed (Ljava/util/List;)Z
 }
 
 public final class dev/kolibrium/webdriver/WaitConfig {

@@ -40,7 +40,7 @@ public val WebElement.isClickable: Boolean
  * @return `true` if the elements are both displayed and enabled, `false` otherwise.
  */
 public val WebElements.isClickable: Boolean
-    get() = all { isDisplayed && isEnabled }
+    get() = all { it.isDisplayed && it.isEnabled }
 
 /**
  * Checks if all [WebElements] in this collection are displayed in the UI.
@@ -65,3 +65,21 @@ public val WebElements.isDisplayed: Boolean
  */
 public val WebElements.isEnabled: Boolean
     get() = all { it.isEnabled }
+
+/**
+ * Checks whether this collection of [WebElements] is non-empty and every element is displayed.
+ *
+ * This is a convenience readiness predicate for multi-element locators:
+ * it returns `true` only when at least one element is present and all elements in the collection
+ * are visible in the UI.
+ *
+ * The check is intentionally strict:
+ * - an empty collection returns `false`
+ * - any non-displayed element returns `false`
+ * - only a non-empty collection with all elements displayed returns `true`
+ *
+ * @receiver The collection of [WebElement]s to inspect.
+ * @return `true` when the collection is not empty and all elements are displayed; otherwise `false`.
+ */
+public val WebElements.isNotEmptyAndDisplayed: Boolean
+    get() = isNotEmpty() && all { it.isDisplayed }

@@ -21,8 +21,7 @@ import kotlin.properties.ReadOnlyProperty
 /**
  * Descriptor for a list-like collection of [WebElements] found by a locator delegate.
  *
- * Provides the [org.openqa.selenium.By] locator for diagnostics, an optional wait configuration, and an optional
- * collection-level readiness predicate. Also acts as a [ReadOnlyProperty] for delegation.
+ * Provides the [org.openqa.selenium.By] locator for diagnostics and acts as a [ReadOnlyProperty] for delegation.
  *
  * Thread-safety and caching
  * - Multi-element delegates always perform a fresh lookup and are not cached.
@@ -36,10 +35,8 @@ import kotlin.properties.ReadOnlyProperty
  *
  * toString() expectations
  * - Calling toString() on a descriptor yields a stable, human-friendly summary including:
- *   ctx, by and waitConfig=(timeout=..., polling=...), plus a decorators field.
- *   Values not applicable are shown as "N/A". ctx shows the underlying, undecorated [org.openqa.selenium.SearchContext] type.
- *   decorators is always present: it's a class list like [HighlighterDecorator, SlowMotionDecorator] when
- *   any decorators are applied, or "N/A" when none are applied.
+ *   ctx, by and waitConfig=(timeout=..., polling=...).
+ *   Values not applicable are shown as "N/A". ctx shows the underlying [org.openqa.selenium.SearchContext] type.
  * - Calling toString() on the delegated [WebElements] value prints Selenium's collection string, not
  *   the descriptor's summary. Keep a reference to the descriptor if you need its diagnostics.
  */

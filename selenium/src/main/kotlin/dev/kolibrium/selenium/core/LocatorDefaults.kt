@@ -18,7 +18,7 @@ package dev.kolibrium.selenium.core
 
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElements
-import dev.kolibrium.webdriver.isDisplayed
+import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
 import org.openqa.selenium.WebElement
 
 /**
@@ -34,4 +34,4 @@ internal val defaultElementReadyCondition: WebElement.() -> Boolean
     get() = SessionContext.get()?.site?.elementReadyCondition ?: { isDisplayed }
 
 internal val defaultElementsReadyCondition: WebElements.() -> Boolean
-    get() = SessionContext.get()?.site?.elementsReadyCondition ?: { isNotEmpty() && isDisplayed }
+    get() = SessionContext.get()?.site?.elementsReadyCondition ?: { isNotEmptyAndDisplayed }

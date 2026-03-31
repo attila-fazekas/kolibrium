@@ -20,6 +20,7 @@ import dev.kolibrium.selenium.core.decorators.AbstractDecorator
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElements
 import dev.kolibrium.webdriver.isDisplayed
+import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -90,7 +91,7 @@ public abstract class Site(
     /**
      * A predicate that determines when the found elements are considered ready for use.
      */
-    public open val elementsReadyCondition: WebElements.() -> Boolean = { isDisplayed }
+    public open val elementsReadyCondition: WebElements.() -> Boolean = { isNotEmptyAndDisplayed }
 
     /**
      * Default wait configuration used by pages and element interactions when no more specific

@@ -22,8 +22,8 @@ import kotlin.properties.ReadOnlyProperty
 /**
  * Descriptor for a single Selenium [WebElement] found by a locator delegate.
  *
- * Exposes the underlying [org.openqa.selenium.By] for debugging, optional wait configuration, and an optional readiness
- * predicate. It also acts as a Kotlin [ReadOnlyProperty] to enable `by ...` delegation in pages.
+ * Exposes the underlying [org.openqa.selenium.By] for debugging and acts as a Kotlin [ReadOnlyProperty]
+ * to enable `by ...` delegation in pages.
  *
  * Thread-safety: Descriptors may cache resolved elements for performance and are not thread-safe.
  * They are intended for single-threaded test usage (typical for page objects). Avoid sharing the same
@@ -37,10 +37,8 @@ import kotlin.properties.ReadOnlyProperty
  *
  * toString() expectations
  * - Calling toString() on a descriptor yields a stable, human-friendly summary including:
- *   ctx, by, cacheLookup and waitConfig=(timeout=..., polling=...), plus a decorators field.
- *   Values not applicable are shown as "N/A". ctx shows the underlying, undecorated [org.openqa.selenium.SearchContext] type.
- *   decorators is always present: it's a class list like [HighlighterDecorator, SlowMotionDecorator] when
- *   any decorators are applied, or "N/A" when none are applied.
+ *   ctx, by, cacheLookup and waitConfig=(timeout=..., polling=...).
+ *   Values not applicable are shown as "N/A". ctx shows the underlying [org.openqa.selenium.SearchContext] type.
  * - Important: Calling toString() on the delegated [WebElement] (e.g., val e by id("..."); e.toString())
  *   will print Selenium's element string, not the descriptor summary. Keep a reference to the descriptor
  *   itself if you need its diagnostic string.

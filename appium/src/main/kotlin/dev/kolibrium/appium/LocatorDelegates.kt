@@ -23,6 +23,7 @@ import dev.kolibrium.webdriver.WebElementsDescriptor
 import dev.kolibrium.webdriver.descriptors.MultiElementsDescriptor
 import dev.kolibrium.webdriver.descriptors.SingleElementDescriptor
 import dev.kolibrium.webdriver.isDisplayed
+import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
 import io.appium.java_client.AppiumBy
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
@@ -99,7 +100,7 @@ public fun SearchContext.accessibilityId(
 public fun SearchContext.accessibilityIds(
     value: String,
     waitConfig: WaitConfig = WaitConfig.Default,
-    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
+    readyWhen: WebElements.() -> Boolean = { isNotEmptyAndDisplayed },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
@@ -176,7 +177,7 @@ public fun SearchContext.className(
 public fun SearchContext.classNames(
     value: String,
     waitConfig: WaitConfig = WaitConfig.Default,
-    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
+    readyWhen: WebElements.() -> Boolean = { isNotEmptyAndDisplayed },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
@@ -258,7 +259,7 @@ public fun SearchContext.resourceId(
 public fun SearchContext.resourceIds(
     value: String,
     waitConfig: WaitConfig = WaitConfig.Default,
-    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
+    readyWhen: WebElements.() -> Boolean = { isNotEmptyAndDisplayed },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
@@ -335,7 +336,7 @@ public fun SearchContext.xpath(
 public fun SearchContext.xpaths(
     value: String,
     waitConfig: WaitConfig = WaitConfig.Default,
-    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
+    readyWhen: WebElements.() -> Boolean = { isNotEmptyAndDisplayed },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,

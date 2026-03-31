@@ -23,6 +23,7 @@ import dev.kolibrium.webdriver.WebElementsDescriptor
 import dev.kolibrium.webdriver.descriptors.MultiElementsDescriptor
 import dev.kolibrium.webdriver.descriptors.SingleElementDescriptor
 import dev.kolibrium.webdriver.isDisplayed
+import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
 import io.appium.java_client.AppiumBy
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
@@ -97,7 +98,7 @@ public fun SearchContext.iOSClassChain(
 public fun SearchContext.iOSClassChains(
     value: String,
     waitConfig: WaitConfig = WaitConfig.Default,
-    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
+    readyWhen: WebElements.() -> Boolean = { isNotEmptyAndDisplayed },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
@@ -205,7 +206,7 @@ public fun SearchContext.iOSNSPredicate(
 public fun SearchContext.iOSNSPredicates(
     value: String,
     waitConfig: WaitConfig = WaitConfig.Default,
-    readyWhen: WebElements.() -> Boolean = { isNotEmpty() && all { isDisplayed } },
+    readyWhen: WebElements.() -> Boolean = { isNotEmptyAndDisplayed },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,

@@ -17,10 +17,10 @@
 package dev.kolibrium.webdriver
 
 /**
- * Scope class for configuring environment variables for the driver service.
+ * Scope class for configuring environment variables for the driver service process.
  *
  * This scope allows setting environment variables that will be inherited by every session
- * launched by the server.
+ * launched by the driver service (e.g., ChromeDriverService or Appium server).
  */
 @KolibriumDsl
 public class EnvironmentScope {

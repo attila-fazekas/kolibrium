@@ -26,7 +26,7 @@ import org.openqa.selenium.StaleElementReferenceException
 import org.openqa.selenium.support.ui.FluentWait
 
 /**
- * Base implementation for element locator delegates with built‑in waiting and caching.
+ * Base implementation for element locator delegates with built‑in waiting.
  *
  * This abstract class powers Kolibrium's locator delegates by:
  * - Providing a consistent wait loop via Selenium's [FluentWait], configured by [WaitConfig]

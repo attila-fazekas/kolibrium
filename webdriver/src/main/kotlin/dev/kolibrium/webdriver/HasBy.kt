@@ -19,10 +19,12 @@ package dev.kolibrium.webdriver
 import org.openqa.selenium.By
 
 /**
- * Marker interface exposing the Selenium [org.openqa.selenium.By] locator used to find element(s).
+ * Interface exposing the Selenium [org.openqa.selenium.By] locator used to find element(s).
  * Useful for debugging and to integrate with custom find/wait utilities.
  */
+@InternalKolibriumApi
 public interface HasBy {
     /** The Selenium [org.openqa.selenium.By] locator associated with this descriptor. */
+    @InternalKolibriumApi
     public val by: By
 }

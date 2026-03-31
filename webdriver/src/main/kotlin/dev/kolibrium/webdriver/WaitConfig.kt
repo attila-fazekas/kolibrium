@@ -27,15 +27,15 @@ import kotlin.time.Duration.Companion.seconds
  * General wait configuration used by synchronization helpers.
  *
  * Notes:
- * - Kolibrium’s locator delegates always ignore [org.openqa.selenium.NoSuchElementException] during waits
+ * - Kolibrium's locator delegates always ignore [org.openqa.selenium.NoSuchElementException] during waits
  *   (in addition to any classes you specify here) to avoid failing on the first miss.
  *
  * Examples:
  * - Start from a preset and tweak timeout
  *   val waitConfig = WaitConfig.Default.copy(timeout = 5.seconds)
  *
- * - Apply to a Selenium FluentWait
- *   org.openqa.selenium.support.ui.FluentWait(driver).configureWith(waitConfig)
+ * - Pass to a locator delegate
+ *   val button by id("submit", waitConfig = WaitConfig.Patient)
  */
 public class WaitConfig(
     /** The duration between polling attempts when waiting for a condition. */
@@ -115,6 +115,7 @@ public class WaitConfig(
  * Generic across receiver types so it can be reused for [org.openqa.selenium.WebDriver],
  * [org.openqa.selenium.WebElement] wrappers, etc.
  */
+@InternalKolibriumApi
 public fun <T> FluentWait<T>.configureWith(waitConfig: WaitConfig): FluentWait<T> =
     apply {
         waitConfig.timeout?.let { withTimeout(ofMillis(it.inWholeMilliseconds)) }
