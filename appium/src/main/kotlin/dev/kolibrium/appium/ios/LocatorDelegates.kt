@@ -48,7 +48,7 @@ import org.openqa.selenium.WebElement
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
@@ -86,7 +86,7 @@ public fun SearchContext.iOSClassChain(
  * @param value The iOS class chain query string.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
@@ -139,7 +139,7 @@ public fun SearchContext.iOSClassChains(
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
@@ -192,7 +192,7 @@ public fun SearchContext.iOSNSPredicate(
  * @param value The NSPredicate string expression. Obtain one via the [nsPredicate] builder.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.

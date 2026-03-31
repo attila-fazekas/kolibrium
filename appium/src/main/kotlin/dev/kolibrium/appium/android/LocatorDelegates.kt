@@ -53,7 +53,7 @@ import org.openqa.selenium.WebElement
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
@@ -91,7 +91,7 @@ public fun SearchContext.androidUIAutomator(
  * @param value The UIAutomator selector expression.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
@@ -116,9 +116,7 @@ public fun SearchContext.androidUIAutomators(
 // Espresso locator delegates
 
 /**
- * Creates a property delegate that lazily finds a single element using Android's Espresso
- * [DataMatcher](https://developer.android.com/reference/android/support/test/espresso/DataInteraction)
- * JSON selector.
+ * Creates a property delegate that lazily finds a single element using Android's Espresso DataMatcher JSON selector.
  *
  * Data matchers allow matching elements in `AdapterView` widgets (e.g., `ListView`, `Spinner`)
  * by their underlying data, rather than their rendered view properties.
@@ -137,7 +135,7 @@ public fun SearchContext.androidUIAutomators(
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
@@ -178,7 +176,7 @@ public fun SearchContext.androidDataMatcher(
  * @param value The JSON string representing the Espresso DataMatcher.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
@@ -201,9 +199,7 @@ public fun SearchContext.androidDataMatchers(
     )
 
 /**
- * Creates a property delegate that lazily finds a single element using Android's Espresso
- * [ViewMatcher](https://developer.android.com/reference/android/support/test/espresso/matcher/ViewMatchers)
- * JSON selector.
+ * Creates a property delegate that lazily finds a single element using Android's Espresso ViewMatcher JSON selector.
  *
  * View matchers allow matching elements by their view properties using Espresso's Hamcrest-based
  * matcher API, serialized as JSON.
@@ -222,7 +218,7 @@ public fun SearchContext.androidDataMatchers(
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
@@ -263,7 +259,7 @@ public fun SearchContext.androidViewMatcher(
  * @param value The JSON string representing the Espresso ViewMatcher.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
@@ -304,7 +300,7 @@ public fun SearchContext.androidViewMatchers(
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
@@ -342,7 +338,7 @@ public fun SearchContext.androidViewTag(
  * @param value The view tag to search for.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.

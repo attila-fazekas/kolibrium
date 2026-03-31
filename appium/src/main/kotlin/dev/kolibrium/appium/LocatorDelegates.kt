@@ -49,7 +49,7 @@ import org.openqa.selenium.WebElement
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
@@ -88,7 +88,7 @@ public fun SearchContext.accessibilityId(
  * @param value The accessibility id to search for.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
@@ -126,7 +126,7 @@ public fun SearchContext.accessibilityIds(
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
@@ -165,7 +165,7 @@ public fun SearchContext.className(
  * @param value The class name to search for.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
@@ -209,7 +209,7 @@ public fun SearchContext.classNames(
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
@@ -247,7 +247,7 @@ public fun SearchContext.resourceId(
  * @param value The resource id to search for (short or fully qualified).
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non‑empty and all elements to be displayed.
@@ -285,7 +285,7 @@ public fun SearchContext.resourceIds(
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
@@ -324,7 +324,7 @@ public fun SearchContext.xpath(
  * @param value The XPath expression.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.

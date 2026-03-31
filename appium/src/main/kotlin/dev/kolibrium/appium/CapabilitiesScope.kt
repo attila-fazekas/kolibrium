@@ -17,6 +17,7 @@
 package dev.kolibrium.appium
 
 import dev.kolibrium.appium.android.SettingsScope
+import dev.kolibrium.webdriver.InternalKolibriumApi
 import dev.kolibrium.webdriver.KolibriumDsl
 
 /**
@@ -26,50 +27,52 @@ import dev.kolibrium.webdriver.KolibriumDsl
  * and influence server behavior, not per-session capabilities.
  */
 @KolibriumDsl
-public class CapabilitiesScope {
-    internal val capabilities: MutableMap<String, Any> = mutableMapOf()
+public class CapabilitiesScope
+    @InternalKolibriumApi
+    constructor() {
+        internal val capabilities: MutableMap<String, Any> = mutableMapOf()
 
-    /**
-     * Adds a capability key-value pair to the scope.
-     *
-     * Example:
-     *
-     * ```kotlin
-     * capabilities {
-     *     "allowCors" to true
-     * }
-     * ```
-     */
-    public infix fun String.to(value: Any) {
-        capabilities[this] = value
-    }
-
-    /**
-     * DSL for configuring Appium settings passed to the server at startup via the
-     * `appium:settings` capability key.
-     *
-     * Settings added here are forwarded as part of the server-side capabilities and
-     * influence server behavior. They are **not** the same as per-session settings
-     * adjustable at runtime via [AppScope.settings] or [ScreenScope.settings].
-     *
-     * Example:
-     * ```kotlin
-     * capabilities {
-     *     settings {
-     *         ignoreUnimportantViews = true
-     *     }
-     * }
-     * ```
-     */
-    public fun settings(block: SettingsScope.() -> Unit) {
-        val settingsMap = SettingsScope().apply(block).toMap()
-        if (settingsMap.isNotEmpty()) {
-            "appium:settings" to settingsMap
+        /**
+         * Adds a capability key-value pair to the scope.
+         *
+         * Example:
+         *
+         * ```kotlin
+         * capabilities {
+         *     "allowCors" to true
+         * }
+         * ```
+         */
+        public infix fun String.to(value: Any) {
+            capabilities[this] = value
         }
-    }
 
-    /**
-     * Returns a string representation of the [CapabilitiesScope], primarily for debugging purposes.
-     */
-    override fun toString(): String = "CapabilitiesScope(capabilities=$capabilities)"
-}
+        /**
+         * DSL for configuring Appium settings passed to the server at startup via the
+         * `appium:settings` capability key.
+         *
+         * Settings added here are forwarded as part of the server-side capabilities and
+         * influence server behavior. They are **not** the same as per-session settings
+         * adjustable at runtime via [AppScope.settings] or [ScreenScope.settings].
+         *
+         * Example:
+         * ```kotlin
+         * capabilities {
+         *     settings {
+         *         ignoreUnimportantViews = true
+         *     }
+         * }
+         * ```
+         */
+        public fun settings(block: SettingsScope.() -> Unit) {
+            val settingsMap = SettingsScope().apply(block).toMap()
+            if (settingsMap.isNotEmpty()) {
+                "appium:settings" to settingsMap
+            }
+        }
+
+        /**
+         * Returns a string representation of the [CapabilitiesScope], primarily for debugging purposes.
+         */
+        override fun toString(): String = "CapabilitiesScope(capabilities=$capabilities)"
+    }

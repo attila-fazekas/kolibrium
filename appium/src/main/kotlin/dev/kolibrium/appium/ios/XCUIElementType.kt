@@ -21,7 +21,7 @@ package dev.kolibrium.appium.ios
  *
  * These correspond to the cases of Apple's
  * [XCUIElement.ElementType](https://developer.apple.com/documentation/xcuiautomation/xcuielement/elementtype)
- * enumeration. Use them with [nsPredicate], [classChain], or [iOSClassChain] to avoid
+ * enumeration. Use them with [nsPredicate] or [iOSClassChain] to avoid
  * error-prone raw strings.
  *
  * Example:

@@ -31,7 +31,7 @@ import java.net.URL
  * - [CrossPlatformApp] when both platforms are supported
  *
  * Implementations may override default element readiness and waiting behavior, and hook into
- * the driver lifecycle via [onSessionReady].
+ * the driver lifecycle via [AndroidApp.onSessionReady] or [IosApp.onSessionReady].
  */
 public sealed interface App {
     /**
@@ -99,7 +99,7 @@ public abstract class AndroidApp(
  *
  * Supports three modes of construction:
  * - **by bundle ID**: [bundleId] → factory derived via [iosDriverByBundleId].
- * - **by app path**: [appPath] (+ optional [bundleId]) → factory derived via [iosDriverByApp].
+ * - **by app path**: [appPath] → factory derived via [iosDriverByApp].
  * - **custom factory**: pass [driverFactory] directly (+ optional [bundleId] for locators).
  *
  * @property bundleId The iOS bundle identifier, available at runtime for locators.
