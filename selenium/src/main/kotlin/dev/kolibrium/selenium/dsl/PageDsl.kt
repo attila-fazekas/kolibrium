@@ -16,18 +16,19 @@
 
 package dev.kolibrium.selenium.dsl
 
-import dev.kolibrium.selenium.core.Cookies
 import dev.kolibrium.selenium.core.Page
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
 import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.withDriver
-import dev.kolibrium.selenium.dsl.KolibriumDsl
-import dev.kolibrium.selenium.dsl.SiteEntry
+import dev.kolibrium.webdriver.InternalKolibriumApi
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import java.net.URI
 import kotlin.reflect.KClass
+
+private typealias Cookies = Set<Cookie>
 
 /**
  * Scope used as the fluent receiver when working with a [Page] in the Selenium DSL.
@@ -108,6 +109,7 @@ public class PageScope<P : Page<*>> internal constructor(
     ): SwitchBackScope<P> = switchToImpl(S2::class, navigateToBase, cookies) { (it as SiteEntry<S2>).block() }
 
     /** Gateway to the underlying entry via the public [SiteEntry] interface. */
+    @InternalKolibriumApi
     public fun <R> withEntry(block: (SiteEntry<out Site>) -> R): R = block(entry)
 }
 

@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.firefox.GeckoDriverService
 
@@ -24,7 +24,7 @@ import org.openqa.selenium.firefox.GeckoDriverService
  * Scope class for configuring Firefox-specific settings for Firefox WebDriver.
  */
 @KolibriumDsl
-public class FirefoxDriverScope : DriverScope<GeckoDriverServiceScope, FirefoxOptionsScope>() {
+public class FirefoxDriverScope internal constructor() : DriverScope<GeckoDriverServiceScope, FirefoxOptionsScope>() {
     override val driverServiceScope = GeckoDriverServiceScope(GeckoDriverService.Builder())
     override val optionsScope = FirefoxOptionsScope(FirefoxOptions())
 

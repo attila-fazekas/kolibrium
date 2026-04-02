@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.core.decorators
 
-import dev.kolibrium.selenium.core.WebElements
+import dev.kolibrium.webdriver.WebElements
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
@@ -31,9 +31,10 @@ private const val MAX = 20
 /**
  * Decorator that visually highlights elements.
  *
- * The decorator uses a Selenium [WebDriverListener] under the hood
- * to highlight elements before interactions (click, sendKeys). It also preserves chaining by decorating
- * the elements returned from `findElement(s)` so that nested searches remain highlighted on interaction.
+ * Elements are highlighted immediately on `findElement(s)`. Additionally, a Selenium
+ * [WebDriverListener] re-highlights elements immediately before interactions (click, sendKeys).
+ * Chaining is preserved by decorating the elements returned from `findElement(s)` so that
+ * nested searches remain highlighted on interaction.
  *
  * Implementation notes
  * - Uses CSS `outline` instead of `border` to avoid layout shifts.

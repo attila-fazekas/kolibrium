@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.webdriver
 
-import org.openqa.selenium.Cookie
-import org.openqa.selenium.WebElement
-
-/**
- * A typealias for a list of [WebElement]s.
- *
- * This provides a more readable and concise way to refer to a list of web elements in the code.
- */
-public typealias WebElements = List<WebElement>
+import org.openqa.selenium.By
 
 /**
- * A typealias for a set of [Cookie]s.
- *
- * This provides a more readable and concise way to refer to a set of cookies in the code.
+ * Interface exposing the Selenium [org.openqa.selenium.By] locator used to find element(s).
+ * Useful for debugging and to integrate with custom find/wait utilities.
  */
-public typealias Cookies = Set<Cookie>
+@InternalKolibriumApi
+public interface HasBy {
+    /** The Selenium [org.openqa.selenium.By] locator associated with this descriptor. */
+    @InternalKolibriumApi
+    public val by: By
+}

@@ -16,19 +16,19 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.chrome.ChromeOptions
 
 /**
  * Scope class for configuring Chrome-specific options.
  *
- * This class extends [ChromiumOptionsScope] to provide Edge-specific configurations
+ * This class extends [ChromiumOptionsScope] to provide Chrome-specific configurations
  * while inheriting common Chromium browser options.
  *
  * @property options The underlying [ChromeOptions] instance being configured.
  */
 @KolibriumDsl
-public class ChromeOptionsScope(
+public class ChromeOptionsScope internal constructor(
     override val options: ChromeOptions,
 ) : ChromiumOptionsScope(options) {
     private val argsScope by lazy { ChromeArgumentsScope() }

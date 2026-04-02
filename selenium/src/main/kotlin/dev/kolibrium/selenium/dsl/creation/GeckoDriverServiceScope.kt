@@ -16,8 +16,8 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
 import dev.kolibrium.selenium.dsl.creation.AllowedHostsScope
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel
 import org.openqa.selenium.firefox.GeckoDriverService
 import java.io.File
@@ -31,7 +31,7 @@ import java.io.File
  * @property builder The underlying GeckoDriver service builder.
  */
 @KolibriumDsl
-public class GeckoDriverServiceScope(
+public class GeckoDriverServiceScope internal constructor(
     override val builder: GeckoDriverService.Builder,
 ) : DriverServiceScope() {
     private val allowedHostsScope: AllowedHostsScope by lazy { AllowedHostsScope() }

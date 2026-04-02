@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core.descriptors
+package dev.kolibrium.webdriver.descriptors
 
-import dev.kolibrium.selenium.core.InternalKolibriumApi
-import dev.kolibrium.selenium.core.WaitConfig
-import dev.kolibrium.selenium.core.WebElementDescriptor
-import dev.kolibrium.selenium.core.defaultElementReadyCondition
+import dev.kolibrium.webdriver.InternalKolibriumApi
+import dev.kolibrium.webdriver.WaitConfig
+import dev.kolibrium.webdriver.WebElementDescriptor
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
@@ -27,34 +26,31 @@ import org.openqa.selenium.support.ui.FluentWait
 import kotlin.reflect.KProperty
 
 /**
- * Descriptor/delegate for lazily locating a single [org.openqa.selenium.WebElement] using a pre‑built [org.openqa.selenium.By].
+ * Descriptor/delegate for lazily locating a single [WebElement] using a pre‑built [By].
  *
- * Unlike [SingleElementDescriptor], this class accepts a fully constructed [org.openqa.selenium.By] instance directly,
+ * Unlike [SingleElementDescriptor], this class accepts a fully constructed [By] instance directly,
  * making it suitable for composite locators produced by [org.openqa.selenium.support.pagefactory.ByChained],
- * [org.openqa.selenium.support.pagefactory.ByAll], or any other custom [org.openqa.selenium.By] subclass.
+ * [org.openqa.selenium.support.pagefactory.ByAll], or any other custom [By] subclass.
  *
  * Supports optional caching of the located element, configurable waiting via [waitConfig],
  * and a per‑element readiness predicate via [readyWhen].
  *
- * @param searchCtx The base [org.openqa.selenium.SearchContext] to perform the lookup in (driver/page/screen or a nested element).
- * @param by The pre‑built Selenium [org.openqa.selenium.By] locator to use for element lookup.
- * @param cacheLookup When true, cache the first resolved [org.openqa.selenium.WebElement] and reuse it until cache is cleared.
- * @param waitConfig Optional [WaitConfig] to control timeout/polling/ignored exceptions; when `null`,
- *        the effective configuration defaults to [dev.kolibrium.selenium.core.defaultWaitConfig].
- * @param readyWhen Optional predicate that defines when the found element is considered ready; when `null`,
- *        the effective predicate defaults to [defaultElementReadyCondition].
+ * @param searchCtx The base [SearchContext] to perform the lookup in (driver/page/screen or a nested element).
+ * @param by The pre‑built Selenium [By] locator to use for element lookup.
+ * @param cacheLookup When true, cache the first resolved [WebElement] and reuse it until cache is cleared.
+ * @param waitConfig [WaitConfig] to control timeout/polling/ignored exceptions.
+ * @param readyWhen Predicate that defines when the found element is considered ready.
  */
 @InternalKolibriumApi
-public class CompositeElementDescriptor(
+public open class CompositeElementDescriptor(
     searchCtx: SearchContext,
     override val by: By,
-    private val cacheLookup: Boolean,
-    override val waitConfig: WaitConfig?,
-    override val readyWhen: (WebElement.() -> Boolean)?,
+    protected val cacheLookup: Boolean,
+    waitConfig: WaitConfig,
+    private val readyWhen: WebElement.() -> Boolean,
 ) : AbstractElementDescriptor<CompositeElementDescriptor, WebElement>(searchCtx),
     WebElementDescriptor {
-    private val effectiveWaitConfig: WaitConfig = resolveWaitConfig(waitConfig)
-    private val effectiveReady: WebElement.() -> Boolean = readyWhen ?: defaultElementReadyCondition
+    protected val effectiveWaitConfig: WaitConfig = ensureNoSuchElementIgnored(waitConfig)
 
     private var cachedWebElement: WebElement? = null
     private val wait: FluentWait<CompositeElementDescriptor> by lazy { initializeWait(effectiveWaitConfig) }
@@ -77,7 +73,7 @@ public class CompositeElementDescriptor(
         cachedWebElement = null
     }
 
-    override fun isElementReady(element: WebElement): Boolean = element.effectiveReady()
+    override fun isElementReady(element: WebElement): Boolean = element.readyWhen()
 
     override fun toString(): String =
         buildDescriptorString(

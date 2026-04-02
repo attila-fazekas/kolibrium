@@ -16,12 +16,14 @@
 
 package dev.kolibrium.appium.android
 
-import dev.kolibrium.selenium.core.WaitConfig
-import dev.kolibrium.selenium.core.WebElementDescriptor
-import dev.kolibrium.selenium.core.WebElements
-import dev.kolibrium.selenium.core.WebElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.MultiElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.SingleElementDescriptor
+import dev.kolibrium.webdriver.WaitConfig
+import dev.kolibrium.webdriver.WebElementDescriptor
+import dev.kolibrium.webdriver.WebElements
+import dev.kolibrium.webdriver.WebElementsDescriptor
+import dev.kolibrium.webdriver.descriptors.MultiElementsDescriptor
+import dev.kolibrium.webdriver.descriptors.SingleElementDescriptor
+import dev.kolibrium.webdriver.isDisplayed
+import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
 import io.appium.java_client.AppiumBy
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
@@ -51,20 +53,20 @@ import org.openqa.selenium.WebElement
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.androidUIAutomator(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
@@ -89,19 +91,19 @@ public fun SearchContext.androidUIAutomator(
  * @param value The UIAutomator selector expression.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.androidUIAutomators(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmptyAndDisplayed },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
@@ -114,9 +116,7 @@ public fun SearchContext.androidUIAutomators(
 // Espresso locator delegates
 
 /**
- * Creates a property delegate that lazily finds a single element using Android's Espresso
- * [DataMatcher](https://developer.android.com/reference/android/support/test/espresso/DataInteraction)
- * JSON selector.
+ * Creates a property delegate that lazily finds a single element using Android's Espresso DataMatcher JSON selector.
  *
  * Data matchers allow matching elements in `AdapterView` widgets (e.g., `ListView`, `Spinner`)
  * by their underlying data, rather than their rendered view properties.
@@ -135,20 +135,20 @@ public fun SearchContext.androidUIAutomators(
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.androidDataMatcher(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
@@ -176,19 +176,19 @@ public fun SearchContext.androidDataMatcher(
  * @param value The JSON string representing the Espresso DataMatcher.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.androidDataMatchers(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmptyAndDisplayed },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
@@ -199,9 +199,7 @@ public fun SearchContext.androidDataMatchers(
     )
 
 /**
- * Creates a property delegate that lazily finds a single element using Android's Espresso
- * [ViewMatcher](https://developer.android.com/reference/android/support/test/espresso/matcher/ViewMatchers)
- * JSON selector.
+ * Creates a property delegate that lazily finds a single element using Android's Espresso ViewMatcher JSON selector.
  *
  * View matchers allow matching elements by their view properties using Espresso's Hamcrest-based
  * matcher API, serialized as JSON.
@@ -220,20 +218,20 @@ public fun SearchContext.androidDataMatchers(
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.androidViewMatcher(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
@@ -261,19 +259,19 @@ public fun SearchContext.androidViewMatcher(
  * @param value The JSON string representing the Espresso ViewMatcher.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.androidViewMatchers(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmptyAndDisplayed },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,
@@ -302,20 +300,20 @@ public fun SearchContext.androidViewMatchers(
  *                    the element is accessed.
  * @param waitConfig Configures the waiting behavior when looking up element. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found element is considered ready for use.
  *                  It's called with [WebElement] as receiver. By default, checks if element is
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
  */
 public fun SearchContext.androidViewTag(
     value: String,
     cacheLookup: Boolean = true,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElement.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElement.() -> Boolean = { isDisplayed },
 ): WebElementDescriptor =
     SingleElementDescriptor(
         searchCtx = this,
@@ -340,19 +338,19 @@ public fun SearchContext.androidViewTag(
  * @param value The view tag to search for.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
- *                   Defaults come from defaultWaitConfig.
+ *                   Defaults to [WaitConfig.Default].
  * @param readyWhen A predicate that determines when the found elements are considered ready for use.
  *                  It's called with [WebElements] as receiver. By default, requires the collection
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see WaitConfig
+ * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements
  */
 public fun SearchContext.androidViewTags(
     value: String,
-    waitConfig: WaitConfig? = null,
-    readyWhen: (WebElements.() -> Boolean)? = null,
+    waitConfig: WaitConfig = WaitConfig.Default,
+    readyWhen: WebElements.() -> Boolean = { isNotEmptyAndDisplayed },
 ): WebElementsDescriptor =
     MultiElementsDescriptor(
         searchCtx = this,

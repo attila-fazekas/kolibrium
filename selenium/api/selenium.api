@@ -15,69 +15,55 @@ public final class dev/kolibrium/selenium/core/DriverContextHolder {
 	public final fun set (Lorg/openqa/selenium/WebDriver;)V
 }
 
-public abstract interface class dev/kolibrium/selenium/core/HasBy {
-	public abstract fun getBy ()Lorg/openqa/selenium/By;
-}
-
-public abstract interface annotation class dev/kolibrium/selenium/core/InternalKolibriumApi : java/lang/annotation/Annotation {
-}
-
 public final class dev/kolibrium/selenium/core/LocatorDelegatesKt {
-	public static final fun className (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun className$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun classNames (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun classNames$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun cssSelector (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun cssSelector$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun cssSelectors (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun cssSelectors$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun dataQa (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun dataQa$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun dataQas (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun dataQas$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun dataTest (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun dataTest$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun dataTestId (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun dataTestId$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun dataTestIds (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun dataTestIds$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun dataTests (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun dataTests$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun element (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun element$default (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun elements (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun elements$default (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun id (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun id$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun idOrName (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun idOrName$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun linkText (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun linkText$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun linkTexts (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun linkTexts$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun name (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun name$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun names (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun names$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun partialLinkText (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun partialLinkText$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun partialLinkTexts (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun partialLinkTexts$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun tagName (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun tagName$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun tagNames (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun tagNames$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static final fun xpath (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static synthetic fun xpath$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementDescriptor;
-	public static final fun xpaths (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-	public static synthetic fun xpaths$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WebElementsDescriptor;
-}
-
-public final class dev/kolibrium/selenium/core/LocatorUtilsKt {
-	public static final fun isClickable (Ljava/util/List;)Z
-	public static final fun isClickable (Lorg/openqa/selenium/WebElement;)Z
-	public static final fun isDisplayed (Ljava/util/List;)Z
-	public static final fun isEnabled (Ljava/util/List;)Z
+	public static final fun className (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun className$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun classNames (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun classNames$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static final fun cssSelector (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun cssSelector$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun cssSelectors (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun cssSelectors$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static final fun dataQa (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun dataQa$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun dataQas (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun dataQas$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static final fun dataTest (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun dataTest$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun dataTestId (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun dataTestId$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun dataTestIds (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun dataTestIds$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static final fun dataTests (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun dataTests$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static final fun element (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun element$default (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun elements (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun elements$default (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static final fun id (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun id$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun idOrName (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun idOrName$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun linkText (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun linkText$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun linkTexts (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun linkTexts$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static final fun name (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun name$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun names (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun names$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static final fun partialLinkText (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun partialLinkText$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun partialLinkTexts (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun partialLinkTexts$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static final fun tagName (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun tagName$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun tagNames (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun tagNames$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static final fun xpath (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static synthetic fun xpath$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
+	public static final fun xpaths (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
+	public static synthetic fun xpaths$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
 }
 
 public abstract class dev/kolibrium/selenium/core/Page : org/openqa/selenium/SearchContext {
@@ -99,7 +85,6 @@ public final class dev/kolibrium/selenium/core/PageKt {
 }
 
 public final class dev/kolibrium/selenium/core/Session {
-	public fun <init> (Lorg/openqa/selenium/WebDriver;Ldev/kolibrium/selenium/core/Site;)V
 	public final fun assertThreadOrFail (Ljava/lang/String;)V
 	public final fun getDriver ()Lorg/openqa/selenium/WebDriver;
 	public final fun getSite ()Ldev/kolibrium/selenium/core/Site;
@@ -107,10 +92,10 @@ public final class dev/kolibrium/selenium/core/Session {
 
 public final class dev/kolibrium/selenium/core/SessionContext {
 	public static final field INSTANCE Ldev/kolibrium/selenium/core/SessionContext;
-	public static final fun clear ()V
-	public static final fun get ()Ldev/kolibrium/selenium/core/Session;
-	public static final fun set (Ldev/kolibrium/selenium/core/Session;)V
-	public static final fun withSession (Ldev/kolibrium/selenium/core/Session;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+	public final fun clear ()V
+	public final fun get ()Ldev/kolibrium/selenium/core/Session;
+	public final fun set (Ldev/kolibrium/selenium/core/Session;)V
+	public final fun withSession (Ldev/kolibrium/selenium/core/Session;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
 public abstract class dev/kolibrium/selenium/core/Site {
@@ -121,50 +106,12 @@ public abstract class dev/kolibrium/selenium/core/Site {
 	public fun getDecorators ()Ljava/util/List;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getElementsReadyCondition ()Lkotlin/jvm/functions/Function1;
-	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
+	public fun getWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
 	public fun onSessionReady (Lorg/openqa/selenium/WebDriver;)V
-}
-
-public final class dev/kolibrium/selenium/core/WaitConfig {
-	public static final field Companion Ldev/kolibrium/selenium/core/WaitConfig$Companion;
-	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/Set;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public synthetic fun <init> (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/Set;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun copy-uklvIs0 (Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/Set;)Ldev/kolibrium/selenium/core/WaitConfig;
-	public static synthetic fun copy-uklvIs0$default (Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/time/Duration;Lkotlin/time/Duration;Ljava/lang/String;Ljava/util/Set;ILjava/lang/Object;)Ldev/kolibrium/selenium/core/WaitConfig;
-	public final fun getIgnoring ()Ljava/util/Set;
-	public final fun getMessage ()Ljava/lang/String;
-	public final fun getPollingInterval-FghU774 ()Lkotlin/time/Duration;
-	public final fun getTimeout-FghU774 ()Lkotlin/time/Duration;
-	public final fun setMessage (Ljava/lang/String;)V
-	public final fun setPollingInterval-BwNAW2A (Lkotlin/time/Duration;)V
-	public final fun setTimeout-BwNAW2A (Lkotlin/time/Duration;)V
-}
-
-public final class dev/kolibrium/selenium/core/WaitConfig$Companion {
-	public final fun getDefault ()Ldev/kolibrium/selenium/core/WaitConfig;
-	public final fun getPatient ()Ldev/kolibrium/selenium/core/WaitConfig;
-	public final fun getQuick ()Ldev/kolibrium/selenium/core/WaitConfig;
-}
-
-public final class dev/kolibrium/selenium/core/WaitConfigKt {
-	public static final fun configureWith (Lorg/openqa/selenium/support/ui/FluentWait;Ldev/kolibrium/selenium/core/WaitConfig;)Lorg/openqa/selenium/support/ui/FluentWait;
-}
-
-public abstract interface class dev/kolibrium/selenium/core/WebElementDescriptor : dev/kolibrium/selenium/core/HasBy, kotlin/properties/ReadOnlyProperty {
-	public abstract fun get ()Lorg/openqa/selenium/WebElement;
-	public abstract fun getReadyWhen ()Lkotlin/jvm/functions/Function1;
-	public abstract fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
-}
-
-public abstract interface class dev/kolibrium/selenium/core/WebElementsDescriptor : dev/kolibrium/selenium/core/HasBy, kotlin/properties/ReadOnlyProperty {
-	public abstract fun get ()Ljava/util/List;
-	public abstract fun getReadyWhen ()Lkotlin/jvm/functions/Function1;
-	public abstract fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
 }
 
 public abstract class dev/kolibrium/selenium/core/decorators/AbstractDecorator {
 	public fun <init> ()V
-	public final fun decorate (Lorg/openqa/selenium/SearchContext;)Lorg/openqa/selenium/SearchContext;
 }
 
 public final class dev/kolibrium/selenium/core/decorators/BorderStyle : java/lang/Enum {
@@ -227,74 +174,19 @@ public final class dev/kolibrium/selenium/core/decorators/SlowMotionDecorator : 
 	public fun interactionListener ()Lorg/openqa/selenium/support/events/WebDriverListener;
 }
 
-public abstract class dev/kolibrium/selenium/core/descriptors/AbstractElementDescriptor {
-	public fun <init> (Lorg/openqa/selenium/SearchContext;)V
-	protected final fun buildDescriptorString (Ljava/lang/String;Lorg/openqa/selenium/By;Ldev/kolibrium/selenium/core/WaitConfig;Ljava/lang/Boolean;)Ljava/lang/String;
-	public static synthetic fun buildDescriptorString$default (Ldev/kolibrium/selenium/core/descriptors/AbstractElementDescriptor;Ljava/lang/String;Lorg/openqa/selenium/By;Ldev/kolibrium/selenium/core/WaitConfig;Ljava/lang/Boolean;ILjava/lang/Object;)Ljava/lang/String;
-	protected final fun classNameOf (Ljava/lang/Object;)Ljava/lang/String;
-	protected abstract fun clearCache ()V
-	protected final fun ensureNoSuchElementIgnored (Ldev/kolibrium/selenium/core/WaitConfig;)Ldev/kolibrium/selenium/core/WaitConfig;
-	protected abstract fun findElement ()Ljava/lang/Object;
-	protected final fun getAppliedDecoratorClassNames ()Ljava/util/List;
-	protected final fun getSearchContext ()Lorg/openqa/selenium/SearchContext;
-	protected final fun getSearchCtx ()Lorg/openqa/selenium/SearchContext;
-	protected final fun getValueInternal (Lorg/openqa/selenium/support/ui/FluentWait;)Ljava/lang/Object;
-	protected final fun initializeWait (Ldev/kolibrium/selenium/core/WaitConfig;)Lorg/openqa/selenium/support/ui/FluentWait;
-	protected abstract fun isElementReady (Ljava/lang/Object;)Z
-	protected final fun mergedDecoratorClassNames ()Ljava/util/List;
-	protected final fun resolveWaitConfig (Ldev/kolibrium/selenium/core/WaitConfig;)Ldev/kolibrium/selenium/core/WaitConfig;
-	protected final fun setAppliedDecoratorClassNames (Ljava/util/List;)V
-}
-
-public final class dev/kolibrium/selenium/core/descriptors/CompositeElementDescriptor : dev/kolibrium/selenium/core/descriptors/AbstractElementDescriptor, dev/kolibrium/selenium/core/WebElementDescriptor {
-	public fun <init> (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun findElement ()Ljava/lang/Object;
-	public fun get ()Lorg/openqa/selenium/WebElement;
-	public fun getBy ()Lorg/openqa/selenium/By;
-	public fun getReadyWhen ()Lkotlin/jvm/functions/Function1;
-	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
-	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Lorg/openqa/selenium/WebElement;
-	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
-	public synthetic fun isElementReady (Ljava/lang/Object;)Z
+public final class dev/kolibrium/selenium/core/descriptors/DecoratedCompositeElementDescriptor : dev/kolibrium/webdriver/descriptors/CompositeElementDescriptor {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/selenium/core/descriptors/CompositeElementsDescriptor : dev/kolibrium/selenium/core/descriptors/AbstractElementDescriptor, dev/kolibrium/selenium/core/WebElementsDescriptor {
-	public fun <init> (Lorg/openqa/selenium/SearchContext;Lorg/openqa/selenium/By;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun findElement ()Ljava/lang/Object;
-	public fun get ()Ljava/util/List;
-	public fun getBy ()Lorg/openqa/selenium/By;
-	public fun getReadyWhen ()Lkotlin/jvm/functions/Function1;
-	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
-	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/util/List;
-	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
-	public synthetic fun isElementReady (Ljava/lang/Object;)Z
+public final class dev/kolibrium/selenium/core/descriptors/DecoratedCompositeElementsDescriptor : dev/kolibrium/webdriver/descriptors/CompositeElementsDescriptor {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/selenium/core/descriptors/MultiElementsDescriptor : dev/kolibrium/selenium/core/descriptors/AbstractElementDescriptor, dev/kolibrium/selenium/core/WebElementsDescriptor {
-	public fun <init> (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ldev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun findElement ()Ljava/lang/Object;
-	public fun get ()Ljava/util/List;
-	public fun getBy ()Lorg/openqa/selenium/By;
-	public fun getReadyWhen ()Lkotlin/jvm/functions/Function1;
-	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
-	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/util/List;
-	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
-	public synthetic fun isElementReady (Ljava/lang/Object;)Z
+public final class dev/kolibrium/selenium/core/descriptors/DecoratedMultiElementsDescriptor : dev/kolibrium/webdriver/descriptors/MultiElementsDescriptor {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/selenium/core/descriptors/SingleElementDescriptor : dev/kolibrium/selenium/core/descriptors/AbstractElementDescriptor, dev/kolibrium/selenium/core/WebElementDescriptor {
-	public fun <init> (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ZLdev/kolibrium/selenium/core/WaitConfig;Lkotlin/jvm/functions/Function1;)V
-	public synthetic fun findElement ()Ljava/lang/Object;
-	public fun get ()Lorg/openqa/selenium/WebElement;
-	public fun getBy ()Lorg/openqa/selenium/By;
-	public fun getReadyWhen ()Lkotlin/jvm/functions/Function1;
-	public synthetic fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
-	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Lorg/openqa/selenium/WebElement;
-	public fun getWaitConfig ()Ldev/kolibrium/selenium/core/WaitConfig;
-	public synthetic fun isElementReady (Ljava/lang/Object;)Z
+public final class dev/kolibrium/selenium/core/descriptors/DecoratedSingleElementDescriptor : dev/kolibrium/webdriver/descriptors/SingleElementDescriptor {
 	public fun toString ()Ljava/lang/String;
 }
 
@@ -319,9 +211,6 @@ public final class dev/kolibrium/selenium/dsl/DriverFactoriesKt {
 	public static final fun getIncognitoChrome ()Lkotlin/jvm/functions/Function0;
 	public static final fun getIncognitoFirefox ()Lkotlin/jvm/functions/Function0;
 	public static final fun getSafari ()Lkotlin/jvm/functions/Function0;
-}
-
-public abstract interface annotation class dev/kolibrium/selenium/dsl/KolibriumDsl : java/lang/annotation/Annotation {
 }
 
 public final class dev/kolibrium/selenium/dsl/PageDslKt {
@@ -369,7 +258,6 @@ public final class dev/kolibrium/selenium/dsl/actions/ActionsKt {
 }
 
 public final class dev/kolibrium/selenium/dsl/actions/ActionsScope {
-	public fun <init> (Lorg/openqa/selenium/interactions/Actions;Z)V
 }
 
 public final class dev/kolibrium/selenium/dsl/actions/ScrollKt {
@@ -381,13 +269,11 @@ public final class dev/kolibrium/selenium/dsl/actions/ScrollKt {
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/AllowedHostsScope {
-	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public final fun unaryPlus (Ljava/lang/String;)V
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/AllowedIpsScope {
-	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public final fun unaryPlus (Ljava/lang/String;)V
 }
@@ -431,7 +317,6 @@ public final class dev/kolibrium/selenium/dsl/creation/Arguments$Firefox {
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/BrowserEnabledLabsExperiments {
-	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public final fun unaryPlus (Ljava/lang/String;)V
 	public final fun unaryPlus-Pt_Z1ic (Ljava/lang/String;)V
@@ -439,7 +324,6 @@ public final class dev/kolibrium/selenium/dsl/creation/BrowserEnabledLabsExperim
 
 public final class dev/kolibrium/selenium/dsl/creation/ChromeArgument : dev/kolibrium/selenium/dsl/creation/Argument {
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/selenium/dsl/creation/ChromeArgument;
-	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -452,7 +336,6 @@ public final class dev/kolibrium/selenium/dsl/creation/ChromeArgument : dev/koli
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/ChromeArgumentsScope : dev/kolibrium/selenium/dsl/creation/ArgumentsScope {
-	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ldev/kolibrium/selenium/dsl/creation/Argument;)V
 	public fun unaryPlus (Ljava/lang/String;)V
@@ -461,7 +344,6 @@ public final class dev/kolibrium/selenium/dsl/creation/ChromeArgumentsScope : de
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/ChromeDriverScope : dev/kolibrium/selenium/dsl/creation/DriverScope {
-	public fun <init> ()V
 	public fun driverService (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getDriverServiceScope$selenium ()Ldev/kolibrium/selenium/dsl/creation/DriverServiceScope;
 	public synthetic fun getOptionsScope$selenium ()Ldev/kolibrium/selenium/dsl/creation/OptionsScope;
@@ -475,7 +357,6 @@ public final class dev/kolibrium/selenium/dsl/creation/ChromeDriverServiceScope 
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/ChromeOptionsScope : dev/kolibrium/selenium/dsl/creation/ChromiumOptionsScope {
-	public fun <init> (Lorg/openqa/selenium/chrome/ChromeOptions;)V
 	public final fun arguments (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getOptions$selenium ()Lorg/openqa/selenium/chromium/ChromiumOptions;
 	public synthetic fun getOptions$selenium ()Lorg/openqa/selenium/remote/AbstractDriverOptions;
@@ -483,7 +364,6 @@ public final class dev/kolibrium/selenium/dsl/creation/ChromeOptionsScope : dev/
 }
 
 public abstract class dev/kolibrium/selenium/dsl/creation/ChromiumDriverServiceScope : dev/kolibrium/selenium/dsl/creation/DriverServiceScope {
-	public fun <init> ()V
 	protected final fun getAllowedIpsScope ()Ldev/kolibrium/selenium/dsl/creation/AllowedIpsScope;
 	public final fun getAppendLog ()Ljava/lang/Boolean;
 	public final fun getBuildCheckDisabled ()Ljava/lang/Boolean;
@@ -500,7 +380,6 @@ public abstract class dev/kolibrium/selenium/dsl/creation/ChromiumDriverServiceS
 }
 
 public abstract class dev/kolibrium/selenium/dsl/creation/ChromiumOptionsScope : dev/kolibrium/selenium/dsl/creation/OptionsScope {
-	public fun <init> (Lorg/openqa/selenium/chromium/ChromiumOptions;)V
 	public final fun experimentalOptions (Lkotlin/jvm/functions/Function1;)V
 	public final fun extensions (Lkotlin/jvm/functions/Function1;)V
 	public final fun getBinary ()Ljava/lang/String;
@@ -512,7 +391,6 @@ public abstract class dev/kolibrium/selenium/dsl/creation/ChromiumOptionsScope :
 
 public final class dev/kolibrium/selenium/dsl/creation/ChromiumPreference : dev/kolibrium/selenium/dsl/creation/Preference {
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/selenium/dsl/creation/ChromiumPreference;
-	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -525,7 +403,6 @@ public final class dev/kolibrium/selenium/dsl/creation/ChromiumPreference : dev/
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/ChromiumPreferencesScope : dev/kolibrium/selenium/dsl/creation/PreferencesScope {
-	public fun <init> ()V
 	public synthetic fun pref (Ldev/kolibrium/selenium/dsl/creation/Preference;Ljava/lang/Object;)V
 	public fun pref (Ljava/lang/String;Ljava/lang/Object;)V
 	public fun pref-B7b7tcA (Ljava/lang/String;Ljava/lang/Object;)V
@@ -539,7 +416,7 @@ public abstract class dev/kolibrium/selenium/dsl/creation/DriverScope {
 
 public abstract class dev/kolibrium/selenium/dsl/creation/DriverServiceScope {
 	public final fun environments (Lkotlin/jvm/functions/Function1;)V
-	protected final fun getEnvironmentScope ()Ldev/kolibrium/selenium/dsl/creation/EnvironmentScope;
+	protected final fun getEnvironmentScope ()Ldev/kolibrium/webdriver/EnvironmentScope;
 	public final fun getPort ()Ljava/lang/Integer;
 	public final fun getTimeout-FghU774 ()Lkotlin/time/Duration;
 	protected final fun ifExists (Ljava/lang/String;)Z
@@ -566,7 +443,6 @@ public final class dev/kolibrium/selenium/dsl/creation/DriversKt {
 
 public final class dev/kolibrium/selenium/dsl/creation/EdgeArgument : dev/kolibrium/selenium/dsl/creation/Argument {
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/selenium/dsl/creation/EdgeArgument;
-	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -579,7 +455,6 @@ public final class dev/kolibrium/selenium/dsl/creation/EdgeArgument : dev/kolibr
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/EdgeArgumentsScope : dev/kolibrium/selenium/dsl/creation/ArgumentsScope {
-	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ldev/kolibrium/selenium/dsl/creation/Argument;)V
 	public fun unaryPlus (Ljava/lang/String;)V
@@ -588,7 +463,6 @@ public final class dev/kolibrium/selenium/dsl/creation/EdgeArgumentsScope : dev/
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/EdgeDriverScope : dev/kolibrium/selenium/dsl/creation/DriverScope {
-	public fun <init> ()V
 	public fun driverService (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getDriverServiceScope$selenium ()Ldev/kolibrium/selenium/dsl/creation/DriverServiceScope;
 	public synthetic fun getOptionsScope$selenium ()Ldev/kolibrium/selenium/dsl/creation/OptionsScope;
@@ -597,13 +471,11 @@ public final class dev/kolibrium/selenium/dsl/creation/EdgeDriverScope : dev/kol
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/EdgeDriverServiceScope : dev/kolibrium/selenium/dsl/creation/ChromiumDriverServiceScope {
-	public fun <init> (Lorg/openqa/selenium/edge/EdgeDriverService$Builder;)V
 	public synthetic fun getBuilder$selenium ()Lorg/openqa/selenium/remote/service/DriverService$Builder;
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/EdgeOptionsScope : dev/kolibrium/selenium/dsl/creation/ChromiumOptionsScope {
-	public fun <init> (Lorg/openqa/selenium/edge/EdgeOptions;)V
 	public final fun arguments (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getOptions$selenium ()Lorg/openqa/selenium/chromium/ChromiumOptions;
 	public synthetic fun getOptions$selenium ()Lorg/openqa/selenium/remote/AbstractDriverOptions;
@@ -612,15 +484,7 @@ public final class dev/kolibrium/selenium/dsl/creation/EdgeOptionsScope : dev/ko
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/selenium/dsl/creation/EnvironmentScope {
-	public fun <init> ()V
-	public final fun environment (Ljava/lang/String;Ljava/lang/String;)V
-	public final fun getEnvironmentVariables ()Ljava/util/Map;
-	public fun toString ()Ljava/lang/String;
-}
-
 public final class dev/kolibrium/selenium/dsl/creation/ExcludeSwitchesScope {
-	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public final fun unaryPlus (Ljava/lang/String;)V
 	public final fun unaryPlus-lS78lYQ (Ljava/lang/String;)V
@@ -628,7 +492,6 @@ public final class dev/kolibrium/selenium/dsl/creation/ExcludeSwitchesScope {
 
 public final class dev/kolibrium/selenium/dsl/creation/ExperimentalFlag {
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/selenium/dsl/creation/ExperimentalFlag;
-	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -647,7 +510,6 @@ public final class dev/kolibrium/selenium/dsl/creation/ExperimentalFlags {
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/ExperimentalOptionsScope {
-	public fun <init> ()V
 	public final fun excludeSwitches (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/creation/ExcludeSwitchesScope;
 	public final fun localState (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/creation/LocalStateScope;
 	public final fun preferences (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/creation/ChromiumPreferencesScope;
@@ -655,14 +517,12 @@ public final class dev/kolibrium/selenium/dsl/creation/ExperimentalOptionsScope 
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/ExtensionsScope {
-	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public final fun unaryPlus (Ljava/lang/String;)V
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/FirefoxArgument : dev/kolibrium/selenium/dsl/creation/Argument {
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/selenium/dsl/creation/FirefoxArgument;
-	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -675,7 +535,6 @@ public final class dev/kolibrium/selenium/dsl/creation/FirefoxArgument : dev/kol
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/FirefoxArgumentsScope : dev/kolibrium/selenium/dsl/creation/ArgumentsScope {
-	public fun <init> ()V
 	public fun toString ()Ljava/lang/String;
 	public synthetic fun unaryPlus (Ldev/kolibrium/selenium/dsl/creation/Argument;)V
 	public fun unaryPlus (Ljava/lang/String;)V
@@ -684,7 +543,6 @@ public final class dev/kolibrium/selenium/dsl/creation/FirefoxArgumentsScope : d
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/FirefoxDriverScope : dev/kolibrium/selenium/dsl/creation/DriverScope {
-	public fun <init> ()V
 	public fun driverService (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getDriverServiceScope$selenium ()Ldev/kolibrium/selenium/dsl/creation/DriverServiceScope;
 	public synthetic fun getOptionsScope$selenium ()Ldev/kolibrium/selenium/dsl/creation/OptionsScope;
@@ -693,7 +551,6 @@ public final class dev/kolibrium/selenium/dsl/creation/FirefoxDriverScope : dev/
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/FirefoxOptionsScope : dev/kolibrium/selenium/dsl/creation/OptionsScope {
-	public fun <init> (Lorg/openqa/selenium/firefox/FirefoxOptions;)V
 	public final fun arguments (Lkotlin/jvm/functions/Function1;)V
 	public final fun getBinary ()Ljava/lang/String;
 	public synthetic fun getOptions$selenium ()Lorg/openqa/selenium/remote/AbstractDriverOptions;
@@ -707,7 +564,6 @@ public final class dev/kolibrium/selenium/dsl/creation/FirefoxOptionsScope : dev
 
 public final class dev/kolibrium/selenium/dsl/creation/FirefoxPreference : dev/kolibrium/selenium/dsl/creation/Preference {
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/selenium/dsl/creation/FirefoxPreference;
-	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -720,7 +576,6 @@ public final class dev/kolibrium/selenium/dsl/creation/FirefoxPreference : dev/k
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/FirefoxPreferencesScope : dev/kolibrium/selenium/dsl/creation/PreferencesScope {
-	public fun <init> ()V
 	public synthetic fun pref (Ldev/kolibrium/selenium/dsl/creation/Preference;Ljava/lang/Object;)V
 	public fun pref (Ljava/lang/String;Ljava/lang/Object;)V
 	public fun pref-yIfleTs (Ljava/lang/String;Ljava/lang/Object;)V
@@ -728,14 +583,12 @@ public final class dev/kolibrium/selenium/dsl/creation/FirefoxPreferencesScope :
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/FirefoxProfileScope {
-	public fun <init> ()V
 	public final fun pref (Ljava/lang/String;Ljava/lang/Object;)V
 	public final fun pref-yIfleTs (Ljava/lang/String;Ljava/lang/Object;)V
 	public fun toString ()Ljava/lang/String;
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/GeckoDriverServiceScope : dev/kolibrium/selenium/dsl/creation/DriverServiceScope {
-	public fun <init> (Lorg/openqa/selenium/firefox/GeckoDriverService$Builder;)V
 	public final fun allowedHosts (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getBuilder$selenium ()Lorg/openqa/selenium/remote/service/DriverService$Builder;
 	public final fun getExecutable ()Ljava/lang/String;
@@ -752,7 +605,6 @@ public final class dev/kolibrium/selenium/dsl/creation/GeckoDriverServiceScope :
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/LocalStateScope {
-	public fun <init> ()V
 	public final fun browserEnabledLabsExperiments (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/creation/BrowserEnabledLabsExperiments;
 	public fun toString ()Ljava/lang/String;
 }
@@ -826,7 +678,6 @@ public final class dev/kolibrium/selenium/dsl/creation/Preferences$Firefox {
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/ProxyScope {
-	public fun <init> ()V
 	public final fun getAutodetect ()Ljava/lang/Boolean;
 	public final fun getFtpProxy ()Ljava/lang/String;
 	public final fun getHttpProxy ()Ljava/lang/String;
@@ -846,7 +697,6 @@ public final class dev/kolibrium/selenium/dsl/creation/ProxyScope {
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/SafariDriverScope : dev/kolibrium/selenium/dsl/creation/DriverScope {
-	public fun <init> ()V
 	public fun driverService (Lkotlin/jvm/functions/Function1;)V
 	public synthetic fun getDriverServiceScope$selenium ()Ldev/kolibrium/selenium/dsl/creation/DriverServiceScope;
 	public synthetic fun getOptionsScope$selenium ()Ldev/kolibrium/selenium/dsl/creation/OptionsScope;
@@ -855,7 +705,6 @@ public final class dev/kolibrium/selenium/dsl/creation/SafariDriverScope : dev/k
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/SafariDriverServiceScope : dev/kolibrium/selenium/dsl/creation/DriverServiceScope {
-	public fun <init> (Lorg/openqa/selenium/safari/SafariDriverService$Builder;)V
 	public synthetic fun getBuilder$selenium ()Lorg/openqa/selenium/remote/service/DriverService$Builder;
 	public final fun getLogging ()Ljava/lang/Boolean;
 	public final fun setLogging (Ljava/lang/Boolean;)V
@@ -863,7 +712,6 @@ public final class dev/kolibrium/selenium/dsl/creation/SafariDriverServiceScope 
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/SafariOptionsScope : dev/kolibrium/selenium/dsl/creation/OptionsScope {
-	public fun <init> (Lorg/openqa/selenium/safari/SafariOptions;)V
 	public final fun getAutomaticInspection ()Ljava/lang/Boolean;
 	public final fun getAutomaticProfiling ()Ljava/lang/Boolean;
 	public synthetic fun getOptions$selenium ()Lorg/openqa/selenium/remote/AbstractDriverOptions;
@@ -875,7 +723,6 @@ public final class dev/kolibrium/selenium/dsl/creation/SafariOptionsScope : dev/
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/SocksScope {
-	public fun <init> ()V
 	public final fun getAddress ()Ljava/lang/String;
 	public final fun getPassword ()Ljava/lang/String;
 	public final fun getUsername ()Ljava/lang/String;
@@ -889,7 +736,6 @@ public final class dev/kolibrium/selenium/dsl/creation/SocksScope {
 
 public final class dev/kolibrium/selenium/dsl/creation/Switch {
 	public static final synthetic fun box-impl (Ljava/lang/String;)Ldev/kolibrium/selenium/dsl/creation/Switch;
-	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
 	public fun equals (Ljava/lang/Object;)Z
 	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
 	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
@@ -907,7 +753,6 @@ public final class dev/kolibrium/selenium/dsl/creation/Switches {
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/TimeoutsScope {
-	public fun <init> ()V
 	public final fun getImplicitWait-FghU774 ()Lkotlin/time/Duration;
 	public final fun getPageLoad-FghU774 ()Lkotlin/time/Duration;
 	public final fun getScript-FghU774 ()Lkotlin/time/Duration;
@@ -918,7 +763,6 @@ public final class dev/kolibrium/selenium/dsl/creation/TimeoutsScope {
 }
 
 public final class dev/kolibrium/selenium/dsl/creation/WindowSizeScope {
-	public fun <init> ()V
 	public final fun getHeight ()I
 	public final fun getWidth ()I
 	public final fun setHeight (I)V
@@ -931,7 +775,6 @@ public final class dev/kolibrium/selenium/dsl/interactions/CookiesKt {
 }
 
 public final class dev/kolibrium/selenium/dsl/interactions/CookiesScope {
-	public fun <init> (Lorg/openqa/selenium/WebDriver$Options;)V
 	public final fun addAll ([Lorg/openqa/selenium/Cookie;)V
 	public final fun addCookie (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/selenium/dsl/interactions/SameSite;)Lorg/openqa/selenium/Cookie;
 	public static synthetic fun addCookie$default (Ldev/kolibrium/selenium/dsl/interactions/CookiesScope;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/lang/Boolean;Ljava/lang/Boolean;Ldev/kolibrium/selenium/dsl/interactions/SameSite;ILjava/lang/Object;)Lorg/openqa/selenium/Cookie;

@@ -16,6 +16,7 @@
 
 package dev.kolibrium.selenium.core
 
+import dev.kolibrium.webdriver.InternalKolibriumApi
 import org.openqa.selenium.WebDriver
 
 /**
@@ -25,7 +26,7 @@ import org.openqa.selenium.WebDriver
  * Thread-safety: not thread-safe. Each session is confined to the thread that created it.
  */
 @InternalKolibriumApi
-public class Session(
+public class Session internal constructor(
     public val driver: WebDriver,
     public val site: Site,
 ) {
@@ -61,26 +62,22 @@ public object SessionContext {
 
     /** Returns the current [Session] for this thread, or null if none is set. */
     @InternalKolibriumApi
-    @JvmStatic
     public fun get(): Session? = tl.get()
 
     /** Sets the current [Session] for this thread. Prefer [withSession] where possible. */
     @InternalKolibriumApi
-    @JvmStatic
     public fun set(session: Session?) {
         tl.set(session)
     }
 
     /** Clears the current [Session] for this thread. */
     @InternalKolibriumApi
-    @JvmStatic
     public fun clear() {
         tl.remove()
     }
 
     /** Runs [block] with [session] bound to the current thread, restoring the previous value afterwards. */
     @InternalKolibriumApi
-    @JvmStatic
     public fun <T> withSession(
         session: Session,
         block: () -> T,

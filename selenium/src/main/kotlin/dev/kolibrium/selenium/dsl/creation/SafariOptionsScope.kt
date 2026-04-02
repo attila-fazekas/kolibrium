@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.safari.SafariOptions
 
 /**
@@ -28,7 +28,7 @@ import org.openqa.selenium.safari.SafariOptions
  * @property options The underlying [SafariOptions] instance being configured.
  */
 @KolibriumDsl
-public class SafariOptionsScope(
+public class SafariOptionsScope internal constructor(
     override val options: SafariOptions,
 ) : OptionsScope() {
     /**

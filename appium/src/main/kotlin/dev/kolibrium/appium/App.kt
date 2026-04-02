@@ -16,12 +16,10 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.selenium.core.WaitConfig
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver
 import io.appium.java_client.service.local.AppiumDriverLocalService
-import org.openqa.selenium.WebElement
 import java.net.URL
 
 /**
@@ -33,7 +31,7 @@ import java.net.URL
  * - [CrossPlatformApp] when both platforms are supported
  *
  * Implementations may override default element readiness and waiting behavior, and hook into
- * the driver lifecycle via [onSessionReady].
+ * the driver lifecycle via [AndroidApp.onSessionReady] or [IosApp.onSessionReady].
  */
 public sealed interface App {
     /**
@@ -44,20 +42,6 @@ public sealed interface App {
      * If null (default), tests assume an external Appium server is already running.
      */
     public val service: AppiumDriverLocalService?
-
-    /**
-     * Default readiness predicate applied by locator delegates for a single [WebElement].
-     *
-     * Override to change the global "ready" condition for this app (e.g., `isEnabled`).
-     */
-    public val elementReadyCondition: WebElement.() -> Boolean
-        get() = { isDisplayed }
-
-    /**
-     * Default [WaitConfig] used by locator delegates when none is specified at the call site.
-     */
-    public val waitConfig: WaitConfig
-        get() = WaitConfig.Default
 }
 
 /**
@@ -115,7 +99,7 @@ public abstract class AndroidApp(
  *
  * Supports three modes of construction:
  * - **by bundle ID**: [bundleId] → factory derived via [iosDriverByBundleId].
- * - **by app path**: [appPath] (+ optional [bundleId]) → factory derived via [iosDriverByApp].
+ * - **by app path**: [appPath] → factory derived via [iosDriverByApp].
  * - **custom factory**: pass [driverFactory] directly (+ optional [bundleId] for locators).
  *
  * @property bundleId The iOS bundle identifier, available at runtime for locators.

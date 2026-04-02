@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 
 internal sealed interface ArgumentsScope<T : Argument> {
     operator fun T.unaryPlus()
@@ -30,7 +30,7 @@ internal sealed interface ArgumentsScope<T : Argument> {
  * Scope class for adding additional Chrome-specific command line arguments.
  */
 @KolibriumDsl
-public class ChromeArgumentsScope : ArgumentsScope<ChromeArgument> {
+public class ChromeArgumentsScope internal constructor() : ArgumentsScope<ChromeArgument> {
     internal val args: MutableSet<ChromeArgument> = mutableSetOf()
 
     /**
@@ -75,7 +75,7 @@ public class ChromeArgumentsScope : ArgumentsScope<ChromeArgument> {
  * Scope class for adding additional Firefox-specific command line arguments.
  */
 @KolibriumDsl
-public class FirefoxArgumentsScope : ArgumentsScope<FirefoxArgument> {
+public class FirefoxArgumentsScope internal constructor() : ArgumentsScope<FirefoxArgument> {
     internal val args: MutableSet<FirefoxArgument> = mutableSetOf()
 
     /**
@@ -121,7 +121,7 @@ public class FirefoxArgumentsScope : ArgumentsScope<FirefoxArgument> {
  * Scope class for adding additional Edge-specific command line arguments.
  */
 @KolibriumDsl
-public class EdgeArgumentsScope : ArgumentsScope<EdgeArgument> {
+public class EdgeArgumentsScope internal constructor() : ArgumentsScope<EdgeArgument> {
     internal val args: MutableSet<EdgeArgument> = mutableSetOf()
 
     /**
@@ -140,7 +140,7 @@ public class EdgeArgumentsScope : ArgumentsScope<EdgeArgument> {
      * This operator function allows adding Edge-specific command line arguments from string values
      * using the unary plus operator (+).
      *
-     * @throws IllegalArgumentException +if the string doesn't start with "--".
+     * @throws IllegalArgumentException if the string doesn't start with "--".
      */
     public override operator fun String.unaryPlus() {
         args.add(EdgeArgument(this))

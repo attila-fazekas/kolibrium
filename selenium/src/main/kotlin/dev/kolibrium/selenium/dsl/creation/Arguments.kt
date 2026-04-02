@@ -32,7 +32,7 @@ public sealed interface Argument {
  * @property value The string value of the argument, must start with "--".
  */
 @JvmInline
-public value class ChromeArgument(
+public value class ChromeArgument internal constructor(
     override val value: String,
 ) : Argument {
     init {
@@ -46,7 +46,7 @@ public value class ChromeArgument(
  * @property value The string value of the argument, must start with "--".
  */
 @JvmInline
-public value class FirefoxArgument(
+public value class FirefoxArgument internal constructor(
     override val value: String,
 ) : Argument {
     init {
@@ -60,7 +60,7 @@ public value class FirefoxArgument(
  * @property value The string value of the argument, must start with "--".
  */
 @JvmInline
-public value class EdgeArgument(
+public value class EdgeArgument internal constructor(
     override val value: String,
 ) : Argument {
     init {

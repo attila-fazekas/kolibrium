@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.webdriver
 
 import org.openqa.selenium.WebElement
 
 /**
- * Checks if the [WebElement] is both displayed and enabled, making it clickable in the UI.
+ * Checks if the [org.openqa.selenium.WebElement] is both displayed and enabled, making it clickable in the UI.
  *
- * This property combines Selenium's [WebElement.isDisplayed] and [WebElement.isEnabled] checks to determine
+ * This property combines Selenium's [org.openqa.selenium.WebElement.isDisplayed] and [org.openqa.selenium.WebElement.isEnabled] checks to determine
  * if the element is ready for user interaction through clicking.
  *
- * @receiver The [WebElement] to check for clickability.
+ * @receiver The [org.openqa.selenium.WebElement] to check for clickability.
  * @return `true` if the element is both displayed and enabled, `false` otherwise.
  */
 public val WebElement.isClickable: Boolean
@@ -40,7 +40,7 @@ public val WebElement.isClickable: Boolean
  * @return `true` if the elements are both displayed and enabled, `false` otherwise.
  */
 public val WebElements.isClickable: Boolean
-    get() = all { isDisplayed && isEnabled }
+    get() = all { it.isDisplayed && it.isEnabled }
 
 /**
  * Checks if all [WebElements] in this collection are displayed in the UI.
@@ -66,14 +66,20 @@ public val WebElements.isDisplayed: Boolean
 public val WebElements.isEnabled: Boolean
     get() = all { it.isEnabled }
 
-/** Default readiness condition used for single element lookup. */
-internal val defaultElementReadyCondition: WebElement.() -> Boolean
-    get() = SessionContext.get()?.site?.elementReadyCondition ?: { isDisplayed }
-
-/** Default readiness condition used for multiple element lookup. */
-internal val defaultElementsReadyCondition: WebElements.() -> Boolean
-    get() = SessionContext.get()?.site?.elementsReadyCondition ?: { isNotEmpty() && isDisplayed }
-
-/** Default wait configuration used for element lookup. */
-internal val defaultWaitConfig: WaitConfig
-    get() = SessionContext.get()?.site?.waitConfig ?: WaitConfig.Companion.Default
+/**
+ * Checks whether this collection of [WebElements] is non-empty and every element is displayed.
+ *
+ * This is a convenience readiness predicate for multi-element locators:
+ * it returns `true` only when at least one element is present and all elements in the collection
+ * are visible in the UI.
+ *
+ * The check is intentionally strict:
+ * - an empty collection returns `false`
+ * - any non-displayed element returns `false`
+ * - only a non-empty collection with all elements displayed returns `true`
+ *
+ * @receiver The collection of [WebElement]s to inspect.
+ * @return `true` when the collection is not empty and all elements are displayed; otherwise `false`.
+ */
+public val WebElements.isNotEmptyAndDisplayed: Boolean
+    get() = isNotEmpty() && all { it.isDisplayed }

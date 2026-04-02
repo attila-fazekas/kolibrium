@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.core.decorators
 
-import dev.kolibrium.selenium.core.WebElements
+import dev.kolibrium.webdriver.WebElements
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement

@@ -23,7 +23,7 @@ import java.io.File
 /**
  * Base scope class for configuring Chromium-based browser driver service settings.
  */
-public abstract class ChromiumDriverServiceScope : DriverServiceScope() {
+public abstract class ChromiumDriverServiceScope internal constructor() : DriverServiceScope() {
     protected val allowedIpsScope: AllowedIpsScope by lazy { AllowedIpsScope() }
 
     /**

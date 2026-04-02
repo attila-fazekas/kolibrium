@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.chromium.ChromiumOptions
 import org.openqa.selenium.edge.EdgeOptions
@@ -28,7 +28,7 @@ import org.openqa.selenium.edge.EdgeOptions
  * @property options The underlying [ChromiumOptions] instance being configured.
  */
 @KolibriumDsl
-public abstract class ChromiumOptionsScope(
+public abstract class ChromiumOptionsScope internal constructor(
     override val options: ChromiumOptions<*>,
 ) : OptionsScope() {
     protected val expOptionsScope: ExperimentalOptionsScope by lazy { ExperimentalOptionsScope() }

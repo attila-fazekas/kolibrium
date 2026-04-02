@@ -32,7 +32,7 @@ public sealed interface Preference {
  * @property value The string key of the preference.
  */
 @JvmInline
-public value class ChromiumPreference(
+public value class ChromiumPreference internal constructor(
     public override val value: String,
 ) : Preference
 
@@ -42,7 +42,7 @@ public value class ChromiumPreference(
  * @property value The string key of the preference.
  */
 @JvmInline
-public value class FirefoxPreference(
+public value class FirefoxPreference internal constructor(
     public override val value: String,
 ) : Preference
 

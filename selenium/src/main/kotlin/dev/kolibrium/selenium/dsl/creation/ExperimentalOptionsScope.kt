@@ -16,13 +16,13 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 
 /**
  * Scope class for configuring experimental browser options.
  */
 @KolibriumDsl
-public class ExperimentalOptionsScope {
+public class ExperimentalOptionsScope internal constructor() {
     internal val excludeSwitchesScope: ExcludeSwitchesScope by lazy { ExcludeSwitchesScope() }
     internal val localStateScope: LocalStateScope by lazy { LocalStateScope() }
     internal val preferencesScope: ChromiumPreferencesScope by lazy { ChromiumPreferencesScope() }

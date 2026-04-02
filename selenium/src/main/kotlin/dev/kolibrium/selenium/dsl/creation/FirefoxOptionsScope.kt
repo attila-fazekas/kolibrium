@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.firefox.FirefoxOptions
 import org.openqa.selenium.firefox.FirefoxProfile
 import java.io.File
@@ -30,7 +30,7 @@ import java.io.File
  * @property options The underlying [FirefoxOptions] instance being configured.
  */
 @KolibriumDsl
-public class FirefoxOptionsScope(
+public class FirefoxOptionsScope internal constructor(
     override val options: FirefoxOptions,
 ) : OptionsScope() {
     private val argsScope by lazy { FirefoxArgumentsScope() }

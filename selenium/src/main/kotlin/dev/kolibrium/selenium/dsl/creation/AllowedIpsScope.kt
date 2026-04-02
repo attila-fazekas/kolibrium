@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 
 /**
  * Scope class for configuring allowed IP addresses for incoming connections to Chromium-based driver services.
@@ -25,7 +25,7 @@ import dev.kolibrium.selenium.dsl.KolibriumDsl
  * providing a security mechanism for controlling access to the browser automation interface.
  */
 @KolibriumDsl
-public class AllowedIpsScope {
+public class AllowedIpsScope internal constructor() {
     internal val allowedIps = mutableSetOf<String>()
 
     /**

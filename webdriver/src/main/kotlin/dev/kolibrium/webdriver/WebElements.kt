@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.dsl
+package dev.kolibrium.webdriver
+
+import org.openqa.selenium.WebElement
 
 /**
- * Marker annotation for Kolibrium DSL.
+ * A typealias for a list of [org.openqa.selenium.WebElement]s.
  *
- * Apply to DSL receivers (classes/objects), functions, and properties participating in the user-facing flow.
+ * This provides a more readable and concise way to refer to a list of web elements in the code.
  */
-@DslMarker
-@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
-public annotation class KolibriumDsl
+public typealias WebElements = List<WebElement>

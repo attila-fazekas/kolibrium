@@ -19,7 +19,7 @@ package dev.kolibrium.selenium.core.internal.pages
 import dev.kolibrium.selenium.core.KPage
 import dev.kolibrium.selenium.core.className
 import dev.kolibrium.selenium.core.classNames
-import dev.kolibrium.selenium.core.isEnabled
+import dev.kolibrium.webdriver.isEnabled
 import org.openqa.selenium.WebDriver
 
 class StaleElementReferenceExceptionMultipleElementsPage(

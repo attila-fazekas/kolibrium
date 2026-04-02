@@ -16,7 +16,8 @@
 
 package dev.kolibrium.appium.android
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.InternalKolibriumApi
+import dev.kolibrium.webdriver.KolibriumDsl
 
 /**
  * DSL scope for configuring Appium settings.
@@ -25,231 +26,233 @@ import dev.kolibrium.selenium.dsl.KolibriumDsl
  * Unlike capabilities, settings can be adjusted multiple times during a session.
  */
 @KolibriumDsl
-public class SettingsScope {
-    /**
-     * Maximum number of milliseconds to wait for an acknowledgment of generic UiAutomator actions,
-     * such as clicks, text setting, and menu presses.
-     * Default: 3000 ms.
-     */
-    public var actionAcknowledgmentTimeout: Long? = null
+public class SettingsScope
+    @InternalKolibriumApi
+    constructor() {
+        /**
+         * Maximum number of milliseconds to wait for an acknowledgment of generic UiAutomator actions,
+         * such as clicks, text setting, and menu presses.
+         * Default: 3000 ms.
+         */
+        public var actionAcknowledgmentTimeout: Long? = null
 
-    /**
-     * Whether to include elements that are not visible to the user to the XML source tree.
-     * Default: false.
-     */
-    public var allowInvisibleElements: Boolean? = null
+        /**
+         * Whether to include elements that are not visible to the user to the XML source tree.
+         * Default: false.
+         */
+        public var allowInvisibleElements: Boolean? = null
 
-    /**
-     * Enables or disables layout hierarchy compression.
-     * Default: false.
-     */
-    public var ignoreUnimportantViews: Boolean? = null
+        /**
+         * Enables or disables layout hierarchy compression.
+         * Default: false.
+         */
+        public var ignoreUnimportantViews: Boolean? = null
 
-    /**
-     * Comma-separated list of element attribute names to be included into findElement response.
-     */
-    public var elementResponseAttributes: String? = null
+        /**
+         * Comma-separated list of element attribute names to be included into findElement response.
+         */
+        public var elementResponseAttributes: String? = null
 
-    /**
-     * Whether to include all windows that the user can interact with while building the XML page source.
-     * Default: false.
-     */
-    public var enableMultiWindows: Boolean? = null
+        /**
+         * Whether to include all windows that the user can interact with while building the XML page source.
+         * Default: false.
+         */
+        public var enableMultiWindows: Boolean? = null
 
-    /**
-     * Whether to limit the window with the highest Z-order from the active package for interactions and page source retrieval.
-     * Default: false.
-     */
-    public var enableTopmostWindowFromActivePackage: Boolean? = null
+        /**
+         * Whether to limit the window with the highest Z-order from the active package for interactions and page source retrieval.
+         * Default: false.
+         */
+        public var enableTopmostWindowFromActivePackage: Boolean? = null
 
-    /**
-     * Whether to enable toast notifications listener to listen for new toast notifications.
-     * Default: true.
-     */
-    public var enableNotificationListener: Boolean? = null
+        /**
+         * Whether to enable toast notifications listener to listen for new toast notifications.
+         * Default: true.
+         */
+        public var enableNotificationListener: Boolean? = null
 
-    /**
-     * Delay in milliseconds between key presses when injecting text input.
-     * Default: 0 ms.
-     */
-    public var keyInjectionDelay: Long? = null
+        /**
+         * Delay in milliseconds between key presses when injecting text input.
+         * Default: 0 ms.
+         */
+        public var keyInjectionDelay: Long? = null
 
-    /**
-     * Timeout for waiting for an acknowledgement of an UiAutomator scroll swipe action.
-     * Default: 200 ms.
-     */
-    public var scrollAcknowledgmentTimeout: Long? = null
+        /**
+         * Timeout for waiting for an acknowledgement of an UiAutomator scroll swipe action.
+         * Default: 200 ms.
+         */
+        public var scrollAcknowledgmentTimeout: Long? = null
 
-    /**
-     * Used in combination with [elementResponseAttributes] setting.
-     * Default: true.
-     */
-    public var shouldUseCompactResponses: Boolean? = null
+        /**
+         * Used in combination with [elementResponseAttributes] setting.
+         * Default: true.
+         */
+        public var shouldUseCompactResponses: Boolean? = null
 
-    /**
-     * Timeout used for waiting for the user interface to go into an idle state.
-     * Default: 10000 ms.
-     */
-    public var waitForIdleTimeout: Long? = null
+        /**
+         * Timeout used for waiting for the user interface to go into an idle state.
+         * Default: 10000 ms.
+         */
+        public var waitForIdleTimeout: Long? = null
 
-    /**
-     * Timeout for waiting for a widget to become visible in the user interface.
-     * Only applied to `android UiAutomator` location strategy.
-     * Default: 10000 ms.
-     */
-    public var waitForSelectorTimeout: Long? = null
+        /**
+         * Timeout for waiting for a widget to become visible in the user interface.
+         * Only applied to `android UiAutomator` location strategy.
+         * Default: 10000 ms.
+         */
+        public var waitForSelectorTimeout: Long? = null
 
-    /**
-     * Whether to apply unicode-to-ascii normalization of element class names used as tag names in the page source XML.
-     * Default: false.
-     */
-    public var normalizeTagNames: Boolean? = null
+        /**
+         * Whether to apply unicode-to-ascii normalization of element class names used as tag names in the page source XML.
+         * Default: false.
+         */
+        public var normalizeTagNames: Boolean? = null
 
-    /**
-     * Whether to shutdown the server if the device under test is disconnected from a power source.
-     * Default: true.
-     */
-    public var shutdownOnPowerDisconnect: Boolean? = null
+        /**
+         * Whether to shutdown the server if the device under test is disconnected from a power source.
+         * Default: true.
+         */
+        public var shutdownOnPowerDisconnect: Boolean? = null
 
-    /**
-     * Whether to calculate element bounds as absolute values or check if the element is covered by other elements.
-     * Default: false.
-     */
-    public var simpleBoundsCalculation: Boolean? = null
+        /**
+         * Whether to calculate element bounds as absolute values or check if the element is covered by other elements.
+         * Default: false.
+         */
+        public var simpleBoundsCalculation: Boolean? = null
 
-    /**
-     * Whether to apply scroll events tracking.
-     * Default: true.
-     */
-    public var trackScrollEvents: Boolean? = null
+        /**
+         * Whether to apply scroll events tracking.
+         * Default: true.
+         */
+        public var trackScrollEvents: Boolean? = null
 
-    /**
-     * The timeout in milliseconds of wake lock that UiAutomator2 server acquires by default.
-     * Default: 24 hours.
-     */
-    public var wakeLockTimeout: Long? = null
+        /**
+         * The timeout in milliseconds of wake lock that UiAutomator2 server acquires by default.
+         * Default: 24 hours.
+         */
+        public var wakeLockTimeout: Long? = null
 
-    /**
-     * The number of the port on the remote device to start UiAutomator2 server on.
-     * Default: 6790.
-     */
-    public var serverPort: Int? = null
+        /**
+         * The number of the port on the remote device to start UiAutomator2 server on.
+         * Default: 6790.
+         */
+        public var serverPort: Int? = null
 
-    /**
-     * The number of the port on the remote device to start MJPEG screenshots broadcaster on.
-     * Default: 7810.
-     */
-    public var mjpegServerPort: Int? = null
+        /**
+         * The number of the port on the remote device to start MJPEG screenshots broadcaster on.
+         * Default: 7810.
+         */
+        public var mjpegServerPort: Int? = null
 
-    /**
-     * The maximum count of screenshots per second taken by the MJPEG screenshots broadcaster.
-     * Default: 10.
-     */
-    public var mjpegServerFramerate: Int? = null
+        /**
+         * The maximum count of screenshots per second taken by the MJPEG screenshots broadcaster.
+         * Default: 10.
+         */
+        public var mjpegServerFramerate: Int? = null
 
-    /**
-     * The percentage value used to apply downscaling on the screenshots generated by the MJPEG screenshots broadcaster.
-     * Default: 50.
-     */
-    public var mjpegScalingFactor: Int? = null
+        /**
+         * The percentage value used to apply downscaling on the screenshots generated by the MJPEG screenshots broadcaster.
+         * Default: 50.
+         */
+        public var mjpegScalingFactor: Int? = null
 
-    /**
-     * The percentage value used to apply lossy JPEG compression on the screenshots generated by the MJPEG screenshots broadcaster.
-     * Default: 50.
-     */
-    public var mjpegServerScreenshotQuality: Int? = null
+        /**
+         * The percentage value used to apply lossy JPEG compression on the screenshots generated by the MJPEG screenshots broadcaster.
+         * Default: 50.
+         */
+        public var mjpegServerScreenshotQuality: Int? = null
 
-    /**
-     * Whether to apply bilinear filtering to MJPEG screenshots broadcaster resize algorithm.
-     * Default: false.
-     */
-    public var mjpegBilinearFiltering: Boolean? = null
+        /**
+         * Whether to apply bilinear filtering to MJPEG screenshots broadcaster resize algorithm.
+         * Default: false.
+         */
+        public var mjpegBilinearFiltering: Boolean? = null
 
-    /**
-     * Defines the strategy used by UiAutomator2 server to detect the original device orientation.
-     * Default: false.
-     */
-    public var useResourcesForOrientationDetection: Boolean? = null
+        /**
+         * Defines the strategy used by UiAutomator2 server to detect the original device orientation.
+         * Default: false.
+         */
+        public var useResourcesForOrientationDetection: Boolean? = null
 
-    /**
-     * Whether to enforce XPath1 usage instead of XPath2.
-     * Default: false.
-     */
-    public var enforceXPath1: Boolean? = null
+        /**
+         * Whether to enforce XPath1 usage instead of XPath2.
+         * Default: false.
+         */
+        public var enforceXPath1: Boolean? = null
 
-    /**
-     * Whether to limit scopes of element context-based searches to the parent element.
-     * Default: true.
-     */
-    public var limitXPathContextScope: Boolean? = null
+        /**
+         * Whether to limit scopes of element context-based searches to the parent element.
+         * Default: true.
+         */
+        public var limitXPathContextScope: Boolean? = null
 
-    /**
-     * Whether to disable resource ID locators autocompletion.
-     * Default: false.
-     */
-    public var disableIdLocatorAutocompletion: Boolean? = null
+        /**
+         * Whether to disable resource ID locators autocompletion.
+         * Default: false.
+         */
+        public var disableIdLocatorAutocompletion: Boolean? = null
 
-    /**
-     * Allows to continue the tree traversal for user defined classes even though the node itself is invisible.
-     */
-    public var alwaysTraversableViewClasses: String? = null
+        /**
+         * Allows to continue the tree traversal for user defined classes even though the node itself is invisible.
+         */
+        public var alwaysTraversableViewClasses: String? = null
 
-    /**
-     * Whether to include `extras` element attribute in the XML page source result.
-     */
-    public var includeExtrasInPageSource: Boolean? = null
+        /**
+         * Whether to include `extras` element attribute in the XML page source result.
+         */
+        public var includeExtrasInPageSource: Boolean? = null
 
-    /**
-     * Whether to include `actions` element attribute in the XML page source result.
-     */
-    public var includeA11yActionsInPageSource: Boolean? = null
+        /**
+         * Whether to include `actions` element attribute in the XML page source result.
+         */
+        public var includeA11yActionsInPageSource: Boolean? = null
 
-    /**
-     * The number of maximum depth for the source tree snapshot.
-     * Default: 70.
-     */
-    public var snapshotMaxDepth: Int? = null
+        /**
+         * The number of maximum depth for the source tree snapshot.
+         * Default: 70.
+         */
+        public var snapshotMaxDepth: Int? = null
 
-    /**
-     * The id of the display that should be used when finding elements, taking screenshots, etc.
-     * Default: 0 (Display.DEFAULT_DISPLAY).
-     */
-    public var currentDisplayId: Int? = null
+        /**
+         * The id of the display that should be used when finding elements, taking screenshots, etc.
+         * Default: 0 (Display.DEFAULT_DISPLAY).
+         */
+        public var currentDisplayId: Int? = null
 
-    internal fun toMap(): Map<String, Any> {
-        val map = mutableMapOf<String, Any>()
-        actionAcknowledgmentTimeout?.let { map["actionAcknowledgmentTimeout"] = it }
-        allowInvisibleElements?.let { map["allowInvisibleElements"] = it }
-        ignoreUnimportantViews?.let { map["ignoreUnimportantViews"] = it }
-        elementResponseAttributes?.let { map["elementResponseAttributes"] = it }
-        enableMultiWindows?.let { map["enableMultiWindows"] = it }
-        enableTopmostWindowFromActivePackage?.let { map["enableTopmostWindowFromActivePackage"] = it }
-        enableNotificationListener?.let { map["enableNotificationListener"] = it }
-        keyInjectionDelay?.let { map["keyInjectionDelay"] = it }
-        scrollAcknowledgmentTimeout?.let { map["scrollAcknowledgmentTimeout"] = it }
-        shouldUseCompactResponses?.let { map["shouldUseCompactResponses"] = it }
-        waitForIdleTimeout?.let { map["waitForIdleTimeout"] = it }
-        waitForSelectorTimeout?.let { map["waitForSelectorTimeout"] = it }
-        normalizeTagNames?.let { map["normalizeTagNames"] = it }
-        shutdownOnPowerDisconnect?.let { map["shutdownOnPowerDisconnect"] = it }
-        simpleBoundsCalculation?.let { map["simpleBoundsCalculation"] = it }
-        trackScrollEvents?.let { map["trackScrollEvents"] = it }
-        wakeLockTimeout?.let { map["wakeLockTimeout"] = it }
-        serverPort?.let { map["serverPort"] = it }
-        mjpegServerPort?.let { map["mjpegServerPort"] = it }
-        mjpegServerFramerate?.let { map["mjpegServerFramerate"] = it }
-        mjpegScalingFactor?.let { map["mjpegScalingFactor"] = it }
-        mjpegServerScreenshotQuality?.let { map["mjpegServerScreenshotQuality"] = it }
-        mjpegBilinearFiltering?.let { map["mjpegBilinearFiltering"] = it }
-        useResourcesForOrientationDetection?.let { map["useResourcesForOrientationDetection"] = it }
-        enforceXPath1?.let { map["enforceXPath1"] = it }
-        limitXPathContextScope?.let { map["limitXPathContextScope"] = it }
-        disableIdLocatorAutocompletion?.let { map["disableIdLocatorAutocompletion"] = it }
-        alwaysTraversableViewClasses?.let { map["alwaysTraversableViewClasses"] = it }
-        includeExtrasInPageSource?.let { map["includeExtrasInPageSource"] = it }
-        includeA11yActionsInPageSource?.let { map["includeA11yActionsInPageSource"] = it }
-        snapshotMaxDepth?.let { map["snapshotMaxDepth"] = it }
-        currentDisplayId?.let { map["currentDisplayId"] = it }
-        return map.toMap()
+        internal fun toMap(): Map<String, Any> {
+            val map = mutableMapOf<String, Any>()
+            actionAcknowledgmentTimeout?.let { map["actionAcknowledgmentTimeout"] = it }
+            allowInvisibleElements?.let { map["allowInvisibleElements"] = it }
+            ignoreUnimportantViews?.let { map["ignoreUnimportantViews"] = it }
+            elementResponseAttributes?.let { map["elementResponseAttributes"] = it }
+            enableMultiWindows?.let { map["enableMultiWindows"] = it }
+            enableTopmostWindowFromActivePackage?.let { map["enableTopmostWindowFromActivePackage"] = it }
+            enableNotificationListener?.let { map["enableNotificationListener"] = it }
+            keyInjectionDelay?.let { map["keyInjectionDelay"] = it }
+            scrollAcknowledgmentTimeout?.let { map["scrollAcknowledgmentTimeout"] = it }
+            shouldUseCompactResponses?.let { map["shouldUseCompactResponses"] = it }
+            waitForIdleTimeout?.let { map["waitForIdleTimeout"] = it }
+            waitForSelectorTimeout?.let { map["waitForSelectorTimeout"] = it }
+            normalizeTagNames?.let { map["normalizeTagNames"] = it }
+            shutdownOnPowerDisconnect?.let { map["shutdownOnPowerDisconnect"] = it }
+            simpleBoundsCalculation?.let { map["simpleBoundsCalculation"] = it }
+            trackScrollEvents?.let { map["trackScrollEvents"] = it }
+            wakeLockTimeout?.let { map["wakeLockTimeout"] = it }
+            serverPort?.let { map["serverPort"] = it }
+            mjpegServerPort?.let { map["mjpegServerPort"] = it }
+            mjpegServerFramerate?.let { map["mjpegServerFramerate"] = it }
+            mjpegScalingFactor?.let { map["mjpegScalingFactor"] = it }
+            mjpegServerScreenshotQuality?.let { map["mjpegServerScreenshotQuality"] = it }
+            mjpegBilinearFiltering?.let { map["mjpegBilinearFiltering"] = it }
+            useResourcesForOrientationDetection?.let { map["useResourcesForOrientationDetection"] = it }
+            enforceXPath1?.let { map["enforceXPath1"] = it }
+            limitXPathContextScope?.let { map["limitXPathContextScope"] = it }
+            disableIdLocatorAutocompletion?.let { map["disableIdLocatorAutocompletion"] = it }
+            alwaysTraversableViewClasses?.let { map["alwaysTraversableViewClasses"] = it }
+            includeExtrasInPageSource?.let { map["includeExtrasInPageSource"] = it }
+            includeA11yActionsInPageSource?.let { map["includeA11yActionsInPageSource"] = it }
+            snapshotMaxDepth?.let { map["snapshotMaxDepth"] = it }
+            currentDisplayId?.let { map["currentDisplayId"] = it }
+            return map.toMap()
+        }
     }
-}

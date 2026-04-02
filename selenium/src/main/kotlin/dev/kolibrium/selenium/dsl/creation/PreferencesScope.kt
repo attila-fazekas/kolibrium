@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 
 internal sealed interface PreferencesScope<T : Preference> {
     fun pref(
@@ -34,7 +34,7 @@ internal sealed interface PreferencesScope<T : Preference> {
  * Scope class for configuring Chromium browser preferences.
  */
 @KolibriumDsl
-public class ChromiumPreferencesScope : PreferencesScope<ChromiumPreference> {
+public class ChromiumPreferencesScope internal constructor() : PreferencesScope<ChromiumPreference> {
     internal val preferences = mutableMapOf<String, Any>()
 
     /**
@@ -73,7 +73,7 @@ public class ChromiumPreferencesScope : PreferencesScope<ChromiumPreference> {
  * Scope class for configuring Firefox preferences.
  */
 @KolibriumDsl
-public class FirefoxPreferencesScope : PreferencesScope<FirefoxPreference> {
+public class FirefoxPreferencesScope internal constructor() : PreferencesScope<FirefoxPreference> {
     internal val preferences = mutableMapOf<String, Any>()
 
     /**

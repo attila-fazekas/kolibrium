@@ -16,13 +16,13 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 
 /**
  * Scope class for configuring browser switches to be excluded.
  */
 @KolibriumDsl
-public class ExcludeSwitchesScope {
+public class ExcludeSwitchesScope internal constructor() {
     internal val switches = mutableSetOf<Switch>()
 
     /**

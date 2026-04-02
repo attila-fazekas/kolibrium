@@ -17,21 +17,21 @@
 package dev.kolibrium.examples.selenium.browserstack
 
 import dev.kolibrium.selenium.core.Site
-import dev.kolibrium.selenium.core.WaitConfig
-import dev.kolibrium.selenium.core.WaitConfig.Companion.Quick
 import dev.kolibrium.selenium.core.decorators.AbstractDecorator
 import dev.kolibrium.selenium.core.decorators.BorderStyle
 import dev.kolibrium.selenium.core.decorators.Color
 import dev.kolibrium.selenium.core.decorators.HighlighterDecorator
 import dev.kolibrium.selenium.core.decorators.LoggerDecorator
 import dev.kolibrium.selenium.core.decorators.SlowMotionDecorator
-import dev.kolibrium.selenium.core.isClickable
+import dev.kolibrium.webdriver.isClickable
 import dev.kolibrium.selenium.dsl.DriverFactory
 import dev.kolibrium.selenium.dsl.SiteEntry
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.incognito
 import dev.kolibrium.selenium.dsl.creation.chromeDriver
 import dev.kolibrium.selenium.dsl.seleniumTest
+import dev.kolibrium.webdriver.WaitConfig
+import dev.kolibrium.webdriver.WaitConfig.Companion.Quick
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
 import org.openqa.selenium.chrome.ChromeDriver

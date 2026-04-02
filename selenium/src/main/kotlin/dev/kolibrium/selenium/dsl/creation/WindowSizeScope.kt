@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlin.properties.Delegates
 
@@ -29,7 +29,7 @@ private val logger = KotlinLogging.logger { }
  * Scope class for configuring browser window dimensions.
  */
 @KolibriumDsl
-public class WindowSizeScope {
+public class WindowSizeScope internal constructor() {
     /**
      * Sets the window width in pixels.
      * Minimum value is 1280.

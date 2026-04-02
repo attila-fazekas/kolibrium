@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.interactions
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriver.Options
@@ -43,12 +43,9 @@ public fun WebDriver.cookies(
 
 /**
  * Scope class that provides configuration for managing cookies in a [WebDriver].
- *
- * @constructor Creates a [CookiesScope] with the provided [options].
- * @param options The cookie management options of the current [WebDriver].
  */
 @KolibriumDsl
-public class CookiesScope(
+public class CookiesScope internal constructor(
     private val options: Options,
 ) {
     /**

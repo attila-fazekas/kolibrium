@@ -16,13 +16,13 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 
 /**
  * Scope class for configuring SOCKS proxy settings.
  */
 @KolibriumDsl
-public class SocksScope {
+public class SocksScope internal constructor() {
     /**
      * The SOCKS proxy server address.
      */

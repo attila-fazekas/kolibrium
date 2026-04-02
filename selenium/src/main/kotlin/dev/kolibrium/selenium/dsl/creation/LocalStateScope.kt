@@ -16,13 +16,13 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 
 /**
  * Scope class for configuring browser local state settings.
  */
 @KolibriumDsl
-public class LocalStateScope {
+public class LocalStateScope internal constructor() {
     internal val experiments by lazy { BrowserEnabledLabsExperiments() }
 
     /**

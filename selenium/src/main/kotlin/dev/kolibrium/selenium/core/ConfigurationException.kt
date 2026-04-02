@@ -16,6 +16,8 @@
 
 package dev.kolibrium.selenium.core
 
+import dev.kolibrium.webdriver.InternalKolibriumApi
+
 /**
  * Used to throw a [RuntimeException] when there is a configuration error within Kolibrium.
  *
@@ -23,7 +25,6 @@ package dev.kolibrium.selenium.core
  *
  * @param message The detail message explaining the configuration error.
  * @param cause The underlying cause of the exception, or `null` if none.
- * @constructor Creates a [ConfigurationException] with the specified error message and optional cause.
  *
  * @see RuntimeException
  */

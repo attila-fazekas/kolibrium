@@ -21,7 +21,7 @@ import dev.kolibrium.selenium.dsl.Browser.Chrome
 import dev.kolibrium.selenium.dsl.Browser.Edge
 import dev.kolibrium.selenium.dsl.Browser.Firefox
 import dev.kolibrium.selenium.dsl.Browser.Safari
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.edge.EdgeOptions
 import org.openqa.selenium.firefox.FirefoxOptions

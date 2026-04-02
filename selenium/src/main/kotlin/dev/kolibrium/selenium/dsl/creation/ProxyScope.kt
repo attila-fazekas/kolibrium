@@ -16,14 +16,14 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.KolibriumDsl
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.Proxy
 
 /**
  * Scope class for configuring proxy settings.
  */
 @KolibriumDsl
-public class ProxyScope {
+public class ProxyScope internal constructor() {
     internal val proxyMap = mutableMapOf<String, Any>()
 
     private val socksScope by lazy { SocksScope() }

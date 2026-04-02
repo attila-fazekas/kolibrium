@@ -75,7 +75,7 @@ public class UiSelectorScope internal constructor() {
         clauses += """className("$value")"""
     }
 
-    /** Matches elements whose resource name equals [value]. */
+    /** Matches elements whose resource id equals [value]. */
     public fun resourceId(value: String) {
         clauses += """resourceId("$value")"""
     }

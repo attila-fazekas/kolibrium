@@ -17,6 +17,10 @@
 package dev.kolibrium.selenium.core
 
 import dev.kolibrium.selenium.core.decorators.AbstractDecorator
+import dev.kolibrium.webdriver.WaitConfig
+import dev.kolibrium.webdriver.WebElements
+import dev.kolibrium.webdriver.isDisplayed
+import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -39,11 +43,12 @@ import org.openqa.selenium.WebElement
  * Lifecycle and ordering
  * - The test DSL binds the active site to the current thread, creates a [WebDriver] session, navigates to
  *   [baseUrl] to establish origin, applies declarative [cookies] (if any), then re-navigates to [baseUrl]
- *   so cookies take effect immediately. Finally, it calls [configureSite]() and then [onSessionReady] with the driver.
+ *   so cookies take effect immediately. Finally, the DSL calls [configureSite] and then [onSessionReady]
+ *   with the driver.
  * - Never navigate in [onSessionReady]; keep it fast and idempotent.
  *
  * @property baseUrl Base URL used by pages and the test DSL to build absolute routes.
- *           This property is required and must be overridden by implementations.
+ *           Must be provided as a constructor argument by subclasses.
  */
 public abstract class Site(
     public val baseUrl: String,
@@ -87,7 +92,7 @@ public abstract class Site(
     /**
      * A predicate that determines when the found elements are considered ready for use.
      */
-    public open val elementsReadyCondition: WebElements.() -> Boolean = { isDisplayed }
+    public open val elementsReadyCondition: WebElements.() -> Boolean = { isNotEmptyAndDisplayed }
 
     /**
      * Default wait configuration used by pages and element interactions when no more specific

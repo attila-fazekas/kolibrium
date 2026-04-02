@@ -49,9 +49,7 @@ class VinylStoreApiTest {
 
             context(token) {
                 val response =
-                    vinyls.listVinyls(
-                        genre = "Techno",
-                    )
+                    vinyls.listVinyls()
 
                 response.status shouldBe HttpStatusCode.OK
                 response.body.vinyls.size shouldBe 5
