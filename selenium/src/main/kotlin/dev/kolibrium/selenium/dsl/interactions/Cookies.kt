@@ -43,12 +43,9 @@ public fun WebDriver.cookies(
 
 /**
  * Scope class that provides configuration for managing cookies in a [WebDriver].
- *
- * @constructor Creates a [CookiesScope] with the provided [options].
- * @param options The cookie management options of the current [WebDriver].
  */
 @KolibriumDsl
-public class CookiesScope(
+public class CookiesScope internal constructor(
     private val options: Options,
 ) {
     /**

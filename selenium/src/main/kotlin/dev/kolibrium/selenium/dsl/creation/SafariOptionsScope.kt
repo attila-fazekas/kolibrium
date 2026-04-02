@@ -28,7 +28,7 @@ import org.openqa.selenium.safari.SafariOptions
  * @property options The underlying [SafariOptions] instance being configured.
  */
 @KolibriumDsl
-public class SafariOptionsScope(
+public class SafariOptionsScope internal constructor(
     override val options: SafariOptions,
 ) : OptionsScope() {
     /**

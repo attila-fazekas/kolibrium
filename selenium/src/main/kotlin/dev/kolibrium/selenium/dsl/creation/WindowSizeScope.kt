@@ -29,7 +29,7 @@ private val logger = KotlinLogging.logger { }
  * Scope class for configuring browser window dimensions.
  */
 @KolibriumDsl
-public class WindowSizeScope {
+public class WindowSizeScope internal constructor() {
     /**
      * Sets the window width in pixels.
      * Minimum value is 1280.

@@ -28,7 +28,7 @@ import org.openqa.selenium.safari.SafariDriverService
  * @property builder The underlying SafariDriver service builder.
  */
 @KolibriumDsl
-public class SafariDriverServiceScope(
+public class SafariDriverServiceScope internal constructor(
     override val builder: SafariDriverService.Builder,
 ) : DriverServiceScope() {
     /**

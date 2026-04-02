@@ -29,8 +29,8 @@ import kotlin.time.toJavaDuration
 /**
  * Decorator that inserts delays to make browser actions easier to observe.
  *
- * By default the delay is applied only before element interactions (click, sendKeys) using a
- * Selenium [WebDriverListener]. Chaining is preserved by
+ * The delay is applied after every `findElement(s)` call and before element interactions
+ * (click, sendKeys) via a Selenium [WebDriverListener]. Chaining is preserved by
  * wrapping elements returned from `findElement(s)`.
  *
  * Typical uses: demos, debugging flakiness visually, recordings.

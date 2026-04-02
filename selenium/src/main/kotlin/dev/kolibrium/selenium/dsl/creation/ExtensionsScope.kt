@@ -23,7 +23,7 @@ import java.io.File
  * Scope class for configuring browser extensions.
  */
 @KolibriumDsl
-public class ExtensionsScope {
+public class ExtensionsScope internal constructor() {
     internal val extensions = mutableSetOf<File>()
 
     /**

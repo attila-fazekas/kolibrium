@@ -38,8 +38,8 @@ import kotlin.time.TimeSource
  * - Binds a per-driver Session to [site] for the duration of the test thread.
  * - Creates a WebDriver via [driverFactory], navigates to [Site.baseUrl] to establish origin,
  *   applies [Site.cookies] (if any), and re-navigates to [Site.baseUrl] so cookies take effect immediately.
- *   Then calls [Site.configureSite] (which runs [Site.configureSite] no-arg followed by [Site.onSessionReady]).
- * - Invokes [block] with a [dev.kolibrium.selenium.dsl.PageEntry] receiver in the site's context.
+ *   Then calls [Site.configureSite] and [Site.onSessionReady] sequentially.
+ * - Invokes [block] with a [SiteEntry] receiver in the site's context.
  *
  * Cleanup:
  * - Unless [keepBrowserOpen] is true, the session is closed in a finally block for robustness.
@@ -53,9 +53,9 @@ import kotlin.time.TimeSource
  * @param driverFactory Factory creating a WebDriver instance (e.g., `chrome`, `firefox`, or predefined factories like `headlessChrome`).
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param setUp Computes the input [T] before the browser session is created. It runs without
- * an active WebDriver or [SessionContext].
+ * an active WebDriver or [dev.kolibrium.selenium.core.SessionContext].
  * @param tearDown Cleans up the test context after the test body; runs even if the test fails.
- * @param block Main test body executed with a [dev.kolibrium.selenium.dsl.PageEntry] receiver and the prepared value.
+ * @param block Main test body executed with a [SiteEntry] receiver and the prepared value.
  */
 @KolibriumDsl
 public fun <S : Site, T> seleniumTest(
@@ -79,7 +79,7 @@ public fun <S : Site, T> seleniumTest(
  * @param site The site under test.
  * @param driverFactory Factory creating a WebDriver instance.
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
- * @param block Main test body executed with a [dev.kolibrium.selenium.dsl.PageEntry] receiver.
+ * @param block Main test body executed with a [SiteEntry] receiver.
  */
 @KolibriumDsl
 public fun <S : Site> seleniumTest(

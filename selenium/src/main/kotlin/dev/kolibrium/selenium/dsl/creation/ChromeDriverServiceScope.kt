@@ -48,9 +48,9 @@ public class ChromeDriverServiceScope internal constructor(
     }
 
     /**
-     * Configures the allowed host header values for incoming requests to ChromeDriver service.
+     * Configures the allowed IP addresses for incoming connections to ChromeDriver service.
      *
-     * @param block The configuration block for specifying allowed hosts.
+     * @param block The configuration block for specifying allowed IP addresses.
      */
     override fun allowedIps(block: AllowedIpsScope.() -> Unit) {
         super.allowedIps(block)

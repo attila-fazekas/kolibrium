@@ -26,7 +26,7 @@ import org.openqa.selenium.WebDriver
  * Thread-safety: not thread-safe. Each session is confined to the thread that created it.
  */
 @InternalKolibriumApi
-public class Session(
+public class Session internal constructor(
     public val driver: WebDriver,
     public val site: Site,
 ) {

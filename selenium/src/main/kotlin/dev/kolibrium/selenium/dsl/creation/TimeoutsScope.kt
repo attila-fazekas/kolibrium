@@ -23,7 +23,7 @@ import kotlin.time.Duration
  * Scope class for configuring timeout settings.
  */
 @KolibriumDsl
-public class TimeoutsScope {
+public class TimeoutsScope internal constructor() {
     /**
      * Sets the time to wait for the implicit element location strategy when locating elements.
      */

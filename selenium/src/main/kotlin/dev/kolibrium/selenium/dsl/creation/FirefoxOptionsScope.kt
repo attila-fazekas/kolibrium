@@ -30,7 +30,7 @@ import java.io.File
  * @property options The underlying [FirefoxOptions] instance being configured.
  */
 @KolibriumDsl
-public class FirefoxOptionsScope(
+public class FirefoxOptionsScope internal constructor(
     override val options: FirefoxOptions,
 ) : OptionsScope() {
     private val argsScope by lazy { FirefoxArgumentsScope() }

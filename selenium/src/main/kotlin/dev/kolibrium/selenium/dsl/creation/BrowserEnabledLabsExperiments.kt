@@ -22,7 +22,7 @@ import dev.kolibrium.webdriver.KolibriumDsl
  * Scope class for configuring browser experimental flags.
  */
 @KolibriumDsl
-public class BrowserEnabledLabsExperiments {
+public class BrowserEnabledLabsExperiments internal constructor() {
     internal val experimentalFlags = mutableSetOf<ExperimentalFlag>()
 
     /**

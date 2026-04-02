@@ -24,7 +24,7 @@ import org.openqa.selenium.edge.EdgeOptions
  * Scope class for configuring Edge-specific settings for Edge WebDriver.
  */
 @KolibriumDsl
-public class EdgeDriverScope : DriverScope<EdgeDriverServiceScope, EdgeOptionsScope>() {
+public class EdgeDriverScope internal constructor() : DriverScope<EdgeDriverServiceScope, EdgeOptionsScope>() {
     override val driverServiceScope = EdgeDriverServiceScope(EdgeDriverService.Builder())
     override val optionsScope = EdgeOptionsScope(EdgeOptions())
 

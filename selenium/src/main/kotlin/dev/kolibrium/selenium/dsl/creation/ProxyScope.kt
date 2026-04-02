@@ -23,7 +23,7 @@ import org.openqa.selenium.Proxy
  * Scope class for configuring proxy settings.
  */
 @KolibriumDsl
-public class ProxyScope {
+public class ProxyScope internal constructor() {
     internal val proxyMap = mutableMapOf<String, Any>()
 
     private val socksScope by lazy { SocksScope() }

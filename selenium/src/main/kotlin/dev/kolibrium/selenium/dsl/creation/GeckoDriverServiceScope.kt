@@ -31,7 +31,7 @@ import java.io.File
  * @property builder The underlying GeckoDriver service builder.
  */
 @KolibriumDsl
-public class GeckoDriverServiceScope(
+public class GeckoDriverServiceScope internal constructor(
     override val builder: GeckoDriverService.Builder,
 ) : DriverServiceScope() {
     private val allowedHostsScope: AllowedHostsScope by lazy { AllowedHostsScope() }

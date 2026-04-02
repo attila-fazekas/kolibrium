@@ -23,7 +23,7 @@ package dev.kolibrium.selenium.dsl.creation
  * @throws IllegalArgumentException if the value is blank.
  */
 @JvmInline
-public value class Switch(
+public value class Switch internal constructor(
     internal val value: String,
 ) {
     init {

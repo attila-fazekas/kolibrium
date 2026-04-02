@@ -22,7 +22,7 @@ import dev.kolibrium.webdriver.KolibriumDsl
  * Scope class for configuring Firefox profile preferences.
  */
 @KolibriumDsl
-public class FirefoxProfileScope {
+public class FirefoxProfileScope internal constructor() {
     internal val preferences = mutableMapOf<String, Any>()
 
     /**

@@ -24,7 +24,7 @@ import org.openqa.selenium.chrome.ChromeOptions
  * Scope class for configuring Chrome-specific settings for Chrome WebDriver.
  */
 @KolibriumDsl
-public class ChromeDriverScope : DriverScope<ChromeDriverServiceScope, ChromeOptionsScope>() {
+public class ChromeDriverScope internal constructor() : DriverScope<ChromeDriverServiceScope, ChromeOptionsScope>() {
     override val driverServiceScope = ChromeDriverServiceScope(ChromeDriverService.Builder())
     override val optionsScope = ChromeOptionsScope(ChromeOptions())
 

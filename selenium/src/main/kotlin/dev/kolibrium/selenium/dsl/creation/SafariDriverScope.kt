@@ -24,7 +24,7 @@ import org.openqa.selenium.safari.SafariOptions
  * Scope class for configuring Safari-specific settings for Safari WebDriver.
  */
 @KolibriumDsl
-public class SafariDriverScope : DriverScope<SafariDriverServiceScope, SafariOptionsScope>() {
+public class SafariDriverScope internal constructor() : DriverScope<SafariDriverServiceScope, SafariOptionsScope>() {
     override val driverServiceScope = SafariDriverServiceScope(SafariDriverService.Builder())
     override val optionsScope = SafariOptionsScope(SafariOptions())
 

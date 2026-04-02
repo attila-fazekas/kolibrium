@@ -27,27 +27,13 @@ import org.openqa.selenium.WebElement
  * we decorate the [SearchContext] contract itself (both [WebDriver] and [WebElement] implement it)
  * so that returned elements are also decorated, enabling safe chaining across nested component trees.
  *
- * Implementors usually override [decorateSearchContext] to intercept `findElement(s)` and return
- * elements wrapped via [decorateElement]. If you need to alter element behaviour (e.g. cache state
- * or add side‑effects), provide those overrides in [decorateElement].
- *
  * Notes
- * - This mechanism is independent of Selenium’s EventFiringDecorator. Some decorators may still use
+ * - This mechanism is independent of Selenium's EventFiringDecorator. Some decorators may still use
  *   a [org.openqa.selenium.support.events.WebDriverListener] internally for interaction callbacks,
  *   but chaining is always preserved through the Kolibrium wrappers.
- *
- * @see SearchContext
- * @see WebDriver
- * @see WebElement
  */
 public abstract class AbstractDecorator {
-    /**
-     * Decorates a SearchContext (WebDriver or WebElement) with additional capabilities.
-     *
-     * @param context The SearchContext to decorate.
-     * @return The decorated SearchContext with added capabilities.
-     */
-    public fun decorate(context: SearchContext): SearchContext = decorateSearchContext(context)
+    internal fun decorate(context: SearchContext): SearchContext = decorateSearchContext(context)
 
     internal abstract fun decorateSearchContext(context: SearchContext): SearchContext
 

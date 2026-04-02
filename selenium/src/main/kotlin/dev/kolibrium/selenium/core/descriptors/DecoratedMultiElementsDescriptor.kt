@@ -32,7 +32,7 @@ import org.openqa.selenium.SearchContext
  * underlying [SearchContext] before element lookup.
  */
 @InternalKolibriumApi
-public class DecoratedMultiElementsDescriptor(
+public class DecoratedMultiElementsDescriptor internal constructor(
     searchCtx: SearchContext,
     value: String,
     locatorStrategy: (String) -> By,

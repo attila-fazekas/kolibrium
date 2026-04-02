@@ -28,7 +28,7 @@ import org.openqa.selenium.edge.EdgeOptions
  * @property options The underlying [ChromiumOptions] instance being configured.
  */
 @KolibriumDsl
-public abstract class ChromiumOptionsScope(
+public abstract class ChromiumOptionsScope internal constructor(
     override val options: ChromiumOptions<*>,
 ) : OptionsScope() {
     protected val expOptionsScope: ExperimentalOptionsScope by lazy { ExperimentalOptionsScope() }

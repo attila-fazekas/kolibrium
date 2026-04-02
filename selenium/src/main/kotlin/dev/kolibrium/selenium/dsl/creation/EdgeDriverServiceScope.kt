@@ -17,6 +17,7 @@
 package dev.kolibrium.selenium.dsl.creation
 
 import dev.kolibrium.webdriver.KolibriumDsl
+import org.openqa.selenium.bidi.log.FilterBy.logLevel
 import org.openqa.selenium.edge.EdgeDriverService
 import java.io.File
 
@@ -29,7 +30,7 @@ import java.io.File
  * @property builder The underlying EdgeDriver service builder.
  */
 @KolibriumDsl
-public class EdgeDriverServiceScope(
+public class EdgeDriverServiceScope internal constructor(
     override val builder: EdgeDriverService.Builder,
 ) : ChromiumDriverServiceScope() {
     override fun configure() {
@@ -48,9 +49,9 @@ public class EdgeDriverServiceScope(
     }
 
     /**
-     * Configures the allowed host header values for incoming requests to EdgeDriver service.
+     * Configures the allowed IP addresses for incoming connections to EdgeDriver service.
      *
-     * @param block The configuration block for specifying allowed hosts.
+     * @param block The configuration block for specifying allowed IP addresses.
      */
     @KolibriumDsl
     override fun allowedIps(block: AllowedIpsScope.() -> Unit) {

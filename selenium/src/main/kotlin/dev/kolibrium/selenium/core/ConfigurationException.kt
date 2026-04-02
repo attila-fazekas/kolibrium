@@ -25,7 +25,6 @@ import dev.kolibrium.webdriver.InternalKolibriumApi
  *
  * @param message The detail message explaining the configuration error.
  * @param cause The underlying cause of the exception, or `null` if none.
- * @constructor Creates a [ConfigurationException] with the specified error message and optional cause.
  *
  * @see RuntimeException
  */

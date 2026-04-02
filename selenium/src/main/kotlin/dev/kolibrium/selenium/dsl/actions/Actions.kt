@@ -44,11 +44,11 @@ public fun WebDriver.actions(
 }
 
 /**
- * Scope class for defining scrolling actions using the Selenium Actions API.
- * This class provides a type-safe builder for various scrolling operations.
+ * Scope class for defining actions using the Selenium Actions API.
+ * This class provides a type-safe builder for Actions API operations such as scrolling, clicking, dragging, and key presses.
  */
 @KolibriumDsl
-public class ActionsScope(
+public class ActionsScope internal constructor(
     internal val actions: Actions,
     internal val batchActions: Boolean,
 )

@@ -22,7 +22,7 @@ package dev.kolibrium.selenium.dsl.creation
  * @property value The string value of the experimental flag.
  */
 @JvmInline
-public value class ExperimentalFlag(
+public value class ExperimentalFlag internal constructor(
     internal val value: String,
 )
 

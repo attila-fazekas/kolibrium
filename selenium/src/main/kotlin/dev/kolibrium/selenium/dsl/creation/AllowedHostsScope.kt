@@ -24,7 +24,7 @@ import dev.kolibrium.webdriver.KolibriumDsl
  * Use this scope to define values of the Host header to allow for incoming requests.
  */
 @KolibriumDsl
-public class AllowedHostsScope {
+public class AllowedHostsScope internal constructor() {
     internal val allowedHosts = mutableSetOf<String>()
 
     /**

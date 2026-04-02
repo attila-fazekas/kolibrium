@@ -24,8 +24,7 @@ import org.openqa.selenium.support.events.EventFiringDecorator
  * Manages the test-level Kolibrium decorators.
  *
  * Decorators are stored in a thread-local list so parallel tests do not interfere with each other.
- * They are applied in insertion order to the root [SearchContext] (driver) and to all nested
- * elements discovered from it, preserving chaining across the object graph.
+ * They are resolved and applied per element lookup, in insertion order, via [DecoratorResolver].
  *
  * Notes:
  * - When decorating a [WebDriver], listeners from [InteractionAware] decorators are multiplexed
@@ -70,7 +69,8 @@ public object DecoratorManager {
 
     /**
      * Runs the given [block] with the provided [decorators] installed for the current thread.
-     * Decorators are cleared in a `finally` block, guaranteeing no leakage across tests.
+     * All decorators for the current thread are cleared in a `finally` block after [block] completes,
+     * including any that were registered before this call.
      *
      * Example
      * ```kotlin

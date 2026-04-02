@@ -25,7 +25,7 @@ import dev.kolibrium.webdriver.KolibriumDsl
  * providing a security mechanism for controlling access to the browser automation interface.
  */
 @KolibriumDsl
-public class AllowedIpsScope {
+public class AllowedIpsScope internal constructor() {
     internal val allowedIps = mutableSetOf<String>()
 
     /**
