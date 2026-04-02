@@ -51,7 +51,7 @@ class ElementByDelegateTest {
     }
 
     @Nested
-    inner class ElementByDelegate {
+    inner class ElementByDelegateTest {
         @Test
         fun `element(by) should return CompositeElementDescriptor`() {
             val by = By.id("test-id")
@@ -154,7 +154,7 @@ class ElementByDelegateTest {
     }
 
     @Nested
-    inner class ElementsByDelegate {
+    inner class ElementsByDelegateTest {
         private lateinit var mockElement2: WebElement
 
         @BeforeEach

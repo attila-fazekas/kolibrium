@@ -50,6 +50,7 @@ testing {
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
         freeCompilerArgs.addAll(
+            "-Xfriend-paths=${project(":selenium").projectDir}",
             "-Xcontext-parameters",
         )
         optIn.addAll(

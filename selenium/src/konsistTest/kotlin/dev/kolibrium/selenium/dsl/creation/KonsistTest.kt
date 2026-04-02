@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.dsl.selenium.creation
+package dev.kolibrium.selenium.dsl.creation
 
 import com.lemonappdev.konsist.api.KoModifier.COMPANION
 import com.lemonappdev.konsist.api.Konsist
@@ -33,32 +33,10 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class KonsistTest {
-    @Disabled
-    @Test
-    fun `public properties should be annotated with @KolibriumPropertyDsl`() {
-        Konsist
-            .scopeFromPackage("dev.kolibrium.dsl..")
-            .properties()
-            .withPublicModifier()
-            .withoutOverrideModifier()
-            .withoutAbstractModifier()
-            .filterNot {
-                it.containingDeclaration is KoInterfaceDeclaration
-            }.filterNot {
-                it.hasAnnotation { koAnnotationDeclaration ->
-                    koAnnotationDeclaration.name == "InternalKolibriumApi"
-                }
-            }.assertTrue {
-                it.hasAnnotation { koAnnotationDeclaration ->
-                    koAnnotationDeclaration.name == "KolibriumPropertyDsl"
-                }
-            }
-    }
-
     @Test
     fun `public functions should be annotated with @KolibriumDsl`() {
         Konsist
-            .scopeFromPackage("dev.kolibrium.dsl..")
+            .scopeFromPackage("dev.kolibrium.selenium.dsl..")
             .functions()
             .withPublicModifier()
             .withoutOperatorModifier()
@@ -75,7 +53,7 @@ class KonsistTest {
     @Test
     fun `public classes should be annotated with @KolibriumDsl`() {
         Konsist
-            .scopeFromPackage("dev.kolibrium.dsl..")
+            .scopeFromPackage("dev.kolibrium.selenium.dsl..")
             .classes()
             .withPublicModifier()
             .withoutValueModifier()
@@ -96,7 +74,7 @@ class KonsistTest {
     @Test
     fun `public classes should have toString overridden`() {
         Konsist
-            .scopeFromPackage("dev.kolibrium.dsl..")
+            .scopeFromPackage("dev.kolibrium.selenium.dsl..")
             .classes()
             .filterNot {
                 it.name == "WindowSizeScope" || it.name == "ActionsScope"
