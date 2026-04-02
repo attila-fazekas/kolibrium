@@ -18,8 +18,6 @@ package dev.kolibrium.selenium.core.descriptors
 
 import dev.kolibrium.selenium.core.SessionContext
 import dev.kolibrium.webdriver.WaitConfig
-import dev.kolibrium.webdriver.isDisplayed
-import dev.kolibrium.webdriver.isEnabled
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain

@@ -14,22 +14,8 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium
+package dev.kolibrium.selenium.core
 
-import dev.kolibrium.selenium.core.Page
-import dev.kolibrium.selenium.core.Session
-import dev.kolibrium.selenium.core.SessionContext
-import dev.kolibrium.selenium.core.Site
-import dev.kolibrium.selenium.core.cssSelector
-import dev.kolibrium.selenium.core.cssSelectors
-import dev.kolibrium.selenium.core.dataQa
-import dev.kolibrium.selenium.core.dataTest
-import dev.kolibrium.selenium.core.dataTestId
-import dev.kolibrium.selenium.core.id
-import dev.kolibrium.selenium.core.linkText
-import dev.kolibrium.selenium.core.partialLinkText
-import dev.kolibrium.selenium.core.withDriver
-import dev.kolibrium.selenium.core.xpath
 import dev.kolibrium.webdriver.WaitConfig
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldHaveSize

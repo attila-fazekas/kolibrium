@@ -21,12 +21,6 @@ import dev.kolibrium.webdriver.WebElements
 import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
 import org.openqa.selenium.WebElement
 
-/**
- * Selenium module–local defaults for wait configuration and readiness predicates.
- *
- * These resolve from the Selenium Session/Site when available, falling back to
- * safe hardcoded values when no session is bound to the current thread.
- */
 internal val defaultWaitConfig: WaitConfig
     get() = SessionContext.get()?.site?.waitConfig ?: WaitConfig.Default
 
