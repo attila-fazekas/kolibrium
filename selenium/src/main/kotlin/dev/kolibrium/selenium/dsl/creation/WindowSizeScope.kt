@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.webdriver.KolibriumDsl
+import dev.kolibrium.annotations.KolibriumDsl
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlin.properties.Delegates
 

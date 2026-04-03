@@ -16,8 +16,8 @@
 
 package dev.kolibrium.selenium.dsl.interactions
 
+import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.dsl.internal.normalizePath
-import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.WebDriver
 
 /**

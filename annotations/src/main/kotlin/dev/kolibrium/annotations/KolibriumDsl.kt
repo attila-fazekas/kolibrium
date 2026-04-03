@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
-
-import dev.kolibrium.annotations.InternalKolibriumApi
+package dev.kolibrium.annotations
 
 /**
- * Used to throw a [RuntimeException] when there is a configuration error within Kolibrium.
+ * Marker annotation for Kolibrium DSL.
  *
- * **Note:** This class is part of the internal API and should not be used outside of Kolibrium.
- *
- * @param message The detail message explaining the configuration error.
- * @param cause The underlying cause of the exception, or `null` if none.
- *
- * @see RuntimeException
+ * Apply to DSL receivers (classes/objects), functions, and properties participating in the user-facing flow.
  */
-@InternalKolibriumApi
-public open class ConfigurationException(
-    message: String,
-    cause: Throwable? = null,
-) : RuntimeException(message, cause)
+@DslMarker
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
+public annotation class KolibriumDsl

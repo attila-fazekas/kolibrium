@@ -36,3 +36,7 @@ public final class dev/kolibrium/api/core/TestHarnessKt {
 	public static final fun runWithApi (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
 }
 
+public final class dev/kolibrium/api/core/UtilsKt {
+	public static final fun verify (Ldev/kolibrium/api/core/ApiResponse;Lkotlin/jvm/functions/Function1;)V
+}
+

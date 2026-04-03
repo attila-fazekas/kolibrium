@@ -9,12 +9,6 @@ public abstract interface class dev/kolibrium/webdriver/HasBy {
 	public abstract fun getBy ()Lorg/openqa/selenium/By;
 }
 
-public abstract interface annotation class dev/kolibrium/webdriver/InternalKolibriumApi : java/lang/annotation/Annotation {
-}
-
-public abstract interface annotation class dev/kolibrium/webdriver/KolibriumDsl : java/lang/annotation/Annotation {
-}
-
 public final class dev/kolibrium/webdriver/LocatorUtilsKt {
 	public static final fun isClickable (Ljava/util/List;)Z
 	public static final fun isClickable (Lorg/openqa/selenium/WebElement;)Z

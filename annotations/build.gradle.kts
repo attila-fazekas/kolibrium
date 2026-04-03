@@ -14,18 +14,6 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.webdriver
-
-import dev.kolibrium.annotations.InternalKolibriumApi
-import org.openqa.selenium.By
-
-/**
- * Interface exposing the Selenium [org.openqa.selenium.By] locator used to find element(s).
- * Useful for debugging and to integrate with custom find/wait utilities.
- */
-@InternalKolibriumApi
-public interface HasBy {
-    /** The Selenium [org.openqa.selenium.By] locator associated with this descriptor. */
-    @InternalKolibriumApi
-    public val by: By
+plugins {
+    id("kolibrium.library-conventions")
 }

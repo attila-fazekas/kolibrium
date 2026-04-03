@@ -16,8 +16,8 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
+import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.webdriver.EnvironmentScope
-import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.remote.service.DriverService
 import java.io.File
 import java.io.IOException

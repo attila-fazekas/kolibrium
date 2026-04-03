@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.webdriver.KolibriumDsl
+import dev.kolibrium.annotations.KolibriumDsl
 import org.openqa.selenium.PageLoadStrategy
 import org.openqa.selenium.Platform
 import org.openqa.selenium.Proxy

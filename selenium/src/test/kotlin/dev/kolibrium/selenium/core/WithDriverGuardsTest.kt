@@ -16,8 +16,8 @@
 
 package dev.kolibrium.selenium.core
 
+import dev.kolibrium.annotations.InternalKolibriumApi
 import dev.kolibrium.selenium.core.support.FakeWebDriver
-import dev.kolibrium.webdriver.InternalKolibriumApi
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test

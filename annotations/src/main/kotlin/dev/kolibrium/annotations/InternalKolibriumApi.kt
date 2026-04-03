@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
-
-import dev.kolibrium.annotations.InternalKolibriumApi
+package dev.kolibrium.annotations
 
 /**
- * Used to throw a [RuntimeException] when there is a configuration error within Kolibrium.
+ * Marks the Kolibrium internal API, which is not intended for public use.
  *
- * **Note:** This class is part of the internal API and should not be used outside of Kolibrium.
+ * This annotation is used to signal that the annotated element is part of the internal API of Kolibrium
+ * and should not be used by external consumers. Any usage of this API will result in a compilation error
+ * due to the opt-in requirement.
  *
- * @param message The detail message explaining the configuration error.
- * @param cause The underlying cause of the exception, or `null` if none.
- *
- * @see RuntimeException
+ * @see RequiresOptIn.Level.ERROR
  */
-@InternalKolibriumApi
-public open class ConfigurationException(
-    message: String,
-    cause: Throwable? = null,
-) : RuntimeException(message, cause)
+@RequiresOptIn(
+    level = RequiresOptIn.Level.ERROR,
+    message = "This is an internal API of Kolibrium, do not use it.",
+)
+public annotation class InternalKolibriumApi

@@ -23,6 +23,7 @@ plugins {
 }
 
 dependencies {
+    api(project(":annotations"))
     api("org.seleniumhq.selenium:selenium-java:_")
 }
 
@@ -50,7 +51,7 @@ tasks.withType<KotlinCompile>().configureEach {
             "-Xcontext-parameters",
         )
         optIn.addAll(
-            "dev.kolibrium.webdriver.InternalKolibriumApi",
+            "dev.kolibrium.annotations.InternalKolibriumApi",
         )
     }
 }

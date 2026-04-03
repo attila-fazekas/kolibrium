@@ -16,7 +16,7 @@
 
 package dev.kolibrium.webdriver.descriptors
 
-import dev.kolibrium.webdriver.InternalKolibriumApi
+import dev.kolibrium.annotations.InternalKolibriumApi
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElementDescriptor
 import org.openqa.selenium.By

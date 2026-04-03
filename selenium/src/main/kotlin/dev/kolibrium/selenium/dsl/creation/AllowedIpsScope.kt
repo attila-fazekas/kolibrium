@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.webdriver.KolibriumDsl
+import dev.kolibrium.annotations.KolibriumDsl
 
 /**
  * Scope class for configuring allowed IP addresses for incoming connections to Chromium-based driver services.

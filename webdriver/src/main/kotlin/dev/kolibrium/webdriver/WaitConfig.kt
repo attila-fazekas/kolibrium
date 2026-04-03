@@ -16,6 +16,7 @@
 
 package dev.kolibrium.webdriver
 
+import dev.kolibrium.annotations.InternalKolibriumApi
 import org.openqa.selenium.support.ui.FluentWait
 import java.time.Duration.ofMillis
 import kotlin.reflect.KClass

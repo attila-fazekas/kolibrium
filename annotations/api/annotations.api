@@ -1,0 +1,6 @@
+public abstract interface annotation class dev/kolibrium/annotations/InternalKolibriumApi : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class dev/kolibrium/annotations/KolibriumDsl : java/lang/annotation/Annotation {
+}
+
