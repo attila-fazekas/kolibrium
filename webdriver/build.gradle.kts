@@ -27,23 +27,23 @@ dependencies {
     api("org.seleniumhq.selenium:selenium-java:_")
 }
 
-// testing {
-//    suites {
-//        register("unitTest", JvmTestSuite::class) {
-//            dependencies {
-//                implementation("io.mockk:mockk:_")
-//            }
-//        }
-//        register("integrationTest", JvmTestSuite::class)
-//    }
-//
-//    suites.withType(JvmTestSuite::class).configureEach {
-//        dependencies {
-//            implementation(project())
-//            implementation(Testing.kotest.assertions.core)
-//        }
-//    }
-// }
+testing {
+    suites {
+        register("unitTest", JvmTestSuite::class) {
+            dependencies {
+                implementation("io.mockk:mockk:_")
+            }
+        }
+        register("integrationTest", JvmTestSuite::class)
+    }
+
+    suites.withType(JvmTestSuite::class).configureEach {
+        dependencies {
+            implementation(project())
+            implementation(Testing.kotest.assertions.core)
+        }
+    }
+}
 
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
