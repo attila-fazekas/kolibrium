@@ -14,13 +14,6 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.webdriver
-
-/**
- * Marker annotation for Kolibrium DSL.
- *
- * Apply to DSL receivers (classes/objects), functions, and properties participating in the user-facing flow.
- */
-@DslMarker
-@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
-public annotation class KolibriumDsl
+plugins {
+    id("kolibrium.library-conventions")
+}

@@ -16,8 +16,8 @@
 
 package dev.kolibrium.appium.android
 
-import dev.kolibrium.webdriver.InternalKolibriumApi
-import dev.kolibrium.webdriver.KolibriumDsl
+import dev.kolibrium.annotations.InternalKolibriumApi
+import dev.kolibrium.annotations.KolibriumDsl
 
 /**
  * DSL scope for configuring Appium settings.

@@ -16,8 +16,8 @@
 
 package dev.kolibrium.appium
 
+import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.appium.android.SettingsScope
-import dev.kolibrium.webdriver.KolibriumDsl
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.HasSettings
 

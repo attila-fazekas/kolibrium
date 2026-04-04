@@ -14,29 +14,32 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.dsl.creation
+package dev.kolibrium.api.core
 
 import dev.kolibrium.annotations.KolibriumDsl
-import java.io.File
 
 /**
- * Scope class for configuring browser extensions.
+ * Asserts properties of this [ApiResponse] using the given [block].
+ *
+ * Intended for use in the assertion phase of an API test, providing a readable boundary
+ * between the act and assert stages.
+ *
+ * Example:
+ * ```
+ * val response = updateUser(userId) {
+ *     isActive = false
+ * }
+ *
+ * response.verify {
+ *     status shouldBe HttpStatusCode.OK
+ *     body.isActive shouldBe false
+ * }
+ * ```
+ *
+ * @param T the type of the response body
+ * @param block assertions to run with this [ApiResponse] as the receiver
  */
 @KolibriumDsl
-public class ExtensionsScope internal constructor() {
-    internal val extensions = mutableSetOf<File>()
-
-    /**
-     * Adds an extension to be loaded by the browser.
-     *
-     * This operator function allows adding extensions using the unary plus operator (+).
-     */
-    public operator fun String.unaryPlus() {
-        extensions.add(File(this))
-    }
-
-    /**
-     * Returns a string representation of the [ExtensionsScope], primarily for debugging purposes.
-     */
-    override fun toString(): String = "ExtensionsScope(extensions=$extensions)"
+public inline fun <T> ApiResponse<T>.verify(block: ApiResponse<T>.() -> Unit) {
+    block()
 }

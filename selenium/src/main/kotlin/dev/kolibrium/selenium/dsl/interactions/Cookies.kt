@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.interactions
 
-import dev.kolibrium.webdriver.KolibriumDsl
+import dev.kolibrium.annotations.KolibriumDsl
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebDriver.Options

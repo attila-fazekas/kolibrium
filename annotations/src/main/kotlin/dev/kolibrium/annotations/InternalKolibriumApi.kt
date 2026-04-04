@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.webdriver
+package dev.kolibrium.annotations
 
 /**
  * Marks the Kolibrium internal API, which is not intended for public use.

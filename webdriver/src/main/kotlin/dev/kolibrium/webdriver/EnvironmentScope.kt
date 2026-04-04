@@ -16,6 +16,9 @@
 
 package dev.kolibrium.webdriver
 
+import dev.kolibrium.annotations.InternalKolibriumApi
+import dev.kolibrium.annotations.KolibriumDsl
+
 /**
  * Scope class for configuring environment variables for the driver service process.
  *

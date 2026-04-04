@@ -19,3 +19,7 @@ plugins {
     id("kolibrium.ktor-client-conventions")
     id("kolibrium.test-conventions")
 }
+
+dependencies {
+    implementation(project(":annotations"))
+}

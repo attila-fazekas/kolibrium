@@ -16,9 +16,9 @@
 
 package dev.kolibrium.selenium.core.descriptors
 
+import dev.kolibrium.annotations.InternalKolibriumApi
 import dev.kolibrium.selenium.core.decorators.AbstractDecorator
 import dev.kolibrium.selenium.core.decorators.DecoratorResolver
-import dev.kolibrium.webdriver.InternalKolibriumApi
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElements
 import dev.kolibrium.webdriver.descriptors.MultiElementsDescriptor

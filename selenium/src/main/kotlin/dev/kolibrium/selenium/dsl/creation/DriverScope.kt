@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.webdriver.KolibriumDsl
+import dev.kolibrium.annotations.KolibriumDsl
 
 /**
  * Base scope class for WebDriver configuration providing driver service and options customization.

@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.core
 
-import dev.kolibrium.webdriver.InternalKolibriumApi
+import dev.kolibrium.annotations.InternalKolibriumApi
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
