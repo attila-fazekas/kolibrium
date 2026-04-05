@@ -117,7 +117,7 @@ public class WaitConfig(
  * [org.openqa.selenium.WebElement] wrappers, etc.
  */
 @InternalKolibriumApi
-public fun <T> FluentWait<T>.configureWith(waitConfig: WaitConfig): FluentWait<T> =
+public fun <T : Any> FluentWait<T>.configureWith(waitConfig: WaitConfig): FluentWait<T> =
     apply {
         waitConfig.timeout?.let { withTimeout(ofMillis(it.inWholeMilliseconds)) }
         waitConfig.pollingInterval?.let { pollingEvery(ofMillis(it.inWholeMilliseconds)) }
