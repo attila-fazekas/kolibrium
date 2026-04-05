@@ -16,8 +16,6 @@
 
 package dev.kolibrium.api.core
 
-import dev.kolibrium.annotations.KolibriumDsl
-
 /**
  * Asserts properties of this [ApiResponse] using the given [block].
  *
@@ -39,7 +37,6 @@ import dev.kolibrium.annotations.KolibriumDsl
  * @param T the type of the response body
  * @param block assertions to run with this [ApiResponse] as the receiver
  */
-@KolibriumDsl
 public inline fun <T> ApiResponse<T>.verify(block: ApiResponse<T>.() -> Unit) {
     block()
 }

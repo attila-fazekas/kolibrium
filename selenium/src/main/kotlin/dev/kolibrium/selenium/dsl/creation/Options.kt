@@ -16,7 +16,6 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.dsl.Browser
 import dev.kolibrium.selenium.dsl.Browser.Chrome
 import dev.kolibrium.selenium.dsl.Browser.Edge
@@ -38,7 +37,6 @@ import org.openqa.selenium.safari.SafariOptions
  * @param block The configuration block to customize the options.
  * @return The configured driver options for the specified browser.
  */
-@KolibriumDsl
 public fun options(
     browser: Browser,
     block: OptionsScope.() -> Unit,
@@ -59,7 +57,6 @@ public fun options(
  * @param block The configuration block to customize Chrome-specific options.
  * @return The configured [ChromeOptions] instance.
  */
-@KolibriumDsl
 public fun chromeOptions(block: ChromeOptionsScope.() -> Unit): ChromeOptions =
     ChromeOptionsScope(ChromeOptions())
         .apply {
@@ -76,7 +73,6 @@ public fun chromeOptions(block: ChromeOptionsScope.() -> Unit): ChromeOptions =
  * @param block The configuration block to customize Safari-specific options.
  * @return The configured [SafariOptions] instance.
  */
-@KolibriumDsl
 public fun safariOptions(block: SafariOptionsScope.() -> Unit): SafariOptions =
     SafariOptionsScope(SafariOptions())
         .apply {
@@ -93,7 +89,6 @@ public fun safariOptions(block: SafariOptionsScope.() -> Unit): SafariOptions =
  * @param block The configuration block to customize Firefox-specific options.
  * @return The configured [FirefoxOptions] instance.
  */
-@KolibriumDsl
 public fun firefoxOptions(block: FirefoxOptionsScope.() -> Unit): FirefoxOptions =
     FirefoxOptionsScope(FirefoxOptions())
         .apply {
@@ -110,7 +105,6 @@ public fun firefoxOptions(block: FirefoxOptionsScope.() -> Unit): FirefoxOptions
  * @param block The configuration block to customize Edge-specific options.
  * @return The configured [EdgeOptions] instance.
  */
-@KolibriumDsl
 public fun edgeOptions(block: EdgeOptionsScope.() -> Unit): EdgeOptions =
     EdgeOptionsScope(EdgeOptions())
         .apply {

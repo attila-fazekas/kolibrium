@@ -16,7 +16,6 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.dsl.Browser
 import dev.kolibrium.selenium.dsl.Browser.Chrome
 import dev.kolibrium.selenium.dsl.Browser.Edge
@@ -38,7 +37,6 @@ import org.openqa.selenium.safari.SafariDriverService
  * @param block The configuration block that defines driver service settings within the appropriate scope.
  * @return A configured [DriverService] instance for the specified browser.
  */
-@KolibriumDsl
 public fun driverService(
     browser: Browser,
     block: DriverServiceScope.() -> Unit,
@@ -59,7 +57,6 @@ public fun driverService(
  * @param block The configuration block that defines ChromeDriver service settings within [ChromeDriverServiceScope].
  * @return A configured [ChromeDriverService] instance.
  */
-@KolibriumDsl
 public fun chromeDriverService(block: ChromeDriverServiceScope.() -> Unit): ChromeDriverService {
     val driverServiceScopeScope =
         ChromeDriverServiceScope(
@@ -80,7 +77,6 @@ public fun chromeDriverService(block: ChromeDriverServiceScope.() -> Unit): Chro
  * @param block The configuration block that defines SafariDriver service settings within [SafariDriverServiceScope].
  * @return A configured [SafariDriverService] instance.
  */
-@KolibriumDsl
 public fun safariDriverService(block: SafariDriverServiceScope.() -> Unit): SafariDriverService {
     val driverServiceScopeScope =
         SafariDriverServiceScope(SafariDriverService.Builder()).apply {
@@ -99,7 +95,6 @@ public fun safariDriverService(block: SafariDriverServiceScope.() -> Unit): Safa
  * @param block The configuration block that defines GeckoDriver service settings within [GeckoDriverServiceScope].
  * @return A configured [GeckoDriverService] instance.
  */
-@KolibriumDsl
 public fun geckoDriverService(block: GeckoDriverServiceScope.() -> Unit): GeckoDriverService {
     val driverServiceScopeScope =
         GeckoDriverServiceScope(GeckoDriverService.Builder()).apply {
@@ -118,7 +113,6 @@ public fun geckoDriverService(block: GeckoDriverServiceScope.() -> Unit): GeckoD
  * @param block The configuration block that defines EdgeDriver service settings within [EdgeDriverServiceScope].
  * @return A configured [EdgeDriverService] instance.
  */
-@KolibriumDsl
 public fun edgeDriverService(block: EdgeDriverServiceScope.() -> Unit): EdgeDriverService {
     val driverServiceScopeScope =
         EdgeDriverServiceScope(EdgeDriverService.Builder()).apply {

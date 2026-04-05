@@ -64,7 +64,6 @@ public class FirefoxOptionsScope internal constructor(
      *
      * @param block The configuration block for Firefox-specific arguments.
      */
-    @KolibriumDsl
     public fun arguments(block: FirefoxArgumentsScope.() -> Unit) {
         argsScope.apply(block)
         options.addArguments(argsScope.args.map { it.value })
@@ -78,7 +77,6 @@ public class FirefoxOptionsScope internal constructor(
      *
      * @param block The configuration block for Firefox preferences.
      */
-    @KolibriumDsl
     public fun preferences(block: FirefoxPreferencesScope.() -> Unit) {
         preferencesScope.apply(block)
         if (preferencesScope.preferences.isNotEmpty()) {
@@ -93,7 +91,6 @@ public class FirefoxOptionsScope internal constructor(
      *
      * @param block The configuration block for Firefox profile preferences.
      */
-    @KolibriumDsl
     public fun profile(block: FirefoxProfileScope.() -> Unit) {
         ffProfileScope.apply(block)
         if (ffProfileScope.preferences.isNotEmpty()) {

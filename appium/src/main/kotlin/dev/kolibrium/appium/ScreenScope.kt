@@ -43,7 +43,6 @@ public class ScreenScope<A : App, S : Screen<A>> internal constructor(
      * @param factory No‑arg factory that constructs the next screen instance.
      * @param action The action to execute on the next screen before returning the new scope.
      */
-    @KolibriumDsl
     public fun <Next : Screen<A>> on(
         factory: () -> Next,
         action: Next.() -> Unit,
@@ -61,7 +60,6 @@ public class ScreenScope<A : App, S : Screen<A>> internal constructor(
      * @param action The action to run against the current screen.
      * @return This [ScreenScope] to allow further chaining.
      */
-    @KolibriumDsl
     public fun then(action: S.() -> Unit): ScreenScope<A, S> =
         apply {
             ensureReady(screen)

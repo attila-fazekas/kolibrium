@@ -31,7 +31,6 @@ public class FirefoxProfileScope internal constructor() {
      * @param key The preference key represented by a [FirefoxPreference] instance.
      * @param value The preference value to be associated with the key.
      */
-    @KolibriumDsl
     public fun pref(
         key: FirefoxPreference,
         value: Any,
@@ -45,7 +44,6 @@ public class FirefoxProfileScope internal constructor() {
      * @param key The preference key as a string.
      * @param value The preference value to be associated with the key.
      */
-    @KolibriumDsl
     public fun pref(
         key: String,
         value: Any,
