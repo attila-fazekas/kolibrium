@@ -16,7 +16,6 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.dsl.Browser
 import dev.kolibrium.selenium.dsl.Browser.Chrome
 import dev.kolibrium.selenium.dsl.Browser.Edge
@@ -46,7 +45,6 @@ import org.openqa.selenium.safari.SafariOptions
  * @param block The configuration block to customize the driver settings.
  * @return A configured WebDriver instance for the specified browser.
  */
-@KolibriumDsl
 public fun driver(
     browser: Browser,
     block: DriverScope<*, *>.() -> Unit,
@@ -66,7 +64,6 @@ public fun driver(
  * @param block The configuration block to customize Chrome-specific driver settings.
  * @return A configured ChromeDriver instance.
  */
-@KolibriumDsl
 public fun chromeDriver(block: ChromeDriverScope.() -> Unit): ChromeDriver {
     val driverScope = ChromeDriverScope().apply(block)
     return ChromeDriver(
@@ -83,7 +80,6 @@ public fun chromeDriver(block: ChromeDriverScope.() -> Unit): ChromeDriver {
  * @param block The configuration block to customize Safari-specific driver settings.
  * @return A configured SafariDriver instance.
  */
-@KolibriumDsl
 public fun safariDriver(block: SafariDriverScope.() -> Unit): SafariDriver {
     val driverScope = SafariDriverScope().apply(block)
     return SafariDriver(
@@ -100,7 +96,6 @@ public fun safariDriver(block: SafariDriverScope.() -> Unit): SafariDriver {
  * @param block The configuration block to customize Firefox-specific driver settings.
  * @return A configured FirefoxDriver instance.
  */
-@KolibriumDsl
 public fun firefoxDriver(block: FirefoxDriverScope.() -> Unit): FirefoxDriver {
     val driverScope = FirefoxDriverScope().apply(block)
     return FirefoxDriver(
@@ -117,7 +112,6 @@ public fun firefoxDriver(block: FirefoxDriverScope.() -> Unit): FirefoxDriver {
  * @param block The configuration block to customize Edge-specific driver settings.
  * @return A configured EdgeDriver instance.
  */
-@KolibriumDsl
 public fun edgeDriver(block: EdgeDriverScope.() -> Unit): EdgeDriver {
     val driverScope = EdgeDriverScope().apply(block)
     return EdgeDriver(

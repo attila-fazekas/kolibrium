@@ -51,7 +51,6 @@ public class EdgeOptionsScope internal constructor(
      *
      * @param block The configuration block for Edge-specific arguments.
      */
-    @KolibriumDsl
     public fun arguments(block: EdgeArgumentsScope.() -> Unit) {
         argsScope.apply(block)
         options.addArguments(argsScope.args.map { it.value })

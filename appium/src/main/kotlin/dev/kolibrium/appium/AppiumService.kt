@@ -16,7 +16,6 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.annotations.KolibriumDsl
 import io.appium.java_client.service.local.AppiumDriverLocalService
 
 /**
@@ -38,5 +37,4 @@ import io.appium.java_client.service.local.AppiumDriverLocalService
  * try { /* run tests */ } finally { service.stop() }
  * ```
  */
-@KolibriumDsl
 public fun appiumService(block: AppiumServiceScope.() -> Unit): AppiumDriverLocalService = AppiumServiceScope().apply(block).build()

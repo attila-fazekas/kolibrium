@@ -33,7 +33,6 @@ public class EdgeDriverScope internal constructor() : DriverScope<EdgeDriverServ
      *
      * @param block The configuration block for Edge driver service.
      */
-    @KolibriumDsl
     override fun driverService(block: EdgeDriverServiceScope.() -> Unit) {
         driverServiceScope.apply {
             block()
@@ -46,7 +45,6 @@ public class EdgeDriverScope internal constructor() : DriverScope<EdgeDriverServ
      *
      * @param block The configuration block for Edge browser options.
      */
-    @KolibriumDsl
     override fun options(block: EdgeOptionsScope.() -> Unit) {
         optionsScope.apply {
             block()

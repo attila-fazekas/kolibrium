@@ -82,7 +82,6 @@ public class FirefoxPreferencesScope internal constructor() : PreferencesScope<F
      * @param key The preference key represented by a [FirefoxPreference] instance.
      * @param value The preference value to be associated with the key.
      */
-    @KolibriumDsl
     override fun pref(
         key: FirefoxPreference,
         value: Any,
@@ -96,7 +95,6 @@ public class FirefoxPreferencesScope internal constructor() : PreferencesScope<F
      * @param key The preference key as a string.
      * @param value The preference value to be associated with the key.
      */
-    @KolibriumDsl
     override fun pref(
         key: String,
         value: Any,

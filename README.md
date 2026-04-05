@@ -24,6 +24,10 @@ Kolibrium is a unified, Kotlin-first testing ecosystem where API, browser, and m
 
 Kolibrium is divided into modules that can be used independently or together as an integrated stack.
 
+## Annotations
+
+Shared annotations (`@InternalKolibriumApi`, `@KolibriumDsl`) for other modules to use.
+
 ## API
 
 Compile-time type-safe REST clients via KSP code generation. Define endpoints declaratively; the processor generates type-safe client methods, handles serialization and deserialization via kotlinx.serialization, manages authentication, and generates test harness functions and request body DSL builders.
