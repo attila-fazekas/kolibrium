@@ -30,7 +30,6 @@ import java.util.Date
  * @param block The configuration block that defines cookie operations within the [CookiesScope].
  * @return The [WebDriver] instance for method chaining.
  */
-@KolibriumDsl
 public fun WebDriver.cookies(
     refreshPage: Boolean = false,
     block: CookiesScope.() -> Unit,

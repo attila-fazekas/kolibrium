@@ -16,14 +16,11 @@
 
 package dev.kolibrium.selenium.dsl
 
-import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
 import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.withDriver
 import org.openqa.selenium.WebDriver
-import kotlin.time.Duration
-import kotlin.time.TimeSource
 
 /**
  * Unified test harness that creates a WebDriver session for the given [Site] and runs the test flow.
@@ -57,7 +54,6 @@ import kotlin.time.TimeSource
  * @param tearDown Cleans up the test context after the test body; runs even if the test fails.
  * @param block Main test body executed with a [SiteEntry] receiver and the prepared value.
  */
-@KolibriumDsl
 public fun <S : Site, T> seleniumTest(
     site: S,
     driverFactory: DriverFactory,
@@ -81,7 +77,6 @@ public fun <S : Site, T> seleniumTest(
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param block Main test body executed with a [SiteEntry] receiver.
  */
-@KolibriumDsl
 public fun <S : Site> seleniumTest(
     site: S,
     driverFactory: DriverFactory,

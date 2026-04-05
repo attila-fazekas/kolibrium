@@ -16,7 +16,6 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.annotations.KolibriumDsl
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver
@@ -37,7 +36,6 @@ import io.appium.java_client.ios.IOSDriver
  * @param tearDown Cleans up after the test body; runs even if the test fails.
  * @param block Main test body executed with an [AppScope] receiver and the prepared value.
  */
-@KolibriumDsl
 public fun <A : App, T> appiumTest(
     app: A,
     driverFactory: AppiumDriverFactory,
@@ -64,7 +62,6 @@ public fun <A : App, T> appiumTest(
  * @param deepLink The deep link URL to navigate to after session creation.
  * @param block Main test body executed with an [AppScope] receiver.
  */
-@KolibriumDsl
 public fun <A : App> appiumTest(
     app: A,
     driverFactory: AppiumDriverFactory,
@@ -143,7 +140,6 @@ private fun App.iosDeepLinkParams(deepLink: String): Map<String, String?> {
  * @param driverFactory Optional override for the driver factory; defaults to [AndroidApp.driverFactory].
  * @param block The test body executed with an [AppScope] receiver.
  */
-@KolibriumDsl
 public fun <A : AndroidApp> androidTest(
     app: A,
     driverFactory: AndroidDriverFactory = app.driverFactory,
@@ -172,7 +168,6 @@ public fun <A : AndroidApp> androidTest(
  * @param deepLink The deep link URL to navigate to before the test body runs.
  * @param block The test body executed with an [AppScope] receiver.
  */
-@KolibriumDsl
 public fun <A : AndroidApp> androidTest(
     app: A,
     driverFactory: AndroidDriverFactory = app.driverFactory,
@@ -198,7 +193,6 @@ public fun <A : AndroidApp> androidTest(
  * @param driverFactory Optional override for the driver factory; defaults to [IosApp.driverFactory].
  * @param block The test body executed with an [AppScope] receiver.
  */
-@KolibriumDsl
 public fun <A : IosApp> iosTest(
     app: A,
     driverFactory: IosDriverFactory = app.driverFactory,
@@ -227,7 +221,6 @@ public fun <A : IosApp> iosTest(
  * @param deepLink The deep link URL to navigate to before the test body runs.
  * @param block The test body executed with an [AppScope] receiver.
  */
-@KolibriumDsl
 public fun <A : IosApp> iosTest(
     app: A,
     driverFactory: IosDriverFactory = app.driverFactory,
@@ -253,7 +246,6 @@ public fun <A : IosApp> iosTest(
  * @param driverFactory The explicit driver factory to use for this run.
  * @param block The test body executed with an [AppScope] receiver.
  */
-@KolibriumDsl
 public fun <A : CrossPlatformApp> appiumTest(
     app: A,
     driverFactory: AppiumDriverFactory,

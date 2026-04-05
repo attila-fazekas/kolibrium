@@ -33,7 +33,6 @@ public class FirefoxDriverScope internal constructor() : DriverScope<GeckoDriver
      *
      * @param block The configuration block for Gecko driver service.
      */
-    @KolibriumDsl
     override fun driverService(block: GeckoDriverServiceScope.() -> Unit) {
         driverServiceScope.apply {
             block()
@@ -46,7 +45,6 @@ public class FirefoxDriverScope internal constructor() : DriverScope<GeckoDriver
      *
      * @param block The configuration block for Firefox browser options.
      */
-    @KolibriumDsl
     override fun options(block: FirefoxOptionsScope.() -> Unit) {
         optionsScope.apply {
             block()

@@ -33,7 +33,6 @@ public class SafariDriverScope internal constructor() : DriverScope<SafariDriver
      *
      * @param block The configuration block for Safari driver service.
      */
-    @KolibriumDsl
     override fun driverService(block: SafariDriverServiceScope.() -> Unit) {
         driverServiceScope.apply {
             block()
@@ -46,7 +45,6 @@ public class SafariDriverScope internal constructor() : DriverScope<SafariDriver
      *
      * @param block The configuration block for Safari browser options.
      */
-    @KolibriumDsl
     override fun options(block: SafariOptionsScope.() -> Unit) {
         optionsScope.apply {
             block()

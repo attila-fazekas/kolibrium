@@ -31,7 +31,6 @@ import org.openqa.selenium.interactions.Actions
  * @param batchActions When true (default), actions are collected and executed together at the end; when false, each is performed immediately.
  * @param block The actions to be performed within the DSL scope.
  */
-@KolibriumDsl
 public fun WebDriver.actions(
     batchActions: Boolean = true,
     block: ActionsScope.() -> Unit,

@@ -22,5 +22,5 @@ package dev.kolibrium.annotations
  * Apply to DSL receivers (classes/objects), functions, and properties participating in the user-facing flow.
  */
 @DslMarker
-@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.CLASS)
 public annotation class KolibriumDsl

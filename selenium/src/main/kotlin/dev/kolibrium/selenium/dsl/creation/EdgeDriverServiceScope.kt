@@ -53,7 +53,6 @@ public class EdgeDriverServiceScope internal constructor(
      *
      * @param block The configuration block for specifying allowed IP addresses.
      */
-    @KolibriumDsl
     override fun allowedIps(block: AllowedIpsScope.() -> Unit) {
         super.allowedIps(block)
         builder.withAllowedListIps(allowedIpsScope.allowedIps.joinToString(separator = ", "))

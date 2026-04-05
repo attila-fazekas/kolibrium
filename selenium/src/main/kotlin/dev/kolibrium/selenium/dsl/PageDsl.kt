@@ -54,7 +54,6 @@ public class PageScope<P : Page<*>> internal constructor(
      * @param Next the type of the next page produced by [action]
      * @param action operation to perform on the current page that returns the next page
      */
-    @KolibriumDsl
     public fun <Next : Page<*>> on(action: P.() -> Next): PageScope<Next> =
         withDriver(entry.driver) {
             page.assertReady()
@@ -67,7 +66,6 @@ public class PageScope<P : Page<*>> internal constructor(
      *
      * The page is ensured to be ready before assertions are executed.
      */
-    @KolibriumDsl
     public fun verify(assertions: P.() -> Unit): PageScope<P> =
         apply {
             withDriver(entry.driver) {
@@ -81,7 +79,6 @@ public class PageScope<P : Page<*>> internal constructor(
      *
      * The page is ensured to be ready before the action runs.
      */
-    @KolibriumDsl
     public fun then(action: P.() -> Unit): PageScope<P> =
         apply {
             withDriver(entry.driver) {
@@ -302,7 +299,6 @@ public class SwitchBackScope<P : Page<*>> internal constructor(
      *
      * @return a [PageScope] bound to the original page to continue the flow
      */
-    @KolibriumDsl
     public fun switchBack(block: P.() -> Unit): PageScope<P> {
         // Ensure thread confinement for this driver-bound operation
         SessionContext.get()?.assertThreadOrFail("SwitchBackScope.switchBack")

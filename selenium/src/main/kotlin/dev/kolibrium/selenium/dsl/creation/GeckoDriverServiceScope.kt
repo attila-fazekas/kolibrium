@@ -81,7 +81,6 @@ public class GeckoDriverServiceScope internal constructor(
      *
      * @param block The configuration block for specifying allowed hosts.
      */
-    @KolibriumDsl
     public fun allowedHosts(block: AllowedHostsScope.() -> Unit) {
         allowedHostsScope.apply(block)
         builder.withAllowHosts(allowedHostsScope.allowedHosts.joinToString(separator = " "))

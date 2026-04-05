@@ -16,7 +16,6 @@
 
 package dev.kolibrium.selenium.dsl.actions
 
-import dev.kolibrium.annotations.KolibriumDsl
 import org.openqa.selenium.WebElement
 
 /**
@@ -26,7 +25,6 @@ import org.openqa.selenium.WebElement
  * @receiver The [ActionsScope] on which this scroll operation is performed.
  * @param element The [WebElement] to scroll to.
  */
-@KolibriumDsl
 public fun ActionsScope.scrollTo(element: WebElement) {
     actions.scrollToElement(element)
     if (batchActions) {
@@ -41,7 +39,6 @@ public fun ActionsScope.scrollTo(element: WebElement) {
  * @param amount The number of pixels to scroll down. Must be greater than zero.
  * @throws IllegalArgumentException if the amount is not greater than zero.
  */
-@KolibriumDsl
 public fun ActionsScope.scrollDown(amount: Int) {
     validateInput(amount)
     actions.scrollByAmount(0, amount)
@@ -57,7 +54,6 @@ public fun ActionsScope.scrollDown(amount: Int) {
  * @param amount The number of pixels to scroll up. Must be greater than zero.
  * @throws IllegalArgumentException if the amount is not greater than zero.
  */
-@KolibriumDsl
 public fun ActionsScope.scrollUp(amount: Int) {
     validateInput(amount)
     actions.scrollByAmount(0, -amount)
@@ -73,7 +69,6 @@ public fun ActionsScope.scrollUp(amount: Int) {
  * @param amount The number of pixels to scroll right. Must be greater than zero.
  * @throws IllegalArgumentException if the amount is not greater than zero.
  */
-@KolibriumDsl
 public fun ActionsScope.scrollRight(amount: Int) {
     validateInput(amount)
     actions.scrollByAmount(amount, 0)
@@ -89,7 +84,6 @@ public fun ActionsScope.scrollRight(amount: Int) {
  * @param amount The number of pixels to scroll left. Must be greater than zero.
  * @throws IllegalArgumentException if the amount is not greater than zero.
  */
-@KolibriumDsl
 public fun ActionsScope.scrollLeft(amount: Int) {
     validateInput(amount)
     actions.scrollByAmount(-amount, 0)

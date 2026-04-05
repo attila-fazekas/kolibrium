@@ -33,22 +33,6 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class KonsistTest {
-    @Test
-    fun `public functions should be annotated with @KolibriumDsl`() {
-        Konsist
-            .scopeFromPackage("dev.kolibrium.selenium.dsl..")
-            .functions()
-            .withPublicModifier()
-            .withoutOperatorModifier()
-            .filter {
-                it.hasModifier(COMPANION)
-            }.assertTrue {
-                it.hasAnnotation { koAnnotationDeclaration ->
-                    koAnnotationDeclaration.name == "KolibriumDsl"
-                }
-            }
-    }
-
     @Disabled
     @Test
     fun `public classes should be annotated with @KolibriumDsl`() {

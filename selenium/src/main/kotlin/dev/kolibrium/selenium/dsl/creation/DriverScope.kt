@@ -16,8 +16,6 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.annotations.KolibriumDsl
-
 /**
  * Base scope class for WebDriver configuration providing driver service and options customization.
  *
@@ -33,7 +31,6 @@ public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScop
      *
      * @param block The configuration block for driver service.
      */
-    @KolibriumDsl
     public abstract fun driverService(block: DS.() -> Unit)
 
     /**
@@ -41,6 +38,5 @@ public sealed class DriverScope<out DS : DriverServiceScope, out O : OptionsScop
      *
      * @param block The configuration block for browser options.
      */
-    @KolibriumDsl
     public abstract fun options(block: O.() -> Unit)
 }

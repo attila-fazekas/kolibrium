@@ -16,7 +16,6 @@
 
 package dev.kolibrium.selenium.dsl.interactions
 
-import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.dsl.internal.normalizePath
 import org.openqa.selenium.WebDriver
 
@@ -29,7 +28,6 @@ import org.openqa.selenium.WebDriver
  * @receiver The [WebDriver] instance to perform navigation with.
  * @param relativePath The path to navigate to; may be a relative path or an absolute URL.
  */
-@KolibriumDsl
 public fun WebDriver.navigateTo(relativePath: String) {
     val path = relativePath.trim()
     if (path.startsWith("http://") || path.startsWith("https://")) {

@@ -16,7 +16,6 @@
 
 package dev.kolibrium.selenium.dsl.interactions
 
-import dev.kolibrium.annotations.KolibriumDsl
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
@@ -31,7 +30,6 @@ import org.openqa.selenium.WebElement
  * @param iframe The iframe [WebElement] to switch into.
  * @param block The code block to execute within the iframe context.
  */
-@KolibriumDsl
 public fun WebDriver.iframe(
     iframe: WebElement,
     block: () -> Unit,
