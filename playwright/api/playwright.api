@@ -1,0 +1,66 @@
+public final class dev/kolibrium/playwright/AssertionsKt {
+	public static final fun shouldBeVisible (Lcom/microsoft/playwright/Locator;)V
+	public static final fun shouldHaveText (Lcom/microsoft/playwright/Locator;Ljava/lang/String;)V
+}
+
+public final class dev/kolibrium/playwright/BrowserType : java/lang/Enum {
+	public static final field Chromium Ldev/kolibrium/playwright/BrowserType;
+	public static final field Firefox Ldev/kolibrium/playwright/BrowserType;
+	public static final field WebKit Ldev/kolibrium/playwright/BrowserType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/playwright/BrowserType;
+	public static fun values ()[Ldev/kolibrium/playwright/BrowserType;
+}
+
+public final class dev/kolibrium/playwright/HelpersKt {
+	public static final fun waitForResponseContaining (Lcom/microsoft/playwright/Page;Ljava/lang/String;Ljava/lang/Double;Lkotlin/jvm/functions/Function0;)Lcom/microsoft/playwright/Response;
+	public static synthetic fun waitForResponseContaining$default (Lcom/microsoft/playwright/Page;Ljava/lang/String;Ljava/lang/Double;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lcom/microsoft/playwright/Response;
+	public static final fun withDownload (Lcom/microsoft/playwright/Page;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+	public static final fun withPopup (Lcom/microsoft/playwright/Page;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
+}
+
+public final class dev/kolibrium/playwright/KolibriumConfig {
+	public fun <init> ()V
+	public fun <init> (ZLjava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (ZLjava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getRecordTrace ()Z
+	public final fun getTestName ()Ljava/lang/String;
+	public final fun getTraceDir ()Ljava/lang/String;
+}
+
+public final class dev/kolibrium/playwright/PageScope {
+	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/playwright/PageScope;
+	public final fun then (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/playwright/PageScope;
+}
+
+public abstract class dev/kolibrium/playwright/PlaywrightPage {
+	public fun <init> ()V
+	public fun assertReady ()V
+	public fun awaitReady ()V
+	protected final fun getPage ()Lcom/microsoft/playwright/Page;
+}
+
+public abstract class dev/kolibrium/playwright/PlaywrightSite {
+	public fun <init> (Ljava/lang/String;)V
+	public final fun getBaseUrl ()Ljava/lang/String;
+	public fun getCookies ()Ljava/util/List;
+	public fun onSessionReady (Lcom/microsoft/playwright/Page;)V
+}
+
+public final class dev/kolibrium/playwright/SiteScope {
+	public final fun addCookie (Lcom/microsoft/playwright/options/Cookie;)V
+	public final fun addCookies (Ljava/util/List;)V
+	public final fun clearCookie (Ljava/lang/String;)V
+	public final fun clearCookies ()V
+	public final fun cookies ()Ljava/util/List;
+	public final fun cookies ([Ljava/lang/String;)Ljava/util/List;
+	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/playwright/PageScope;
+}
+
+public final class dev/kolibrium/playwright/TestHarnessKt {
+	public static final fun playwrightTest (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)V
+	public static final fun playwrightTest (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun playwrightTest$default (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun playwrightTest$default (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+}
+

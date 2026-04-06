@@ -19,7 +19,6 @@ package dev.kolibrium.selenium.core
 import dev.kolibrium.selenium.core.decorators.AbstractDecorator
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElements
-import dev.kolibrium.webdriver.isDisplayed
 import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
