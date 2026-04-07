@@ -29,6 +29,7 @@ include("examples")
 include("examples:api")
 include("examples:sel")
 include("konsistTest")
+include("playwright")
 include("selenium")
 include("webdriver")
 
