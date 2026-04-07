@@ -56,10 +56,12 @@ See [Kolibrium website](https://kolibrium.dev/docs/category/selenium) for detail
 
 See [appium/README.md](appium/README.md) for detailed Appium module documentation.
 
-## Playwright *(planned)*
+## Playwright
 
-- `kolibrium-playwright` *(planned)*: lightweight test harness, Site/PageObject base classes, and Playwright lifecycle management
+- `kolibrium-playwright`: lightweight test harness, Site/PageObject base classes, and Playwright lifecycle management
 - `kolibrium-playwright-ksp` *(planned)*: KSP processor for test harness code generation
+
+See [playwright/README.md](playwright/README.md) for detailed Playwright module documentation.
 
 # Unified Architecture
 

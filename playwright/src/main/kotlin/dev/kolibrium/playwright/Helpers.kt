@@ -19,6 +19,7 @@ package dev.kolibrium.playwright
 import com.microsoft.playwright.Download
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.Response
+import kotlin.time.Duration
 
 /**
  * Waits for a popup [Page] triggered by [trigger], passes it to [use], and closes it afterwards.
@@ -29,6 +30,14 @@ import com.microsoft.playwright.Response
  * @param trigger The action that causes the popup to open (e.g., clicking a link with `target="_blank"`).
  * @param use The block that receives the popup [Page] and returns a result.
  * @return The result of [use].
+ *
+ * Example:
+ * ```kotlin
+ * val title = page.withPopup(
+ *     trigger = { page.click("a[target='_blank']") },
+ *     use = { popup -> popup.title() },
+ * )
+ * ```
  */
 public inline fun <T> Page.withPopup(
     crossinline trigger: () -> Unit,
@@ -52,6 +61,14 @@ public inline fun <T> Page.withPopup(
  * @param trigger The action that initiates the download (e.g., clicking a download link).
  * @param use The block that receives the [Download] and returns a result.
  * @return The result of [use].
+ *
+ * Example:
+ * ```kotlin
+ * val path = page.withDownload(
+ *     trigger = { page.click("#download-btn") },
+ *     use = { download -> download.path() },
+ * )
+ * ```
  */
 public inline fun <T> Page.withDownload(
     crossinline trigger: () -> Unit,
@@ -65,21 +82,35 @@ public inline fun <T> Page.withDownload(
  * Waits for a network [Response] whose URL contains [substring] while executing [trigger].
  *
  * @param substring The substring to match against response URLs.
- * @param timeoutMs Optional timeout in milliseconds. Uses Playwright's default if `null`.
+ * @param timeout Optional timeout as a [Duration]. Uses Playwright's default if `null`.
  * @param trigger The action that causes the network request (e.g., clicking a submit button).
  * @return The first matching [Response].
+ *
+ * Example:
+ * ```kotlin
+ * // With Playwright's default timeout:
+ * val response = page.waitForResponseContaining("/api/products") {
+ *     page.click("#load-more")
+ * }
+ *
+ * // With a custom timeout:
+ * val response = page.waitForResponseContaining("/api/products", timeout = 10.seconds) {
+ *     page.click("#load-more")
+ * }
+ * ```
  */
 public fun Page.waitForResponseContaining(
     substring: String,
-    timeoutMs: Double? = null,
+    timeout: Duration? = null,
     trigger: () -> Unit,
 ): Response =
-    if (timeoutMs != null) {
-        waitForResponse({ r: Response -> r.url().contains(substring) }, Page.WaitForResponseOptions().setTimeout(timeoutMs)) {
-            trigger()
-        }
+    if (timeout != null) {
+        waitForResponse(
+            { response -> response.url().contains(substring) },
+            Page.WaitForResponseOptions().setTimeout(timeout.inWholeMilliseconds.toDouble()),
+        ) { trigger() }
     } else {
-        waitForResponse({ r: Response -> r.url().contains(substring) }) {
+        waitForResponse({ response -> response.url().contains(substring) }) {
             trigger()
         }
     }

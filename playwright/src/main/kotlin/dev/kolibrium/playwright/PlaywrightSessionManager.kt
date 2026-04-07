@@ -16,13 +16,12 @@
 
 package dev.kolibrium.playwright
 
-import com.microsoft.playwright.BrowserContext
 import com.microsoft.playwright.Page
 
 /**
  * Per-session runtime context for the Playwright module.
  *
- * Holds the Playwright [page], [context], and the [site] configuration the session operates under.
+ * Holds the Playwright [page] and the [site] configuration the session operates under.
  * Each session is strictly confined to the thread that created it; call [assertThreadOrFail] before
  * every Playwright operation to enforce this.
  *
@@ -30,7 +29,6 @@ import com.microsoft.playwright.Page
  */
 internal class PlaywrightSession internal constructor(
     val page: Page,
-    val context: BrowserContext,
     val site: PlaywrightSite,
 ) {
     internal val owningThread: Thread = Thread.currentThread()

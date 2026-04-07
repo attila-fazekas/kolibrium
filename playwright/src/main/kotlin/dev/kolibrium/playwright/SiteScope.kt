@@ -21,14 +21,12 @@ import com.microsoft.playwright.Page
 import com.microsoft.playwright.options.Cookie
 import dev.kolibrium.annotations.KolibriumDsl
 
-// ... existing code ...
-
 /**
  * Top-level DSL scope for a Playwright test session bound to a [PlaywrightSite].
  *
  * Provides page navigation via [on] and runtime cookie management for the active
  * [BrowserContext]. All operations are guarded by thread confinement checks when a
- * [PlaywrightSession][PlaywrightSession] is active.
+ * [PlaywrightSession] is active.
  *
  * Instances are created internally by the harness ([playwrightTestImpl]) and supplied
  * as the receiver of the user's test block.
@@ -46,13 +44,13 @@ import dev.kolibrium.annotations.KolibriumDsl
  *
  * @param S The concrete [PlaywrightSite] type this scope operates on.
  * @param page The Playwright [Page] for the current session.
- * @param context The Playwright [BrowserContext] for the current session.
  */
 @KolibriumDsl
 public class SiteScope<S : PlaywrightSite> internal constructor(
     private val page: Page,
-    private val context: BrowserContext,
 ) {
+    private val context: BrowserContext get() = page.context()
+
     /**
      * Creates a page object via [factory], runs readiness checks, executes [action] on it,
      * and returns a [PageScope] for chaining further page transitions.
@@ -69,7 +67,7 @@ public class SiteScope<S : PlaywrightSite> internal constructor(
         val pageObject = factory()
         ensureReady(pageObject)
         pageObject.action()
-        return PageScope(pageObject, page, context)
+        return PageScope(pageObject, page)
     }
 
     /**

@@ -36,7 +36,7 @@ import java.nio.file.Paths
  * @property traceDir Directory where failure traces are written. Relative paths are resolved
  *           against the project working directory.
  * @property testName Optional name used in the trace file on failure. When `null`, the name is
- *           inferred from the call stack. KSP-generated harness functions can supply this automatically.
+ *           inferred from the call stack.
  */
 public class KolibriumConfig(
     public val recordTrace: Boolean = false,
@@ -119,20 +119,20 @@ internal fun <S : PlaywrightSite, T> playwrightTestImpl(
 
     try {
         Playwright.create().use { playwright ->
-            val browser = launchBrowser(playwright, browserType, launchOptions)
-            browser.use {
-                val context = it.newContext(contextOptions ?: NewContextOptions())
-                if (config.recordTrace) startTracing(context)
+            val browser = playwright.launchBrowser(browserType, launchOptions)
+            browser.use { browser ->
+                val context = browser.newContext(contextOptions ?: NewContextOptions())
+                if (config.recordTrace) context.startTracing()
 
                 var failed = false
                 try {
                     val page = initializePage(context, site)
-                    runTestBlock(page, context, site, prepared, block)
+                    runTestBlock(page, site, prepared, block)
                 } catch (e: Throwable) {
                     failed = true
                     throw e
                 } finally {
-                    if (config.recordTrace) stopTracing(context, failed, config)
+                    if (config.recordTrace) context.stopTracing(failed, config)
                 }
             }
         }
@@ -144,31 +144,28 @@ internal fun <S : PlaywrightSite, T> playwrightTestImpl(
     }
 }
 
-private fun launchBrowser(
-    playwright: Playwright,
+private fun Playwright.launchBrowser(
     browserType: BrowserType,
     launchOptions: LaunchOptions?,
-): Browser {
-    val bt =
-        when (browserType) {
-            BrowserType.Chromium -> playwright.chromium()
-            BrowserType.Firefox -> playwright.firefox()
-            BrowserType.WebKit -> playwright.webkit()
-        }
-    return bt.launch(launchOptions ?: LaunchOptions())
-}
+): Browser =
+    when (browserType) {
+        BrowserType.Chromium -> chromium()
+        BrowserType.Firefox -> firefox()
+        BrowserType.WebKit -> webkit()
+    }.run {
+        launch(launchOptions ?: LaunchOptions())
+    }
 
 private fun <S : PlaywrightSite> initializePage(
     context: BrowserContext,
     site: S,
 ): Page {
-    val page = context.newPage()
-    page.navigate(site.baseUrl)
-
     if (site.cookies.isNotEmpty()) {
         context.addCookies(site.cookies)
-        page.reload()
     }
+
+    val page = context.newPage()
+    page.navigate(site.baseUrl)
 
     site.onSessionReady(page)
     return page
@@ -176,16 +173,15 @@ private fun <S : PlaywrightSite> initializePage(
 
 private fun <S : PlaywrightSite, T> runTestBlock(
     page: Page,
-    context: BrowserContext,
     site: S,
     prepared: T,
     block: SiteScope<S>.(T) -> Unit,
 ) {
-    val session = PlaywrightSession(page, context, site)
+    val session = PlaywrightSession(page, site)
     PlaywrightSessionContext.withSession(session) {
         PlaywrightPageContextHolder.set(page)
         try {
-            val scope = SiteScope<S>(page, context)
+            val scope = SiteScope<S>(page)
             scope.block(prepared)
         } finally {
             PlaywrightPageContextHolder.clear()
@@ -193,8 +189,8 @@ private fun <S : PlaywrightSite, T> runTestBlock(
     }
 }
 
-private fun startTracing(context: BrowserContext) {
-    context.tracing().start(
+private fun BrowserContext.startTracing() {
+    tracing().start(
         Tracing
             .StartOptions()
             .setScreenshots(true)
@@ -202,8 +198,7 @@ private fun startTracing(context: BrowserContext) {
     )
 }
 
-private fun stopTracing(
-    context: BrowserContext,
+private fun BrowserContext.stopTracing(
     failed: Boolean,
     config: KolibriumConfig,
 ) {
@@ -212,9 +207,9 @@ private fun stopTracing(
         val timestamp = System.currentTimeMillis()
         val tracePath = Paths.get("${config.traceDir}/${sanitizeFileName(name)}_$timestamp.zip")
         tracePath.parent?.toFile()?.mkdirs()
-        context.tracing().stop(Tracing.StopOptions().setPath(tracePath))
+        tracing().stop(Tracing.StopOptions().setPath(tracePath))
     } else {
-        context.tracing().stop()
+        tracing().stop()
     }
 }
 
@@ -240,20 +235,16 @@ private fun <T> safeTearDown(
  * Returns the method name (e.g., "add item to cart") or a timestamp fallback if detection fails.
  * This is intended for trace file naming, not for correctness-critical logic.
  */
-internal fun inferTestName(): String {
-    val stackTrace = Thread.currentThread().stackTrace
-    for (frame in stackTrace) {
-        try {
-            val clazz = Class.forName(frame.className)
-            val method = clazz.declaredMethods.firstOrNull { it.name == frame.methodName }
-            if (method != null && method.annotations.any { it.annotationClass.simpleName == "Test" }) {
-                return frame.methodName
-            }
-        } catch (_: Throwable) {
-            // Class not loadable, or method not found — skip
-        }
-    }
-    return "trace_${System.currentTimeMillis()}"
-}
+internal fun inferTestName(): String =
+    Thread
+        .currentThread()
+        .stackTrace
+        .firstNotNullOfOrNull { frame ->
+            runCatching {
+                val clazz = Class.forName(frame.className)
+                val method = clazz.declaredMethods.firstOrNull { it.name == frame.methodName }
+                method?.takeIf { m -> m.annotations.any { it.annotationClass.simpleName == "Test" } }?.name
+            }.getOrNull()
+        } ?: "trace_${System.currentTimeMillis()}"
 
 private fun sanitizeFileName(name: String): String = name.replace(Regex("[^a-zA-Z0-9._-]"), "_")

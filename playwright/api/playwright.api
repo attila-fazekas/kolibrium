@@ -13,8 +13,8 @@ public final class dev/kolibrium/playwright/BrowserType : java/lang/Enum {
 }
 
 public final class dev/kolibrium/playwright/HelpersKt {
-	public static final fun waitForResponseContaining (Lcom/microsoft/playwright/Page;Ljava/lang/String;Ljava/lang/Double;Lkotlin/jvm/functions/Function0;)Lcom/microsoft/playwright/Response;
-	public static synthetic fun waitForResponseContaining$default (Lcom/microsoft/playwright/Page;Ljava/lang/String;Ljava/lang/Double;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lcom/microsoft/playwright/Response;
+	public static final fun waitForResponseContaining-5_5nbZA (Lcom/microsoft/playwright/Page;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function0;)Lcom/microsoft/playwright/Response;
+	public static synthetic fun waitForResponseContaining-5_5nbZA$default (Lcom/microsoft/playwright/Page;Ljava/lang/String;Lkotlin/time/Duration;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Lcom/microsoft/playwright/Response;
 	public static final fun withDownload (Lcom/microsoft/playwright/Page;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
 	public static final fun withPopup (Lcom/microsoft/playwright/Page;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
 }

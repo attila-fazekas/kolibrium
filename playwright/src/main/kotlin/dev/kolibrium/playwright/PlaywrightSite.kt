@@ -41,8 +41,9 @@ public abstract class PlaywrightSite(
     /**
      * Declarative cookies applied to every new browser context for this site.
      *
-     * Applied by the framework after the initial navigation to [baseUrl] (to establish origin),
-     * so the server sees them on the next request.
+     * Applied by the framework to the [BrowserContext][com.microsoft.playwright.BrowserContext]
+     * before the first page is created or navigated, so the server sees them on the
+     * very first request to [baseUrl].
      *
      * Each [Cookie] must have its `url` or `domain`+`path` set as required by Playwright.
      *

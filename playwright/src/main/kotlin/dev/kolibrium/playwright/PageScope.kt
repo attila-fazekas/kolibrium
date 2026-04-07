@@ -16,7 +16,6 @@
 
 package dev.kolibrium.playwright
 
-import com.microsoft.playwright.BrowserContext
 import com.microsoft.playwright.Page
 import dev.kolibrium.annotations.KolibriumDsl
 
@@ -30,13 +29,11 @@ import dev.kolibrium.annotations.KolibriumDsl
  * @param P The current page object type.
  * @property pageObject The current page object.
  * @property page The underlying Playwright [Page] for the current session.
- * @property context The underlying Playwright [BrowserContext] for the current session.
  */
 @KolibriumDsl
 public class PageScope<S : PlaywrightSite, P : PlaywrightPage<S>> internal constructor(
     internal val pageObject: P,
     internal val page: Page,
-    internal val context: BrowserContext,
 ) {
     /**
      * Transitions to a new page object, runs readiness checks, and executes [action] on it.
@@ -53,7 +50,7 @@ public class PageScope<S : PlaywrightSite, P : PlaywrightPage<S>> internal const
         val next = factory()
         ensureReady(next)
         next.action()
-        return PageScope(next, page, context)
+        return PageScope(next, page)
     }
 
     /**

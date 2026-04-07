@@ -67,8 +67,6 @@ public abstract class PlaywrightPage<S : PlaywrightSite> {
         }
 }
 
-// ... existing code ...
-
 /**
  * Runs the readiness lifecycle for a [PlaywrightPage]: thread confinement check,
  * then [PlaywrightPage.awaitReady] followed by [PlaywrightPage.assertReady].
