@@ -59,7 +59,7 @@ public abstract class PlaywrightPage<S : PlaywrightSite> {
     protected val page: Page
         get() {
             SessionContext.get()?.assertThreadOrFail("PlaywrightPage.page")
-            return PlaywrightPageContextHolder.get() ?: error(
+            return PageContextHolder.get() ?: error(
                 "Kolibrium runtime error: PlaywrightPage '${this::class.simpleName ?: "<unknown>"}' " +
                     "has no active Playwright Page context.\n" +
                     "Run page interactions inside Kolibrium DSL (e.g., playwrightTest → on).",

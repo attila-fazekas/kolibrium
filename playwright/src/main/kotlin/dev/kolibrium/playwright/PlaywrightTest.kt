@@ -179,12 +179,12 @@ private fun <S : PlaywrightSite, T> runTestBlock(
 ) {
     val session = Session(page, site)
     SessionContext.withSession(session) {
-        PlaywrightPageContextHolder.set(page)
+        PageContextHolder.set(page)
         try {
             val scope = SiteScope<S>(page)
             scope.block(prepared)
         } finally {
-            PlaywrightPageContextHolder.clear()
+            PageContextHolder.clear()
         }
     }
 }

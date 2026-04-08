@@ -24,7 +24,7 @@ import com.microsoft.playwright.Page
  * This is the lightweight accessor used by [PlaywrightPage] to obtain the contextual page.
  * For full session access (thread checks, context, site), see [SessionContext].
  */
-internal object PlaywrightPageContextHolder {
+internal object PageContextHolder {
     private val tl: ThreadLocal<Page?> = ThreadLocal()
 
     internal fun get(): Page? = tl.get()
