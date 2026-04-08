@@ -418,7 +418,7 @@ class LocatorDelegatesTest {
     }
 
     // Test Page Object
-    private class TestPage : Page<Site>() {
+    private class TestPage : SeleniumPage<SeleniumSite>() {
         val headerById by id("header")
         val submitButton by cssSelector("button.btn-primary")
         val usernameInput by dataTest("username-input")
@@ -471,12 +471,12 @@ class LocatorDelegatesTest {
     }
 
     // Test Page with Site context
-    private class TestPageWithSite : Page<TestSite>() {
+    private class TestPageWithSite : SeleniumPage<TestSite>() {
         val patientElement by id("header")
     }
 
     // Test Site
-    private class TestSite : Site("file://test") {
+    private class TestSite : SeleniumSite("file://test") {
         override val waitConfig = WaitConfig.Patient
     }
 }

@@ -16,10 +16,10 @@
 
 package dev.kolibrium.examples.selenium.saucedemo.pages.twitter
 
-import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.examples.selenium.saucedemo.Twitter
 
-class FeedPage : Page<Twitter>() {
+class FeedPage : SeleniumPage<Twitter>() {
     override fun assertReady() {
         assert(pageTitle == "Sauce Labs (@saucelabs) / X")
     }

@@ -16,15 +16,13 @@
 
 package dev.kolibrium.examples.selenium.saucedemo.pages
 
-import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.core.idOrName
 import dev.kolibrium.selenium.core.name
 import dev.kolibrium.examples.selenium.saucedemo.SauceDemo
 import dev.kolibrium.examples.selenium.saucedemo.User
-import dev.kolibrium.selenium.core.idOrName
-import dev.kolibrium.selenium.core.name
 
-class LoginPage : Page<SauceDemo>() {
+class LoginPage : SeleniumPage<SauceDemo>() {
     private val usernameInput = name("user-name")
     private val passwordInput by idOrName("password")
     private val loginButton by name("login-button")

@@ -19,12 +19,12 @@ package dev.kolibrium.examples.selenium.browserstack.pages
 import dev.kolibrium.examples.selenium.browserstack.BrowserstackDemo
 import dev.kolibrium.examples.selenium.browserstack.Click
 import dev.kolibrium.examples.selenium.browserstack.on
-import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.core.cssSelector
 import dev.kolibrium.selenium.core.cssSelectors
 import org.openqa.selenium.WebElement
 
-class ProductsPage : Page<BrowserstackDemo>() {
+class ProductsPage : SeleniumPage<BrowserstackDemo>() {
     private val shoppingCartBadge by cssSelectors("span[class='bag__quantity']")
 
     fun addToCart(id: Int) {

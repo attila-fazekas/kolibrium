@@ -18,13 +18,13 @@ package dev.kolibrium.examples.selenium.saucedemo.pages
 
 import dev.kolibrium.examples.selenium.saucedemo.Products
 import dev.kolibrium.examples.selenium.saucedemo.SauceDemo
-import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.core.className
 import dev.kolibrium.selenium.core.dataTest
 import dev.kolibrium.selenium.core.dataTests
 
 class InventoryPage :
-    Page<SauceDemo>(),
+    SeleniumPage<SauceDemo>(),
     HasFooter {
     override val path = "inventory.html"
 

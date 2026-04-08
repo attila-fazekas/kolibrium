@@ -27,7 +27,7 @@ import org.openqa.selenium.WebElement
 /**
  * Base configuration for an application under test.
  *
- * A [Site] centralizes cross-cutting defaults and policies for your tests:
+ * A [SeleniumSite] centralizes cross-cutting defaults and policies for your tests:
  * - Where your app lives ([baseUrl])
  * - Which cookies should always be present for a new [WebDriver] session
  * - Default waiting behavior used by pages and element interactions
@@ -49,7 +49,7 @@ import org.openqa.selenium.WebElement
  * @property baseUrl Base URL used by pages and the test DSL to build absolute routes.
  *           Must be provided as a constructor argument by subclasses.
  */
-public abstract class Site(
+public abstract class SeleniumSite(
     public val baseUrl: String,
 ) {
     /**
@@ -119,7 +119,7 @@ public abstract class Site(
 
     /**
      * Imperative, session-aware hook invoked after a [WebDriver] session is created and whenever
-     * the active test switches to this [Site].
+     * the active test switches to this [SeleniumSite].
      *
      * Timing and order:
      * - Called by the DSL after [configureSite()].

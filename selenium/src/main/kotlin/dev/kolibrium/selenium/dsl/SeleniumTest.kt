@@ -16,14 +16,14 @@
 
 package dev.kolibrium.selenium.dsl
 
+import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
-import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.withDriver
 import org.openqa.selenium.WebDriver
 
 /**
- * Unified test harness that creates a WebDriver session for the given [Site] and runs the test flow.
+ * Unified test harness that creates a WebDriver session for the given [SeleniumSite] and runs the test flow.
  *
  * This function provides a structured three-phase lifecycle for Selenium tests:
  * 1. **setUp**: Executes the [setUp] block **before** any WebDriver session exists.
@@ -33,16 +33,16 @@ import org.openqa.selenium.WebDriver
  * Flow:
  * - Executes [setUp] before creating the WebDriver session to compute the input value [T].
  * - Binds a per-driver Session to [site] for the duration of the test thread.
- * - Creates a WebDriver via [driverFactory], navigates to [Site.baseUrl] to establish origin,
- *   applies [Site.cookies] (if any), and re-navigates to [Site.baseUrl] so cookies take effect immediately.
- *   Then calls [Site.configureSite] and [Site.onSessionReady] sequentially.
+ * - Creates a WebDriver via [driverFactory], navigates to [SeleniumSite.baseUrl] to establish origin,
+ *   applies [SeleniumSite.cookies] (if any), and re-navigates to [SeleniumSite.baseUrl] so cookies take effect immediately.
+ *   Then calls [SeleniumSite.configureSite] and [SeleniumSite.onSessionReady] sequentially.
  * - Invokes [block] with a [SiteEntry] receiver in the site's context.
  *
  * Cleanup:
  * - Unless [keepBrowserOpen] is true, the session is closed in a finally block for robustness.
  *
  * Notes:
- * - Do not navigate inside [Site.onSessionReady]; this function performs the initial, predictable navigation.
+ * - Do not navigate inside [SeleniumSite.onSessionReady]; this function performs the initial, predictable navigation.
  *
  * @param S The concrete site type bound to this test.
  * @param T The type of the prepared input value passed to [block].
@@ -54,7 +54,7 @@ import org.openqa.selenium.WebDriver
  * @param tearDown Cleans up the test context after the test body; runs even if the test fails.
  * @param block Main test body executed with a [SiteEntry] receiver and the prepared value.
  */
-public fun <S : Site, T> seleniumTest(
+public fun <S : SeleniumSite, T> seleniumTest(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean = false,
@@ -77,7 +77,7 @@ public fun <S : Site, T> seleniumTest(
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param block Main test body executed with a [SiteEntry] receiver.
  */
-public fun <S : Site> seleniumTest(
+public fun <S : SeleniumSite> seleniumTest(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean = false,
@@ -92,7 +92,7 @@ public fun <S : Site> seleniumTest(
     )
 }
 
-internal fun <S : Site, T> seleniumTestImpl(
+internal fun <S : SeleniumSite, T> seleniumTestImpl(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean,
@@ -113,7 +113,7 @@ internal fun <S : Site, T> seleniumTestImpl(
             driver.get(site.baseUrl)
         }
 
-        val session = Session(driver = driver, site = site)
+        val session = Session(driver = driver, seleniumSite = site)
         SessionContext.withSession(session) {
             site.configureSite()
             site.onSessionReady(driver)

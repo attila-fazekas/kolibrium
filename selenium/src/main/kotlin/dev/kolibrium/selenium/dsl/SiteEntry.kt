@@ -17,14 +17,14 @@
 package dev.kolibrium.selenium.dsl
 
 import dev.kolibrium.annotations.KolibriumDsl
-import dev.kolibrium.selenium.core.Page
-import dev.kolibrium.selenium.core.Site
+import dev.kolibrium.selenium.core.SeleniumPage
+import dev.kolibrium.selenium.core.SeleniumSite
 import org.openqa.selenium.Cookie
 
 /**
  * Site-scoped DSL receiver available inside `seleniumTest { … }` blocks and within `switchTo<S>() { … }`.
  *
- * It represents the entry surface for flows on the active [Site], exposing operations like [open], [on],
+ * It represents the entry surface for flows on the active [SeleniumSite], exposing operations like [open], [on],
  * cookie helpers, and site/window switching through higher-level DSL.
  *
  * Notes
@@ -32,7 +32,7 @@ import org.openqa.selenium.Cookie
  * - Backed by an internal implementation that binds to a live WebDriver session; the driver remains hidden.
  */
 @KolibriumDsl
-public interface SiteEntry<S : Site> {
+public interface SiteEntry<S : SeleniumSite> {
     /** Add a cookie to the current browser session. */
     public fun addCookie(cookie: Cookie)
 
@@ -45,7 +45,7 @@ public interface SiteEntry<S : Site> {
     /**
      * Navigate to the page created by [factory] and run [action] on it, returning the next page scope.
      */
-    public fun <P : Page<S>, R : Page<S>> open(
+    public fun <P : SeleniumPage<S>, R : SeleniumPage<S>> open(
         factory: () -> P,
         path: String? = null,
         action: P.() -> R,
@@ -54,7 +54,7 @@ public interface SiteEntry<S : Site> {
     /**
      * Bind a page created by [factory] to the current tab (no navigation) and run [action].
      */
-    public fun <P : Page<S>, R : Page<S>> on(
+    public fun <P : SeleniumPage<S>, R : SeleniumPage<S>> on(
         factory: () -> P,
         action: P.() -> R,
     ): PageScope<R>

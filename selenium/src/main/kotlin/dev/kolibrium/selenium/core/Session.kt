@@ -20,7 +20,7 @@ import dev.kolibrium.annotations.InternalKolibriumApi
 import org.openqa.selenium.WebDriver
 
 /**
- * Per-driver runtime context. Holds the Selenium [driver] and the immutable [site]
+ * Per-driver runtime context. Holds the Selenium [driver] and the immutable [seleniumSite]
  * configuration the session operates under.
  *
  * Thread-safety: not thread-safe. Each session is confined to the thread that created it.
@@ -28,7 +28,7 @@ import org.openqa.selenium.WebDriver
 @InternalKolibriumApi
 public class Session internal constructor(
     public val driver: WebDriver,
-    public val site: Site,
+    public val seleniumSite: SeleniumSite,
 ) {
     internal val owningThread: Thread = Thread.currentThread()
 

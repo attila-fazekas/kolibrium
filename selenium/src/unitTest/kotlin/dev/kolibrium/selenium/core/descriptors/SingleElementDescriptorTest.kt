@@ -18,7 +18,7 @@ package dev.kolibrium.selenium.core.descriptors
 
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
-import dev.kolibrium.selenium.core.Site
+import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.className
 import dev.kolibrium.selenium.core.cssSelector
 import dev.kolibrium.selenium.core.dataQa
@@ -276,13 +276,13 @@ class SingleElementDescriptorTest {
     @Test
     fun `should use site-level wait config when set`() {
         // Given
-        val site =
-            object : Site("https://example.com") {
+        val seleniumSite =
+            object : SeleniumSite("https://example.com") {
                 override val waitConfig = WaitConfig.Patient
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, site)) {
+        SessionContext.withSession(Session(driver, seleniumSite)) {
             val descriptor =
                 mockSearchContext.cssSelector(
                     value = ".test",
@@ -391,15 +391,15 @@ class SingleElementDescriptorTest {
     @Test
     fun `should handle custom element ready condition from site`() {
         // Given
-        val site =
-            object : Site("https://example.com") {
+        val seleniumSite =
+            object : SeleniumSite("https://example.com") {
                 override val elementReadyCondition: WebElement.() -> Boolean = {
                     isDisplayed && isEnabled
                 }
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, site)) {
+        SessionContext.withSession(Session(driver, seleniumSite)) {
             val descriptor =
                 mockSearchContext.id(
                     value = "custom-ready",
@@ -421,13 +421,13 @@ class SingleElementDescriptorTest {
 
     @Test
     fun `should merge decorators - site first then test with dedup and test winning`() {
-        val site =
-            object : Site("https://example.test") {
+        val seleniumSite =
+            object : SeleniumSite("https://example.test") {
                 override val decorators = listOf(LoggerDecorator())
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, site)) {
+        SessionContext.withSession(Session(driver, seleniumSite)) {
             every { mockSearchContext.findElement(By.id("x")) } returns mockElement
             every { mockElement.isDisplayed } returns true
 

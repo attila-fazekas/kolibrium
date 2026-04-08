@@ -18,10 +18,10 @@ package dev.kolibrium.selenium.dsl
 
 import dev.kolibrium.annotations.InternalKolibriumApi
 import dev.kolibrium.annotations.KolibriumDsl
-import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.SeleniumPage
+import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
-import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.withDriver
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
@@ -31,19 +31,19 @@ import kotlin.reflect.KClass
 private typealias Cookies = Set<Cookie>
 
 /**
- * Scope used as the fluent receiver when working with a [Page] in the Selenium DSL.
+ * Scope used as the fluent receiver when working with a [SeleniumPage] in the Selenium DSL.
  *
  * It ties a concrete [page] instance to the live browser session behind the scenes and
- * provides helpers to continue the flow, assert state, or temporarily switch to another [Site].
+ * provides helpers to continue the flow, assert state, or temporarily switch to another [SeleniumSite].
  *
  * @param P the type of the current page
  * @property page the current page instance bound to the active WebDriver session
  * @property entry internal wiring to the underlying browser session; not intended for direct use
  */
 @KolibriumDsl
-public class PageScope<P : Page<*>> internal constructor(
+public class PageScope<P : SeleniumPage<*>> internal constructor(
     public val page: P,
-    @PublishedApi internal val entry: PageEntry<out Site>,
+    internal val entry: PageEntry<out SeleniumSite>,
 ) {
     /**
      * Execute [action] on the current [page], producing the next page in the flow.
@@ -54,7 +54,7 @@ public class PageScope<P : Page<*>> internal constructor(
      * @param Next the type of the next page produced by [action]
      * @param action operation to perform on the current page that returns the next page
      */
-    public fun <Next : Page<*>> on(action: P.() -> Next): PageScope<Next> =
+    public fun <Next : SeleniumPage<*>> on(action: P.() -> Next): PageScope<Next> =
         withDriver(entry.driver) {
             page.assertReady()
             val next = page.action()
@@ -88,7 +88,7 @@ public class PageScope<P : Page<*>> internal constructor(
         }
 
     /**
-     * Temporarily switch to another [Site] within the same browser session, run [block],
+     * Temporarily switch to another [SeleniumSite] within the same browser session, run [block],
      * and return a [SwitchBackScope] that can restore the original site/window/page.
      *
      * If a new tab/window was likely opened before calling this function, the newest handle will be selected.
@@ -99,7 +99,7 @@ public class PageScope<P : Page<*>> internal constructor(
      * @param block operations to perform in the target site context
      * @return a scope that allows switching back to the original context
      */
-    public inline fun <reified S2 : Site> switchTo(
+    public inline fun <reified S2 : SeleniumSite> switchTo(
         navigateToBase: Boolean = true,
         cookies: Cookies? = null,
         crossinline block: SiteEntry<S2>.() -> Unit,
@@ -107,18 +107,17 @@ public class PageScope<P : Page<*>> internal constructor(
 
     /** Gateway to the underlying entry via the public [SiteEntry] interface. */
     @InternalKolibriumApi
-    public fun <R> withEntry(block: (SiteEntry<out Site>) -> R): R = block(entry)
+    public fun <R> withEntry(block: (SiteEntry<out SeleniumSite>) -> R): R = block(entry)
 }
 
 /**
- * Lightweight entry point bound to a live [WebDriver] session for a specific [Site].
+ * Lightweight entry point bound to a live [WebDriver] session for a specific [SeleniumSite].
  *
  * Instances are created by the test harness (see seleniumTest) and passed into user code as the receiver
  * of startup and test blocks.
  */
 @KolibriumDsl
-internal class PageEntry<S : Site>
-    @PublishedApi
+internal class PageEntry<S : SeleniumSite>
     internal constructor(
         internal val driver: WebDriver,
     ) : SiteEntry<S> {
@@ -135,7 +134,6 @@ internal class PageEntry<S : Site>
         }
 
         /** The handle of the currently active window or tab. */
-        @PublishedApi
         internal fun currentWindowHandle(): String {
             requireSessionChecked("PageEntry.currentWindowHandle")
             return driver.windowHandle
@@ -174,9 +172,9 @@ internal class PageEntry<S : Site>
         }
 
         /** Configure the given site against this entry's live session. */
-        internal fun configureSite(site: Site) {
-            site.configureSite()
-            site.onSessionReady(driver)
+        internal fun configureSite(seleniumSite: SeleniumSite) {
+            seleniumSite.configureSite()
+            seleniumSite.onSessionReady(driver)
         }
 
         /**
@@ -186,7 +184,7 @@ internal class PageEntry<S : Site>
          * The returned page will have the active browser session attached and will be synchronized via
          * await/assert before being returned.
          */
-        override fun <P : Page<S>, R : Page<S>> open(
+        override fun <P : SeleniumPage<S>, R : SeleniumPage<S>> open(
             factory: () -> P,
             path: String?,
             action: P.() -> R,
@@ -195,7 +193,7 @@ internal class PageEntry<S : Site>
             val page = factory()
 
             val site =
-                SessionContext.get()?.site
+                SessionContext.get()?.seleniumSite
                     ?: error("No active Session in SessionContext; open() must be called within seleniumTest/site context.")
 
             val effectivePath = path ?: page.path
@@ -214,9 +212,9 @@ internal class PageEntry<S : Site>
          *
          * This is useful when the target page is already open (e.g., after a tab switch)
          * and you only want to bind a page object to the current tab.
-         * A guard ensures the current tab's origin matches the current [Site]'s origin.
+         * A guard ensures the current tab's origin matches the current [SeleniumSite]'s origin.
          */
-        override fun <P : Page<S>, R : Page<S>> on(
+        override fun <P : SeleniumPage<S>, R : SeleniumPage<S>> on(
             factory: () -> P,
             action: P.() -> R,
         ): PageScope<R> {
@@ -224,7 +222,7 @@ internal class PageEntry<S : Site>
             val page = factory()
 
             val site =
-                SessionContext.get()?.site
+                SessionContext.get()?.seleniumSite
                     ?: error("No active Session in SessionContext; on() must be called within seleniumTest/site context.")
 
             // Ensure the current tab belongs to the active site origin
@@ -246,7 +244,7 @@ internal class PageEntry<S : Site>
             }
         }
 
-        internal fun <R : Page<*>> scope(next: R): PageScope<R> {
+        internal fun <R : SeleniumPage<*>> scope(next: R): PageScope<R> {
             ensureReady(next)
             return PageScope(next, this)
         }
@@ -257,18 +255,17 @@ internal class PageEntry<S : Site>
          * Usage:
          * open(::SomePage) { /* interactions */ }.verify { /* assertions with receiver = SomePage */ }
          */
-        fun <P : Page<S>> P.verify(assertions: P.() -> Unit): P {
+        fun <P : SeleniumPage<S>> P.verify(assertions: P.() -> Unit): P {
             this.assertReady()
             this.assertions()
             return this
         }
 
-        private fun ensureReady(page: Page<*>) {
-            page.awaitReady()
-            page.assertReady()
+        private fun ensureReady(seleniumPage: SeleniumPage<*>) {
+            seleniumPage.awaitReady()
+            seleniumPage.assertReady()
         }
 
-        @PublishedApi
         internal fun switchToNewestWindowIfOpenedSince(originalWindow: String) {
             requireSessionChecked("PageEntry.switchToNewestWindowIfOpenedSince")
             val handles = driver.windowHandles.toList()
@@ -288,9 +285,9 @@ internal class PageEntry<S : Site>
  * Use [switchBack] to return to the original context and continue the flow on the original page.
  */
 @KolibriumDsl
-public class SwitchBackScope<P : Page<*>> internal constructor(
+public class SwitchBackScope<P : SeleniumPage<*>> internal constructor(
     private val driver: WebDriver,
-    private val originalSite: Site,
+    private val originalSeleniumSite: SeleniumSite,
     private val originalWindow: String,
     private val originalPage: P,
 ) {
@@ -307,34 +304,34 @@ public class SwitchBackScope<P : Page<*>> internal constructor(
         driver.switchTo().window(originalWindow)
 
         // Rebind session permanently to the original site on this driver
-        val session = Session(driver = driver, site = originalSite)
+        val session = Session(driver = driver, seleniumSite = originalSeleniumSite)
         SessionContext.set(session)
 
         // Allow site to adjust
-        originalSite.configureSite()
-        originalSite.onSessionReady(driver)
+        originalSeleniumSite.configureSite()
+        originalSeleniumSite.onSessionReady(driver)
 
         // Execute the caller's code back on the original page within the original driver context
         return withDriver(driver) {
             originalPage.block()
-            PageScope(originalPage, PageEntry<Site>(driver))
+            PageScope(originalPage, PageEntry<SeleniumSite>(driver))
         }
     }
 }
 
 @PublishedApi
-internal fun <P : Page<*>, S2 : Site> PageScope<P>.switchToImpl(
+internal fun <P : SeleniumPage<*>, S2 : SeleniumSite> PageScope<P>.switchToImpl(
     siteClass: KClass<S2>,
     navigateToBase: Boolean,
     cookies: Cookies?,
-    block: (SiteEntry<out Site>) -> Unit,
+    block: (SiteEntry<out SeleniumSite>) -> Unit,
 ): SwitchBackScope<P> {
     val originalEntry = entry
 
     // Remember the original environment
     val originalWindow = originalEntry.currentWindowHandle()
-    val originalSite: Site =
-        SessionContext.get()?.site
+    val originalSeleniumSite: SeleniumSite =
+        SessionContext.get()?.seleniumSite
             ?: error("No active Session in SessionContext; switchTo requires an active session.")
 
     // Window selection heuristic: when a new tab likely opened, pick the last handle.
@@ -354,15 +351,14 @@ internal fun <P : Page<*>, S2 : Site> PageScope<P>.switchToImpl(
     // Return a scope that can restore the original page as receiver
     return SwitchBackScope(
         driver = originalEntry.driver,
-        originalSite = originalSite,
+        originalSeleniumSite = originalSeleniumSite,
         originalWindow = originalWindow,
         originalPage = this.page,
     )
 }
 
-@PublishedApi
-internal fun <S2 : Site> performSiteSwitch(
-    originalEntry: PageEntry<out Site>,
+internal fun <S2 : SeleniumSite> performSiteSwitch(
+    originalEntry: PageEntry<out SeleniumSite>,
     navigateToBase: Boolean,
     cookies: Cookies?,
     siteProvider: () -> S2,
@@ -373,11 +369,11 @@ internal fun <S2 : Site> performSiteSwitch(
     val typedEntry = originalEntry as PageEntry<S2>
 
     // Bind target site to a new session using the same driver
-    val session = Session(driver = typedEntry.driver, site = targetSite)
+    val session = Session(driver = typedEntry.driver, seleniumSite = targetSite)
     SessionContext.set(session)
 
     // Apply cookies (if any)
-    if (cookies != null && cookies.isNotEmpty()) {
+    if (!cookies.isNullOrEmpty()) {
         typedEntry.applyCookies(cookies)
     }
 
@@ -395,7 +391,7 @@ internal fun <S2 : Site> performSiteSwitch(
 // --- helpers ---
 
 @PublishedApi
-internal fun <S : Site> siteOf(klass: KClass<S>): S =
+internal fun <S : SeleniumSite> siteOf(klass: KClass<S>): S =
     klass.objectInstance
         ?: error("${klass.simpleName} must be declared as a Kotlin object to use siteOf()")
 
