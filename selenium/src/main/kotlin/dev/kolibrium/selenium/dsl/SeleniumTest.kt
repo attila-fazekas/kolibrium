@@ -20,6 +20,7 @@ import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
 import dev.kolibrium.selenium.core.withDriver
+import kotlinx.coroutines.runBlocking
 import org.openqa.selenium.WebDriver
 
 /**
@@ -50,7 +51,7 @@ import org.openqa.selenium.WebDriver
  * @param driverFactory Factory creating a WebDriver instance (e.g., `chrome`, `firefox`, or predefined factories like `headlessChrome`).
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param setUp Computes the input [T] before the browser session is created. It runs without
- * an active WebDriver or [dev.kolibrium.selenium.core.SessionContext].
+ * an active WebDriver or [SessionContext].
  * @param tearDown Cleans up the test context after the test body; runs even if the test fails.
  * @param block Main test body executed with a [SiteEntry] receiver and the prepared value.
  */
@@ -88,6 +89,62 @@ public fun <S : SeleniumSite> seleniumTest(
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
         setUp = { },
+        block = block,
+    )
+}
+
+/**
+ * API-integrated overload of [seleniumTest] with suspending setup and teardown.
+ *
+ * Identical to the primary [seleniumTest] overload in browser lifecycle and navigation behaviour,
+ * but accepts suspending [apiSetUp] and [apiTearDown] lambdas instead of plain synchronous ones.
+ * This makes it a natural fit for tests that seed or clean up data via a Kolibrium API client
+ * before and after the browser session.
+ *
+ * The [apiSetUp] block runs synchronously (via `runBlocking`) before the WebDriver session is
+ * created. Its return value [T] is passed to [block] and, after the test completes, to [apiTearDown].
+ * [apiTearDown] always runs, even if [block] throws; its exception (if any) is added as suppressed
+ * to the test failure.
+ *
+ * Example:
+ * ```kotlin
+ * seleniumTest(
+ *     site = MyShopSite,
+ *     driverFactory = chrome,
+ *     apiSetUp = { users.createUser { email = "test@example.com" }.body.id },
+ *     apiTearDown = { userId -> users.deleteUser(userId) },
+ * ) { userId ->
+ *     open(::ProfilePage, path = "/users/$userId") {
+ *         updateProfile()
+ *     }
+ * }
+ * ```
+ *
+ * @param S The concrete [SeleniumSite] type bound to this test.
+ * @param T The type of the value produced by [apiSetUp] and consumed by [block] and [apiTearDown].
+ * @param site The site under test; establishes the base URL and defaults.
+ * @param driverFactory Factory creating a WebDriver instance.
+ * @param keepBrowserOpen When `true`, keeps the browser open after [block] (useful for debugging).
+ * @param apiSetUp Suspending block that runs before the browser session is created. Use it to seed
+ *   test data via an API client. Its return value is forwarded to [block] and [apiTearDown].
+ * @param apiTearDown Suspending block that runs after [block], even on failure. Use it to clean up
+ *   data created in [apiSetUp]. Defaults to a no-op.
+ * @param block The test body, executed with a [SiteEntry] receiver and the value from [apiSetUp].
+ */
+public fun <S : SeleniumSite, T> seleniumTest(
+    site: S,
+    driverFactory: DriverFactory,
+    keepBrowserOpen: Boolean = false,
+    apiSetUp: suspend () -> T,
+    apiTearDown: suspend (T) -> Unit = {},
+    block: SiteEntry<S>.(T) -> Unit,
+) {
+    seleniumTest(
+        site = site,
+        driverFactory = driverFactory,
+        keepBrowserOpen = keepBrowserOpen,
+        setUp = { runBlocking { apiSetUp() } },
+        tearDown = { runBlocking { apiTearDown(it) } },
         block = block,
     )
 }

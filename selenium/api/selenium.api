@@ -228,8 +228,10 @@ public final class dev/kolibrium/selenium/dsl/PageScope {
 
 public final class dev/kolibrium/selenium/dsl/SeleniumTestKt {
 	public static final fun seleniumTest (Ldev/kolibrium/selenium/core/SeleniumSite;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)V
+	public static final fun seleniumTest (Ldev/kolibrium/selenium/core/SeleniumSite;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;)V
 	public static final fun seleniumTest (Ldev/kolibrium/selenium/core/SeleniumSite;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function2;)V
 	public static synthetic fun seleniumTest$default (Ldev/kolibrium/selenium/core/SeleniumSite;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun seleniumTest$default (Ldev/kolibrium/selenium/core/SeleniumSite;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 	public static synthetic fun seleniumTest$default (Ldev/kolibrium/selenium/core/SeleniumSite;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 }
 

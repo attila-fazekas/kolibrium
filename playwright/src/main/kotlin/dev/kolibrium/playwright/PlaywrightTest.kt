@@ -23,6 +23,7 @@ import com.microsoft.playwright.BrowserType.LaunchOptions
 import com.microsoft.playwright.Page
 import com.microsoft.playwright.Playwright
 import com.microsoft.playwright.Tracing
+import kotlinx.coroutines.runBlocking
 import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -104,6 +105,67 @@ public fun <S : PlaywrightSite> playwrightTest(
         contextOptions = contextOptions,
         config = config,
         setUp = { },
+        block = block,
+    )
+}
+
+/**
+ * API-integrated overload of [playwrightTest] with suspending setup and teardown.
+ *
+ * Identical to the primary [playwrightTest] overload in browser lifecycle and tracing behaviour,
+ * but accepts suspending [apiSetUp] and [apiTearDown] lambdas instead of plain synchronous ones.
+ * This makes it a natural fit for tests that seed or clean up data via a Kolibrium API client
+ * before and after the browser session.
+ *
+ * The [apiSetUp] block runs synchronously (via `runBlocking`) before the Playwright browser is
+ * launched. Its return value [T] is passed to [block] and, after the test completes, to [apiTearDown].
+ * [apiTearDown] always runs, even if [block] throws; its exception (if any) is added as suppressed
+ * to the test failure.
+ *
+ * Example:
+ * ```kotlin
+ * playwrightTest(
+ *     site = MyShopSite,
+ *     apiSetUp = { users.createUser { email = "test@example.com" }.body.id },
+ *     apiTearDown = { userId -> users.deleteUser(userId) },
+ * ) { userId ->
+ *     on(::ProfilePage) {
+ *         updateProfile()
+ *     }
+ * }
+ * ```
+ *
+ * @param S The concrete [PlaywrightSite] type.
+ * @param T The type of the value produced by [apiSetUp] and consumed by [block] and [apiTearDown].
+ * @param site The site under test.
+ * @param browserType Which browser engine to launch.
+ * @param launchOptions Playwright [LaunchOptions] passed directly — controls headless, slowMo, etc.
+ * @param contextOptions Playwright [NewContextOptions] passed directly — controls viewport, locale, etc.
+ * @param config Kolibrium-specific configuration (tracing, etc.).
+ * @param apiSetUp Suspending block that runs before the browser is launched. Use it to seed test
+ *   data via an API client. Its return value is forwarded to [block] and [apiTearDown].
+ * @param apiTearDown Suspending block that runs after [block], even on failure. Use it to clean up
+ *   data created in [apiSetUp]. Defaults to a no-op.
+ * @param block The test body, executed with a [SiteScope] receiver and the value from [apiSetUp].
+ */
+public fun <S : PlaywrightSite, T> playwrightTest(
+    site: S,
+    browserType: BrowserType = BrowserType.Chromium,
+    launchOptions: LaunchOptions? = null,
+    contextOptions: NewContextOptions? = null,
+    config: KolibriumConfig = KolibriumConfig(),
+    apiSetUp: suspend () -> T,
+    apiTearDown: suspend (T) -> Unit = {},
+    block: SiteScope<S>.(T) -> Unit,
+) {
+    playwrightTest(
+        site = site,
+        browserType = browserType,
+        launchOptions = launchOptions,
+        contextOptions = contextOptions,
+        config = config,
+        setUp = { runBlocking { apiSetUp() } },
+        tearDown = { runBlocking { apiTearDown(it) } },
         block = block,
     )
 }

@@ -56,4 +56,24 @@ class BrowserStackTest {
             }
         }
     }
+
+    @Test
+    fun `add products to shopping cart - integration with API module`() = browserStackDemoTest(
+        keepBrowserOpen = false,
+        apiSetUp = {
+            val displayNames = products.map { it.displayName }
+            getProducts()
+                .body
+                .products
+                .filter { it.title in displayNames }
+                .map { it.id }
+        },
+    ) { productIds ->
+        open(::ProductsPage) {
+            apply {
+                productIds.forEach(::addToCart)
+                verifyShoppingCartBadgeIs(products.size)
+            }
+        }
+    }
 }

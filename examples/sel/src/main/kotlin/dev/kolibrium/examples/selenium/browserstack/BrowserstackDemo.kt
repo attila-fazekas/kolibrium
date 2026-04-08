@@ -16,6 +16,10 @@
 
 package dev.kolibrium.examples.selenium.browserstack
 
+import dev.kolibrium.api.core.defaultHttpClient
+import dev.kolibrium.examples.api.browserstack.BrowserStackApiConfig
+import dev.kolibrium.examples.api.browserstack.browserStackClient
+import dev.kolibrium.examples.api.browserstack.generated.BrowserStackClient
 import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.decorators.AbstractDecorator
 import dev.kolibrium.selenium.core.decorators.BorderStyle
@@ -32,11 +36,15 @@ import dev.kolibrium.selenium.dsl.creation.chromeDriver
 import dev.kolibrium.selenium.dsl.seleniumTest
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WaitConfig.Companion.Quick
+import io.ktor.client.HttpClient
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.runBlocking
 import org.openqa.selenium.chrome.ChromeDriver
 
 object BrowserstackDemo : SeleniumSite(baseUrl = "https://bstackdemo.com") {
+    val api = browserStackClient()
+
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
     override val waitConfig: WaitConfig = Quick
@@ -73,6 +81,22 @@ fun <T> browserStackDemoTest(
     keepBrowserOpen = keepBrowserOpen,
     driverFactory = driverFactory,
     setUp = setUp,
+    block = block,
+)
+
+fun <T> browserStackDemoTest(
+    driverFactory: DriverFactory = browserStackDemoDriver,
+    keepBrowserOpen: Boolean = false,
+    client: HttpClient = defaultHttpClient,
+    apiSetUp: suspend BrowserStackClient.() -> T,
+    apiTearDown: suspend BrowserStackClient.(T) -> Unit = {},
+    block: SiteEntry<BrowserstackDemo>.(T) -> Unit,
+) = seleniumTest(
+    site = BrowserstackDemo,
+    keepBrowserOpen = keepBrowserOpen,
+    driverFactory = driverFactory,
+    setUp = { runBlocking { BrowserStackClient(client, BrowserStackApiConfig.baseUrl).apiSetUp() } },
+    tearDown = { runBlocking { BrowserStackClient(client, BrowserStackApiConfig.baseUrl).apiTearDown(it) } },
     block = block,
 )
 

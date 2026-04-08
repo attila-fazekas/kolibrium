@@ -25,7 +25,6 @@ import dev.kolibrium.selenium.dsl.creation.chromeDriver
 import dev.kolibrium.selenium.dsl.seleniumTest
 import dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.Product.IPHONE_12
 import dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.Product.IPHONE_12_MINI
-import dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.backend.getProducts
 import dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.pages.ProductsPage
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -62,27 +61,6 @@ class BrowserStackDemoTest {
 //                verifyShoppingCartBadgeIs(products.size)
 //            }
 //        }
-
-    @Test
-    fun test2() =
-        browserstackDemoTest(
-            keepBrowserOpen = false,
-            setUp = {
-                val displayNames = products.map { it.displayName }
-                val productIds: List<Int> =
-                    getProducts()
-                        .filter { product -> product.title in displayNames }
-                        .map { it.id }
-                productIds
-            },
-        ) { productIds ->
-            open(::ProductsPage) {
-                apply {
-                    productIds.forEach(::addToCart)
-                    verifyShoppingCartBadgeIs(products.size)
-                }
-            }
-        }
 
     // TODO this test fails, fix it
     @Test
