@@ -16,7 +16,7 @@
 
 package dev.kolibrium.examples.selenium.saucedemo
 
-import dev.kolibrium.selenium.core.Site
+import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.decorators.AbstractDecorator
 import dev.kolibrium.selenium.core.decorators.BorderStyle
 import dev.kolibrium.selenium.core.decorators.Color
@@ -29,7 +29,7 @@ import dev.kolibrium.webdriver.WaitConfig.Companion.Quick
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
 
-object SauceDemo : Site(
+object SauceDemo : SeleniumSite(
     baseUrl = "https://www.saucedemo.com",
 ) {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
@@ -47,7 +47,7 @@ object SauceDemo : Site(
         )
 }
 
-object Twitter : Site(baseUrl = "https://www.x.com") {
+object Twitter : SeleniumSite(baseUrl = "https://www.x.com") {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
     override val waitConfig: WaitConfig = Quick

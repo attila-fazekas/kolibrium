@@ -23,7 +23,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 
 // 1) Declare your Site
-object MySite : Site(baseUrl = "https://www.saucedemo.com") {
+object MySite : SeleniumSite(baseUrl = "https://www.saucedemo.com") {
     override val cookies: Set<Cookie> = setOf(Cookie("ab", "test"))
     override val decorators = listOf(HighlighterDecorator())
     override val waitConfig: WaitConfig = WaitConfig.Default
@@ -39,7 +39,7 @@ object MySite : Site(baseUrl = "https://www.saucedemo.com") {
 
 // 2) Define a Page
 
-class LoginPage : Page<dev.kolibrium.selenium.core.MySite>() {
+class LoginPage : SeleniumPage<MySite>() {
     private val usernameInput = name("user-name")
     private val passwordInput by idOrName("password")
     private val loginButton by name("login-button")

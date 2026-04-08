@@ -16,10 +16,10 @@
 
 package dev.kolibrium.selenium.core.descriptors
 
-import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.SeleniumPage
+import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
-import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.classNames
 import dev.kolibrium.selenium.core.cssSelectors
 import dev.kolibrium.selenium.core.dataQas
@@ -331,13 +331,13 @@ class MultiElementsDescriptorTest {
     @Test
     fun `should use site-level wait config when set`() {
         // Given
-        val site =
-            object : Site("https://example.com") {
+        val seleniumSite =
+            object : SeleniumSite("https://example.com") {
                 override val waitConfig = WaitConfig.Patient
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, site)) {
+        SessionContext.withSession(Session(driver, seleniumSite)) {
             val descriptor = mockSearchContext.names("field")
 
             val elements = listOf(mockElement1)
@@ -356,15 +356,15 @@ class MultiElementsDescriptorTest {
     @Test
     fun `should use custom elements ready condition from site`() {
         // Given
-        val site =
-            object : Site("https://example.com") {
+        val seleniumSite =
+            object : SeleniumSite("https://example.com") {
                 override val elementsReadyCondition: WebElements.() -> Boolean = {
                     isNotEmpty() && all { it.isDisplayed && it.isEnabled }
                 }
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, site)) {
+        SessionContext.withSession(Session(driver, seleniumSite)) {
             val descriptor = mockSearchContext.cssSelectors(".items")
 
             val elements = listOf(mockElement1, mockElement2)
@@ -572,8 +572,8 @@ class MultiElementsDescriptorTest {
     @Test
     fun `property delegate should work correctly`() {
         // Given
-        val page =
-            object : Page<Site>() {
+        val seleniumPage =
+            object : SeleniumPage<SeleniumSite>() {
                 val items by mockSearchContext.cssSelectors(".list-item")
             }
 
@@ -583,7 +583,7 @@ class MultiElementsDescriptorTest {
         every { mockElement2.isDisplayed } returns true
 
         // When
-        val result = page.items
+        val result = seleniumPage.items
 
         // Then
         result shouldHaveSize 2
@@ -591,13 +591,13 @@ class MultiElementsDescriptorTest {
 
     @Test
     fun `should merge decorators - site first then test with dedup and test winning (multi)`() {
-        val site =
-            object : Site("https://example.test") {
+        val seleniumSite =
+            object : SeleniumSite("https://example.test") {
                 override val decorators = listOf(LoggerDecorator())
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, site)) {
+        SessionContext.withSession(Session(driver, seleniumSite)) {
             val elements = listOf(mockElement1, mockElement2)
             every { mockSearchContext.findElements(By.className("items")) } returns elements
             every { mockElement1.isDisplayed } returns true

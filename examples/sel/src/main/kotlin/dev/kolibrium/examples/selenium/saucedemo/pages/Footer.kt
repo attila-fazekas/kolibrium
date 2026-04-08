@@ -16,10 +16,9 @@
 
 package dev.kolibrium.examples.selenium.saucedemo.pages
 
-import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.core.dataTest
 import dev.kolibrium.examples.selenium.saucedemo.SauceDemo
-import dev.kolibrium.selenium.core.dataTest
 
 /**
  * Marker interface for pages that include the shared footer component.
@@ -62,7 +61,7 @@ interface HasFooter
  *   .someNextAction()
  * ```
  */
-context(page: Page<SauceDemo>)
+context(page: SeleniumPage<SauceDemo>)
 fun <P> P.visitTwitter(): P where P : Any, P : HasFooter =
     apply {
         val twitterLogo by page.dataTest("social-twitter")
@@ -80,7 +79,7 @@ fun <P> P.visitTwitter(): P where P : Any, P : HasFooter =
  * If you ever decide to switch to the new window or model the external site, expose a
  * separate API that returns the appropriate type (e.g., a window handle or a Page Object).
  */
-context(page: Page<SauceDemo>)
+context(page: SeleniumPage<SauceDemo>)
 fun <P> P.visitFacebook(): P where P : Any, P : HasFooter =
     apply {
         val facebookLogo by page.dataTest("social-facebook")
@@ -93,7 +92,7 @@ fun <P> P.visitFacebook(): P where P : Any, P : HasFooter =
  * Consistent with the Page Object guideline, this returns the current page (`P`) because
  * clicking a social icon navigates outside the AUT and we typically continue testing the AUT.
  */
-context(page: Page<SauceDemo>)
+context(page: SeleniumPage<SauceDemo>)
 fun <P> P.visitLinkedIn(): P where P : Any, P : HasFooter =
     apply {
         val linkedInLogo by page.dataTest("social-linkedin")

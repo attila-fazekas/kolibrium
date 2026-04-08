@@ -16,12 +16,12 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages
 
-import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.core.dataTest
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.SauceDemo
 
 // Return the current page so callers can continue fluent chains that expect a Page
-context(page: Page<SauceDemo>)
+context(page: SeleniumPage<SauceDemo>)
 fun visitTwitter(): InventoryPage {
     val twitterLogo by page.dataTest("social-twitter")
     twitterLogo.click()
@@ -29,13 +29,13 @@ fun visitTwitter(): InventoryPage {
     return page as InventoryPage
 }
 
-context(page: Page<SauceDemo>)
+context(page: SeleniumPage<SauceDemo>)
 fun visitFacebook() {
     val facebookLogo by page.dataTest("social-facebook")
     facebookLogo.click()
 }
 
-context(page: Page<SauceDemo>)
+context(page: SeleniumPage<SauceDemo>)
 fun visitLinkedIn() {
     val linkedInLogo by page.dataTest("social-linkedin")
     linkedInLogo.click()

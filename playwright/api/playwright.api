@@ -47,6 +47,13 @@ public abstract class dev/kolibrium/playwright/PlaywrightSite {
 	public fun onSessionReady (Lcom/microsoft/playwright/Page;)V
 }
 
+public final class dev/kolibrium/playwright/PlaywrightTestKt {
+	public static final fun playwrightTest (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)V
+	public static final fun playwrightTest (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function2;)V
+	public static synthetic fun playwrightTest$default (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+	public static synthetic fun playwrightTest$default (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
+}
+
 public final class dev/kolibrium/playwright/SiteScope {
 	public final fun addCookie (Lcom/microsoft/playwright/options/Cookie;)V
 	public final fun addCookies (Ljava/util/List;)V
@@ -55,12 +62,5 @@ public final class dev/kolibrium/playwright/SiteScope {
 	public final fun cookies ()Ljava/util/List;
 	public final fun cookies ([Ljava/lang/String;)Ljava/util/List;
 	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/playwright/PageScope;
-}
-
-public final class dev/kolibrium/playwright/TestHarnessKt {
-	public static final fun playwrightTest (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;)V
-	public static final fun playwrightTest (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function2;)V
-	public static synthetic fun playwrightTest$default (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
-	public static synthetic fun playwrightTest$default (Ldev/kolibrium/playwright/PlaywrightSite;Ldev/kolibrium/playwright/BrowserType;Lcom/microsoft/playwright/BrowserType$LaunchOptions;Lcom/microsoft/playwright/Browser$NewContextOptions;Ldev/kolibrium/playwright/KolibriumConfig;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)V
 }
 

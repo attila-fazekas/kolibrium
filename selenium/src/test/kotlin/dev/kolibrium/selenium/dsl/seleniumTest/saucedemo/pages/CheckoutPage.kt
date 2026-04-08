@@ -16,10 +16,10 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages
 
-import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.SauceDemo
 
-class CheckoutPage : Page<SauceDemo>() {
+class CheckoutPage : SeleniumPage<SauceDemo>() {
     fun fillShippingInfo(
         firstName: String,
         lastName: String,
