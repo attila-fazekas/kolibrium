@@ -26,7 +26,7 @@ import dev.kolibrium.annotations.KolibriumDsl
  *
  * Provides page navigation via [on] and runtime cookie management for the active
  * [BrowserContext]. All operations are guarded by thread confinement checks when a
- * [PlaywrightSession] is active.
+ * [Session] is active.
  *
  * Instances are created internally by the harness ([playwrightTestImpl]) and supplied
  * as the receiver of the user's test block.
@@ -130,6 +130,6 @@ public class SiteScope<S : PlaywrightSite> internal constructor(
     }
 
     private fun assertThread(op: String) {
-        PlaywrightSessionContext.get()?.assertThreadOrFail("SiteScope.$op")
+        SessionContext.get()?.assertThreadOrFail("SiteScope.$op")
     }
 }

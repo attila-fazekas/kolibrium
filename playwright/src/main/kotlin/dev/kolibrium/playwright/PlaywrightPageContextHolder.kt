@@ -22,7 +22,7 @@ import com.microsoft.playwright.Page
  * ThreadLocal holder for the current Playwright [Page].
  *
  * This is the lightweight accessor used by [PlaywrightPage] to obtain the contextual page.
- * For full session access (thread checks, context, site), see [PlaywrightSessionContext].
+ * For full session access (thread checks, context, site), see [SessionContext].
  */
 internal object PlaywrightPageContextHolder {
     private val tl: ThreadLocal<Page?> = ThreadLocal()

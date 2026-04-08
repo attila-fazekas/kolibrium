@@ -52,13 +52,13 @@ public abstract class PlaywrightPage<S : PlaywrightSite> {
     /**
      * The Playwright [Page] for the current session.
      *
-     * Access is guarded by a thread confinement check when a [PlaywrightSession] is active.
+     * Access is guarded by a thread confinement check when a [Session] is active.
      *
      * @throws IllegalStateException if no Playwright page context is available on the current thread.
      */
     protected val page: Page
         get() {
-            PlaywrightSessionContext.get()?.assertThreadOrFail("PlaywrightPage.page")
+            SessionContext.get()?.assertThreadOrFail("PlaywrightPage.page")
             return PlaywrightPageContextHolder.get() ?: error(
                 "Kolibrium runtime error: PlaywrightPage '${this::class.simpleName ?: "<unknown>"}' " +
                     "has no active Playwright Page context.\n" +
@@ -76,7 +76,7 @@ public abstract class PlaywrightPage<S : PlaywrightSite> {
  * @param page The page object to check for readiness.
  */
 internal fun ensureReady(page: PlaywrightPage<*>) {
-    PlaywrightSessionContext.get()?.assertThreadOrFail("ensureReady")
+    SessionContext.get()?.assertThreadOrFail("ensureReady")
     page.awaitReady()
     page.assertReady()
 }

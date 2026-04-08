@@ -177,8 +177,8 @@ private fun <S : PlaywrightSite, T> runTestBlock(
     prepared: T,
     block: SiteScope<S>.(T) -> Unit,
 ) {
-    val session = PlaywrightSession(page, site)
-    PlaywrightSessionContext.withSession(session) {
+    val session = Session(page, site)
+    SessionContext.withSession(session) {
         PlaywrightPageContextHolder.set(page)
         try {
             val scope = SiteScope<S>(page)

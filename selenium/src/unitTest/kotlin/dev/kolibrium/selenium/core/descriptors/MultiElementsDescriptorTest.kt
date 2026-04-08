@@ -17,9 +17,9 @@
 package dev.kolibrium.selenium.core.descriptors
 
 import dev.kolibrium.selenium.core.SeleniumPage
+import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
-import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.classNames
 import dev.kolibrium.selenium.core.cssSelectors
 import dev.kolibrium.selenium.core.dataQas

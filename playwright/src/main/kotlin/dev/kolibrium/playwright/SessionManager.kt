@@ -27,7 +27,7 @@ import com.microsoft.playwright.Page
  *
  * Thread-safety: not thread-safe. Each session is confined to the thread that created it.
  */
-internal class PlaywrightSession internal constructor(
+internal class Session internal constructor(
     val page: Page,
     val site: PlaywrightSite,
 ) {
@@ -54,13 +54,13 @@ internal class PlaywrightSession internal constructor(
     }
 }
 
-internal object PlaywrightSessionContext {
-    private val tl: ThreadLocal<PlaywrightSession?> = ThreadLocal()
+internal object SessionContext {
+    private val tl: ThreadLocal<Session?> = ThreadLocal()
 
-    internal fun get(): PlaywrightSession? = tl.get()
+    internal fun get(): Session? = tl.get()
 
     internal fun <T> withSession(
-        session: PlaywrightSession,
+        session: Session,
         block: () -> T,
     ): T {
         val prev = tl.get()
