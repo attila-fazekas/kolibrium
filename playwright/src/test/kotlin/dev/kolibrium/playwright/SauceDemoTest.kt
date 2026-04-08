@@ -27,13 +27,11 @@ import org.junit.jupiter.api.Test
 class SauceDemoTest {
     @Test
     fun `login and verify products`() =
-        sauceDemoTest(
-            config = KolibriumConfig(recordTrace = true),
-        ) {
+        sauceDemoTest {
             on(::LoginPage) {
                 login()
             }.on(::InventoryPage) {
-                titleText() shouldBe "Products"
+                titleText() shouldBe "Productss"
             }
         }
 

@@ -24,6 +24,8 @@ import com.microsoft.playwright.Page
 import com.microsoft.playwright.Playwright
 import com.microsoft.playwright.Tracing
 import java.nio.file.Paths
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Kolibrium-specific configuration for the Playwright harness.
@@ -31,15 +33,17 @@ import java.nio.file.Paths
  * This is intentionally separate from Playwright's own [LaunchOptions] and [NewContextOptions],
  * which should be passed directly to [playwrightTest]. Only Kolibrium-level concerns belong here.
  *
- * @property recordTrace Whether to capture a Playwright trace. When `true`, traces are always
- *           started; on test failure the trace is saved to [traceDir], otherwise it is discarded.
+ * @property recordTrace Whether to capture a Playwright trace for this test. When `true`, tracing
+ *           is always started; on failure the trace is saved to [traceDir], otherwise discarded.
+ *           When `false`, tracing is explicitly disabled regardless of the site default.
+ *           When `null` (default), the decision defers to [PlaywrightSite.recordTrace].
  * @property traceDir Directory where failure traces are written. Relative paths are resolved
  *           against the project working directory.
  * @property testName Optional name used in the trace file on failure. When `null`, the name is
  *           inferred from the call stack.
  */
 public class KolibriumConfig(
-    public val recordTrace: Boolean = false,
+    public val recordTrace: Boolean? = null,
     public val traceDir: String = "build/traces",
     public val testName: String? = null,
 )
@@ -122,7 +126,8 @@ internal fun <S : PlaywrightSite, T> playwrightTestImpl(
             val browser = playwright.launchBrowser(browserType, launchOptions)
             browser.use { browser ->
                 val context = browser.newContext(contextOptions ?: NewContextOptions())
-                if (config.recordTrace) context.startTracing()
+                val shouldTrace = config.recordTrace ?: site.recordTrace
+                if (shouldTrace) context.startTracing()
 
                 var failed = false
                 try {
@@ -132,7 +137,7 @@ internal fun <S : PlaywrightSite, T> playwrightTestImpl(
                     failed = true
                     throw e
                 } finally {
-                    if (config.recordTrace) context.stopTracing(failed, config)
+                    if (shouldTrace) context.stopTracing(failed, config)
                 }
             }
         }
@@ -204,7 +209,7 @@ private fun BrowserContext.stopTracing(
 ) {
     if (failed) {
         val name = config.testName ?: inferTestName()
-        val timestamp = System.currentTimeMillis()
+        val timestamp = LocalDateTime.now().format(TRACE_TIMESTAMP_FORMATTER)
         val tracePath = Paths.get("${config.traceDir}/${sanitizeFileName(name)}_$timestamp.zip")
         tracePath.parent?.toFile()?.mkdirs()
         tracing().stop(Tracing.StopOptions().setPath(tracePath))
@@ -248,3 +253,5 @@ internal fun inferTestName(): String =
         } ?: "trace_${System.currentTimeMillis()}"
 
 private fun sanitizeFileName(name: String): String = name.replace(Regex("[^a-zA-Z0-9._-]"), "_")
+
+private val TRACE_TIMESTAMP_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmmss")

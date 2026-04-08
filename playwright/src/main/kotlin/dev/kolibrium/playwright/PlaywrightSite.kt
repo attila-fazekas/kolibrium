@@ -39,6 +39,23 @@ public abstract class PlaywrightSite(
     public val baseUrl: String,
 ) {
     /**
+     * Whether to record a Playwright trace for tests running against this site.
+     *
+     * When `true`, traces are always started; on test failure the trace is saved to the directory
+     * configured in [KolibriumConfig.traceDir], otherwise it is discarded.
+     *
+     * Can be overridden per-test via [KolibriumConfig.recordTrace].
+     *
+     * Example:
+     * ```kotlin
+     * object StagingSite : PlaywrightSite(baseUrl = "https://staging.example.com") {
+     *     override val recordTrace = true
+     * }
+     * ```
+     */
+    public open val recordTrace: Boolean = false
+
+    /**
      * Declarative cookies applied to every new browser context for this site.
      *
      * Applied by the framework to the [BrowserContext][com.microsoft.playwright.BrowserContext]

@@ -21,9 +21,9 @@ public final class dev/kolibrium/playwright/HelpersKt {
 
 public final class dev/kolibrium/playwright/KolibriumConfig {
 	public fun <init> ()V
-	public fun <init> (ZLjava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (ZLjava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getRecordTrace ()Z
+	public fun <init> (Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/Boolean;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getRecordTrace ()Ljava/lang/Boolean;
 	public final fun getTestName ()Ljava/lang/String;
 	public final fun getTraceDir ()Ljava/lang/String;
 }
@@ -44,6 +44,7 @@ public abstract class dev/kolibrium/playwright/PlaywrightSite {
 	public fun <init> (Ljava/lang/String;)V
 	public final fun getBaseUrl ()Ljava/lang/String;
 	public fun getCookies ()Ljava/util/List;
+	public fun getRecordTrace ()Z
 	public fun onSessionReady (Lcom/microsoft/playwright/Page;)V
 }
 
