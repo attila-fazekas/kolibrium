@@ -16,4 +16,6 @@
 
 package dev.kolibrium.playwright
 
-object SauceDemo : PlaywrightSite(baseUrl = "https://www.saucedemo.com")
+object SauceDemo : PlaywrightSite(baseUrl = "https://www.saucedemo.com") {
+    override val recordTrace = false
+}
