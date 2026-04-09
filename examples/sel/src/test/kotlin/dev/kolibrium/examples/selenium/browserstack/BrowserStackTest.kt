@@ -17,7 +17,6 @@
 package dev.kolibrium.examples.selenium.browserstack
 
 import com.titusfortner.logging.SeleniumLogger
-import dev.kolibrium.examples.api.browserstack.browserStackApiPrepare
 import dev.kolibrium.examples.selenium.browserstack.pages.ProductsPage
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -30,30 +29,6 @@ class BrowserStackTest {
         @BeforeAll
         fun enableLogging() {
             SeleniumLogger.enable("RemoteWebDriver")
-        }
-    }
-
-    @Test
-    fun `add products to shopping cart`() = browserStackDemoTest(
-        keepBrowserOpen = false,
-        setUp = browserStackApiPrepare {
-            val displayNames = products.map { it.displayName }
-
-            val productIds: List<Int> =
-                getProducts()
-                    .body
-                    .products
-                    .filter { product -> product.title in displayNames }
-                    .map { it.id }
-
-            productIds
-        },
-    ) { productIds ->
-        open(::ProductsPage) {
-            apply {
-                productIds.forEach(::addToCart)
-                verifyShoppingCartBadgeIs(products.size)
-            }
         }
     }
 

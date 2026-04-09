@@ -79,23 +79,3 @@ public fun <C, T> apiTest(
             }
         }
     }
-
-/**
- * Executes an API operation and returns its result.
- *
- * This function allows you to run suspend API operations synchronously and
- * retrieve their return value. It blocks the current thread until the operation completes.
- *
- * @param C The type of the API client or context
- * @param T The return type of the operation
- * @param api The API client instance to use
- * @param block The suspend operation to execute with the API client as a receiver
- * @return The result of the operation
- */
-public fun <C, T> runWithApi(
-    api: C,
-    block: suspend C.() -> T,
-): T =
-    runBlocking {
-        api.block()
-    }

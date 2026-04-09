@@ -17,19 +17,7 @@
 package dev.kolibrium.examples.api.browserstack
 
 import dev.kolibrium.api.core.ApiSpec
-import dev.kolibrium.api.core.runWithApi
-import dev.kolibrium.api.core.defaultHttpClient
 import dev.kolibrium.api.ksp.annotations.GenerateApi
-import dev.kolibrium.examples.api.browserstack.generated.BrowserStackClient
-import io.ktor.client.HttpClient
 
 @GenerateApi
 object BrowserStackApiSpec : ApiSpec(baseUrl = BrowserStackApiConfig.baseUrl)
-
-public fun <T> browserStackApiPrepare(
-    client: HttpClient = defaultHttpClient,
-    baseUrl: String = BrowserStackApiConfig.baseUrl,
-    block: suspend BrowserStackClient.() -> T,
-): () -> T = {
-    runWithApi(api = BrowserStackClient(client, baseUrl), block = block)
-}

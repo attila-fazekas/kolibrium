@@ -25,7 +25,6 @@ public final class dev/kolibrium/api/core/ApiTestKt {
 	public static final fun apiTest (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;)V
 	public static final fun apiTest (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;)V
 	public static synthetic fun apiTest$default (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
-	public static final fun runWithApi (Ljava/lang/Object;Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
 }
 
 public final class dev/kolibrium/api/core/ClientsKt {
