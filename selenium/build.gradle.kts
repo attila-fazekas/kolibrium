@@ -18,7 +18,6 @@ import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("kolibrium.ktor-client-conventions")
     id("kolibrium.library-conventions")
     id("kolibrium.test-conventions")
 }
@@ -26,6 +25,7 @@ plugins {
 dependencies {
     api(project(":webdriver"))
     implementation("commons-validator:commons-validator:_")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:_")
     testImplementation("com.titusfortner:selenium-logger:_")
 }
 

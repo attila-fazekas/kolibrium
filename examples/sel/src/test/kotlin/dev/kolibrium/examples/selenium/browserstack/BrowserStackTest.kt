@@ -17,7 +17,6 @@
 package dev.kolibrium.examples.selenium.browserstack
 
 import com.titusfortner.logging.SeleniumLogger
-import dev.kolibrium.examples.api.browserstack.browserStackApiPrepare
 import dev.kolibrium.examples.selenium.browserstack.pages.ProductsPage
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -34,19 +33,15 @@ class BrowserStackTest {
     }
 
     @Test
-    fun `add products to shopping cart`() = browserStackDemoTest(
+    fun `add products to shopping cart - integration with API module`() = browserStackDemoTest(
         keepBrowserOpen = false,
-        setUp = browserStackApiPrepare {
+        apiSetUp = {
             val displayNames = products.map { it.displayName }
-
-            val productIds: List<Int> =
-                getProducts()
-                    .body
-                    .products
-                    .filter { product -> product.title in displayNames }
-                    .map { it.id }
-
-            productIds
+            getProducts()
+                .body
+                .products
+                .filter { it.title in displayNames }
+                .map { it.id }
         },
     ) { productIds ->
         open(::ProductsPage) {

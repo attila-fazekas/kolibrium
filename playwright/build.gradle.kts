@@ -25,6 +25,7 @@ plugins {
 dependencies {
     api(project(":annotations"))
     api("com.microsoft.playwright:playwright:_")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:_")
 }
 
 testing {

@@ -19,32 +19,7 @@ package dev.kolibrium.appium
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver
-
-/**
- * Unified test harness that creates an AppiumDriver session for the given [App] and runs the test flow.
- *
- * Three-phase lifecycle:
- * 1. **setUp**: Executes before any AppiumDriver session exists.
- * 2. **block**: Creates an AppiumDriver session and executes the main test body.
- * 3. **tearDown**: Executes after the test body, even if the test fails.
- *
- * @param A The concrete app type bound to this test.
- * @param T The type of the prepared input value passed to [block].
- * @param app The app under test.
- * @param driverFactory Factory creating an AppiumDriver instance.
- * @param setUp Computes the input [T] before the driver session is created.
- * @param tearDown Cleans up after the test body; runs even if the test fails.
- * @param block Main test body executed with an [AppScope] receiver and the prepared value.
- */
-public fun <A : App, T> appiumTest(
-    app: A,
-    driverFactory: AppiumDriverFactory,
-    setUp: () -> T,
-    tearDown: (T) -> Unit = {},
-    block: AppScope<A>.(T) -> Unit,
-) {
-    appiumTestImpl(app, driverFactory, setUp, tearDown, block)
-}
+import kotlinx.coroutines.runBlocking
 
 /**
  * Unified deep link–aware test harness.
@@ -78,6 +53,109 @@ public fun <A : App> appiumTest(
             }
             block(Unit)
         },
+    )
+}
+
+/**
+ * Cross‑platform convenience harness.
+ *
+ * Requires an explicit [driverFactory] since there is no single sensible default. Use the
+ * appropriate factory from [CrossPlatformApp.androidDriverFactory] or [CrossPlatformApp.iosDriverFactory].
+ *
+ * @param A The concrete cross‑platform app type bound to this test.
+ * @param app The app under test.
+ * @param driverFactory The explicit driver factory to use for this run.
+ * @param block The test body executed with an [AppScope] receiver.
+ */
+public fun <A : CrossPlatformApp> appiumTest(
+    app: A,
+    driverFactory: AppiumDriverFactory,
+    block: AppScope<A>.(Unit) -> Unit,
+) {
+    appiumTest(
+        app = app,
+        driverFactory = driverFactory,
+        setUp = { },
+        block = block,
+    )
+}
+
+/**
+ * Unified test harness that creates an AppiumDriver session for the given [App] and runs the test flow.
+ *
+ * Three-phase lifecycle:
+ * 1. **setUp**: Executes before any AppiumDriver session exists.
+ * 2. **block**: Creates an AppiumDriver session and executes the main test body.
+ * 3. **tearDown**: Executes after the test body, even if the test fails.
+ *
+ * @param A The concrete app type bound to this test.
+ * @param T The type of the prepared input value passed to [block].
+ * @param app The app under test.
+ * @param driverFactory Factory creating an AppiumDriver instance.
+ * @param setUp Computes the input [T] before the driver session is created.
+ * @param tearDown Cleans up after the test body; runs even if the test fails.
+ * @param block Main test body executed with an [AppScope] receiver and the prepared value.
+ */
+public fun <A : App, T> appiumTest(
+    app: A,
+    driverFactory: AppiumDriverFactory,
+    setUp: () -> T,
+    tearDown: (T) -> Unit = {},
+    block: AppScope<A>.(T) -> Unit,
+) {
+    appiumTestImpl(app, driverFactory, setUp, tearDown, block)
+}
+
+/**
+ * API-integrated overload of [appiumTest] with suspending setup and teardown.
+ *
+ * Identical to the primary [appiumTest] overload in driver lifecycle behaviour,
+ * but accepts suspending [apiSetUp] and [apiTearDown] lambdas instead of plain synchronous ones.
+ * This makes it a natural fit for tests that seed or clean up data via a Kolibrium API client
+ * before and after the Appium session.
+ *
+ * The [apiSetUp] block runs synchronously (via `runBlocking`) before the AppiumDriver session is
+ * created. Its return value [T] is passed to [block] and, after the test completes, to [apiTearDown].
+ * [apiTearDown] always runs, even if [block] throws; its exception (if any) is added as suppressed
+ * to the test failure.
+ *
+ * Example:
+ * ```kotlin
+ * appiumTest(
+ *     app = MyAndroidApp,
+ *     driverFactory = MyAndroidApp.driverFactory,
+ *     apiSetUp = { users.createUser { username = "testuser" }.body.id },
+ *     apiTearDown = { userId -> users.deleteUser(userId) },
+ * ) { userId ->
+ *     on(::ProfileScreen) {
+ *         verifyUsername(userId)
+ *     }
+ * }
+ * ```
+ *
+ * @param A The concrete [App] type bound to this test.
+ * @param T The type of the value produced by [apiSetUp] and consumed by [block] and [apiTearDown].
+ * @param app The app under test.
+ * @param driverFactory Factory creating an AppiumDriver instance.
+ * @param apiSetUp Suspending block that runs before the driver session is created. Use it to seed
+ *   test data via an API client. Its return value is forwarded to [block] and [apiTearDown].
+ * @param apiTearDown Suspending block that runs after [block], even on failure. Use it to clean up
+ *   data created in [apiSetUp]. Defaults to a no-op.
+ * @param block Main test body executed with an [AppScope] receiver and the value from [apiSetUp].
+ */
+public fun <A : App, T> appiumTest(
+    app: A,
+    driverFactory: AppiumDriverFactory,
+    apiSetUp: suspend () -> T,
+    apiTearDown: suspend (T) -> Unit = {},
+    block: AppScope<A>.(T) -> Unit,
+) {
+    appiumTest(
+        app = app,
+        driverFactory = driverFactory,
+        setUp = { runBlocking { apiSetUp() } },
+        tearDown = { runBlocking { apiTearDown(it) } },
+        block = block,
     )
 }
 
@@ -183,6 +261,46 @@ public fun <A : AndroidApp> androidTest(
 }
 
 /**
+ * API-integrated overload of [androidTest] with suspending setup and teardown.
+ *
+ * Delegates to the [appiumTest] API overload. See its documentation for full lifecycle details.
+ *
+ * Example:
+ * ```kotlin
+ * androidTest(
+ *     app = MyAndroidApp,
+ *     apiSetUp = { users.createUser { username = "testuser" }.body.id },
+ *     apiTearDown = { userId -> users.deleteUser(userId) },
+ * ) { userId ->
+ *     on(::ProfileScreen) { verifyUsername(userId) }
+ * }
+ * ```
+ *
+ * @param A The concrete [AndroidApp] type bound to this test.
+ * @param T The type of the value produced by [apiSetUp] and consumed by [block] and [apiTearDown].
+ * @param app The Android app under test.
+ * @param driverFactory Optional override for the driver factory; defaults to [AndroidApp.driverFactory].
+ * @param apiSetUp Suspending block that runs before the driver session is created.
+ * @param apiTearDown Suspending block that runs after [block], even on failure. Defaults to a no-op.
+ * @param block Main test body executed with an [AppScope] receiver and the value from [apiSetUp].
+ */
+public fun <A : AndroidApp, T> androidTest(
+    app: A,
+    driverFactory: AndroidDriverFactory = app.driverFactory,
+    apiSetUp: suspend () -> T,
+    apiTearDown: suspend (T) -> Unit = {},
+    block: AppScope<A>.(T) -> Unit,
+) {
+    appiumTest(
+        app = app,
+        driverFactory = driverFactory,
+        apiSetUp = apiSetUp,
+        apiTearDown = apiTearDown,
+        block = block,
+    )
+}
+
+/**
  * iOS‑focused convenience harness.
  *
  * Creates an Appium session using the app's default [IosDriverFactory] unless overridden,
@@ -236,25 +354,41 @@ public fun <A : IosApp> iosTest(
 }
 
 /**
- * Cross‑platform convenience harness.
+ * API-integrated overload of [iosTest] with suspending setup and teardown.
  *
- * Requires an explicit [driverFactory] since there is no single sensible default. Use the
- * appropriate factory from [CrossPlatformApp.androidDriverFactory] or [CrossPlatformApp.iosDriverFactory].
+ * Delegates to the [appiumTest] API overload. See its documentation for full lifecycle details.
  *
- * @param A The concrete cross‑platform app type bound to this test.
- * @param app The app under test.
- * @param driverFactory The explicit driver factory to use for this run.
- * @param block The test body executed with an [AppScope] receiver.
+ * Example:
+ * ```kotlin
+ * iosTest(
+ *     app = MyIosApp,
+ *     apiSetUp = { users.createUser { username = "testuser" }.body.id },
+ *     apiTearDown = { userId -> users.deleteUser(userId) },
+ * ) { userId ->
+ *     on(::ProfileScreen) { verifyUsername(userId) }
+ * }
+ * ```
+ *
+ * @param A The concrete [IosApp] type bound to this test.
+ * @param T The type of the value produced by [apiSetUp] and consumed by [block] and [apiTearDown].
+ * @param app The iOS app under test.
+ * @param driverFactory Optional override for the driver factory; defaults to [IosApp.driverFactory].
+ * @param apiSetUp Suspending block that runs before the driver session is created.
+ * @param apiTearDown Suspending block that runs after [block], even on failure. Defaults to a no-op.
+ * @param block Main test body executed with an [AppScope] receiver and the value from [apiSetUp].
  */
-public fun <A : CrossPlatformApp> appiumTest(
+public fun <A : IosApp, T> iosTest(
     app: A,
-    driverFactory: AppiumDriverFactory,
-    block: AppScope<A>.(Unit) -> Unit,
+    driverFactory: IosDriverFactory = app.driverFactory,
+    apiSetUp: suspend () -> T,
+    apiTearDown: suspend (T) -> Unit = {},
+    block: AppScope<A>.(T) -> Unit,
 ) {
     appiumTest(
         app = app,
         driverFactory = driverFactory,
-        setUp = { },
+        apiSetUp = apiSetUp,
+        apiTearDown = apiTearDown,
         block = block,
     )
 }

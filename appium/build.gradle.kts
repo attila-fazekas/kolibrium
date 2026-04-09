@@ -25,6 +25,7 @@ plugins {
 dependencies {
     api(project(":webdriver"))
     api("io.appium:java-client:_")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:_")
     testImplementation("com.titusfortner:selenium-logger:_")
 }
 
