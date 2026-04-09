@@ -26,11 +26,6 @@ import io.ktor.client.HttpClient
 @GenerateApi
 object BrowserStackApiSpec : ApiSpec(baseUrl = BrowserStackApiConfig.baseUrl)
 
-fun browserStackClient(
-    client: HttpClient = defaultHttpClient,
-    baseUrl: String = BrowserStackApiConfig.baseUrl,
-): BrowserStackClient = BrowserStackClient(client, baseUrl)
-
 public fun <T> browserStackApiPrepare(
     client: HttpClient = defaultHttpClient,
     baseUrl: String = BrowserStackApiConfig.baseUrl,

@@ -22,6 +22,8 @@ import com.squareup.kotlinpoet.ClassName
 import com.squareup.kotlinpoet.FileSpec
 import com.squareup.kotlinpoet.FunSpec
 import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.MemberName
+import com.squareup.kotlinpoet.ParameterSpec
 import com.squareup.kotlinpoet.PropertySpec
 import com.squareup.kotlinpoet.TypeSpec
 import dev.kolibrium.api.ksp.annotations.AuthType
@@ -103,13 +105,8 @@ internal class ClientCodeGenerator(
 
         classBuilder
             .addKdoc("HTTP client for the %L API.", apiInfo.displayName)
-            .primaryConstructor(
-                FunSpec
-                    .constructorBuilder()
-                    .addParameter("client", HTTP_CLIENT_CLASS)
-                    .addParameter("baseUrl", String::class)
-                    .build(),
-            ).addProperty(
+            .primaryConstructor(buildClientConstructor(apiInfo))
+            .addProperty(
                 PropertySpec
                     .builder("client", HTTP_CLIENT_CLASS)
                     .initializer("client")
@@ -199,19 +196,13 @@ internal class ClientCodeGenerator(
         apiInfo: ApiSpecInfo,
         groupClientClassNames: Map<String, ClassName>,
     ) {
-        val constructorBuilder =
-            FunSpec
-                .constructorBuilder()
-                .addParameter("client", HTTP_CLIENT_CLASS)
-                .addParameter("baseUrl", String::class)
-
         val classBuilder =
             TypeSpec
                 .classBuilder(rootClientClassName)
 
         classBuilder
             .addKdoc("Aggregator client for the %L API, grouping endpoints by resource.", apiInfo.displayName)
-            .primaryConstructor(constructorBuilder.build())
+            .primaryConstructor(buildClientConstructor(apiInfo))
             .addProperty(
                 PropertySpec
                     .builder("client", HTTP_CLIENT_CLASS)
@@ -251,5 +242,22 @@ internal class ClientCodeGenerator(
                 fileSpec.name,
             ).writer()
             .use { writer -> fileSpec.writeTo(writer) }
+    }
+
+    private fun buildClientConstructor(apiInfo: ApiSpecInfo): FunSpec {
+        val specClass = ClassName(apiInfo.packageName, apiInfo.apiSpec.simpleName.asString())
+        return FunSpec
+            .constructorBuilder()
+            .addParameter(
+                ParameterSpec
+                    .builder("client", HTTP_CLIENT_CLASS)
+                    .defaultValue("%T.httpClient", specClass)
+                    .build(),
+            ).addParameter(
+                ParameterSpec
+                    .builder("baseUrl", String::class)
+                    .defaultValue("%T.baseUrl", specClass)
+                    .build(),
+            ).build()
     }
 }

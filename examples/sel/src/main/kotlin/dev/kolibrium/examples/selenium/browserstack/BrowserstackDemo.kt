@@ -18,7 +18,6 @@ package dev.kolibrium.examples.selenium.browserstack
 
 import dev.kolibrium.api.core.defaultHttpClient
 import dev.kolibrium.examples.api.browserstack.BrowserStackApiConfig
-import dev.kolibrium.examples.api.browserstack.browserStackClient
 import dev.kolibrium.examples.api.browserstack.generated.BrowserStackClient
 import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.decorators.AbstractDecorator
@@ -39,11 +38,10 @@ import dev.kolibrium.webdriver.WaitConfig.Companion.Quick
 import io.ktor.client.HttpClient
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
-import kotlinx.coroutines.runBlocking
 import org.openqa.selenium.chrome.ChromeDriver
 
 object BrowserstackDemo : SeleniumSite(baseUrl = "https://bstackdemo.com") {
-    val api = browserStackClient()
+    val api = BrowserStackClient()
 
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
@@ -95,8 +93,8 @@ fun <T> browserStackDemoTest(
     site = BrowserstackDemo,
     keepBrowserOpen = keepBrowserOpen,
     driverFactory = driverFactory,
-    setUp = { runBlocking { BrowserStackClient(client, BrowserStackApiConfig.baseUrl).apiSetUp() } },
-    tearDown = { runBlocking { BrowserStackClient(client, BrowserStackApiConfig.baseUrl).apiTearDown(it) } },
+    apiSetUp = { BrowserStackClient(client, BrowserStackApiConfig.baseUrl).apiSetUp() },
+    apiTearDown = { BrowserStackClient(client, BrowserStackApiConfig.baseUrl).apiTearDown(it) },
     block = block,
 )
 
