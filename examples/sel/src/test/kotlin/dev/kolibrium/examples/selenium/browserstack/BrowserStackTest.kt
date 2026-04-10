@@ -17,6 +17,7 @@
 package dev.kolibrium.examples.selenium.browserstack
 
 import com.titusfortner.logging.SeleniumLogger
+import dev.kolibrium.examples.selenium.browserstack.BrowserstackDemo.myApiClient
 import dev.kolibrium.examples.selenium.browserstack.pages.ProductsPage
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -35,9 +36,9 @@ class BrowserStackTest {
     @Test
     fun `add products to shopping cart - integration with API module`() = browserStackDemoTest(
         keepBrowserOpen = false,
-        apiSetUp = {
+        setUp = {
             val displayNames = products.map { it.displayName }
-            getProducts()
+            myApiClient.getProducts()
                 .body
                 .products
                 .filter { it.title in displayNames }

@@ -55,6 +55,10 @@ public class KolibriumConfig(
  * The prepared value [T] produced by [setUp] is passed to both [block] and [tearDown].
  * If the test body throws, [tearDown] still runs; its exception (if any) is added as suppressed.
  *
+ * All three user-facing lambdas ([setUp], [tearDown], [block]) are `suspend`, so callers can invoke
+ * suspend functions (e.g. Ktor-based API clients) directly without wrapping them in `runBlocking`.
+ * The harness bridges the coroutine boundary internally via `runBlocking`.
+ *
  * @param S The concrete [PlaywrightSite] type.
  * @param T The type of the value produced by [setUp] and consumed by [block]/[tearDown].
  * @param site The site under test.
@@ -62,9 +66,9 @@ public class KolibriumConfig(
  * @param launchOptions Playwright [LaunchOptions] passed directly — controls headless, slowMo, etc.
  * @param contextOptions Playwright [NewContextOptions] passed directly — controls viewport, locale, etc.
  * @param config Kolibrium-specific configuration (tracing, etc.).
- * @param setUp Produces a value before the browser is launched. Useful for test data creation.
- * @param tearDown Cleans up after the test, receiving the value from [setUp]. Runs even on failure.
- * @param block The test body, executed with a [SiteScope] receiver.
+ * @param setUp Suspending block that produces a value before the browser is launched. Useful for test data creation.
+ * @param tearDown Suspending block that cleans up after the test, receiving the value from [setUp]. Runs even on failure.
+ * @param block Suspending main test body, executed with a [SiteScope] receiver.
  */
 public fun <S : PlaywrightSite, T> playwrightTest(
     site: S,
@@ -72,9 +76,9 @@ public fun <S : PlaywrightSite, T> playwrightTest(
     launchOptions: LaunchOptions? = null,
     contextOptions: NewContextOptions? = null,
     config: KolibriumConfig = KolibriumConfig(),
-    setUp: () -> T,
-    tearDown: (T) -> Unit = {},
-    block: SiteScope<S>.(T) -> Unit,
+    setUp: suspend () -> T,
+    tearDown: suspend (T) -> Unit = {},
+    block: suspend SiteScope<S>.(T) -> Unit,
 ) {
     playwrightTestImpl(site, browserType, launchOptions, contextOptions, config, setUp, tearDown, block)
 }
@@ -82,13 +86,16 @@ public fun <S : PlaywrightSite, T> playwrightTest(
 /**
  * Convenience overload of [playwrightTest] when no setUp/tearDown lifecycle is needed.
  *
+ * Uses [Unit] as the prepared value and runs [block].
+ * See [playwrightTest] for full details about lifecycle and cleanup behavior.
+ *
  * @param S The concrete [PlaywrightSite] type.
  * @param site The site under test.
  * @param browserType Which browser engine to launch.
  * @param launchOptions Playwright [LaunchOptions] passed directly.
  * @param contextOptions Playwright [NewContextOptions] passed directly.
  * @param config Kolibrium-specific configuration (tracing, etc.).
- * @param block The test body, executed with a [SiteScope] receiver.
+ * @param block Suspending main test body, executed with a [SiteScope] receiver.
  */
 public fun <S : PlaywrightSite> playwrightTest(
     site: S,
@@ -96,7 +103,7 @@ public fun <S : PlaywrightSite> playwrightTest(
     launchOptions: LaunchOptions? = null,
     contextOptions: NewContextOptions? = null,
     config: KolibriumConfig = KolibriumConfig(),
-    block: SiteScope<S>.(Unit) -> Unit,
+    block: suspend SiteScope<S>.(Unit) -> Unit,
 ) {
     playwrightTest(
         site = site,
@@ -109,78 +116,17 @@ public fun <S : PlaywrightSite> playwrightTest(
     )
 }
 
-/**
- * API-integrated overload of [playwrightTest] with suspending setup and teardown.
- *
- * Identical to the primary [playwrightTest] overload in browser lifecycle and tracing behaviour,
- * but accepts suspending [apiSetUp] and [apiTearDown] lambdas instead of plain synchronous ones.
- * This makes it a natural fit for tests that seed or clean up data via a Kolibrium API client
- * before and after the browser session.
- *
- * The [apiSetUp] block runs synchronously (via `runBlocking`) before the Playwright browser is
- * launched. Its return value [T] is passed to [block] and, after the test completes, to [apiTearDown].
- * [apiTearDown] always runs, even if [block] throws; its exception (if any) is added as suppressed
- * to the test failure.
- *
- * Example:
- * ```kotlin
- * playwrightTest(
- *     site = MyShopSite,
- *     apiSetUp = { users.createUser { email = "test@example.com" }.body.id },
- *     apiTearDown = { userId -> users.deleteUser(userId) },
- * ) { userId ->
- *     on(::ProfilePage) {
- *         updateProfile()
- *     }
- * }
- * ```
- *
- * @param S The concrete [PlaywrightSite] type.
- * @param T The type of the value produced by [apiSetUp] and consumed by [block] and [apiTearDown].
- * @param site The site under test.
- * @param browserType Which browser engine to launch.
- * @param launchOptions Playwright [LaunchOptions] passed directly — controls headless, slowMo, etc.
- * @param contextOptions Playwright [NewContextOptions] passed directly — controls viewport, locale, etc.
- * @param config Kolibrium-specific configuration (tracing, etc.).
- * @param apiSetUp Suspending block that runs before the browser is launched. Use it to seed test
- *   data via an API client. Its return value is forwarded to [block] and [apiTearDown].
- * @param apiTearDown Suspending block that runs after [block], even on failure. Use it to clean up
- *   data created in [apiSetUp]. Defaults to a no-op.
- * @param block The test body, executed with a [SiteScope] receiver and the value from [apiSetUp].
- */
-public fun <S : PlaywrightSite, T> playwrightTest(
-    site: S,
-    browserType: BrowserType = BrowserType.Chromium,
-    launchOptions: LaunchOptions? = null,
-    contextOptions: NewContextOptions? = null,
-    config: KolibriumConfig = KolibriumConfig(),
-    apiSetUp: suspend () -> T,
-    apiTearDown: suspend (T) -> Unit = {},
-    block: SiteScope<S>.(T) -> Unit,
-) {
-    playwrightTest(
-        site = site,
-        browserType = browserType,
-        launchOptions = launchOptions,
-        contextOptions = contextOptions,
-        config = config,
-        setUp = { runBlocking { apiSetUp() } },
-        tearDown = { runBlocking { apiTearDown(it) } },
-        block = block,
-    )
-}
-
 internal fun <S : PlaywrightSite, T> playwrightTestImpl(
     site: S,
     browserType: BrowserType,
     launchOptions: LaunchOptions?,
     contextOptions: NewContextOptions?,
     config: KolibriumConfig,
-    setUp: () -> T,
-    tearDown: (T) -> Unit,
-    block: SiteScope<S>.(T) -> Unit,
+    setUp: suspend () -> T,
+    tearDown: suspend (T) -> Unit,
+    block: suspend SiteScope<S>.(T) -> Unit,
 ) {
-    val prepared: T = setUp()
+    val prepared: T = runBlocking { setUp() }
     var testError: Throwable? = null
 
     try {
@@ -242,14 +188,14 @@ private fun <S : PlaywrightSite, T> runTestBlock(
     page: Page,
     site: S,
     prepared: T,
-    block: SiteScope<S>.(T) -> Unit,
+    block: suspend SiteScope<S>.(T) -> Unit,
 ) {
     val session = Session(page, site)
     SessionContext.withSession(session) {
         PageContextHolder.set(page)
         try {
             val scope = SiteScope<S>(page)
-            scope.block(prepared)
+            runBlocking { scope.block(prepared) }
         } finally {
             PageContextHolder.clear()
         }
@@ -283,10 +229,10 @@ private fun BrowserContext.stopTracing(
 private fun <T> safeTearDown(
     prepared: T,
     testError: Throwable?,
-    tearDown: (T) -> Unit,
+    tearDown: suspend (T) -> Unit,
 ) {
     try {
-        tearDown(prepared)
+        runBlocking { tearDown(prepared) }
     } catch (teardownError: Throwable) {
         if (testError != null) {
             testError.addSuppressed(teardownError)

@@ -16,8 +16,6 @@
 
 package dev.kolibrium.examples.selenium.browserstack
 
-import dev.kolibrium.api.core.defaultHttpClient
-import dev.kolibrium.examples.api.browserstack.BrowserStackApiConfig
 import dev.kolibrium.examples.api.browserstack.generated.BrowserStackClient
 import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.decorators.AbstractDecorator
@@ -26,7 +24,6 @@ import dev.kolibrium.selenium.core.decorators.Color
 import dev.kolibrium.selenium.core.decorators.HighlighterDecorator
 import dev.kolibrium.selenium.core.decorators.LoggerDecorator
 import dev.kolibrium.selenium.core.decorators.SlowMotionDecorator
-import dev.kolibrium.webdriver.isClickable
 import dev.kolibrium.selenium.dsl.DriverFactory
 import dev.kolibrium.selenium.dsl.SiteEntry
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
@@ -35,13 +32,13 @@ import dev.kolibrium.selenium.dsl.creation.chromeDriver
 import dev.kolibrium.selenium.dsl.seleniumTest
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WaitConfig.Companion.Quick
-import io.ktor.client.HttpClient
-import org.openqa.selenium.WebElement
+import dev.kolibrium.webdriver.isClickable
 import kotlin.time.Duration.Companion.milliseconds
+import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
 
 object BrowserstackDemo : SeleniumSite(baseUrl = "https://bstackdemo.com") {
-    val api = BrowserStackClient()
+    val myApiClient = BrowserStackClient()
 
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
 
@@ -70,31 +67,17 @@ fun browserStackDemoTest(
 )
 
 fun <T> browserStackDemoTest(
-    driverFactory: DriverFactory = browserStackDemoDriver,
+    driverFactory: DriverFactory = { ChromeDriver() },
     keepBrowserOpen: Boolean = false,
-    setUp: () -> T,
-    block: SiteEntry<BrowserstackDemo>.(T) -> Unit,
+    setUp: suspend () -> T,
+    tearDown: suspend (T) -> Unit = {},
+    block: suspend SiteEntry<BrowserstackDemo>.(T) -> Unit,
 ) = seleniumTest(
     site = BrowserstackDemo,
     keepBrowserOpen = keepBrowserOpen,
     driverFactory = driverFactory,
     setUp = setUp,
-    block = block,
-)
-
-fun <T> browserStackDemoTest(
-    driverFactory: DriverFactory = browserStackDemoDriver,
-    keepBrowserOpen: Boolean = false,
-    client: HttpClient = defaultHttpClient,
-    apiSetUp: suspend BrowserStackClient.() -> T,
-    apiTearDown: suspend BrowserStackClient.(T) -> Unit = {},
-    block: SiteEntry<BrowserstackDemo>.(T) -> Unit,
-) = seleniumTest(
-    site = BrowserstackDemo,
-    keepBrowserOpen = keepBrowserOpen,
-    driverFactory = driverFactory,
-    apiSetUp = { BrowserStackClient(client, BrowserStackApiConfig.baseUrl).apiSetUp() },
-    apiTearDown = { BrowserStackClient(client, BrowserStackApiConfig.baseUrl).apiTearDown(it) },
+    tearDown = tearDown,
     block = block,
 )
 

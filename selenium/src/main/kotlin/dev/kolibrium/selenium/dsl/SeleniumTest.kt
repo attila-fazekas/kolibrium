@@ -39,6 +39,10 @@ import org.openqa.selenium.WebDriver
  *   Then calls [SeleniumSite.configureSite] and [SeleniumSite.onSessionReady] sequentially.
  * - Invokes [block] with a [SiteEntry] receiver in the site's context.
  *
+ * All three user-facing lambdas ([setUp], [tearDown], [block]) are `suspend`, so callers can invoke
+ * suspend functions (e.g. Ktor-based API clients) directly without wrapping them in `runBlocking`.
+ * The harness bridges the coroutine boundary internally via `runBlocking`.
+ *
  * Cleanup:
  * - Unless [keepBrowserOpen] is true, the session is closed in a finally block for robustness.
  *
@@ -48,26 +52,25 @@ import org.openqa.selenium.WebDriver
  * @param S The concrete site type bound to this test.
  * @param T The type of the prepared input value passed to [block].
  * @param site The site under test; establishes the base URL and defaults.
- * @param driverFactory Factory creating a WebDriver instance (e.g., `chrome`, `firefox`, or predefined factories like `headlessChrome`).
+ * @param driverFactory Factory creating a WebDriver instance.
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
- * @param setUp Computes the input [T] before the browser session is created. It runs without
- * an active WebDriver or [SessionContext].
- * @param tearDown Cleans up the test context after the test body; runs even if the test fails.
- * @param block Main test body executed with a [SiteEntry] receiver and the prepared value.
+ * @param setUp Suspending block that computes the input [T] before the browser session is created.
+ * @param tearDown Suspending block that cleans up the test context after the test body; runs even if the test fails.
+ * @param block Suspending main test body executed with a [SiteEntry] receiver and the prepared value.
  */
 public fun <S : SeleniumSite, T> seleniumTest(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean = false,
-    setUp: () -> T,
-    tearDown: (T) -> Unit = {},
-    block: SiteEntry<S>.(T) -> Unit,
+    setUp: suspend () -> T,
+    tearDown: suspend (T) -> Unit = {},
+    block: suspend SiteEntry<S>.(T) -> Unit,
 ) {
     seleniumTestImpl(site, driverFactory, keepBrowserOpen, setUp, tearDown, block)
 }
 
 /**
- * Convenience overload of [seleniumTest] when no prepare data is needed.
+ * Convenience overload of [seleniumTest] when no prepared data is needed.
  *
  * Uses [Unit] as the prepared value and runs [block].
  * See [seleniumTest] for full details about navigation, cookie application, and cleanup behavior.
@@ -76,13 +79,13 @@ public fun <S : SeleniumSite, T> seleniumTest(
  * @param site The site under test.
  * @param driverFactory Factory creating a WebDriver instance.
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
- * @param block Main test body executed with a [SiteEntry] receiver.
+ * @param block Suspending main test body executed with a [SiteEntry] receiver.
  */
 public fun <S : SeleniumSite> seleniumTest(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean = false,
-    block: SiteEntry<S>.(Unit) -> Unit,
+    block: suspend SiteEntry<S>.(Unit) -> Unit,
 ) {
     seleniumTest(
         site = site,
@@ -93,71 +96,15 @@ public fun <S : SeleniumSite> seleniumTest(
     )
 }
 
-/**
- * API-integrated overload of [seleniumTest] with suspending setup and teardown.
- *
- * Identical to the primary [seleniumTest] overload in browser lifecycle and navigation behaviour,
- * but accepts suspending [apiSetUp] and [apiTearDown] lambdas instead of plain synchronous ones.
- * This makes it a natural fit for tests that seed or clean up data via a Kolibrium API client
- * before and after the browser session.
- *
- * The [apiSetUp] block runs synchronously (via `runBlocking`) before the WebDriver session is
- * created. Its return value [T] is passed to [block] and, after the test completes, to [apiTearDown].
- * [apiTearDown] always runs, even if [block] throws; its exception (if any) is added as suppressed
- * to the test failure.
- *
- * Example:
- * ```kotlin
- * seleniumTest(
- *     site = MyShopSite,
- *     driverFactory = chrome,
- *     apiSetUp = { users.createUser { email = "test@example.com" }.body.id },
- *     apiTearDown = { userId -> users.deleteUser(userId) },
- * ) { userId ->
- *     open(::ProfilePage, path = "/users/$userId") {
- *         updateProfile()
- *     }
- * }
- * ```
- *
- * @param S The concrete [SeleniumSite] type bound to this test.
- * @param T The type of the value produced by [apiSetUp] and consumed by [block] and [apiTearDown].
- * @param site The site under test; establishes the base URL and defaults.
- * @param driverFactory Factory creating a WebDriver instance.
- * @param keepBrowserOpen When `true`, keeps the browser open after [block] (useful for debugging).
- * @param apiSetUp Suspending block that runs before the browser session is created. Use it to seed
- *   test data via an API client. Its return value is forwarded to [block] and [apiTearDown].
- * @param apiTearDown Suspending block that runs after [block], even on failure. Use it to clean up
- *   data created in [apiSetUp]. Defaults to a no-op.
- * @param block The test body, executed with a [SiteEntry] receiver and the value from [apiSetUp].
- */
-public fun <S : SeleniumSite, T> seleniumTest(
-    site: S,
-    driverFactory: DriverFactory,
-    keepBrowserOpen: Boolean = false,
-    apiSetUp: suspend () -> T,
-    apiTearDown: suspend (T) -> Unit = {},
-    block: SiteEntry<S>.(T) -> Unit,
-) {
-    seleniumTest(
-        site = site,
-        driverFactory = driverFactory,
-        keepBrowserOpen = keepBrowserOpen,
-        setUp = { runBlocking { apiSetUp() } },
-        tearDown = { runBlocking { apiTearDown(it) } },
-        block = block,
-    )
-}
-
 internal fun <S : SeleniumSite, T> seleniumTestImpl(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean,
-    setUp: () -> T,
-    tearDown: (T) -> Unit = {},
-    block: SiteEntry<S>.(T) -> Unit,
+    setUp: suspend () -> T,
+    tearDown: suspend (T) -> Unit = {},
+    block: suspend SiteEntry<S>.(T) -> Unit,
 ) {
-    val prepared: T = setUp()
+    val prepared: T = runBlocking { setUp() }
     var testError: Throwable? = null
     var driver: WebDriver? = null
 
@@ -177,7 +124,9 @@ internal fun <S : SeleniumSite, T> seleniumTestImpl(
 
             val entry: SiteEntry<S> = PageEntry(driver)
             withDriver(driver) {
-                context(site) { entry.block(prepared) }
+                context(site) {
+                    runBlocking { entry.block(prepared) }
+                }
             }
         }
     } catch (e: Throwable) {
@@ -185,7 +134,7 @@ internal fun <S : SeleniumSite, T> seleniumTestImpl(
         throw e
     } finally {
         try {
-            tearDown(prepared)
+            runBlocking { tearDown(prepared) }
         } catch (teardownError: Throwable) {
             if (testError != null) {
                 testError.addSuppressed(teardownError)
