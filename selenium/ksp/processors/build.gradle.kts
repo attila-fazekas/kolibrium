@@ -20,12 +20,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("kolibrium.library-conventions")
     id("kolibrium.ksp-conventions")
-    id("kolibrium.ktor-client-conventions")
     id("kolibrium.test-conventions")
 }
 
 dependencies {
-    implementation(project(":api:ksp:annotations"))
+    implementation(project(":selenium:ksp:annotations"))
 }
 
 tasks.withType<KotlinCompile> {

@@ -20,10 +20,11 @@ plugins {
 
 dependencies {
     dokka(project(":annotations"))
+    dokka(project(":api:core"))
     dokka(project(":api:ksp:annotations"))
     dokka(project(":api:ksp:processors"))
     dokka(project(":appium"))
-    dokka(project(":selenium"))
+    dokka(project(":selenium:core"))
     dokka(project(":webdriver"))
     dokkaHtmlPlugin("org.jetbrains.dokka:versioning-plugin")
 }
