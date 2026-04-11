@@ -29,6 +29,9 @@ dependencies {
     dokka(project(":selenium:core"))
     dokka(project(":selenium:ksp:annotations"))
     dokka(project(":selenium:ksp:processors"))
+    dokka(project(":playwright:core"))
+    dokka(project(":playwright:ksp:annotations"))
+    dokka(project(":playwright:ksp:processors"))
     dokka(project(":webdriver"))
     dokkaHtmlPlugin("org.jetbrains.dokka:versioning-plugin")
 }
