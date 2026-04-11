@@ -30,6 +30,8 @@ dependencies {
         api(project(":api:ksp:annotations"))
         api(project(":appium:core"))
         api(project(":appium:ksp:annotations"))
+        api(project(":playwright:core"))
+        api(project(":playwright:ksp:annotations"))
         api(project(":selenium:core"))
         api(project(":selenium:ksp:annotations"))
         api(project(":webdriver"))
