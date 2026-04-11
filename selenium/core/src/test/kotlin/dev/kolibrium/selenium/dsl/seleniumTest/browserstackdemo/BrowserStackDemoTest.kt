@@ -44,7 +44,7 @@ class BrowserStackDemoTest {
 //    @Test
 //    fun test() =
 //        seleniumTest(
-//            site = BrowserstackDemo,
+//            site = BrowserStackDemo,
 //            keepBrowserOpen = false,
 //            setUp = {
 //                val displayNames = products.map { it.displayName }
