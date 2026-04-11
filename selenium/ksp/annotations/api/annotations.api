@@ -1,0 +1,3 @@
+public abstract interface annotation class dev/kolibrium/selenium/ksp/annotations/GenerateTestHarness : java/lang/annotation/Annotation {
+}
+

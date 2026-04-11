@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.api.ksp.processors
+package dev.kolibrium.selenium.ksp.processors
 
-import com.google.auto.service.AutoService
-import com.google.devtools.ksp.processing.SymbolProcessor
-import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
-import com.google.devtools.ksp.processing.SymbolProcessorProvider
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.MemberName
 
-@AutoService(SymbolProcessorProvider::class)
-internal class ApiCodegenProcessorProvider : SymbolProcessorProvider {
-    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor = ApiCodegenProcessor(environment)
-}
+internal const val SELENIUM_SITE_BASE_CLASS = "dev.kolibrium.selenium.core.SeleniumSite"
+
+internal val SELENIUM_TEST_MEMBER = MemberName("dev.kolibrium.selenium.dsl", "seleniumTest")
+internal val SITE_ENTRY_CLASS = ClassName("dev.kolibrium.selenium.dsl", "SiteEntry")
+internal val DRIVER_FACTORY_CLASS = ClassName("dev.kolibrium.selenium.dsl", "DriverFactory")
+internal val CHROME_DRIVER_CLASS = ClassName("org.openqa.selenium.chrome", "ChromeDriver")

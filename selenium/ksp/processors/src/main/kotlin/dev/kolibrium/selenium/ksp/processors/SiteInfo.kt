@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.api.ksp.processors
+package dev.kolibrium.selenium.ksp.processors
 
-import com.google.auto.service.AutoService
-import com.google.devtools.ksp.processing.SymbolProcessor
-import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
-import com.google.devtools.ksp.processing.SymbolProcessorProvider
+import com.google.devtools.ksp.symbol.KSClassDeclaration
 
-@AutoService(SymbolProcessorProvider::class)
-internal class ApiCodegenProcessorProvider : SymbolProcessorProvider {
-    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor = ApiCodegenProcessor(environment)
-}
+internal data class SiteInfo(
+    val siteDeclaration: KSClassDeclaration,
+    val siteName: String,
+    val packageName: String,
+)

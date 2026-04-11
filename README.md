@@ -78,7 +78,7 @@ Every module uses the same pattern to define the application under test.
 object VinylStoreApiSpec : ApiSpec(baseUrl = "http://localhost:8080")
 
 // Selenium
-object BrowserstackDemo : Site(baseUrl = "https://bstackdemo.com") {
+object BrowserStackDemo : Site(baseUrl = "https://bstackdemo.com") {
     override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
     override val waitConfig: WaitConfig = Quick
 }

@@ -25,6 +25,7 @@ plugins {
 
 dependencies {
     implementation(project(":selenium:ksp:annotations"))
+    testImplementation(project(":selenium:core"))
 }
 
 tasks.withType<KotlinCompile> {

@@ -30,7 +30,6 @@ object SharedFunctions {
 
         return when (name) {
             "core", "annotations", "processors" -> {
-                // Joins the path parts to create names like "api-core" or "appium-ksp-processors"
                 pathParts.joinToString("-")
             }
             else -> name
