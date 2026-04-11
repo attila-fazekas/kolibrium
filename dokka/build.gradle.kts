@@ -23,8 +23,12 @@ dependencies {
     dokka(project(":api:core"))
     dokka(project(":api:ksp:annotations"))
     dokka(project(":api:ksp:processors"))
-    dokka(project(":appium"))
+    dokka(project(":appium:core"))
+    dokka(project(":appium:ksp:annotations"))
+    dokka(project(":appium:ksp:processors"))
     dokka(project(":selenium:core"))
+    dokka(project(":selenium:ksp:annotations"))
+    dokka(project(":selenium:ksp:processors"))
     dokka(project(":webdriver"))
     dokkaHtmlPlugin("org.jetbrains.dokka:versioning-plugin")
 }
