@@ -135,8 +135,6 @@ internal fun validateRequestClass(requestClass: KSClassDeclaration): ValidationR
         )
     }
 
-    val isEmptyResponse = successQualifiedName == KOTLIN_UNIT
-
     // Extract optional error type
     val errorType = returnsAnnotation.getKClassTypeArgument("error")
     val errorQualifiedName = errorType?.declaration?.qualifiedName?.asString()

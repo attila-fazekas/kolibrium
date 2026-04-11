@@ -24,18 +24,16 @@ object PublicationProperties {
 }
 
 object SharedFunctions {
-    fun getModuleName(project: Project) = when {
-        project.name.contains("core") -> {
-            "api-core"
-        }
-        project.name.contains("annotations") -> {
-            "api-ksp-annotations"
-        }
-        project.name.contains("processors") -> {
-            "api-ksp-processors"
-        }
-        else -> {
-            project.name
+    fun getModuleName(project: Project): String {
+        val name = project.name
+        val pathParts = project.path.removePrefix(":").split(":")
+
+        return when (name) {
+            "core", "annotations", "processors" -> {
+                // Joins the path parts to create names like "api-core" or "appium-ksp-processors"
+                pathParts.joinToString("-")
+            }
+            else -> name
         }
     }
 }

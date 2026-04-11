@@ -218,7 +218,7 @@ internal class ApiCodegenProcessor(
 
         // Validate and collect request info per API
         val requestInfosByApi: Map<ApiSpecInfo, List<RequestClassInfo>> =
-            requestsByApi.mapValues { (apiInfo, requestClasses) ->
+            requestsByApi.mapValues { (_, requestClasses) ->
                 requestClasses.mapNotNull { requestClass ->
                     when (val result = validateRequestClass(requestClass)) {
                         is ValidationResult.Valid -> {
