@@ -42,8 +42,9 @@ See [api/README.md](api/README.md) for detailed API module documentation.
 
 Fluent type-safe element location, smart waits, Page Object patterns, thread-safe session management, and an extensible decorator framework.
 
-- `kolibrium-selenium`: core WebDriver functionality including Page object base class, `seleniumTest` harness, element locator delegates, and extensible decorator framework
-- `kolibrium-selenium-ksp` *(planned)*: KSP processor for test harness code generation
+- `kolibrium-selenium-core`: core WebDriver functionality including Page object base class, `seleniumTest` harness, element locator delegates, and extensible decorator framework
+- `kolibrium-selenium-ksp-annotations`: annotation definitions for Selenium code generation
+- `kolibrium-selenium-ksp-processors`: KSP processor for test harness code generation
 
 See [Kolibrium website](https://kolibrium.dev/docs/category/selenium) for detailed Selenium module documentation.
 
@@ -51,15 +52,17 @@ See [Kolibrium website](https://kolibrium.dev/docs/category/selenium) for detail
 
 `AndroidApp`, `IosApp`, and `CrossPlatformApp` cover platform-specific and shared automation scenarios with a consistent API surface.
 
-- `kolibrium-appium`: Screen object base class, driver factories, locator delegates, type-safe `UiSelector` DSL (Android) and `NSPredicate` DSL (iOS), and test harness functions
-- `kolibrium-appium-ksp` *(planned)*: KSP processor for test harness code generation
+- `kolibrium-appium-core`: Screen object base class, driver factories, locator delegates, type-safe `UiSelector` DSL (Android) and `NSPredicate` DSL (iOS), and test harness functions
+- `kolibrium-appium-ksp-annotations`: annotation definitions for Appium code generation
+- `kolibrium-appium-ksp-processors`: KSP processor for test harness code generation
 
 See [appium/README.md](appium/README.md) for detailed Appium module documentation.
 
 ## Playwright
 
-- `kolibrium-playwright`: lightweight test harness, Site/PageObject base classes, and Playwright lifecycle management
-- `kolibrium-playwright-ksp` *(planned)*: KSP processor for test harness code generation
+- `kolibrium-playwright-core`: lightweight test harness, Site/PageObject base classes, and Playwright lifecycle management
+- `kolibrium-playwright-ksp-annotations`: annotation definitions for Playwright code generation
+- `kolibrium-playwright-ksp-processors`: KSP processor for test harness code generation
 
 See [playwright/README.md](playwright/README.md) for detailed Playwright module documentation.
 
