@@ -39,7 +39,7 @@ internal class TestHarnessProcessor(
                 .toList()
 
         if (symbols.isEmpty()) {
-            logger.logging("No @GenerateApi classes found, skipping code generation")
+            logger.logging("No @GenerateTestHarness classes found, skipping code generation")
             return emptyList()
         }
 
@@ -66,7 +66,7 @@ internal class TestHarnessProcessor(
 
             if (!extendsSeleniumSite) {
                 logger.error(
-                    "@GenerateTestHarness requires the class to extend SeleniumSite",
+                    "@GenerateTestHarness requires the class to directly extend SeleniumSite",
                     declaration,
                 )
                 continue

@@ -41,10 +41,14 @@ internal class TestHarnessGenerator(
         val noSetupFun =
             FunSpec
                 .builder(functionName)
-                .addParameter(
+                .addKdoc(
+                    "Generated test harness for [%T]. See [%M] for full lifecycle details.",
+                    siteClassName,
+                    SELENIUM_TEST_MEMBER,
+                ).addParameter(
                     ParameterSpec
                         .builder("driverFactory", DRIVER_FACTORY_CLASS)
-                        .defaultValue("{ %T() }", CHROME_DRIVER_CLASS)
+                        .defaultValue("%M", CHROME_MEMBER)
                         .build(),
                 ).addParameter(
                     ParameterSpec
@@ -56,7 +60,6 @@ internal class TestHarnessGenerator(
                     LambdaTypeName
                         .get(
                             receiver = siteEntryType,
-                            parameters = listOf(ParameterSpec.unnamed(Unit::class.asTypeName())),
                             returnType = Unit::class.asTypeName(),
                         ).copy(suspending = true),
                 ).returns(Unit::class)
@@ -64,7 +67,7 @@ internal class TestHarnessGenerator(
                     CodeBlock
                         .builder()
                         .addStatement(
-                            "%M(site = %T, keepBrowserOpen = keepBrowserOpen, driverFactory = driverFactory, block = block)",
+                            "%M(site = %T, keepBrowserOpen = keepBrowserOpen, driverFactory = driverFactory) { _: Unit -> block() }",
                             SELENIUM_TEST_MEMBER,
                             siteClassName,
                         ).build(),
@@ -74,11 +77,15 @@ internal class TestHarnessGenerator(
         val setupTeardownFun =
             FunSpec
                 .builder(functionName)
-                .addTypeVariable(typeVariableT)
+                .addKdoc(
+                    "Generated test harness for [%T] with setUp/tearDown lifecycle. See [%M] for full lifecycle details.",
+                    siteClassName,
+                    SELENIUM_TEST_MEMBER,
+                ).addTypeVariable(typeVariableT)
                 .addParameter(
                     ParameterSpec
                         .builder("driverFactory", DRIVER_FACTORY_CLASS)
-                        .defaultValue("{ %T() }", CHROME_DRIVER_CLASS)
+                        .defaultValue("%M", CHROME_MEMBER)
                         .build(),
                 ).addParameter(
                     ParameterSpec
@@ -128,11 +135,15 @@ internal class TestHarnessGenerator(
                 .addFunction(setupTeardownFun)
                 .build()
 
+        val sourceFile =
+            info.siteDeclaration.containingFile
+                ?: error("Annotated declaration has no source file: ${info.siteDeclaration.simpleName.asString()}")
+
         codeGenerator
             .createNewFile(
-                Dependencies.ALL_FILES,
-                fileSpec.packageName,
-                fileSpec.name,
+                dependencies = Dependencies(aggregating = false, sources = arrayOf(sourceFile)),
+                packageName = fileSpec.packageName,
+                fileName = fileSpec.name,
             ).writer()
             .use { writer -> fileSpec.writeTo(writer) }
     }

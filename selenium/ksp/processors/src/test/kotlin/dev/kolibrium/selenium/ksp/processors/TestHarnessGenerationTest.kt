@@ -47,7 +47,7 @@ class TestHarnessGenerationTest : BaseTest() {
         source shouldContain "fun testSiteTest("
         source shouldContain "driverFactory: DriverFactory"
         source shouldContain "keepBrowserOpen: Boolean = false"
-        source shouldContain "block: suspend SiteEntry<TestSite>.(Unit) -> Unit"
+        source shouldContain "block: suspend SiteEntry<TestSite>.() -> Unit"
         source shouldContain "seleniumTest(site = TestSite"
     }
 
@@ -149,5 +149,162 @@ class TestHarnessGenerationTest : BaseTest() {
 
         val generatedSource = compilation.getGeneratedSource("BrowserStackDemoTestHarness.kt")
         generatedSource shouldContain "fun browserStackDemoTest("
+    }
+
+    @Test
+    fun `duplicate site names differing only in case both produce errors`() {
+        val site1 =
+            kotlin(
+                "TestSite1.kt",
+                """
+                package dev.kolibrium.selenium.ksp.test
+                import dev.kolibrium.selenium.core.SeleniumSite
+                import dev.kolibrium.selenium.ksp.annotations.GenerateTestHarness
+                @GenerateTestHarness
+                object MySite : SeleniumSite(baseUrl = "https://example.com")
+                """.trimIndent(),
+            )
+        val site2 =
+            kotlin(
+                "TestSite2.kt",
+                """
+                package dev.kolibrium.selenium.ksp.test
+                import dev.kolibrium.selenium.core.SeleniumSite
+                import dev.kolibrium.selenium.ksp.annotations.GenerateTestHarness
+                @GenerateTestHarness
+                object Mysite : SeleniumSite(baseUrl = "https://example.org")
+                """.trimIndent(),
+            )
+
+        val compilation = getCompilation(site1, site2)
+        val result = compilation.compile()
+
+        result.exitCode shouldBe ExitCode.COMPILATION_ERROR
+
+        val generatedFiles =
+            compilation.kspSourcesDir
+                .walkTopDown()
+                .filter { it.isFile }
+                .toList()
+
+        generatedFiles shouldBe emptyList()
+    }
+
+    @Test
+    fun `multiple valid sites produce separate harness files`() {
+        val site1 =
+            kotlin(
+                "AlphaSite.kt",
+                """
+                package dev.kolibrium.selenium.ksp.test
+                import dev.kolibrium.selenium.core.SeleniumSite
+                import dev.kolibrium.selenium.ksp.annotations.GenerateTestHarness
+                @GenerateTestHarness
+                object AlphaSite : SeleniumSite(baseUrl = "https://alpha.com")
+                """.trimIndent(),
+            )
+        val site2 =
+            kotlin(
+                "BetaSite.kt",
+                """
+                package dev.kolibrium.selenium.ksp.test
+                import dev.kolibrium.selenium.core.SeleniumSite
+                import dev.kolibrium.selenium.ksp.annotations.GenerateTestHarness
+                @GenerateTestHarness
+                object BetaSite : SeleniumSite(baseUrl = "https://beta.com")
+                """.trimIndent(),
+            )
+
+        val compilation = getCompilation(site1, site2)
+        val result = compilation.compile()
+
+        result.exitCode shouldBe ExitCode.OK
+
+        val alphaSource = compilation.getGeneratedSource("AlphaSiteTestHarness.kt")
+        alphaSource shouldContain "fun alphaSiteTest("
+
+        val betaSource = compilation.getGeneratedSource("BetaSiteTestHarness.kt")
+        betaSource shouldContain "fun betaSiteTest("
+    }
+
+    @Test
+    fun `uppercase acronym site name produces expected function name`() {
+        val source =
+            kotlin(
+                "APIDemo.kt",
+                """
+                package dev.kolibrium.selenium.ksp.test
+                import dev.kolibrium.selenium.core.SeleniumSite
+                import dev.kolibrium.selenium.ksp.annotations.GenerateTestHarness
+                @GenerateTestHarness
+                object APIDemo : SeleniumSite(baseUrl = "https://apidemo.com")
+                """.trimIndent(),
+            )
+
+        val compilation = getCompilation(source)
+        val result = compilation.compile()
+
+        result.exitCode shouldBe ExitCode.OK
+
+        val generatedSource = compilation.getGeneratedSource("APIDemoTestHarness.kt")
+        generatedSource shouldContain "fun aPIDemoTest("
+    }
+
+    @Test
+    fun `indirect SeleniumSite subclass fails`() {
+        val base =
+            kotlin(
+                "MySiteBase.kt",
+                """
+                package dev.kolibrium.selenium.ksp.test
+                import dev.kolibrium.selenium.core.SeleniumSite
+                abstract class MySiteBase(url: String) : SeleniumSite(baseUrl = url)
+                """.trimIndent(),
+            )
+        val site =
+            kotlin(
+                "IndirectSite.kt",
+                """
+                package dev.kolibrium.selenium.ksp.test
+                import dev.kolibrium.selenium.ksp.annotations.GenerateTestHarness
+                @GenerateTestHarness
+                object IndirectSite : MySiteBase("https://example.com")
+                """.trimIndent(),
+            )
+
+        val result = getCompilation(base, site).compile()
+
+        result.exitCode shouldBe ExitCode.COMPILATION_ERROR
+    }
+
+    @Test
+    fun `exact duplicate site names in different packages both produce errors`() {
+        val site1 =
+            kotlin(
+                "Site1.kt",
+                """
+                package dev.kolibrium.selenium.ksp.test.a
+                import dev.kolibrium.selenium.core.SeleniumSite
+                import dev.kolibrium.selenium.ksp.annotations.GenerateTestHarness
+                @GenerateTestHarness
+                object DemoSite : SeleniumSite(baseUrl = "https://a.com")
+                """.trimIndent(),
+            )
+        val site2 =
+            kotlin(
+                "Site2.kt",
+                """
+                package dev.kolibrium.selenium.ksp.test.b
+                import dev.kolibrium.selenium.core.SeleniumSite
+                import dev.kolibrium.selenium.ksp.annotations.GenerateTestHarness
+                @GenerateTestHarness
+                object DemoSite : SeleniumSite(baseUrl = "https://b.com")
+                """.trimIndent(),
+            )
+
+        val compilation = getCompilation(site1, site2)
+        val result = compilation.compile()
+
+        result.exitCode shouldBe ExitCode.COMPILATION_ERROR
     }
 }
