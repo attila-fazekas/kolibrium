@@ -22,8 +22,11 @@ import dev.kolibrium.selenium.dsl.creation.Arguments.Edge.inPrivate
 import dev.kolibrium.selenium.dsl.creation.chromeDriver
 import dev.kolibrium.selenium.dsl.creation.edgeDriver
 import dev.kolibrium.selenium.dsl.creation.firefoxDriver
-import dev.kolibrium.selenium.dsl.creation.safariDriver
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.edge.EdgeDriver
+import org.openqa.selenium.firefox.FirefoxDriver
+import org.openqa.selenium.safari.SafariDriver
 import dev.kolibrium.selenium.dsl.creation.Arguments.Edge.headless as edgeHeadless
 import dev.kolibrium.selenium.dsl.creation.Arguments.Firefox.headless as firefoxHeadless
 import dev.kolibrium.selenium.dsl.creation.Arguments.Firefox.incognito as firefoxIncognito
@@ -37,16 +40,16 @@ import dev.kolibrium.selenium.dsl.creation.Arguments.Firefox.incognito as firefo
 public typealias DriverFactory = () -> WebDriver
 
 /** A DriverFactory that creates a plain ChromeDriver. */
-public val chrome: DriverFactory = { chromeDriver { } }
+public val chrome: DriverFactory = { ChromeDriver() }
 
 /** A DriverFactory that creates a plain FirefoxDriver. */
-public val firefox: DriverFactory = { firefoxDriver { } }
+public val firefox: DriverFactory = { FirefoxDriver() }
 
 /** A DriverFactory that creates a plain EdgeDriver. */
-public val edge: DriverFactory = { edgeDriver { } }
+public val edge: DriverFactory = { EdgeDriver() }
 
 /** A DriverFactory that creates a plain SafariDriver. */
-public val safari: DriverFactory = { safariDriver { } }
+public val safari: DriverFactory = { SafariDriver() }
 
 /** Chrome in headless mode. Useful for CI environments. */
 public val headlessChrome: DriverFactory = {

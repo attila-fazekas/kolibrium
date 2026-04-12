@@ -24,4 +24,4 @@ internal const val SELENIUM_SITE_BASE_CLASS = "dev.kolibrium.selenium.core.Selen
 internal val SELENIUM_TEST_MEMBER = MemberName("dev.kolibrium.selenium.dsl", "seleniumTest")
 internal val SITE_ENTRY_CLASS = ClassName("dev.kolibrium.selenium.dsl", "SiteEntry")
 internal val DRIVER_FACTORY_CLASS = ClassName("dev.kolibrium.selenium.dsl", "DriverFactory")
-internal val CHROME_DRIVER_CLASS = ClassName("org.openqa.selenium.chrome", "ChromeDriver")
+internal val CHROME_MEMBER = MemberName("dev.kolibrium.selenium.dsl", "chrome")
