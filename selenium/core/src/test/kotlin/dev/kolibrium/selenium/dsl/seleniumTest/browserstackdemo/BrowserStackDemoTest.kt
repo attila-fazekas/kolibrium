@@ -27,8 +27,14 @@ import dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.Product.IPHONE_1
 import dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.Product.IPHONE_12_MINI
 import dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.pages.ProductsPage
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Named
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.firefox.FirefoxDriver
+import java.util.stream.Stream
 
 class BrowserStackDemoTest {
     private val products = listOf(IPHONE_12, IPHONE_12_MINI)
@@ -39,6 +45,23 @@ class BrowserStackDemoTest {
         fun enableLogging() {
             SeleniumLogger.enable("RemoteWebDriver")
         }
+
+        @JvmStatic
+        fun driverFactories(): Stream<Arguments> =
+            Stream.of(
+                Arguments.of(
+                    Named.of(
+                        "Chrome",
+                        { ChromeDriver() },
+                    ),
+                ),
+                Arguments.of(
+                    Named.of(
+                        "Firefox",
+                        { FirefoxDriver() },
+                    ),
+                ),
+            )
     }
 
 //    @Test
@@ -62,10 +85,9 @@ class BrowserStackDemoTest {
 //            }
 //        }
 
-    // TODO this test fails, fix it
     @Test
     fun simple_navigation() =
-        browserstackDemoTest(
+        browserStackDemoTest(
             keepBrowserOpen = false,
         ) {
             open(::ProductsPage) {
@@ -75,7 +97,20 @@ class BrowserStackDemoTest {
             }
         }
 
-    private fun browserstackDemoTest(
+    @ParameterizedTest
+    @MethodSource("driverFactories")
+    fun `my browser test`(factory: DriverFactory) =
+        browserStackDemoTest(
+            driverFactory = factory,
+        ) {
+            open(::ProductsPage) {
+                apply {
+                    verifyShoppingCartBadgeIs(0)
+                }
+            }
+        }
+
+    private fun browserStackDemoTest(
         driverFactory: DriverFactory = { ChromeDriver() },
         keepBrowserOpen: Boolean = false,
         block: SiteEntry<BrowserStackDemo>.(Unit) -> Unit,
@@ -86,8 +121,8 @@ class BrowserStackDemoTest {
         block = block,
     )
 
-    private fun <T> browserstackDemoTest(
-        driverFactory: DriverFactory = browserstackDemoDriver,
+    private fun <T> browserStackDemoTest(
+        driverFactory: DriverFactory = browserStackDemoDriver,
         keepBrowserOpen: Boolean = false,
         setUp: () -> T,
         block: SiteEntry<BrowserStackDemo>.(T) -> Unit,
@@ -99,7 +134,7 @@ class BrowserStackDemoTest {
         block = block,
     )
 
-    private val browserstackDemoDriver = {
+    private val browserStackDemoDriver = {
         chromeDriver {
             options {
                 arguments {

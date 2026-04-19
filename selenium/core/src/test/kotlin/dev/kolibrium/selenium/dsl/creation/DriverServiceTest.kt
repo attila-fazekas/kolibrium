@@ -52,7 +52,7 @@ class DriverServiceTest {
 
     @Disabled("Temporarily disabled")
     @ParameterizedTest
-    @EnumSource(Browser::class)
+    @EnumSource
     fun driverServiceTest(browser: Browser) {
         ds =
             driverService(browser) {

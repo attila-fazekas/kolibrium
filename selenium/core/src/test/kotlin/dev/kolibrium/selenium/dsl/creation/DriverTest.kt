@@ -77,7 +77,7 @@ class DriverTest {
     }
 
     @ParameterizedTest
-    @EnumSource(Browser::class)
+    @EnumSource
     fun driverTest(browser: Browser) {
         driver =
             driver(browser) {

@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.mydemoapprn
+package dev.kolibrium.appium.mydemoapp.android.screens
 
-import dev.kolibrium.appium.androidTest
-import dev.kolibrium.appium.mydemoapprn.screens.ProductDetailsRnScreen
-import org.junit.jupiter.api.Test
+import dev.kolibrium.appium.Screen
+import dev.kolibrium.appium.mydemoapp.android.MyDemoAndroidApp
+import dev.kolibrium.appium.resourceId
 
-class MyDemoAppRnTest {
-    @Test
-    fun `android deep link`() =
-        androidTest(app = MyDemoAppRnAndroidApp, deepLink = "mydemoapprn://product-details/1") {
-            on(::ProductDetailsRnScreen) {
-                addToCart()
-            }
-        }
+class ProductDetailsScreen : Screen<MyDemoAndroidApp>() {
+    private val cartButton by resourceId("cartBt")
+
+    fun addToCart() {
+        cartButton.click()
+    }
 }

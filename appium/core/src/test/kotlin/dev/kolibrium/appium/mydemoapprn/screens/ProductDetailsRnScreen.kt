@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.mydemoapp.screens
+package dev.kolibrium.appium.mydemoapprn.screens
 
 import dev.kolibrium.appium.Screen
-import dev.kolibrium.appium.mydemoapp.MyDemoAndroidApp
-import dev.kolibrium.appium.resourceId
+import dev.kolibrium.appium.android.androidUIAutomator
+import dev.kolibrium.appium.android.uiSelector
+import dev.kolibrium.appium.mydemoapprn.MyDemoAppRnAndroidApp
 
-class ProductDetailsScreen : Screen<MyDemoAndroidApp>() {
-    private val cartButton by resourceId("cartBt")
+class ProductDetailsRnScreen : Screen<MyDemoAppRnAndroidApp>() {
+    val addToCartButton by androidUIAutomator(uiSelector { text("Add To Cart") })
 
     fun addToCart() {
-        cartButton.click()
+        addToCartButton.click()
     }
 }

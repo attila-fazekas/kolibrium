@@ -2,6 +2,7 @@ public abstract class dev/kolibrium/appium/AndroidApp : dev/kolibrium/appium/App
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;Lio/appium/java_client/service/local/AppiumDriverLocalService;Lkotlin/jvm/functions/Function0;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;Lio/appium/java_client/service/local/AppiumDriverLocalService;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun configureOptions (Lio/appium/java_client/android/options/UiAutomator2Options;)V
 	public final fun getAppActivity ()Ljava/lang/String;
 	public final fun getAppPackage ()Ljava/lang/String;
 	public final fun getAppPath ()Ljava/lang/String;
@@ -18,17 +19,6 @@ public abstract interface class dev/kolibrium/appium/App {
 public final class dev/kolibrium/appium/AppScope {
 	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/appium/ScreenScope;
 	public final fun settings (Lkotlin/jvm/functions/Function1;)V
-}
-
-public final class dev/kolibrium/appium/AppiumDriverFactoriesKt {
-	public static final fun androidDriverByApp (Ljava/lang/String;Ljava/net/URL;)Lkotlin/jvm/functions/Function0;
-	public static synthetic fun androidDriverByApp$default (Ljava/lang/String;Ljava/net/URL;ILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
-	public static final fun androidDriverByPackage (Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;)Lkotlin/jvm/functions/Function0;
-	public static synthetic fun androidDriverByPackage$default (Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;ILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
-	public static final fun iosDriverByApp (Ljava/lang/String;Ljava/net/URL;)Lkotlin/jvm/functions/Function0;
-	public static synthetic fun iosDriverByApp$default (Ljava/lang/String;Ljava/net/URL;ILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
-	public static final fun iosDriverByBundleId (Ljava/lang/String;Ljava/net/URL;)Lkotlin/jvm/functions/Function0;
-	public static synthetic fun iosDriverByBundleId$default (Ljava/lang/String;Ljava/net/URL;ILjava/lang/Object;)Lkotlin/jvm/functions/Function0;
 }
 
 public final class dev/kolibrium/appium/AppiumServiceKt {
@@ -103,6 +93,7 @@ public abstract class dev/kolibrium/appium/IosApp : dev/kolibrium/appium/App {
 	public fun <init> ()V
 	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;Lio/appium/java_client/service/local/AppiumDriverLocalService;Lkotlin/jvm/functions/Function0;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/net/URL;Lio/appium/java_client/service/local/AppiumDriverLocalService;Lkotlin/jvm/functions/Function0;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun configureOptions (Lio/appium/java_client/ios/options/XCUITestOptions;)V
 	public final fun getAppPath ()Ljava/lang/String;
 	public final fun getAppiumUrl ()Ljava/net/URL;
 	public final fun getBundleId ()Ljava/lang/String;
@@ -136,6 +127,7 @@ public abstract class dev/kolibrium/appium/Screen : org/openqa/selenium/SearchCo
 	public fun awaitReady ()V
 	public fun findElement (Lorg/openqa/selenium/By;)Lorg/openqa/selenium/WebElement;
 	public fun findElements (Lorg/openqa/selenium/By;)Ljava/util/List;
+	protected final fun getDriver ()Lio/appium/java_client/AppiumDriver;
 }
 
 public final class dev/kolibrium/appium/ScreenScope {

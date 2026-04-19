@@ -65,7 +65,7 @@ import kotlin.time.Duration.Companion.seconds
 @Suppress("UNCHECKED_CAST")
 class OptionsTest {
     @ParameterizedTest
-    @EnumSource(Browser::class)
+    @EnumSource
     fun optionsTest(browser: Browser) {
         options(browser) {
             acceptInsecureCerts = true

@@ -14,18 +14,26 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.mydemoapprn
+package dev.kolibrium.appium.mydemoapp.ios.screens
 
-import dev.kolibrium.appium.androidTest
-import dev.kolibrium.appium.mydemoapprn.screens.ProductDetailsRnScreen
-import org.junit.jupiter.api.Test
+import dev.kolibrium.appium.Screen
+import dev.kolibrium.appium.accessibilityId
+import dev.kolibrium.appium.mydemoapp.ios.MyDemoIosApp
 
-class MyDemoAppRnTest {
-    @Test
-    fun `android deep link`() =
-        androidTest(app = MyDemoAppRnAndroidApp, deepLink = "mydemoapprn://product-details/1") {
-            on(::ProductDetailsRnScreen) {
-                addToCart()
-            }
-        }
+class Footer : Screen<MyDemoIosApp>() {
+    val catalogItem by accessibilityId("Catalog-tab-item")
+    val cartItem by accessibilityId("Cart-tab-item")
+    val more by accessibilityId("More-tab-item")
+
+    fun openCatalog() {
+        catalogItem.click()
+    }
+
+    fun openCart() {
+        cartItem.click()
+    }
+
+    fun openMore() {
+        more.click()
+    }
 }

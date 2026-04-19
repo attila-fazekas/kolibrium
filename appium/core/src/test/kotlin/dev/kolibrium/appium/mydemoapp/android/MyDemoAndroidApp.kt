@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.mydemoapp
+package dev.kolibrium.appium.mydemoapp.android
 
 import dev.kolibrium.appium.AndroidApp
-import dev.kolibrium.appium.CrossPlatformApp
-import dev.kolibrium.appium.IosApp
+import dev.kolibrium.appium.AndroidDriverFactory
 import dev.kolibrium.appium.appiumService
 import io.appium.java_client.Location
 import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.android.options.UiAutomator2Options
 import org.openqa.selenium.ScreenOrientation
 
 object MyDemoAndroidApp : AndroidApp(
@@ -33,6 +33,12 @@ object MyDemoAndroidApp : AndroidApp(
             logLevel = "info"
         },
 ) {
+    override fun configureOptions(options: UiAutomator2Options) {
+        options.apply {
+            setUdid("emulator-5554")
+        }
+    }
+
     override fun onSessionReady(driver: AndroidDriver) {
         driver.apply {
             rotate(ScreenOrientation.PORTRAIT)
@@ -40,12 +46,3 @@ object MyDemoAndroidApp : AndroidApp(
         }
     }
 }
-
-object MyDemoIosApp : IosApp(
-    bundleId = "com.saucelabs.mydemoapp.ios",
-)
-
-object MyDemoCrossPlatform : CrossPlatformApp(
-    android = MyDemoAndroidApp,
-    ios = MyDemoIosApp,
-)

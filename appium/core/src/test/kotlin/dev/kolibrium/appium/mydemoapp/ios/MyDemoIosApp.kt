@@ -14,11 +14,25 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.mydemoapp.screens
+package dev.kolibrium.appium.mydemoapp.ios
 
-import dev.kolibrium.appium.Screen
-import dev.kolibrium.appium.mydemoapp.MyDemoAndroidApp
+import dev.kolibrium.appium.IosApp
+import dev.kolibrium.appium.appiumService
+import io.appium.java_client.ios.options.XCUITestOptions
 
-class CartScreen : Screen<MyDemoAndroidApp>() {
-    fun itemCount(): Int = 0
+object MyDemoIosApp : IosApp(
+    bundleId = "com.saucelabs.mydemo.app.ios",
+    service =
+        appiumService {
+            port = 4723
+            logLevel = "info"
+        },
+) {
+    override fun configureOptions(options: XCUITestOptions) {
+        options.apply {
+            setPlatformName("iOS")
+            setDeviceName("iPhone 15 Pro Max")
+            setPlatformVersion("17.5")
+        }
+    }
 }
