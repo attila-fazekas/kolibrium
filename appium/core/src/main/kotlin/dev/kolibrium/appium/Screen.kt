@@ -17,6 +17,8 @@
 package dev.kolibrium.appium
 
 import io.appium.java_client.AppiumDriver
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.ios.IOSDriver
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebElement
@@ -40,6 +42,15 @@ public abstract class Screen<A : App> : SearchContext {
      * Optional post-ready assertions to verify invariants.
      */
     public open fun assertReady() {}
+
+    /**
+     * Direct access to the underlying [AppiumDriver] for cases where the abstraction
+     * needs to be bypassed (e.g., viewport calculations, advanced gestures).
+     *
+     * Use sparingly as an escape hatch when screen-level APIs are insufficient.
+     */
+    protected val driver: AppiumDriver
+        get() = requireDriver()
 
     override fun findElement(by: By): WebElement = requireDriver().findElement(by)
 

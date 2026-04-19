@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.mydemoapp.screens
+package dev.kolibrium.appium.mydemoapp.android
 
-import dev.kolibrium.appium.resourceId
-import org.openqa.selenium.WebElement
-
-class Item(
-    root: WebElement,
+enum class Product(
+    val productName: String,
+    val price: String = "$29.99",
 ) {
-    val image by root.resourceId("productIV")
-    val title by root.resourceId("titleTV")
-    val price by root.resourceId("priceTV")
+    BackpackBlack("Sauce Labs Backpack"),
+    BackpackGreen("Sauce Labs Backpack (green)"),
+    BackpackOrange("Sauce Labs Backpack (orange)"),
+    BackpackRed("Sauce Labs Backpack (red)"),
 }

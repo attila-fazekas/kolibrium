@@ -18,9 +18,14 @@ package dev.kolibrium.appium
 
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.android.options.UiAutomator2Options
 import io.appium.java_client.ios.IOSDriver
+import io.appium.java_client.ios.options.XCUITestOptions
 import io.appium.java_client.service.local.AppiumDriverLocalService
+import java.net.URI
 import java.net.URL
+
+private val DEFAULT_APPIUM_URL = URI("http://127.0.0.1:4723").toURL()
 
 /**
  * Marker interface for mobile applications under test.
@@ -48,9 +53,12 @@ public sealed interface App {
  * Android‑only application definition.
  *
  * Supports three modes of construction — supply whichever combination applies:
- * - **by package**: [appPackage] + [appActivity] → factory derived via [androidDriverByPackage].
- * - **by app path**: [appPath] (+ optional [appPackage]) → factory derived via [androidDriverByApp].
+ * - **by package**: [appPackage] + [appActivity] → launches an installed app.
+ * - **by app path**: [appPath] (+ optional [appPackage]) → installs and launches from APK/AAB.
  * - **custom factory**: pass [driverFactory] directly (+ optional [appPackage] for locators).
+ *
+ * When [driverFactory] is not provided, one is derived automatically based on the supplied parameters.
+ * Use [configureOptions] to customize driver capabilities (UDID, device name, etc.).
  *
  * @property appPackage The Android package name, available at runtime for locators.
  * @property appActivity The launcher activity. Required when launching by package.
@@ -78,6 +86,15 @@ public abstract class AndroidApp(
     public open val driverFactory: AndroidDriverFactory = driverFactory ?: deriveDriverFactory()
 
     /**
+     * Optional hook to configure additional UiAutomator2 options before the driver session is created.
+     *
+     * The `appPackage` and `appActivity` (or `appPath`) are already set based on constructor parameters
+     * and should not be overridden here. Use this to configure device-specific settings like UDID,
+     * automation name, capabilities, etc.
+     */
+    public open fun configureOptions(options: UiAutomator2Options) {}
+
+    /**
      * Optional hook invoked after the [AndroidDriver] session has been created and before any
      * screen interactions. Override to perform additional configuration (e.g., setting orientation
      * or geolocation) or pre‑navigation common to all tests.
@@ -87,10 +104,28 @@ public abstract class AndroidApp(
     public open fun onSessionReady(driver: AndroidDriver) {}
 
     private fun deriveDriverFactory(): AndroidDriverFactory =
-        when {
-            appPath != null -> androidDriverByApp(appPath, appiumUrl)
-            appPackage != null && appActivity != null -> androidDriverByPackage(appPackage, appActivity, appiumUrl)
-            else -> error("'AndroidApp' requires either 'appPath', both 'appPackage' and 'appActivity', or an explicit 'driverFactory'")
+        {
+            val options =
+                UiAutomator2Options().apply {
+                    when {
+                        appPath != null -> {
+                            setApp(appPath)
+                        }
+
+                        appPackage != null && appActivity != null -> {
+                            setAppPackage(this@AndroidApp.appPackage)
+                            setAppActivity(this@AndroidApp.appActivity)
+                        }
+
+                        else -> {
+                            error(
+                                "'AndroidApp' requires either 'appPath', both 'appPackage' and 'appActivity', or an explicit 'driverFactory'",
+                            )
+                        }
+                    }
+                    configureOptions(this)
+                }
+            AndroidDriver(appiumUrl, options)
         }
 }
 
@@ -98,9 +133,12 @@ public abstract class AndroidApp(
  * iOS‑only application definition.
  *
  * Supports three modes of construction:
- * - **by bundle ID**: [bundleId] → factory derived via [iosDriverByBundleId].
- * - **by app path**: [appPath] → factory derived via [iosDriverByApp].
+ * - **by bundle ID**: [bundleId] → launches an installed app.
+ * - **by app path**: [appPath] → installs and launches from .app/IPA.
  * - **custom factory**: pass [driverFactory] directly (+ optional [bundleId] for locators).
+ *
+ * When [driverFactory] is not provided, one is derived automatically based on the supplied parameters.
+ * Use [configureOptions] to customize driver capabilities (UDID, device name, platform version, etc.).
  *
  * @property bundleId The iOS bundle identifier, available at runtime for locators.
  * @property appPath Filesystem path or URL to the .app/IPA. Required when installing from a binary.
@@ -126,6 +164,15 @@ public abstract class IosApp(
     public val driverFactory: IosDriverFactory = driverFactory ?: deriveDriverFactory()
 
     /**
+     * Optional hook to configure additional XCUITest options before the driver session is created.
+     *
+     * The `bundleId` (or `appPath`) is already set based on constructor parameters
+     * and should not be overridden here. Use this to configure device-specific settings like UDID,
+     * device name, platform version, capabilities, etc.
+     */
+    public open fun configureOptions(options: XCUITestOptions) {}
+
+    /**
      * Optional hook invoked after the [IOSDriver] session has been created and before any
      * screen interactions. Override to perform additional configuration (e.g., setting orientation
      * or geolocation) or pre‑navigation common to all tests.
@@ -135,10 +182,17 @@ public abstract class IosApp(
     public open fun onSessionReady(driver: IOSDriver) {}
 
     private fun deriveDriverFactory(): IosDriverFactory =
-        when {
-            appPath != null -> iosDriverByApp(appPath, appiumUrl)
-            bundleId != null -> iosDriverByBundleId(bundleId, appiumUrl)
-            else -> error("'IosApp' requires either 'appPath', a 'bundleId', or an explicit 'driverFactory'")
+        {
+            val options =
+                XCUITestOptions().apply {
+                    when {
+                        appPath != null -> setApp(appPath)
+                        bundleId != null -> setBundleId(this@IosApp.bundleId)
+                        else -> error("'IosApp' requires either 'appPath', a 'bundleId', or an explicit 'driverFactory'")
+                    }
+                    configureOptions(this)
+                }
+            IOSDriver(appiumUrl, options)
         }
 }
 

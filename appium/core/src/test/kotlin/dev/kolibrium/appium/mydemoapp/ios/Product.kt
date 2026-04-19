@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.mydemoapprn
+package dev.kolibrium.appium.mydemoapp.ios
 
-import dev.kolibrium.appium.androidTest
-import dev.kolibrium.appium.mydemoapprn.screens.ProductDetailsRnScreen
-import org.junit.jupiter.api.Test
-
-class MyDemoAppRnTest {
-    @Test
-    fun `android deep link`() =
-        androidTest(app = MyDemoAppRnAndroidApp, deepLink = "mydemoapprn://product-details/1") {
-            on(::ProductDetailsRnScreen) {
-                addToCart()
-            }
-        }
+enum class Product(
+    val productName: String,
+    val price: String = "$29.99",
+) {
+    BackpackBlack("Sauce Labs Backpack - Black"),
+    BackpackGreen("Sauce Labs Backpack - Green"),
+    BackpackOrange("Sauce Labs Backpack - Orange"),
+    BackpackRed("Sauce Labs Backpack - Red"),
 }

@@ -348,7 +348,7 @@ Define screens by extending `Screen<YourApp>` and declaring elements with locato
 
 ```kotlin
 class ProductsScreen : Screen<MyAndroidApp>() {
-    val title by accessibilityId("title")
+    private val title by accessibilityId("title")
 
     private val products by xpaths(
         """//*[@resource-id="${MyAndroidApp.appPackage}:id/productList"]/android.view.ViewGroup""",
@@ -377,7 +377,7 @@ on(::ProductsScreen) {
 }
 ```
 
-`on` is the single verb for all screen interactions. The first `on` call (on `AppScope`) creates the screen and returns a `ScreenScope`; subsequent `.on(...)` calls chain from `ScreenScope`. Use `then` to perform additional actions on the current screen and `verify` to run assertions, both without switching screens:
+`on` is the single verb for all screen interactions. The first `on` call (on `AppScope`) creates the screen and returns a `ScreenScope`; subsequent `.on(...)` calls chain from `ScreenScope`. Use `then` to perform additional actions on the current screen without switching screens:
 
 ```kotlin
 on(::ProductsScreen) {
@@ -594,8 +594,7 @@ Appium settings let you adjust driver behavior at runtime — unlike capabilitie
 ### In the test body
 
 Use `settings { }` directly inside the test block to apply settings before any screen interaction:
-```
-kotlin
+```kotlin
 androidTest(app = MyAndroidApp) {
     settings {
         ignoreUnimportantViews = true
@@ -608,8 +607,7 @@ androidTest(app = MyAndroidApp) {
 ### In a screen chain
 
 `settings { }` is also available on `ScreenScope`, returning the same scope for fluent chaining:
-```
-kotlin
+```kotlin
 on(::ProductsScreen) {
     // ...
 }.settings {
@@ -621,8 +619,7 @@ on(::ProductsScreen) {
 ### At server startup (via `capabilities`)
 
 Settings can also be forwarded to the Appium server at startup as the `appium:settings` capability, using the `settings { }` block inside `capabilities { }`:
-```
-kotlin
+```kotlin
 object MyAndroidApp : AndroidApp(
     appPackage = "com.example.app",
     appActivity = ".MainActivity",
