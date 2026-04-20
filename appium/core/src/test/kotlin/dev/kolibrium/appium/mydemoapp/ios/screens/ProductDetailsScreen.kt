@@ -16,11 +16,10 @@
 
 package dev.kolibrium.appium.mydemoapp.ios.screens
 
-import dev.kolibrium.appium.Screen
+import dev.kolibrium.appium.IosScreen
 import dev.kolibrium.appium.accessibilityId
-import dev.kolibrium.appium.mydemoapp.ios.MyDemoIosApp
 
-class ProductDetailsScreen : Screen<MyDemoIosApp>() {
+class ProductDetailsScreen : IosScreen() {
     private val addToCartButton by accessibilityId("AddToCart")
 
     fun addToCart() {

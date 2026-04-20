@@ -12,6 +12,11 @@ public abstract class dev/kolibrium/appium/AndroidApp : dev/kolibrium/appium/App
 	public fun onSessionReady (Lio/appium/java_client/android/AndroidDriver;)V
 }
 
+public abstract class dev/kolibrium/appium/AndroidScreen : dev/kolibrium/appium/Screen {
+	public fun <init> ()V
+	protected final fun getAndroidDriver ()Lio/appium/java_client/android/AndroidDriver;
+}
+
 public abstract interface class dev/kolibrium/appium/App {
 	public abstract fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
 }
@@ -100,6 +105,11 @@ public abstract class dev/kolibrium/appium/IosApp : dev/kolibrium/appium/App {
 	public final fun getDriverFactory ()Lkotlin/jvm/functions/Function0;
 	public fun getService ()Lio/appium/java_client/service/local/AppiumDriverLocalService;
 	public fun onSessionReady (Lio/appium/java_client/ios/IOSDriver;)V
+}
+
+public abstract class dev/kolibrium/appium/IosScreen : dev/kolibrium/appium/Screen {
+	public fun <init> ()V
+	protected final fun getIosDriver ()Lio/appium/java_client/ios/IOSDriver;
 }
 
 public final class dev/kolibrium/appium/LocatorDelegatesKt {

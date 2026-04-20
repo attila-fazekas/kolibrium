@@ -17,7 +17,6 @@
 package dev.kolibrium.appium.mydemoapp.android
 
 import dev.kolibrium.appium.AndroidApp
-import dev.kolibrium.appium.AndroidDriverFactory
 import dev.kolibrium.appium.appiumService
 import io.appium.java_client.Location
 import io.appium.java_client.android.AndroidDriver

@@ -16,11 +16,10 @@
 
 package dev.kolibrium.appium.mydemoapp.ios.screens
 
-import dev.kolibrium.appium.Screen
+import dev.kolibrium.appium.IosScreen
 import dev.kolibrium.appium.accessibilityId
-import dev.kolibrium.appium.mydemoapp.ios.MyDemoIosApp
 
-class Footer : Screen<MyDemoIosApp>() {
+class Footer : IosScreen() {
     val catalogItem by accessibilityId("Catalog-tab-item")
     val cartItem by accessibilityId("Cart-tab-item")
     val more by accessibilityId("More-tab-item")

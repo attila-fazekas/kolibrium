@@ -16,11 +16,10 @@
 
 package dev.kolibrium.appium.mydemoapp.android.screens
 
-import dev.kolibrium.appium.Screen
-import dev.kolibrium.appium.mydemoapp.android.MyDemoAndroidApp
+import dev.kolibrium.appium.AndroidScreen
 import dev.kolibrium.appium.resourceId
 
-class ProductDetailsScreen : Screen<MyDemoAndroidApp>() {
+class ProductDetailsScreen : AndroidScreen() {
     private val cartButton by resourceId("cartBt")
 
     fun addToCart() {
