@@ -16,6 +16,7 @@
 
 package dev.kolibrium.appium
 
+import dev.kolibrium.annotations.InternalKolibriumApi
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver
@@ -30,7 +31,11 @@ import org.openqa.selenium.WebElement
  * entry points ([androidTest], [iosTest], [appiumTest]). Constructing and using screens
  * outside those contexts will fail with a runtime error. Delegated `findElement(s)` calls
  * route through the contextual driver to satisfy [org.openqa.selenium.SearchContext].
+ *
+ * **For most use cases, extend [AndroidScreen] or [IosScreen] instead** to get typed
+ * driver access without casting.
  */
+@InternalKolibriumApi
 public abstract class Screen<A : App> : SearchContext {
     /**
      * Wait until the screen is considered ready for interaction.
@@ -62,4 +67,48 @@ public abstract class Screen<A : App> : SearchContext {
                 "has no active AppiumDriver context.\n" +
                 "Run screen interactions inside Kolibrium DSL (e.g., androidTest/iosTest/appiumTest → on).",
         )
+}
+
+/**
+ * Platform-specific base class for Android screen objects.
+ *
+ * Extends [Screen] with typed [AndroidDriver] access via the [androidDriver] property,
+ * eliminating the need for casting when using Android-specific driver APIs.
+ *
+ * Example:
+ * ```kotlin
+ * class ProductsScreen : AndroidScreen() {
+ *     fun doSomething() {
+ *         androidDriver.pressKey(...)  // No cast needed
+ *     }
+ * }
+ * ```
+ *
+ * For most Android apps, this should be your screen base class instead of [Screen].
+ */
+public abstract class AndroidScreen : Screen<AndroidApp>() {
+    protected val androidDriver: AndroidDriver
+        get() = super.driver as AndroidDriver
+}
+
+/**
+ * Platform-specific base class for iOS screen objects.
+ *
+ * Extends [Screen] with typed [IOSDriver] access via the [iosDriver] property,
+ * eliminating the need for casting when using iOS-specific driver APIs.
+ *
+ * Example:
+ * ```kotlin
+ * class ProductsScreen : IosScreen() {
+ *     fun doSomething() {
+ *         iosDriver.shake()  // No cast needed
+ *     }
+ * }
+ * ```
+ *
+ * For most iOS apps, this should be your screen base class instead of [Screen].
+ */
+public abstract class IosScreen : Screen<IosApp>() {
+    protected val iosDriver: IOSDriver
+        get() = super.driver as IOSDriver
 }

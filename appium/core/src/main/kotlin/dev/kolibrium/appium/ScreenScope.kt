@@ -31,7 +31,7 @@ import io.appium.java_client.HasSettings
  * @property driver The underlying [AppiumDriver] backing this scope.
  */
 @KolibriumDsl
-public class ScreenScope<A : App, S : Screen<A>> internal constructor(
+public class ScreenScope<A : App, S : Screen<in A>> internal constructor(
     internal val screen: S,
     internal val driver: AppiumDriver,
 ) {
@@ -43,7 +43,7 @@ public class ScreenScope<A : App, S : Screen<A>> internal constructor(
      * @param factory No‑arg factory that constructs the next screen instance.
      * @param action The action to execute on the next screen before returning the new scope.
      */
-    public fun <Next : Screen<A>> on(
+    public fun <Next : Screen<in A>> on(
         factory: () -> Next,
         action: Next.() -> Unit,
     ): ScreenScope<A, Next> {

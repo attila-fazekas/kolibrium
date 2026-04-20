@@ -16,7 +16,7 @@
 
 package dev.kolibrium.appium.mydemoapp.android.screens
 
-import dev.kolibrium.appium.Screen
+import dev.kolibrium.appium.AndroidScreen
 import dev.kolibrium.appium.accessibilityId
 import dev.kolibrium.appium.mydemoapp.android.MyDemoAndroidApp
 import dev.kolibrium.appium.mydemoapp.android.Product
@@ -24,7 +24,7 @@ import dev.kolibrium.appium.resourceId
 import dev.kolibrium.appium.xpaths
 import org.openqa.selenium.WebElement
 
-class ProductsScreen : Screen<MyDemoAndroidApp>() {
+class ProductsScreen : AndroidScreen() {
     private val title by accessibilityId("title")
     private val products by xpaths(
         """//*[@resource-id="${MyDemoAndroidApp.appPackage}:id/productRV"]/android.view.ViewGroup""",

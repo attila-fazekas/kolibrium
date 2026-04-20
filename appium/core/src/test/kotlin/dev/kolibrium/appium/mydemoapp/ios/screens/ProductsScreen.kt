@@ -16,17 +16,16 @@
 
 package dev.kolibrium.appium.mydemoapp.ios.screens
 
-import dev.kolibrium.appium.Screen
+import dev.kolibrium.appium.IosScreen
 import dev.kolibrium.appium.accessibilityId
 import dev.kolibrium.appium.ios.XCUIElementType
 import dev.kolibrium.appium.ios.iOSNSPredicate
 import dev.kolibrium.appium.ios.iOSNSPredicates
 import dev.kolibrium.appium.ios.nsPredicate
-import dev.kolibrium.appium.mydemoapp.ios.MyDemoIosApp
 import dev.kolibrium.appium.mydemoapp.ios.Product
 import org.openqa.selenium.WebElement
 
-class ProductsScreen : Screen<MyDemoIosApp>() {
+class ProductsScreen : IosScreen() {
     private companion object {
         private val PRODUCT_NAME_PREDICATE =
             nsPredicate {

@@ -56,7 +56,7 @@ public class AppScope<A : App> internal constructor(
      * @param action Action executed on the created screen with the screen as the receiver.
      * @return A [ScreenScope] bound to the screen, allowing further [ScreenScope.on] or [ScreenScope.then] calls.
      */
-    public fun <S : Screen<A>> on(
+    public fun <S : Screen<in A>> on(
         factory: () -> S,
         action: S.() -> Unit,
     ): ScreenScope<A, S> {
