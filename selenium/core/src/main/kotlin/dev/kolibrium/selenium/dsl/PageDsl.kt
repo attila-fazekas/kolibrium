@@ -37,18 +37,23 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
     internal val driver: WebDriver,
 ) {
     /**
-     * Execute [action] on the current [page], producing the next page in the flow.
+     * Move to the next page created by [factory] and execute [action] on it.
      *
-     * The current page is ensured to be ready before the action runs. The returned scope
-     * is bound to the newly produced page.
+     * The current page is asserted to be ready before moving. The next page
+     * is ensured to be ready before the action runs.
      *
-     * @param Next the type of the next page produced by [action]
-     * @param action operation to perform on the current page that returns the next page
+     * @param Next the type of the next page
+     * @param factory factory function to create the next page instance
+     * @param action operation to perform on the next page
      */
-    public fun <Next : SeleniumPage<*>> on(action: P.() -> Next): PageScope<Next> {
+    public fun <Next : SeleniumPage<*>> on(
+        factory: () -> Next,
+        action: Next.() -> Unit,
+    ): PageScope<Next> {
         page.assertReady()
-        val next = page.action()
+        val next = factory()
         ensureReady(next)
+        next.action()
         return PageScope(next, driver)
     }
 

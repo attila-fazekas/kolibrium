@@ -28,6 +28,7 @@ import dev.kolibrium.selenium.dsl.creation.chromeDriver
 import dev.kolibrium.selenium.dsl.seleniumTest
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.Product.Backpack
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.Product.BikeLight
+import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.CartPage
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.InventoryPage
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.LoginPage
 import io.kotest.matchers.shouldBe
@@ -51,7 +52,7 @@ class SauceDemoTest {
             keepBrowserOpen = false,
             driverFactory = chrome,
             setUp = { },
-        ) { _: Unit ->
+        ) {
             open(::LoginPage) {
                 login()
             }
@@ -66,13 +67,13 @@ class SauceDemoTest {
 
             open(::LoginPage) {
                 login()
-            }.on {
+            }.on(::InventoryPage) {
                 titleText() shouldBe "Products"
 
                 products.addToCart()
 
                 goToCart()
-            }.verify {
+            }.on(::CartPage) {
                 val items = getItemsOnShoppingCart()
                 items.size shouldBe products.size
                 items.zip(products).forEach { (item, product) ->
@@ -80,7 +81,6 @@ class SauceDemoTest {
                     item.name() shouldBe product.productName
                     item.price() shouldBe product.price
                 }
-            }.on {
                 checkout()
             }
         }
@@ -98,7 +98,7 @@ class SauceDemoTest {
                 products.addToCart()
 
                 goToCart()
-            }.verify {
+            }.on(::CartPage) {
                 val items = getItemsOnShoppingCart()
                 items.size shouldBe products.size
                 items.zip(products).forEach { (item, product) ->
@@ -106,7 +106,6 @@ class SauceDemoTest {
                     item.name() shouldBe product.productName
                     item.price() shouldBe product.price
                 }
-            }.on {
                 checkout()
             }
         }

@@ -61,24 +61,22 @@ public class SiteScope<S : SeleniumSite> internal constructor(
     }
 
     /**
-     * Open a page created by [factory], navigate to its route, wait for readiness, and run [action]
-     * that returns the next page to continue the flow.
+     * Open a page created by [factory], navigate to its route, wait for readiness, and run [action].
      *
      * The returned page will have the active browser session attached and will be synchronized via
      * await/assert before being returned.
      *
      * @param P the type of the page to open
-     * @param R the type of the next page produced by [action]
      * @param factory factory function to create the page instance
      * @param path optional path override; if null, uses the page's default path
-     * @param action operation to perform on the page that returns the next page
-     * @return a [PageScope] bound to the next page for further chaining
+     * @param action operation to perform on the page
+     * @return a [PageScope] bound to the opened page for further chaining
      */
-    public fun <P : SeleniumPage<S>, R : SeleniumPage<S>> open(
+    public fun <P : SeleniumPage<S>> open(
         factory: () -> P,
         path: String? = null,
-        action: P.() -> R,
-    ): PageScope<R> {
+        action: P.() -> Unit,
+    ): PageScope<P> {
         requireDriver("SiteScope.open")
         val page = factory()
 
@@ -91,8 +89,8 @@ public class SiteScope<S : SeleniumSite> internal constructor(
         driver.get(url)
 
         ensureReady(page)
-        val next = page.action()
-        return scope(next)
+        page.action()
+        return PageScope(page, driver)
     }
 
     /**
@@ -103,15 +101,14 @@ public class SiteScope<S : SeleniumSite> internal constructor(
      * A guard ensures the current tab's origin matches the current [SeleniumSite]'s origin.
      *
      * @param P the type of the page to bind
-     * @param R the type of the next page produced by [action]
      * @param factory factory function to create the page instance
-     * @param action operation to perform on the page that returns the next page
-     * @return a [PageScope] bound to the next page for further chaining
+     * @param action operation to perform on the page
+     * @return a [PageScope] bound to the bound page for further chaining
      */
-    public fun <P : SeleniumPage<S>, R : SeleniumPage<S>> on(
+    public fun <P : SeleniumPage<S>> on(
         factory: () -> P,
-        action: P.() -> R,
-    ): PageScope<R> {
+        action: P.() -> Unit,
+    ): PageScope<P> {
         requireDriver("SiteScope.on")
         val page = factory()
 
@@ -132,8 +129,8 @@ public class SiteScope<S : SeleniumSite> internal constructor(
         }
 
         ensureReady(page)
-        val next = page.action()
-        return scope(next)
+        page.action()
+        return PageScope(page, driver)
     }
 
     internal fun <R : SeleniumPage<*>> scope(next: R): PageScope<R> {

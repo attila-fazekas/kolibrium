@@ -205,7 +205,7 @@ public final class dev/kolibrium/selenium/dsl/DriverFactoriesKt {
 
 public final class dev/kolibrium/selenium/dsl/PageScope {
 	public final fun getPage ()Ldev/kolibrium/selenium/core/SeleniumPage;
-	public final fun on (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
+	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
 	public final fun then (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
 	public final fun verify (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
 }

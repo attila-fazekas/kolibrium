@@ -42,8 +42,7 @@ class InventoryPage : SeleniumPage<SauceDemo>() {
         }
     }
 
-    fun goToCart(): CartPage {
+    fun goToCart() {
         cartButton.click()
-        return CartPage()
     }
 }
