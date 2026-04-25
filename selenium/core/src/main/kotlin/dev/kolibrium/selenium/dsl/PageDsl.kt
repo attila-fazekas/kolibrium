@@ -86,28 +86,6 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
                 page.action()
             }
         }
-
-    /**
-     * Temporarily switch to another [SeleniumSite] within the same browser session, run [block],
-     * and return a [SwitchBackScope] that can restore the original site/window/page.
-     *
-     * If a new tab/window was likely opened before calling this function, the newest handle will be selected.
-     *
-     * @param S2 the target site type to switch to
-     * @param navigateToBase whether to navigate to the target site's base URL before running [block]
-     * @param cookies optional cookies to apply in the target site context
-     * @param block operations to perform in the target site context
-     * @return a scope that allows switching back to the original context
-     */
-    public inline fun <reified S2 : SeleniumSite> switchTo(
-        navigateToBase: Boolean = true,
-        cookies: Cookies? = null,
-        crossinline block: SiteEntry<S2>.() -> Unit,
-    ): SwitchBackScope<P> = switchToImpl(S2::class, navigateToBase, cookies) { (it as SiteEntry<S2>).block() }
-
-    /** Gateway to the underlying entry via the public [SiteEntry] interface. */
-    @InternalKolibriumApi
-    public fun <R> withEntry(block: (SiteEntry<out SeleniumSite>) -> R): R = block(entry)
 }
 
 /**
@@ -125,32 +103,6 @@ internal class PageEntry<S : SeleniumSite>
         internal fun navigateTo(url: String) {
             requireSessionChecked("PageEntry.navigateTo")
             driver.get(url)
-        }
-
-        /** All known window handles in this session. */
-        internal fun windowHandles(): Set<String> {
-            requireSessionChecked("PageEntry.windowHandles")
-            return driver.windowHandles
-        }
-
-        /** The handle of the currently active window or tab. */
-        internal fun currentWindowHandle(): String {
-            requireSessionChecked("PageEntry.currentWindowHandle")
-            return driver.windowHandle
-        }
-
-        /** Switch to a different window or tab identified by its handle. */
-        internal fun switchToWindow(handle: String) {
-            requireSessionChecked("PageEntry.switchToWindow")
-            driver.switchTo().window(handle)
-        }
-
-        /** Apply a prebuilt collection of cookies to the current session. */
-        internal fun applyCookies(cookies: Cookies) {
-            if (cookies.isEmpty()) return
-            requireSessionChecked("PageEntry.applyCookies")
-            val manager = driver.manage().cookies
-            cookies.forEach(manager::add)
         }
 
         /** Add a cookie to the current browser session. */
@@ -266,134 +218,10 @@ internal class PageEntry<S : SeleniumSite>
             seleniumPage.assertReady()
         }
 
-        internal fun switchToNewestWindowIfOpenedSince(originalWindow: String) {
-            requireSessionChecked("PageEntry.switchToNewestWindowIfOpenedSince")
-            val handles = driver.windowHandles.toList()
-            if (handles.size > 1 && originalWindow != handles.last()) {
-                driver.switchTo().window(handles.last())
-            }
-        }
-
         private fun requireSessionChecked(op: String): Session =
             SessionContext.get()?.also { it.assertThreadOrFail(op) }
                 ?: error("No active Session in SessionContext; $op requires an active session.")
     }
-
-/**
- * Handle returned from [PageScope.switchTo] that can restore the original site/window/page context.
- *
- * Use [switchBack] to return to the original context and continue the flow on the original page.
- */
-@KolibriumDsl
-public class SwitchBackScope<P : SeleniumPage<*>> internal constructor(
-    private val driver: WebDriver,
-    private val originalSeleniumSite: SeleniumSite,
-    private val originalWindow: String,
-    private val originalPage: P,
-) {
-    /**
-     * Restore the original site and window context and run [block] on the original page.
-     *
-     * @return a [PageScope] bound to the original page to continue the flow
-     */
-    public fun switchBack(block: P.() -> Unit): PageScope<P> {
-        // Ensure thread confinement for this driver-bound operation
-        SessionContext.get()?.assertThreadOrFail("SwitchBackScope.switchBack")
-            ?: error("No active Session in SessionContext; switchBack requires an active session.")
-        // Restore original window
-        driver.switchTo().window(originalWindow)
-
-        // Rebind session permanently to the original site on this driver
-        val session = Session(driver = driver, seleniumSite = originalSeleniumSite)
-        SessionContext.set(session)
-
-        // Allow site to adjust
-        originalSeleniumSite.configureSite()
-        originalSeleniumSite.onSessionReady(driver)
-
-        // Execute the caller's code back on the original page within the original driver context
-        return withDriver(driver) {
-            originalPage.block()
-            PageScope(originalPage, PageEntry<SeleniumSite>(driver))
-        }
-    }
-}
-
-@PublishedApi
-internal fun <P : SeleniumPage<*>, S2 : SeleniumSite> PageScope<P>.switchToImpl(
-    siteClass: KClass<S2>,
-    navigateToBase: Boolean,
-    cookies: Cookies?,
-    block: (SiteEntry<out SeleniumSite>) -> Unit,
-): SwitchBackScope<P> {
-    val originalEntry = entry
-
-    // Remember the original environment
-    val originalWindow = originalEntry.currentWindowHandle()
-    val originalSeleniumSite: SeleniumSite =
-        SessionContext.get()?.seleniumSite
-            ?: error("No active Session in SessionContext; switchTo requires an active session.")
-
-    // Window selection heuristic: when a new tab likely opened, pick the last handle.
-    originalEntry.switchToNewestWindowIfOpenedSince(originalWindow)
-
-    // Switch site context using helper (no WebDriver leakage)
-    val (targetSite, targetEntry) =
-        performSiteSwitch(
-            originalEntry,
-            navigateToBase,
-            cookies,
-        ) { siteOf(siteClass) }
-
-    // Execute user block in target site context
-    context(targetSite) { block(targetEntry) }
-
-    // Return a scope that can restore the original page as receiver
-    return SwitchBackScope(
-        driver = originalEntry.driver,
-        originalSeleniumSite = originalSeleniumSite,
-        originalWindow = originalWindow,
-        originalPage = this.page,
-    )
-}
-
-internal fun <S2 : SeleniumSite> performSiteSwitch(
-    originalEntry: PageEntry<out SeleniumSite>,
-    navigateToBase: Boolean,
-    cookies: Cookies?,
-    siteProvider: () -> S2,
-): Pair<S2, PageEntry<S2>> {
-    val targetSite: S2 = siteProvider()
-
-    @Suppress("UNCHECKED_CAST")
-    val typedEntry = originalEntry as PageEntry<S2>
-
-    // Bind target site to a new session using the same driver
-    val session = Session(driver = typedEntry.driver, seleniumSite = targetSite)
-    SessionContext.set(session)
-
-    // Apply cookies (if any)
-    if (!cookies.isNullOrEmpty()) {
-        typedEntry.applyCookies(cookies)
-    }
-
-    // Optionally navigate to base URL
-    if (navigateToBase) {
-        typedEntry.navigateTo(targetSite.baseUrl)
-    }
-
-    // Let the site finalize its session configuration
-    typedEntry.configureSite(targetSite)
-
-    return targetSite to typedEntry
-}
-
-// --- helpers ---
-
-@PublishedApi
-internal fun <S : SeleniumSite> siteOf(klass: KClass<S>): S =
-    klass.objectInstance
-        ?: error("${klass.simpleName} must be declared as a Kotlin object to use siteOf()")
 
 private fun joinUrls(
     base: String,
