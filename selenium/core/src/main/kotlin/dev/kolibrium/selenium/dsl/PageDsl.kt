@@ -16,7 +16,6 @@
 
 package dev.kolibrium.selenium.dsl
 
-import dev.kolibrium.annotations.InternalKolibriumApi
 import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.core.SeleniumSite
@@ -26,9 +25,6 @@ import dev.kolibrium.selenium.core.withDriver
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import java.net.URI
-import kotlin.reflect.KClass
-
-private typealias Cookies = Set<Cookie>
 
 /**
  * Scope used as the fluent receiver when working with a [SeleniumPage] in the Selenium DSL.

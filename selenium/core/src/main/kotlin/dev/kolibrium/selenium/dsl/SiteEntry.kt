@@ -22,10 +22,10 @@ import dev.kolibrium.selenium.core.SeleniumSite
 import org.openqa.selenium.Cookie
 
 /**
- * Site-scoped DSL receiver available inside `seleniumTest { … }` blocks and within `switchTo<S>() { … }`.
+ * Site-scoped DSL receiver available inside `seleniumTest { … }` blocks.
  *
  * It represents the entry surface for flows on the active [SeleniumSite], exposing operations like [open], [on],
- * cookie helpers, and site/window switching through higher-level DSL.
+ * cookie helpers.
  *
  * Notes
  * - Implemented internally by Kolibrium; end users receive this as the receiver of [seleniumTest] blocks.
