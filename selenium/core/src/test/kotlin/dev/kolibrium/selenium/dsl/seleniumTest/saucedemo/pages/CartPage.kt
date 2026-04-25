@@ -34,14 +34,12 @@ class CartPage : SeleniumPage<SauceDemo>() {
     private val continueShoppingButton by idOrName("continue-shopping")
     private val checkoutButton by idOrName("checkout")
 
-    fun checkout(): CheckoutPage {
+    fun checkout() {
         checkoutButton.click()
-        return CheckoutPage()
     }
 
-    fun continueShopping(): InventoryPage {
+    fun continueShopping() {
         continueShoppingButton.click()
-        return InventoryPage()
     }
 
     fun getItemsOnShoppingCart(): List<CartItem> {

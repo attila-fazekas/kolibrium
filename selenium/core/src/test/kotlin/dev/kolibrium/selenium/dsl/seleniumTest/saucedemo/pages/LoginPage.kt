@@ -30,15 +30,16 @@ class LoginPage : SeleniumPage<SauceDemo>() {
     fun login(
         username: String = "standard_user",
         password: String = "secret_sauce",
-    ): InventoryPage {
+    ) {
         println(usernameInput.toString())
         usernameInput.get().sendKeys(username)
         passwordInput.sendKeys(password)
         loginButton.click()
-        return InventoryPage()
     }
 
-    fun loginAsLockedUser(): InventoryPage = login("locked_out_user", "secret_sauce")
+    fun loginAsLockedUser() {
+        login("locked_out_user", "secret_sauce")
+    }
 
     companion object {
         context(driver: WebDriver)

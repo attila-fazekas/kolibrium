@@ -65,8 +65,18 @@ class LocatorDelegatesTest {
         Files.deleteIfExists(testHtmlPath)
     }
 
-    // Convenience to execute each test with a contextual WebDriver
-    private inline fun <T> withPage(block: () -> T): T = withDriver(driver, block)
+    // Convenience to set up a session context for tests
+    private fun <T> withPage(block: () -> T): T {
+        val site = object : SeleniumSite("file://test") {}
+        WebDriverContextHolder.set(driver)
+        SiteContextHolder.set(site)
+        return try {
+            block()
+        } finally {
+            SiteContextHolder.clear()
+            WebDriverContextHolder.clear()
+        }
+    }
 
     @Test
     fun `should find element by id`(): Unit =
@@ -320,7 +330,9 @@ class LocatorDelegatesTest {
         withPage {
             // Given
             val site = TestSite()
-            SessionContext.withSession(Session(driver, site)) {
+            WebDriverContextHolder.set(driver)
+            SiteContextHolder.set(site)
+            try {
                 val page = TestPageWithSite()
 
                 // When
@@ -328,6 +340,9 @@ class LocatorDelegatesTest {
 
                 // Then
                 element.text shouldBe "Test Page"
+            } finally {
+                SiteContextHolder.clear()
+                WebDriverContextHolder.clear()
             }
         }
 

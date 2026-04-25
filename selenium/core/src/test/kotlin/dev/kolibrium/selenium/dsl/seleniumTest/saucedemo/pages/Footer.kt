@@ -22,11 +22,9 @@ import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.SauceDemo
 
 // Return the current page so callers can continue fluent chains that expect a Page
 context(page: SeleniumPage<SauceDemo>)
-fun visitTwitter(): InventoryPage {
+fun visitTwitter() {
     val twitterLogo by page.dataTest("social-twitter")
     twitterLogo.click()
-    // We know callers use this from InventoryPage in tests; return it for chaining
-    return page as InventoryPage
 }
 
 context(page: SeleniumPage<SauceDemo>)

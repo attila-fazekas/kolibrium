@@ -24,7 +24,7 @@ import org.openqa.selenium.support.ui.Select
 import java.util.concurrent.TimeUnit.MILLISECONDS
 
 class LocatorDelegatesTest :
-    dev.kolibrium.selenium.core.internal.BaseTest(
+    BaseTest(
 //    isHeadless = false
     ) {
     @Test

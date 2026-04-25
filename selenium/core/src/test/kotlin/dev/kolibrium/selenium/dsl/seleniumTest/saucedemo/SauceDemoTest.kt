@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-@file:Suppress("ktlint")
-
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo
 
 import dev.kolibrium.selenium.dsl.DriverFactory
-import dev.kolibrium.selenium.dsl.SiteEntry
+import dev.kolibrium.selenium.dsl.SiteScope
+import dev.kolibrium.selenium.dsl.chrome
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.incognito
 import dev.kolibrium.selenium.dsl.creation.Preferences.Chromium.credentials_enable_service
@@ -27,13 +26,11 @@ import dev.kolibrium.selenium.dsl.creation.Preferences.Chromium.password_manager
 import dev.kolibrium.selenium.dsl.creation.Preferences.Chromium.password_manager_leak_detection
 import dev.kolibrium.selenium.dsl.creation.chromeDriver
 import dev.kolibrium.selenium.dsl.seleniumTest
-import dev.kolibrium.selenium.dsl.chrome
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.Product.Backpack
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.Product.BikeLight
+import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.CartPage
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.InventoryPage
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.LoginPage
-import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.twitter.TwitterHomePage
-import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.visitTwitter
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -49,91 +46,74 @@ class SauceDemoTest {
     }
 
     @Test
-    fun `seleniumTest used with PageEntry's open() function`() = seleniumTest(
-        site = SauceDemo,
-        keepBrowserOpen = false,
-        driverFactory = chrome,
-        setUp = { },
-    ) { _: Unit ->
-        open(::LoginPage) {
-            login()
-        }
-    }
-
-    @Test
-    fun `sauceDemoTest used with PageEntry's open() function`() = sauceDemoTest(
-        keepBrowserOpen = false,
-    ) {
-        val products = listOf(Backpack, BikeLight)
-
-        open(::LoginPage) {
-            login()
-        }.on {
-            titleText() shouldBe "Products"
-
-            products.addToCart()
-
-            goToCart()
-        }.verify {
-            val items = getItemsOnShoppingCart()
-            items.size shouldBe products.size
-            items.zip(products).forEach { (item, product) ->
-                item.quantity() shouldBe 1
-                item.name() shouldBe product.productName
-                item.price() shouldBe product.price
-            }
-        }.on {
-            checkout()
-        }
-    }
-
-    @Test
-    fun `authenticatedSauceDemoTest used with PageEntry's open() function and chained() `() = authenticatedSauceDemoTest(
-        keepBrowserOpen = false,
-    ) {
-        val products = listOf(Backpack, BikeLight)
-
-        open(::InventoryPage) {
-            titleText() shouldBe "Products"
-
-            products.addToCart()
-
-            goToCart()
-        }.verify {
-            val items = getItemsOnShoppingCart()
-            items.size shouldBe products.size
-            items.zip(products).forEach { (item, product) ->
-                item.quantity() shouldBe 1
-                item.name() shouldBe product.productName
-                item.price() shouldBe product.price
-            }
-        }.on {
-            checkout()
-        }
-    }
-
-    @Test
-    fun `crossing domains`() = authenticatedSauceDemoTest(
-        user = User.Visual,
-        keepBrowserOpen = false,
-    ) {
-        open(::InventoryPage) {
-            visitTwitter()
-        }.switchTo<Twitter>(navigateToBase = false) {
-            on(::TwitterHomePage) {
+    fun `seleniumTest used with PageEntry's open() function`() =
+        seleniumTest(
+            site = SauceDemo,
+            keepBrowserOpen = false,
+            driverFactory = chrome,
+            setUp = { },
+        ) {
+            on(::LoginPage) {
                 login()
-            }.then {
-                likeKolibrium()
             }
-        }.switchBack {
-            goToCart()
         }
-    }
+
+    @Test
+    fun `sauceDemoTest used with PageEntry's open() function`() =
+        sauceDemoTest(
+            keepBrowserOpen = false,
+        ) {
+            val products = listOf(Backpack, BikeLight)
+
+            on(::LoginPage) {
+                login()
+            }.on(::InventoryPage) {
+                titleText() shouldBe "Products"
+
+                products.addToCart()
+
+                goToCart()
+            }.on(::CartPage) {
+                val items = getItemsOnShoppingCart()
+                items.size shouldBe products.size
+                items.zip(products).forEach { (item, product) ->
+                    item.quantity() shouldBe 1
+                    item.name() shouldBe product.productName
+                    item.price() shouldBe product.price
+                }
+                checkout()
+            }
+        }
+
+    @Test
+    fun `authenticatedSauceDemoTest used with PageEntry's open() function and chained() `() =
+        authenticatedSauceDemoTest(
+            keepBrowserOpen = false,
+        ) {
+            val products = listOf(Backpack, BikeLight)
+
+            on(::InventoryPage) {
+                titleText() shouldBe "Products"
+
+                products.addToCart()
+
+                goToCart()
+            }.on(::CartPage) {
+                val items = getItemsOnShoppingCart()
+                items.size shouldBe products.size
+                items.zip(products).forEach { (item, product) ->
+                    item.quantity() shouldBe 1
+                    item.name() shouldBe product.productName
+                    item.price() shouldBe product.price
+                }
+                checkout()
+            }
+        }
 
     private fun sauceDemoTest(
         driverFactory: DriverFactory = sauceDemoDriver,
         keepBrowserOpen: Boolean = false,
-        block: SiteEntry<SauceDemo>.() -> Unit,
+        block: SiteScope<SauceDemo>.() -> Unit,
     ) = seleniumTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -147,7 +127,7 @@ class SauceDemoTest {
         user: User = User.Standard,
         driverFactory: DriverFactory = sauceDemoDriver,
         keepBrowserOpen: Boolean = false,
-        block: SiteEntry<SauceDemo>.() -> Unit,
+        block: SiteScope<SauceDemo>.() -> Unit,
     ) = seleniumTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -160,13 +140,13 @@ class SauceDemoTest {
         },
     )
 
-    //Imitating backend call to acquire credentials
-    private fun User.acquireCredentials(): String {
-        return username
-    }
+    // Imitating backend call to acquire credentials
+    private fun User.acquireCredentials(): String = username
 
-    private fun SiteEntry<SauceDemo>.loginAs(username: String) {
-        addCookie(Cookie("session-username", username))
+    private fun SiteScope<SauceDemo>.loginAs(username: String) {
+        cookies {
+            addCookie("session-username", username)
+        }
     }
 
     private val sauceDemoDriver = {

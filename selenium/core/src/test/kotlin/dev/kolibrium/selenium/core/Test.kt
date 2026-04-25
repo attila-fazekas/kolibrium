@@ -28,10 +28,6 @@ object MySite : SeleniumSite(baseUrl = "https://www.saucedemo.com") {
     override val decorators = listOf(HighlighterDecorator())
     override val waitConfig: WaitConfig = WaitConfig.Default
 
-    override fun configureSite() {
-        // compute site‑level policy (no WebDriver access here)
-    }
-
     override fun onSessionReady(driver: WebDriver) {
         // session‑aware tweaks; do not navigate here
     }
@@ -59,8 +55,10 @@ class LoginPage : SeleniumPage<MySite>() {
 fun main() {
     val driver = ChromeDriver()
     try {
-        // 3) Bind a session (driver + site) to the thread (optional but recommended)
-        SessionContext.withSession(Session(driver, MySite)) {
+        // 3) Bind context holders to the thread (optional but recommended)
+        WebDriverContextHolder.set(driver)
+        SiteContextHolder.set(MySite)
+        try {
             // 4) Perform the steps the DSL normally does for you
             driver.navigate().to(MySite.baseUrl)
             // Apply declarative cookies before first real navigation if you need them on initial request
@@ -69,16 +67,16 @@ fun main() {
                 driver.navigate().to(MySite.baseUrl) // re‑navigate so cookies take effect
             }
             // Let the site finalize configuration for this session
-            MySite.configureSite()
             MySite.onSessionReady(driver)
 
-            // 5) Create a page and use it inside a WebDriver context
+            // 5) Create a page and use it
             val loginPage = LoginPage()
-            withDriver(driver) {
-                loginPage.awaitReady()
-                // 6) Interact using locator delegates
-                loginPage.login()
-            }
+            loginPage.awaitReady()
+            // 6) Interact using locator delegates
+            loginPage.login()
+        } finally {
+            SiteContextHolder.clear()
+            WebDriverContextHolder.clear()
         }
     } finally {
         driver.quit()

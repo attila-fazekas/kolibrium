@@ -14,14 +14,24 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.ksp.processors
+package dev.kolibrium.selenium.core
 
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.MemberName
+import org.openqa.selenium.WebDriver
 
-internal const val SELENIUM_SITE_BASE_CLASS = "dev.kolibrium.selenium.core.SeleniumSite"
+internal object WebDriverContextHolder {
+    private val tl: ThreadLocal<WebDriver?> = ThreadLocal()
 
-internal val SELENIUM_TEST_MEMBER = MemberName("dev.kolibrium.selenium.dsl", "seleniumTest")
-internal val SITE_SCOPE_CLASS = ClassName("dev.kolibrium.selenium.dsl", "SiteScope")
-internal val DRIVER_FACTORY_CLASS = ClassName("dev.kolibrium.selenium.dsl", "DriverFactory")
-internal val CHROME_MEMBER = MemberName("dev.kolibrium.selenium.dsl", "chrome")
+    internal fun get(): WebDriver? = tl.get()
+
+    internal fun set(driver: WebDriver) {
+        tl.set(driver)
+    }
+
+    internal fun clear() {
+        tl.remove()
+    }
+}
+
+internal fun requireDriver(op: String = "requireDriver"): WebDriver =
+    WebDriverContextHolder.get()
+        ?: error("No active WebDriver; $op requires an active session.")

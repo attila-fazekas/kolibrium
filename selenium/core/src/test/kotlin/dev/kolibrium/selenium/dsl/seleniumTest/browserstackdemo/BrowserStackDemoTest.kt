@@ -18,7 +18,7 @@ package dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo
 
 import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.selenium.dsl.DriverFactory
-import dev.kolibrium.selenium.dsl.SiteEntry
+import dev.kolibrium.selenium.dsl.SiteScope
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.incognito
 import dev.kolibrium.selenium.dsl.creation.chromeDriver
@@ -90,10 +90,8 @@ class BrowserStackDemoTest {
         browserStackDemoTest(
             keepBrowserOpen = false,
         ) {
-            open(::ProductsPage) {
-                apply {
-                    verifyShoppingCartBadgeIs(0)
-                }
+            on(::ProductsPage) {
+                verifyShoppingCartBadgeIs(0)
             }
         }
 
@@ -103,17 +101,15 @@ class BrowserStackDemoTest {
         browserStackDemoTest(
             driverFactory = factory,
         ) {
-            open(::ProductsPage) {
-                apply {
-                    verifyShoppingCartBadgeIs(0)
-                }
+            on(::ProductsPage) {
+                verifyShoppingCartBadgeIs(0)
             }
         }
 
     private fun browserStackDemoTest(
         driverFactory: DriverFactory = { ChromeDriver() },
         keepBrowserOpen: Boolean = false,
-        block: SiteEntry<BrowserStackDemo>.(Unit) -> Unit,
+        block: SiteScope<BrowserStackDemo>.(Unit) -> Unit,
     ) = seleniumTest(
         site = BrowserStackDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -125,7 +121,7 @@ class BrowserStackDemoTest {
         driverFactory: DriverFactory = browserStackDemoDriver,
         keepBrowserOpen: Boolean = false,
         setUp: () -> T,
-        block: SiteEntry<BrowserStackDemo>.(T) -> Unit,
+        block: SiteScope<BrowserStackDemo>.(T) -> Unit,
     ) = seleniumTest(
         site = BrowserStackDemo,
         keepBrowserOpen = keepBrowserOpen,

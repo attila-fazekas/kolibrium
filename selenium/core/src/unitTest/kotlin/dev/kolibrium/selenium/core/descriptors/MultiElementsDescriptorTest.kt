@@ -18,8 +18,8 @@ package dev.kolibrium.selenium.core.descriptors
 
 import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.core.SeleniumSite
-import dev.kolibrium.selenium.core.Session
-import dev.kolibrium.selenium.core.SessionContext
+import dev.kolibrium.selenium.core.SiteContextHolder
+import dev.kolibrium.selenium.core.WebDriverContextHolder
 import dev.kolibrium.selenium.core.classNames
 import dev.kolibrium.selenium.core.cssSelectors
 import dev.kolibrium.selenium.core.dataQas
@@ -70,13 +70,14 @@ class MultiElementsDescriptorTest {
         mockElement1 = mockk(relaxed = true)
         mockElement2 = mockk(relaxed = true)
         mockElement3 = mockk(relaxed = true)
-        SessionContext.clear()
-        // If you have DecoratorManager.clear(), call it here
+        SiteContextHolder.clear()
+        WebDriverContextHolder.clear()
     }
 
     @AfterEach
     fun tearDown() {
-        SessionContext.clear()
+        SiteContextHolder.clear()
+        WebDriverContextHolder.clear()
         clearAllMocks()
     }
 
@@ -337,7 +338,9 @@ class MultiElementsDescriptorTest {
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, seleniumSite)) {
+        WebDriverContextHolder.set(driver)
+        SiteContextHolder.set(seleniumSite)
+        try {
             val descriptor = mockSearchContext.names("field")
 
             val elements = listOf(mockElement1)
@@ -350,6 +353,9 @@ class MultiElementsDescriptorTest {
             // Then
             descriptor.toString() shouldContain "timeout=30s"
             descriptor.toString() shouldContain "polling=500ms"
+        } finally {
+            SiteContextHolder.clear()
+            WebDriverContextHolder.clear()
         }
     }
 
@@ -364,7 +370,9 @@ class MultiElementsDescriptorTest {
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, seleniumSite)) {
+        WebDriverContextHolder.set(driver)
+        SiteContextHolder.set(seleniumSite)
+        try {
             val descriptor = mockSearchContext.cssSelectors(".items")
 
             val elements = listOf(mockElement1, mockElement2)
@@ -380,6 +388,9 @@ class MultiElementsDescriptorTest {
             // Then
             result shouldHaveSize 2
             verify(atLeast = 1) { mockElement1.isEnabled }
+        } finally {
+            SiteContextHolder.clear()
+            WebDriverContextHolder.clear()
         }
     }
 
@@ -597,7 +608,9 @@ class MultiElementsDescriptorTest {
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, seleniumSite)) {
+        WebDriverContextHolder.set(driver)
+        SiteContextHolder.set(seleniumSite)
+        try {
             val elements = listOf(mockElement1, mockElement2)
             every { mockSearchContext.findElements(By.className("items")) } returns elements
             every { mockElement1.isDisplayed } returns true
@@ -608,6 +621,9 @@ class MultiElementsDescriptorTest {
                 descriptor.get()
                 descriptor.toString() shouldContain "decorators=[SlowMotionDecorator, LoggerDecorator]"
             }
+        } finally {
+            SiteContextHolder.clear()
+            WebDriverContextHolder.clear()
         }
     }
 }

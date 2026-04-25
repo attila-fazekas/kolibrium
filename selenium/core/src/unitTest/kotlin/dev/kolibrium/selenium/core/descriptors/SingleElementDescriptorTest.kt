@@ -17,8 +17,8 @@
 package dev.kolibrium.selenium.core.descriptors
 
 import dev.kolibrium.selenium.core.SeleniumSite
-import dev.kolibrium.selenium.core.Session
-import dev.kolibrium.selenium.core.SessionContext
+import dev.kolibrium.selenium.core.SiteContextHolder
+import dev.kolibrium.selenium.core.WebDriverContextHolder
 import dev.kolibrium.selenium.core.className
 import dev.kolibrium.selenium.core.cssSelector
 import dev.kolibrium.selenium.core.dataQa
@@ -64,12 +64,14 @@ class SingleElementDescriptorTest {
     fun setup() {
         mockSearchContext = mockk()
         mockElement = mockk(relaxed = true)
-        SessionContext.clear()
+        SiteContextHolder.clear()
+        WebDriverContextHolder.clear()
     }
 
     @AfterEach
     fun tearDown() {
-        SessionContext.clear()
+        SiteContextHolder.clear()
+        WebDriverContextHolder.clear()
         clearAllMocks()
     }
 
@@ -282,7 +284,9 @@ class SingleElementDescriptorTest {
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, seleniumSite)) {
+        WebDriverContextHolder.set(driver)
+        SiteContextHolder.set(seleniumSite)
+        try {
             val descriptor =
                 mockSearchContext.cssSelector(
                     value = ".test",
@@ -298,6 +302,9 @@ class SingleElementDescriptorTest {
             // Then
             descriptor.toString() shouldContain "timeout=30s"
             descriptor.toString() shouldContain "polling=500ms"
+        } finally {
+            SiteContextHolder.clear()
+            WebDriverContextHolder.clear()
         }
     }
 
@@ -399,7 +406,9 @@ class SingleElementDescriptorTest {
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, seleniumSite)) {
+        WebDriverContextHolder.set(driver)
+        SiteContextHolder.set(seleniumSite)
+        try {
             val descriptor =
                 mockSearchContext.id(
                     value = "custom-ready",
@@ -416,6 +425,9 @@ class SingleElementDescriptorTest {
             // Then
             result shouldBe mockElement
             verify(atLeast = 1) { mockElement.isEnabled }
+        } finally {
+            SiteContextHolder.clear()
+            WebDriverContextHolder.clear()
         }
     }
 
@@ -427,7 +439,9 @@ class SingleElementDescriptorTest {
             }
 
         val driver = mockk<WebDriver>(relaxed = true)
-        SessionContext.withSession(Session(driver, seleniumSite)) {
+        WebDriverContextHolder.set(driver)
+        SiteContextHolder.set(seleniumSite)
+        try {
             every { mockSearchContext.findElement(By.id("x")) } returns mockElement
             every { mockElement.isDisplayed } returns true
 
@@ -436,6 +450,9 @@ class SingleElementDescriptorTest {
                 descriptor.get() // trigger lazy merge and decoration
                 descriptor.toString() shouldContain "decorators=[SlowMotionDecorator, LoggerDecorator]"
             }
+        } finally {
+            SiteContextHolder.clear()
+            WebDriverContextHolder.clear()
         }
     }
 }

@@ -16,7 +16,6 @@
 
 package dev.kolibrium.selenium.core
 
-import dev.kolibrium.annotations.InternalKolibriumApi
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 import org.openqa.selenium.WebDriver
@@ -25,15 +24,16 @@ import org.openqa.selenium.WebElement
 /**
  * Base type for page objects bound to a [SeleniumSite].
  *
- * Page instances rely on a contextual [WebDriver] installed by Kolibrium's DSL
- * or via [withDriver]. Constructing and using pages outside those contexts will fail with a runtime
+ * Page instances rely on a contextual [WebDriver] installed by Kolibrium's DSL.
+ * Constructing and using pages outside those contexts will fail with a runtime
  * error. Delegated findElement(s) calls route through the contextual driver.
  */
-public abstract class SeleniumPage<S : SeleniumSite> : SearchContext {
+public abstract class SeleniumPage<S : SeleniumSite> protected constructor() : SearchContext {
     /**
-     * Relative path of this page within the [SeleniumSite]. Defaults to "/".
+     * Relative path of this page within the [SeleniumSite]. Defaults to empty string (no navigation).
+     * Any non-empty value causes the [dev.kolibrium.selenium.dsl.SiteScope.on] function to navigate to `baseUrl + path`.
      */
-    public open val path: String = "/"
+    public open val path: String = ""
 
     /** The current URL as reported by the driver. */
     protected val currentUrl: String
@@ -45,7 +45,7 @@ public abstract class SeleniumPage<S : SeleniumSite> : SearchContext {
 
     /**
      * Wait until the page is considered ready for interaction.
-     * Default is a no-op; libraries may override.
+     * Default is a no-op; subclasses may override.
      */
     public open fun awaitReady() {}
 
@@ -54,29 +54,23 @@ public abstract class SeleniumPage<S : SeleniumSite> : SearchContext {
      */
     public open fun assertReady() {}
 
-    /** Reloads the current page. */
-    protected fun refresh() {
-        requireDriver().navigate().refresh()
-    }
-
-    /** Navigates back in the browser history. */
-    protected fun back() {
-        requireDriver().navigate().back()
-    }
-
-    /** Navigates forward in the browser history. */
-    protected fun forward() {
-        requireDriver().navigate().forward()
-    }
+    /**
+     * Provides direct access to the underlying [WebDriver] for advanced operations.
+     * Prefer using the DSL and locator delegates where possible.
+     */
+    protected val driver: WebDriver
+        get() = requireDriver()
 
     override fun findElement(by: By): WebElement = requireDriver().findElement(by)
 
     override fun findElements(by: By): List<WebElement> = requireDriver().findElements(by)
 
-    private fun requireDriver(): WebDriver {
-        SessionContext.get()?.assertThreadOrFail("Page operation")
-        return DriverContextHolder.get() ?: error(sessionNotAttachedMessage())
-    }
+    private fun requireDriver(): WebDriver =
+        try {
+            requireDriver("Page operation")
+        } catch (_: IllegalStateException) {
+            error(sessionNotAttachedMessage())
+        }
 
     private fun sessionNotAttachedMessage(): String {
         val pageName = this::class.qualifiedName ?: this::class.simpleName ?: "<unknown page>"
@@ -84,49 +78,7 @@ public abstract class SeleniumPage<S : SeleniumSite> : SearchContext {
             "Kolibrium runtime error: Page '$pageName' has no active WebDriver context.\n" +
                 "You likely constructed this page directly or are calling it outside Kolibrium DSL.\n\n" +
                 "How to fix:\n" +
-                "- Run page interactions inside Kolibrium DSL (e.g., seleniumTest/open/on)\n" +
-                "- Or wrap code with withDriver(driver) { ... } so a contextual driver is available\n"
+                "- Run page interactions inside Kolibrium DSL (e.g., seleniumTest/on)\n"
         )
-    }
-}
-
-@PublishedApi
-internal object DriverContextHolder {
-    private val tl: ThreadLocal<WebDriver?> = ThreadLocal()
-
-    @PublishedApi
-    internal fun get(): WebDriver? = tl.get()
-
-    @PublishedApi
-    internal fun set(driver: WebDriver) {
-        tl.set(driver)
-    }
-
-    @PublishedApi
-    internal fun clear() {
-        tl.remove()
-    }
-}
-
-/**
- * Provide a contextual WebDriver for the duration of [block]. Also makes the driver available to
- * Java-override-based APIs (SearchContext) via a thread-local bridge.
- */
-@InternalKolibriumApi
-public inline fun <T> withDriver(
-    driver: WebDriver,
-    block: () -> T,
-): T {
-    SessionContext.get()?.let { session ->
-        session.assertThreadOrFail("withDriver")
-        check(session.driver === driver) {
-            "Kolibrium runtime error: withDriver() received a WebDriver different from the active Session's driver."
-        }
-    }
-    DriverContextHolder.set(driver)
-    return try {
-        block()
-    } finally {
-        DriverContextHolder.clear()
     }
 }

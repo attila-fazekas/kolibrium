@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.ksp.processors
+package dev.kolibrium.selenium.core
 
-import com.squareup.kotlinpoet.ClassName
-import com.squareup.kotlinpoet.MemberName
+internal object SiteContextHolder {
+    private val tl: ThreadLocal<SeleniumSite?> = ThreadLocal()
 
-internal const val SELENIUM_SITE_BASE_CLASS = "dev.kolibrium.selenium.core.SeleniumSite"
+    internal fun get(): SeleniumSite? = tl.get()
 
-internal val SELENIUM_TEST_MEMBER = MemberName("dev.kolibrium.selenium.dsl", "seleniumTest")
-internal val SITE_SCOPE_CLASS = ClassName("dev.kolibrium.selenium.dsl", "SiteScope")
-internal val DRIVER_FACTORY_CLASS = ClassName("dev.kolibrium.selenium.dsl", "DriverFactory")
-internal val CHROME_MEMBER = MemberName("dev.kolibrium.selenium.dsl", "chrome")
+    internal fun set(site: SeleniumSite) {
+        tl.set(site)
+    }
+
+    internal fun clear() {
+        tl.remove()
+    }
+}

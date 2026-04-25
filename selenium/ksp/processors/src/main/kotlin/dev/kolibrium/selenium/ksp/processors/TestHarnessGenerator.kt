@@ -36,7 +36,7 @@ internal class TestHarnessGenerator(
         val functionName = info.siteName.replaceFirstChar { it.lowercase() } + "Test"
         val fileName = "${info.siteName}TestHarness"
         val generatedPackage = "${info.packageName}.generated"
-        val siteEntryType = SITE_ENTRY_CLASS.parameterizedBy(siteClassName)
+        val siteScopeType = SITE_SCOPE_CLASS.parameterizedBy(siteClassName)
 
         val noSetupFun =
             FunSpec
@@ -59,7 +59,7 @@ internal class TestHarnessGenerator(
                     "block",
                     LambdaTypeName
                         .get(
-                            receiver = siteEntryType,
+                            receiver = siteScopeType,
                             returnType = Unit::class.asTypeName(),
                         ).copy(suspending = true),
                 ).returns(Unit::class)
@@ -112,7 +112,7 @@ internal class TestHarnessGenerator(
                     "block",
                     LambdaTypeName
                         .get(
-                            receiver = siteEntryType,
+                            receiver = siteScopeType,
                             parameters = listOf(ParameterSpec.unnamed(typeVariableT)),
                             returnType = Unit::class.asTypeName(),
                         ).copy(suspending = true),

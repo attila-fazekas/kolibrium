@@ -23,6 +23,7 @@ import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
+import org.openqa.selenium.remote.service.DriverService
 
 /**
  * Base configuration for an application under test.
@@ -42,16 +43,25 @@ import org.openqa.selenium.WebElement
  * Lifecycle and ordering
  * - The test DSL binds the active site to the current thread, creates a [WebDriver] session, navigates to
  *   [baseUrl] to establish origin, applies declarative [cookies] (if any), then re-navigates to [baseUrl]
- *   so cookies take effect immediately. Finally, the DSL calls [configureSite] and then [onSessionReady]
- *   with the driver.
+ *   so cookies take effect immediately. Finally, the DSL calls [onSessionReady] with the driver.
  * - Never navigate in [onSessionReady]; keep it fast and idempotent.
  *
  * @property baseUrl Base URL used by pages and the test DSL to build absolute routes.
  *           Must be provided as a constructor argument by subclasses.
  */
-public abstract class SeleniumSite(
+public abstract class SeleniumSite protected constructor(
     public val baseUrl: String,
 ) {
+    /**
+     * Optional local driver service managed by Kolibrium for this site.
+     *
+     * When non-null, the test harness starts the service before creating the
+     * WebDriver session and stops it during teardown.
+     * If null (default), tests assume the driver binary is on PATH
+     * (Selenium Manager handles it) or an external service is running.
+     */
+    public open val service: DriverService? = null
+
     /**
      * Declarative cookies applied to every new [WebDriver] session for this site.
      *
@@ -100,35 +110,15 @@ public abstract class SeleniumSite(
     public open val waitConfig: WaitConfig = WaitConfig.Default
 
     /**
-     * No-arg hook for per-site tweaks that do not require an active [WebDriver] session.
+     * Imperative, session-aware hook invoked after a [WebDriver] session is created.
      *
      * Timing and order:
-     * - Invoked by the DSL just before [onSessionReady].
-     * - The DSL calls [configureSite] after it has navigated to [baseUrl],
-     *   applied declarative [cookies] (if any), and re-navigated to [baseUrl].
-     *
-     * Recommended uses:
-     * - Read environment variables or feature flags to decide site-level policy (decorators, [waitConfig], etc.).
-     * - Compute declarative [cookies] when values are static for the test run.
-     *
-     * Do not:
-     * - Perform navigation or call session APIs here; no session is provided, and navigation is owned by the DSL.
-     */
-    public open fun configureSite() { // no-op by default
-    }
-
-    /**
-     * Imperative, session-aware hook invoked after a [WebDriver] session is created and whenever
-     * the active test switches to this [SeleniumSite].
-     *
-     * Timing and order:
-     * - Called by the DSL after [configureSite()].
      * - The DSL performs the initial navigation to [baseUrl], applies declarative [cookies], then re-navigates
      *   to [baseUrl] before invoking this hook.
      *
      * Guidelines:
      * - Do not perform navigation here; the DSL owns predictable navigation.
-     * - Keep it fast and idempotent; this may be called multiple times across a test run.
+     * - Keep it fast and idempotent.
      * - Prefer the declarative [cookies] property for stable defaults; use this hook for dynamic/session-specific work.
      *
      * Example:

@@ -41,12 +41,14 @@ class ElementByDelegateTest {
     fun setup() {
         mockSearchContext = mockk()
         mockElement = mockk(relaxed = true)
-        SessionContext.clear()
+        SiteContextHolder.clear()
+        WebDriverContextHolder.clear()
     }
 
     @AfterEach
     fun tearDown() {
-        SessionContext.clear()
+        SiteContextHolder.clear()
+        WebDriverContextHolder.clear()
         clearAllMocks()
     }
 

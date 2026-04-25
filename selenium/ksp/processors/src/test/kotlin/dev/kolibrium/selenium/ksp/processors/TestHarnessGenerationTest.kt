@@ -47,7 +47,7 @@ class TestHarnessGenerationTest : BaseTest() {
         source shouldContain "fun testSiteTest("
         source shouldContain "driverFactory: DriverFactory"
         source shouldContain "keepBrowserOpen: Boolean = false"
-        source shouldContain "block: suspend SiteEntry<TestSite>.() -> Unit"
+        source shouldContain "block: suspend SiteScope<TestSite>.() -> Unit"
         source shouldContain "seleniumTest(site = TestSite"
     }
 
@@ -62,7 +62,7 @@ class TestHarnessGenerationTest : BaseTest() {
         source shouldContain "fun <T> testSiteTest("
         source shouldContain "setUp: suspend () -> T"
         source shouldContain "tearDown: suspend (T) -> Unit = {}"
-        source shouldContain "block: suspend SiteEntry<TestSite>.(T) -> Unit"
+        source shouldContain "block: suspend SiteScope<TestSite>.(T) -> Unit"
     }
 
     @Test
