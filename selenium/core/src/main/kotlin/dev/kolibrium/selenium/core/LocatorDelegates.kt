@@ -75,7 +75,7 @@ public fun SearchContext.className(
         cacheLookup = cacheLookup,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -119,7 +119,7 @@ public fun SearchContext.classNames(
         locatorStrategy = By::className,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementsReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -165,7 +165,7 @@ public fun SearchContext.cssSelector(
         cacheLookup = cacheLookup,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -207,7 +207,7 @@ public fun SearchContext.cssSelectors(
         locatorStrategy = By::cssSelector,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementsReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -501,7 +501,7 @@ public fun SearchContext.id(
         cacheLookup = cacheLookup,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -548,7 +548,7 @@ public fun SearchContext.idOrName(
         cacheLookup = cacheLookup,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -594,7 +594,7 @@ public fun SearchContext.linkText(
         cacheLookup = cacheLookup,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -636,7 +636,7 @@ public fun SearchContext.linkTexts(
         locatorStrategy = By::linkText,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementsReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -682,7 +682,7 @@ public fun SearchContext.name(
         cacheLookup = cacheLookup,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -724,7 +724,7 @@ public fun SearchContext.names(
         locatorStrategy = By::name,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementsReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -770,7 +770,7 @@ public fun SearchContext.partialLinkText(
         cacheLookup = cacheLookup,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -812,7 +812,7 @@ public fun SearchContext.partialLinkTexts(
         locatorStrategy = By::partialLinkText,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementsReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -858,7 +858,7 @@ public fun SearchContext.tagName(
         cacheLookup = cacheLookup,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -900,7 +900,7 @@ public fun SearchContext.tagNames(
         locatorStrategy = By::tagName,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementsReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -946,7 +946,7 @@ public fun SearchContext.xpath(
         cacheLookup = cacheLookup,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -988,7 +988,7 @@ public fun SearchContext.xpaths(
         locatorStrategy = By::xpath,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementsReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -1037,7 +1037,7 @@ public fun SearchContext.element(
         cacheLookup = cacheLookup,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )
 
 /**
@@ -1083,5 +1083,5 @@ public fun SearchContext.elements(
         by = by,
         waitConfig = waitConfig ?: defaultWaitConfig,
         readyWhen = readyWhen ?: defaultElementsReadyCondition,
-        siteLevelDecorators = SessionContext.get()?.seleniumSite?.decorators ?: emptyList(),
+        siteLevelDecorators = SiteContextHolder.get()?.decorators ?: emptyList(),
     )

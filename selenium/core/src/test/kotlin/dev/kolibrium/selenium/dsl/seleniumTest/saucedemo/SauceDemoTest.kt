@@ -53,7 +53,7 @@ class SauceDemoTest {
             driverFactory = chrome,
             setUp = { },
         ) {
-            open(::LoginPage) {
+            on(::LoginPage) {
                 login()
             }
         }
@@ -65,7 +65,7 @@ class SauceDemoTest {
         ) {
             val products = listOf(Backpack, BikeLight)
 
-            open(::LoginPage) {
+            on(::LoginPage) {
                 login()
             }.on(::InventoryPage) {
                 titleText() shouldBe "Products"
@@ -92,7 +92,7 @@ class SauceDemoTest {
         ) {
             val products = listOf(Backpack, BikeLight)
 
-            open(::InventoryPage) {
+            on(::InventoryPage) {
                 titleText() shouldBe "Products"
 
                 products.addToCart()

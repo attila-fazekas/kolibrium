@@ -55,8 +55,10 @@ class LoginPage : SeleniumPage<MySite>() {
 fun main() {
     val driver = ChromeDriver()
     try {
-        // 3) Bind a session (driver + site) to the thread (optional but recommended)
-        SessionContext.withSession(Session(driver, MySite)) {
+        // 3) Bind context holders to the thread (optional but recommended)
+        WebDriverContextHolder.set(driver)
+        SiteContextHolder.set(MySite)
+        try {
             // 4) Perform the steps the DSL normally does for you
             driver.navigate().to(MySite.baseUrl)
             // Apply declarative cookies before first real navigation if you need them on initial request
@@ -72,6 +74,9 @@ fun main() {
             loginPage.awaitReady()
             // 6) Interact using locator delegates
             loginPage.login()
+        } finally {
+            SiteContextHolder.clear()
+            WebDriverContextHolder.clear()
         }
     } finally {
         driver.quit()

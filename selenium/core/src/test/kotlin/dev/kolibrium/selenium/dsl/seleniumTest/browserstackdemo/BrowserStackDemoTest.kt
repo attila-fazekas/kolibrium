@@ -90,7 +90,7 @@ class BrowserStackDemoTest {
         browserStackDemoTest(
             keepBrowserOpen = false,
         ) {
-            open(::ProductsPage) {
+            on(::ProductsPage) {
                 verifyShoppingCartBadgeIs(0)
             }
         }
@@ -101,7 +101,7 @@ class BrowserStackDemoTest {
         browserStackDemoTest(
             driverFactory = factory,
         ) {
-            open(::ProductsPage) {
+            on(::ProductsPage) {
                 verifyShoppingCartBadgeIs(0)
             }
         }

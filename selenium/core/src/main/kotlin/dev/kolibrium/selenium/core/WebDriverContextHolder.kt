@@ -16,16 +16,22 @@
 
 package dev.kolibrium.selenium.core
 
-import dev.kolibrium.webdriver.WaitConfig
-import dev.kolibrium.webdriver.WebElements
-import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
-import org.openqa.selenium.WebElement
+import org.openqa.selenium.WebDriver
 
-internal val defaultWaitConfig: WaitConfig
-    get() = SiteContextHolder.get()?.waitConfig ?: WaitConfig.Default
+internal object WebDriverContextHolder {
+    private val tl: ThreadLocal<WebDriver?> = ThreadLocal()
 
-internal val defaultElementReadyCondition: WebElement.() -> Boolean
-    get() = SiteContextHolder.get()?.elementReadyCondition ?: { isDisplayed }
+    internal fun get(): WebDriver? = tl.get()
 
-internal val defaultElementsReadyCondition: WebElements.() -> Boolean
-    get() = SiteContextHolder.get()?.elementsReadyCondition ?: { isNotEmptyAndDisplayed }
+    internal fun set(driver: WebDriver) {
+        tl.set(driver)
+    }
+
+    internal fun clear() {
+        tl.remove()
+    }
+}
+
+internal fun requireDriver(op: String = "requireDriver"): WebDriver =
+    WebDriverContextHolder.get()
+        ?: error("No active WebDriver; $op requires an active session.")

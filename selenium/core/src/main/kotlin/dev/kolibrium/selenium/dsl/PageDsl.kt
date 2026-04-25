@@ -39,8 +39,7 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
     /**
      * Move to the next page created by [factory] and execute [action] on it.
      *
-     * The current page is asserted to be ready before moving. The next page
-     * is ensured to be ready before the action runs.
+     * The next page is ensured to be ready before the action runs.
      *
      * @param Next the type of the next page
      * @param factory factory function to create the next page instance
@@ -50,7 +49,6 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
         factory: () -> Next,
         action: Next.() -> Unit,
     ): PageScope<Next> {
-        page.assertReady()
         val next = factory()
         ensureReady(next)
         next.action()

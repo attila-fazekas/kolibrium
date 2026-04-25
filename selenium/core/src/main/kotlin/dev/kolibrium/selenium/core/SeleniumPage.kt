@@ -30,9 +30,10 @@ import org.openqa.selenium.WebElement
  */
 public abstract class SeleniumPage<S : SeleniumSite> : SearchContext {
     /**
-     * Relative path of this page within the [SeleniumSite]. Defaults to "/".
+     * Relative path of this page within the [SeleniumSite]. Defaults to empty string (no navigation).
+     * Any non-empty value causes the [SiteScope.on] function to navigate to `baseUrl + path`.
      */
-    public open val path: String = "/"
+    public open val path: String = ""
 
     /** The current URL as reported by the driver. */
     protected val currentUrl: String
@@ -53,20 +54,12 @@ public abstract class SeleniumPage<S : SeleniumSite> : SearchContext {
      */
     public open fun assertReady() {}
 
-    /** Reloads the current page. */
-    protected fun refresh() {
-        requireDriver().navigate().refresh()
-    }
-
-    /** Navigates back in the browser history. */
-    protected fun back() {
-        requireDriver().navigate().back()
-    }
-
-    /** Navigates forward in the browser history. */
-    protected fun forward() {
-        requireDriver().navigate().forward()
-    }
+    /**
+     * Provides direct access to the underlying [WebDriver] for advanced operations.
+     * Prefer using the DSL and locator delegates where possible.
+     */
+    protected val driver: WebDriver
+        get() = requireDriver()
 
     override fun findElement(by: By): WebElement = requireDriver().findElement(by)
 
@@ -85,7 +78,7 @@ public abstract class SeleniumPage<S : SeleniumSite> : SearchContext {
             "Kolibrium runtime error: Page '$pageName' has no active WebDriver context.\n" +
                 "You likely constructed this page directly or are calling it outside Kolibrium DSL.\n\n" +
                 "How to fix:\n" +
-                "- Run page interactions inside Kolibrium DSL (e.g., seleniumTest/open/on)\n"
+                "- Run page interactions inside Kolibrium DSL (e.g., seleniumTest/on)\n"
         )
     }
 }

@@ -16,7 +16,8 @@
 
 package dev.kolibrium.selenium.core.descriptors
 
-import dev.kolibrium.selenium.core.SessionContext
+import dev.kolibrium.selenium.core.SiteContextHolder
+import dev.kolibrium.selenium.core.WebDriverContextHolder
 import dev.kolibrium.webdriver.WaitConfig
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
@@ -47,12 +48,14 @@ class CompositeElementDescriptorTest {
     fun setup() {
         mockSearchContext = mockk()
         mockElement = mockk(relaxed = true)
-        SessionContext.clear()
+        SiteContextHolder.clear()
+        WebDriverContextHolder.clear()
     }
 
     @AfterEach
     fun tearDown() {
-        SessionContext.clear()
+        SiteContextHolder.clear()
+        WebDriverContextHolder.clear()
         clearAllMocks()
     }
 

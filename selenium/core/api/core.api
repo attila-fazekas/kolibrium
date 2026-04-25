@@ -63,14 +63,12 @@ public abstract class dev/kolibrium/selenium/core/SeleniumPage : org/openqa/sele
 	public fun <init> ()V
 	public fun assertReady ()V
 	public fun awaitReady ()V
-	protected final fun back ()V
 	public fun findElement (Lorg/openqa/selenium/By;)Lorg/openqa/selenium/WebElement;
 	public fun findElements (Lorg/openqa/selenium/By;)Ljava/util/List;
-	protected final fun forward ()V
 	protected final fun getCurrentUrl ()Ljava/lang/String;
+	protected final fun getDriver ()Lorg/openqa/selenium/WebDriver;
 	protected final fun getPageTitle ()Ljava/lang/String;
 	public fun getPath ()Ljava/lang/String;
-	protected final fun refresh ()V
 }
 
 public abstract class dev/kolibrium/selenium/core/SeleniumSite {
@@ -83,21 +81,6 @@ public abstract class dev/kolibrium/selenium/core/SeleniumSite {
 	public fun getService ()Lorg/openqa/selenium/remote/service/DriverService;
 	public fun getWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
 	public fun onSessionReady (Lorg/openqa/selenium/WebDriver;)V
-}
-
-public final class dev/kolibrium/selenium/core/Session {
-	public fun <init> (Lorg/openqa/selenium/WebDriver;Ldev/kolibrium/selenium/core/SeleniumSite;)V
-	public final fun assertThreadOrFail (Ljava/lang/String;)V
-	public final fun getDriver ()Lorg/openqa/selenium/WebDriver;
-	public final fun getSeleniumSite ()Ldev/kolibrium/selenium/core/SeleniumSite;
-}
-
-public final class dev/kolibrium/selenium/core/SessionContext {
-	public static final field INSTANCE Ldev/kolibrium/selenium/core/SessionContext;
-	public final fun clear ()V
-	public final fun get ()Ldev/kolibrium/selenium/core/Session;
-	public final fun set (Ldev/kolibrium/selenium/core/Session;)V
-	public final fun withSession (Ldev/kolibrium/selenium/core/Session;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
 public abstract class dev/kolibrium/selenium/core/decorators/AbstractDecorator {
@@ -219,9 +202,8 @@ public final class dev/kolibrium/selenium/dsl/SeleniumTestKt {
 public final class dev/kolibrium/selenium/dsl/SiteScope {
 	public final fun cookies (ZLkotlin/jvm/functions/Function1;)V
 	public static synthetic fun cookies$default (Ldev/kolibrium/selenium/dsl/SiteScope;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
-	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
-	public final fun open (Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
-	public static synthetic fun open$default (Ldev/kolibrium/selenium/dsl/SiteScope;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/dsl/PageScope;
+	public final fun on (Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
+	public static synthetic fun on$default (Ldev/kolibrium/selenium/dsl/SiteScope;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/dsl/PageScope;
 }
 
 public final class dev/kolibrium/selenium/dsl/actions/ActionsKt {

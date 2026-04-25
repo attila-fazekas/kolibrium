@@ -16,16 +16,16 @@
 
 package dev.kolibrium.selenium.core
 
-import dev.kolibrium.webdriver.WaitConfig
-import dev.kolibrium.webdriver.WebElements
-import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
-import org.openqa.selenium.WebElement
+internal object SiteContextHolder {
+    private val tl: ThreadLocal<SeleniumSite?> = ThreadLocal()
 
-internal val defaultWaitConfig: WaitConfig
-    get() = SiteContextHolder.get()?.waitConfig ?: WaitConfig.Default
+    internal fun get(): SeleniumSite? = tl.get()
 
-internal val defaultElementReadyCondition: WebElement.() -> Boolean
-    get() = SiteContextHolder.get()?.elementReadyCondition ?: { isDisplayed }
+    internal fun set(site: SeleniumSite) {
+        tl.set(site)
+    }
 
-internal val defaultElementsReadyCondition: WebElements.() -> Boolean
-    get() = SiteContextHolder.get()?.elementsReadyCondition ?: { isNotEmptyAndDisplayed }
+    internal fun clear() {
+        tl.remove()
+    }
+}
