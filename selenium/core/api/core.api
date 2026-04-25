@@ -75,12 +75,12 @@ public abstract class dev/kolibrium/selenium/core/SeleniumPage : org/openqa/sele
 
 public abstract class dev/kolibrium/selenium/core/SeleniumSite {
 	public fun <init> (Ljava/lang/String;)V
-	public fun configureSite ()V
 	public final fun getBaseUrl ()Ljava/lang/String;
 	public fun getCookies ()Ljava/util/Set;
 	public fun getDecorators ()Ljava/util/List;
 	public fun getElementReadyCondition ()Lkotlin/jvm/functions/Function1;
 	public fun getElementsReadyCondition ()Lkotlin/jvm/functions/Function1;
+	public fun getService ()Lorg/openqa/selenium/remote/service/DriverService;
 	public fun getWaitConfig ()Ldev/kolibrium/webdriver/WaitConfig;
 	public fun onSessionReady (Lorg/openqa/selenium/WebDriver;)V
 }
@@ -207,7 +207,6 @@ public final class dev/kolibrium/selenium/dsl/PageScope {
 	public final fun getPage ()Ldev/kolibrium/selenium/core/SeleniumPage;
 	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
 	public final fun then (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
-	public final fun verify (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
 }
 
 public final class dev/kolibrium/selenium/dsl/SeleniumTestKt {
@@ -218,9 +217,8 @@ public final class dev/kolibrium/selenium/dsl/SeleniumTestKt {
 }
 
 public final class dev/kolibrium/selenium/dsl/SiteScope {
-	public final fun addCookie (Lorg/openqa/selenium/Cookie;)V
-	public final fun deleteAllCookies ()V
-	public final fun deleteCookie (Ljava/lang/String;)V
+	public final fun cookies (ZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun cookies$default (Ldev/kolibrium/selenium/dsl/SiteScope;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
 	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
 	public final fun open (Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
 	public static synthetic fun open$default (Ldev/kolibrium/selenium/dsl/SiteScope;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/dsl/PageScope;

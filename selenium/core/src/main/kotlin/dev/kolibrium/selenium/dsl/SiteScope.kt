@@ -21,6 +21,8 @@ import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
+import dev.kolibrium.selenium.dsl.interactions.CookiesScope
+import dev.kolibrium.selenium.dsl.interactions.cookies
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import java.net.URI
@@ -36,28 +38,11 @@ import java.net.URI
 public class SiteScope<S : SeleniumSite> internal constructor(
     internal val driver: WebDriver,
 ) {
-    /**
-     * Add a cookie to the current browser session.
-     */
-    public fun addCookie(cookie: Cookie) {
-        requireDriver("SiteScope.addCookie")
-        driver.manage().addCookie(cookie)
-    }
-
-    /**
-     * Delete a cookie by name in the current browser session.
-     */
-    public fun deleteCookie(name: String) {
-        requireDriver("SiteScope.deleteCookie")
-        driver.manage().deleteCookieNamed(name)
-    }
-
-    /**
-     * Delete all cookies in the current browser session.
-     */
-    public fun deleteAllCookies() {
-        requireDriver("SiteScope.deleteAllCookies")
-        driver.manage().deleteAllCookies()
+    public fun cookies(
+        refreshPage: Boolean = false,
+        block: CookiesScope.() -> Unit,
+    ) {
+        driver.cookies(refreshPage, block)
     }
 
     /**

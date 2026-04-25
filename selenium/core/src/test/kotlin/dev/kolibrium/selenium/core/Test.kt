@@ -28,10 +28,6 @@ object MySite : SeleniumSite(baseUrl = "https://www.saucedemo.com") {
     override val decorators = listOf(HighlighterDecorator())
     override val waitConfig: WaitConfig = WaitConfig.Default
 
-    override fun configureSite() {
-        // compute site‑level policy (no WebDriver access here)
-    }
-
     override fun onSessionReady(driver: WebDriver) {
         // session‑aware tweaks; do not navigate here
     }
@@ -69,7 +65,6 @@ fun main() {
                 driver.navigate().to(MySite.baseUrl) // re‑navigate so cookies take effect
             }
             // Let the site finalize configuration for this session
-            MySite.configureSite()
             MySite.onSessionReady(driver)
 
             // 5) Create a page and use it

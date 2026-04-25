@@ -58,17 +58,6 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
     }
 
     /**
-     * Run [assertions] against the current page, keeping the scope unchanged.
-     *
-     * The page is ensured to be ready before assertions are executed.
-     */
-    public fun verify(assertions: P.() -> Unit): PageScope<P> =
-        apply {
-            page.assertReady()
-            page.assertions()
-        }
-
-    /**
      * Execute a side-effecting [action] on the current page, keeping the scope unchanged.
      *
      * The page is ensured to be ready before the action runs.

@@ -144,7 +144,9 @@ class SauceDemoTest {
     private fun User.acquireCredentials(): String = username
 
     private fun SiteScope<SauceDemo>.loginAs(username: String) {
-        addCookie(Cookie("session-username", username))
+        cookies {
+            addCookie("session-username", username)
+        }
     }
 
     private val sauceDemoDriver = {

@@ -35,7 +35,7 @@ import org.openqa.selenium.WebDriver
  * - Binds a per-driver Session to [site] for the duration of the test thread.
  * - Creates a WebDriver via [driverFactory], navigates to [SeleniumSite.baseUrl] to establish origin,
  *   applies [SeleniumSite.cookies] (if any), and re-navigates to [SeleniumSite.baseUrl] so cookies take effect immediately.
- *   Then calls [SeleniumSite.configureSite] and [SeleniumSite.onSessionReady] sequentially.
+ *   Then calls [SeleniumSite.onSessionReady] sequentially.
  * - Invokes [block] with a [SiteScope] receiver in the site's context.
  *
  * All three user-facing lambdas ([setUp], [tearDown], [block]) are `suspend`, so callers can invoke
@@ -103,45 +103,59 @@ internal fun <S : SeleniumSite, T> seleniumTestImpl(
     tearDown: suspend (T) -> Unit = {},
     block: suspend SiteScope<S>.(T) -> Unit,
 ) {
-    val prepared: T = runBlocking { setUp() }
-    var testError: Throwable? = null
-    var driver: WebDriver? = null
-
+    val service = site.service
+    val shutdownHook =
+        service?.let { svc ->
+            Thread { runCatching { svc.stop() } }.also { hook ->
+                Runtime.getRuntime().addShutdownHook(hook)
+            }
+        }
+    service?.start()
     try {
-        driver = driverFactory()
-        driver.get(site.baseUrl)
-        if (site.cookies.isNotEmpty()) {
-            val options = driver.manage()
-            site.cookies.forEach(options::addCookie)
-            driver.get(site.baseUrl)
-        }
+        val prepared: T = runBlocking { setUp() }
+        var testError: Throwable? = null
+        var driver: WebDriver? = null
 
-        val session = Session(driver = driver, seleniumSite = site)
-        SessionContext.withSession(session) {
-            site.configureSite()
-            site.onSessionReady(driver)
-
-            val scope = SiteScope<S>(driver)
-            context(site) {
-                runBlocking { scope.block(prepared) }
-            }
-        }
-    } catch (e: Throwable) {
-        testError = e
-        throw e
-    } finally {
         try {
-            runBlocking { tearDown(prepared) }
-        } catch (teardownError: Throwable) {
-            if (testError != null) {
-                testError.addSuppressed(teardownError)
-            } else {
-                throw teardownError
+            driver = driverFactory()
+            driver.get(site.baseUrl)
+            if (site.cookies.isNotEmpty()) {
+                val options = driver.manage()
+                site.cookies.forEach(options::addCookie)
+                driver.get(site.baseUrl)
             }
+
+            val session = Session(driver = driver, seleniumSite = site)
+            SessionContext.withSession(session) {
+                site.onSessionReady(driver)
+
+                val scope = SiteScope<S>(driver)
+                context(site) {
+                    runBlocking { scope.block(prepared) }
+                }
+            }
+        } catch (e: Throwable) {
+            testError = e
+            throw e
         } finally {
-            if (!keepBrowserOpen) {
-                runCatching { driver?.quit() }
+            try {
+                runBlocking { tearDown(prepared) }
+            } catch (teardownError: Throwable) {
+                if (testError != null) {
+                    testError.addSuppressed(teardownError)
+                } else {
+                    throw teardownError
+                }
+            } finally {
+                if (!keepBrowserOpen) {
+                    runCatching { driver?.quit() }
+                }
             }
+        }
+    } finally {
+        service?.stop()
+        shutdownHook?.let { thread ->
+            runCatching { Runtime.getRuntime().removeShutdownHook(thread) }
         }
     }
 }
