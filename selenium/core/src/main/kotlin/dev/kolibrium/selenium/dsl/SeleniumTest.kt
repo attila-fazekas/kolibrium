@@ -35,7 +35,7 @@ import org.openqa.selenium.WebDriver
  * - Binds the driver and site to context holders for the duration of the test thread.
  * - Creates a WebDriver via [driverFactory], navigates to [SeleniumSite.baseUrl] to establish origin,
  *   applies [SeleniumSite.cookies] (if any), and re-navigates to [SeleniumSite.baseUrl] so cookies take effect immediately.
- *   Then calls [SeleniumSite.onSessionReady] sequentially.
+ *   Then calls [SeleniumSite.onSessionReady].
  * - Invokes [block] with a [SiteScope] receiver in the site's context.
  *
  * All three user-facing lambdas ([setUp], [tearDown], [block]) are `suspend`, so callers can invoke

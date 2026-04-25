@@ -60,7 +60,7 @@ public final class dev/kolibrium/selenium/core/LocatorDelegatesKt {
 }
 
 public abstract class dev/kolibrium/selenium/core/SeleniumPage : org/openqa/selenium/SearchContext {
-	public fun <init> ()V
+	protected fun <init> ()V
 	public fun assertReady ()V
 	public fun awaitReady ()V
 	public fun findElement (Lorg/openqa/selenium/By;)Lorg/openqa/selenium/WebElement;
@@ -72,7 +72,7 @@ public abstract class dev/kolibrium/selenium/core/SeleniumPage : org/openqa/sele
 }
 
 public abstract class dev/kolibrium/selenium/core/SeleniumSite {
-	public fun <init> (Ljava/lang/String;)V
+	protected fun <init> (Ljava/lang/String;)V
 	public final fun getBaseUrl ()Ljava/lang/String;
 	public fun getCookies ()Ljava/util/Set;
 	public fun getDecorators ()Ljava/util/List;

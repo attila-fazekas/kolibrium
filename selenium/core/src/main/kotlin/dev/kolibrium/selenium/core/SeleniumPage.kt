@@ -28,10 +28,10 @@ import org.openqa.selenium.WebElement
  * Constructing and using pages outside those contexts will fail with a runtime
  * error. Delegated findElement(s) calls route through the contextual driver.
  */
-public abstract class SeleniumPage<S : SeleniumSite> : SearchContext {
+public abstract class SeleniumPage<S : SeleniumSite> protected constructor() : SearchContext {
     /**
      * Relative path of this page within the [SeleniumSite]. Defaults to empty string (no navigation).
-     * Any non-empty value causes the [SiteScope.on] function to navigate to `baseUrl + path`.
+     * Any non-empty value causes the [dev.kolibrium.selenium.dsl.SiteScope.on] function to navigate to `baseUrl + path`.
      */
     public open val path: String = ""
 
@@ -45,7 +45,7 @@ public abstract class SeleniumPage<S : SeleniumSite> : SearchContext {
 
     /**
      * Wait until the page is considered ready for interaction.
-     * Default is a no-op; libraries may override.
+     * Default is a no-op; subclasses may override.
      */
     public open fun awaitReady() {}
 
@@ -68,7 +68,7 @@ public abstract class SeleniumPage<S : SeleniumSite> : SearchContext {
     private fun requireDriver(): WebDriver =
         try {
             requireDriver("Page operation")
-        } catch (e: IllegalStateException) {
+        } catch (_: IllegalStateException) {
             error(sessionNotAttachedMessage())
         }
 

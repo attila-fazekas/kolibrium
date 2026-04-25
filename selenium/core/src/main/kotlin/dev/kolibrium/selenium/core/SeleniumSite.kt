@@ -49,7 +49,7 @@ import org.openqa.selenium.remote.service.DriverService
  * @property baseUrl Base URL used by pages and the test DSL to build absolute routes.
  *           Must be provided as a constructor argument by subclasses.
  */
-public abstract class SeleniumSite(
+public abstract class SeleniumSite protected constructor(
     public val baseUrl: String,
 ) {
     /**
@@ -110,8 +110,7 @@ public abstract class SeleniumSite(
     public open val waitConfig: WaitConfig = WaitConfig.Default
 
     /**
-     * Imperative, session-aware hook invoked after a [WebDriver] session is created and whenever
-     * the active test switches to this [SeleniumSite].
+     * Imperative, session-aware hook invoked after a [WebDriver] session is created.
      *
      * Timing and order:
      * - The DSL performs the initial navigation to [baseUrl], applies declarative [cookies], then re-navigates
@@ -119,7 +118,7 @@ public abstract class SeleniumSite(
      *
      * Guidelines:
      * - Do not perform navigation here; the DSL owns predictable navigation.
-     * - Keep it fast and idempotent; this may be called multiple times across a test run.
+     * - Keep it fast and idempotent.
      * - Prefer the declarative [cookies] property for stable defaults; use this hook for dynamic/session-specific work.
      *
      * Example:

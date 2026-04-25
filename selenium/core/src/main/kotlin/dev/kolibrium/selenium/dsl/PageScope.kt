@@ -18,7 +18,6 @@ package dev.kolibrium.selenium.dsl
 
 import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.core.SeleniumPage
-import dev.kolibrium.selenium.core.SeleniumSite
 import org.openqa.selenium.WebDriver
 
 /**
@@ -58,7 +57,9 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
     /**
      * Execute a side-effecting [action] on the current page, keeping the scope unchanged.
      *
-     * The page is ensured to be ready before the action runs.
+     * The page is asserted to be ready before the action runs. Unlike [on], this does not
+     * call [SeleniumPage.awaitReady] because the page was already fully awaited when first
+     * navigated to.
      */
     public fun then(action: P.() -> Unit): PageScope<P> =
         apply {
