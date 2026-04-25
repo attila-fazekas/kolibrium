@@ -22,6 +22,6 @@ import com.squareup.kotlinpoet.MemberName
 internal const val SELENIUM_SITE_BASE_CLASS = "dev.kolibrium.selenium.core.SeleniumSite"
 
 internal val SELENIUM_TEST_MEMBER = MemberName("dev.kolibrium.selenium.dsl", "seleniumTest")
-internal val SITE_ENTRY_CLASS = ClassName("dev.kolibrium.selenium.dsl", "SiteEntry")
+internal val SITE_SCOPE_CLASS = ClassName("dev.kolibrium.selenium.dsl", "SiteScope")
 internal val DRIVER_FACTORY_CLASS = ClassName("dev.kolibrium.selenium.dsl", "DriverFactory")
 internal val CHROME_MEMBER = MemberName("dev.kolibrium.selenium.dsl", "chrome")

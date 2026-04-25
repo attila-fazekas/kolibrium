@@ -17,7 +17,7 @@
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo
 
 import dev.kolibrium.selenium.dsl.DriverFactory
-import dev.kolibrium.selenium.dsl.SiteEntry
+import dev.kolibrium.selenium.dsl.SiteScope
 import dev.kolibrium.selenium.dsl.chrome
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.incognito
@@ -114,7 +114,7 @@ class SauceDemoTest {
     private fun sauceDemoTest(
         driverFactory: DriverFactory = sauceDemoDriver,
         keepBrowserOpen: Boolean = false,
-        block: SiteEntry<SauceDemo>.() -> Unit,
+        block: SiteScope<SauceDemo>.() -> Unit,
     ) = seleniumTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -128,7 +128,7 @@ class SauceDemoTest {
         user: User = User.Standard,
         driverFactory: DriverFactory = sauceDemoDriver,
         keepBrowserOpen: Boolean = false,
-        block: SiteEntry<SauceDemo>.() -> Unit,
+        block: SiteScope<SauceDemo>.() -> Unit,
     ) = seleniumTest(
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
@@ -144,7 +144,7 @@ class SauceDemoTest {
     // Imitating backend call to acquire credentials
     private fun User.acquireCredentials(): String = username
 
-    private fun SiteEntry<SauceDemo>.loginAs(username: String) {
+    private fun SiteScope<SauceDemo>.loginAs(username: String) {
         addCookie(Cookie("session-username", username))
     }
 

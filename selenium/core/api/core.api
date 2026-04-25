@@ -217,17 +217,13 @@ public final class dev/kolibrium/selenium/dsl/SeleniumTestKt {
 	public static synthetic fun seleniumTest$default (Ldev/kolibrium/selenium/core/SeleniumSite;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
 }
 
-public abstract interface class dev/kolibrium/selenium/dsl/SiteEntry {
-	public abstract fun addCookie (Lorg/openqa/selenium/Cookie;)V
-	public abstract fun deleteAllCookies ()V
-	public abstract fun deleteCookie (Ljava/lang/String;)V
-	public abstract fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
-	public abstract fun open (Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
-	public static synthetic fun open$default (Ldev/kolibrium/selenium/dsl/SiteEntry;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/dsl/PageScope;
-}
-
-public final class dev/kolibrium/selenium/dsl/SiteEntry$DefaultImpls {
-	public static synthetic fun open$default (Ldev/kolibrium/selenium/dsl/SiteEntry;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/dsl/PageScope;
+public final class dev/kolibrium/selenium/dsl/SiteScope {
+	public final fun addCookie (Lorg/openqa/selenium/Cookie;)V
+	public final fun deleteAllCookies ()V
+	public final fun deleteCookie (Ljava/lang/String;)V
+	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
+	public final fun open (Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
+	public static synthetic fun open$default (Ldev/kolibrium/selenium/dsl/SiteScope;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/selenium/dsl/PageScope;
 }
 
 public final class dev/kolibrium/selenium/dsl/actions/ActionsKt {

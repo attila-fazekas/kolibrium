@@ -19,26 +19,22 @@ package dev.kolibrium.selenium.dsl
 import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.core.SeleniumSite
-import dev.kolibrium.selenium.core.Session
-import dev.kolibrium.selenium.core.SessionContext
-import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
-import java.net.URI
 
 /**
  * Scope used as the fluent receiver when working with a [SeleniumPage] in the Selenium DSL.
  *
- * It ties a concrete [page] instance to the live browser session behind the scenes and
- * provides helpers to continue the flow, assert state, or temporarily switch to another [SeleniumSite].
+ * It ties a concrete [page] instance to the active WebDriver session behind the scenes and
+ * provides helpers to continue the flow, verify page state, or perform side-effecting actions.
  *
  * @param P the type of the current page
  * @property page the current page instance bound to the active WebDriver session
- * @property entry internal wiring to the underlying browser session; not intended for direct use
+ * @property driver the underlying [WebDriver] session
  */
 @KolibriumDsl
 public class PageScope<P : SeleniumPage<*>> internal constructor(
     public val page: P,
-    internal val entry: PageEntry<out SeleniumSite>,
+    internal val driver: WebDriver,
 ) {
     /**
      * Execute [action] on the current [page], producing the next page in the flow.
@@ -52,7 +48,8 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
     public fun <Next : SeleniumPage<*>> on(action: P.() -> Next): PageScope<Next> {
         page.assertReady()
         val next = page.action()
-        return entry.scope(next)
+        ensureReady(next)
+        return PageScope(next, driver)
     }
 
     /**
@@ -78,138 +75,12 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
         }
 }
 
-/**
- * Lightweight entry point bound to a live [WebDriver] session for a specific [SeleniumSite].
- *
- * Instances are created by the test harness (see seleniumTest) and passed into user code as the receiver
- * of startup and test blocks.
- */
-@KolibriumDsl
-internal class PageEntry<S : SeleniumSite>
-    internal constructor(
-        internal val driver: WebDriver,
-    ) : SiteEntry<S> {
-        /** Navigate the current tab to the given absolute URL. */
-        internal fun navigateTo(url: String) {
-            requireSessionChecked("PageEntry.navigateTo")
-            driver.get(url)
-        }
+internal fun ensureReady(seleniumPage: SeleniumPage<*>) {
+    seleniumPage.awaitReady()
+    seleniumPage.assertReady()
+}
 
-        /** Add a cookie to the current browser session. */
-        override fun addCookie(cookie: Cookie) {
-            requireSessionChecked("SiteEntry.addCookie")
-            driver.manage().addCookie(cookie)
-        }
-
-        /** Delete a cookie by name in the current browser session. */
-        override fun deleteCookie(name: String) {
-            requireSessionChecked("SiteEntry.deleteCookie")
-            driver.manage().deleteCookieNamed(name)
-        }
-
-        /** Delete all cookies in the current browser session. */
-        override fun deleteAllCookies() {
-            requireSessionChecked("SiteEntry.deleteAllCookies")
-            driver.manage().deleteAllCookies()
-        }
-
-        /** Configure the given site against this entry's live session. */
-        internal fun configureSite(seleniumSite: SeleniumSite) {
-            seleniumSite.configureSite()
-            seleniumSite.onSessionReady(driver)
-        }
-
-        /**
-         * Open a page created by [factory], navigate to its route, wait for readiness, and run [action]
-         * that returns the next page to continue the flow.
-         *
-         * The returned page will have the active browser session attached and will be synchronized via
-         * await/assert before being returned.
-         */
-        override fun <P : SeleniumPage<S>, R : SeleniumPage<S>> open(
-            factory: () -> P,
-            path: String?,
-            action: P.() -> R,
-        ): PageScope<R> {
-            requireSessionChecked("SiteEntry.open")
-            val page = factory()
-
-            val site =
-                SessionContext.get()?.seleniumSite
-                    ?: error("No active Session in SessionContext; open() must be called within seleniumTest/site context.")
-
-            val effectivePath = path ?: page.path
-            val url = joinUrls(site.baseUrl, effectivePath)
-            driver.get(url)
-
-            ensureReady(page)
-            val next = page.action()
-            return this.scope(next)
-        }
-
-        /**
-         * Instantiate a page without navigation and execute [action] on it.
-         *
-         * This is useful when the target page is already open (e.g., after a tab switch)
-         * and you only want to bind a page object to the current tab.
-         * A guard ensures the current tab's origin matches the current [SeleniumSite]'s origin.
-         */
-        override fun <P : SeleniumPage<S>, R : SeleniumPage<S>> on(
-            factory: () -> P,
-            action: P.() -> R,
-        ): PageScope<R> {
-            requireSessionChecked("SiteEntry.on")
-            val page = factory()
-
-            val site =
-                SessionContext.get()?.seleniumSite
-                    ?: error("No active Session in SessionContext; on() must be called within seleniumTest/site context.")
-
-            // Ensure the current tab belongs to the active site origin
-            val currentUri = runCatching { URI(driver.currentUrl) }.getOrNull()
-            val siteUri = runCatching { URI(site.baseUrl) }.getOrNull()
-
-            fun normalizeHost(uri: URI?): String? = uri?.host?.lowercase()?.removePrefix("www.")
-
-            val currentHost = normalizeHost(currentUri)
-            val siteHost = normalizeHost(siteUri)
-            require(currentHost != null && siteHost != null && currentHost == siteHost) {
-                "Current tab origin does not match site origin"
-            }
-
-            ensureReady(page)
-            val next = page.action()
-            return this.scope(next)
-        }
-
-        internal fun <R : SeleniumPage<*>> scope(next: R): PageScope<R> {
-            ensureReady(next)
-            return PageScope(next, this)
-        }
-
-        /**
-         * Run assertions on the current page instance and return it for fluent chaining.
-         *
-         * Usage:
-         * open(::SomePage) { /* interactions */ }.verify { /* assertions with receiver = SomePage */ }
-         */
-        fun <P : SeleniumPage<S>> P.verify(assertions: P.() -> Unit): P {
-            this.assertReady()
-            this.assertions()
-            return this
-        }
-
-        private fun ensureReady(seleniumPage: SeleniumPage<*>) {
-            seleniumPage.awaitReady()
-            seleniumPage.assertReady()
-        }
-
-        private fun requireSessionChecked(op: String): Session =
-            SessionContext.get()?.also { it.assertThreadOrFail(op) }
-                ?: error("No active Session in SessionContext; $op requires an active session.")
-    }
-
-private fun joinUrls(
+internal fun joinUrls(
     base: String,
     path: String,
 ): String {

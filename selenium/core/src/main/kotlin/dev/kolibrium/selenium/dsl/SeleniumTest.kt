@@ -36,7 +36,7 @@ import org.openqa.selenium.WebDriver
  * - Creates a WebDriver via [driverFactory], navigates to [SeleniumSite.baseUrl] to establish origin,
  *   applies [SeleniumSite.cookies] (if any), and re-navigates to [SeleniumSite.baseUrl] so cookies take effect immediately.
  *   Then calls [SeleniumSite.configureSite] and [SeleniumSite.onSessionReady] sequentially.
- * - Invokes [block] with a [SiteEntry] receiver in the site's context.
+ * - Invokes [block] with a [SiteScope] receiver in the site's context.
  *
  * All three user-facing lambdas ([setUp], [tearDown], [block]) are `suspend`, so callers can invoke
  * suspend functions (e.g. Ktor-based API clients) directly without wrapping them in `runBlocking`.
@@ -55,7 +55,7 @@ import org.openqa.selenium.WebDriver
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param setUp Suspending block that computes the input [T] before the browser session is created.
  * @param tearDown Suspending block that cleans up the test context after the test body; runs even if the test fails.
- * @param block Suspending main test body executed with a [SiteEntry] receiver and the prepared value.
+ * @param block Suspending main test body executed with a [SiteScope] receiver and the prepared value.
  */
 public fun <S : SeleniumSite, T> seleniumTest(
     site: S,
@@ -63,7 +63,7 @@ public fun <S : SeleniumSite, T> seleniumTest(
     keepBrowserOpen: Boolean = false,
     setUp: suspend () -> T,
     tearDown: suspend (T) -> Unit = {},
-    block: suspend SiteEntry<S>.(T) -> Unit,
+    block: suspend SiteScope<S>.(T) -> Unit,
 ) {
     seleniumTestImpl(site, driverFactory, keepBrowserOpen, setUp, tearDown, block)
 }
@@ -78,13 +78,13 @@ public fun <S : SeleniumSite, T> seleniumTest(
  * @param site The site under test.
  * @param driverFactory Factory creating a WebDriver instance.
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
- * @param block Suspending main test body executed with a [SiteEntry] receiver.
+ * @param block Suspending main test body executed with a [SiteScope] receiver.
  */
 public fun <S : SeleniumSite> seleniumTest(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean = false,
-    block: suspend SiteEntry<S>.(Unit) -> Unit,
+    block: suspend SiteScope<S>.(Unit) -> Unit,
 ) {
     seleniumTest(
         site = site,
@@ -101,7 +101,7 @@ internal fun <S : SeleniumSite, T> seleniumTestImpl(
     keepBrowserOpen: Boolean,
     setUp: suspend () -> T,
     tearDown: suspend (T) -> Unit = {},
-    block: suspend SiteEntry<S>.(T) -> Unit,
+    block: suspend SiteScope<S>.(T) -> Unit,
 ) {
     val prepared: T = runBlocking { setUp() }
     var testError: Throwable? = null
@@ -121,9 +121,9 @@ internal fun <S : SeleniumSite, T> seleniumTestImpl(
             site.configureSite()
             site.onSessionReady(driver)
 
-            val entry: SiteEntry<S> = PageEntry(driver)
+            val scope = SiteScope<S>(driver)
             context(site) {
-                runBlocking { entry.block(prepared) }
+                runBlocking { scope.block(prepared) }
             }
         }
     } catch (e: Throwable) {

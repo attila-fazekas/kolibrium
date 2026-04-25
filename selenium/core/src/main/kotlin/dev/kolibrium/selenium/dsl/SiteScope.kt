@@ -1,0 +1,147 @@
+/*
+ * Copyright 2023-2026 Attila Fazekas & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package dev.kolibrium.selenium.dsl
+
+import dev.kolibrium.annotations.KolibriumDsl
+import dev.kolibrium.selenium.core.SeleniumPage
+import dev.kolibrium.selenium.core.SeleniumSite
+import dev.kolibrium.selenium.core.Session
+import dev.kolibrium.selenium.core.SessionContext
+import org.openqa.selenium.Cookie
+import org.openqa.selenium.WebDriver
+import java.net.URI
+
+/**
+ * Site-scoped DSL receiver available inside `seleniumTest { … }` blocks.
+ *
+ * It represents the entry surface for flows on the active [SeleniumSite], exposing operations like [open], [on],
+ * and cookie helpers.
+ *
+ */
+@KolibriumDsl
+public class SiteScope<S : SeleniumSite> internal constructor(
+    internal val driver: WebDriver,
+) {
+    /**
+     * Add a cookie to the current browser session.
+     */
+    public fun addCookie(cookie: Cookie) {
+        requireDriver("SiteScope.addCookie")
+        driver.manage().addCookie(cookie)
+    }
+
+    /**
+     * Delete a cookie by name in the current browser session.
+     */
+    public fun deleteCookie(name: String) {
+        requireDriver("SiteScope.deleteCookie")
+        driver.manage().deleteCookieNamed(name)
+    }
+
+    /**
+     * Delete all cookies in the current browser session.
+     */
+    public fun deleteAllCookies() {
+        requireDriver("SiteScope.deleteAllCookies")
+        driver.manage().deleteAllCookies()
+    }
+
+    /**
+     * Open a page created by [factory], navigate to its route, wait for readiness, and run [action]
+     * that returns the next page to continue the flow.
+     *
+     * The returned page will have the active browser session attached and will be synchronized via
+     * await/assert before being returned.
+     *
+     * @param P the type of the page to open
+     * @param R the type of the next page produced by [action]
+     * @param factory factory function to create the page instance
+     * @param path optional path override; if null, uses the page's default path
+     * @param action operation to perform on the page that returns the next page
+     * @return a [PageScope] bound to the next page for further chaining
+     */
+    public fun <P : SeleniumPage<S>, R : SeleniumPage<S>> open(
+        factory: () -> P,
+        path: String? = null,
+        action: P.() -> R,
+    ): PageScope<R> {
+        requireDriver("SiteScope.open")
+        val page = factory()
+
+        val site =
+            SessionContext.get()?.seleniumSite
+                ?: error("No active Session in SessionContext; open() must be called within seleniumTest/site context.")
+
+        val effectivePath = path ?: page.path
+        val url = joinUrls(site.baseUrl, effectivePath)
+        driver.get(url)
+
+        ensureReady(page)
+        val next = page.action()
+        return scope(next)
+    }
+
+    /**
+     * Instantiate a page without navigation and execute [action] on it.
+     *
+     * This is useful when the target page is already open (e.g., after a tab switch)
+     * and you only want to bind a page object to the current tab.
+     * A guard ensures the current tab's origin matches the current [SeleniumSite]'s origin.
+     *
+     * @param P the type of the page to bind
+     * @param R the type of the next page produced by [action]
+     * @param factory factory function to create the page instance
+     * @param action operation to perform on the page that returns the next page
+     * @return a [PageScope] bound to the next page for further chaining
+     */
+    public fun <P : SeleniumPage<S>, R : SeleniumPage<S>> on(
+        factory: () -> P,
+        action: P.() -> R,
+    ): PageScope<R> {
+        requireDriver("SiteScope.on")
+        val page = factory()
+
+        val site =
+            SessionContext.get()?.seleniumSite
+                ?: error("No active Session in SessionContext; on() must be called within seleniumTest/site context.")
+
+        // Ensure the current tab belongs to the active site origin
+        val currentUri = runCatching { URI(driver.currentUrl) }.getOrNull()
+        val siteUri = runCatching { URI(site.baseUrl) }.getOrNull()
+
+        fun normalizeHost(uri: URI?): String? = uri?.host?.lowercase()?.removePrefix("www.")
+
+        val currentHost = normalizeHost(currentUri)
+        val siteHost = normalizeHost(siteUri)
+        require(currentHost != null && siteHost != null && currentHost == siteHost) {
+            "Current tab origin does not match site origin"
+        }
+
+        ensureReady(page)
+        val next = page.action()
+        return scope(next)
+    }
+
+    internal fun <R : SeleniumPage<*>> scope(next: R): PageScope<R> {
+        ensureReady(next)
+        return PageScope(next, driver)
+    }
+
+    private fun requireDriver(op: String): Session =
+        SessionContext.get()?.also { it.assertThreadOrFail(op) }
+            ?: error("No active Session in SessionContext; $op requires an active session.")
+}
