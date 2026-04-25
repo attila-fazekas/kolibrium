@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:OptIn(dev.kolibrium.annotations.InternalKolibriumApi::class)
+
 package dev.kolibrium.selenium.core
 
 import dev.kolibrium.webdriver.WaitConfig
@@ -65,8 +67,11 @@ class LocatorDelegatesTest {
         Files.deleteIfExists(testHtmlPath)
     }
 
-    // Convenience to execute each test with a contextual WebDriver
-    private inline fun <T> withPage(block: () -> T): T = withDriver(driver, block)
+    // Convenience to set up a session context for tests
+    private fun <T> withPage(block: () -> T): T {
+        val site = object : SeleniumSite("file://test") {}
+        return SessionContext.withSession(Session(driver, site), block)
+    }
 
     @Test
     fun `should find element by id`(): Unit =

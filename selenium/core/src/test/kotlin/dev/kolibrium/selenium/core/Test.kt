@@ -72,13 +72,11 @@ fun main() {
             MySite.configureSite()
             MySite.onSessionReady(driver)
 
-            // 5) Create a page and use it inside a WebDriver context
+            // 5) Create a page and use it
             val loginPage = LoginPage()
-            withDriver(driver) {
-                loginPage.awaitReady()
-                // 6) Interact using locator delegates
-                loginPage.login()
-            }
+            loginPage.awaitReady()
+            // 6) Interact using locator delegates
+            loginPage.login()
         }
     } finally {
         driver.quit()

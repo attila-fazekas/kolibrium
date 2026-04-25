@@ -26,7 +26,7 @@ import org.openqa.selenium.WebDriver
  * Thread-safety: not thread-safe. Each session is confined to the thread that created it.
  */
 @InternalKolibriumApi
-public class Session internal constructor(
+public class Session(
     public val driver: WebDriver,
     public val seleniumSite: SeleniumSite,
 ) {
@@ -90,4 +90,18 @@ public object SessionContext {
             if (prev == null) tl.remove() else tl.set(prev)
         }
     }
+}
+
+/**
+ * Returns the [WebDriver] from the current [Session], asserting thread confinement.
+ *
+ * @param op A short operation name used to enrich the failure message if thread confinement is violated.
+ * @throws IllegalStateException if no session is active or if called from a different thread than the session's owning thread.
+ */
+internal fun requireDriver(op: String = "requireDriver"): WebDriver {
+    val session =
+        SessionContext.get()
+            ?: error("No active Session in SessionContext; $op requires an active session.")
+    session.assertThreadOrFail(op)
+    return session.driver
 }

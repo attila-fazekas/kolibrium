@@ -19,7 +19,6 @@ package dev.kolibrium.selenium.dsl
 import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
-import dev.kolibrium.selenium.core.withDriver
 import kotlinx.coroutines.runBlocking
 import org.openqa.selenium.WebDriver
 
@@ -123,10 +122,8 @@ internal fun <S : SeleniumSite, T> seleniumTestImpl(
             site.onSessionReady(driver)
 
             val entry: SiteEntry<S> = PageEntry(driver)
-            withDriver(driver) {
-                context(site) {
-                    runBlocking { entry.block(prepared) }
-                }
+            context(site) {
+                runBlocking { entry.block(prepared) }
             }
         }
     } catch (e: Throwable) {

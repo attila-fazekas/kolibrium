@@ -21,7 +21,6 @@ import dev.kolibrium.selenium.core.SeleniumPage
 import dev.kolibrium.selenium.core.SeleniumSite
 import dev.kolibrium.selenium.core.Session
 import dev.kolibrium.selenium.core.SessionContext
-import dev.kolibrium.selenium.core.withDriver
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver
 import java.net.URI
@@ -50,12 +49,11 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
      * @param Next the type of the next page produced by [action]
      * @param action operation to perform on the current page that returns the next page
      */
-    public fun <Next : SeleniumPage<*>> on(action: P.() -> Next): PageScope<Next> =
-        withDriver(entry.driver) {
-            page.assertReady()
-            val next = page.action()
-            entry.scope(next)
-        }
+    public fun <Next : SeleniumPage<*>> on(action: P.() -> Next): PageScope<Next> {
+        page.assertReady()
+        val next = page.action()
+        return entry.scope(next)
+    }
 
     /**
      * Run [assertions] against the current page, keeping the scope unchanged.
@@ -64,10 +62,8 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
      */
     public fun verify(assertions: P.() -> Unit): PageScope<P> =
         apply {
-            withDriver(entry.driver) {
-                page.assertReady()
-                page.assertions()
-            }
+            page.assertReady()
+            page.assertions()
         }
 
     /**
@@ -77,10 +73,8 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
      */
     public fun then(action: P.() -> Unit): PageScope<P> =
         apply {
-            withDriver(entry.driver) {
-                page.assertReady()
-                page.action()
-            }
+            page.assertReady()
+            page.action()
         }
 }
 
@@ -148,11 +142,9 @@ internal class PageEntry<S : SeleniumSite>
             val url = joinUrls(site.baseUrl, effectivePath)
             driver.get(url)
 
-            return withDriver(driver) {
-                ensureReady(page)
-                val next = page.action()
-                this@PageEntry.scope(next)
-            }
+            ensureReady(page)
+            val next = page.action()
+            return this.scope(next)
         }
 
         /**
@@ -185,11 +177,9 @@ internal class PageEntry<S : SeleniumSite>
                 "Current tab origin does not match site origin"
             }
 
-            return withDriver(driver) {
-                ensureReady(page)
-                val next = page.action()
-                this@PageEntry.scope(next)
-            }
+            ensureReady(page)
+            val next = page.action()
+            return this.scope(next)
         }
 
         internal fun <R : SeleniumPage<*>> scope(next: R): PageScope<R> {

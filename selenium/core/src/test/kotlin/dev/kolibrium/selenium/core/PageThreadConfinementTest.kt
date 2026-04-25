@@ -31,14 +31,12 @@ private class TestPage : SeleniumPage<SeleniumSite>() {
 
 class PageThreadConfinementTest {
     @Test
-    fun `refresh runs on same thread when session and driver are bound`() {
+    fun `refresh runs on same thread when session is bound`() {
         val driver = FakeWebDriver()
         val session = Session(driver = driver, seleniumSite = TestSite)
 
         SessionContext.withSession(session) {
-            withDriver(driver) {
-                TestPage().doRefresh()
-            }
+            TestPage().doRefresh()
         }
 
         assertEquals(1, driver.refreshCount, "refresh() should delegate to driver.navigate().refresh() exactly once")
@@ -51,12 +49,6 @@ class PageThreadConfinementTest {
 
         // Prepare a page on the owning thread
         val page = TestPage()
-
-        SessionContext.withSession(session) {
-            withDriver(driver) {
-                // Intentionally do nothing here; we just want an attached page instance
-            }
-        }
 
         val errorRef = AtomicReference<Throwable?>()
 
