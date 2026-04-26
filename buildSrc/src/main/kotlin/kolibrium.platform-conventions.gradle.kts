@@ -29,8 +29,6 @@ dependencies {
         api(project(":api:core"))
         api(project(":api:ksp:annotations"))
         api(project(":appium"))
-        api(project(":playwright:core"))
-        api(project(":playwright:ksp:annotations"))
         api(project(":selenium"))
         api(project(":webdriver"))
     }
