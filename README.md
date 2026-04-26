@@ -1,6 +1,6 @@
 <div align="center">
 <p><img src="https://raw.githubusercontent.com/attila-fazekas/kolibrium/main/assets/kolibrium_logo.png" alt="kolibrium_logo.png"></p>
-<h1>Modern testing toolkit for Kotlin</h1>
+<h1>Kotlin library for Selenium/Appium tests</h1>
 <p><a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
 <a href="https://github.com/attila-fazekas/kolibrium/actions/workflows/gradle.yml"><img src="https://github.com/attila-fazekas/kolibrium/actions/workflows/gradle.yml/badge.svg" alt="Build"></a>
 <a href="https://github.com/attila-fazekas/kolibrium/actions/workflows/codeql.yml"><img src="https://github.com/attila-fazekas/kolibrium/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
@@ -8,43 +8,25 @@
 <a href="https://javadoc.io/doc/dev.kolibrium/kolibrium-selenium"><img src="https://img.shields.io/badge/API_reference-KDoc-blue" alt="KDoc"></a>
 </div>
 
-Kolibrium is a unified, Kotlin-first testing ecosystem where API, browser, and mobile automation share the same configuration patterns, harness lifecycle, error contract, and design principles. The modules can be used independently or composed into integrated test suites with type safety across layers.
+Kolibrium is a Kotlin-first library for browser and mobile test automation. It wraps Selenium and Appium with idiomatic Kotlin APIs - type-safe element location, structured Page/Screen Objects, smart waits, and a unified test harness - so you write less boilerplate and catch more errors at compile time.
 
 # Design Philosophy
 
-**Compile-time safety over runtime discovery.** Type errors, missing endpoints, and invalid configurations are caught before a test runs. KSP code generation, sealed class hierarchies, and strong typing throughout make this possible without boilerplate.
+**Compile-time safety over runtime discovery.** Type errors and invalid configurations are caught before a test runs. Sealed class hierarchies and strong typing throughout make this possible without boilerplate.
 
-**A single mental model across modules.** Configuration, harness, lifecycle, and extension points work the same way whether you're testing a REST API, a browser, or a mobile app. An engineer who knows one module knows 80% of any other module.
+**A single mental model across modules.** Configuration, harness, lifecycle, and extension points work the same way whether you're testing a browser or a mobile app. An engineer who knows one module knows most of the other.
 
-**Kotlin-first means actually using Kotlin.** Not Java with Kotlin syntax. Kolibrium uses coroutines, context parameters, DSLs, and modern language features where they reduce friction and improve correctness.
+**Kotlin-first means actually using Kotlin.** Not Java with Kotlin syntax. Kolibrium uses context parameters, DSLs, and modern language features where they reduce friction and improve correctness.
 
-**Escape hatches are not afterthoughts.** Opinionated defaults cover the common case. When they don't fit, the underlying Selenium `WebDriver`, Appium driver, and Ktor client are directly accessible.
+**Escape hatches are not afterthoughts.** Opinionated defaults cover the common case. When they don't fit, the underlying Selenium `WebDriver` and Appium driver are directly accessible.
 
 # Modules
-
-Kolibrium is divided into modules that can be used independently or together as an integrated stack.
-
-## Annotations
-
-Shared annotations (`@InternalKolibriumApi`, `@KolibriumDsl`) for other modules to use.
-
-## API
-
-Compile-time type-safe REST clients via KSP code generation. Define endpoints declaratively; the processor generates type-safe client methods, handles serialization and deserialization via kotlinx.serialization, manages authentication, and generates test harness functions and request body DSL builders.
-
-- `kolibrium-api-core`: core functionality and test harness
-- `kolibrium-api-ksp-annotations`: annotation definitions (`@GET`, `@POST`, `@Path`, etc.)
-- `kolibrium-api-ksp-processors`: KSP processor for code generation
-
-See [api/README.md](api/README.md) for detailed API module documentation.
 
 ## Selenium
 
 Fluent type-safe element location, smart waits, Page Object patterns, thread-safe session management, and an extensible decorator framework.
 
-- `kolibrium-selenium-core`: core WebDriver functionality including Page object base class, `seleniumTest` harness, element locator delegates, and extensible decorator framework
-- `kolibrium-selenium-ksp-annotations`: annotation definitions for Selenium code generation
-- `kolibrium-selenium-ksp-processors`: KSP processor for test harness code generation
+- `kolibrium-selenium`: core WebDriver functionality including Page Object base class, `seleniumTest` harness, element locator delegates, and extensible decorator framework
 
 See [Kolibrium website](https://kolibrium.dev/docs/category/selenium) for detailed Selenium module documentation.
 
@@ -52,19 +34,9 @@ See [Kolibrium website](https://kolibrium.dev/docs/category/selenium) for detail
 
 `AndroidApp`, `IosApp`, and `CrossPlatformApp` cover platform-specific and shared automation scenarios with a consistent API surface.
 
-- `kolibrium-appium-core`: Screen object base class, driver factories, locator delegates, type-safe `UiSelector` DSL (Android) and `NSPredicate` DSL (iOS), and test harness functions
-- `kolibrium-appium-ksp-annotations`: annotation definitions for Appium code generation
-- `kolibrium-appium-ksp-processors`: KSP processor for test harness code generation
+- `kolibrium-appium`: Screen Object base class, driver factories, locator delegates, type-safe `UiSelector` DSL (Android) and `NSPredicate` DSL (iOS), and test harness functions
 
 See [appium/README.md](appium/README.md) for detailed Appium module documentation.
-
-## Playwright
-
-- `kolibrium-playwright-core`: lightweight test harness, Site/PageObject base classes, and Playwright lifecycle management
-- `kolibrium-playwright-ksp-annotations`: annotation definitions for Playwright code generation
-- `kolibrium-playwright-ksp-processors`: KSP processor for test harness code generation
-
-See [playwright/README.md](playwright/README.md) for detailed Playwright module documentation.
 
 # Unified Architecture
 
@@ -73,67 +45,47 @@ See [playwright/README.md](playwright/README.md) for detailed Playwright module 
 Every module uses the same pattern to define the application under test.
 
 ```kotlin
-// API
-@GenerateApi
-object VinylStoreApiSpec : ApiSpec(baseUrl = "http://localhost:8080")
-
 // Selenium
 object BrowserStackDemo : Site(baseUrl = "https://bstackdemo.com") {
-    override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
+    override val elementReadyCondition: WebElement.() -> Boolean = { isClickable }
     override val waitConfig: WaitConfig = Quick
 }
 
 // Appium
 object SauceDemoApp : AndroidApp(
-    driverFactory = androidDriverByPackage(
-        appPackage = "com.saucelabs.mydemoapp.android",
-        appActivity = ".view.activities.SplashActivity",
-    )
+    appPackage = "com.saucelabs.mydemoapp.android",
+    appActivity = ".view.activities.SplashActivity",
 )
 
-// Playwright (planned)
-object SauceDemo : Site(baseUrl = "https://www.saucedemo.com")
+// Ios
+object MyDemoIosApp : IosApp(
+    bundleId = "com.saucelabs.mydemo.app.ios",
+)
 ```
 
 ## Test Harness
 
-All modules follow a unified three-phase lifecycle: `setUp` → `block` → `tearDown`. The harness handles session creation, cleanup, and error propagation.
+Both modules follow a unified three-phase lifecycle: `setUp` → `block` → `tearDown`. The harness handles session creation, cleanup, and error propagation.
 
 ```kotlin
-// API
-vinylStoreApiTest {
-    getProducts()
-}
-
 // Selenium
-browserStackDemoTest {
-    open(::ProductsPage) {
+seleniumTest(site = BrowserStackDemo, driverFactory = ::ChromeDriver) {
+    on(::ProductsPage) {
         titleText() shouldBe "Products"
     }
 }
 
 // Appium
-sauceDemoAppTest {
-    open(::ProductsScreen) {
+androidTest(app = SauceDemoApp) {
+    on(::ProductsScreen) {
         titleText() shouldBe "Products"
-    }
-}
-
-// Playwright (planned)
-sauceDemoTest {
-    open(::LoginPage) {
-        login("standard_user", "secret_sauce")
     }
 }
 ```
 
-## Cross-Module Integration
-
-The modules compose. API calls handle test data setup and teardown; browser or mobile automation handles behavioral verification. Type safety holds across the entire test.
-
 # Concurrency Model
 
-Thread-confined sessions for browser and mobile, coroutine-scoped for API, with the harness bridging between the two. Each test gets its own browser or driver session and its own coroutine scope for API calls. No shared mutable state across tests - parallel execution is safe by default.
+Thread-confined sessions for browser and mobile. Each test gets its own browser or driver session. No shared mutable state across tests - parallel execution is safe by default.
 
 # Error Handling
 
