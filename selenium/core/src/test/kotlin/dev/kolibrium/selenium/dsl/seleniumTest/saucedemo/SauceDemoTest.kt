@@ -18,7 +18,6 @@ package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo
 
 import dev.kolibrium.selenium.dsl.DriverFactory
 import dev.kolibrium.selenium.dsl.SiteScope
-import dev.kolibrium.selenium.dsl.chrome
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.incognito
 import dev.kolibrium.selenium.dsl.creation.Preferences.Chromium.credentials_enable_service
@@ -34,7 +33,7 @@ import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.LoginPage
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.openqa.selenium.Cookie
+import org.openqa.selenium.chrome.ChromeDriver
 
 class SauceDemoTest {
     companion object {
@@ -50,7 +49,7 @@ class SauceDemoTest {
         seleniumTest(
             site = SauceDemo,
             keepBrowserOpen = false,
-            driverFactory = chrome,
+            driverFactory = ::ChromeDriver,
             setUp = { },
         ) {
             on(::LoginPage) {
