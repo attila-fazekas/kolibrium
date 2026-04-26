@@ -39,18 +39,6 @@ import dev.kolibrium.selenium.dsl.creation.Arguments.Firefox.incognito as firefo
  */
 public typealias DriverFactory = () -> WebDriver
 
-/** A DriverFactory that creates a plain ChromeDriver. */
-public val chrome: DriverFactory = { ChromeDriver() }
-
-/** A DriverFactory that creates a plain FirefoxDriver. */
-public val firefox: DriverFactory = { FirefoxDriver() }
-
-/** A DriverFactory that creates a plain EdgeDriver. */
-public val edge: DriverFactory = { EdgeDriver() }
-
-/** A DriverFactory that creates a plain SafariDriver. */
-public val safari: DriverFactory = { SafariDriver() }
-
 /** Chrome in headless mode. Useful for CI environments. */
 public val headlessChrome: DriverFactory = {
     chromeDriver {

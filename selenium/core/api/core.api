@@ -174,16 +174,12 @@ public final class dev/kolibrium/selenium/dsl/Browser : java/lang/Enum {
 }
 
 public final class dev/kolibrium/selenium/dsl/DriverFactoriesKt {
-	public static final fun getChrome ()Lkotlin/jvm/functions/Function0;
-	public static final fun getEdge ()Lkotlin/jvm/functions/Function0;
-	public static final fun getFirefox ()Lkotlin/jvm/functions/Function0;
 	public static final fun getHeadlessChrome ()Lkotlin/jvm/functions/Function0;
 	public static final fun getHeadlessEdge ()Lkotlin/jvm/functions/Function0;
 	public static final fun getHeadlessFirefox ()Lkotlin/jvm/functions/Function0;
 	public static final fun getInPrivateEdge ()Lkotlin/jvm/functions/Function0;
 	public static final fun getIncognitoChrome ()Lkotlin/jvm/functions/Function0;
 	public static final fun getIncognitoFirefox ()Lkotlin/jvm/functions/Function0;
-	public static final fun getSafari ()Lkotlin/jvm/functions/Function0;
 }
 
 public final class dev/kolibrium/selenium/dsl/PageScope {

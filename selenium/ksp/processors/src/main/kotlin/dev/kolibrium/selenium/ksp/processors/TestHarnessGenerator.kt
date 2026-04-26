@@ -48,7 +48,7 @@ internal class TestHarnessGenerator(
                 ).addParameter(
                     ParameterSpec
                         .builder("driverFactory", DRIVER_FACTORY_CLASS)
-                        .defaultValue("%M", CHROME_MEMBER)
+                        .defaultValue("::%T", CHROME_DRIVER_CLASS)
                         .build(),
                 ).addParameter(
                     ParameterSpec
@@ -85,7 +85,7 @@ internal class TestHarnessGenerator(
                 .addParameter(
                     ParameterSpec
                         .builder("driverFactory", DRIVER_FACTORY_CLASS)
-                        .defaultValue("%M", CHROME_MEMBER)
+                        .defaultValue("::%T", CHROME_DRIVER_CLASS)
                         .build(),
                 ).addParameter(
                     ParameterSpec
