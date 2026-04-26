@@ -14,38 +14,34 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.mydemoapp.ios
+package dev.kolibrium.appium.mydemoapp.android
 
+import dev.kolibrium.appium.AndroidDriverFactory
 import dev.kolibrium.appium.AppScope
-import dev.kolibrium.appium.IosDriverFactory
-import dev.kolibrium.appium.iosTest
-import dev.kolibrium.appium.mydemoapp.ios.screens.Footer
-import dev.kolibrium.appium.mydemoapp.ios.screens.ProductDetailsScreen
-import dev.kolibrium.appium.mydemoapp.ios.screens.ProductsScreen
+import dev.kolibrium.appium.androidTest
+import dev.kolibrium.appium.mydemoapp.android.screens.ProductDetailsScreen
+import dev.kolibrium.appium.mydemoapp.android.screens.ProductsScreen
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 
-class MyDemoAppIosTest {
+class MyDemoAppAndroidTest {
     @Test
     fun checkout() =
-        myDemoIosAppTest {
+        myDemoAndroidAppTest {
             on(::ProductsScreen) {
-                titleText() shouldBe "title"
+                titleText() shouldBe "Products"
 
                 Product.BackpackBlack.openProductDetails()
             }.on(::ProductDetailsScreen) {
                 addToCart()
-            }.on(::Footer) {
-                openCart()
             }
         }
 }
 
-// TODO Generate this with KSP
-fun myDemoIosAppTest(
-    app: MyDemoIosApp = MyDemoIosApp,
-    driverFactory: IosDriverFactory = app.driverFactory,
-    block: AppScope<MyDemoIosApp>.(Unit) -> Unit,
+fun myDemoAndroidAppTest(
+    app: MyDemoAndroidApp = MyDemoAndroidApp,
+    driverFactory: AndroidDriverFactory = app.driverFactory,
+    block: AppScope<MyDemoAndroidApp>.(Unit) -> Unit,
 ) {
-    iosTest(app = app, driverFactory = driverFactory, block = block)
+    androidTest(app = app, driverFactory = driverFactory, block = block)
 }

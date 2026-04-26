@@ -75,7 +75,6 @@ class SauceDemoTest {
 //        }
 //    }
 
-    // TODO Generate it with KSP
     fun sauceDemoTest(
         browserType: BrowserType = BrowserType.Chromium,
         launchOptions: LaunchOptions? = null,

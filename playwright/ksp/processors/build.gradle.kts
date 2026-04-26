@@ -24,7 +24,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":appium:ksp:annotations"))
+    implementation(project(":playwright:ksp:annotations"))
 }
 
 tasks.withType<KotlinCompile> {
