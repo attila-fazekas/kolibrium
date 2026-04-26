@@ -32,10 +32,7 @@ include("playwright:core")
 include("playwright:ksp")
 include("playwright:ksp:annotations")
 include("playwright:ksp:processors")
-include("selenium:core")
-include("selenium:ksp")
-include("selenium:ksp:annotations")
-include("selenium:ksp:processors")
+include("selenium")
 include("webdriver")
 
 gradle.startParameter.isContinueOnFailure = true
