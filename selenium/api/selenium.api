@@ -385,7 +385,6 @@ public final class dev/kolibrium/selenium/dsl/creation/DriverServicesKt {
 
 public final class dev/kolibrium/selenium/dsl/creation/DriversKt {
 	public static final fun chromeDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/chrome/ChromeDriver;
-	public static final fun driver (Ldev/kolibrium/selenium/dsl/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/WebDriver;
 	public static final fun edgeDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/edge/EdgeDriver;
 	public static final fun firefoxDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/firefox/FirefoxDriver;
 	public static final fun safariDriver (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/safari/SafariDriver;
