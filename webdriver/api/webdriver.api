@@ -27,9 +27,6 @@ public final class dev/kolibrium/webdriver/WaitConfig {
 	public final fun getMessage ()Ljava/lang/String;
 	public final fun getPollingInterval-FghU774 ()Lkotlin/time/Duration;
 	public final fun getTimeout-FghU774 ()Lkotlin/time/Duration;
-	public final fun setMessage (Ljava/lang/String;)V
-	public final fun setPollingInterval-BwNAW2A (Lkotlin/time/Duration;)V
-	public final fun setTimeout-BwNAW2A (Lkotlin/time/Duration;)V
 }
 
 public final class dev/kolibrium/webdriver/WaitConfig$Companion {
