@@ -16,7 +16,6 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.Browser
 import dev.kolibrium.selenium.dsl.Browser.Chrome
 import dev.kolibrium.selenium.dsl.Browser.Edge
 import dev.kolibrium.selenium.dsl.Browser.Firefox
@@ -53,8 +52,6 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.EnumSource
 import org.openqa.selenium.PageLoadStrategy.NORMAL
 import org.openqa.selenium.Platform.MAC
 import org.openqa.selenium.UnexpectedAlertBehaviour.DISMISS
@@ -74,24 +71,6 @@ class DriverTest {
     @AfterEach
     fun quitDriver() {
         driver.quit()
-    }
-
-    @ParameterizedTest
-    @EnumSource
-    fun driverTest(browser: Browser) {
-        driver =
-            driver(browser) {
-                driverService {
-                    timeout = 30.seconds
-                }
-                options {
-                    acceptInsecureCerts = true
-                    pageLoadStrategy = NORMAL
-                    platform = MAC
-                    strictFileInteractability = true
-                    unhandledPromptBehaviour = DISMISS
-                }
-            }
     }
 
     @Test

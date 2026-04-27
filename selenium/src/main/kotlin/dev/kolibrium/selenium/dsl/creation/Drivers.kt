@@ -16,12 +16,6 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.Browser
-import dev.kolibrium.selenium.dsl.Browser.Chrome
-import dev.kolibrium.selenium.dsl.Browser.Edge
-import dev.kolibrium.selenium.dsl.Browser.Firefox
-import dev.kolibrium.selenium.dsl.Browser.Safari
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chrome.ChromeOptions
@@ -34,27 +28,6 @@ import org.openqa.selenium.firefox.GeckoDriverService
 import org.openqa.selenium.safari.SafariDriver
 import org.openqa.selenium.safari.SafariDriverService
 import org.openqa.selenium.safari.SafariOptions
-
-/**
- * Creates a [WebDriver] instance for the specified browser type with custom configuration.
- *
- * It delegates to the appropriate browser-specific driver creation function based on
- * the provided [browser] parameter.
- *
- * @param browser The browser type to create a driver for (Chrome, Edge, Firefox, Safari).
- * @param block The configuration block to customize the driver settings.
- * @return A configured WebDriver instance for the specified browser.
- */
-public fun driver(
-    browser: Browser,
-    block: DriverScope<*, *>.() -> Unit,
-): WebDriver =
-    when (browser) {
-        Chrome -> chromeDriver(block as (ChromeDriverScope.() -> Unit))
-        Safari -> safariDriver(block as (SafariDriverScope.() -> Unit))
-        Firefox -> firefoxDriver(block as (FirefoxDriverScope.() -> Unit))
-        Edge -> edgeDriver(block as (EdgeDriverScope.() -> Unit))
-    }
 
 /**
  * Creates a ChromeDriver instance with custom configuration.
