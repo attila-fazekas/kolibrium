@@ -16,14 +16,14 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages
 
-import dev.kolibrium.selenium.core.SeleniumPage
+import dev.kolibrium.selenium.core.Page
 import dev.kolibrium.selenium.core.dataTest
 import dev.kolibrium.selenium.core.dataTests
 import dev.kolibrium.selenium.core.idOrName
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.SauceDemo
 import org.openqa.selenium.WebElement
 
-class CartPage : SeleniumPage<SauceDemo>() {
+class CartPage : Page<SauceDemo>() {
     override val path = "/cart.html"
 
     private val title = dataTest("title")

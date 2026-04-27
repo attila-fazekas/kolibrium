@@ -17,11 +17,11 @@
 package dev.kolibrium.selenium.core
 
 internal object SiteContextHolder {
-    private val tl: ThreadLocal<SeleniumSite?> = ThreadLocal()
+    private val tl: ThreadLocal<Site?> = ThreadLocal()
 
-    internal fun get(): SeleniumSite? = tl.get()
+    internal fun get(): Site? = tl.get()
 
-    internal fun set(site: SeleniumSite) {
+    internal fun set(site: Site) {
         tl.set(site)
     }
 

@@ -22,15 +22,15 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 
 /**
- * Base type for page objects bound to a [SeleniumSite].
+ * Base type for page objects bound to a [Site].
  *
  * Page instances rely on a contextual [WebDriver] installed by Kolibrium's DSL.
  * Constructing and using pages outside those contexts will fail with a runtime
  * error. Delegated findElement(s) calls route through the contextual driver.
  */
-public abstract class SeleniumPage<S : SeleniumSite> protected constructor() : SearchContext {
+public abstract class Page<S : Site> protected constructor() : SearchContext {
     /**
-     * Relative path of this page within the [SeleniumSite]. Defaults to empty string (no navigation).
+     * Relative path of this page within the [Site]. Defaults to empty string (no navigation).
      * Any non-empty value causes the [dev.kolibrium.selenium.dsl.SiteScope.on] function to navigate to `baseUrl + path`.
      */
     public open val path: String = ""

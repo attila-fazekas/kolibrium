@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo
 
-import dev.kolibrium.selenium.core.SeleniumSite
+import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.decorators.AbstractDecorator
 import dev.kolibrium.selenium.core.decorators.BorderStyle
 import dev.kolibrium.selenium.core.decorators.Color
@@ -29,8 +29,8 @@ import dev.kolibrium.webdriver.isClickable
 import org.openqa.selenium.WebElement
 import kotlin.time.Duration.Companion.milliseconds
 
-object BrowserStackDemo : SeleniumSite(baseUrl = "https://bstackdemo.com") {
-    override val elementReadyCondition: (WebElement.() -> Boolean) = { isClickable }
+object BrowserStackDemo : Site(baseUrl = "https://bstackdemo.com") {
+    override val elementReadyCondition: WebElement.() -> Boolean = { isClickable }
 
     override val waitConfig: WaitConfig = Quick
 

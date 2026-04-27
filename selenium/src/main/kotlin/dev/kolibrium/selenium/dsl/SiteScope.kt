@@ -17,8 +17,8 @@
 package dev.kolibrium.selenium.dsl
 
 import dev.kolibrium.annotations.KolibriumDsl
-import dev.kolibrium.selenium.core.SeleniumPage
-import dev.kolibrium.selenium.core.SeleniumSite
+import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.SiteContextHolder
 import dev.kolibrium.selenium.dsl.interactions.CookiesScope
 import dev.kolibrium.selenium.dsl.interactions.cookies
@@ -27,11 +27,11 @@ import org.openqa.selenium.WebDriver
 /**
  * Site-scoped DSL receiver available inside `seleniumTest { … }` blocks.
  *
- * It represents the entry surface for flows on the active [SeleniumSite], exposing [on] for page navigation
+ * It represents the entry surface for flows on the active [Site], exposing [on] for page navigation
  * and cookie helpers.
  */
 @KolibriumDsl
-public class SiteScope<S : SeleniumSite> internal constructor(
+public class SiteScope<S : Site> internal constructor(
     internal val driver: WebDriver,
 ) {
     /**
@@ -60,11 +60,11 @@ public class SiteScope<S : SeleniumSite> internal constructor(
      *
      * @param P the type of the page
      * @param factory factory function to create the page instance
-     * @param path optional path override; if null, uses the page's declared [SeleniumPage.path]
+     * @param path optional path override; if null, uses the page's declared [Page.path]
      * @param action operation to perform on the page
      * @return a [PageScope] bound to the page for further chaining
      */
-    public fun <P : SeleniumPage<S>> on(
+    public fun <P : Page<S>> on(
         factory: () -> P,
         path: String? = null,
         action: P.() -> Unit,

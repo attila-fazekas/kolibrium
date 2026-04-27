@@ -16,11 +16,11 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.twitter
 
-import dev.kolibrium.selenium.core.SeleniumPage
+import dev.kolibrium.selenium.core.Page
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.Twitter
 import io.kotest.matchers.shouldBe
 
-class FeedPage : SeleniumPage<Twitter>() {
+class FeedPage : Page<Twitter>() {
     override fun assertReady() {
         pageTitle shouldBe "Sauce Labs (@saucelabs) / X"
     }

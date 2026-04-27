@@ -16,14 +16,14 @@
 
 package dev.kolibrium.selenium.dsl
 
-import dev.kolibrium.selenium.core.SeleniumSite
+import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.SiteContextHolder
 import dev.kolibrium.selenium.core.WebDriverContextHolder
 import kotlinx.coroutines.runBlocking
 import org.openqa.selenium.WebDriver
 
 /**
- * Unified test harness that creates a WebDriver session for the given [SeleniumSite] and runs the test flow.
+ * Unified test harness that creates a WebDriver session for the given [Site] and runs the test flow.
  *
  * This function provides a structured three-phase lifecycle for Selenium tests:
  * 1. **setUp**: Executes the [setUp] block **before** any WebDriver session exists.
@@ -33,9 +33,9 @@ import org.openqa.selenium.WebDriver
  * Flow:
  * - Executes [setUp] before creating the WebDriver session to compute the input value [T].
  * - Binds the driver and site to context holders for the duration of the test thread.
- * - Creates a WebDriver via [driverFactory], navigates to [SeleniumSite.baseUrl] to establish origin,
- *   applies [SeleniumSite.cookies] (if any), and re-navigates to [SeleniumSite.baseUrl] so cookies take effect immediately.
- *   Then calls [SeleniumSite.onSessionReady].
+ * - Creates a WebDriver via [driverFactory], navigates to [Site.baseUrl] to establish origin,
+ *   applies [Site.cookies] (if any), and re-navigates to [Site.baseUrl] so cookies take effect immediately.
+ *   Then calls [Site.onSessionReady].
  * - Invokes [block] with a [SiteScope] receiver in the site's context.
  *
  * All three user-facing lambdas ([setUp], [tearDown], [block]) are `suspend`, so callers can invoke
@@ -46,7 +46,7 @@ import org.openqa.selenium.WebDriver
  * - Unless [keepBrowserOpen] is true, the session is closed in a finally block for robustness.
  *
  * Notes:
- * - Do not navigate inside [SeleniumSite.onSessionReady]; this function performs the initial, predictable navigation.
+ * - Do not navigate inside [Site.onSessionReady]; this function performs the initial, predictable navigation.
  *
  * @param S The concrete site type bound to this test.
  * @param T The type of the prepared input value passed to [block].
@@ -57,7 +57,7 @@ import org.openqa.selenium.WebDriver
  * @param tearDown Suspending block that cleans up the test context after the test body; runs even if the test fails.
  * @param block Suspending main test body executed with a [SiteScope] receiver and the prepared value.
  */
-public fun <S : SeleniumSite, T> seleniumTest(
+public fun <S : Site, T> seleniumTest(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean = false,
@@ -80,7 +80,7 @@ public fun <S : SeleniumSite, T> seleniumTest(
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param block Suspending main test body executed with a [SiteScope] receiver.
  */
-public fun <S : SeleniumSite> seleniumTest(
+public fun <S : Site> seleniumTest(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean = false,
@@ -95,7 +95,7 @@ public fun <S : SeleniumSite> seleniumTest(
     )
 }
 
-internal fun <S : SeleniumSite, T> seleniumTestImpl(
+internal fun <S : Site, T> seleniumTestImpl(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean,
@@ -109,7 +109,7 @@ internal fun <S : SeleniumSite, T> seleniumTestImpl(
     }
 }
 
-private fun <S : SeleniumSite, T> runTestWithDriver(
+private fun <S : Site, T> runTestWithDriver(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean,
@@ -131,7 +131,7 @@ private fun <S : SeleniumSite, T> runTestWithDriver(
     }
 }
 
-private fun <S : SeleniumSite> createAndInitializeDriver(
+private fun <S : Site> createAndInitializeDriver(
     driverFactory: DriverFactory,
     site: S,
 ): WebDriver {
@@ -145,7 +145,7 @@ private fun <S : SeleniumSite> createAndInitializeDriver(
     return driver
 }
 
-private fun <S : SeleniumSite, T> executeTestBlock(
+private fun <S : Site, T> executeTestBlock(
     site: S,
     driver: WebDriver,
     prepared: T,
