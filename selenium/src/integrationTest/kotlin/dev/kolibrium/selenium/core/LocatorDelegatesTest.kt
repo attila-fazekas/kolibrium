@@ -67,7 +67,7 @@ class LocatorDelegatesTest {
 
     // Convenience to set up a session context for tests
     private fun <T> withPage(block: () -> T): T {
-        val site = object : SeleniumSite("file://test") {}
+        val site = object : Site("file://test") {}
         WebDriverContextHolder.set(driver)
         SiteContextHolder.set(site)
         return try {
@@ -433,7 +433,7 @@ class LocatorDelegatesTest {
     }
 
     // Test Page Object
-    private class TestPage : SeleniumPage<SeleniumSite>() {
+    private class TestPage : Page<Site>() {
         val headerById by id("header")
         val submitButton by cssSelector("button.btn-primary")
         val usernameInput by dataTest("username-input")
@@ -486,12 +486,12 @@ class LocatorDelegatesTest {
     }
 
     // Test Page with Site context
-    private class TestPageWithSite : SeleniumPage<TestSite>() {
+    private class TestPageWithSite : Page<TestSite>() {
         val patientElement by id("header")
     }
 
     // Test Site
-    private class TestSite : SeleniumSite("file://test") {
+    private class TestSite : Site("file://test") {
         override val waitConfig = WaitConfig.Patient
     }
 }

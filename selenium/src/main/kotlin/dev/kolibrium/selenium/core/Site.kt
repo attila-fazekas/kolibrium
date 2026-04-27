@@ -28,7 +28,7 @@ import org.openqa.selenium.remote.service.DriverService
 /**
  * Base configuration for an application under test.
  *
- * A [SeleniumSite] centralizes cross-cutting defaults and policies for your tests:
+ * A [Site] centralizes cross-cutting defaults and policies for your tests:
  * - Where your app lives ([baseUrl])
  * - Which cookies should always be present for a new [WebDriver] session
  * - Default waiting behavior used by pages and element interactions
@@ -49,7 +49,7 @@ import org.openqa.selenium.remote.service.DriverService
  * @property baseUrl Base URL used by pages and the test DSL to build absolute routes.
  *           Must be provided as a constructor argument by subclasses.
  */
-public abstract class SeleniumSite protected constructor(
+public abstract class Site protected constructor(
     public val baseUrl: String,
 ) {
     /**

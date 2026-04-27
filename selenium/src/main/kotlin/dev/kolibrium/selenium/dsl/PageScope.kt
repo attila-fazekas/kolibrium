@@ -17,11 +17,11 @@
 package dev.kolibrium.selenium.dsl
 
 import dev.kolibrium.annotations.KolibriumDsl
-import dev.kolibrium.selenium.core.SeleniumPage
+import dev.kolibrium.selenium.core.Page
 import org.openqa.selenium.WebDriver
 
 /**
- * Scope used as the fluent receiver when working with a [SeleniumPage] in the Selenium DSL.
+ * Scope used as the fluent receiver when working with a [Page] in the Selenium DSL.
  *
  * It ties a concrete [page] instance to the active WebDriver session behind the scenes and
  * provides helpers to continue the flow, verify page state, or perform side-effecting actions.
@@ -31,7 +31,7 @@ import org.openqa.selenium.WebDriver
  * @property driver the underlying [WebDriver] session
  */
 @KolibriumDsl
-public class PageScope<P : SeleniumPage<*>> internal constructor(
+public class PageScope<P : Page<*>> internal constructor(
     public val page: P,
     internal val driver: WebDriver,
 ) {
@@ -44,7 +44,7 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
      * @param factory factory function to create the next page instance
      * @param action operation to perform on the next page
      */
-    public fun <Next : SeleniumPage<*>> on(
+    public fun <Next : Page<*>> on(
         factory: () -> Next,
         action: Next.() -> Unit,
     ): PageScope<Next> {
@@ -58,7 +58,7 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
      * Execute a side-effecting [action] on the current page, keeping the scope unchanged.
      *
      * The page is asserted to be ready before the action runs. Unlike [on], this does not
-     * call [SeleniumPage.awaitReady] because the page was already fully awaited when first
+     * call [Page.awaitReady] because the page was already fully awaited when first
      * navigated to.
      */
     public fun then(action: P.() -> Unit): PageScope<P> =
@@ -68,9 +68,9 @@ public class PageScope<P : SeleniumPage<*>> internal constructor(
         }
 }
 
-internal fun ensureReady(seleniumPage: SeleniumPage<*>) {
-    seleniumPage.awaitReady()
-    seleniumPage.assertReady()
+internal fun ensureReady(page: Page<*>) {
+    page.awaitReady()
+    page.assertReady()
 }
 
 internal fun joinUrls(
