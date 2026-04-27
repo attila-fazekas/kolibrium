@@ -35,6 +35,9 @@ public fun WebDriver.iframe(
     block: () -> Unit,
 ) {
     switchTo().frame(iframe)
-    block()
-    switchTo().defaultContent()
+    try {
+        block()
+    } finally {
+        switchTo().defaultContent()
+    }
 }
