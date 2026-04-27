@@ -40,11 +40,11 @@ import kotlin.time.Duration.Companion.seconds
  */
 public class WaitConfig(
     /** The duration between polling attempts when waiting for a condition. */
-    public var pollingInterval: Duration? = null,
+    public val pollingInterval: Duration? = null,
     /** The maximum duration to wait for a condition to be met. */
-    public var timeout: Duration? = null,
+    public val timeout: Duration? = null,
     /** A custom message to be displayed if the wait condition is not met. */
-    public var message: String? = null,
+    public val message: String? = null,
     /** Exception classes that should be ignored while evaluating a condition. */
     public val ignoring: Set<KClass<out Throwable>> = emptySet(),
 ) {
