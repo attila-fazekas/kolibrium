@@ -218,6 +218,14 @@ public final class dev/kolibrium/selenium/dsl/actions/ScrollKt {
 	public static final fun scrollUp (Ldev/kolibrium/selenium/dsl/actions/ActionsScope;I)V
 }
 
+public abstract class dev/kolibrium/selenium/dsl/creation/AbstractArgumentsScope : dev/kolibrium/selenium/dsl/creation/ArgumentsScope {
+	public fun <init> (Lkotlin/jvm/functions/Function1;Ljava/lang/String;)V
+	protected final fun createArg (Ljava/lang/String;)Ldev/kolibrium/selenium/dsl/creation/Argument;
+	public fun toString ()Ljava/lang/String;
+	public fun unaryPlus (Ldev/kolibrium/selenium/dsl/creation/Argument;)V
+	public fun unaryPlus (Ljava/lang/String;)V
+}
+
 public final class dev/kolibrium/selenium/dsl/creation/AllowedHostsScope {
 	public fun toString ()Ljava/lang/String;
 	public final fun unaryPlus (Ljava/lang/String;)V
@@ -285,11 +293,7 @@ public final class dev/kolibrium/selenium/dsl/creation/ChromeArgument : dev/koli
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/selenium/dsl/creation/ChromeArgumentsScope : dev/kolibrium/selenium/dsl/creation/ArgumentsScope {
-	public fun toString ()Ljava/lang/String;
-	public synthetic fun unaryPlus (Ldev/kolibrium/selenium/dsl/creation/Argument;)V
-	public fun unaryPlus (Ljava/lang/String;)V
-	public fun unaryPlus-QipFsNM (Ljava/lang/String;)V
+public final class dev/kolibrium/selenium/dsl/creation/ChromeArgumentsScope : dev/kolibrium/selenium/dsl/creation/AbstractArgumentsScope {
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
 
@@ -403,11 +407,7 @@ public final class dev/kolibrium/selenium/dsl/creation/EdgeArgument : dev/kolibr
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/selenium/dsl/creation/EdgeArgumentsScope : dev/kolibrium/selenium/dsl/creation/ArgumentsScope {
-	public fun toString ()Ljava/lang/String;
-	public synthetic fun unaryPlus (Ldev/kolibrium/selenium/dsl/creation/Argument;)V
-	public fun unaryPlus (Ljava/lang/String;)V
-	public fun unaryPlus-OGuVcrE (Ljava/lang/String;)V
+public final class dev/kolibrium/selenium/dsl/creation/EdgeArgumentsScope : dev/kolibrium/selenium/dsl/creation/AbstractArgumentsScope {
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
 
@@ -483,11 +483,7 @@ public final class dev/kolibrium/selenium/dsl/creation/FirefoxArgument : dev/kol
 	public final synthetic fun unbox-impl ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/selenium/dsl/creation/FirefoxArgumentsScope : dev/kolibrium/selenium/dsl/creation/ArgumentsScope {
-	public fun toString ()Ljava/lang/String;
-	public synthetic fun unaryPlus (Ldev/kolibrium/selenium/dsl/creation/Argument;)V
-	public fun unaryPlus (Ljava/lang/String;)V
-	public fun unaryPlus-yHlgdzU (Ljava/lang/String;)V
+public final class dev/kolibrium/selenium/dsl/creation/FirefoxArgumentsScope : dev/kolibrium/selenium/dsl/creation/AbstractArgumentsScope {
 	public fun windowSize (Lkotlin/jvm/functions/Function1;)V
 }
 

@@ -23,10 +23,6 @@ import dev.kolibrium.selenium.dsl.creation.chromeDriver
 import dev.kolibrium.selenium.dsl.creation.edgeDriver
 import dev.kolibrium.selenium.dsl.creation.firefoxDriver
 import org.openqa.selenium.WebDriver
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.edge.EdgeDriver
-import org.openqa.selenium.firefox.FirefoxDriver
-import org.openqa.selenium.safari.SafariDriver
 import dev.kolibrium.selenium.dsl.creation.Arguments.Edge.headless as edgeHeadless
 import dev.kolibrium.selenium.dsl.creation.Arguments.Firefox.headless as firefoxHeadless
 import dev.kolibrium.selenium.dsl.creation.Arguments.Firefox.incognito as firefoxIncognito
