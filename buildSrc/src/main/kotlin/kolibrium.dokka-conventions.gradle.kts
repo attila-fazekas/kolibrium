@@ -1,4 +1,6 @@
 import dev.kolibrium.SharedFunctions
+import org.jetbrains.dokka.DokkaDefaults.moduleName
+import org.jetbrains.dokka.DokkaDefaults.pluginsConfiguration
 
 /*
  * Copyright 2023-2026 Attila Fazekas & contributors
@@ -31,7 +33,7 @@ dokka {
 
     pluginsConfiguration {
         html {
-            footerMessage = "Copyright 2025 Attila Fazekas & contributors"
+            footerMessage = "Copyright 2023-2026 Attila Fazekas & contributors"
         }
     }
 }
