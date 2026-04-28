@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import dev.kolibrium.PublicationProperties
 import dev.kolibrium.PublicationProperties.PROJECT_GIT_URL
 import dev.kolibrium.PublicationProperties.SCM
-import dev.kolibrium.SharedFunctions
 
 plugins {
     `java-library`
@@ -66,7 +66,7 @@ publishing {
             from(components["kotlin"])
             artifact(dokkaJar)
             artifact(sourcesJar)
-            val moduleName = SharedFunctions.getModuleName(project)
+            val moduleName = project.name
             artifactId = "$name-$moduleName"
             pom {
                 name = rootProject.name
