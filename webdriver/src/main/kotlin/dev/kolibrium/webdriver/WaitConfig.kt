@@ -58,7 +58,7 @@ public class WaitConfig(
             require(it >= 100.milliseconds) { "timeout must be at least 100ms." }
         }
         if (pollingInterval != null && timeout != null) {
-            require(pollingInterval!! <= timeout!!) {
+            require(value = pollingInterval <= timeout) {
                 "pollingInterval ($pollingInterval) must not be greater than timeout ($timeout)."
             }
         }

@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     `kotlin-dsl`
-    id("com.diffplug.spotless") version "8.1.0"
+    id("com.diffplug.spotless") version "8.4.0"
 }
 
 repositories {
