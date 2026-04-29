@@ -16,8 +16,8 @@
 
 package dev.kolibrium.selenium.dsl
 
-import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.WebDriver
 
 /**

@@ -54,7 +54,7 @@ tasks.withType<KotlinCompile>().configureEach {
             "-Xcontext-parameters",
         )
         optIn.addAll(
-            "dev.kolibrium.annotations.InternalKolibriumApi",
+            "dev.kolibrium.webdriver.InternalKolibriumApi",
         )
     }
 }

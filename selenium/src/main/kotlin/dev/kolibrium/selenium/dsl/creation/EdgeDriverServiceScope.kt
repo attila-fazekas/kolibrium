@@ -16,8 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.annotations.KolibriumDsl
-import org.openqa.selenium.bidi.log.FilterBy.logLevel
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.edge.EdgeDriverService
 import java.io.File
 

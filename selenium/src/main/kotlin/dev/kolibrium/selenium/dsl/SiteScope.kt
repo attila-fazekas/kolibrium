@@ -16,12 +16,12 @@
 
 package dev.kolibrium.selenium.dsl
 
-import dev.kolibrium.annotations.KolibriumDsl
 import dev.kolibrium.selenium.core.Page
 import dev.kolibrium.selenium.core.Site
 import dev.kolibrium.selenium.core.SiteContextHolder
 import dev.kolibrium.selenium.dsl.interactions.CookiesScope
 import dev.kolibrium.selenium.dsl.interactions.cookies
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.WebDriver
 
 /**

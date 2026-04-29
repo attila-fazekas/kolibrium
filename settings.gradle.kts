@@ -16,7 +16,6 @@
 
 rootProject.name = "kolibrium"
 
-include("annotations")
 include("appium")
 include("bom")
 include("dokka")

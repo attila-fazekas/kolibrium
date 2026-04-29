@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.annotations
+package dev.kolibrium.webdriver
 
 /**
  * Marker annotation for Kolibrium DSL.
