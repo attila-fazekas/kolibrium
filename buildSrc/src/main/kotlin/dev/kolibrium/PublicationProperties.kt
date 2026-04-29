@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.api.ksp.processors
+package dev.kolibrium
 
-import com.google.auto.service.AutoService
-import com.google.devtools.ksp.processing.SymbolProcessor
-import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
-import com.google.devtools.ksp.processing.SymbolProcessorProvider
-
-@AutoService(SymbolProcessorProvider::class)
-internal class ApiCodegenProcessorProvider : SymbolProcessorProvider {
-    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor = ApiCodegenProcessor(environment)
+object PublicationProperties {
+    const val PROJECT_GIT_URL = "https://github.com/attila-fazekas/kolibrium"
+    const val SCM = "scm:git:$PROJECT_GIT_URL.git"
 }

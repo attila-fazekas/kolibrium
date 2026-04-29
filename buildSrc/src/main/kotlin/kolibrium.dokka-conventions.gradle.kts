@@ -1,7 +1,3 @@
-import dev.kolibrium.SharedFunctions
-import org.jetbrains.dokka.DokkaDefaults.moduleName
-import org.jetbrains.dokka.DokkaDefaults.pluginsConfiguration
-
 /*
  * Copyright 2023-2026 Attila Fazekas & contributors
  *
@@ -17,6 +13,10 @@ import org.jetbrains.dokka.DokkaDefaults.pluginsConfiguration
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.jetbrains.dokka.DokkaDefaults.moduleName
+import org.jetbrains.dokka.DokkaDefaults.pluginsConfiguration
+
 plugins {
     id("kolibrium.base-conventions")
     id("org.jetbrains.dokka")
@@ -27,7 +27,7 @@ dokka {
         moduleName = if (project.name == "dokka") {
             rootProject.name
         } else {
-            "${rootProject.name}-${SharedFunctions.getModuleName(project)}"
+            "${rootProject.name}-${project.name}"
         }
     }
 

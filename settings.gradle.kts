@@ -17,10 +17,6 @@
 rootProject.name = "kolibrium"
 
 include("annotations")
-include("api:core")
-include("api:ksp")
-include("api:ksp:annotations")
-include("api:ksp:processors")
 include("appium")
 include("bom")
 include("dokka")
