@@ -19,7 +19,6 @@ plugins {
 }
 
 dependencies {
-    dokka(project(":annotations"))
     dokka(project(":appium"))
     dokka(project(":selenium"))
     dokka(project(":webdriver"))

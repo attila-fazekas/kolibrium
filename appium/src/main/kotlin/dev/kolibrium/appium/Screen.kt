@@ -16,7 +16,7 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.annotations.InternalKolibriumApi
+import dev.kolibrium.webdriver.InternalKolibriumApi
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver

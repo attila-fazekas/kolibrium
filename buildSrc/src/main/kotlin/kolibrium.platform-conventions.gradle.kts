@@ -25,7 +25,6 @@ plugins {
 
 dependencies {
     constraints {
-        api(project(":annotations"))
         api(project(":appium"))
         api(project(":selenium"))
         api(project(":webdriver"))

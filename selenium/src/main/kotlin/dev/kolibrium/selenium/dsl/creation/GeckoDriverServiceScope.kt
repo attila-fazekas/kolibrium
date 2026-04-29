@@ -16,8 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.annotations.KolibriumDsl
-import dev.kolibrium.selenium.dsl.creation.AllowedHostsScope
+import dev.kolibrium.webdriver.KolibriumDsl
 import org.openqa.selenium.firefox.FirefoxDriverLogLevel
 import org.openqa.selenium.firefox.GeckoDriverService
 import java.io.File
