@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.dsl
+package dev.kolibrium.selenium
 
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.headless
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.incognito

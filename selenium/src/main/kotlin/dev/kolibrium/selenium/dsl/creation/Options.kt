@@ -16,11 +16,11 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.Browser
-import dev.kolibrium.selenium.dsl.Browser.Chrome
-import dev.kolibrium.selenium.dsl.Browser.Edge
-import dev.kolibrium.selenium.dsl.Browser.Firefox
-import dev.kolibrium.selenium.dsl.Browser.Safari
+import dev.kolibrium.selenium.Browser
+import dev.kolibrium.selenium.Browser.Chrome
+import dev.kolibrium.selenium.Browser.Edge
+import dev.kolibrium.selenium.Browser.Firefox
+import dev.kolibrium.selenium.Browser.Safari
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.edge.EdgeOptions
 import org.openqa.selenium.firefox.FirefoxOptions

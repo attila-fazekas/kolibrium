@@ -14,39 +14,38 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core.descriptors
+package dev.kolibrium.selenium.descriptors
 
-import dev.kolibrium.selenium.core.decorators.AbstractDecorator
-import dev.kolibrium.selenium.core.decorators.DecoratorResolver
+import dev.kolibrium.selenium.decorators.AbstractDecorator
+import dev.kolibrium.selenium.decorators.DecoratorResolver
 import dev.kolibrium.webdriver.InternalKolibriumApi
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElements
-import dev.kolibrium.webdriver.descriptors.MultiElementsDescriptor
+import dev.kolibrium.webdriver.descriptors.CompositeElementsDescriptor
 import org.openqa.selenium.By
 import org.openqa.selenium.SearchContext
 
 /**
- * Decorator-aware variant of [MultiElementsDescriptor].
+ * Decorator-aware variant of [CompositeElementsDescriptor].
  *
  * Merges site‑level and test‑level decorators (via [DecoratorResolver]) and applies them to the
  * underlying [SearchContext] before element lookup.
  */
 @InternalKolibriumApi
-public class DecoratedMultiElementsDescriptor internal constructor(
+public class DecoratedCompositeElementsDescriptor internal constructor(
     searchCtx: SearchContext,
-    value: String,
-    locatorStrategy: (String) -> By,
+    by: By,
     waitConfig: WaitConfig,
     readyWhen: WebElements.() -> Boolean,
-    siteLevelDecorators: List<AbstractDecorator> = emptyList(),
-) : MultiElementsDescriptor(searchCtx, value, locatorStrategy, waitConfig, readyWhen) {
+    siteLevelDecorators: List<AbstractDecorator>,
+) : CompositeElementsDescriptor(searchCtx, by, waitConfig, readyWhen) {
     private val decoratorResolver = DecoratorResolver(siteLevelDecorators)
 
     override val searchContext: SearchContext by lazy { decoratorResolver.decorateSearchContext(searchCtx) }
 
     override fun toString(): String =
         buildDescriptorString(
-            descriptorName = "ElementsDescriptor",
+            descriptorName = "CompositeElementsDescriptor",
             by = by,
             waitConfig = effectiveWaitConfig,
             decoratorClassNames = decoratorResolver.decoratorClassNames(),

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.selenium
 
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElements

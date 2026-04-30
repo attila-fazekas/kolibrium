@@ -17,9 +17,8 @@
 package dev.kolibrium.selenium.core.internal.decorators
 
 import com.titusfortner.logging.SeleniumLogger
-import dev.kolibrium.selenium.core.decorators.DecoratorManager
-import dev.kolibrium.selenium.core.decorators.ElementStateCacheDecorator
-import dev.kolibrium.selenium.core.internal.BaseTest
+import dev.kolibrium.selenium.decorators.DecoratorManager
+import dev.kolibrium.selenium.decorators.ElementStateCacheDecorator
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach

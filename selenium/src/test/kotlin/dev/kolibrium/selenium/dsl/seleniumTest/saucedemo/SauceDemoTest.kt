@@ -16,8 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo
 
-import com.titusfortner.logging.SeleniumLogger
-import dev.kolibrium.selenium.dsl.DriverFactory
+import dev.kolibrium.selenium.DriverFactory
 import dev.kolibrium.selenium.dsl.SiteScope
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.incognito

@@ -16,8 +16,14 @@
 
 package dev.kolibrium.selenium.core
 
-import dev.kolibrium.selenium.core.descriptors.DecoratedCompositeElementDescriptor
-import dev.kolibrium.selenium.core.descriptors.DecoratedCompositeElementsDescriptor
+import dev.kolibrium.selenium.SiteContextHolder
+import dev.kolibrium.selenium.WebDriverContextHolder
+import dev.kolibrium.selenium.anyOf
+import dev.kolibrium.selenium.chained
+import dev.kolibrium.selenium.descriptors.DecoratedCompositeElementDescriptor
+import dev.kolibrium.selenium.descriptors.DecoratedCompositeElementsDescriptor
+import dev.kolibrium.selenium.element
+import dev.kolibrium.selenium.elements
 import dev.kolibrium.webdriver.WaitConfig
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf

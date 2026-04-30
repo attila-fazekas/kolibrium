@@ -1,14 +1,33 @@
-public final class dev/kolibrium/selenium/core/CompositeLocatorsKt {
+public final class dev/kolibrium/selenium/Browser : java/lang/Enum {
+	public static final field Chrome Ldev/kolibrium/selenium/Browser;
+	public static final field Edge Ldev/kolibrium/selenium/Browser;
+	public static final field Firefox Ldev/kolibrium/selenium/Browser;
+	public static final field Safari Ldev/kolibrium/selenium/Browser;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/selenium/Browser;
+	public static fun values ()[Ldev/kolibrium/selenium/Browser;
+}
+
+public final class dev/kolibrium/selenium/CompositeLocatorsKt {
 	public static final fun anyOf ([Lorg/openqa/selenium/By;)Lorg/openqa/selenium/By;
 	public static final fun chained ([Lorg/openqa/selenium/By;)Lorg/openqa/selenium/By;
 }
 
-public class dev/kolibrium/selenium/core/ConfigurationException : java/lang/RuntimeException {
+public class dev/kolibrium/selenium/ConfigurationException : java/lang/RuntimeException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/Throwable;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
-public final class dev/kolibrium/selenium/core/LocatorDelegatesKt {
+public final class dev/kolibrium/selenium/DriverFactoriesKt {
+	public static final fun getHeadlessChrome ()Lkotlin/jvm/functions/Function0;
+	public static final fun getHeadlessEdge ()Lkotlin/jvm/functions/Function0;
+	public static final fun getHeadlessFirefox ()Lkotlin/jvm/functions/Function0;
+	public static final fun getInPrivateEdge ()Lkotlin/jvm/functions/Function0;
+	public static final fun getIncognitoChrome ()Lkotlin/jvm/functions/Function0;
+	public static final fun getIncognitoFirefox ()Lkotlin/jvm/functions/Function0;
+}
+
+public final class dev/kolibrium/selenium/LocatorDelegatesKt {
 	public static final fun className (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementDescriptor;
 	public static synthetic fun className$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;ZLdev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementDescriptor;
 	public static final fun classNames (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
@@ -59,7 +78,7 @@ public final class dev/kolibrium/selenium/core/LocatorDelegatesKt {
 	public static synthetic fun xpaths$default (Lorg/openqa/selenium/SearchContext;Ljava/lang/String;Ldev/kolibrium/webdriver/WaitConfig;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldev/kolibrium/webdriver/WebElementsDescriptor;
 }
 
-public abstract class dev/kolibrium/selenium/core/Page : org/openqa/selenium/SearchContext {
+public abstract class dev/kolibrium/selenium/Page : org/openqa/selenium/SearchContext {
 	protected fun <init> ()V
 	public fun assertReady ()V
 	public fun awaitReady ()V
@@ -71,7 +90,7 @@ public abstract class dev/kolibrium/selenium/core/Page : org/openqa/selenium/Sea
 	public fun getPath ()Ljava/lang/String;
 }
 
-public abstract class dev/kolibrium/selenium/core/Site {
+public abstract class dev/kolibrium/selenium/Site {
 	protected fun <init> (Ljava/lang/String;)V
 	public final fun getBaseUrl ()Ljava/lang/String;
 	public fun getCookies ()Ljava/util/Set;
@@ -83,116 +102,97 @@ public abstract class dev/kolibrium/selenium/core/Site {
 	public fun onSessionReady (Lorg/openqa/selenium/WebDriver;)V
 }
 
-public abstract class dev/kolibrium/selenium/core/decorators/AbstractDecorator {
+public abstract class dev/kolibrium/selenium/decorators/AbstractDecorator {
 	public fun <init> ()V
 }
 
-public final class dev/kolibrium/selenium/core/decorators/BorderStyle : java/lang/Enum {
-	public static final field Dashed Ldev/kolibrium/selenium/core/decorators/BorderStyle;
-	public static final field Dotted Ldev/kolibrium/selenium/core/decorators/BorderStyle;
-	public static final field Solid Ldev/kolibrium/selenium/core/decorators/BorderStyle;
+public final class dev/kolibrium/selenium/decorators/BorderStyle : java/lang/Enum {
+	public static final field Dashed Ldev/kolibrium/selenium/decorators/BorderStyle;
+	public static final field Dotted Ldev/kolibrium/selenium/decorators/BorderStyle;
+	public static final field Solid Ldev/kolibrium/selenium/decorators/BorderStyle;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/selenium/core/decorators/BorderStyle;
-	public static fun values ()[Ldev/kolibrium/selenium/core/decorators/BorderStyle;
+	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/selenium/decorators/BorderStyle;
+	public static fun values ()[Ldev/kolibrium/selenium/decorators/BorderStyle;
 }
 
-public final class dev/kolibrium/selenium/core/decorators/Color : java/lang/Enum {
-	public static final field Black Ldev/kolibrium/selenium/core/decorators/Color;
-	public static final field Blue Ldev/kolibrium/selenium/core/decorators/Color;
-	public static final field Gray Ldev/kolibrium/selenium/core/decorators/Color;
-	public static final field Green Ldev/kolibrium/selenium/core/decorators/Color;
-	public static final field Orange Ldev/kolibrium/selenium/core/decorators/Color;
-	public static final field Pink Ldev/kolibrium/selenium/core/decorators/Color;
-	public static final field Purple Ldev/kolibrium/selenium/core/decorators/Color;
-	public static final field Red Ldev/kolibrium/selenium/core/decorators/Color;
-	public static final field White Ldev/kolibrium/selenium/core/decorators/Color;
-	public static final field Yellow Ldev/kolibrium/selenium/core/decorators/Color;
+public final class dev/kolibrium/selenium/decorators/Color : java/lang/Enum {
+	public static final field Black Ldev/kolibrium/selenium/decorators/Color;
+	public static final field Blue Ldev/kolibrium/selenium/decorators/Color;
+	public static final field Gray Ldev/kolibrium/selenium/decorators/Color;
+	public static final field Green Ldev/kolibrium/selenium/decorators/Color;
+	public static final field Orange Ldev/kolibrium/selenium/decorators/Color;
+	public static final field Pink Ldev/kolibrium/selenium/decorators/Color;
+	public static final field Purple Ldev/kolibrium/selenium/decorators/Color;
+	public static final field Red Ldev/kolibrium/selenium/decorators/Color;
+	public static final field White Ldev/kolibrium/selenium/decorators/Color;
+	public static final field Yellow Ldev/kolibrium/selenium/decorators/Color;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/selenium/core/decorators/Color;
-	public static fun values ()[Ldev/kolibrium/selenium/core/decorators/Color;
+	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/selenium/decorators/Color;
+	public static fun values ()[Ldev/kolibrium/selenium/decorators/Color;
 }
 
-public final class dev/kolibrium/selenium/core/decorators/DecoratorManager {
-	public static final field INSTANCE Ldev/kolibrium/selenium/core/decorators/DecoratorManager;
-	public final fun addDecorators ([Ldev/kolibrium/selenium/core/decorators/AbstractDecorator;)V
+public final class dev/kolibrium/selenium/decorators/DecoratorManager {
+	public static final field INSTANCE Ldev/kolibrium/selenium/decorators/DecoratorManager;
+	public final fun addDecorators ([Ldev/kolibrium/selenium/decorators/AbstractDecorator;)V
 	public final fun clearDecorators ()V
-	public final fun withDecorators ([Ldev/kolibrium/selenium/core/decorators/AbstractDecorator;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+	public final fun withDecorators ([Ldev/kolibrium/selenium/decorators/AbstractDecorator;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
 }
 
-public final class dev/kolibrium/selenium/core/decorators/ElementStateCacheDecorator : dev/kolibrium/selenium/core/decorators/AbstractDecorator {
+public final class dev/kolibrium/selenium/decorators/ElementStateCacheDecorator : dev/kolibrium/selenium/decorators/AbstractDecorator {
 	public fun <init> ()V
 	public fun <init> (ZZZ)V
 	public synthetic fun <init> (ZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
-public final class dev/kolibrium/selenium/core/decorators/HighlighterDecorator : dev/kolibrium/selenium/core/decorators/AbstractDecorator, dev/kolibrium/selenium/core/decorators/InteractionAware {
+public final class dev/kolibrium/selenium/decorators/HighlighterDecorator : dev/kolibrium/selenium/decorators/AbstractDecorator, dev/kolibrium/selenium/decorators/InteractionAware {
 	public fun <init> ()V
-	public fun <init> (Ldev/kolibrium/selenium/core/decorators/BorderStyle;Ldev/kolibrium/selenium/core/decorators/Color;I)V
-	public synthetic fun <init> (Ldev/kolibrium/selenium/core/decorators/BorderStyle;Ldev/kolibrium/selenium/core/decorators/Color;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun <init> (Ldev/kolibrium/selenium/decorators/BorderStyle;Ldev/kolibrium/selenium/decorators/Color;I)V
+	public synthetic fun <init> (Ldev/kolibrium/selenium/decorators/BorderStyle;Ldev/kolibrium/selenium/decorators/Color;IILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun interactionListener ()Lorg/openqa/selenium/support/events/WebDriverListener;
 }
 
-public abstract interface class dev/kolibrium/selenium/core/decorators/InteractionAware {
+public abstract interface class dev/kolibrium/selenium/decorators/InteractionAware {
 	public abstract fun interactionListener ()Lorg/openqa/selenium/support/events/WebDriverListener;
 }
 
-public final class dev/kolibrium/selenium/core/decorators/LoggerDecorator : dev/kolibrium/selenium/core/decorators/AbstractDecorator, dev/kolibrium/selenium/core/decorators/InteractionAware {
+public final class dev/kolibrium/selenium/decorators/LoggerDecorator : dev/kolibrium/selenium/decorators/AbstractDecorator, dev/kolibrium/selenium/decorators/InteractionAware {
 	public fun <init> ()V
 	public fun interactionListener ()Lorg/openqa/selenium/support/events/WebDriverListener;
 }
 
-public final class dev/kolibrium/selenium/core/decorators/SlowMotionDecorator : dev/kolibrium/selenium/core/decorators/AbstractDecorator, dev/kolibrium/selenium/core/decorators/InteractionAware {
+public final class dev/kolibrium/selenium/decorators/SlowMotionDecorator : dev/kolibrium/selenium/decorators/AbstractDecorator, dev/kolibrium/selenium/decorators/InteractionAware {
 	public synthetic fun <init> (JILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun <init> (JLkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun interactionListener ()Lorg/openqa/selenium/support/events/WebDriverListener;
 }
 
-public final class dev/kolibrium/selenium/core/descriptors/DecoratedCompositeElementDescriptor : dev/kolibrium/webdriver/descriptors/CompositeElementDescriptor {
+public final class dev/kolibrium/selenium/descriptors/DecoratedCompositeElementDescriptor : dev/kolibrium/webdriver/descriptors/CompositeElementDescriptor {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/selenium/core/descriptors/DecoratedCompositeElementsDescriptor : dev/kolibrium/webdriver/descriptors/CompositeElementsDescriptor {
+public final class dev/kolibrium/selenium/descriptors/DecoratedCompositeElementsDescriptor : dev/kolibrium/webdriver/descriptors/CompositeElementsDescriptor {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/selenium/core/descriptors/DecoratedMultiElementsDescriptor : dev/kolibrium/webdriver/descriptors/MultiElementsDescriptor {
+public final class dev/kolibrium/selenium/descriptors/DecoratedMultiElementsDescriptor : dev/kolibrium/webdriver/descriptors/MultiElementsDescriptor {
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/kolibrium/selenium/core/descriptors/DecoratedSingleElementDescriptor : dev/kolibrium/webdriver/descriptors/SingleElementDescriptor {
+public final class dev/kolibrium/selenium/descriptors/DecoratedSingleElementDescriptor : dev/kolibrium/webdriver/descriptors/SingleElementDescriptor {
 	public fun toString ()Ljava/lang/String;
-}
-
-public final class dev/kolibrium/selenium/dsl/Browser : java/lang/Enum {
-	public static final field Chrome Ldev/kolibrium/selenium/dsl/Browser;
-	public static final field Edge Ldev/kolibrium/selenium/dsl/Browser;
-	public static final field Firefox Ldev/kolibrium/selenium/dsl/Browser;
-	public static final field Safari Ldev/kolibrium/selenium/dsl/Browser;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Ldev/kolibrium/selenium/dsl/Browser;
-	public static fun values ()[Ldev/kolibrium/selenium/dsl/Browser;
-}
-
-public final class dev/kolibrium/selenium/dsl/DriverFactoriesKt {
-	public static final fun getHeadlessChrome ()Lkotlin/jvm/functions/Function0;
-	public static final fun getHeadlessEdge ()Lkotlin/jvm/functions/Function0;
-	public static final fun getHeadlessFirefox ()Lkotlin/jvm/functions/Function0;
-	public static final fun getInPrivateEdge ()Lkotlin/jvm/functions/Function0;
-	public static final fun getIncognitoChrome ()Lkotlin/jvm/functions/Function0;
-	public static final fun getIncognitoFirefox ()Lkotlin/jvm/functions/Function0;
 }
 
 public final class dev/kolibrium/selenium/dsl/PageScope {
-	public final fun getPage ()Ldev/kolibrium/selenium/core/Page;
+	public final fun getPage ()Ldev/kolibrium/selenium/Page;
 	public final fun on (Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
 	public final fun then (Lkotlin/jvm/functions/Function1;)Ldev/kolibrium/selenium/dsl/PageScope;
 }
 
 public final class dev/kolibrium/selenium/dsl/SeleniumTestKt {
-	public static final fun seleniumTest (Ldev/kolibrium/selenium/core/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)V
-	public static final fun seleniumTest (Ldev/kolibrium/selenium/core/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function3;)V
-	public static synthetic fun seleniumTest$default (Ldev/kolibrium/selenium/core/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
-	public static synthetic fun seleniumTest$default (Ldev/kolibrium/selenium/core/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
+	public static final fun seleniumTest (Ldev/kolibrium/selenium/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;)V
+	public static final fun seleniumTest (Ldev/kolibrium/selenium/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function3;)V
+	public static synthetic fun seleniumTest$default (Ldev/kolibrium/selenium/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
+	public static synthetic fun seleniumTest$default (Ldev/kolibrium/selenium/Site;Lkotlin/jvm/functions/Function0;ZLkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
 }
 
 public final class dev/kolibrium/selenium/dsl/SiteScope {
@@ -381,7 +381,7 @@ public abstract class dev/kolibrium/selenium/dsl/creation/DriverServiceScope {
 
 public final class dev/kolibrium/selenium/dsl/creation/DriverServicesKt {
 	public static final fun chromeDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/chrome/ChromeDriverService;
-	public static final fun driverService (Ldev/kolibrium/selenium/dsl/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/service/DriverService;
+	public static final fun driverService (Ldev/kolibrium/selenium/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/service/DriverService;
 	public static final fun edgeDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/edge/EdgeDriverService;
 	public static final fun geckoDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/firefox/GeckoDriverService;
 	public static final fun safariDriverService (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/safari/SafariDriverService;
@@ -558,7 +558,7 @@ public final class dev/kolibrium/selenium/dsl/creation/OptionsKt {
 	public static final fun chromeOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/chrome/ChromeOptions;
 	public static final fun edgeOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/edge/EdgeOptions;
 	public static final fun firefoxOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/firefox/FirefoxOptions;
-	public static final fun options (Ldev/kolibrium/selenium/dsl/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/AbstractDriverOptions;
+	public static final fun options (Ldev/kolibrium/selenium/Browser;Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/remote/AbstractDriverOptions;
 	public static final fun safariOptions (Lkotlin/jvm/functions/Function1;)Lorg/openqa/selenium/safari/SafariOptions;
 }
 

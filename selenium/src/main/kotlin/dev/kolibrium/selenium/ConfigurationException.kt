@@ -14,29 +14,22 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.dsl
+package dev.kolibrium.selenium
+
+import dev.kolibrium.webdriver.InternalKolibriumApi
 
 /**
- * Represents different web browsers.
+ * Used to throw a [RuntimeException] when there is a configuration error within Kolibrium.
+ *
+ * **Note:** This class is part of the internal API and should not be used outside of Kolibrium.
+ *
+ * @param message The detail message explaining the configuration error.
+ * @param cause The underlying cause of the exception, or `null` if none.
+ *
+ * @see RuntimeException
  */
-public enum class Browser {
-    /**
-     * Google Chrome browser.
-     */
-    Chrome,
-
-    /**
-     * Microsoft Edge browser.
-     */
-    Edge,
-
-    /**
-     * Mozilla Firefox browser.
-     */
-    Firefox,
-
-    /**
-     * Apple Safari browser.
-     */
-    Safari,
-}
+@InternalKolibriumApi
+public open class ConfigurationException(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause)

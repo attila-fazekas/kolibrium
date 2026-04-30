@@ -14,18 +14,29 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.selenium
 
-internal object SiteContextHolder {
-    private val tl: ThreadLocal<Site?> = ThreadLocal()
+/**
+ * Represents different web browsers.
+ */
+public enum class Browser {
+    /**
+     * Google Chrome browser.
+     */
+    Chrome,
 
-    internal fun get(): Site? = tl.get()
+    /**
+     * Microsoft Edge browser.
+     */
+    Edge,
 
-    internal fun set(site: Site) {
-        tl.set(site)
-    }
+    /**
+     * Mozilla Firefox browser.
+     */
+    Firefox,
 
-    internal fun clear() {
-        tl.remove()
-    }
+    /**
+     * Apple Safari browser.
+     */
+    Safari,
 }

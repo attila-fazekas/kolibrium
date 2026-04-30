@@ -16,9 +16,9 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages
 
-import dev.kolibrium.selenium.core.Page
-import dev.kolibrium.selenium.core.className
-import dev.kolibrium.selenium.core.dataTests
+import dev.kolibrium.selenium.Page
+import dev.kolibrium.selenium.className
+import dev.kolibrium.selenium.dataTests
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.Products
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.SauceDemo
 

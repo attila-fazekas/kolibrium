@@ -16,9 +16,9 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages
 
-import dev.kolibrium.selenium.core.className
-import dev.kolibrium.selenium.core.id
+import dev.kolibrium.selenium.className
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.Product
+import dev.kolibrium.selenium.id
 import org.openqa.selenium.WebElement
 
 class Item(

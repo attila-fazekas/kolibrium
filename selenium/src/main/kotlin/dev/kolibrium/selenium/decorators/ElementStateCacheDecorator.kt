@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core.decorators
+package dev.kolibrium.selenium.decorators
 
 import dev.kolibrium.webdriver.WebElements
 import org.openqa.selenium.By

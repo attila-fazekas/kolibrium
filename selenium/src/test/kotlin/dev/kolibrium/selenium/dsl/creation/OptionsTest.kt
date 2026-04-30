@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.Browser
+import dev.kolibrium.selenium.Browser
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.incognito
 import dev.kolibrium.selenium.dsl.creation.ExperimentalFlags.cookies_without_same_site_must_be_secure

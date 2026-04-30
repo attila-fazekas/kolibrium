@@ -16,9 +16,10 @@
 
 package dev.kolibrium.selenium.dsl
 
-import dev.kolibrium.selenium.core.Site
-import dev.kolibrium.selenium.core.SiteContextHolder
-import dev.kolibrium.selenium.core.WebDriverContextHolder
+import dev.kolibrium.selenium.DriverFactory
+import dev.kolibrium.selenium.Site
+import dev.kolibrium.selenium.SiteContextHolder
+import dev.kolibrium.selenium.WebDriverContextHolder
 import kotlinx.coroutines.runBlocking
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver

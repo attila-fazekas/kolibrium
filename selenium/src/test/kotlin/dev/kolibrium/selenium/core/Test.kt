@@ -16,7 +16,13 @@
 
 package dev.kolibrium.selenium.core
 
-import dev.kolibrium.selenium.core.decorators.HighlighterDecorator
+import dev.kolibrium.selenium.Page
+import dev.kolibrium.selenium.Site
+import dev.kolibrium.selenium.SiteContextHolder
+import dev.kolibrium.selenium.WebDriverContextHolder
+import dev.kolibrium.selenium.decorators.HighlighterDecorator
+import dev.kolibrium.selenium.idOrName
+import dev.kolibrium.selenium.name
 import dev.kolibrium.webdriver.WaitConfig
 import org.openqa.selenium.Cookie
 import org.openqa.selenium.WebDriver

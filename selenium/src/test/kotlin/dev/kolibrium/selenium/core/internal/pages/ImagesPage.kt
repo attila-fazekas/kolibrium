@@ -16,8 +16,7 @@
 
 package dev.kolibrium.selenium.core.internal.pages
 
-import dev.kolibrium.selenium.core.KPage
-import dev.kolibrium.selenium.core.names
+import dev.kolibrium.selenium.names
 import org.openqa.selenium.WebDriver
 
 class ImagesPage(

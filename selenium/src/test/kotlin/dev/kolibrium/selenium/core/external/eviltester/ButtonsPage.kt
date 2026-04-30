@@ -16,9 +16,8 @@
 
 package dev.kolibrium.selenium.core.external.eviltester
 
-import dev.kolibrium.selenium.core.KPage
-import dev.kolibrium.selenium.core.cssSelector
-import dev.kolibrium.selenium.core.id
+import dev.kolibrium.selenium.cssSelector
+import dev.kolibrium.selenium.id
 import org.openqa.selenium.WebDriver
 
 class ButtonsPage(

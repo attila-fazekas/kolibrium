@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core.descriptors
+package dev.kolibrium.selenium.descriptors
 
-import dev.kolibrium.selenium.core.decorators.AbstractDecorator
-import dev.kolibrium.selenium.core.decorators.DecoratorResolver
+import dev.kolibrium.selenium.decorators.AbstractDecorator
+import dev.kolibrium.selenium.decorators.DecoratorResolver
 import dev.kolibrium.webdriver.InternalKolibriumApi
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.descriptors.CompositeElementDescriptor

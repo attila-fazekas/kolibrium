@@ -16,8 +16,8 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.pages
 
-import dev.kolibrium.selenium.core.Page
-import dev.kolibrium.selenium.core.cssSelector
+import dev.kolibrium.selenium.Page
+import dev.kolibrium.selenium.cssSelector
 import dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.BrowserStackDemo
 import dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.Click
 import dev.kolibrium.selenium.dsl.seleniumTest.browserstackdemo.on

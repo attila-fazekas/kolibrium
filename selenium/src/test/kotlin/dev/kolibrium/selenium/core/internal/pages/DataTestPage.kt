@@ -16,8 +16,7 @@
 
 package dev.kolibrium.selenium.core.internal.pages
 
-import dev.kolibrium.selenium.core.KPage
-import dev.kolibrium.selenium.core.dataTest
+import dev.kolibrium.selenium.dataTest
 import org.openqa.selenium.WebDriver
 
 class DataTestPage(

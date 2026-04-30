@@ -16,9 +16,9 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.Browser.Chrome
-import dev.kolibrium.selenium.dsl.Browser.Edge
-import dev.kolibrium.selenium.dsl.Browser.Firefox
+import dev.kolibrium.selenium.Browser.Chrome
+import dev.kolibrium.selenium.Browser.Edge
+import dev.kolibrium.selenium.Browser.Firefox
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.headless
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.incognito

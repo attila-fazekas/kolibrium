@@ -16,12 +16,12 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages
 
-import dev.kolibrium.selenium.core.Page
-import dev.kolibrium.selenium.core.dataTest
-import dev.kolibrium.selenium.core.idOrName
-import dev.kolibrium.selenium.core.name
+import dev.kolibrium.selenium.Page
+import dev.kolibrium.selenium.dataTest
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.SauceDemo
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.User
+import dev.kolibrium.selenium.idOrName
+import dev.kolibrium.selenium.name
 import org.openqa.selenium.WebDriver
 
 class LoginPage : Page<SauceDemo>() {
