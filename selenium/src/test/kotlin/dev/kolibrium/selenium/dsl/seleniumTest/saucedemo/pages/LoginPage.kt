@@ -17,29 +17,40 @@
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages
 
 import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.core.dataTest
 import dev.kolibrium.selenium.core.idOrName
 import dev.kolibrium.selenium.core.name
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.SauceDemo
+import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.User
 import org.openqa.selenium.WebDriver
 
 class LoginPage : Page<SauceDemo>() {
-    private val usernameInput = name("user-name")
+    private val usernameInput by name("user-name")
     private val passwordInput by idOrName("password")
     private val loginButton by name("login-button")
 
+    private val error by dataTest("error")
+
     fun login(
-        username: String = "standard_user",
-        password: String = "secret_sauce",
+        user: User = User.Standard,
     ) {
-        println(usernameInput.toString())
-        usernameInput.get().sendKeys(username)
+        login(username = user.username, password = user.password)
+    }
+
+    fun login(
+        username: String = User.Standard.username,
+        password: String = User.Standard.password,
+    ) {
+        usernameInput.sendKeys(username)
         passwordInput.sendKeys(password)
         loginButton.click()
     }
 
-    fun loginAsLockedUser() {
-        login("locked_out_user", "secret_sauce")
+    fun loginAsLockedOutUser() {
+        login(User.LockedOut.username)
     }
+
+    fun errorText(): String = error.text
 
     companion object {
         context(driver: WebDriver)

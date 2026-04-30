@@ -52,6 +52,7 @@ tasks.withType<KotlinCompile>().configureEach {
         freeCompilerArgs.addAll(
             "-Xfriend-paths=${project(":selenium").projectDir}",
             "-Xcontext-parameters",
+//            "-Xexplicit-backing-fields",
         )
         optIn.addAll(
             "dev.kolibrium.webdriver.InternalKolibriumApi",
