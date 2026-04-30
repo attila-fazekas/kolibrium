@@ -16,6 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo
 
+import com.titusfortner.logging.SeleniumLogger
 import dev.kolibrium.selenium.dsl.DriverFactory
 import dev.kolibrium.selenium.dsl.SiteScope
 import dev.kolibrium.selenium.dsl.creation.Arguments.Chrome.disable_search_engine_choice_screen
@@ -33,7 +34,6 @@ import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.LoginPage
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.openqa.selenium.chrome.ChromeDriver
 
 class SauceDemoTest {
     companion object {
@@ -45,12 +45,10 @@ class SauceDemoTest {
     }
 
     @Test
-    fun `seleniumTest used with PageEntry's open() function`() =
+    fun `login should succeed with default credentials`() =
         seleniumTest(
             site = SauceDemo,
             keepBrowserOpen = false,
-            driverFactory = ::ChromeDriver,
-            setUp = { },
         ) {
             on(::LoginPage) {
                 login()
@@ -58,7 +56,34 @@ class SauceDemoTest {
         }
 
     @Test
-    fun `sauceDemoTest used with PageEntry's open() function`() =
+    fun `login should fail with locked out credentials`() =
+        seleniumTest(
+            site = SauceDemo,
+            keepBrowserOpen = false,
+        ) {
+            on(::LoginPage) {
+                loginAsLockedOutUser()
+
+                errorText() shouldBe "Epic sadface: Sorry, this user has been locked out."
+            }
+        }
+
+    @Test
+    fun `user should be able to add products to cart after bypassing login`() =
+        seleniumTest(
+            site = SauceDemo,
+            keepBrowserOpen = false,
+        ) {
+            loginAs(User.Standard)
+
+            on(::InventoryPage) {
+                val products = listOf(Backpack, BikeLight)
+                products.addToCart()
+            }
+        }
+
+    @Test
+    fun `shopping cart should contain all added products with correct details`() =
         sauceDemoTest(
             keepBrowserOpen = false,
         ) {
@@ -85,7 +110,7 @@ class SauceDemoTest {
         }
 
     @Test
-    fun `authenticatedSauceDemoTest used with PageEntry's open() function and chained() `() =
+    fun `authenticated user should be able to checkout multiple products`() =
         authenticatedSauceDemoTest(
             keepBrowserOpen = false,
         ) {
@@ -131,20 +156,15 @@ class SauceDemoTest {
         site = SauceDemo,
         keepBrowserOpen = keepBrowserOpen,
         driverFactory = driverFactory,
-        setUp = { user.acquireCredentials() },
-        tearDown = { },
-        block = { username ->
-            loginAs(username)
+        block = {
+            loginAs(user)
             block()
         },
     )
 
-    // Imitating backend call to acquire credentials
-    private fun User.acquireCredentials(): String = username
-
-    private fun SiteScope<SauceDemo>.loginAs(username: String) {
+    private fun SiteScope<SauceDemo>.loginAs(user: User) {
         cookies {
-            addCookie("session-username", username)
+            addCookie("session-username", user.username)
         }
     }
 

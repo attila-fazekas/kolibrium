@@ -21,6 +21,7 @@ import dev.kolibrium.selenium.core.SiteContextHolder
 import dev.kolibrium.selenium.core.WebDriverContextHolder
 import kotlinx.coroutines.runBlocking
 import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.ChromeDriver
 
 /**
  * Unified test harness that creates a WebDriver session for the given [Site] and runs the test flow.
@@ -51,7 +52,7 @@ import org.openqa.selenium.WebDriver
  * @param S The concrete site type bound to this test.
  * @param T The type of the prepared input value passed to [block].
  * @param site The site under test; establishes the base URL and defaults.
- * @param driverFactory Factory creating a WebDriver instance.
+ * @param driverFactory Factory creating a WebDriver instance. Defaults to ChromeDriver.
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param setUp Suspending block that computes the input [T] before the browser session is created.
  * @param tearDown Suspending block that cleans up the test context after the test body; runs even if the test fails.
@@ -59,7 +60,7 @@ import org.openqa.selenium.WebDriver
  */
 public fun <S : Site, T> seleniumTest(
     site: S,
-    driverFactory: DriverFactory,
+    driverFactory: DriverFactory = ::ChromeDriver,
     keepBrowserOpen: Boolean = false,
     setUp: suspend () -> T,
     tearDown: suspend (T) -> Unit = {},
@@ -76,13 +77,13 @@ public fun <S : Site, T> seleniumTest(
  *
  * @param S The concrete site type bound to this test.
  * @param site The site under test.
- * @param driverFactory Factory creating a WebDriver instance.
+ * @param driverFactory Factory creating a WebDriver instance. Defaults to ChromeDriver.
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
  * @param block Suspending main test body executed with a [SiteScope] receiver.
  */
 public fun <S : Site> seleniumTest(
     site: S,
-    driverFactory: DriverFactory,
+    driverFactory: DriverFactory = ::ChromeDriver,
     keepBrowserOpen: Boolean = false,
     block: suspend SiteScope<S>.(Unit) -> Unit,
 ) {

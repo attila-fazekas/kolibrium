@@ -18,6 +18,7 @@ package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo
 
 enum class User(
     val username: String,
+    val password: String = "secret_sauce",
 ) {
     Standard("standard_user"),
     LockedOut("locked_out_user"),

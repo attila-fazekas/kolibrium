@@ -54,7 +54,7 @@ public class SiteScope<S : Site> internal constructor(
      * Navigate to a page created by [factory], wait for readiness, and execute [action].
      *
      * Navigation behavior is determined by the effective path:
-     * - If [path] parameter is provided, it overrides the page's declared path (useful for deep links).
+     * - If [path] parameter is provided, it overrides the page's declared path.
      * - If the effective path is non-empty, navigates to `baseUrl + effectivePath`.
      * - If the effective path is empty, no navigation occurs (page is already loaded or reached via interaction).
      *
