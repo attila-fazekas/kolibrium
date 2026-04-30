@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.selenium
 
-import dev.kolibrium.selenium.core.decorators.AbstractDecorator
+import dev.kolibrium.selenium.decorators.AbstractDecorator
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElements
 import dev.kolibrium.webdriver.isNotEmptyAndDisplayed
@@ -84,10 +84,10 @@ public abstract class Site protected constructor(
      * Decorators can add behavior like highlighting or slow motion to Selenium operations.
      *
      * Merging rules with test-level decorators:
-     * - Site-level decorators are merged with test-level decorators registered via [dev.kolibrium.selenium.core.decorators.DecoratorManager].
+     * - Site-level decorators are merged with test-level decorators registered via [dev.kolibrium.selenium.decorators.DecoratorManager].
      * - De-duplication is by decorator class; when both are present, the test-level instance wins.
      * - Order is deterministic: site-level first, then test-level (after de-duplication).
-     * - If any decorator is [dev.kolibrium.selenium.core.decorators.InteractionAware], their [WebDriver] listeners are
+     * - If any decorator is [dev.kolibrium.selenium.decorators.InteractionAware], their [WebDriver] listeners are
      *   multiplexed behind a single Selenium [org.openqa.selenium.support.events.EventFiringDecorator] proxy so only one
      *   [WebDriver] wrapper is used per session.
      */

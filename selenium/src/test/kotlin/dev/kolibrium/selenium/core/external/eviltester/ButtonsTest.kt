@@ -16,8 +16,8 @@
 
 package dev.kolibrium.selenium.core.external.eviltester
 
-import dev.kolibrium.selenium.core.cssSelector
-import dev.kolibrium.selenium.core.id
+import dev.kolibrium.selenium.cssSelector
+import dev.kolibrium.selenium.id
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeAll

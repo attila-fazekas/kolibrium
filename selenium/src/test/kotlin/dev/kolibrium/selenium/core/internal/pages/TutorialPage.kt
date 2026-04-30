@@ -16,23 +16,22 @@
 
 package dev.kolibrium.selenium.core.internal.pages
 
-import dev.kolibrium.selenium.core.KPage
-import dev.kolibrium.selenium.core.className
-import dev.kolibrium.selenium.core.classNames
-import dev.kolibrium.selenium.core.cssSelector
-import dev.kolibrium.selenium.core.cssSelectors
-import dev.kolibrium.selenium.core.id
-import dev.kolibrium.selenium.core.idOrName
-import dev.kolibrium.selenium.core.linkText
-import dev.kolibrium.selenium.core.linkTexts
-import dev.kolibrium.selenium.core.name
-import dev.kolibrium.selenium.core.names
-import dev.kolibrium.selenium.core.partialLinkText
-import dev.kolibrium.selenium.core.partialLinkTexts
-import dev.kolibrium.selenium.core.tagName
-import dev.kolibrium.selenium.core.tagNames
-import dev.kolibrium.selenium.core.xpath
-import dev.kolibrium.selenium.core.xpaths
+import dev.kolibrium.selenium.className
+import dev.kolibrium.selenium.classNames
+import dev.kolibrium.selenium.cssSelector
+import dev.kolibrium.selenium.cssSelectors
+import dev.kolibrium.selenium.id
+import dev.kolibrium.selenium.idOrName
+import dev.kolibrium.selenium.linkText
+import dev.kolibrium.selenium.linkTexts
+import dev.kolibrium.selenium.name
+import dev.kolibrium.selenium.names
+import dev.kolibrium.selenium.partialLinkText
+import dev.kolibrium.selenium.partialLinkTexts
+import dev.kolibrium.selenium.tagName
+import dev.kolibrium.selenium.tagNames
+import dev.kolibrium.selenium.xpath
+import dev.kolibrium.selenium.xpaths
 import org.openqa.selenium.WebDriver
 
 class TutorialPage(

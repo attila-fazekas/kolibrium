@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.core.internal
 
-import dev.kolibrium.selenium.core.className
+import dev.kolibrium.selenium.className
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test

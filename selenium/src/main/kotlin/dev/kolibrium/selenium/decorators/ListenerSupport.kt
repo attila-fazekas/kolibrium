@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core.decorators
+package dev.kolibrium.selenium.decorators
 
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
@@ -23,7 +23,7 @@ import org.openqa.selenium.WrapsDriver
 import org.openqa.selenium.support.events.WebDriverListener
 
 /**
- * Interface for decorators that want to receive [org.openqa.selenium.WebDriver] interaction callbacks.
+ * Interface for decorators that want to receive [WebDriver] interaction callbacks.
  */
 public interface InteractionAware {
     /**

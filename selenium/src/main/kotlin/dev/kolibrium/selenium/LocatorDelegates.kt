@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core
+package dev.kolibrium.selenium
 
-import dev.kolibrium.selenium.core.descriptors.DecoratedCompositeElementDescriptor
-import dev.kolibrium.selenium.core.descriptors.DecoratedCompositeElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.DecoratedMultiElementsDescriptor
-import dev.kolibrium.selenium.core.descriptors.DecoratedSingleElementDescriptor
+import dev.kolibrium.selenium.descriptors.DecoratedCompositeElementDescriptor
+import dev.kolibrium.selenium.descriptors.DecoratedCompositeElementsDescriptor
+import dev.kolibrium.selenium.descriptors.DecoratedMultiElementsDescriptor
+import dev.kolibrium.selenium.descriptors.DecoratedSingleElementDescriptor
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WebElementDescriptor
 import dev.kolibrium.webdriver.WebElements
@@ -59,7 +59,7 @@ import kotlin.properties.ReadOnlyProperty
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.className(
@@ -105,7 +105,7 @@ public fun SearchContext.className(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.classNames(
@@ -149,7 +149,7 @@ public fun SearchContext.classNames(
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.cssSelector(
@@ -193,7 +193,7 @@ public fun SearchContext.cssSelector(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.cssSelectors(
@@ -237,7 +237,7 @@ public fun SearchContext.cssSelectors(
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.dataQa(
@@ -278,7 +278,7 @@ public fun SearchContext.dataQa(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.dataQas(
@@ -319,7 +319,7 @@ public fun SearchContext.dataQas(
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.dataTest(
@@ -360,7 +360,7 @@ public fun SearchContext.dataTest(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.dataTests(
@@ -401,7 +401,7 @@ public fun SearchContext.dataTests(
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.dataTestId(
@@ -442,7 +442,7 @@ public fun SearchContext.dataTestId(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.dataTestIds(
@@ -485,7 +485,7 @@ private fun String.escapeCssAttr(): String = replace("\\", "\\\\").replace("\"",
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.id(
@@ -531,7 +531,7 @@ public fun SearchContext.id(
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  * @see ByIdOrName
  */
@@ -578,7 +578,7 @@ public fun SearchContext.idOrName(
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.linkText(
@@ -622,7 +622,7 @@ public fun SearchContext.linkText(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.linkTexts(
@@ -666,7 +666,7 @@ public fun SearchContext.linkTexts(
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.name(
@@ -710,7 +710,7 @@ public fun SearchContext.name(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.names(
@@ -754,7 +754,7 @@ public fun SearchContext.names(
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.partialLinkText(
@@ -798,7 +798,7 @@ public fun SearchContext.partialLinkText(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.partialLinkTexts(
@@ -842,7 +842,7 @@ public fun SearchContext.partialLinkTexts(
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.tagName(
@@ -886,7 +886,7 @@ public fun SearchContext.tagName(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.tagNames(
@@ -930,7 +930,7 @@ public fun SearchContext.tagNames(
  *                       displayed using [dev.kolibrium.webdriver.isDisplayed].
  * @return A [ReadOnlyProperty] delegate that provides a [WebElement] when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.xpath(
@@ -974,7 +974,7 @@ public fun SearchContext.xpath(
  *                       to be non-empty and all elements to be displayed.
  * @return A [ReadOnlyProperty] delegate that provides a [WebElements] collection when accessed.
  *
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.xpaths(
@@ -1022,7 +1022,7 @@ public fun SearchContext.xpaths(
  *
  * @see chained
  * @see anyOf
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElement
  */
 public fun SearchContext.element(
@@ -1070,7 +1070,7 @@ public fun SearchContext.element(
  *
  * @see chained
  * @see anyOf
- * @see dev.kolibrium.webdriver.WaitConfig
+ * @see WaitConfig
  * @see WebElements
  */
 public fun SearchContext.elements(

@@ -16,8 +16,8 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages
 
-import dev.kolibrium.selenium.core.Page
-import dev.kolibrium.selenium.core.dataTest
+import dev.kolibrium.selenium.Page
+import dev.kolibrium.selenium.dataTest
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.SauceDemo
 
 // Return the current page so callers can continue fluent chains that expect a Page

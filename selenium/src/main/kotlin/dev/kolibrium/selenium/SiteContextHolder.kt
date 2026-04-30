@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core.internal.pages
+package dev.kolibrium.selenium
 
-import dev.kolibrium.selenium.id
-import org.openqa.selenium.WebDriver
+internal object SiteContextHolder {
+    private val tl: ThreadLocal<Site?> = ThreadLocal()
 
-class DynamicElementPage(
-    driver: WebDriver,
-) : dev.kolibrium.selenium.core.KPage(driver) {
-    val makeVisibleButton by id("make-visible")
+    internal fun get(): Site? = tl.get()
 
-    val removeLoadingButton by id("remove-loading")
+    internal fun set(site: Site) {
+        tl.set(site)
+    }
 
-    val updateTextButton by id("update-text")
-
-    val dynamicElement by id("dynamic-content") {
-        isDisplayed &&
-            getAttribute("class")?.contains("loading") == false &&
-            text.contains("Ready")
+    internal fun clear() {
+        tl.remove()
     }
 }

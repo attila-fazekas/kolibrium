@@ -16,11 +16,11 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages
 
-import dev.kolibrium.selenium.core.Page
-import dev.kolibrium.selenium.core.dataTest
-import dev.kolibrium.selenium.core.dataTests
-import dev.kolibrium.selenium.core.idOrName
+import dev.kolibrium.selenium.Page
+import dev.kolibrium.selenium.dataTest
+import dev.kolibrium.selenium.dataTests
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.SauceDemo
+import dev.kolibrium.selenium.idOrName
 import org.openqa.selenium.WebElement
 
 class CartPage : Page<SauceDemo>() {

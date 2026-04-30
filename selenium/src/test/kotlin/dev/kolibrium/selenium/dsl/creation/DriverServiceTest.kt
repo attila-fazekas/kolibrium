@@ -16,10 +16,10 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.dsl.Browser
-import dev.kolibrium.selenium.dsl.Browser.Chrome
-import dev.kolibrium.selenium.dsl.Browser.Edge
-import dev.kolibrium.selenium.dsl.Browser.Firefox
+import dev.kolibrium.selenium.Browser
+import dev.kolibrium.selenium.Browser.Chrome
+import dev.kolibrium.selenium.Browser.Edge
+import dev.kolibrium.selenium.Browser.Firefox
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder

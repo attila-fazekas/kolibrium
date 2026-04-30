@@ -16,8 +16,9 @@
 
 package dev.kolibrium.selenium.core.descriptors
 
-import dev.kolibrium.selenium.core.SiteContextHolder
-import dev.kolibrium.selenium.core.WebDriverContextHolder
+import dev.kolibrium.selenium.SiteContextHolder
+import dev.kolibrium.selenium.WebDriverContextHolder
+import dev.kolibrium.selenium.descriptors.DecoratedCompositeElementsDescriptor
 import dev.kolibrium.webdriver.WaitConfig
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.collections.shouldHaveSize

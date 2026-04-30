@@ -16,6 +16,8 @@
 
 package dev.kolibrium.selenium.core
 
+import dev.kolibrium.selenium.anyOf
+import dev.kolibrium.selenium.chained
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.jupiter.api.Test

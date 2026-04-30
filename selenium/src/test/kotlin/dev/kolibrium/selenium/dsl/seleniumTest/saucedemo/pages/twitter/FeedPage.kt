@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.pages.twitter
 
-import dev.kolibrium.selenium.core.Page
+import dev.kolibrium.selenium.Page
 import dev.kolibrium.selenium.dsl.seleniumTest.saucedemo.Twitter
 import io.kotest.matchers.shouldBe
 

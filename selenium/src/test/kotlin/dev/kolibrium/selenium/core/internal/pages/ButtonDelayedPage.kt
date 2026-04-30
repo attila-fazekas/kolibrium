@@ -16,8 +16,7 @@
 
 package dev.kolibrium.selenium.core.internal.pages
 
-import dev.kolibrium.selenium.core.KPage
-import dev.kolibrium.selenium.core.id
+import dev.kolibrium.selenium.id
 import dev.kolibrium.webdriver.isClickable
 import org.openqa.selenium.WebDriver
 

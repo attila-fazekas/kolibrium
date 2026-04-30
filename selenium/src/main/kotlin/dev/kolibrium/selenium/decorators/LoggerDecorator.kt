@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.selenium.core.decorators
+package dev.kolibrium.selenium.decorators
 
 import dev.kolibrium.webdriver.WebElements
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -39,7 +39,7 @@ private const val ELLIPSIS = "…"
  *
  * Logging points:
  * - `findElement(s)` on any [SearchContext] (driver or element)
- * - before click and sendKeys via [org.openqa.selenium.support.events.WebDriverListener]
+ * - before click and sendKeys via [WebDriverListener]
  *   (if context is a [org.openqa.selenium.WebDriver])
  */
 public class LoggerDecorator :

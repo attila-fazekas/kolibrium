@@ -16,7 +16,7 @@
 
 package dev.kolibrium.selenium.dsl.creation
 
-import dev.kolibrium.selenium.core.ConfigurationException
+import dev.kolibrium.selenium.ConfigurationException
 
 /**
  * Exception thrown when there is an error in the DSL configuration.

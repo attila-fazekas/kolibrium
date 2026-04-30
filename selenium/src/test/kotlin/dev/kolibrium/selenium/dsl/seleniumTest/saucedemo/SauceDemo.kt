@@ -16,13 +16,13 @@
 
 package dev.kolibrium.selenium.dsl.seleniumTest.saucedemo
 
-import dev.kolibrium.selenium.core.Site
-import dev.kolibrium.selenium.core.decorators.AbstractDecorator
-import dev.kolibrium.selenium.core.decorators.BorderStyle
-import dev.kolibrium.selenium.core.decorators.Color
-import dev.kolibrium.selenium.core.decorators.HighlighterDecorator
-import dev.kolibrium.selenium.core.decorators.LoggerDecorator
-import dev.kolibrium.selenium.core.decorators.SlowMotionDecorator
+import dev.kolibrium.selenium.Site
+import dev.kolibrium.selenium.decorators.AbstractDecorator
+import dev.kolibrium.selenium.decorators.BorderStyle
+import dev.kolibrium.selenium.decorators.Color
+import dev.kolibrium.selenium.decorators.HighlighterDecorator
+import dev.kolibrium.selenium.decorators.LoggerDecorator
+import dev.kolibrium.selenium.decorators.SlowMotionDecorator
 import dev.kolibrium.webdriver.WaitConfig
 import dev.kolibrium.webdriver.WaitConfig.Companion.Quick
 import dev.kolibrium.webdriver.isClickable

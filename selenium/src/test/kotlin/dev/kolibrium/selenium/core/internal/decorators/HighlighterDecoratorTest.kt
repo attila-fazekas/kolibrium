@@ -16,13 +16,12 @@
 
 package dev.kolibrium.selenium.core.internal.decorators
 
-import dev.kolibrium.selenium.core.decorators.BorderStyle
-import dev.kolibrium.selenium.core.decorators.Color
-import dev.kolibrium.selenium.core.decorators.DecoratorManager
-import dev.kolibrium.selenium.core.decorators.HighlighterDecorator
-import dev.kolibrium.selenium.core.decorators.LoggerDecorator
-import dev.kolibrium.selenium.core.decorators.SlowMotionDecorator
-import dev.kolibrium.selenium.core.internal.BaseTest
+import dev.kolibrium.selenium.decorators.BorderStyle
+import dev.kolibrium.selenium.decorators.Color
+import dev.kolibrium.selenium.decorators.DecoratorManager
+import dev.kolibrium.selenium.decorators.HighlighterDecorator
+import dev.kolibrium.selenium.decorators.LoggerDecorator
+import dev.kolibrium.selenium.decorators.SlowMotionDecorator
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
