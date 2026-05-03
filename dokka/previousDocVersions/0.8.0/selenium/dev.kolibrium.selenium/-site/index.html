@@ -1,0 +1,257 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Site</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../index.html" tabindex="1">
+                    kolibrium
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;dev.kolibrium.selenium/-site/index.html&quot;}"><div class="dropdown versions-dropdown" data-role="dropdown">
+  <div class="button button_dropdown versions-dropdown-button" role="combobox" data-role="dropdown-toggle" aria-controls="versions-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Select version" tabindex="0" title="0.8.0"><span class="versions-dropdown-button-text">0.8.0</span></div>
+  <div class="dropdown--list dropdown--list_positioned_left versions-dropdown-data" role="listbox" data-role="dropdown-listbox" aria-label="Versions" id="versions-listbox">
+    <div class="dropdown--header" data-remove-style="true" style="display: none"><span>Select version</span><button class="button" data-role="dropdown-toggle" aria-label="Close versions selection"><i class="ui-kit-icon ui-kit-icon_cross"></i></button></div>
+<a href="index.html" class="dropdown--option dropdown--option_active dropdown--option-link" style="display: block; padding: 5px; color: #fff" data-remove-style="true" role="option" title="0.8.0"><span class="dropdown--option-icon dropdown--option-icon_selected"></span><span class="dropdown--option-text">0.8.0</span></a><a href="../../../not-found-version.html?v=0.7.0" class="dropdown--option dropdown--option-link" style="display: block; padding: 5px; color: #fff" data-remove-style="true" role="option" title="0.7.0"><span class="dropdown--option-icon"></span><span class="dropdown--option-text">0.7.0</span></a></div>
+  <div class="dropdown--overlay"></div>
+</div>
+</dokka-template-command>        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":selenium/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":selenium/main" data-filter=":selenium/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    kolibrium
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="kolibrium-selenium::dev.kolibrium.selenium/Site///PointingToDeclaration//141948126">
+  <div class="breadcrumbs"><a href="../../index.html">kolibrium-selenium</a><span class="delimiter">/</span><a href="../index.html">dev.kolibrium.selenium</a><span class="delimiter">/</span><span class="current">Site</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Site</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":selenium/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">Site</a></div><p class="paragraph">Base configuration for an application under test.</p><p class="paragraph">A <a href="index.html">Site</a> centralizes cross-cutting defaults and policies for your tests:</p><ul><li><p class="paragraph">Where your app lives (<a href="../../../selenium/dev.kolibrium.selenium/-site/--root--.html">baseUrl</a>)</p></li><li><p class="paragraph">Which cookies should always be present for a new <span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span> session</p></li><li><p class="paragraph">Default waiting behavior used by pages and element interactions</p></li><li><p class="paragraph">An optional, session-aware configuration hook</p></li></ul><p class="paragraph">Declarative vs. imperative configuration</p><ul><li><p class="paragraph">Prefer declarative properties on the site (<a href="cookies.html">cookies</a>, <a href="wait-config.html">waitConfig</a>) for stable, site-wide policy that the framework can apply deterministically before the first real navigation.</p></li><li><p class="paragraph">Use <a href="on-session-ready.html">onSessionReady</a> only for exceptional, dynamic, or environment-specific logic that truly requires a live session.</p></li></ul><p class="paragraph">Lifecycle and ordering</p><ul><li><p class="paragraph">The test DSL binds the active site to the current thread, creates a <span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span> session, navigates to <a href="../../../selenium/dev.kolibrium.selenium/-site/--root--.html">baseUrl</a> to establish origin, applies declarative <a href="cookies.html">cookies</a> (if any), then re-navigates to <a href="../../../selenium/dev.kolibrium.selenium/-site/--root--.html">baseUrl</a> so cookies take effect immediately. Finally, the DSL calls <a href="on-session-ready.html">onSessionReady</a> with the driver.</p></li><li><p class="paragraph">Never navigate in <a href="on-session-ready.html">onSessionReady</a>; keep it fast and idempotent.</p></li></ul></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="-1825129331%2FProperties%2F141948126" anchor-label="baseUrl" id="-1825129331%2FProperties%2F141948126" data-filterable-set=":selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":selenium/main" data-filterable-set=":selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="base-url.html"><span>base</span><wbr><span><span>Url</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1825129331%2FProperties%2F141948126"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":selenium/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="base-url.html">baseUrl</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Base URL used by pages and the test DSL to build absolute routes.            Must be provided as a constructor argument by subclasses.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="695639036%2FProperties%2F141948126" anchor-label="cookies" id="695639036%2FProperties%2F141948126" data-filterable-set=":selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":selenium/main" data-filterable-set=":selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="cookies.html"><span><span>cookies</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="695639036%2FProperties%2F141948126"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="cookies.html">cookies</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><span data-unresolved-link="org.openqa.selenium/Cookie///PointingToDeclaration/">Cookie</span><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Declarative cookies applied to every new <span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span> session for this site.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1689900151%2FProperties%2F141948126" anchor-label="decorators" id="1689900151%2FProperties%2F141948126" data-filterable-set=":selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":selenium/main" data-filterable-set=":selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="decorators.html"><span><span>decorators</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1689900151%2FProperties%2F141948126"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="decorators.html">decorators</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../dev.kolibrium.selenium.decorators/-abstract-decorator/index.html">AbstractDecorator</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">List of decorators to be applied to SearchContext objects (<span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span> or <span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span>). Decorators can add behavior like highlighting or slow motion to Selenium operations.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="231944407%2FProperties%2F141948126" anchor-label="elementReadyCondition" id="231944407%2FProperties%2F141948126" data-filterable-set=":selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":selenium/main" data-filterable-set=":selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="element-ready-condition.html"><span>element</span><wbr><span>Ready</span><wbr><span><span>Condition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="231944407%2FProperties%2F141948126"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="element-ready-condition.html">elementReadyCondition</a><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">A predicate that determines when the found element is considered ready for use.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-58990240%2FProperties%2F141948126" anchor-label="elementsReadyCondition" id="-58990240%2FProperties%2F141948126" data-filterable-set=":selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":selenium/main" data-filterable-set=":selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="elements-ready-condition.html"><span>elements</span><wbr><span>Ready</span><wbr><span><span>Condition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-58990240%2FProperties%2F141948126"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="elements-ready-condition.html">elementsReadyCondition</a><span class="token operator">: </span><a href="../../../webdriver/dev.kolibrium.webdriver/-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">A predicate that determines when the found elements are considered ready for use.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="391310998%2FProperties%2F141948126" anchor-label="service" id="391310998%2FProperties%2F141948126" data-filterable-set=":selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":selenium/main" data-filterable-set=":selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="service.html"><span><span>service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="391310998%2FProperties%2F141948126"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="service.html">service</a><span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium.remote.service/DriverService///PointingToDeclaration/">DriverService</span><span class="token operator">?</span><span class="token operator"> = </span>null</div><div class="brief "><p class="paragraph">Optional local driver service managed by Kolibrium for this site.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1472408536%2FProperties%2F141948126" anchor-label="waitConfig" id="1472408536%2FProperties%2F141948126" data-filterable-set=":selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":selenium/main" data-filterable-set=":selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="wait-config.html"><span>wait</span><wbr><span><span>Config</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1472408536%2FProperties%2F141948126"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="wait-config.html">waitConfig</a><span class="token operator">: </span><a href="../../../webdriver/dev.kolibrium.webdriver/-wait-config/index.html">WaitConfig</a></div><div class="brief "><p class="paragraph">Default wait configuration used by pages and element interactions when no more specific configuration is provided.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="-942277815%2FFunctions%2F141948126" anchor-label="onSessionReady" id="-942277815%2FFunctions%2F141948126" data-filterable-set=":selenium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":selenium/main" data-filterable-set=":selenium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-session-ready.html"><span>on</span><wbr><span>Session</span><wbr><span><span>Ready</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-942277815%2FFunctions%2F141948126"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":selenium/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="on-session-ready.html"><span class="token function">onSessionReady</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">driver<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Imperative, session-aware hook invoked after a <span data-unresolved-link="org.openqa.selenium/WebDriver///PointingToDeclaration/">WebDriver</span> session is created.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright 2023-2026 Attila Fazekas &amp; contributors</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

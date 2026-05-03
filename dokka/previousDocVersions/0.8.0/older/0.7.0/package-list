@@ -1,0 +1,15 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:kolibrium-selenium
+dev.kolibrium.core.selenium
+dev.kolibrium.core.selenium.decorators
+module:kolibrium-dsl
+dev.kolibrium.dsl.selenium
+dev.kolibrium.dsl.selenium.actions
+dev.kolibrium.dsl.selenium.creation
+dev.kolibrium.dsl.selenium.interactions
+module:kolibrium-ksp-annotations
+dev.kolibrium.ksp.annotations
+module:kolibrium-ksp-processors
+dev.kolibrium.ksp.processors

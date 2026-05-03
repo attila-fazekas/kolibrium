@@ -1,0 +1,1 @@
+sourceset_dependencies = '{":appium/main":[],":selenium/main":[],":webdriver/main":[]}'
