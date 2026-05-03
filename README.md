@@ -1,6 +1,6 @@
 <div align="center">
 <p><img src="https://raw.githubusercontent.com/attila-fazekas/kolibrium/main/assets/kolibrium_logo.png" alt="kolibrium_logo.png"></p>
-<h1>Kotlin library for Selenium/Appium tests</h1>
+<h1>Kotlin library for Selenium and Appium tests</h1>
 <p><a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License"></a>
 <a href="https://github.com/attila-fazekas/kolibrium/actions/workflows/gradle.yml"><img src="https://github.com/attila-fazekas/kolibrium/actions/workflows/gradle.yml/badge.svg" alt="Build"></a>
 <a href="https://github.com/attila-fazekas/kolibrium/actions/workflows/codeql.yml"><img src="https://github.com/attila-fazekas/kolibrium/actions/workflows/codeql.yml/badge.svg" alt="CodeQL"></a>
@@ -8,11 +8,11 @@
 <a href="https://javadoc.io/doc/dev.kolibrium/kolibrium-selenium"><img src="https://img.shields.io/badge/API_reference-KDoc-blue" alt="KDoc"></a>
 </div>
 
-Kolibrium is a Kotlin-first library for browser and mobile test automation. It wraps Selenium and Appium with idiomatic Kotlin APIs - type-safe element location, structured Page/Screen Objects, smart waits, and a unified test harness - so you write less boilerplate and catch more errors at compile time.
+Kolibrium is a Kotlin-first library for browser and mobile test automation. It builds on top of Selenium and Appium with idiomatic Kotlin APIs - type-safe element location, structured Page/Screen Objects, smart waits, and a unified test harness - so you write less boilerplate and catch more errors at compile time.
 
 # Design Philosophy
 
-**Compile-time safety over runtime discovery.** Type errors and invalid configurations are caught before a test runs. Sealed class hierarchies and strong typing throughout make this possible without boilerplate.
+**Compile-time safety over runtime discovery.** The type system enforces correct browser configuration — sealed class hierarchies and strong typing prevent mixing browser-specific settings across browsers, so entire categories of mistakes are caught by the compiler rather than during test execution.
 
 **A single mental model across modules.** Configuration, harness, lifecycle, and extension points work the same way whether you're testing a browser or a mobile app. An engineer who knows one module knows most of the other.
 
