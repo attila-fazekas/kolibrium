@@ -16,9 +16,9 @@
 
 package dev.kolibrium.appium.mydemoapp.ios
 
-import dev.kolibrium.appium.AppScope
 import dev.kolibrium.appium.IosDriverFactory
-import dev.kolibrium.appium.iosTest
+import dev.kolibrium.appium.dsl.AppScope
+import dev.kolibrium.appium.dsl.iosTest
 import dev.kolibrium.appium.mydemoapp.ios.screens.Footer
 import dev.kolibrium.appium.mydemoapp.ios.screens.ProductDetailsScreen
 import dev.kolibrium.appium.mydemoapp.ios.screens.ProductsScreen

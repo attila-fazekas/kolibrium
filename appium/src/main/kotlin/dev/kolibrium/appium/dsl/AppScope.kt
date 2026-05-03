@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium
+package dev.kolibrium.appium.dsl
 
-import dev.kolibrium.appium.android.SettingsScope
+import dev.kolibrium.appium.App
+import dev.kolibrium.appium.Screen
+import dev.kolibrium.appium.dsl.android.SettingsScope
 import dev.kolibrium.webdriver.KolibriumDsl
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.HasSettings

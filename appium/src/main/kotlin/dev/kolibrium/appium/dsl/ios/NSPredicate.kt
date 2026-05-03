@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.ios
+package dev.kolibrium.appium.dsl.ios
 
 /**
  * Modifier for string comparison operators that controls case and diacritic sensitivity.
@@ -297,7 +297,7 @@ public class NSPredicateScope internal constructor() {
 /**
  * Builds an NSPredicate expression string using a type-safe DSL.
  *
- * The returned string can be passed directly to [iOSNSPredicate] or [iOSNSPredicates].
+ * The returned string can be passed directly to [dev.kolibrium.appium.ios.iOSNSPredicate] or [dev.kolibrium.appium.ios.iOSNSPredicates].
  *
  * Example:
  * ```

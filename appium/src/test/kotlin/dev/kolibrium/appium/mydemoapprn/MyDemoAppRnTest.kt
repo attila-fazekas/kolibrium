@@ -16,7 +16,7 @@
 
 package dev.kolibrium.appium.mydemoapprn
 
-import dev.kolibrium.appium.androidTest
+import dev.kolibrium.appium.dsl.androidTest
 import dev.kolibrium.appium.mydemoapprn.screens.ProductDetailsRnScreen
 import org.junit.jupiter.api.Test
 

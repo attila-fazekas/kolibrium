@@ -17,7 +17,7 @@
 package dev.kolibrium.appium.mydemoapp.android
 
 import dev.kolibrium.appium.AndroidApp
-import dev.kolibrium.appium.appiumService
+import dev.kolibrium.appium.dsl.appiumService
 import io.appium.java_client.Location
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.android.options.UiAutomator2Options

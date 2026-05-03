@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium
+package dev.kolibrium.appium.dsl
 
 import dev.kolibrium.webdriver.EnvironmentScope
 import dev.kolibrium.webdriver.InternalKolibriumApi

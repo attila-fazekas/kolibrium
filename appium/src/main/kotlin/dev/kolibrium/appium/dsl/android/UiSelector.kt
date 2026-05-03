@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.android
+package dev.kolibrium.appium.dsl.android
 
 /**
  * Scope for building a `UiSelector` expression string in a type-safe way.
@@ -116,7 +116,7 @@ public class UiSelectorScope internal constructor() {
 /**
  * Builds a `UiSelector` expression string using a type-safe DSL.
  *
- * The returned string can be passed directly to [androidUIAutomator] or [androidUIAutomators].
+ * The returned string can be passed directly to [dev.kolibrium.appium.android.androidUIAutomator] or [dev.kolibrium.appium.android.androidUIAutomators].
  *
  * Example:
  * ```
