@@ -1,0 +1,406 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>dev.kolibrium.appium</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../index.html" tabindex="1">
+                    kolibrium
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+<dokka-template-command data="{&quot;@class&quot;:&quot;org.jetbrains.dokka.base.templating.ReplaceVersionsCommand&quot;,&quot;location&quot;:&quot;dev.kolibrium.appium/index.html&quot;}"><div class="dropdown versions-dropdown" data-role="dropdown">
+  <div class="button button_dropdown versions-dropdown-button" role="combobox" data-role="dropdown-toggle" aria-controls="versions-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Select version" tabindex="0" title="0.8.0"><span class="versions-dropdown-button-text">0.8.0</span></div>
+  <div class="dropdown--list dropdown--list_positioned_left versions-dropdown-data" role="listbox" data-role="dropdown-listbox" aria-label="Versions" id="versions-listbox">
+    <div class="dropdown--header" data-remove-style="true" style="display: none"><span>Select version</span><button class="button" data-role="dropdown-toggle" aria-label="Close versions selection"><i class="ui-kit-icon ui-kit-icon_cross"></i></button></div>
+<a href="index.html" class="dropdown--option dropdown--option_active dropdown--option-link" style="display: block; padding: 5px; color: #fff" data-remove-style="true" role="option" title="0.8.0"><span class="dropdown--option-icon dropdown--option-icon_selected"></span><span class="dropdown--option-text">0.8.0</span></a><a href="../../not-found-version.html?v=0.7.0" class="dropdown--option dropdown--option-link" style="display: block; padding: 5px; color: #fff" data-remove-style="true" role="option" title="0.7.0"><span class="dropdown--option-icon"></span><span class="dropdown--option-text">0.7.0</span></a></div>
+  <div class="dropdown--overlay"></div>
+</div>
+</dokka-template-command>        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":appium/main">jvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":appium/main" data-filter=":appium/main">
+                                <span class="checkbox--icon"></span>
+                                jvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    kolibrium
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="package" id="content" pageids="kolibrium-appium::dev.kolibrium.appium////PointingToDeclaration//1333392064">
+  <div class="breadcrumbs"><a href="../index.html">kolibrium-appium</a><span class="delimiter">/</span><span class="current">dev.kolibrium.appium</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="tableheader">Types</h2>
+        <div class="table"><a data-name="-1172070073%2FClasslikes%2F1333392064" anchor-label="AndroidApp" id="-1172070073%2FClasslikes%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-android-app/index.html"><span>Android</span><wbr><span><span>App</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1172070073%2FClasslikes%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-android-app/index.html">AndroidApp</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>appPackage<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>appActivity<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>appPath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>appiumUrl<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/URL.html">URL</a><span class="token operator"> = </span>DEFAULT_APPIUM_URL<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>service<span class="token operator">: </span><span data-unresolved-link="io.appium.java_client.service.local/AppiumDriverLocalService///PointingToDeclaration/">AppiumDriverLocalService</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">driverFactory<span class="token operator">: </span><a href="-android-driver-factory/index.html">AndroidDriverFactory</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="-app/index.html">App</a></div><div class="brief "><p class="paragraph">Android‑only application definition.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-187965946%2FClasslikes%2F1333392064" anchor-label="AndroidDriverFactory" id="-187965946%2FClasslikes%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-android-driver-factory/index.html"><span>Android</span><wbr><span>Driver</span><wbr><span><span>Factory</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-187965946%2FClasslikes%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-android-driver-factory/index.html">AndroidDriverFactory</a><span class="token operator"> = </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="io.appium.java_client.android/AndroidDriver///PointingToDeclaration/">AndroidDriver</span></div><div class="brief "><p class="paragraph">Factory function that creates a new <span data-unresolved-link="io.appium.java_client.android/AndroidDriver///PointingToDeclaration/">AndroidDriver</span> instance.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-499020338%2FClasslikes%2F1333392064" anchor-label="AndroidScreen" id="-499020338%2FClasslikes%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-android-screen/index.html"><span>Android</span><wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-499020338%2FClasslikes%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-android-screen/index.html">AndroidScreen</a> : <a href="-screen/index.html">Screen</a><span class="token operator">&lt;</span><a href="-android-app/index.html">AndroidApp</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Platform-specific base class for Android screen objects.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="339270696%2FClasslikes%2F1333392064" anchor-label="App" id="339270696%2FClasslikes%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-app/index.html"><span><span>App</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="339270696%2FClasslikes%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">interface </span><a href="-app/index.html">App</a></div><div class="brief "><p class="paragraph">Marker interface for mobile applications under test.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1389386553%2FClasslikes%2F1333392064" anchor-label="AppiumDriverFactory" id="-1389386553%2FClasslikes%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-appium-driver-factory/index.html"><span>Appium</span><wbr><span>Driver</span><wbr><span><span>Factory</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1389386553%2FClasslikes%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-appium-driver-factory/index.html">AppiumDriverFactory</a><span class="token operator"> = </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="io.appium.java_client/AppiumDriver///PointingToDeclaration/">AppiumDriver</span></div><div class="brief "><p class="paragraph">Factory function that creates a new <span data-unresolved-link="io.appium.java_client/AppiumDriver///PointingToDeclaration/">AppiumDriver</span> instance.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-708727893%2FClasslikes%2F1333392064" anchor-label="CrossPlatformApp" id="-708727893%2FClasslikes%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-cross-platform-app/index.html"><span>Cross</span><wbr><span>Platform</span><wbr><span><span>App</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-708727893%2FClasslikes%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-cross-platform-app/index.html">CrossPlatformApp</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>android<span class="token operator">: </span><a href="-android-app/index.html">AndroidApp</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>ios<span class="token operator">: </span><a href="-ios-app/index.html">IosApp</a></span></span><span class="token punctuation">)</span> : <a href="-app/index.html">App</a></div><div class="brief "><p class="paragraph">Cross‑platform application definition supporting both Android and iOS.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-336998939%2FClasslikes%2F1333392064" anchor-label="IosApp" id="-336998939%2FClasslikes%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-ios-app/index.html"><span>Ios</span><wbr><span><span>App</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-336998939%2FClasslikes%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-ios-app/index.html">IosApp</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>bundleId<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>appPath<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>appiumUrl<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/URL.html">URL</a><span class="token operator"> = </span>DEFAULT_APPIUM_URL<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>service<span class="token operator">: </span><span data-unresolved-link="io.appium.java_client.service.local/AppiumDriverLocalService///PointingToDeclaration/">AppiumDriverLocalService</span><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">driverFactory<span class="token operator">: </span><a href="-ios-driver-factory/index.html">IosDriverFactory</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="-app/index.html">App</a></div><div class="brief "><p class="paragraph">iOS‑only application definition.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1525767460%2FClasslikes%2F1333392064" anchor-label="IosDriverFactory" id="1525767460%2FClasslikes%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-ios-driver-factory/index.html"><span>Ios</span><wbr><span>Driver</span><wbr><span><span>Factory</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1525767460%2FClasslikes%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">typealias </span><a href="-ios-driver-factory/index.html">IosDriverFactory</a><span class="token operator"> = </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span data-unresolved-link="io.appium.java_client.ios/IOSDriver///PointingToDeclaration/">IOSDriver</span></div><div class="brief "><p class="paragraph">Factory function that creates a new <span data-unresolved-link="io.appium.java_client.ios/IOSDriver///PointingToDeclaration/">IOSDriver</span> instance.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="654554224%2FClasslikes%2F1333392064" anchor-label="IosScreen" id="654554224%2FClasslikes%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-ios-screen/index.html"><span>Ios</span><wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="654554224%2FClasslikes%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-ios-screen/index.html">IosScreen</a> : <a href="-screen/index.html">Screen</a><span class="token operator">&lt;</span><a href="-ios-app/index.html">IosApp</a><span class="token operator">&gt; </span></div><div class="brief "><p class="paragraph">Platform-specific base class for iOS screen objects.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-288335027%2FClasslikes%2F1333392064" anchor-label="Screen" id="-288335027%2FClasslikes%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-screen/index.html"><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-288335027%2FClasslikes%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-screen/index.html">Screen</a><span class="token operator">&lt;</span><a href="-screen/index.html">A</a><span class="token operator"> : </span><a href="-app/index.html">App</a><span class="token operator">&gt;</span> : <span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span></div><div class="brief "><p class="paragraph">Base type for screen objects bound to an <a href="-app/index.html">App</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="1557424541%2FFunctions%2F1333392064" anchor-label="accessibilityId" id="1557424541%2FFunctions%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="accessibility-id.html"><span>accessibility</span><wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1557424541%2FFunctions%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="accessibility-id.html"><span class="token function">accessibilityId</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-wait-config/index.html">WaitConfig</a><span class="token operator"> = </span>WaitConfig.Default<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ isDisplayed }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its accessibility id.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1926674276%2FFunctions%2F1333392064" anchor-label="accessibilityIds" id="1926674276%2FFunctions%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="accessibility-ids.html"><span>accessibility</span><wbr><span><span>Ids</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1926674276%2FFunctions%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="accessibility-ids.html"><span class="token function">accessibilityIds</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-wait-config/index.html">WaitConfig</a><span class="token operator"> = </span>WaitConfig.Default<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ isNotEmptyAndDisplayed }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements by their accessibility id.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-716201213%2FFunctions%2F1333392064" anchor-label="className" id="-716201213%2FFunctions%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="class-name.html"><span>class</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-716201213%2FFunctions%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="class-name.html"><span class="token function">className</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-wait-config/index.html">WaitConfig</a><span class="token operator"> = </span>WaitConfig.Default<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ isDisplayed }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its class name.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="236307006%2FFunctions%2F1333392064" anchor-label="classNames" id="236307006%2FFunctions%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="class-names.html"><span>class</span><wbr><span><span>Names</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="236307006%2FFunctions%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="class-names.html"><span class="token function">classNames</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-wait-config/index.html">WaitConfig</a><span class="token operator"> = </span>WaitConfig.Default<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ isNotEmptyAndDisplayed }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements by their class name.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="188001743%2FFunctions%2F1333392064" anchor-label="resourceId" id="188001743%2FFunctions%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="resource-id.html"><span>resource</span><wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="188001743%2FFunctions%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="resource-id.html"><span class="token function">resourceId</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-wait-config/index.html">WaitConfig</a><span class="token operator"> = </span>WaitConfig.Default<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ isDisplayed }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element by its resource id.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1189724174%2FFunctions%2F1333392064" anchor-label="resourceIds" id="-1189724174%2FFunctions%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="resource-ids.html"><span>resource</span><wbr><span><span>Ids</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1189724174%2FFunctions%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="resource-ids.html"><span class="token function">resourceIds</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-wait-config/index.html">WaitConfig</a><span class="token operator"> = </span>WaitConfig.Default<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ isNotEmptyAndDisplayed }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements by their resource id.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="75980617%2FFunctions%2F1333392064" anchor-label="xpath" id="75980617%2FFunctions%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="xpath.html"><span><span>xpath</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="75980617%2FFunctions%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="xpath.html"><span class="token function">xpath</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">cacheLookup<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-wait-config/index.html">WaitConfig</a><span class="token operator"> = </span>WaitConfig.Default<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><span data-unresolved-link="org.openqa.selenium/WebElement///PointingToDeclaration/">WebElement</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ isDisplayed }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-element-descriptor/index.html">WebElementDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds a single element using an XPath expression.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1769750984%2FFunctions%2F1333392064" anchor-label="xpaths" id="-1769750984%2FFunctions%2F1333392064" data-filterable-set=":appium/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":appium/main" data-filterable-set=":appium/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="xpaths.html"><span><span>xpaths</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1769750984%2FFunctions%2F1333392064"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":appium/main"><div class="symbol monospace"><span class="token keyword">fun </span><span data-unresolved-link="org.openqa.selenium/SearchContext///PointingToDeclaration/">SearchContext</span><span class="token punctuation">.</span><a href="xpaths.html"><span class="token function">xpaths</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">waitConfig<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-wait-config/index.html">WaitConfig</a><span class="token operator"> = </span>WaitConfig.Default<span class="token punctuation">, </span></span><span class="parameter ">readyWhen<span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-elements/index.html">WebElements</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ isNotEmptyAndDisplayed }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../webdriver/dev.kolibrium.webdriver/-web-elements-descriptor/index.html">WebElementsDescriptor</a></div><div class="brief "><p class="paragraph">Creates a property delegate that lazily finds all elements matching an XPath expression.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>Copyright 2023-2026 Attila Fazekas &amp; contributors</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

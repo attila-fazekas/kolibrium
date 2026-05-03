@@ -17,6 +17,7 @@
 import dev.kolibrium.PublicationProperties
 import org.jreleaser.model.Active
 import java.nio.file.Files
+import kotlin.text.Typography.copyright
 
 plugins {
     `maven-publish`
@@ -29,7 +30,7 @@ jreleaser {
     dryrun = true
     project {
         author("Attila Fazekas")
-        copyright = "Copyright © 2023-2024 Attila Fazekas. All rights reserved."
+        copyright = "Copyright © 2023-2026 Attila Fazekas. All rights reserved."
         description = "Kotlin library for Selenium tests"
         gitRootSearch = true
         inceptionYear = "2023"
@@ -57,8 +58,10 @@ jreleaser {
         }
     }
     signing {
-        active = Active.ALWAYS
-        armored = true
+        pgp {
+            active = Active.ALWAYS
+            armored = true
+        }
     }
     deploy {
         maven {
@@ -68,8 +71,6 @@ jreleaser {
                     description = "\"${project.name}\" module of Kolibrium"
                     url = "https://central.sonatype.com/api/v1/publisher"
                     stagingRepository(stagingDir.get().toString())
-                    username.set(findProperty("ossrhUsername") as String? ?: System.getenv("OSSRH_USERNAME"))
-                    password.set(findProperty("ossrhPassword") as String? ?: System.getenv("OSSRH_PASSWORD"))
                 }
             }
         }
