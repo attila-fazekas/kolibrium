@@ -27,7 +27,6 @@ import dev.kolibrium.appium.IosDriverFactory
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver
-import kotlinx.coroutines.runBlocking
 
 /**
  * Unified deep link–aware test harness.
@@ -39,21 +38,17 @@ import kotlinx.coroutines.runBlocking
  * - [dev.kolibrium.appium.IosApp] → `mobile: deepLink` with `bundleId`
  * - [dev.kolibrium.appium.CrossPlatformApp] → resolved at runtime from the driver type
  *
- * The [block] lambda is `suspend`, so callers can invoke suspend functions
- * (e.g. Ktor-based API clients) directly without wrapping them in `runBlocking`.
- * The harness bridges the coroutine boundary internally.
- *
  * @param A The concrete app type bound to this test.
  * @param app The app under test.
  * @param driverFactory Factory creating an AppiumDriver instance.
  * @param deepLink The deep link URL to navigate to after session creation.
- * @param block Suspending main test body executed with an [AppScope] receiver.
+ * @param block Main test body executed with an [AppScope] receiver.
  */
 public fun <A : App> appiumTest(
     app: A,
     driverFactory: AppiumDriverFactory,
     deepLink: String,
-    block: suspend AppScope<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -74,18 +69,15 @@ public fun <A : App> appiumTest(
  * Requires an explicit [driverFactory] since there is no single sensible default. Use the
  * appropriate factory from [dev.kolibrium.appium.CrossPlatformApp.androidDriverFactory] or [dev.kolibrium.appium.CrossPlatformApp.iosDriverFactory].
  *
- * The [block] lambda is `suspend`, so callers can invoke suspend functions directly.
- * The harness bridges the coroutine boundary internally via `runBlocking`.
- *
  * @param A The concrete cross‑platform app type bound to this test.
  * @param app The app under test.
  * @param driverFactory The explicit driver factory to use for this run.
- * @param block Suspending test body executed with an [AppScope] receiver.
+ * @param block Main test body executed with an [AppScope] receiver.
  */
 public fun <A : CrossPlatformApp> appiumTest(
     app: A,
     driverFactory: AppiumDriverFactory,
-    block: suspend AppScope<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -98,29 +90,34 @@ public fun <A : CrossPlatformApp> appiumTest(
 /**
  * Unified test harness that creates an AppiumDriver session for the given [App] and runs the test flow.
  *
- * Three-phase lifecycle:
- * 1. **setUp**: Executes before any AppiumDriver session exists.
+ * This function provides a structured three-phase lifecycle for Appium tests:
+ * 1. **setUp**: Executes the [setUp] block **before** any AppiumDriver session exists.
  * 2. **block**: Creates an AppiumDriver session and executes the main test body.
- * 3. **tearDown**: Executes after the test body, even if the test fails.
+ * 3. **tearDown**: Executes the [tearDown] block after the test body, even if the test fails.
  *
- * All three user-facing lambdas ([setUp], [tearDown], [block]) are `suspend`, so callers can invoke
- * suspend functions (e.g. Ktor-based API clients) directly without wrapping them in `runBlocking`.
- * The harness bridges the coroutine boundary internally via `runBlocking`.
+ * Flow:
+ * - Executes [setUp] before creating the AppiumDriver session to compute the input value [T].
+ * - Creates a driver via [driverFactory], calls [App.onSessionReady], and binds the driver
+ *   to the context holder for the duration of the test thread.
+ * - Invokes [block] with an [AppScope] receiver and the prepared value.
+ *
+ * Cleanup:
+ * - The driver session is closed in a finally block for robustness.
  *
  * @param A The concrete app type bound to this test.
  * @param T The type of the prepared input value passed to [block].
  * @param app The app under test.
  * @param driverFactory Factory creating an AppiumDriver instance.
- * @param setUp Suspending block that computes the input [T] before the driver session is created.
- * @param tearDown Suspending block that cleans up after the test body; runs even if the test fails.
- * @param block Suspending main test body executed with an [AppScope] receiver and the prepared value.
+ * @param setUp Block that computes the input [T] before the driver session is created.
+ * @param tearDown Block that cleans up after the test body; runs even if the test fails.
+ * @param block Main test body executed with an [AppScope] receiver and the prepared value.
  */
 public fun <A : App, T> appiumTest(
     app: A,
     driverFactory: AppiumDriverFactory,
-    setUp: suspend () -> T,
-    tearDown: suspend (T) -> Unit = {},
-    block: suspend AppScope<A>.(T) -> Unit,
+    setUp: () -> T,
+    tearDown: (T) -> Unit = {},
+    block: AppScope<A>.(T) -> Unit,
 ) {
     appiumTestImpl(app, driverFactory, setUp, tearDown, block)
 }
@@ -179,18 +176,15 @@ private fun App.iosDeepLinkParams(deepLink: String): Map<String, String?> {
  * Creates an Appium session using the app's default [dev.kolibrium.appium.AndroidDriverFactory] unless overridden,
  * and executes the provided test [block].
  *
- * The [block] lambda is `suspend`, so callers can invoke suspend functions directly.
- * The harness bridges the coroutine boundary internally via `runBlocking`.
- *
  * @param A The concrete Android app type bound to this test.
  * @param app The Android app under test.
  * @param driverFactory Optional override for the driver factory; defaults to [AndroidApp.driverFactory].
- * @param block Suspending test body executed with an [AppScope] receiver.
+ * @param block Main test body executed with an [AppScope] receiver.
  */
 public fun <A : AndroidApp> androidTest(
     app: A,
     driverFactory: AndroidDriverFactory = app.driverFactory,
-    block: suspend AppScope<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -209,20 +203,17 @@ public fun <A : AndroidApp> androidTest(
  * Delegates to the unified [appiumTest] deep link overload, which dispatches the
  * `mobile: deepLink` command with the app's [AndroidApp.appPackage].
  *
- * The [block] lambda is `suspend`, so callers can invoke suspend functions directly.
- * The harness bridges the coroutine boundary internally via `runBlocking`.
- *
  * @param A The concrete Android app type bound to this test.
  * @param app The Android app under test.
  * @param driverFactory Optional override for the driver factory; defaults to [AndroidApp.driverFactory].
  * @param deepLink The deep link URL to navigate to before the test body runs.
- * @param block Suspending test body executed with an [AppScope] receiver.
+ * @param block Main test body executed with an [AppScope] receiver.
  */
 public fun <A : AndroidApp> androidTest(
     app: A,
     driverFactory: AndroidDriverFactory = app.driverFactory,
     deepLink: String,
-    block: suspend AppScope<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -238,18 +229,15 @@ public fun <A : AndroidApp> androidTest(
  * Creates an Appium session using the app's default [dev.kolibrium.appium.IosDriverFactory] unless overridden,
  * and executes the provided test [block].
  *
- * The [block] lambda is `suspend`, so callers can invoke suspend functions directly.
- * The harness bridges the coroutine boundary internally via `runBlocking`.
- *
  * @param A The concrete iOS app type bound to this test.
  * @param app The iOS app under test.
  * @param driverFactory Optional override for the driver factory; defaults to [IosApp.driverFactory].
- * @param block Suspending test body executed with an [AppScope] receiver.
+ * @param block Main test body executed with an [AppScope] receiver.
  */
 public fun <A : IosApp> iosTest(
     app: A,
     driverFactory: IosDriverFactory = app.driverFactory,
-    block: suspend AppScope<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -268,20 +256,17 @@ public fun <A : IosApp> iosTest(
  * Delegates to the unified [appiumTest] deep link overload, which dispatches the
  * `mobile: deepLink` command with the app's [IosApp.bundleId].
  *
- * The [block] lambda is `suspend`, so callers can invoke suspend functions directly.
- * The harness bridges the coroutine boundary internally via `runBlocking`.
- *
  * @param A The concrete iOS app type bound to this test.
  * @param app The iOS app under test.
  * @param driverFactory Optional override for the driver factory; defaults to [IosApp.driverFactory].
  * @param deepLink The deep link URL to navigate to before the test body runs.
- * @param block Suspending test body executed with an [AppScope] receiver.
+ * @param block Main test body executed with an [AppScope] receiver.
  */
 public fun <A : IosApp> iosTest(
     app: A,
     driverFactory: IosDriverFactory = app.driverFactory,
     deepLink: String,
-    block: suspend AppScope<A>.(Unit) -> Unit,
+    block: AppScope<A>.(Unit) -> Unit,
 ) {
     appiumTest(
         app = app,
@@ -294,9 +279,9 @@ public fun <A : IosApp> iosTest(
 internal fun <A : App, T> appiumTestImpl(
     app: A,
     driverFactory: AppiumDriverFactory,
-    setUp: suspend () -> T,
-    tearDown: suspend (T) -> Unit = {},
-    block: suspend AppScope<A>.(T) -> Unit,
+    setUp: () -> T,
+    tearDown: (T) -> Unit = {},
+    block: AppScope<A>.(T) -> Unit,
 ) {
     val service = app.service
     val shutdownHook =
@@ -311,7 +296,7 @@ internal fun <A : App, T> appiumTestImpl(
         }
     service?.start()
     try {
-        val prepared: T = runBlocking { setUp() }
+        val prepared: T = setUp()
         var testError: Throwable? = null
         var driver: AppiumDriver? = null
 
@@ -321,13 +306,13 @@ internal fun <A : App, T> appiumTestImpl(
 
             AppiumDriverContextHolder.set(driver)
             val entry = AppScope<A>(driver)
-            runBlocking { entry.block(prepared) }
+            entry.block(prepared)
         } catch (e: Throwable) {
             testError = e
             throw e
         } finally {
             try {
-                runBlocking { tearDown(prepared) }
+                tearDown(prepared)
             } catch (teardownError: Throwable) {
                 if (testError != null) {
                     testError.addSuppressed(teardownError)
