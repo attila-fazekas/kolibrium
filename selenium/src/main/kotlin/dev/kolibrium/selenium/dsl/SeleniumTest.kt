@@ -20,7 +20,6 @@ import dev.kolibrium.selenium.DriverFactory
 import dev.kolibrium.selenium.Site
 import dev.kolibrium.selenium.SiteContextHolder
 import dev.kolibrium.selenium.WebDriverContextHolder
-import kotlinx.coroutines.runBlocking
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 
@@ -40,10 +39,6 @@ import org.openqa.selenium.chrome.ChromeDriver
  *   Then calls [Site.onSessionReady].
  * - Invokes [block] with a [SiteScope] receiver in the site's context.
  *
- * All three user-facing lambdas ([setUp], [tearDown], [block]) are `suspend`, so callers can invoke
- * suspend functions (e.g. Ktor-based API clients) directly without wrapping them in `runBlocking`.
- * The harness bridges the coroutine boundary internally via `runBlocking`.
- *
  * Cleanup:
  * - Unless [keepBrowserOpen] is true, the session is closed in a finally block for robustness.
  *
@@ -55,17 +50,17 @@ import org.openqa.selenium.chrome.ChromeDriver
  * @param site The site under test; establishes the base URL and defaults.
  * @param driverFactory Factory creating a WebDriver instance. Defaults to ChromeDriver.
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
- * @param setUp Suspending block that computes the input [T] before the browser session is created.
- * @param tearDown Suspending block that cleans up the test context after the test body; runs even if the test fails.
- * @param block Suspending main test body executed with a [SiteScope] receiver and the prepared value.
+ * @param setUp Block that computes the input [T] before the browser session is created.
+ * @param tearDown Block that cleans up the test context after the test body; runs even if the test fails.
+ * @param block Main test body executed with a [SiteScope] receiver and the prepared value.
  */
 public fun <S : Site, T> seleniumTest(
     site: S,
     driverFactory: DriverFactory = ::ChromeDriver,
     keepBrowserOpen: Boolean = false,
-    setUp: suspend () -> T,
-    tearDown: suspend (T) -> Unit = {},
-    block: suspend SiteScope<S>.(T) -> Unit,
+    setUp: () -> T,
+    tearDown: (T) -> Unit = {},
+    block: SiteScope<S>.(T) -> Unit,
 ) {
     seleniumTestImpl(site, driverFactory, keepBrowserOpen, setUp, tearDown, block)
 }
@@ -80,13 +75,13 @@ public fun <S : Site, T> seleniumTest(
  * @param site The site under test.
  * @param driverFactory Factory creating a WebDriver instance. Defaults to ChromeDriver.
  * @param keepBrowserOpen When true, keeps the browser open after [block] (useful for debugging).
- * @param block Suspending main test body executed with a [SiteScope] receiver.
+ * @param block Main test body executed with a [SiteScope] receiver.
  */
 public fun <S : Site> seleniumTest(
     site: S,
     driverFactory: DriverFactory = ::ChromeDriver,
     keepBrowserOpen: Boolean = false,
-    block: suspend SiteScope<S>.(Unit) -> Unit,
+    block: SiteScope<S>.(Unit) -> Unit,
 ) {
     seleniumTest(
         site = site,
@@ -101,12 +96,12 @@ internal fun <S : Site, T> seleniumTestImpl(
     site: S,
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean,
-    setUp: suspend () -> T,
-    tearDown: suspend (T) -> Unit = {},
-    block: suspend SiteScope<S>.(T) -> Unit,
+    setUp: () -> T,
+    tearDown: (T) -> Unit = {},
+    block: SiteScope<S>.(T) -> Unit,
 ) {
     withService(site.service) {
-        val prepared: T = runBlocking { setUp() }
+        val prepared: T = setUp()
         runTestWithDriver(site, driverFactory, keepBrowserOpen, prepared, tearDown, block)
     }
 }
@@ -116,8 +111,8 @@ private fun <S : Site, T> runTestWithDriver(
     driverFactory: DriverFactory,
     keepBrowserOpen: Boolean,
     prepared: T,
-    tearDown: suspend (T) -> Unit,
-    block: suspend SiteScope<S>.(T) -> Unit,
+    tearDown: (T) -> Unit,
+    block: SiteScope<S>.(T) -> Unit,
 ) {
     var testError: Throwable? = null
     var driver: WebDriver? = null
@@ -151,7 +146,7 @@ private fun <S : Site, T> executeTestBlock(
     site: S,
     driver: WebDriver,
     prepared: T,
-    block: suspend SiteScope<S>.(T) -> Unit,
+    block: SiteScope<S>.(T) -> Unit,
 ) {
     WebDriverContextHolder.set(driver)
     SiteContextHolder.set(site)
@@ -159,7 +154,7 @@ private fun <S : Site, T> executeTestBlock(
         site.onSessionReady(driver)
         val scope = SiteScope<S>(driver)
         context(site) {
-            runBlocking { scope.block(prepared) }
+            scope.block(prepared)
         }
     } finally {
         SiteContextHolder.clear()
@@ -171,11 +166,11 @@ private fun <T> cleanupAfterTest(
     driver: WebDriver?,
     keepBrowserOpen: Boolean,
     prepared: T,
-    tearDown: suspend (T) -> Unit,
+    tearDown: (T) -> Unit,
     testError: Throwable?,
 ) {
     try {
-        runBlocking { tearDown(prepared) }
+        tearDown(prepared)
     } catch (teardownError: Throwable) {
         if (testError != null) {
             testError.addSuppressed(teardownError)
