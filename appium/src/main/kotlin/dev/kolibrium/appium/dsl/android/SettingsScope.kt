@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium.android
+package dev.kolibrium.appium.dsl.android
 
 import dev.kolibrium.webdriver.InternalKolibriumApi
 import dev.kolibrium.webdriver.KolibriumDsl

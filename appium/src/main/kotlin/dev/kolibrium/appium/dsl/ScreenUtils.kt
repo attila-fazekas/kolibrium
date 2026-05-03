@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium
+package dev.kolibrium.appium.dsl
+
+import dev.kolibrium.appium.Screen
 
 internal fun ensureReady(screen: Screen<*>) {
     screen.awaitReady()

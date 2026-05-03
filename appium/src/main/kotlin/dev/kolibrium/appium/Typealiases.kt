@@ -23,18 +23,18 @@ import io.appium.java_client.ios.IOSDriver
 /**
  * Factory function that creates a new [AppiumDriver] instance.
  *
- * Used by [appiumTest] for [CrossPlatformApp] tests and as the base type for the
+ * Used by [dev.kolibrium.appium.dsl.appiumTest] for [CrossPlatformApp] tests and as the base type for the
  * full‑lifecycle overload accepting any [App] subtype.
  *
- * @see androidTest
- * @see iosTest
+ * @see dev.kolibrium.appium.dsl.androidTest
+ * @see dev.kolibrium.appium.dsl.iosTest
  */
 public typealias AppiumDriverFactory = () -> AppiumDriver
 
 /**
  * Factory function that creates a new [AndroidDriver] instance.
  *
- * Used by [androidTest] and as the driver configuration in [AndroidApp] and [CrossPlatformApp].
+ * Used by [dev.kolibrium.appium.dsl.androidTest] and as the driver configuration in [AndroidApp] and [CrossPlatformApp].
  *
  * @see AppiumDriverFactory
  */
@@ -43,7 +43,7 @@ public typealias AndroidDriverFactory = () -> AndroidDriver
 /**
  * Factory function that creates a new [IOSDriver] instance.
  *
- * Used by [iosTest] and as the driver configuration in [IosApp] and [CrossPlatformApp].
+ * Used by [dev.kolibrium.appium.dsl.iosTest] and as the driver configuration in [IosApp] and [CrossPlatformApp].
  *
  * @see AppiumDriverFactory
  */

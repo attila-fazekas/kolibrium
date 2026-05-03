@@ -116,7 +116,7 @@ public fun SearchContext.iOSClassChains(
  * syntax. This is often the most flexible iOS locator strategy, supporting complex conditions
  * on element attributes.
  *
- * Prefer passing a [nsPredicate] DSL block over a raw string to benefit from type safety,
+ * Prefer passing a [dev.kolibrium.appium.dsl.ios.nsPredicate] DSL block over a raw string to benefit from type safety,
  * compile-time checking, and [XCUIElementType] constants for element type matching.
  *
  * Example usage:
@@ -133,7 +133,7 @@ public fun SearchContext.iOSClassChains(
  * ```
  *
  * @receiver The [SearchContext] instance used to search for the element.
- * @param value The NSPredicate string expression. Obtain one via the [nsPredicate] builder.
+ * @param value The NSPredicate string expression. Obtain one via the [dev.kolibrium.appium.dsl.ios.nsPredicate] builder.
  * @param cacheLookup If true (default), the element will be looked up only once and cached for
  *                    subsequent accesses. If false, a new lookup will be performed each time
  *                    the element is accessed.
@@ -145,7 +145,7 @@ public fun SearchContext.iOSClassChains(
  *                  displayed using [isDisplayed].
  * @return A [WebElementDescriptor] delegate that provides a [WebElement] when accessed.
  *
- * @see nsPredicate
+ * @see dev.kolibrium.appium.dsl.ios.nsPredicate
  * @see XCUIElementType
  * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElement
@@ -168,7 +168,7 @@ public fun SearchContext.iOSNSPredicate(
 /**
  * Creates a property delegate that lazily finds all elements using an iOS NSPredicate string.
  *
- * Prefer passing a [nsPredicate] DSL block over a raw string to benefit from type safety,
+ * Prefer passing a [dev.kolibrium.appium.dsl.ios.nsPredicate] DSL block over a raw string to benefit from type safety,
  * compile-time checking, and [XCUIElementType] constants for element type matching.
  *
  * Example usage:
@@ -189,7 +189,7 @@ public fun SearchContext.iOSNSPredicate(
  * Note: Multi-element delegates always perform a fresh lookup and are not cached.
  *
  * @receiver The [SearchContext] instance used to search for the elements.
- * @param value The NSPredicate string expression. Obtain one via the [nsPredicate] builder.
+ * @param value The NSPredicate string expression. Obtain one via the [dev.kolibrium.appium.dsl.ios.nsPredicate] builder.
  * @param waitConfig Configures the waiting behavior when looking up elements. Specifies polling interval,
  *                   timeout, error message, and which exceptions to ignore during the wait.
  *                   Defaults to [WaitConfig.Default].
@@ -198,7 +198,7 @@ public fun SearchContext.iOSNSPredicate(
  *                  to be non-empty and all elements to be displayed.
  * @return A [WebElementsDescriptor] delegate that provides a [WebElements] collection when accessed.
  *
- * @see nsPredicate
+ * @see dev.kolibrium.appium.dsl.ios.nsPredicate
  * @see XCUIElementType
  * @see dev.kolibrium.webdriver.WaitConfig
  * @see WebElements

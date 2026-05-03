@@ -19,7 +19,7 @@ package dev.kolibrium.appium.mydemoapprn
 import dev.kolibrium.appium.AndroidApp
 import dev.kolibrium.appium.CrossPlatformApp
 import dev.kolibrium.appium.IosApp
-import dev.kolibrium.appium.appiumService
+import dev.kolibrium.appium.dsl.appiumService
 import io.appium.java_client.Location
 import io.appium.java_client.android.AndroidDriver
 import org.openqa.selenium.ScreenOrientation

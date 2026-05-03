@@ -17,7 +17,7 @@
 package dev.kolibrium.appium.mydemoapp.ios
 
 import dev.kolibrium.appium.IosApp
-import dev.kolibrium.appium.appiumService
+import dev.kolibrium.appium.dsl.appiumService
 import io.appium.java_client.ios.options.XCUITestOptions
 
 object MyDemoIosApp : IosApp(

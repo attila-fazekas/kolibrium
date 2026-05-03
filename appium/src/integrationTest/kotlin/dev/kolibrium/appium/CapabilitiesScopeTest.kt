@@ -16,6 +16,7 @@
 
 package dev.kolibrium.appium
 
+import dev.kolibrium.appium.dsl.CapabilitiesScope
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe

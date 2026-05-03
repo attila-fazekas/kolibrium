@@ -18,7 +18,7 @@ package dev.kolibrium.appium.mydemoapprn.screens
 
 import dev.kolibrium.appium.AndroidScreen
 import dev.kolibrium.appium.android.androidUIAutomator
-import dev.kolibrium.appium.android.uiSelector
+import dev.kolibrium.appium.dsl.android.uiSelector
 
 class ProductDetailsRnScreen : AndroidScreen() {
     val addToCartButton by androidUIAutomator(uiSelector { text("Add To Cart") })

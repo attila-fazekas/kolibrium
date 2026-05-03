@@ -17,8 +17,8 @@
 package dev.kolibrium.appium.mydemoapp.android
 
 import dev.kolibrium.appium.AndroidDriverFactory
-import dev.kolibrium.appium.AppScope
-import dev.kolibrium.appium.androidTest
+import dev.kolibrium.appium.dsl.AppScope
+import dev.kolibrium.appium.dsl.androidTest
 import dev.kolibrium.appium.mydemoapp.android.screens.ProductDetailsScreen
 import dev.kolibrium.appium.mydemoapp.android.screens.ProductsScreen
 import io.kotest.matchers.shouldBe

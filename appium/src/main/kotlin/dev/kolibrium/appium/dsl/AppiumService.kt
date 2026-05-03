@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium
+package dev.kolibrium.appium.dsl
 
 import io.appium.java_client.service.local.AppiumDriverLocalService
 

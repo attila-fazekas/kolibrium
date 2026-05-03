@@ -14,8 +14,16 @@
  * limitations under the License.
  */
 
-package dev.kolibrium.appium
+package dev.kolibrium.appium.dsl
 
+import dev.kolibrium.appium.AndroidApp
+import dev.kolibrium.appium.AndroidDriverFactory
+import dev.kolibrium.appium.App
+import dev.kolibrium.appium.AppiumDriverContextHolder
+import dev.kolibrium.appium.AppiumDriverFactory
+import dev.kolibrium.appium.CrossPlatformApp
+import dev.kolibrium.appium.IosApp
+import dev.kolibrium.appium.IosDriverFactory
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver
@@ -26,10 +34,10 @@ import kotlinx.coroutines.runBlocking
  *
  * After the driver session is created, navigates to the given [deepLink] before
  * executing the test [block]. The deep link command is dispatched based on the
- * concrete [App] subtype:
- * - [AndroidApp] → `mobile: deepLink` with `package`
- * - [IosApp] → `mobile: deepLink` with `bundleId`
- * - [CrossPlatformApp] → resolved at runtime from the driver type
+ * concrete [dev.kolibrium.appium.App] subtype:
+ * - [dev.kolibrium.appium.AndroidApp] → `mobile: deepLink` with `package`
+ * - [dev.kolibrium.appium.IosApp] → `mobile: deepLink` with `bundleId`
+ * - [dev.kolibrium.appium.CrossPlatformApp] → resolved at runtime from the driver type
  *
  * The [block] lambda is `suspend`, so callers can invoke suspend functions
  * (e.g. Ktor-based API clients) directly without wrapping them in `runBlocking`.
@@ -64,7 +72,7 @@ public fun <A : App> appiumTest(
  * Cross‑platform convenience harness.
  *
  * Requires an explicit [driverFactory] since there is no single sensible default. Use the
- * appropriate factory from [CrossPlatformApp.androidDriverFactory] or [CrossPlatformApp.iosDriverFactory].
+ * appropriate factory from [dev.kolibrium.appium.CrossPlatformApp.androidDriverFactory] or [dev.kolibrium.appium.CrossPlatformApp.iosDriverFactory].
  *
  * The [block] lambda is `suspend`, so callers can invoke suspend functions directly.
  * The harness bridges the coroutine boundary internally via `runBlocking`.
@@ -168,7 +176,7 @@ private fun App.iosDeepLinkParams(deepLink: String): Map<String, String?> {
 /**
  * Android‑focused convenience harness.
  *
- * Creates an Appium session using the app's default [AndroidDriverFactory] unless overridden,
+ * Creates an Appium session using the app's default [dev.kolibrium.appium.AndroidDriverFactory] unless overridden,
  * and executes the provided test [block].
  *
  * The [block] lambda is `suspend`, so callers can invoke suspend functions directly.
@@ -227,7 +235,7 @@ public fun <A : AndroidApp> androidTest(
 /**
  * iOS‑focused convenience harness.
  *
- * Creates an Appium session using the app's default [IosDriverFactory] unless overridden,
+ * Creates an Appium session using the app's default [dev.kolibrium.appium.IosDriverFactory] unless overridden,
  * and executes the provided test [block].
  *
  * The [block] lambda is `suspend`, so callers can invoke suspend functions directly.

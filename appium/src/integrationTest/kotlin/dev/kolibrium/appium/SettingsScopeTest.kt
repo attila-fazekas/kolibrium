@@ -16,7 +16,7 @@
 
 package dev.kolibrium.appium
 
-import dev.kolibrium.appium.android.SettingsScope
+import dev.kolibrium.appium.dsl.android.SettingsScope
 import io.kotest.matchers.maps.shouldBeEmpty
 import io.kotest.matchers.maps.shouldHaveSize
 import io.kotest.matchers.shouldBe

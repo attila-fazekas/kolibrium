@@ -16,6 +16,8 @@
 
 package dev.kolibrium.appium
 
+import dev.kolibrium.appium.dsl.AppScope
+import dev.kolibrium.appium.dsl.ScreenScope
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.HasSettings
 import io.kotest.matchers.shouldBe

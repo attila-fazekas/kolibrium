@@ -28,7 +28,7 @@ import org.openqa.selenium.WebElement
  * Base type for screen objects bound to an [App].
  *
  * Screen instances rely on a contextual [AppiumDriver] installed by Kolibrium's DSL
- * entry points ([androidTest], [iosTest], [appiumTest]). Constructing and using screens
+ * entry points ([dev.kolibrium.appium.dsl.androidTest], [dev.kolibrium.appium.dsl.iosTest], [dev.kolibrium.appium.dsl.appiumTest]). Constructing and using screens
  * outside those contexts will fail with a runtime error. Delegated `findElement(s)` calls
  * route through the contextual driver to satisfy [org.openqa.selenium.SearchContext].
  *
