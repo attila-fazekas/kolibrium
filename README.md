@@ -1,3 +1,5 @@
+
+
 <div align="center">
 <p><img src="https://raw.githubusercontent.com/attila-fazekas/kolibrium/main/assets/kolibrium_logo.png" alt="kolibrium_logo.png"></p>
 <h1>Kotlin library for Selenium and Appium tests</h1>
@@ -9,6 +11,10 @@
 </div>
 
 Kolibrium is a Kotlin-first library for browser and mobile test automation. It builds on top of Selenium and Appium with idiomatic Kotlin APIs - type-safe element location, structured Page/Screen Objects, smart waits, and a unified test harness - so you write less boilerplate and catch more errors at compile time.
+
+# Requirements
+
+- **JDK 21** (Temurin or equivalent) is required to build and run tests, as enforced by the CI configuration.
 
 # Design Philosophy
 
